@@ -3,82 +3,83 @@
  */
 
 
-var describe = require('../lib/ntf').describe;
+var suman = require('../index.js');
+var test = suman(module,'test/config/sumanConfig');
 
 
-describe('suite first', function (suite) {
+test.describe('suite first', function (suite) {
 
 
     suite.before(function (done) {
 
-        console.log('in before');
+        test.log('in before');
         done();
 
     }).after(function (done) {
 
-        console.log('in after');
+        test.log('in after');
         done();
 
     });
 
     suite.it('makes stuff 1', function (done) {
 
-        console.log('1');
+        test.log('1');
         done(new Error('barf 3'));
 
     }).it('makes stuff 2', function (done) {
 
-        console.log('2');
+        test.log('2');
         done(new Error('barf 4'));
 
     });
 
 
-    describe('suite second', function (suite) {
+    test.describe('suite second', function (suite) {
 
         suite.before(function (done) {
 
-            console.log('in before shark');
+            test.log('in before shark');
             done();
 
         }).after(function (done) {
 
-            console.log('in after shark');
+            test.log('in after shark');
             done();
 
         });
 
         suite.it('shark 1', function (done) {
-            console.log('1');
+            test.log('1');
             done();
         });
 
         suite.it('shark 2', function (done) {
-            console.log('2');
+            test.log('2');
             done();
         });
 
-        describe('suite three', function (suite) {
+        test.describe('suite three', function (suite) {
 
             suite.before(function (done) {
 
-                console.log('in before deer');
+                test.log('in before deer');
                 done();
 
             }).after(function (done) {
 
-                console.log('in after deer');
+                test.log('in after deer');
                 done();
 
             });
 
             suite.it('deer 1', function (done) {
-                console.log('ccct 1');
+                test.log('ccct 1');
                 done();
             });
 
             suite.it('deer 2', function (done) {
-                console.log('ccct 2');
+                test.log('ccct 2');
                 done();
             });
 

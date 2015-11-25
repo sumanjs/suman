@@ -3,4 +3,29 @@
  */
 
 
-module.exports = require('./lib/ntf');
+//module.exports = require('./lib/ntf');
+
+var appRootPath = require('app-root-path');
+var fs = require('fs');
+var path = require('path');
+
+module.exports = function makeSuman(module, configPath) {
+
+
+    var config = require(path.resolve(appRootPath + '/' + configPath));
+    var outputDir = config.outputDir;
+    var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + path.basename(module.filename, '.js') + '.txt')
+
+    var wstream = fs.createWriteStream(outputPath);
+
+    return {
+        log: function (data) {
+            wstream.write(data);
+            wstream.write('\n');
+        },
+        describe: require('./lib/ntf')
+
+    }
+
+
+};

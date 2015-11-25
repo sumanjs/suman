@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -8,6 +8,7 @@
   "author": "Olegzandr Denman",
   "license": "ISC",
   "dependencies": {
+    "app-root-path": "^1.0.0",
     "async": "^1.5.0"
   },
   "directories": {
