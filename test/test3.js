@@ -20,11 +20,11 @@ test.describe('#suite1', function (suite) {
         done();
     });
 
-    suite.it('logs stuff',function(done){
+    suite.it('logs stuff',function(){
 
         test.log('logging');
         throw new Error('bad');
-        done();
+
     });
 
     suite.after(function(done){

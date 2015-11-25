@@ -3,4 +3,10 @@
  */
 
 
-require('./lib/runner')('./test');
+var testRunner = require('./index').Runner;
+
+//require('./lib/runner')('./test');
+
+
+
+testRunner('./test');

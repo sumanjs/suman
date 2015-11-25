@@ -9,7 +9,8 @@ var appRootPath = require('app-root-path');
 var fs = require('fs');
 var path = require('path');
 
-module.exports = function makeSuman(module, configPath) {
+
+function makeSuman(module, configPath) {
 
 
     var config = require(path.resolve(appRootPath + '/' + configPath));
@@ -28,4 +29,8 @@ module.exports = function makeSuman(module, configPath) {
     }
 
 
-};
+}
+
+makeSuman.Runner = require('./lib/runner');
+
+module.exports =  makeSuman;

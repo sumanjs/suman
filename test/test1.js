@@ -41,10 +41,9 @@ test.describe('suite uno', function (suite) {
     //});
 
     suite.series([
-        suite.it('makes stuff 2', function (done) {
+        suite.it('makes stuff 2', function () {
 
             test.log('7777777777777');
-            done(new Error('barf 4'));
 
         }),
         suite.it('makes stuff 2', function (done) {
@@ -66,10 +65,9 @@ test.describe('suite uno', function (suite) {
 
         });
 
-        suite.it('makes stuff 2', function (done) {
+        suite.it('makes stuff 2', function () {
 
             test.log('2');
-            done(new Error('barf 4'));
 
         });
 
