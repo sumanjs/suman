@@ -5,6 +5,7 @@
 
 module.exports = {
 
+    NODE_ENV: 'development',
     outputDir: '/test/output'
 
 
