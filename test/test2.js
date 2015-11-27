@@ -4,13 +4,13 @@
 
 
 var suman = require('../index.js');
-var test = suman(module,'test/config/sumanConfig');
+var suite = suman(module,'test/config/sumanConfig');
 
 
-test.describe('suite first', function (suite) {
+suite.define('suite first', function (test) {
 
 
-    suite.before(function (done) {
+    test.before(function (done) {
 
         test.log('in before');
         done();
@@ -22,7 +22,7 @@ test.describe('suite first', function (suite) {
 
     });
 
-    suite.it('makes stuff 1', function (done) {
+    test.it('makes stuff 1', function (done) {
 
         test.log('1');
         done(new Error('barf 3'));
@@ -35,9 +35,9 @@ test.describe('suite first', function (suite) {
     });
 
 
-    test.describe('suite second', function (suite) {
+    test.describe('suite second', function (test) {
 
-        suite.before(function (done) {
+        test.before(function (done) {
 
             test.log('in before shark');
             done();
@@ -49,19 +49,19 @@ test.describe('suite first', function (suite) {
 
         });
 
-        suite.it('shark 1', function (done) {
+        test.it('shark 1', function (done) {
             test.log('1');
             done();
         });
 
-        suite.it('shark 2', function (done) {
+        test.it('shark 2', function (done) {
             test.log('2');
             done();
         });
 
-        test.describe('suite three', function (suite) {
+        test.describe('suite three', function (test) {
 
-            suite.before(function (done) {
+            test.before(function (done) {
 
                 test.log('in before deer');
                 done();
@@ -73,12 +73,12 @@ test.describe('suite first', function (suite) {
 
             });
 
-            suite.it('deer 1', function (done) {
+            test.it('deer 1', function (done) {
                 test.log('ccct 1');
                 done();
             });
 
-            suite.it('deer 2', function (done) {
+            test.it('deer 2', function (done) {
                 test.log('ccct 2');
                 done();
             });

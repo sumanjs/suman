@@ -10,21 +10,46 @@ var fs = require('fs');
 var path = require('path');
 
 
-function makeSuman(module, configPath) {
+function makeSuman($module, configPath) {
 
 
     var config = require(path.resolve(appRootPath + '/' + configPath));
     var outputDir = config.outputDir;
-    var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + path.basename(module.filename, '.js') + '.txt')
+    var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + path.basename($module.filename, '.js') + '.txt')
 
     var wstream = fs.createWriteStream(outputPath);
 
+
+    var log = function (data, test) {
+        var json = JSON.stringify({
+            testId: test.testId,
+            children: test.children,
+            testsParallel: test.testsParallel,
+            desc: test.desc,
+            data: data
+        });
+        //wstream.write(json);
+        //wstream.write(';');
+    }
+
+    var logErrors = function (err, test) {
+        var json = JSON.stringify({
+            testId: test.testId,
+            desc: test.desc,
+            testsParallel: test.testsParallel,
+            children: test.children,
+            error: err,
+        });
+        wstream.write(json);
+        wstream.write(';');
+    }
+
     return {
-        log: function (data) {
-            wstream.write(data);
-            wstream.write('\n');
-        },
-        describe: require('./lib/ntf')
+        //log: function (data) {
+        //    wstream.write(data);
+        //    wstream.write('\n');
+        //},
+        define: require('./lib/ntf')(log, logErrors)
 
     }
 
@@ -33,4 +58,4 @@ function makeSuman(module, configPath) {
 
 makeSuman.Runner = require('./lib/runner');
 
-module.exports =  makeSuman;
+module.exports = makeSuman;

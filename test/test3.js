@@ -4,30 +4,30 @@
 
 
 var suman = require('../index.js');
-var test = suman(module,'test/config/sumanConfig');
+var suite = suman(module,'test/config/sumanConfig');
 
 
-test.describe('#suite1', function (suite) {
+suite.define('#suite1', function (test) {
 
 
-    suite.before(function (done) {
+    test.before(function (done) {
         test.log('4');
         done();
     });
 
-    suite.before(function (done) {
+    test.before(function (done) {
         test.log('2');
         done();
     });
 
-    suite.it('logs stuff',function(){
+    test.it('logs stuff',function(){
 
         test.log('logging');
         throw new Error('bad');
 
     });
 
-    suite.after(function(done){
+    test.after(function(done){
 
         test.log('after');
         done();

@@ -4,13 +4,13 @@
 
 
 var suman = require('../index.js');
-var test = suman(module,'test/config/sumanConfig');
+var suite = suman(module,'test/config/sumanConfig');
 
 
-test.describe('suite uno', function (suite) {
+suite.define('suite uno', function (test) {
 
 
-    suite.before(function (done) {
+    test.before(function (done) {
 
         test.log('in before');
         done();
@@ -23,7 +23,7 @@ test.describe('suite uno', function (suite) {
     });
 
 
-    suite.it('makes stuff 1', function (done) {
+    test.it('makes stuff 1', function (done) {
 
         test.log('1');
         done(new Error('barf 3'));
@@ -34,19 +34,15 @@ test.describe('suite uno', function (suite) {
         done(new Error('barf 4'));
 
     });
+    
 
-    //suite.loop(testCases,function(done){
-    //
-    //
-    //});
-
-    suite.series([
-        suite.it('makes stuff 2', function () {
+    test.series([
+        test.it('makes stuff 2', function () {
 
             test.log('7777777777777');
 
         }),
-        suite.it('makes stuff 2', function (done) {
+        test.it('makes stuff 2', function (done) {
 
             test.log('2222222222222222');
             done(new Error('barf 4'));
@@ -55,23 +51,23 @@ test.describe('suite uno', function (suite) {
     ]);
 
 
-    suite.parallel(function (suite) {
+    test.parallel(function (test) {
 
 
-        suite.it('makes stuff 1', function (done) {
+        test.it('makes stuff 1', function (done) {
 
             test.log('1');
             done(new Error('barf 3'));
 
         });
 
-        suite.it('makes stuff 2', function () {
+        test.it('makes stuff 2', function () {
 
             test.log('2');
 
         });
 
-        suite.it('makes stuff 3', function (done) {
+        test.it('makes stuff 3', function (done) {
 
             test.log('3');
             done(new Error('barf 5'));
@@ -79,32 +75,27 @@ test.describe('suite uno', function (suite) {
         });
 
 
-    }).after(function (done) {
-
-        test.log('in after 2');
-        done();
-
     });
 
 
-    suite.parallel(function (suite) {
+    test.parallel(function (test) {
 
 
-        suite.it('makes stuff 44', function (done) {
+        test.it('makes stuff 44', function (done) {
 
             test.log('1');
             done(new Error('barf 3'));
 
         });
 
-        suite.it('makes stuff 888', function (done) {
+        test.it('makes stuff 888', function (done) {
 
             test.log('2');
             done(new Error('barf 4'));
 
         });
 
-        suite.it('makes stuff 999', function (done) {
+        test.it('makes stuff 999', function (done) {
 
             test.log('3');
             done(new Error('barf 5'));
@@ -113,17 +104,18 @@ test.describe('suite uno', function (suite) {
 
 
     });
+    
 
-    suite.after(function (done) {
+    test.after(function (done) {
 
         test.log('in after 3');
         done();
 
     });
 
-    test.describe('suite two', function (suite) {
+    test.describe('suite two', function (test) {
 
-        suite.before(function (done) {
+        test.before(function (done) {
 
             test.log('in before dogs');
             done();
@@ -133,21 +125,17 @@ test.describe('suite uno', function (suite) {
             test.log('in after 4');
             done();
 
-        });
-
-        suite.it('dogs 1', function (done) {
+        }).it('dogs 1', function (done) {
             test.log('1');
             done();
-        });
-
-        suite.it('dogs 2', function (done) {
+        }).it('dogs 2', function (done) {
             test.log('2');
             done();
         });
 
-        test.describe('suite three', function (suite) {
+        test.describe('suite three', function (test) {
 
-            suite.before(function (done) {
+            test.before(function (done) {
 
                 test.log('in before cats');
                 done();
@@ -159,12 +147,12 @@ test.describe('suite uno', function (suite) {
 
             });
 
-            suite.it('cats 1', function (done) {
+            test.it('cats 1', function (done) {
                 test.log('ccct 1');
                 done();
             });
 
-            suite.it('cats 2', function (done) {
+            test.it('cats 2', function (done) {
                 test.log('ccct 2');
                 done();
             });
