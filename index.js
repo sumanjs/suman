@@ -36,7 +36,9 @@ function makeSuman($module, configPath) {
         var json = JSON.stringify({
             testId: test.testId,
             desc: test.desc,
+            tests: test.tests,
             testsParallel: test.testsParallel,
+            loopTests: test.loopTests,
             children: test.children,
             error: err,
         });
@@ -49,7 +51,7 @@ function makeSuman($module, configPath) {
         //    wstream.write(data);
         //    wstream.write('\n');
         //},
-        define: require('./lib/ntf')(log, logErrors)
+        suite: require('./lib/ntf').main(log, logErrors)
 
     }
 

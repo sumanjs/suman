@@ -4,10 +4,10 @@
 
 
 var suman = require('../index.js');
-var suite = suman(module,'test/config/sumanConfig');
+var Test = suman(module,'test/config/sumanConfig');
 
 
-suite.define('suite first', function (test) {
+Test.suite('suite first', function (test) {
 
 
     test.before(function (done) {

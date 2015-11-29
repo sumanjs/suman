@@ -7,7 +7,8 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 
-var filePath = path.resolve(appRootPath + '/' + 'test/output/test3.txt');
+
+var filePath = path.resolve(appRootPath + '/' + 'test/output/test1.txt');
 var rstream = fs.createReadStream(filePath);
 
 var dataLength = '';
@@ -28,51 +29,114 @@ rstream
 
     });
 
+//
+//function doTheThing(array) {
+//
+//    recurse(0);
+//
+//    function recurse(i) {
+//
+//        console.log('i:', i, '\n');
+//
+//        //_.where(array, {testId: i}).forEach(function (output) {
+//        //    console.log(output.testId);
+//        //});
+//
+//        var statements = _.where(array, {testId: i});
+//
+//        var output = statements[statements.length - 1]; //always get last element
+//
+//        var parallelTests = [];
+//        var loopTests = [];
+//        var tests = [];
+//
+//        if (output) {
+//            tests = output.tests;
+//            parallelTests = output.testsParallel;
+//            loopTests = output.loopTests;
+//        }
+//
+//        tests.forEach(function (test) {
+//            console.log('singular test:',test);
+//        });
+//
+//        parallelTests.forEach(function (parTest) {
+//            console.log('parallel test:',parTest);
+//            parTest.tests.forEach(function(test){
+//                //console.log('parallel test:',test.testId);
+//            });
+//        });
+//
+//        loopTests.forEach(function (loopTest) {
+//            //console.log('parallel tests:',test);
+//            console.log('loop test:',loopTest);
+//
+//            loopTest.tests.forEach(function(test){
+//                //console.log('parallel test:',test.testId);
+//            });
+//        });
+//
+//        var children = [];
+//        if (output) {
+//            children = output.children;
+//        }
+//
+//        children.forEach(function (child) {
+//            recurse(child);
+//        });
+//    }
+//
+//}
+
 
 function doTheThing(array) {
 
-    //var length = 1;
-    //
-    //array.forEach(function (elem) {
-    //    if (elem.testId > length) {
-    //        length = elem.testId;
-    //    }
-    //});
-
-    console.log('array:',array);
+    recurse(0);
 
     function recurse(i) {
 
-        console.log('i:', i, '\n');
+        var statements = _.where(array, {testId: i});
 
-        _.where(array, {testId: i}).forEach(function (output) {
-            console.log(output.testId);
-        });
-
-        var output = _.where(array, {testId: i})[0];
-
-        var parallelTests = [];
-        if (output) {
-            parallelTests = output.testsParallel;
-        }
-
-        parallelTests.forEach(function (parTests) {
-            //console.log('parallel tests:',test);
-            parTests.tests.forEach(function(test){
-                console.log('parallel test:',test.testId);
-            });
-        });
+        var output = statements[statements.length - 1]; //always get last element
 
         var children = [];
         if (output) {
             children = output.children;
         }
 
-        children.forEach(function (child) {
-            recurse(child);
-        });
-    }
+        var parallelTests = [];
+        var loopTests = [];
+        var tests = [];
 
-    recurse(0);
+        if (output) {
+            tests = output.tests;
+            parallelTests = output.testsParallel;
+            loopTests = output.loopTests;
+        }
+
+        var allTests = _.sortBy(_.union(tests, parallelTests, loopTests, children), 'testId');
+
+        allTests.forEach(function (test) {
+
+            if (_.contains(_.pluck(children, 'testId'), test.testId)) {
+                console.log('going to child from test:', output.testId, 'to:', test.testId);
+                recurse(test.testId);
+            }
+            else {
+                if (test.type === 'ParallelTestSet') {
+                    console.log('Parallel Test:', test);
+                }
+                else if (test.type === 'LoopTestSet') {
+                    console.log('Loop Test:', test);
+                }
+                else {
+                    console.log('regular test:', test);
+                }
+
+            }
+
+        });
+
+    }
 
 }

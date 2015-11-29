@@ -4,10 +4,10 @@
 
 
 var suman = require('../index.js');
-var suite = suman(module,'test/config/sumanConfig');
+var Test = suman(module, 'test/config/sumanConfig');
 
 
-suite.define('suite uno', function (test) {
+Test.suite('suite uno', function (test) {
 
 
     test.before(function (done) {
@@ -34,7 +34,7 @@ suite.define('suite uno', function (test) {
         done(new Error('barf 4'));
 
     });
-    
+
 
     test.series([
         test.it('makes stuff 2', function () {
@@ -49,6 +49,18 @@ suite.define('suite uno', function (test) {
 
         })
     ]);
+
+
+    test.loop(['chard','heeee','raaa'], function (test, value) {
+
+        test.it('makes stuff ' + value, function (done) {
+
+            test.log('1');
+            done(new Error('barf 3'));
+
+        });
+
+    });
 
 
     test.parallel(function (test) {
@@ -104,7 +116,7 @@ suite.define('suite uno', function (test) {
 
 
     });
-    
+
 
     test.after(function (done) {
 
@@ -112,6 +124,7 @@ suite.define('suite uno', function (test) {
         done();
 
     });
+
 
     test.describe('suite two', function (test) {
 
@@ -132,6 +145,8 @@ suite.define('suite uno', function (test) {
             test.log('2');
             done();
         });
+
+
 
         test.describe('suite three', function (test) {
 
