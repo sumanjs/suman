@@ -18,14 +18,10 @@ rstream
         dataLength += chunk;
     })
     .on('end', function () {  // done
-        var array = String(dataLength).split(';');
-        console.log(array.length);
 
-        doTheThing(array.filter(function (item) {
-            return item && item.length > 0;
-        }).map(function (item) {
-            return JSON.parse(String(item));
-        }));
+        dataLength = String(dataLength).substring(0,String(dataLength).length -1); //strip off trailing comma
+        dataLength = "[" + dataLength + "]"; //make parseable by JSON
+        doTheThing(JSON.parse(String(dataLength)));
 
     });
 
@@ -91,9 +87,9 @@ rstream
 
 function doTheThing(array) {
 
-    recurse(0);
+    recurse(0, 1);
 
-    function recurse(i) {
+    function recurse(i, indent) {
 
         var statements = _.where(array, {testId: i});
 
@@ -120,17 +116,20 @@ function doTheThing(array) {
 
             if (_.contains(_.pluck(children, 'testId'), test.testId)) {
                 console.log('going to child from test:', output.testId, 'to:', test.testId);
-                recurse(test.testId);
+                recurse(test.testId, indent + 5);
             }
             else {
+
+                var str = new Array(indent).join(' ');
+
                 if (test.type === 'ParallelTestSet') {
-                    console.log('Parallel Test:', test);
+                    console.log(str + 'Parallel Test:', test);
                 }
                 else if (test.type === 'LoopTestSet') {
-                    console.log('Loop Test:', test);
+                    console.log(str + 'Loop Test:', test);
                 }
                 else {
-                    console.log('regular test:', test);
+                    console.log(str + 'regular test:', test);
                 }
 
             }

@@ -10,9 +10,13 @@ var Test = suman(module, 'test/config/sumanConfig');
 Test.suite('suite uno', function (test) {
 
 
+    var red = 'turtle';
+
+
     test.before(function (done) {
 
         test.log('in before');
+        console.log('in before red:',red);
         done();
 
     }).after(function (done) {
@@ -26,6 +30,7 @@ Test.suite('suite uno', function (test) {
     test.it('makes stuff 1', function (done) {
 
         test.log('1');
+        console.log('it:',red);
         done(new Error('barf 3'));
 
     }).it('makes stuff 2', function (done) {
@@ -39,11 +44,13 @@ Test.suite('suite uno', function (test) {
     test.series([
         test.it('makes stuff 2', function () {
 
+            console.log('it series:',red);
             test.log('7777777777777');
 
         }),
         test.it('makes stuff 2', function (done) {
 
+            console.log('it series:',red);
             test.log('2222222222222222');
             done(new Error('barf 4'));
 
@@ -55,6 +62,7 @@ Test.suite('suite uno', function (test) {
 
         test.it('makes stuff ' + value, function (done) {
 
+            console.log('loop it series:',red);
             test.log('1');
             done(new Error('barf 3'));
 
@@ -68,6 +76,7 @@ Test.suite('suite uno', function (test) {
 
         test.it('makes stuff 1', function (done) {
 
+            console.log('it parallel:',red);
             test.log('1');
             done(new Error('barf 3'));
 
@@ -152,7 +161,7 @@ Test.suite('suite uno', function (test) {
 
             test.before(function (done) {
 
-                test.log('in before cats');
+                test.log('in before cats 2');
                 done();
 
             }).after(function (done) {
@@ -172,9 +181,60 @@ Test.suite('suite uno', function (test) {
                 done();
             });
 
+            test.describe('suite four', function (test) {
+
+                test.before(function (done) {
+
+                    test.log('in before cats 4');
+                    done();
+
+                }).after(function (done) {
+
+                    test.log('in after cats 5');
+                    done();
+
+                });
+
+                test.it('cats 1', function (done) {
+                    test.log('ccct 1');
+                    done();
+                });
+
+                test.it('cats 2', function (done) {
+                    test.log('ccct 2');
+                    done();
+                });
+
+            });
+
         });
 
     });
 
+    test.describe('suite five', function (test) {
+
+        test.before(function (done) {
+
+            test.log('in before cats 6');
+            done();
+
+        }).after(function (done) {
+
+            test.log('in after cats 7');
+            done();
+
+        });
+
+        test.it('cats 1', function (done) {
+            test.log('ccct 1');
+            done();
+        });
+
+        test.it('cats 2', function (done) {
+            test.log('ccct 2');
+            done();
+        });
+
+    });
 
 });

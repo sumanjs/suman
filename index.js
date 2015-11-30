@@ -3,7 +3,16 @@
  */
 
 
-//module.exports = require('./lib/ntf');
+/* advantages of Suman
+*
+* test suites each run in separate process for speed and correctness
+* each test suite can have parallel components, allowing the developer to run tests serially, in parallel or in combination, as the developer sees fit
+*
+*
+*
+* */
+
+
 
 var appRootPath = require('app-root-path');
 var fs = require('fs');
@@ -18,7 +27,6 @@ function makeSuman($module, configPath) {
     var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + path.basename($module.filename, '.js') + '.txt')
 
     var wstream = fs.createWriteStream(outputPath);
-
 
     var log = function (data, test) {
         var json = JSON.stringify({
@@ -43,14 +51,12 @@ function makeSuman($module, configPath) {
             error: err,
         });
         wstream.write(json);
-        wstream.write(';');
+        wstream.write(',');
     }
 
+
     return {
-        //log: function (data) {
-        //    wstream.write(data);
-        //    wstream.write('\n');
-        //},
+
         suite: require('./lib/ntf').main(log, logErrors)
 
     }

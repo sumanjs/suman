@@ -1,1 +1,1 @@
-{"testId":1,"desc":"logs stuff","error":{}};{"testId":0,"tests":[{"testId":1,"desc":"logs stuff","complete":false,"error":null}],"testsParallel":[],"loopTests":[],"children":[],"error":null};
+{"testId":1,"desc":"logs stuff","error":{}},{"testId":0,"tests":[{"testId":1,"type":"it-standard","desc":"logs stuff","complete":false,"error":null}],"testsParallel":[],"loopTests":[],"children":[],"error":null},
