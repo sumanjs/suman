@@ -9,4 +9,4 @@ var testRunner = require('./index').Runner;
 
 
 
-testRunner('./test/test1.js');
+testRunner('./test');
