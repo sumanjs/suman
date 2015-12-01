@@ -31,29 +31,37 @@ function makeSuman($module, configPath) {
 
     var log = function (data, test) {
         var json = JSON.stringify({
+            userOutput:true,
             testId: test.testId,
             children: test.children,
             testsParallel: test.testsParallel,
             desc: test.desc,
             data: data
         });
-        //wstream.write(json);
-        //wstream.write(';');
-    }
+        wstream.write(json);
+        wstream.write(',');
+    };
 
     var logErrors = function (err, test) {
+
+        if(!(err === null || err instanceof Error)){
+            console.log(err);
+            throw new Error('not error object type');
+        }
+
         var json = JSON.stringify({
             testId: test.testId,
             desc: test.desc,
+            type:test.type,
             tests: test.tests,
             testsParallel: test.testsParallel,
             loopTests: test.loopTests,
             children: test.children,
-            error: err,
+            error: err
         });
         wstream.write(json);
         wstream.write(',');
-    }
+    };
 
 
     return {
