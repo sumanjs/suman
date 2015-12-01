@@ -38,12 +38,12 @@ Test.suite('suite uno', function (test) {
 
 
     test.series([
-        test.it('makes stuff 2', function () {
+        test.it('makes stuff 3', function () {
 
             //test.log('7777777777777');
 
         }),
-        test.it('makes stuff 2', function (done) {
+        test.it('makes stuff 4', function (done) {
 
             //test.log('2222222222222222');
             done(new Error('barf 4'));
@@ -52,7 +52,7 @@ Test.suite('suite uno', function (test) {
     ]);
 
 
-    test.loop(['chard','heeee','raaa'], function (test, value) {
+    test.loop(['5','6','7'], function (test, value) {
 
         test.it('makes stuff ' + value, function (done) {
 
@@ -67,20 +67,16 @@ Test.suite('suite uno', function (test) {
     test.parallel(function (test) {
 
 
-        test.it('makes stuff 1', function (done) {
+        test.it('makes stuff 8', function (done) {
 
             //test.log('1');
             done(new Error('barf 3'));
 
-        });
-
-        test.it('makes stuff 2', function () {
+        }).it('makes stuff 9', function () {
 
             //test.log('2');
 
-        });
-
-        test.it('makes stuff 3', function (done) {
+        }).it('makes stuff 10', function (done) {
 
             //test.log('3');
             done(new Error('barf 5'));
@@ -94,21 +90,21 @@ Test.suite('suite uno', function (test) {
     test.parallel(function (test) {
 
 
-        test.it('makes stuff 44', function (done) {
+        test.it('makes stuff 11', function (done) {
 
             //test.log('1');
             done(new Error('barf 3'));
 
         });
 
-        test.it('makes stuff 888', function (done) {
+        test.it('makes stuff 12', function (done) {
 
             //test.log('2');
             done(new Error('barf 4'));
 
         });
 
-        test.it('makes stuff 999', function (done) {
+        test.it('makes stuff 13', function (done) {
 
             //test.log('3');
             done(new Error('barf 5'));
@@ -139,10 +135,10 @@ Test.suite('suite uno', function (test) {
             //test.log('in after 4');
             done();
 
-        }).it('dogs 1', function (done) {
+        }).it('makes stuff 14', function (done) {
             //test.log('1');
             done();
-        }).it('dogs 2', function (done) {
+        }).it('makes stuff 15', function (done) {
             //test.log('2');
             done();
         });
@@ -163,12 +159,12 @@ Test.suite('suite uno', function (test) {
 
             });
 
-            test.it('cats 1', function (done) {
+            test.it('makes stuff 16', function (done) {
                 //test.log('ccct 1');
                 done();
             });
 
-            test.it('cats 2', function (done) {
+            test.it('makes stuff 17', function (done) {
                 //test.log('ccct 2');
                 done();
             });
@@ -187,12 +183,12 @@ Test.suite('suite uno', function (test) {
 
                 });
 
-                test.it('cats 1', function (done) {
+                test.it('makes stuff 18', function (done) {
                     //test.log('ccct 1');
                     done();
                 });
 
-                test.it('cats 2', function (done) {
+                test.it('makes stuff 19', function (done) {
                     //test.log('ccct 2');
                     done();
                 });
@@ -217,12 +213,13 @@ Test.suite('suite uno', function (test) {
 
         });
 
-        test.it('cats 1', function (done) {
+        test.it('makes stuff 20', function (done) {
             //test.log('ccct 1');
             done();
-        });
-
-        test.it('cats 2', function (done) {
+        }).it('makes stuff 21', function (done) {
+            //test.log('ccct 2');
+            done();
+        }).it('makes stuff 22', function (done) {
             //test.log('ccct 2');
             done();
         });

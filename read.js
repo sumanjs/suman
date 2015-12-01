@@ -49,9 +49,16 @@ function doTheThing(array) {
 
         var output = statements[statements.length - 1]; //always get last element
 
+        //var output = _.where(array,{testId:i,mightHaveChildren:true});
+
         if(!output){
-            return; //something is probably wrong now
+            throw new Error('no testId 0'); //something is probably wrong now
         }
+
+        if(output.length > 1){
+            throw new Error('output length is > 1'); //something is probably wrong now
+        }
+
 
         var str = new Array(indent).join(' '); //make indentation
 
@@ -76,7 +83,7 @@ function doTheThing(array) {
         debug('logStatements:' + JSON.stringify(logStatements));
 
 
-        var allTests = _.sortBy(_.union(testStatements, tests, parallelTests, loopTests, children), 'testId');
+        var allTests = _.sortBy(_.union(tests, parallelTests, loopTests, children), 'testId');
 
         allTests.forEach(function (test) {
 

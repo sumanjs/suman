@@ -5,7 +5,7 @@
 
 
 var suman = require('../index.js');
-var Test = suman(module,'test/config/sumanConfig');
+var Test = suman(module, 'test/config/sumanConfig');
 
 
 Test.suite('suite 4', function (test) {
@@ -14,13 +14,15 @@ Test.suite('suite 4', function (test) {
     test.before(function (done) {
 
         //test.log('before 1');
-        done();
+        //done(new Error('jarles'));
 
+        done();
     });
 
     test.before(function (done) {
 
         //test.log('before 2');
+        //throw new Error('marbles');
         done();
 
     });
@@ -39,28 +41,29 @@ Test.suite('suite 4', function (test) {
 
     });
 
-    test.it('logs stuff 1',function(){
+    test.it('logs stuff 1', function () {
 
         //test.log('logging 1');
         //throw new Error('bad 1');
 
     });
 
-    test.it('logs stuff 2',function(){
+    test.it('logs stuff 2', function () {
 
         //test.log('logging 2');
         //throw new Error('bad 2');
 
     });
 
-    test.it('logs stuff 3',function(done){
+    test.it('logs stuff 3', function (done) {
 
         //test.log('logging 3');
-        done(new Error('mike'));
-
+        //done(new Error('mike'));
+        done();
     });
 
-    test.describe('darth',function(test){
+    test.describe('darth', function (test) {
+
         test.before(function (done) {
 
             //test.log('before 3');
@@ -68,9 +71,11 @@ Test.suite('suite 4', function (test) {
 
         });
 
-        test.it('sucks',function(){
+        test.it('sucks', function () {
 
         });
+
+
     });
 
     test.before(function (done) {
@@ -87,14 +92,14 @@ Test.suite('suite 4', function (test) {
 
     });
 
-    test.after(function(done){
+    test.after(function (done) {
 
         //test.log('after');
         done();
 
     });
 
-    test.afterEach(function(done){
+    test.afterEach(function (done) {
 
         //test.log('after each');
         done();
