@@ -9,8 +9,13 @@ var _ = require('underscore');
 var colors = require('colors/safe');
 var debug = require('debug')('suman');
 
+var fileNo = 1;
 
-var filePath = path.resolve(appRootPath + '/' + 'test/output/test1.txt');
+if (process.argv.indexOf('--file-no') !== -1) { //does our flag exist?
+    fileNo = process.argv[process.argv.indexOf('--file-no') + 1]; //grab the next item
+}
+
+var filePath = path.resolve(appRootPath + '/' + 'test/output/test' + fileNo + '.txt');
 var rstream = fs.createReadStream(filePath);
 
 var dataLength = '';
@@ -26,7 +31,10 @@ rstream
             dataLength = String(dataLength).substring(0, String(dataLength).length - 1); //strip off trailing comma
         }
         dataLength = "[" + dataLength + "]"; //make parseable by JSON
-        doTheThing(JSON.parse(dataLength));
+
+        var parsed = JSON.parse(dataLength);
+
+        doTheThing(parsed);
 
     });
 
@@ -41,25 +49,23 @@ function doTheThing(array) {
 
         var output = statements[statements.length - 1]; //always get last element
 
+        if(!output){
+            return; //something is probably wrong now
+        }
+
         var str = new Array(indent).join(' '); //make indentation
 
-        var children = [];
-        var parallelTests = [];
-        var loopTests = [];
-        var tests = [];
+        var children = output.children || [];
+        var parallelTests = output.testsParallel || [];
+        var loopTests = output.loopTests || [];
+        var tests =  output.tests || [];
 
-        if (output) {
-            children = output.children;
-            tests = output.tests;
-            parallelTests = output.testsParallel;
-            loopTests = output.loopTests;
-        }
 
         var testStatements = statements.filter(function (statement) {
             return !statement.userOutput;
         });
 
-        debug('testStatements' + testStatements);
+        debug('testStatements' + JSON.stringify(testStatements));
 
         var logStatements = statements.filter(function (item) {
             return item.userOutput && item.data; //filter out any user data that is not defined
@@ -67,7 +73,7 @@ function doTheThing(array) {
             return item.data;
         });
 
-        debug('logStatements:' + logStatements);
+        debug('logStatements:' + JSON.stringify(logStatements));
 
 
         var allTests = _.sortBy(_.union(testStatements, tests, parallelTests, loopTests, children), 'testId');
@@ -96,6 +102,9 @@ function doTheThing(array) {
                 }
                 else if (test.type === 'it-standard') {
                     logIts(str, test);
+                }
+                else{
+                    //console.log('crap test', test);
                 }
 
             }

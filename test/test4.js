@@ -60,6 +60,19 @@ Test.suite('suite 4', function (test) {
 
     });
 
+    test.describe('darth',function(test){
+        test.before(function (done) {
+
+            //test.log('before 3');
+            done();
+
+        });
+
+        test.it('sucks',function(){
+
+        });
+    });
+
     test.before(function (done) {
 
         //test.log('before 3');

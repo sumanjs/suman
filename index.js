@@ -28,7 +28,9 @@ function makeSuman($module, configPath) {
     var outputDir = config.outputDir;
     var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + path.basename($module.filename, '.js') + '.txt')
 
-    var wstream = fs.createWriteStream(outputPath);
+    //var wstream = fs.createWriteStream(outputPath);
+
+
 
     var log = function (data, test) {
         var json = JSON.stringify({
@@ -39,8 +41,10 @@ function makeSuman($module, configPath) {
             desc: test.desc,
             data: data
         });
-        //wstream.write(json);
-        //wstream.write(',');
+        //wstream.write(json += ',');
+
+        fs.writeFileSync(outputPath, json += ',');
+
     };
 
     var logErrors = function (test) {
@@ -59,8 +63,8 @@ function makeSuman($module, configPath) {
         test.error = test.error || null;
 
         var json = JSON.stringify(test);
-        wstream.write(json);
-        wstream.write(',');
+        //wstream.write(json += ',');
+        fs.writeFileSync(outputPath, json += ',');
     };
 
 

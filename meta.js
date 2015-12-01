@@ -3,6 +3,8 @@
  */
 
 
+console.log('NODE_ENV:', process.env.NODE_ENV);
+
 var testRunner = require('./index').Runner;
 
 //require('./lib/runner')('./test');
