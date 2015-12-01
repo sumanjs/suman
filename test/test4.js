@@ -56,9 +56,7 @@ Test.suite('suite 4', function (test) {
     test.it('logs stuff 3',function(done){
 
         //test.log('logging 3');
-        //throw new Error('hame');
-        //done(new Error('ham'));
-        done();
+        done(new Error('mike'));
 
     });
 

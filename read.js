@@ -7,9 +7,10 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 var colors = require('colors/safe');
+var debug = require('debug')('suman');
 
 
-var filePath = path.resolve(appRootPath + '/' + 'test/output/test4.txt');
+var filePath = path.resolve(appRootPath + '/' + 'test/output/test1.txt');
 var rstream = fs.createReadStream(filePath);
 
 var dataLength = '';
@@ -20,13 +21,12 @@ rstream
     })
     .on('end', function () {  // done
 
-        dataLength = String(dataLength).substring(0, String(dataLength).length - 1); //strip off trailing comma
+        var lastChar = String(dataLength).slice(-1);
+        if(lastChar === ','){
+            dataLength = String(dataLength).substring(0, String(dataLength).length - 1); //strip off trailing comma
+        }
         dataLength = "[" + dataLength + "]"; //make parseable by JSON
-        console.log(dataLength);
-
-        console.log('\n');
-        console.log('\n');
-        doTheThing(JSON.parse(String(dataLength)));
+        doTheThing(JSON.parse(dataLength));
 
     });
 
@@ -55,11 +55,11 @@ function doTheThing(array) {
             loopTests = output.loopTests;
         }
 
-        var testStatements = statements.filter(function(statement){
+        var testStatements = statements.filter(function (statement) {
             return !statement.userOutput;
         });
 
-        console.log('testStatements',testStatements);
+        debug('testStatements' + testStatements);
 
         var logStatements = statements.filter(function (item) {
             return item.userOutput && item.data; //filter out any user data that is not defined
@@ -67,8 +67,7 @@ function doTheThing(array) {
             return item.data;
         });
 
-        console.log(logStatements);
-
+        debug('logStatements:' + logStatements);
 
 
         var allTests = _.sortBy(_.union(testStatements, tests, parallelTests, loopTests, children), 'testId');
@@ -82,13 +81,21 @@ function doTheThing(array) {
             else {
 
                 if (test.type === 'ParallelTestSet') {
-                    console.log(str + 'Parallel Test:', test);
+                    debug(str + 'Parallel Test:' + test);
+                    var tempStr = str + ' ';
+                    test.tests.forEach(function(parTest){
+                        logIts(tempStr,parTest);
+                    });
                 }
                 else if (test.type === 'LoopTestSet') {
-                    console.log(str + 'Loop Test:', test);
+                    debug(str + 'Loop Test:' + test);
+                    var tempStr = str + ' ';
+                    test.tests.forEach(function(loopTest){
+                        logIts(tempStr,loopTest);
+                    });
                 }
                 else if (test.type === 'it-standard') {
-                    console.log(str + '[test] ', test.desc, test.error ? colors.red('fail') + ' ' + test.error : colors.green('\u2714'));
+                    logIts(str, test);
                 }
 
             }
@@ -97,4 +104,8 @@ function doTheThing(array) {
 
     }
 
+}
+
+function logIts(str, test) {
+    console.log(str + '[test] ', test.desc, test.error ? colors.red('fail') + ' ' + test.error : colors.green('\u2714'));
 }

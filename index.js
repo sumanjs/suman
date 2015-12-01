@@ -5,10 +5,11 @@
 
 /* advantages of Suman
 *
+* better than mocha, cleaner than vows
 * no globals - no global NPM module - no global variables
 * test suites each run in separate process for speed and correctness
 * each test suite can have parallel components, allowing the developer to run tests serially, in parallel or in combination, as the developer sees fit
-* code inside any test will not run for any test not intended to run
+* code inside any test will not run for any test not intended to run when using grep features
 * organize your tests depending on NODE_ENV or command line flags using config files, instead of putting tests in different top-level folders in your project
 *
 * */
@@ -38,27 +39,26 @@ function makeSuman($module, configPath) {
             desc: test.desc,
             data: data
         });
-        wstream.write(json);
-        wstream.write(',');
+        //wstream.write(json);
+        //wstream.write(',');
     };
 
-    var logErrors = function (err, test) {
+    var logErrors = function (test) {
 
-        if(!(err === null || err instanceof Error)){
-            console.log(err);
-            throw new Error('not error object type');
-        }
+        //var json = JSON.stringify({
+        //    testId: test.testId,
+        //    desc: test.desc,
+        //    type:test.type,
+        //    tests: test.tests,
+        //    testsParallel: test.testsParallel,
+        //    loopTests: test.loopTests,
+        //    children: test.children,
+        //    error: test.error
+        //});
 
-        var json = JSON.stringify({
-            testId: test.testId,
-            desc: test.desc,
-            type:test.type,
-            tests: test.tests,
-            testsParallel: test.testsParallel,
-            loopTests: test.loopTests,
-            children: test.children,
-            error: err
-        });
+        test.error = test.error || null;
+
+        var json = JSON.stringify(test);
         wstream.write(json);
         wstream.write(',');
     };
