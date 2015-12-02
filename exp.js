@@ -7,9 +7,9 @@ var _ = require('underscore');
 var async = require('async');
 
 
-var sliced = process.argv.slice(1).concat(3);
-
-console.log(sliced);
+//var sliced = process.argv.slice(1).concat(3);
+//
+//console.log(sliced);
 
 
 //async.parallel([function (cb) {
@@ -53,3 +53,19 @@ console.log(sliced);
 //},function done(err, results) {
 //    console.log(err,results);
 //});
+
+
+var arr = [new Error('1'),new Error('2'),new Error('3'),'mark'];
+
+arr = arr.filter(function (err) {
+    if(err instanceof Error){
+        return err;
+    }
+    else{
+        throw new Error('non error passed');
+    }
+}).map(function(err){
+    return err.message;
+});
+
+console.log(arr);

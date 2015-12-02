@@ -47,16 +47,10 @@ function doTheThing(array) {
 
         var statements = _.where(array, {testId: i});
 
-        var output = statements[statements.length - 1]; //always get last element
-
-        //var output = _.where(array,{testId:i,mightHaveChildren:true});
+        var output = statements[statements.length - 1]; //always get last element (because this will contain children etc?)
 
         if(!output){
-            throw new Error('no testId 0'); //something is probably wrong now
-        }
-
-        if(output.length > 1){
-            throw new Error('output length is > 1'); //something is probably wrong now
+            throw new Error('no output for testId=' + i); //something is probably wrong now
         }
 
 

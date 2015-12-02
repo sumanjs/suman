@@ -1,0 +1,32 @@
+When I create tests in different files and at least one of them includes the beforeEach or afterEach hook, those hook gets called for all tests.
+You can reproduce this with the following code.
+
+test1.js
+
+module.exports = {
+        test1: function () {
+            console.log('test1');
+        }
+};
+test2.js
+
+module.exports = {
+    beforeEach: function () {
+        console.log('beforeEach');
+    },
+    test2: function () {
+        console.log('test2');
+    }
+};
+Then run:
+
+mocha -u exports --recursive .
+
+beforeEach
+test1
+  ✓ test1
+beforeEach
+test2
+  ✓ test2
+
+  2 passing (8ms)

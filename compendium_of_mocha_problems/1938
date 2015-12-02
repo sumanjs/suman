@@ -1,0 +1,8 @@
+pghalliday commented on Oct 21
+This is reflected in #995 and pghalliday/grunt-mocha-test#108, and many other issues that keep cropping up with watch tasks even though I keep telling people to rerun tests in new processes and not reuse the same process (admittedly this pattern has other problems too)
+
+Basically, you cannot create a new instance of mocha and add the same test files as a previously created instance. This is because require is used to run the test files and when you require them again they hit the require cache and don't run (ie. they fail to register their tests).
+
+IMHO this is a bad design choice as instance state should not be dependent on the global state of the require cache. I suggest that addFile be changed to actually load and evaluate the file and not depend on require.
+
+Rant over ;)

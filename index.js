@@ -27,42 +27,25 @@ function makeSuman($module, configPath) {
     var outputDir = config.outputDir;
     var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + path.basename($module.filename, '.js') + '.txt')
 
-    var wstream = fs.createWriteStream(outputPath);
+    //var wstream = fs.createWriteStream(outputPath);
 
 
     var log = function (data, test) {
         var json = JSON.stringify({
             userOutput: true,
             testId: test.testId,
-            children: test.children,
-            testsParallel: test.testsParallel,
             desc: test.desc,
             data: data
         });
-        //wstream.write(json += ',');
 
-        //fs.writeFileSync(outputPath, json += ',', {flags: 'a'});
         fs.appendFileSync(outputPath, json += ',');
     };
 
     var logErrors = function (test) {
 
-        //var json = JSON.stringify({
-        //    testId: test.testId,
-        //    desc: test.desc,
-        //    type:test.type,
-        //    tests: test.tests,
-        //    testsParallel: test.testsParallel,
-        //    loopTests: test.loopTests,
-        //    children: test.children,
-        //    error: test.error
-        //});
-
         test.error = test.error || null;
 
         var json = JSON.stringify(test);
-        //wstream.write(json += ',');
-        //fs.writeFileSync(outputPath, json += ',', {flags: 'a'});
         fs.appendFileSync(outputPath, json += ',');
     };
 
