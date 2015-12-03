@@ -84,27 +84,22 @@ Test.suite('suite uno', function (suite) {
     this.parallel(function () {
 
 
-            this.it('makes stuff 11', function (done) {
+        this.it('makes stuff 11', function (done) {
 
-                console.log(this.temp);
-                done(new Error('barf 3'));
 
-            });
+            console.log(this.doggy);
+            done(new Error('barf 4'));
 
-            this.it('makes stuff 12', function (done) {
+        });
 
-                console.log(this.temp);
-                done(new Error('barf 4'));
 
-            });
+        this.it('makes stuff 13', function (done) {
 
-            this.it('makes stuff 13', function (done) {
 
-                console.log(this.temp);
-                done(new Error('barf 5'));
+            console.log(this.doggy);
+            done(new Error('barf 5'));
 
-            });
-
+        });
 
     });
 
@@ -181,7 +176,9 @@ Test.suite('suite uno', function (suite) {
 
             this.it('makes stuff 16', function (done) {
 
+
                 console.log('testId:', test.testId, this.temp);
+
                 done();
 
             });
@@ -195,13 +192,12 @@ Test.suite('suite uno', function (suite) {
 
             this.describe('suite four', function () {
 
+
                 console.log('testId:', test.testId, this.temp);
 
 
-                this.before(function (done) {
+                this.before(function () {
 
-                    console.log('testId:', test.testId, this.temp);
-                    done();
 
                 }).after(function (done) {
 
