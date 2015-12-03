@@ -25,7 +25,7 @@ function makeSuman($module, configPath) {
 
     var config = require(path.resolve(appRootPath + '/' + configPath));
     var outputDir = config.outputDir;
-    var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + path.basename($module.filename, '.js') + '.txt')
+    var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + path.basename($module.filename, '.js') + '.txt');
 
     //var wstream = fs.createWriteStream(outputPath);
 

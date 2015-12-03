@@ -7,27 +7,21 @@ var suman = require('../index.js');
 var Test = suman(module, 'test/config/sumanConfig');
 
 
-Test.suite('suite uno', function (test) {
+Test.suite('suite uno', function (suite) {
 
 
-
-    test.before(function (done) {
-
+    this.before(function (done) {
 
         this.doggy = 'dooooggy';
-
         done();
 
     }).after(function (done) {
 
         done();
 
-    });
+    }).it('makes stuff 1', function (done) {
 
-
-    test.it('makes stuff 1', function (done) {
-
-       console.log(this.doggy);
+        console.log(this.doggy);
         done();
 
     }).it('makes stuff 2', function (done) {
@@ -38,13 +32,13 @@ Test.suite('suite uno', function (test) {
     });
 
 
-    test.series([
-        test.it('makes stuff 3', function () {
+    this.series([
+        this.it('makes stuff 3', function () {
 
             console.log(this.doggy);
 
         }),
-        test.it('makes stuff 4', function (done) {
+        this.it('makes stuff 4', function (done) {
 
 
             done(new Error('barf 4'));
@@ -53,9 +47,9 @@ Test.suite('suite uno', function (test) {
     ]);
 
 
-    test.loop(['5','6','7'], function (test, value) {
+    this.loop(['5', '6', '7'], function (value) {
 
-        test.it('makes stuff ' + value, function (done) {
+        this.it('makes stuff ' + value, function (done) {
 
             console.log(this.doggy);
             done(new Error('barf 3'));
@@ -65,10 +59,10 @@ Test.suite('suite uno', function (test) {
     });
 
 
-    test.parallel(function (test) {
+    this.parallel(function () {
 
 
-        test.it('makes stuff 8', function (done) {
+        this.it('makes stuff 8', function (done) {
 
             console.log(this.doggy);
             done(new Error('barf 3'));
@@ -87,35 +81,36 @@ Test.suite('suite uno', function (test) {
     });
 
 
-    test.parallel(function (test) {
+    this.parallel(function () {
 
 
-        test.it('makes stuff 11', function (done) {
+            this.it('makes stuff 11', function (done) {
 
-            console.log(this.doggy);
-            done(new Error('barf 3'));
+                console.log(this.doggy);
+                done(new Error('barf 3'));
 
-        });
+            });
 
-        test.it('makes stuff 12', function (done) {
+            this.it('makes stuff 12', function (done) {
 
-            console.log(this.doggy);
-            done(new Error('barf 4'));
+                console.log(this.doggy);
+                done(new Error('barf 4'));
 
-        });
+            });
 
-        test.it('makes stuff 13', function (done) {
+            this.it('makes stuff 13', function (done) {
 
-            console.log(this.doggy);
-            done(new Error('barf 5'));
+                console.log(this.doggy);
+                done(new Error('barf 5'));
 
-        });
+            });
+
 
 
     });
 
 
-    test.after(function (done) {
+    this.after(function (done) {
 
         console.log(this.doggy);
         done();
@@ -123,9 +118,9 @@ Test.suite('suite uno', function (test) {
     });
 
 
-    test.describe('suite two', function (test) {
+    this.describe('suite two', function () {
 
-        test.before(function (done) {
+        this.before(function (done) {
 
             console.log(this.doggy);
             done();
@@ -146,9 +141,9 @@ Test.suite('suite uno', function (test) {
 
         });
 
-        test.loop(['53','63','73'], function (test, value) {
+        this.loop(['53', '63', '73'], function (value) {
 
-            test.it('makes stuff ' + value, function (done) {
+            this.it('makes stuff ' + value, function (done) {
 
                 console.log(this.doggy);
                 done(new Error('barf 3'));
@@ -158,23 +153,23 @@ Test.suite('suite uno', function (test) {
         });
 
 
-        test.describe('suite three', function (test) {
+        this.describe('suite three', function () {
 
-            test.before(function (done) {
+            this.before(function (done) {
 
-                console.log('testId:',test.testId,this.doggy);
+                console.log('thisId:', this.testId, this.doggy);
                 done();
 
             }).after(function (done) {
 
-                console.log('testId:',test.testId,this.doggy);
+                console.log('testId:', this.testId, this.doggy);
                 done();
 
             });
 
-            test.loop(['59','69','79'], function (test, value) {
+            this.loop(['59', '69', '79'], function (value) {
 
-                test.it('makes stuff ' + value, function (done) {
+                this.it('makes stuff ' + value, function (done) {
 
                     console.log(this.doggy);
                     done();
@@ -183,27 +178,28 @@ Test.suite('suite uno', function (test) {
 
             });
 
-            test.it('makes stuff 16', function (done) {
+            this.it('makes stuff 16', function (done) {
 
-                console.log('testId:',test.testId,this.doggy);
+                console.log('testId:', test.testId, this.doggy);
                 done();
 
             });
 
-            test.it('makes stuff 17', function (done) {
+            this.it('makes stuff 17', function (done) {
 
                 done();
 
             });
 
-            test.describe('suite four', function (test) {
 
-                console.log('testId:',test.testId,this.doggy);
+            this.describe('suite four', function () {
+
+                console.log('testId:', test.testId, this.doggy);
 
 
-                test.before(function (done) {
+                this.before(function (done) {
 
-                    console.log('testId:',test.testId,this.doggy);
+                    console.log('testId:', test.testId, this.doggy);
                     done();
 
                 }).after(function (done) {
@@ -212,12 +208,12 @@ Test.suite('suite uno', function (test) {
 
                 });
 
-                test.it('makes stuff 18', function (done) {
+                this.it('makes stuff 18', function (done) {
 
                     done();
                 });
 
-                test.it('makes stuff 19', function (done) {
+                this.it('makes stuff 19', function (done) {
 
                     done();
 
@@ -229,9 +225,10 @@ Test.suite('suite uno', function (test) {
 
     });
 
-    test.describe('suite five', function (test) {
 
-        test.before(function (done) {
+    this.describe('suite five', function () {
+
+        this.before(function (done) {
 
 
             done();
@@ -241,17 +238,23 @@ Test.suite('suite uno', function (test) {
 
             done();
 
-        });
+        }).it('makes stuff 20', function (done) {
 
-        test.it('makes stuff 20', function (done) {
 
             done();
+
+
         }).it('makes stuff 21', function (done) {
 
+
             done();
+
+
         }).it('makes stuff 22', function (done) {
 
             done();
+
+
         });
 
     });

@@ -7,16 +7,16 @@ var suman = require('../index.js');
 var Test = suman(module, 'test/config/sumanConfig');
 
 
-Test.suite('suite dos', function (test) {
+Test.suite('suite dos', function (suite) {
 
 
-    test.it('my test',function(){
+    this.it('my test',function(){
 
         console.log('doing test');
 
     });
 
-    test.afterEach(function(done){
+    this.afterEach(function(done){
 
 
         console.log('1' + this.currentTest);
@@ -25,7 +25,7 @@ Test.suite('suite dos', function (test) {
     });
 
 
-    test.afterEach(function(done){
+    this.afterEach(function(done){
 
 
         console.log('2' + this.currentTest);
@@ -34,7 +34,7 @@ Test.suite('suite dos', function (test) {
     });
 
 
-    test.afterEach(function(done){
+    this.afterEach(function(done){
 
 
         console.log('3' + this.currentTest);
