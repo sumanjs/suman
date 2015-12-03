@@ -59,6 +59,24 @@ Test.suite('suite dos', function (suite) {
 
        this.describe('uuuuu test',function(){
 
+           this.describe('uuuuu3333 test',function(){
+
+
+               this.before(function(done){
+
+                   console.log('before 3333  ');
+                   done();
+
+               });
+
+               this.it('my 3333 test',function(){
+
+                   console.log('doing 33333 test');
+
+               });
+
+           });
+
 
            this.before(function(done){
 

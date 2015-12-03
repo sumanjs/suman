@@ -1,58 +1,40 @@
-/**
- * Created by amills001c on 11/24/15.
- */
-
-
 var suman = require('../index.js');
 var Test = suman(module, 'test/config/sumanConfig');
 
 
-Test.suite('suite uno', function (suite) {
+Test.suite('suite uno', (suite) => {
 
 
     this.before(function (done) {
 
-        this.temp = 'dooooggy';
-        done();
-
-    }).after(function (done) {
 
         done();
 
-    }).it('makes stuff 1', function (done) {
+    }).it('foo', function () {
 
-        console.log(this.temp);
-        done();
 
-    }).it('makes stuff 2', function (done) {
+    }).it('bar', function () {
 
-        console.log(this.temp);
-        done();
+
+    }).it('baz', function () {
+
 
     });
-
-
-    this.series([
-        this.it('makes stuff 3', function () {
-
-            console.log(this.temp);
-
-        }),
-        this.it('makes stuff 4', function (done) {
-
-
-            done();
-
-        })
-    ]);
 
 
     this.loop(['5', '6', '7'], function (value) {
 
-        this.it('makes stuff ' + value, function (done) {
+        this.it('makes stuff ' + value, function () {
 
-            console.log(this.temp);
-            done();
+
+        });
+
+    });
+
+    this.loop([8, 9, 10], (value) => {
+
+        this.it('makes stuff ' + value, function () {
+
 
         });
 
@@ -62,60 +44,43 @@ Test.suite('suite uno', function (suite) {
     this.parallel(function () {
 
 
-        this.it('makes stuff 8', function (done) {
+        this.it('makes stuff 8', function () {
 
-            console.log(this.temp);
-            done();
 
         }).it('makes stuff 9', function () {
 
-            console.log(this.temp);
 
-        }).it('makes stuff 10', function (done) {
+        }).it('makes stuff 10', function () {
 
-            done();
 
         });
 
 
     });
 
+    this.describe('suite five', function () {
 
 
-    this.parallel(function () {
-
-        this.it('makes stuff 10.5', function (done) {
+        this.before(() => {
 
 
-            console.log(this.temp);
-            done();
-
-        });
-
-        this.it('makes stuff 11', function (done) {
+        }).after(() => {
 
 
-            console.log(this.temp);
-            done();
-
-        });
+        }).it('makes stuff 20', () => {
 
 
-        this.it('makes stuff 13', function (done) {
+        }).it('makes stuff 21', () => {
 
 
-            console.log(this.temp);
-            done();
-
-        });
-
-    });
+        }).it('makes stuff 22', () => {
 
 
-    this.after(function (done) {
+        }).after(() => {
 
-        console.log(this.temp);
-        done();
+
+        })
+
 
     });
 
@@ -123,145 +88,74 @@ Test.suite('suite uno', function (suite) {
     this.describe('suite two', function () {
 
 
-        this.before(function (done) {
+        this.loop(['53', '63', '73'], function (value) {
 
-            console.log(this.temp);
-            done();
-
-        }).after(function (done) {
+            this.it('makes stuff ' + value, function () {
 
 
-            done();
-
-        }).it('makes stuff 14', function (done) {
-
-            done();
-
-        }).it('makes stuff 15', function (done) {
-
-            console.log(this.temp);
-            done();
+            });
 
         });
-    //
-    //
-    //    this.loop(['53', '63', '73'], function (value) {
-    //
-    //        this.it('makes stuff ' + value, function (done) {
-    //
-    //            console.log(this.temp);
-    //            done(new Error('barf 3'));
-    //
-    //        });
-    //
-    //    });
-    //
-    //
-    //    this.describe('suite three', function () {
-    //
-    //        this.before(function (done) {
-    //
-    //            console.log('thisId:', this.testId, this.temp);
-    //            done();
-    //
-    //        }).after(function (done) {
-    //
-    //            console.log('testId:', this.testId, this.temp);
-    //            done();
-    //
-    //        });
-    //
-    //        this.loop(['59', '69', '79'], function (value) {
-    //
-    //            this.it('makes stuff ' + value, function (done) {
-    //
-    //                console.log(this.temp);
-    //                done();
-    //
-    //            });
-    //
-    //        });
-    //
-    //        this.it('makes stuff 16', function (done) {
-    //
-    //
-    //            console.log('testId:', test.testId, this.temp);
-    //
-    //            done();
-    //
-    //        });
-    //
-    //        this.it('makes stuff 17', function (done) {
-    //
-    //            done();
-    //
-    //        });
-    //
-    //
-    //        this.describe('suite four', function () {
-    //
-    //
-    //            console.log('testId:', test.testId, this.temp);
-    //
-    //
-    //            this.before(function () {
-    //
-    //
-    //            }).after(function (done) {
-    //
-    //                done();
-    //
-    //            });
-    //
-    //            this.it('makes stuff 18', function (done) {
-    //
-    //                done();
-    //            });
-    //
-    //            this.it('makes stuff 19', function (done) {
-    //
-    //                done();
-    //
-    //            });
-    //
-    //        });
-    //
-    //    });
-    //
-    //});
+
+        this.describe('suite three', function () {
 
 
-    this.describe('suite five', function () {
-
-        this.before(function (done) {
+            this.before(function () {
 
 
-            done();
-
-        }).after(function (done) {
+            }).after(function () {
 
 
-            done();
+            });
 
-        }).it('makes stuff 20', function (done) {
-
-
-            done();
+            this.loop(['59', '69', '79'], function (value) {
 
 
-        }).it('makes stuff 21', function (done) {
+                this.it('makes stuff ' + value, function () {
 
 
-            done();
+                });
+
+            });
+
+            this.it('makes stuff 16', function () {
 
 
-        }).it('makes stuff 22', function (done) {
+            });
 
-            done();
+            this.it('makes stuff 17', function () {
 
+
+            });
+
+        });
+
+
+        this.describe('suite four', () => {
+
+
+            this.before(function () {
+
+
+            }).after(function () {
+
+
+            }).it('makes stuff 18', (done) => {
+
+
+                done();
+
+            }).it('makes stuff 19', (done) => {
+
+
+                done();
+
+            });
 
         });
 
     });
 
 });
+
+
