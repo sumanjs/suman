@@ -29,6 +29,14 @@ function makeSuman($module, configPath) {
 
     //var wstream = fs.createWriteStream(outputPath);
 
+    try{
+        var unlink = fs.unlinkSync(outputPath);
+    }
+    catch(err){
+
+    }
+
+
 
     var log = function (data, test) {
         var json = JSON.stringify({

@@ -1,91 +1,59 @@
 /**
- * Created by amills001c on 11/24/15.
+ * Created by amills001c on 12/3/15.
  */
 
 
 var suman = require('../index.js');
-var Test = suman(module,'test/config/sumanConfig');
+var Test = suman(module, 'test/config/sumanConfig');
 
 
-Test.suite('suite first', function (test) {
+Test.suite('suite 2', function (suite) {
 
 
-    test.before(function (done) {
+    this.before(function(done){
 
-        test.log('in before');
-        done();
+         console.log('before');
 
-    }).after(function (done) {
-
-        test.log('in after');
         done();
 
     });
 
-    test.it('makes stuff 1', function (done) {
+    var cars = [1,2,3];
 
-        test.log('1');
-        done(new Error('barf 3'));
+    this.loop(cars,function(value){
 
-    }).it('makes stuff 2', function (done) {
+       this.it('fantasy',function(){
 
-        test.log('2');
-        done(new Error('barf 4'));
+           console.log(value);
+
+       });
+
+    });
+
+
+    this.describe('desc', function(){
+
+
+        console.log('desc 1');
+
+        this.before(function(done){
+
+            console.log('before does');
+
+            done();
+
+        });
+
+
+        this.it('does',function(){
+
+           console.log('doeszzzzzz!!!!!!!!!!!!!!z 1');
+
+        });
 
     });
 
 
-    test.describe('suite second', function (test) {
-
-        test.before(function (done) {
-
-            test.log('in before shark');
-            done();
-
-        }).after(function (done) {
-
-            test.log('in after shark');
-            done();
-
-        });
-
-        test.it('shark 1', function (done) {
-            test.log('1');
-            done();
-        });
-
-        test.it('shark 2', function (done) {
-            test.log('2');
-            done();
-        });
-
-        test.describe('suite three', function (test) {
-
-            test.before(function (done) {
-
-                test.log('in before deer');
-                done();
-
-            }).after(function (done) {
-
-                test.log('in after deer');
-                done();
-
-            });
-
-            test.it('deer 1', function (done) {
-                test.log('ccct 1');
-                done();
-            });
-
-            test.it('deer 2', function (done) {
-                test.log('ccct 2');
-                done();
-            });
-
-        });
-
-    });
 
 
 });

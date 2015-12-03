@@ -41,7 +41,7 @@ Test.suite('suite uno', function (suite) {
         this.it('makes stuff 4', function (done) {
 
 
-            done(new Error('barf 4'));
+            done();
 
         })
     ]);
@@ -52,7 +52,7 @@ Test.suite('suite uno', function (suite) {
         this.it('makes stuff ' + value, function (done) {
 
             console.log(this.temp);
-            done(new Error('barf 3'));
+            done();
 
         });
 
@@ -65,7 +65,7 @@ Test.suite('suite uno', function (suite) {
         this.it('makes stuff 8', function (done) {
 
             console.log(this.temp);
-            done(new Error('barf 3'));
+            done();
 
         }).it('makes stuff 9', function () {
 
@@ -73,7 +73,7 @@ Test.suite('suite uno', function (suite) {
 
         }).it('makes stuff 10', function (done) {
 
-            done(new Error('barf 5'));
+            done();
 
         });
 
@@ -81,14 +81,22 @@ Test.suite('suite uno', function (suite) {
     });
 
 
+
     this.parallel(function () {
 
+        this.it('makes stuff 10.5', function (done) {
+
+
+            console.log(this.temp);
+            done();
+
+        });
 
         this.it('makes stuff 11', function (done) {
 
 
-            console.log(this.doggy);
-            done(new Error('barf 4'));
+            console.log(this.temp);
+            done();
 
         });
 
@@ -96,8 +104,8 @@ Test.suite('suite uno', function (suite) {
         this.it('makes stuff 13', function (done) {
 
 
-            console.log(this.doggy);
-            done(new Error('barf 5'));
+            console.log(this.temp);
+            done();
 
         });
 
@@ -135,92 +143,92 @@ Test.suite('suite uno', function (suite) {
             done();
 
         });
-
-
-        this.loop(['53', '63', '73'], function (value) {
-
-            this.it('makes stuff ' + value, function (done) {
-
-                console.log(this.temp);
-                done(new Error('barf 3'));
-
-            });
-
-        });
-
-
-        this.describe('suite three', function () {
-
-            this.before(function (done) {
-
-                console.log('thisId:', this.testId, this.temp);
-                done();
-
-            }).after(function (done) {
-
-                console.log('testId:', this.testId, this.temp);
-                done();
-
-            });
-
-            this.loop(['59', '69', '79'], function (value) {
-
-                this.it('makes stuff ' + value, function (done) {
-
-                    console.log(this.temp);
-                    done();
-
-                });
-
-            });
-
-            this.it('makes stuff 16', function (done) {
-
-
-                console.log('testId:', test.testId, this.temp);
-
-                done();
-
-            });
-
-            this.it('makes stuff 17', function (done) {
-
-                done();
-
-            });
-
-
-            this.describe('suite four', function () {
-
-
-                console.log('testId:', test.testId, this.temp);
-
-
-                this.before(function () {
-
-
-                }).after(function (done) {
-
-                    done();
-
-                });
-
-                this.it('makes stuff 18', function (done) {
-
-                    done();
-                });
-
-                this.it('makes stuff 19', function (done) {
-
-                    done();
-
-                });
-
-            });
-
-        });
-
-    });
+    //
+    //
+    //    this.loop(['53', '63', '73'], function (value) {
+    //
+    //        this.it('makes stuff ' + value, function (done) {
+    //
+    //            console.log(this.temp);
+    //            done(new Error('barf 3'));
+    //
+    //        });
+    //
+    //    });
+    //
+    //
+    //    this.describe('suite three', function () {
+    //
+    //        this.before(function (done) {
+    //
+    //            console.log('thisId:', this.testId, this.temp);
+    //            done();
+    //
+    //        }).after(function (done) {
+    //
+    //            console.log('testId:', this.testId, this.temp);
+    //            done();
+    //
+    //        });
+    //
+    //        this.loop(['59', '69', '79'], function (value) {
+    //
+    //            this.it('makes stuff ' + value, function (done) {
+    //
+    //                console.log(this.temp);
+    //                done();
+    //
+    //            });
+    //
+    //        });
+    //
+    //        this.it('makes stuff 16', function (done) {
+    //
+    //
+    //            console.log('testId:', test.testId, this.temp);
+    //
+    //            done();
+    //
+    //        });
+    //
+    //        this.it('makes stuff 17', function (done) {
+    //
+    //            done();
+    //
+    //        });
+    //
+    //
+    //        this.describe('suite four', function () {
+    //
+    //
+    //            console.log('testId:', test.testId, this.temp);
+    //
+    //
+    //            this.before(function () {
+    //
+    //
+    //            }).after(function (done) {
+    //
+    //                done();
+    //
+    //            });
+    //
+    //            this.it('makes stuff 18', function (done) {
+    //
+    //                done();
+    //            });
+    //
+    //            this.it('makes stuff 19', function (done) {
+    //
+    //                done();
+    //
+    //            });
+    //
+    //        });
+    //
+    //    });
+    //
+    //});
 
 
     this.describe('suite five', function () {
