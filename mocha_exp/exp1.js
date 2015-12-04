@@ -4,7 +4,7 @@
 
 
 
-describe('blah',function(){
+describe('foo',function(){
 
 
     before(function(){
@@ -14,7 +14,7 @@ describe('blah',function(){
 
     beforeEach(function(){
 
-        console.log('before each');
+        console.log('before each 1');
 
     });
 
@@ -22,7 +22,11 @@ describe('blah',function(){
     describe('2',function(){
 
 
-       console.log('2');
+        beforeEach(function(){
+
+            console.log('before each 2');
+
+        });
 
 
         it('4',function(){
