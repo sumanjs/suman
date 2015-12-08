@@ -54,18 +54,39 @@ var async = require('async');
 //    console.log(err,results);
 //});
 
+//
+//var arr = [new Error('1'),new Error('2'),new Error('3'),'mark'];
+//
+//arr = arr.filter(function (err) {
+//    if(err instanceof Error){
+//        return err;
+//    }
+//    else{
+//        throw new Error('non error passed');
+//    }
+//}).map(function(err){
+//    return err.message;
+//});
+//
+//console.log(arr);
 
-var arr = [new Error('1'),new Error('2'),new Error('3'),'mark'];
+const v8flags = require('v8flags');
 
-arr = arr.filter(function (err) {
-    if(err instanceof Error){
-        return err;
-    }
-    else{
-        throw new Error('non error passed');
-    }
-}).map(function(err){
-    return err.message;
+v8flags(function (err, results) {
+    //console.log(results);  // [ '--use_strict',
+    //   '--es5_readonly',
+    //   '--es52_globals',
+    //   '--harmony_typeof',
+    //   '--harmony_scoping',
+    //   '--harmony_modules',
+    //   '--harmony_proxies',
+    //   '--harmony_collections',
+    //   '--harmony',
+    // ...
+
+    var res = _.sortBy(results, function (name) {
+        return name
+    });
+
+    console.log(res);
 });
-
-console.log(arr);

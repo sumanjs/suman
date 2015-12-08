@@ -7,30 +7,29 @@ var suman = require('../index.js');
 var Test = suman(module, 'test/config/sumanConfig');
 
 
+Test.suite('My Suite', function (suite) {
 
-Test.suite('My Suite', function(suite){
 
+    this.describe('bugs', function () {
 
-    this.describe('bugs',function(){
-
-        this.it('is meow',function(){
+        this.it('is meow', function () {
 
             console.log('is good');
         });
 
-        this.describe('turtles',function(){
+        this.describe('turtles', function () {
 
 
-            this.it('is chao',function(){
+            this.it('is chao', function () {
 
                 console.log('is good');
             });
 
 
-            this.describe('sounds',function(){
+            this.describe('sounds', function () {
 
 
-                this.it('is good',function(){
+                this.it('is good', function () {
 
                     console.log('is good');
                 });
@@ -41,13 +40,6 @@ Test.suite('My Suite', function(suite){
         });
 
     });
-
-
-
-
-
-
-
 
 
 });

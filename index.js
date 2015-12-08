@@ -14,7 +14,7 @@
  *
  * */
 
-
+//var Promise = require('bluebird');
 var appRootPath = require('app-root-path');
 var fs = require('fs');
 var path = require('path');
@@ -29,14 +29,12 @@ function makeSuman($module, configPath) {
 
     //var wstream = fs.createWriteStream(outputPath);
 
-    try{
+    try {
         var unlink = fs.unlinkSync(outputPath);
     }
-    catch(err){
+    catch (err) {
 
     }
-
-
 
     var log = function (data, test) {
         var json = JSON.stringify({
@@ -60,7 +58,8 @@ function makeSuman($module, configPath) {
 
     return {
 
-        suite: require('./lib/ntf').main(log, logErrors)
+        suite: require('./lib/ntf').main(log, logErrors),
+        given: given
 
     }
 
@@ -69,4 +68,40 @@ function makeSuman($module, configPath) {
 
 makeSuman.Runner = require('./lib/runner');
 
+
+var given = function (cb1) {
+
+    var prom = cb1();
+
+    return {
+        when: function (cb2) {
+
+            prom = prom.then(cb2);
+
+            return {
+                then: function (cb3) {
+
+                    console.log(cb3);
+
+                    //try {
+                    //    //var promise = cb1();
+                    //    //var promise = cb2();
+                    //    //var promise = cb3();
+                    //
+                    prom.then(cb3);
+                    //}
+                    //catch (err) {
+                    //    console.error(err);
+                    //}
+
+                    return this;
+                }
+            }
+
+        }
+    }
+};
+
+
 module.exports = makeSuman;
+

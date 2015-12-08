@@ -1,14 +1,25 @@
 /*
-* created by Olegzandr Denman
-*
-* */
+ * created by Olegzandr Denman
+ *
+ * */
+
+//context
+//gwt
+
+//
+//var suman = require('../index.js');
+//var Test = suman.make(module, 'test/config/sumanConfig');
+//
+//
+//Test.createSuite('suite uno', function (suite) {
+
 
 
 var suman = require('../index.js');
 var Test = suman(module, 'test/config/sumanConfig');
 
 
-Test.suite('suite uno', (suite) => {
+Test.suite('suite uno', function (suite) {
 
 
     this.before(function (done) {
@@ -16,16 +27,53 @@ Test.suite('suite uno', (suite) => {
 
         done();
 
-    }).it('foo', function () {
+    });
 
 
-    }).it('bar', function () {
+    //https://www.promisejs.org/patterns/
+
+
+    this.it('foo', function () {
+
+        //Test.given(function () {
+        //
+        //    return new Promise(function(resolve,reject){
+        //        setTimeout(function(){
+        //            resolve('0');
+        //        },2);
+        //    });
+        //
+        //}).when(function (data) {
+        //
+        //    console.log('data:',data);
+        //    console.log('dawgs 2');
+        //
+        //    return Promise.resolve(4);
+        //
+        //}).then(function(){
+        //
+        //    console.log('dawgs 3');
+        //
+        //
+        //}).then('monkeys');
+
+
+    });
+
+
+    this.it('bar', function () {
 
 
     }).it('baz', function () {
 
 
     });
+
+    //this['@When']('dogs',function(){
+    //
+    //
+    //
+    //});
 
 
     this.loop(['5', '6', '7'], function (value) {
@@ -37,7 +85,7 @@ Test.suite('suite uno', (suite) => {
 
     });
 
-    this.loop([8, 9, 10], (value) => {
+    this.loop([8, 9, 10], function (value) {
 
         this.it('makes stuff ' + value, function () {
 
@@ -67,22 +115,22 @@ Test.suite('suite uno', (suite) => {
     this.describe('suite five', function () {
 
 
-        this.before(() => {
+        this.before(function () {
 
 
-        }).after(() => {
+        }).after(function () {
 
 
-        }).it('makes stuff 20', () => {
+        }).it('makes stuff 20', function () {
 
 
-        }).it('makes stuff 21', () => {
+        }).it('makes stuff 21', function () {
 
 
-        }).it('makes stuff 22', () => {
+        }).it('makes stuff 22', function () {
 
 
-        }).after(() => {
+        }).after(function () {
 
 
         })
@@ -137,7 +185,7 @@ Test.suite('suite uno', (suite) => {
         });
 
 
-        this.describe('suite four', () => {
+        this.describe('suite four', function () {
 
 
             this.before(function () {
@@ -146,20 +194,20 @@ Test.suite('suite uno', (suite) => {
             }).after(function () {
 
 
-            }).it('makes stuff 18', (done) => {
+            }).it('makes stuff 18', function (done) {
 
 
                 done();
 
-            }).it('makes stuff 19', (done) => {
+            }).it('makes stuff 19', function (done) {
 
 
                 done();
 
             });
 
-        });
 
+        });
     });
 
 });

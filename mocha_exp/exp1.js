@@ -20,21 +20,32 @@ describe('foo',function(){
 
 
     describe('2',function(){
+        describe('3',function() {
 
+            beforeEach(function () {
 
-        beforeEach(function(){
+                console.log('before each 2');
 
-            console.log('before each 2');
+            });
 
+            it('4', function () {
+
+                console.log('4');
+
+            });
+
+            it('5', function () {
+
+                console.log('5');
+
+            });
+
+            it('6', function () {
+
+                console.log('6');
+
+            });
         });
-
-
-        it('4',function(){
-
-            console.log('4');
-
-        });
-
     });
 
 

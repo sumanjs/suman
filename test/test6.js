@@ -3,6 +3,8 @@
  */
 
 
+
+
 var suman = require('../index.js');
 var Test = suman(module, 'test/config/sumanConfig');
 
@@ -12,25 +14,28 @@ Test.suite('suite dos', function (suite) {
     var shuggles = null;
 
 
-    this.before(function(done){
+    this.before(function (done) {
 
         console.log('before');
 
         shuggles = 5;
-        console.log('this:',this);
+        console.log('this:', this);
 
         return done();
 
     });
 
 
-    this.it('my test',function(){
+    this.it('my test', {
+        skip: false,
+
+    }, function () {
 
         console.log('doing test');
 
     });
 
-    this.afterEach(function(done){
+    this.afterEach(function (done) {
 
         console.log('1' + this.currentTest);
         done();
@@ -38,62 +43,62 @@ Test.suite('suite dos', function (suite) {
     });
 
 
-   this.describe('tarzan',function(){
+    this.describe('tarzan', function () {
 
-       console.log('shuggles describe:',shuggles);
-
-
-       this.before(function(done){
-
-           console.log('shuggles before:',shuggles);
-           console.log('before terzan 2');
-           done();
-
-       });
-
-       this.it('my tarzan test',function(){
-
-           console.log('doing tarzan test');
-
-       });
-
-       this.describe('uuuuu test',function(){
-
-           this.describe('uuuuu3333 test',function(){
+        console.log('shuggles describe:', shuggles);
 
 
-               this.before(function(done){
+        this.before(function (done) {
 
-                   console.log('before 3333  ');
-                   done();
+            console.log('shuggles before:', shuggles);
+            console.log('before terzan 2');
+            done();
 
-               });
+        });
 
-               this.it('my 3333 test',function(){
+        this.it('my tarzan test', function () {
 
-                   console.log('doing 33333 test');
+            console.log('doing tarzan test');
 
-               });
+        });
 
-           });
+        this.describe('uuuuu test', function () {
+
+            this.describe('uuuuu3333 test', function () {
 
 
-           this.before(function(done){
+                this.before(function (done) {
 
-               console.log('before boozzzz ');
-               done();
+                    console.log('before 3333  ');
+                    done();
 
-           });
+                });
 
-           this.it('my boooz test',function(){
+                this.it('my 3333 test', function () {
 
-               console.log('doing booooz test');
+                    console.log('doing 33333 test');
 
-           });
+                });
 
-       });
+            });
 
-   });
+
+            this.before(function (done) {
+
+                console.log('before boozzzz ');
+                done();
+
+            });
+
+            this.it('my boooz test', function () {
+
+                console.log('doing booooz test');
+
+            });
+
+        });
+
+    });
 
 
 });

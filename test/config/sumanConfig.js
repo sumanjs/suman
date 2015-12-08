@@ -6,7 +6,8 @@
 module.exports = {
 
     NODE_ENV: 'development',
-    outputDir: '/test/output'
+    outputDir: '/test/output',
+    MAX_TOTAL_MEMORY: 3000
 
 
 };
