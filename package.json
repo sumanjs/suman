@@ -3,7 +3,8 @@
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "view_results": "open -a Google\\ Chrome view/results.html"
   },
   "author": "Olegzandr Denman",
   "license": "ISC",
@@ -14,13 +15,16 @@
     "bluebird": "^3.0.6",
     "colors": "^1.1.2",
     "debug": "^2.2.0",
+    "ejs": "^2.3.4",
     "underscore": "^1.8.3",
     "v8flags": "^2.0.10"
   },
   "directories": {
     "test": "test"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ORESoftware/suman.git"

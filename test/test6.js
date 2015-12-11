@@ -11,29 +11,23 @@ var Test = suman(module, 'test/config/sumanConfig');
 
 Test.suite('suite dos', function (suite) {
 
-    var shuggles = null;
+
 
 
     this.before(function (done) {
 
-        console.log('before');
-
-        shuggles = 5;
-        console.log('this:', this);
 
         return done();
 
     });
 
 
-    this.it('my test', {
-        skip: false,
+    this.it('my test', function () {
 
-    }, function () {
-
-        console.log('doing test');
 
     });
+
+
 
     this.afterEach(function (done) {
 

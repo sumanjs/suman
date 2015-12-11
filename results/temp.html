@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Suman Test Results</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+    <script>
+
+        window.SumanTestFiles = new Object(["/Users/amills001c/WebstormProjects/ORESoftware/suman/test/output/test1.txt"]);
+
+
+        var results = {};
+
+        SumanTestFiles.forEach(function(file){
+            console.log(file);
+            results[String(file)] = null;
+            var promise = $.get('http://'+file).then(function(msg){
+                console.log(msg);
+                results[String(file)] = msg;
+            });
+            console.log('promise:',promise);
+        });
+
+    </script>
+
+</head>
+
+
+<body>
+
+<div id="react-app"></div>
+
+
+<script>
+
+
+    var ContactItem = React.createClass({
+        propTypes: {
+            name: React.PropTypes.string.isRequired
+        },
+
+        render: function () {
+            return (
+                    React.createElement('li', {className: 'Contact'},
+                            React.createElement('h2', {className: 'Contact-name'}, this.props.name)
+                    )
+            )
+        }
+    });
+
+    var element = React.createElement(ContactItem, {name: "James K Nelson"});
+
+    ReactDOM.render(element, document.getElementById('react-app'));
+
+
+</script>
+
+
+</body>
+</html>

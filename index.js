@@ -11,8 +11,13 @@
  * each test suite can have parallel components, allowing the developer to run tests serially, in parallel or in combination, as the developer sees fit
  * code inside any test will not run for any test not intended to run when using grep features
  * organize your tests depending on NODE_ENV or command line flags using config files, instead of putting tests in different top-level folders in your project
+ *  asynchronous reporting capablities - write test results to DB
  *
  * */
+
+
+//note: https://www.npmjs.com/package/gulp-mocha
+
 
 //var Promise = require('bluebird');
 var appRootPath = require('app-root-path');

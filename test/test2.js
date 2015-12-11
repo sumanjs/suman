@@ -19,6 +19,7 @@ Test.suite('suite 2', function (suite) {
 
     });
 
+
     var cars = [1,2,3];
 
     this.loop(cars,function(value){
