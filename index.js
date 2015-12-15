@@ -96,7 +96,7 @@ function makeSuman($module, configPath) {
 
     return {
 
-        suite: require('./lib/ntf').main(log, logErrors),
+        suite: require('./lib/ntf').main(log, logErrors, config, timestamp),
         given: given
 
     }
