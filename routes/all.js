@@ -20,8 +20,11 @@ function handleRequest(req, res) {
         fsPath = path.resolve(appRootPath + '/view/index.html');
         console.log('will attempt to serve this file:',fsPath);
     }
+    else if(requestUrl.pathname === '/favicon.ico'){
+        fsPath = path.resolve(appRootPath + '/view/favicon.ico');
+    }
     else {
-        fsPath = path.resolve(appRootPath + '/view/' + requestUrl.pathname);
+        fsPath = path.resolve(appRootPath + requestUrl.pathname + '/temp.html');
     }
 
 
