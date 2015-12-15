@@ -10,6 +10,9 @@ module.exports = {
     MAX_TOTAL_MEMORY: 3000,
     browser: 'Firefox',
     disableAutoOpen: false,
-    serverPort: 6969
+    serverPort: 6969,
+    expireResultsAfter: '10000000',
+    resultsCapCount: 100,
+    resultsCapSize: 7000 // 3 gb's
 
 };

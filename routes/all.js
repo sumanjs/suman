@@ -7,6 +7,7 @@ var url = require('url');
 var fs = require('fs');
 var appRootPath = require('app-root-path');
 var path = require('path');
+var helpers = require('./helpers');
 
 function handleRequest(req, res) {
 
@@ -14,48 +15,25 @@ function handleRequest(req, res) {
 
     console.log('requestUrl:', requestUrl);
 
+    req.sumanData = sumanData = {};
 
     var fsPath;
-    if (requestUrl.pathname === '/') {
-        fsPath = path.resolve(appRootPath + '/view/index.html');
-        console.log('will attempt to serve this file:',fsPath);
+    if (new RegExp(/^\/$/).test(requestUrl.pathname)) {   // === '/'
+        sumanData.fsPath = path.resolve(appRootPath + '/view/index.html');
+        helpers.retrieveResults(req,res);
     }
     else if(requestUrl.pathname === '/favicon.ico'){
-        fsPath = path.resolve(appRootPath + '/view/favicon.ico');
+        sumanData.fsPath = path.resolve(appRootPath + '/view/favicon.ico');
+        helpers.retrieveResults(req,res);
     }
-    else {
-        fsPath = path.resolve(appRootPath + requestUrl.pathname + '/temp.html');
+    else if(new RegExp(/^\/results\//).test(requestUrl.pathname)){ // === '/results'
+        sumanData.fsPath = path.resolve(appRootPath + requestUrl.pathname + '/temp.html');
+        helpers.retrieveResults(req,res);
     }
-
-
-    console.log('fsPath:', fsPath);
-
-
-    fs.stat(fsPath, function (err, stat) {
-
-        if (err) {
-            console.log('error occurred...' + err);
-            return end(req, res);
-        }
-
-        console.log('no error...');
-
-        try {
-            if (stat.isFile()) {
-                res.writeHead(200);
-                var stream = fs.createReadStream(fsPath).pipe(res);
-            }
-            else {
-                res.writeHead(500);
-            }
-        }
-        catch(err){
-            end(req, res);
-        }
-
-
-    });
-
+    else{
+        sumanData.fsPath = path.resolve(appRootPath  + '/view/404.html');
+        helpers.retrieveResults(req,res);
+    }
 
 }
 
