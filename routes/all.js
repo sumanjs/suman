@@ -41,20 +41,6 @@ function handleRequest(req, res) {
             if (stat.isFile()) {
                 res.writeHead(200);
                 var stream = fs.createReadStream(fsPath).pipe(res);
-
-                //var stream = fs.createReadStream(fsPath);
-                //
-                //var resp = '';
-                //
-                //stream.on('data',function(data){
-                //    resp+=data;
-                //});
-                //
-                //stream.on('end',function(){
-                //    res.write(resp);
-                //    end(req,res);
-                //});
-
             }
             else {
                 res.writeHead(500);

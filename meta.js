@@ -11,4 +11,4 @@ var testRunner = require('./index').Runner;
 
 
 
-testRunner('./test');
+testRunner('./test/build-tests','sumanConfig');

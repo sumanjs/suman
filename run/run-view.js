@@ -8,36 +8,39 @@ var ejs = require('ejs');
 var path = require('path');
 var appRootPath = require('app-root-path');
 var fs = require('fs');
-var args = process.argv.splice(2);
 
+//we need config file to determine where results/output folder is
+
+//timestamp identifier
+var timestamp = Date.now();
 
 var files = [];
 
-if (args.indexOf('--fp') !== -1) { //does our flag exist?
-    var folderPath = args[args.indexOf('--fp') + 1]; //grab the next item
+var folderPath = null;
 
-    var dir = path.resolve(path.resolve(appRootPath + '/' + folderPath));
-
-    if (fs.statSync(dir).isFile()) {
-        files.push(dir);
-    }
-    else{
-
-        fs.readdirSync(dir).forEach(function (file) {
-            files.push(path.resolve(dir + '/' + file));
-        });
-    }
+if (process.argv.indexOf('--fp') !== -1) { //does our flag exist?
+     folderPath = process.argv[process.argv.indexOf('--fp') + 1]; //grab the next item
 }
 else{
-    throw new Error('need to pass --fp option')
+    folderPath = '/results/' + timestamp;
 }
 
-var timestamp = Date.now();
+var dir = path.resolve(path.resolve(appRootPath + '/' + folderPath));
+
+if (fs.statSync(dir).isFile()) {
+    files.push(dir);
+}
+else{
+    fs.readdirSync(dir).forEach(function (file) {
+        files.push(path.resolve(dir + '/' + file));
+    });
+}
+
 
 var file = fs.readFileSync(path.resolve(appRootPath + '/view/template.ejs'), 'ascii');
 var rendered = ejs.render(file, {data: JSON.stringify(files)});
-fs.writeFileSync(path.resolve(appRootPath + '/view/results/' + String(timestamp) + '.html'), rendered);
-
+//fs.mkdirSync(path.resolve(appRootPath + '/results/' + String(timestamp)));
+fs.writeFileSync(path.resolve(appRootPath + '/results/' + String(timestamp) + '/temp.html'), rendered);
 
 
 //--allow-file-access-from-files

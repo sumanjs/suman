@@ -3,8 +3,8 @@
  */
 
 
-var suman = require('../index.js');
-var Test = suman(module, 'test/config/sumanConfig');
+var suman = require('../../index.js');
+var Test = suman(module, 'sumanConfig');
 
 
 Test.suite('My Suite', function (suite) {

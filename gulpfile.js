@@ -4,6 +4,8 @@
 
 
 
+//you should be able to run your tests with gulp, instead of npm run blah
+
 var babel = require('gulp-babel'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
@@ -13,13 +15,12 @@ var babel = require('gulp-babel'),
     del = require('del');
 
 
-
-gulp.task('clean-temp', function(){
+gulp.task('clean-temp', function () {
     return del(['dest']);
 });
 
-gulp.task('es6-commonjs',['clean-temp'], function(){
-    return gulp.src(['app/*.js','app/**/*.js'])
+gulp.task('es6-commonjs', ['clean-temp'], function () {
+    return gulp.src(['app/*.js', 'app/**/*.js'])
         .pipe(babel())
         .pipe(gulp.dest('dest/temp'));
 });

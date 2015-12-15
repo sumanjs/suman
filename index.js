@@ -20,17 +20,50 @@
 
 
 //var Promise = require('bluebird');
+var makeTemp = require('./lib/make-temp');
 var appRootPath = require('app-root-path');
 var fs = require('fs');
 var path = require('path');
+var _ = require('underscore');
+
 
 
 function makeSuman($module, configPath) {
 
+    var args = _.map(process.argv, _.clone);
+
+    var usingRunner = false;
+    if (process.argv.indexOf('--runner') > -1) { //does our flag exist?
+        usingRunner = true;
+        console.log('test:',$module.filename,'is using runner');
+    }
+    else{
+        console.log('test:',$module.filename,'is *not* using runner');
+    }
+
 
     var config = require(path.resolve(appRootPath + '/' + configPath));
     var outputDir = config.outputDir;
-    var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + path.basename($module.filename, '.js') + '.txt');
+
+    var timestamp = null;
+    if(usingRunner){
+        timestamp = process.argv[process.argv.indexOf('--ts') + 1];
+        if(!timestamp){
+            throw new Error('no timestamp provided by Suman test runner');
+        }
+    }
+    else{
+        try{
+            timestamp = Date.now();
+            fs.mkdirSync(path.resolve(appRootPath + '/' + outputDir + '/' + String(timestamp)));
+        }
+        catch(err){
+            throw err;
+        }
+    }
+
+
+    var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + timestamp + '/' + path.basename($module.filename, '.js') + '.txt');
 
     //var wstream = fs.createWriteStream(outputPath);
 
