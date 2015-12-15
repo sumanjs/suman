@@ -9,13 +9,13 @@ var _ = require('underscore');
 var colors = require('colors/safe');
 var debug = require('debug')('suman');
 
-var fileNo = 1;
+var fp = 1;
 
-if (process.argv.indexOf('--file-no') !== -1) { //does our flag exist?
-    fileNo = process.argv[process.argv.indexOf('--file-no') + 1]; //grab the next item
+if (process.argv.indexOf('--fp') !== -1) { //does our flag exist?
+    fp = process.argv[process.argv.indexOf('--fp') + 1]; //grab the next item
 }
 
-var filePath = path.resolve(appRootPath + '/' + 'test/output/test' + fileNo + '.txt');
+var filePath = path.resolve(appRootPath + '/' + fp);
 var rstream = fs.createReadStream(filePath);
 
 var dataLength = '';

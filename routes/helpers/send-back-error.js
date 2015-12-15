@@ -1,6 +1,7 @@
 /**
- * Created by denman on 12/14/2015.
+ * Created by amills001c on 12/15/15.
  */
+
 
 var url = require('url');
 var fs = require('fs');
@@ -11,8 +12,7 @@ module.exports = function (req, res) {
 
     var helpers = require('../helpers');
 
-    //var error = new Error('Not real error');
-    //console.log(error.stack);
-
+    var error = req.sumanData.error || new Error('unknown Suman error');
+    res.write(error);
     res.end();
 };

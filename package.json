@@ -17,6 +17,7 @@
     "debug": "^2.2.0",
     "du": "^0.1.0",
     "ejs": "^2.3.4",
+    "express": "^4.13.3",
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4",
     "idempotent-json": "^0.9.2",
