@@ -9,7 +9,7 @@ var appRootPath = require('app-root-path');
 var path = require('path');
 var helpers = require('../helpers');
 var du = require('du');
-var config = require('../../sumanConfig');
+var config = require('../../suman.conf.js');
 
 module.exports = function (req, res) {
 

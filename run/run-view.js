@@ -37,7 +37,7 @@ else{
 }
 
 
-var file = fs.readFileSync(path.resolve(appRootPath + '/view/template.ejs'), 'ascii');
+var file = fs.readFileSync(path.resolve(appRootPath + '/views/template.ejs'), 'ascii');
 var rendered = ejs.render(file, {data: JSON.stringify(files)});
 //fs.mkdirSync(path.resolve(appRootPath + '/results/' + String(timestamp)));
 fs.writeFileSync(path.resolve(appRootPath + '/results/' + String(timestamp) + '/temp.html'), rendered);

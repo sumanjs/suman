@@ -15,7 +15,7 @@
 
 
 var suman = require('../../index.js');
-var Test = suman(module, 'sumanConfig');
+var Test = suman(module, 'suman.conf.js');
 
 
 Test.suite('suite uno', function (suite) {

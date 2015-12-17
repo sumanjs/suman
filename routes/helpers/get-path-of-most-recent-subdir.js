@@ -12,9 +12,7 @@ var _ = require('underscore');
 
 module.exports = function (dir) {
 
-    dir = path.resolve(dir);
-
-    console.log('diiir:',dir);
+    dir = path.resolve(appRootPath + '/' + dir);
 
     var filtered = fs.readdirSync(dir).filter(function(subdir){
         return (!fs.statSync(path.resolve(dir + '/' + subdir)).isFile() && typeof Number(subdir) === 'number' && !isNaN(Number(subdir)));
