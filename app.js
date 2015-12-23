@@ -26,9 +26,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
-app.use(express.static(path.join(__dirname, 'public'),{
+app.use('/public',express.static(path.join(__dirname, 'public'),{
     maxage: '2h'
 }));
+
+//app.use('/results',express.static(path.join(__dirname, 'results'),{
+//    maxage: '58h'
+//}));
+
 //app.use('/results', express.static('results'));
 
 
@@ -46,7 +51,6 @@ app.use(function(req,res,next){
 
 app.use(function(req,res,next){
     var requestUrl = req.parsedRequestUrl = url.parse(req.url);
-    console.log('requestUrl:', requestUrl);
     req.sumanData = {};
     next();
 });
