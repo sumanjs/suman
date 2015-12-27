@@ -42,15 +42,14 @@ requirejs.onResourceLoad = function (context, map, depArray) {
 };
 
 
+require(['jquery', 'flux', 'socketio', 'react', 'reactDOM', 'underscore', 'async'], function () {
 
-require(['jquery','flux','socketio','react','reactDOM','underscore','async'], function(){
-
-
-    require(['js/pages/results/app'], function (Application) {
-        console.log('Application module loaded ----> (3) ----> time:', (Date.now() - window.startDate));
-        Application.start();
+    $(document).ready(function () {
+        require(['js/pages/results/app'], function (Application) {
+            console.log('Application module loaded ----> (3) ----> time:', (Date.now() - window.startDate));
+            Application.start();
+        });
     });
-
 
 });
 

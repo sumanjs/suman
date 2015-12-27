@@ -3,8 +3,7 @@
  */
 
 
-
-if(typeof importScripts === 'function'){
+if (typeof importScripts === 'function') {
     importScripts('https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js');
     importScripts('https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js');
     importScripts('/js/vendor/react-dom-server.js');
@@ -16,26 +15,34 @@ if(typeof importScripts === 'function'){
 
 //require(['react','reactDOM'],function(React,ReactDOM){
 
-    onmessage = function(msg) {
+onmessage = function (msg) {
 
-        var ContactItem = React.createFactory(React.createClass({
+    var ContactItem = React.createFactory(React.createClass({
 
-            propTypes: {
-                name: React.PropTypes.string.isRequired
-            },
+        propTypes: {
+            name: React.PropTypes.string.isRequired
+        },
 
-            render: function () {
-                return (
-                    React.createElement('li', {className: 'Contact'},
-                        React.createElement('h2', {className: 'Contact-name'}, this.props.name)
-                    )
+
+        render: function () {
+            return (
+                React.createElement('li', {className: 'Contact'},
+                    React.createElement('h2', {className: 'Contact-name'}, this.props.name)
                 )
-            }
-        }));
+            )
+        }
+    }));
 
-        var str = ReactDOMServer.renderToString(ContactItem({name:'charlie'}));
-        postMessage(str);
+    var str = ReactDOMServer.renderToString(ContactItem({name: 'charlie'}));
 
-    };
+    //postMessage(str);
+
+    postMessage({
+        testName: 'chuckles',
+        name: 'chuckles',
+        testResult: 'pass'
+    })
+
+};
 
 //});

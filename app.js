@@ -13,6 +13,7 @@ var _ = require('underscore');
 
 var app = express();
 
+app.disable('etag');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -26,8 +27,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
-app.use('/public',express.static(path.join(__dirname, 'public'),{
-    maxage: '2h'
+//app.use('/public',express.static('public'),{
+//    maxage: '2h'
+//});
+
+app.use(express.static('public',{
+    //maxAge: '5h'
 }));
 
 //app.use('/results',express.static(path.join(__dirname, 'results'),{

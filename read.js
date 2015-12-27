@@ -53,7 +53,6 @@ function doTheThing(array) {
             throw new Error('no output for testId=' + i); //something is probably wrong now
         }
 
-
         var str = new Array(indent).join(' '); //make indentation
 
         var children = output.children || [];
