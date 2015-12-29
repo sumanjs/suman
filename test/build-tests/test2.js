@@ -4,11 +4,10 @@
 
 
 
-var suman = require('../../lib');
-var Test = suman.new(module, 'suman.conf.js');
+var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 
-Test.suite('suite 2', function (suite) {
+Test.new('suite 2', function (suite) {
 
 
     this.before(function(done){

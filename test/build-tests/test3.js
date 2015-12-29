@@ -3,11 +3,9 @@
  */
 
 
-var suman = require('../../lib');
-var Test = suman.new(module, 'suman.conf.js');
+var Test = require('../../lib').Test(module, 'suman.conf.js');
 
-
-Test.suite('My Suite', function (suite) {
+Test.new('My Suite', function (suite) {
 
 
     this.describe('bugs', function () {

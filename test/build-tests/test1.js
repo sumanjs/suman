@@ -13,16 +13,15 @@
 //
 //Test.createSuite('suite uno', function (suite) {
 
-
 var suman = require('../../lib');
-var Test = suman.new(module, 'suman.conf.js');
+var Test = new suman.Test(module, 'suman.conf.js');
 
-
-Test.suite('suite uno', function (suite) {
+Test.new('suite uno', function (suite) {
 
 
     this.before(function (done) {
 
+        throw new Error('rah');
 
         done();
 
