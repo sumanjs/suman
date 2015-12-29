@@ -6,10 +6,10 @@
 
 
 var suman = require('../../index.js');
-var Test = suman(module, 'suman.conf.js');
+var Test = suman.new(module, 'suman.conf.js');
 
 
-Test.suite('suite dos', function (suite) {
+Test.suite('suite tres', function (suite) {
 
 
     this.before(function (done) {
@@ -28,7 +28,6 @@ Test.suite('suite dos', function (suite) {
 
     this.afterEach(function (done) {
 
-        console.log('1' + this.currentTest);
         done();
 
     });
@@ -36,20 +35,15 @@ Test.suite('suite dos', function (suite) {
 
     this.describe('tarzan', function () {
 
-        console.log('shuggles describe:', shuggles);
-
 
         this.before(function (done) {
 
-            console.log('shuggles before:', shuggles);
-            console.log('before terzan 2');
             done();
 
         });
 
         this.it('my tarzan test', function () {
 
-            console.log('doing tarzan test');
 
         });
 
@@ -60,30 +54,28 @@ Test.suite('suite dos', function (suite) {
 
                 this.before(function (done) {
 
-                    console.log('before 3333  ');
                     done();
 
                 });
 
                 this.it('my 3333 test', function () {
 
-                    console.log('doing 33333 test');
+
 
                 });
 
             });
 
 
-            this.before(function (done) {
+            this.before(function () {
 
-                console.log('before boozzzz ');
-                done();
+
 
             });
 
             this.it('my boooz test', function () {
 
-                console.log('doing booooz test');
+
 
             });
 

@@ -4,7 +4,7 @@
 
 // http://tylermcginnis.com/reactjs-tutorial-a-comprehensive-guide-to-building-apps-with-react/
 
-define(['SumanTestFiles', 'jquery', 'reactDOM', 'react'], function (stf, $, ReactDOM, React) {
+define(['SumanTestFiles', 'jquery', 'reactDOM', 'react', 'js/utils/parse-results'], function (stf, $, ReactDOM, React, Utils) {
 
     //function getNext(i){
     //
@@ -105,13 +105,15 @@ define(['SumanTestFiles', 'jquery', 'reactDOM', 'react'], function (stf, $, Reac
             }
         }));
 
+
         var TestResult = React.createFactory(React.createClass({
 
             displayName: 'test-result',
 
             getInitialState: function getInitialState() {
                 return {
-                    active: false
+                    active: false,
+                    testLines: []
                 };
             },
 
@@ -126,20 +128,52 @@ define(['SumanTestFiles', 'jquery', 'reactDOM', 'react'], function (stf, $, Reac
 
                 console.log('component did mount:', true);
 
-                $.get(testPath).done(function (msg) {
-                    var myWorker = new Worker('/js/workers/one.js');
-                    myWorker.postMessage(msg);
-                    myWorker.onmessage = function (msg) {
-                        //$('#react-app').append(msg.data);
-                        console.log('make new state:', msg);
-                        //self.makeNewState(msg.data);
-                        //self.setState(msg.data);
-                        self.setState({testName: 'dogg'});
-                        //self.props.changeOverallTestResult();
-                    };
-                }).fail(function (err) {
-                    console.error(err);
-                });
+                //$.get(testPath).done(function (msg) {
+                //    var myWorker = new Worker('/js/workers/one.js');
+                //    myWorker.postMessage(msg);
+                //    myWorker.onmessage = function (msg) {
+                //        //$('#react-app').append(msg.data);
+                //        console.log('make new state:', msg);
+                //        //self.makeNewState(msg.data);
+                //        //self.setState(msg.data);
+                //        self.setState(msg.data);
+                //        //self.props.changeOverallTestResult();
+                //    };
+                //myWorker.terminate(); //TODO
+                //}).fail(function (err) {
+                //    console.error(err);
+                //});
+
+                //$.get(testPath).done(function (msg) {
+                //
+                //    var arr = Utils.parseResults(msg);
+                //
+                //    arr = arr.map(function (item) {
+                //        return React.createElement('div', null, item);
+                //    });
+                //
+                //    self.setState({testLines: arr});
+                //
+                //}).fail(function (err) {
+                //    console.error(err);
+                //});
+
+                setTimeout(function () {
+                    $.get(testPath).done(function (msg) {
+
+                        var myWorker = new Worker('/js/workers/one.js');
+                        myWorker.postMessage(msg);
+                        myWorker.onmessage = function (msg) {
+                            console.log('make new state:', msg);
+                            self.setState({testLines: msg.data.testLines});
+                            //self.props.changeOverallTestResult();
+                        };
+
+                    }).fail(function (err) {
+                        console.error(err);
+                    });
+                }, Math.random() * 2000);
+
             },
 
             clickHandler: function clickHandler() {
@@ -159,11 +193,62 @@ define(['SumanTestFiles', 'jquery', 'reactDOM', 'react'], function (stf, $, Reac
 
                 var self = this;
 
-                return React.createElement('p', {
-                        className: this.state.active ? 'active' : '',
+                //return React.createElement('p', {
+                //        className: this.state.active ? 'active' : '',
+                //        onClick: this.clickHandler,
+                //    },
+                //    this.state.testName, '  ', this.state.testLines, React.createElement('b', null, 'Pass/fail')
+                //);
+
+                var lines = this.state.testLines.map(function (line, i) {
+                    // This is just an example - your return will pull information from `line`
+                    // Make sure to always pass a `key` prop when working with dynamic children: https://facebook.github.io/react/docs/multiple-components.html#dynamic-children
+                    return React.createElement('div', {key: i, dangerouslySetInnerHTML: {__html: line}});
+                });
+
+                return React.createElement('div', {}, lines);
+
+            }
+
+        }));
+
+
+        var TestResultLine = React.createFactory(React.createClass({
+
+            displayName: 'test-result-line',
+
+            getInitialState: function getInitialState() {
+                return {
+                    active: false
+                };
+            },
+
+            makeNewState: function makeState(data) {
+                this.setState(data);
+            },
+
+            componentDidMount: function () {
+
+                var self = this;
+                console.log('component did mount:', true);
+
+            },
+
+            clickHandler: function clickHandler() {
+
+                var active = !this.state.active;
+                console.log('clickeddd');
+
+            },
+
+            render: function render() {
+
+                var self = this;
+
+                return React.createElement('li', {
                         onClick: this.clickHandler,
                     },
-                    this.state.testName, '  ', React.createElement('b', null, 'Pass/fail')
+                    this.state.testName, '  ', React.createElement('b', null)
                 );
             }
 

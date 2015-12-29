@@ -13,6 +13,7 @@ var _ = require('underscore');
 var colors = require('colors/safe');
 var request = require('request');
 var ijson = require('idempotent-json');
+var ping = require("net-ping");
 
 //gulp plugins
 var nodemon = require('gulp-nodemon');
@@ -40,4 +41,54 @@ gulp.task('nodemon', [], function () {
 
     }).on('restart', []);
 
+});
+
+
+var testRunner = require('./index').Runner;
+
+gulp.task('run_tests', ['suman'], function (cb) {
+
+    //testRunner('./test/build-tests','suman.conf.js');
+
+    testRunner({
+        $node_env: process.env.NODE_ENV,
+        fileOrDir: './test/build-tests',
+        configPath: './suman.conf.js'
+    }).on('message', function (msg) {
+        console.log('msg from suman runner', msg);
+        cb();
+        process.exit();
+    });
+
+});
+
+
+gulp.task('suman', [], function (cb) {
+
+    //first ping server to make sure it's running, otherwise, continue
+
+    //var session = ping.createSession ();
+    //
+    //session.pingHost ('localhost:6969', function (error, target) {
+    //    if (error){
+    var proc = require('./index').Server();
+    proc.on('message', function (msg) {
+        //session.close();
+        console.log('msg from suman server', msg);
+        cb();
+    });
+    //    }
+    //    else{
+    //        session.close();
+    //    }
+    //});
+
+});
+
+process.on('message', function () {
+
+});
+
+process.on('exit', function () {
+    console.log('gulp is exiting...');
 });

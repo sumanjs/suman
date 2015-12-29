@@ -4,7 +4,7 @@
 
 
 var suman = require('../../index.js');
-var Test = suman(module, 'suman.conf.js');
+var Test = suman.new(module, 'suman.conf.js');
 
 
 Test.suite('My Suite', function (suite) {
@@ -14,7 +14,7 @@ Test.suite('My Suite', function (suite) {
 
         this.it('is meow', function () {
 
-            console.log('is good');
+
         });
 
         this.describe('turtles', function () {
@@ -22,7 +22,7 @@ Test.suite('My Suite', function (suite) {
 
             this.it('is chao', function () {
 
-                console.log('is good');
+
             });
 
 
@@ -31,7 +31,7 @@ Test.suite('My Suite', function (suite) {
 
                 this.it('is good', function () {
 
-                    console.log('is good');
+
                 });
 
 

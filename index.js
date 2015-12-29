@@ -27,20 +27,68 @@ var appRootPath = require('app-root-path');
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var cp = require('child_process');
 
+
+function Suman(obj) {
+    this.outputPath = obj.outputPath;
+    this.usingRunner = obj.usingRunner;
+    this.config = obj.config;
+    this.timestamp = obj.timestamp;
+}
+
+Suman.prototype.log = function (data, test) {
+    var json = JSON.stringify({
+        userOutput: true,
+        testId: test.testId,
+        desc: test.desc,
+        data: data
+    });
+
+    fs.appendFileSync(this.outputPath, json += ',');
+};
+
+Suman.prototype.logErrors = function (test) {
+
+    test.error = test.error || null;
+
+    var obj = {};
+
+    //console.log('test:', test);
+
+    Object.keys(test).forEach(function (key) {
+
+        var val = test[key];
+        if (Array.isArray(val)) {
+            if (val.length > 0) {
+                obj[key] = val;
+            }
+        }
+        else {
+            obj[key] = val;
+        }
+    });
+
+    //console.log('obj:', obj);
+
+    var json = JSON.stringify(obj);
+    fs.appendFileSync(this.outputPath, json += ',');
+
+};
 
 
 function makeSuman($module, configPath) {
+
 
     var args = _.map(process.argv, _.clone);
 
     var usingRunner = false;
     if (process.argv.indexOf('--runner') > -1) { //does our flag exist?
         usingRunner = true;
-        console.log('test:',$module.filename,'is using runner');
+        console.log('test:', $module.filename, 'is using runner');
     }
-    else{
-        console.log('test:',$module.filename,'is *not* using runner');
+    else {
+        console.log('test:', $module.filename, 'is *not* using runner');
     }
 
 
@@ -48,18 +96,18 @@ function makeSuman($module, configPath) {
     var outputDir = config.outputDir;
 
     var timestamp = null;
-    if(usingRunner){
+    if (usingRunner) {
         timestamp = process.argv[process.argv.indexOf('--ts') + 1];
-        if(!timestamp){
+        if (!timestamp) {
             throw new Error('no timestamp provided by Suman test runner');
         }
     }
-    else{
-        try{
+    else {
+        try {
             timestamp = Date.now();
             fs.mkdirSync(path.resolve(appRootPath + '/' + outputDir + '/' + String(timestamp)));
         }
-        catch(err){
+        catch (err) {
             throw err;
         }
     }
@@ -76,72 +124,101 @@ function makeSuman($module, configPath) {
 
     }
 
-    var log = function (data, test) {
-        var json = JSON.stringify({
-            userOutput: true,
-            testId: test.testId,
-            desc: test.desc,
-            data: data
-        });
-
-        fs.appendFileSync(outputPath, json += ',');
-    };
-
-    var logErrors = function (test) {
-
-        test.error = test.error || null;
-
-        var json = JSON.stringify(test);
-        fs.appendFileSync(outputPath, json += ',');
-    };
-
-
-    return {
-
-        suite: require('./lib/ntf').main(log, logErrors, config, timestamp),
-        given: given
-
-    }
-
+    return new Suman({
+        outputPath: outputPath,
+        config: config,
+        timestamp: timestamp,
+        usingRunner: usingRunner
+    });
 
 }
 
-makeSuman.Runner = require('./lib/runner');
 
+var Runner = function (obj) {
+    //return require('./lib/runner');
 
-var given = function (cb1) {
+    var $NODE_ENV = obj.$node_env;
+    var fileOrDir = obj.fileOrDir;
+    var configPath = obj.configPath;
 
-    var prom = cb1();
-
-    return {
-        when: function (cb2) {
-
-            prom = prom.then(cb2);
-
-            return {
-                then: function (cb3) {
-
-                    console.log(cb3);
-
-                    //try {
-                    //    //var promise = cb1();
-                    //    //var promise = cb2();
-                    //    //var promise = cb3();
-                    //
-                    prom.then(cb3);
-                    //}
-                    //catch (err) {
-                    //    console.error(err);
-                    //}
-
-                    return this;
-                }
-            }
-
+    var n = cp.fork('./lib/runner', ['--pth', fileOrDir, '--cfg', configPath], {
+        detached: false,
+        env: {
+            NODE_ENV: $NODE_ENV || process.env.NODE_ENV
         }
-    }
-};
+    });
+
+    return n;
+}
 
 
-module.exports = makeSuman;
+var Server = function (obj) {
+
+    obj = obj || {};
+    var $NODE_ENV = obj.$node_env;
+
+    var n = cp.fork('./bin/www', [], {
+        detached: true,
+        env: {
+            NODE_ENV: $NODE_ENV || process.env.NODE_ENV
+        }
+    });
+
+    return n;
+    //return require('./bin/www');
+}
+
+
+/*var given = function (cb1) {
+
+ var prom = cb1();
+
+ return {
+ when: function (cb2) {
+
+ prom = prom.then(cb2);
+
+ return {
+ then: function (cb3) {
+
+ console.log(cb3);
+
+ //try {
+ //    //var promise = cb1();
+ //    //var promise = cb2();
+ //    //var promise = cb3();
+ //
+ prom.then(cb3);
+ //}
+ //catch (err) {
+ //    console.error(err);
+ //}
+
+ return this;
+ }
+ }
+
+ }
+ }
+ };*/
+
+
+module.exports = {
+    //given: given
+
+    new: function ($module, configPath) {
+
+        var suman = makeSuman($module, configPath);
+
+        return {
+
+            suite: require('./lib/ntf').main(suman)
+        }
+
+    },
+
+    Runner: Runner,
+    Server: Server
+
+}
 

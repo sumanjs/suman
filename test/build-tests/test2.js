@@ -5,7 +5,7 @@
 
 
 var suman = require('../../index.js');
-var Test = suman(module, 'suman.conf.js');
+var Test = suman.new(module, 'suman.conf.js');
 
 
 Test.suite('suite 2', function (suite) {
@@ -13,7 +13,6 @@ Test.suite('suite 2', function (suite) {
 
     this.before(function(done){
 
-         console.log('before');
 
         done();
 
@@ -26,7 +25,6 @@ Test.suite('suite 2', function (suite) {
 
        this.it('fantasy',function(){
 
-           console.log(value);
 
        });
 
@@ -39,11 +37,11 @@ Test.suite('suite 2', function (suite) {
         this.describe('desc', function(){
 
 
-            console.log('desc 1');
+
 
             this.before(function(done){
 
-                console.log('before does');
+
 
                 done();
 
@@ -52,7 +50,7 @@ Test.suite('suite 2', function (suite) {
 
             this.it('does',function(){
 
-                console.log('doeszzzzzz!!!!!!!!!!!!!!z 1');
+
 
             });
 
@@ -62,7 +60,7 @@ Test.suite('suite 2', function (suite) {
 
         this.before(function(done){
 
-            console.log('before does');
+
 
             done();
 
@@ -71,18 +69,18 @@ Test.suite('suite 2', function (suite) {
 
         this.it('does',function(){
 
-           console.log('doeszzzzzz!!!!!!!!!!!!!!z 1');
+
 
         });
 
         this.describe('desc 4', function(){
 
 
-            console.log('desc 4');
+
 
             this.before(function(done){
 
-                console.log('before does 4444');
+
 
                 done();
 
@@ -91,7 +89,6 @@ Test.suite('suite 2', function (suite) {
 
             this.it('does',function(){
 
-                console.log('doeszz444     444 z!!!!!!!!!!!!!!z 1');
 
             });
 
