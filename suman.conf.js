@@ -3,7 +3,7 @@
  */
 
 
-module.exports = {
+module.exports = Object.freeze({
 
     NODE_ENV: 'development',
     outputDir: '/results',
@@ -15,4 +15,4 @@ module.exports = {
     resultsCapCount: 100,
     resultsCapSize: 7000 // 3 gb's
 
-};
+});

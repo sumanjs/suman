@@ -4,7 +4,7 @@
 
 
 
-var suman = require('../../index.js');
+var suman = require('../../lib');
 var Test = suman.new(module, 'suman.conf.js');
 
 
