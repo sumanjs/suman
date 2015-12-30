@@ -31,7 +31,7 @@ app.use(cookieParser());
 //    maxage: '2h'
 //});
 
-app.use(express.static('public',{
+app.use(express.static(path.resolve(__dirname + '/public'),{
     //maxAge: '5h'
 }));
 

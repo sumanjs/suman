@@ -21,7 +21,7 @@ Test.new('suite uno', function (suite) {
 
     this.before(function (done) {
 
-        throw new Error('rah');
+        //throw new Error('rah');
 
         done();
 

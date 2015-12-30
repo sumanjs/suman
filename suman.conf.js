@@ -5,6 +5,7 @@
 
 module.exports = Object.freeze({
 
+    uniqueAppName: 'suman',
     NODE_ENV: 'development',
     outputDir: '/results',
     MAX_TOTAL_MEMORY: 3000,
