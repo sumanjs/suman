@@ -2,19 +2,18 @@
  * Created by amills001c on 12/11/15.
  */
 
-//config
-var config = require('univ-config')('*suman*', 'config/conf');
-
 //core
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 
+//config
+var config = require('univ-config')('*suman*', path.resolve('./config/conf'));
 
 
 var url = require('url');
 var fs = require('fs');
 var appRootPath = require('app-root-path');
-var path = require('path');
 var helpers = require('./helpers');
 var _ = require('underscore');
 
