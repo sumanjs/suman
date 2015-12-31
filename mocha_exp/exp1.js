@@ -28,21 +28,34 @@ describe('foo',function(){
 
             });
 
-            it('4', function () {
+            it('4', function (done) {
 
                 console.log('4');
 
+                setTimeout(function(){
+                    done();
+                },3000);
+
+
             });
 
-            it('5', function () {
+            it('5', function (done) {
 
                 console.log('5');
 
+                setTimeout(function(){
+                    done();
+                },3000);
+
             });
 
-            it('6', function () {
+            it('6', function (done) {
 
                 console.log('6');
+
+                setTimeout(function(){
+                    done();
+                },3000);
 
             });
         });
