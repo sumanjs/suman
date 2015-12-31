@@ -14,7 +14,7 @@
 //Test.createSuite('suite uno', function (suite) {
 
 var suman = require('../../lib');
-var Test = new suman.Test(module, 'suman.conf.js');
+var Test = suman.Test(module, 'suman.conf.js');
 
 Test.new('suite uno', function (suite) {
 
@@ -85,8 +85,9 @@ Test.new('suite uno', function (suite) {
 
     this.loop([8, 9, 10], function (value) {
 
-        this.it('makes stuff ' + value, function () {
+        this.it('makes stuff ' + value, function (done) {
 
+            done();
 
         });
 
