@@ -8,7 +8,7 @@ var router = express.Router();
 var path = require('path');
 
 //config
-//var config = require('univ-config')('*suman*', path.resolve('./config/conf'));
+var config = require('univ-config')(module,'*suman*', 'config/conf');
 
 
 var url = require('url');

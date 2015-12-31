@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -29,7 +29,7 @@
     "serve-favicon": "^2.3.0",
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
-    "univ-config": "^1.0.9",
+    "univ-config": "^1.3.0",
     "v8flags": "^2.0.10"
   },
   "directories": {

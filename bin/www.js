@@ -32,5 +32,7 @@ function onListening() {
     }
 }
 
+process.on("SIGINT", function() { console.log("sigint caught") });
+
 
 module.exports = server;

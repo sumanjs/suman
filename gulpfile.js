@@ -19,7 +19,6 @@ var suman = require('./lib');
 //gulp plugins
 var nodemon = require('gulp-nodemon');
 
-
 //args & env
 var argv = process.env.argv;
 var $node_env = process.env.NODE_ENV;
@@ -45,7 +44,6 @@ gulp.task('nodemon', [], function () {
 });
 
 
-
 gulp.task('run_tests', ['suman'], function (cb) {
 
     //testRunner('./test/build-tests','suman.conf.js');
@@ -57,12 +55,24 @@ gulp.task('run_tests', ['suman'], function (cb) {
     }).on('message', function (msg) {
         console.log('msg from suman runner', msg);
         //process.exit();
+        cb();
     });
 
 });
 
 
 gulp.task('suman', [], function (cb) {
+
+
+    process.stdin.resume();
+
+    process.on('stdin', function () {
+        console.log(1);
+    });
+
+    process.on('exit', function () {
+        console.log('gulp is exiting...');
+    });
 
     //first ping server to make sure it's running, otherwise, continue
     tcpp.probe('127.0.0.1', '6969', function (err, available) {
@@ -85,11 +95,9 @@ gulp.task('suman', [], function (cb) {
 });
 
 
-
 //process.on('message', function () {
 //
 //});
 
-process.on('exit', function () {
-    console.log('gulp is exiting...');
-});
+
+
