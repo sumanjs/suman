@@ -16,7 +16,9 @@
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
-Test.new('suite uno', function (suite) {
+Test.new('suite uno',  function() {
+
+    console.log('this0:',this);
 
 
     this.before(function (done) {
@@ -96,6 +98,7 @@ Test.new('suite uno', function (suite) {
 
     this.parallel(function () {
 
+        console.log('this 44:', this);
 
         this.it('makes stuff 8', function () {
 
@@ -111,7 +114,9 @@ Test.new('suite uno', function (suite) {
 
     });
 
-    this.describe('suite five', function () {
+    this.describe('suite five',  () => {
+
+        console.log('this 2:', this);
 
 
         this.before(function () {
