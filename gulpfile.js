@@ -64,15 +64,15 @@ gulp.task('run_tests', ['suman'], function (cb) {
 gulp.task('suman', [], function (cb) {
 
 
-    process.stdin.resume();
-
-    process.on('stdin', function () {
-        console.log(1);
-    });
-
-    process.on('exit', function () {
-        console.log('gulp is exiting...');
-    });
+    //process.stdin.resume();
+    //
+    //process.on('stdin', function () {
+    //    console.log(1);
+    //});
+    //
+    //process.on('exit', function () {
+    //    console.log('gulp is exiting...');
+    //});
 
     //first ping server to make sure it's running, otherwise, continue
     tcpp.probe('127.0.0.1', '6969', function (err, available) {

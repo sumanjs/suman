@@ -87,8 +87,9 @@ Test.new('suite uno',  function() {
 
     this.loop([8, 9, 10], function (value) {
 
-        this.it('makes stuff ' + value, function () {
+        this.it('makes stuff ' + value, function (done) {
 
+            done();
 
         });
 
