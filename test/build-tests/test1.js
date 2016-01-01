@@ -18,13 +18,12 @@ var Test = suman.Test(module, 'suman.conf.js');
 
 Test.new('suite uno',  function() {
 
-    console.log('this0:',this);
-
 
     this.before(function (done) {
 
         //throw new Error('rah');
 
+        //throw new Error('agaege');
         done();
 
     });
@@ -57,6 +56,7 @@ Test.new('suite uno',  function() {
         //
         //}).then('monkeys');
 
+        throw new Error('agaege');
 
     });
 
@@ -98,7 +98,6 @@ Test.new('suite uno',  function() {
 
     this.parallel(function () {
 
-        console.log('this 44:', this);
 
         this.it('makes stuff 8', function () {
 
@@ -114,9 +113,7 @@ Test.new('suite uno',  function() {
 
     });
 
-    this.describe('suite five',  () => {
-
-        console.log('this 2:', this);
+    this.describe('suite five', function()  {
 
 
         this.before(function () {

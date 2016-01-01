@@ -55,7 +55,6 @@ Test.new('suite 2', function (suite) {
 
         });
 
-        console.log('desc 1');
 
         this.before(function(done){
 
