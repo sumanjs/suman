@@ -54,8 +54,10 @@ gulp.task('run_tests', ['suman'], function (cb) {
         configPath: './suman.conf.js'
     }).on('message', function (msg) {
         console.log('msg from suman runner', msg);
-        //process.exit();
-        cb();
+        if(msg){
+            msg = new Error(msg);
+        }
+        cb(msg);
     });
 
 });

@@ -10,6 +10,7 @@ Test.new('My Suite', function (suite) {
 
     this.describe('bugs', function () {
 
+
         this.it('is meow', function () {
 
 
@@ -17,11 +18,19 @@ Test.new('My Suite', function (suite) {
 
         this.describe('turtles', function () {
 
+            this.beforeEach(function(){
 
-            this.it('is chao', function () {
-
-
+                //console.log(this);
             });
+
+            this.loop(['cjage','ppage'],function(val){
+                this.it('is chao' + val, function () {
+
+                    //throw new Error('false');
+
+                });
+            });
+
 
 
             this.describe('sounds', function () {

@@ -16,7 +16,7 @@
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
-Test.new('suite uno',  function() {
+Test.new('suite uno',  function(suite) {
 
 
     this.before(function (done) {
@@ -34,39 +34,19 @@ Test.new('suite uno',  function() {
 
     this.it('foo', function () {
 
-        //Test.given(function () {
-        //
-        //    return new Promise(function(resolve,reject){
-        //        setTimeout(function(){
-        //            resolve('0');
-        //        },2);
-        //    });
-        //
-        //}).when(function (data) {
-        //
-        //    console.log('data:',data);
-        //    console.log('dawgs 2');
-        //
-        //    return Promise.resolve(4);
-        //
-        //}).then(function(){
-        //
-        //    console.log('dawgs 3');
-        //
-        //
-        //}).then('monkeys');
 
-        throw new Error('agaege');
 
     });
 
 
-    this.it('bar', function () {
+    this.it('bar', function (done) {
 
+
+          done();
 
     }).it('baz', function () {
 
-
+        //throw new Error('agaege');
     });
 
     //this['@When']('dogs',function(){
@@ -98,8 +78,11 @@ Test.new('suite uno',  function() {
 
     this.parallel(function () {
 
+        console.log(this);
 
         this.it('makes stuff 8', function () {
+
+            console.log(this);
 
 
         }).it('makes stuff 9', function () {
@@ -123,6 +106,8 @@ Test.new('suite uno',  function() {
 
 
         }).it('makes stuff 20', function () {
+
+            console.log(this);
 
 
         }).it('makes stuff 21', function () {
@@ -191,20 +176,30 @@ Test.new('suite uno',  function() {
 
             this.before(function () {
 
+                console.log(this);
+                //throw new Error('rula');
+
+            }).beforeEach(function(){
+
+                console.log(this);
+                this.currentTest.data.logo = 'rrrrr';
 
             }).after(function () {
 
+                console.log(this);
 
             }).it('makes stuff 18', function (done) {
 
-
-                done();
+                done(new Error());
 
             }).it('makes stuff 19', function (done) {
 
+                done(new Error());
 
-                done();
+            }).afterEach(function(){
 
+                console.log(this);
+                this.currentTest.data.logo = 'rrrrr';
             });
 
 

@@ -26,6 +26,7 @@ Test.new('suite tres', function (suite) {
 
     this.it('my test', function () {
 
+        //throw new Error('rrr');
 
     });
 
@@ -33,7 +34,7 @@ Test.new('suite tres', function (suite) {
 
     this.afterEach(function (done) {
 
-        done();
+        done(888);
 
     });
 

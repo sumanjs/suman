@@ -8,10 +8,12 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.new('suite dos', function (suite) {
 
+    var dog = this;
 
     this.it('my test',function(){
 
-
+        var mike = dog;
+        this.data.rooogo = 'pooo';
 
     });
 

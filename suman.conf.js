@@ -7,7 +7,7 @@ module.exports = Object.freeze({
 
     uniqueAppName: 'suman',
     NODE_ENV: 'development',
-    outputDir: '/results',
+    //outputDir: '/results',
     MAX_TOTAL_MEMORY: 3000,
     browser: 'Firefox',
     disableAutoOpen: false,
@@ -15,16 +15,12 @@ module.exports = Object.freeze({
     expireResultsAfter: '10000000',
     resultsCapCount: 100,
     resultsCapSize: 7000, // 3 gb's
-    output: [
-        {
-            'standard': {}
-        },
-        {
-            'basic': {}
-        },
-        {
-            'web': {}
+    output: {
+        'standard': {},
+        'basic': {},
+        'web_': {
+            outputDir: '/results'
         }
-    ]
+    }
 
 });

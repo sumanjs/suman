@@ -3,10 +3,4 @@
  */
 
 
-var suman = require('./lib');
-
-suman.Server({
-    configPath: './suman.conf.js'
-}).on('message', function (msg) {
-    console.log('msg from suman server', msg);
-});
+console.error(new Error('joe').stack);
