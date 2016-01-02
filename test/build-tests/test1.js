@@ -32,19 +32,25 @@ Test.new('suite uno',  function(suite) {
     //https://www.promisejs.org/patterns/
 
 
-    this.it('foo', function () {
+    this.it('foo', {
+        parallel:false
+    },function () {
 
 
 
     });
 
 
-    this.it('bar', function (done) {
+    this.it('bar', {
+        parallel:true
+    },function (done) {
 
 
           done();
 
-    }).it('baz', function () {
+    }).it('baz', {
+        parallel:true
+    },function () {
 
         //throw new Error('agaege');
     });
@@ -78,11 +84,9 @@ Test.new('suite uno',  function(suite) {
 
     this.parallel(function () {
 
-        console.log(this);
+
 
         this.it('makes stuff 8', function () {
-
-            console.log(this);
 
 
         }).it('makes stuff 9', function () {
@@ -107,7 +111,6 @@ Test.new('suite uno',  function(suite) {
 
         }).it('makes stuff 20', function () {
 
-            console.log(this);
 
 
         }).it('makes stuff 21', function () {
@@ -176,30 +179,24 @@ Test.new('suite uno',  function(suite) {
 
             this.before(function () {
 
-                console.log(this);
-                //throw new Error('rula');
 
             }).beforeEach(function(){
 
-                console.log(this);
-                this.currentTest.data.logo = 'rrrrr';
 
             }).after(function () {
 
-                console.log(this);
 
             }).it('makes stuff 18', function (done) {
 
-                done(new Error());
+              done();
 
             }).it('makes stuff 19', function (done) {
 
-                done(new Error());
+                done();
 
             }).afterEach(function(){
 
-                console.log(this);
-                this.currentTest.data.logo = 'rrrrr';
+
             });
 
 
