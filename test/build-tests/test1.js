@@ -100,7 +100,7 @@ Test.new('suite uno',  function(suite) {
 
     });
 
-    this.describe('suite five', function()  {
+    this.describe.skip('suite five', function()  {
 
 
         this.before(function () {
@@ -109,11 +109,11 @@ Test.new('suite uno',  function(suite) {
         }).after(function () {
 
 
-        }).it('makes stuff 20', function () {
+        }).it.skip('makes stuff 20', function () {
 
 
 
-        }).it('makes stuff 21', function () {
+        }).it.only('makes stuff 21', function () {
 
 
         }).it('makes stuff 22', function () {
@@ -174,7 +174,7 @@ Test.new('suite uno',  function(suite) {
         });
 
 
-        this.describe('suite four', function () {
+        this.describe.only('suite four', function () {
 
 
             this.before(function () {

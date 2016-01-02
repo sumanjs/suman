@@ -30,10 +30,10 @@ Test.new('suite 2', function (suite) {
     });
 
 
-    this.describe('desc', function(){
+    this.describe.skip('desc', function(){
 
 
-        this.describe('desc', function(){
+        this.describe.skip('desc', function(){
 
 
 
@@ -46,8 +46,13 @@ Test.new('suite 2', function (suite) {
 
             });
 
-
             this.it('does',function(){
+
+
+
+            });
+
+            this.it.skip('does',function(){
 
 
 
