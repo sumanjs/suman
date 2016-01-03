@@ -3,4 +3,9 @@
  */
 
 
-console.error(new Error('joe').stack);
+//console.error(new Error('joe').stack);
+
+
+mike = 2;
+
+console.log(global.mike);

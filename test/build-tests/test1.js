@@ -16,7 +16,7 @@
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
-Test.new('suite uno',  function(suite) {
+Test.new('suite uno', function (suite) {
 
 
     this.before(function (done) {
@@ -31,26 +31,33 @@ Test.new('suite uno',  function(suite) {
 
     //https://www.promisejs.org/patterns/
 
+    //this.it('moo', {
+    //    parallel:false
+    //},function () {
+    //
+    //    console.log('rooola');
+    //
+    //});
 
-    this.it('foo', {
-        parallel:false
-    },function () {
+    this.it.skip('foo2', {
+        parallel: false
+    }, function () {
 
-
+        console.log('rooola');
 
     });
 
 
-    this.it('bar', {
-        parallel:true
-    },function (done) {
+    this.it.skip('bar2', {
+        parallel: true
+    }, function (done) {
 
 
-          done();
+        done();
 
-    }).it('baz', {
-        parallel:true
-    },function () {
+    }).it('baz2', {
+        parallel: true
+    }, function () {
 
         //throw new Error('agaege');
     });
@@ -85,7 +92,6 @@ Test.new('suite uno',  function(suite) {
     this.parallel(function () {
 
 
-
         this.it('makes stuff 8', function () {
 
 
@@ -100,7 +106,9 @@ Test.new('suite uno',  function(suite) {
 
     });
 
-    this.describe.skip('suite five', function()  {
+    this.describe.skip('suite five', {
+        isParallel: true
+    }, function () {
 
 
         this.before(function () {
@@ -109,8 +117,11 @@ Test.new('suite uno',  function(suite) {
         }).after(function () {
 
 
-        }).it.skip('makes stuff 20', function () {
+        }).it.skip('makes stuff 20', function (done) {
 
+            setTimeout(function () {
+                done();
+            }, 5000);
 
 
         }).it.only('makes stuff 21', function () {
@@ -140,7 +151,9 @@ Test.new('suite uno',  function(suite) {
 
         });
 
-        this.describe('suite three', function () {
+        this.describe('suite three', {
+            isParallel: true
+        }, function () {
 
 
             this.before(function () {
@@ -180,7 +193,7 @@ Test.new('suite uno',  function(suite) {
             this.before(function () {
 
 
-            }).beforeEach(function(){
+            }).beforeEach(function () {
 
 
             }).after(function () {
@@ -188,13 +201,13 @@ Test.new('suite uno',  function(suite) {
 
             }).it('makes stuff 18', function (done) {
 
-              done();
+                done();
 
             }).it('makes stuff 19', function (done) {
 
                 done();
 
-            }).afterEach(function(){
+            }).afterEach(function () {
 
 
             });

@@ -78,12 +78,7 @@ Test.new('suite 2', function (suite) {
 
         this.describe('desc 4', function(){
 
-
-
-
             this.before(function(done){
-
-
 
                 done();
 
