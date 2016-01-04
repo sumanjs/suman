@@ -4,61 +4,83 @@
 
 
 
-describe('foo',function(){
+describe('foo3222',function(){
 
 
     before(function(){
 
-        console.log('before');
+        console.log('before 0');
     });
 
-    beforeEach(function(){
 
-        console.log('before each 1');
+    it('55555', function (done) {
+
+        console.log('55555');
+
+        setTimeout(function(){
+            done(null);
+        },1000);
+
 
     });
-
 
     describe('2',function(){
+
+        before(function(){
+
+            console.log('before 1');
+        });
+
         describe('3',function() {
 
-            beforeEach(function () {
+            before(function () {
 
-                console.log('before each 2');
-
-            });
-
-            it('4', function (done) {
-
-                console.log('4');
-
-                setTimeout(function(){
-                    done();
-                },3000);
-
+                console.log('before 2');
 
             });
 
-            it('5', function (done) {
+            it('  444444  ', function (done) {
 
-                console.log('5');
+                console.log('   4444 444  444  ');
 
                 setTimeout(function(){
-                    done();
-                },3000);
+                    done(null);
+                },1000);
+
 
             });
 
-            it('6', function (done) {
+            after(function(){
 
-                console.log('6');
-
-                setTimeout(function(){
-                    done();
-                },3000);
-
+                console.log('after x');
             });
         });
+
+
+        describe('3',function() {
+
+            before(function () {
+
+                console.log('before 22');
+
+            });
+
+
+            after(function(){
+
+                console.log('after x2');
+            });
+        });
+
+        after(function(){
+
+            console.log('after y');
+        });
+    });
+
+    after(function(){
+
+        console.log('after z');
     });
 
 

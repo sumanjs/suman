@@ -121,7 +121,7 @@ Test.new('suite uno', function (suite) {
 
             setTimeout(function () {
                 done();
-            }, 5000);
+            }, 1000);
 
 
         }).it.only('makes stuff 21', function () {
