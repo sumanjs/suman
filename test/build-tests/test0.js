@@ -6,6 +6,7 @@
 
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
+
 Test.new('gggg', function () {
 
     this.describe('moodle', {

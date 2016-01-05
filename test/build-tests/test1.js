@@ -69,7 +69,7 @@ Test.new('suite uno', function (suite) {
     //});
 
 
-    this.loop(['5', '6', '7'], function (value) {
+ /*   this.loop(['5', '6', '7'], function (value) {
 
         this.it('makes stuff ' + value, function () {
 
@@ -104,7 +104,7 @@ Test.new('suite uno', function (suite) {
         });
 
 
-    });
+    });*/
 
     this.describe.skip('suite five', {
         isParallel: true
@@ -117,9 +117,11 @@ Test.new('suite uno', function (suite) {
         }).after(function () {
 
 
-        }).it.skip('makes stuff 20', function (done) {
+        }).it('makes stuff 20', function (done) {
 
             setTimeout(function () {
+
+                throw new Error('blooods');
                 done();
             }, 1000);
 
@@ -138,7 +140,7 @@ Test.new('suite uno', function (suite) {
 
     });
 
-
+/*
     this.describe('suite two', function () {
 
 
@@ -214,7 +216,7 @@ Test.new('suite uno', function (suite) {
 
 
         });
-    });
+    });*/
 
 });
 
