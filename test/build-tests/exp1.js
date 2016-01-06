@@ -26,10 +26,6 @@ Test.new('foo', function () {
             done();
         }, 1000);
 
-        this.after(function(){
-
-        });
-
     });
 
     this.beforeEach(function () {

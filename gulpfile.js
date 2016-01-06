@@ -26,6 +26,25 @@ var $node_env = process.env.NODE_ENV;
 //you should be able to run your tests with gulp, instead of npm run blah
 
 
+gulp.on('end',function(){
+    console.log('end event in gulp');
+});
+
+gulp.on('close',function(){
+    console.log('close event in gulp');
+});
+
+gulp.on('stop',function(){
+    console.log('stop event in gulp');
+});
+
+
+gulp.on('done',function(){
+    console.log('done event in gulp');
+});
+
+
+
 gulp.task('nodemon', [], function () {
 
     nodemon({
@@ -58,6 +77,7 @@ gulp.task('run_tests', ['suman'], function (cb) {
             msg = new Error(msg);
         }
         cb(msg);
+        process.exit(0);
     });
 
 });
@@ -92,6 +112,7 @@ gulp.task('suman', [], function (cb) {
                 console.log('msg from suman server', msg);
                 cb();
             });
+            cb();
         }
     });
 });

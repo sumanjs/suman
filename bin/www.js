@@ -3,6 +3,7 @@
  */
 
 
+//process.disconnect();
 
 var debug = require('debug')('suman-server');
 var http = require('http');
