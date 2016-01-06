@@ -93,7 +93,7 @@ Test.new('gggg', function () {
 
 
     this.describe('moodle', {
-        isParallel: false
+        parallel: false
     }, function () {
 
         this.after(function (done) {

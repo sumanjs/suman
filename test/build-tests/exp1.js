@@ -8,7 +8,6 @@ var Test = suman.Test(module, 'suman.conf.js');
 
 Test.new('foo', function () {
 
-
     this.before(function () {
 
         console.log('this.before 0');
@@ -27,6 +26,10 @@ Test.new('foo', function () {
             done();
         }, 1000);
 
+        this.after(function(){
+
+        });
+
     });
 
     this.beforeEach(function () {
@@ -43,7 +46,7 @@ Test.new('foo', function () {
             console.log('this.before 1');
         });
 
-        this.describe('3', {isParallel: true}, function () {
+        this.describe('3', {parallel: true}, function () {
 
             this.beforeEach(function () {
 

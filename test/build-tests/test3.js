@@ -50,6 +50,7 @@ Test.new('My Suite', function (suite) {
 
 });
 
+/*
 
 Test.new('My Suite', function (suite) {
 
@@ -59,13 +60,16 @@ Test.new('My Suite', function (suite) {
 
         this.it('is meow', function () {
 
+            console.log('3');
+
         });
 
         this.describe('turtles', function () {
 
             this.beforeEach(function(){
 
-                //console.log(this);
+                console.log('whoa');
+
             });
 
             this.loop(['cjage','ppage'],function(val){
@@ -83,6 +87,7 @@ Test.new('My Suite', function (suite) {
 
                 this.it('is good', function () {
 
+                    console.log('suman');
 
                 });
 
@@ -94,4 +99,4 @@ Test.new('My Suite', function (suite) {
     });
 
 
-});
+});*/
