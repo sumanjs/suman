@@ -107,7 +107,7 @@ Test.new('suite uno', function (suite) {
     });*/
 
     this.describe.skip('suite five', {
-        isParallel: true
+        parallel: true
     }, function () {
 
 
@@ -154,7 +154,7 @@ Test.new('suite uno', function (suite) {
         });
 
         this.describe('suite three', {
-            isParallel: true
+            parallel: true
         }, function () {
 
 
