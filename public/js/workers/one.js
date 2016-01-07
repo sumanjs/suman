@@ -46,11 +46,11 @@ function recurse(i, indent) {
     var allTests = _.sortBy(_.union(tests, parallelTests, loopTests, children), 'testId');
 
     if (output.isTopLevel) {
-        logIts3('suite description:' + output.description + 'testId:' + i);
+        logIts3('suite description:' + output.desc + 'testId:' + i);
     }
 
     if (output.isDescribe) {
-        logIts3('describe:' + output.description + 'testId:' + i);
+        logIts3('describe:' + output.desc + 'testId:' + i);
     }
 
 

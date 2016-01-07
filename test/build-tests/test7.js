@@ -14,7 +14,7 @@ Test.new('gggg', function () {
 
     this.beforeEach(function(){
 
-        debug('before');
+        debug('beforeEach');
     });
 
 

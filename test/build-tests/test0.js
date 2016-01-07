@@ -14,23 +14,26 @@ Test.new('gggg', function () {
     }, function () {
 
         this.before(function (done) {
+            var self = this;
             setTimeout(function () {
-                debug('before1');
+                debug('before1, ' + self.desc);
                 done();
             }, 1000);
 
         });
 
         this.before(function (done) {
+            var self = this;
             setTimeout(function () {
-                debug('before2');
+                debug('before2, ' + self.desc);
                 done();
             }, 1000);
         });
 
         this.before(function (done) {
+            var self = this;
             setTimeout(function () {
-                debug('before3');
+                debug('before3, ' + self.desc);
                 done();
             }, 1000);
         });
@@ -42,25 +45,25 @@ Test.new('gggg', function () {
     }, function () {
 
         this.beforeEach(function (done) {
-
+            var self = this;
             setTimeout(function () {
-                debug('before Each 1');
+                debug('before Each 1, ' + self.currentTest.desc);
                 done();
             }, 1000);
         });
 
         this.beforeEach(function (done) {
-
+            var self = this;
             setTimeout(function () {
-                debug('before Each 2');
+                debug('before Each 2, ' + self.currentTest.desc);
                 done();
             }, 1000);
         });
 
         this.beforeEach(function (done) {
-
+            var self = this;
             setTimeout(function () {
-                debug('before Each 3');
+                debug('before Each 3, ' + self.currentTest.desc);
                 done();
             }, 1000);
         });
@@ -74,25 +77,25 @@ Test.new('gggg', function () {
         });
 
         this.beforeEach(function (done) {
-
+            var self = this;
             setTimeout(function () {
-                debug('after Each 1');
+                debug('before Each 4, ' + self.currentTest.desc);
                 done();
             }, 1000);
         });
 
         this.afterEach(function (done) {
-
+            var self = this;
             setTimeout(function () {
-                debug('after Each 2');
+                debug('after Each 1, ' + self.currentTest.desc);
                 done();
             }, 1000);
         });
 
         this.afterEach(function (done) {
-
+            var self = this;
             setTimeout(function () {
-                debug('after Each 3');
+                debug('after Each 2, ' + self.currentTest.desc);
                 done();
             }, 1000);
         });
@@ -105,7 +108,7 @@ Test.new('gggg', function () {
 
         debug('describe');
 
-        this.it('mmm1', {
+        this.it('aaa1', {
             parallel: true
         }, function (done) {
 
@@ -115,7 +118,7 @@ Test.new('gggg', function () {
 
         });
 
-        this.it('mmm2', {
+        this.it('aaa2', {
             parallel: true
         }, function (done) {
             setTimeout(function () {
@@ -124,7 +127,7 @@ Test.new('gggg', function () {
 
         });
 
-        this.it('mmm2', {
+        this.it('aaa3', {
             parallel: true
         }, function (done) {
             setTimeout(function () {
@@ -133,7 +136,7 @@ Test.new('gggg', function () {
 
         });
 
-        this.it('mmm2', {
+        this.it('aaa4', {
             parallel: true
         }, function (done) {
             setTimeout(function () {
