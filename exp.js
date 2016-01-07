@@ -6,6 +6,9 @@
 //console.error(new Error('joe').stack);
 
 
-mike = 2;
+var json = {
+    "a":1,
+    "a":2
+};
 
-console.log(global.mike);
+console.log(JSON.stringify(json));

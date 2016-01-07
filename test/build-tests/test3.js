@@ -25,7 +25,7 @@ Test.new('My Suite', function (suite) {
             this.loop(['cjage','ppage'],function(val){
                 this.it('is chao' + val, function () {
 
-                    throw new Error('false');
+                    //throw new Error('false');
 
                 });
             });

@@ -3,7 +3,10 @@
  */
 
 
-//process.disconnect();
+var path = require('path');
+
+process.chdir(path.resolve(__dirname + '/../'));
+
 
 var debug = require('debug')('suman-server');
 var http = require('http');
@@ -27,13 +30,16 @@ function onError(error) {
 function onListening() {
     var addr = server.address();
     var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    console.log('Server listening on ' + bind);
+    console.log('Server listening on ' + bind, ', CWD=', process.cwd());
     if (process.send) {
         process.send({msg: 'listening'});
     }
 }
 
-process.on("SIGINT", function() { console.log("sigint caught") });
+process.on("SIGINT", function (code) {
+    console.log("sigint caught -" + code);
+    process.exit(code);
+});
 
 
 module.exports = server;

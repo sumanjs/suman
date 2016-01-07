@@ -26,24 +26,6 @@ var $node_env = process.env.NODE_ENV;
 //you should be able to run your tests with gulp, instead of npm run blah
 
 
-gulp.on('end',function(){
-    console.log('end event in gulp');
-});
-
-gulp.on('close',function(){
-    console.log('close event in gulp');
-});
-
-gulp.on('stop',function(){
-    console.log('stop event in gulp');
-});
-
-
-gulp.on('done',function(){
-    console.log('done event in gulp');
-});
-
-
 
 gulp.task('nodemon', [], function () {
 
@@ -72,12 +54,15 @@ gulp.task('run_tests', ['suman'], function (cb) {
         fileOrDir: './test/build-tests',
         configPath: './suman.conf.js'
     }).on('message', function (msg) {
-        console.log('msg from suman runner', msg);
-        if(msg){
-            msg = new Error(msg);
+        if(msg === 0){
+            console.log('msg from suman runner', msg);
         }
-        cb(msg);
-        process.exit(0);
+        else{
+            msg = new Error(msg);
+            console.error(msg);
+        }
+
+        cb(null);
     });
 
 });
@@ -85,16 +70,6 @@ gulp.task('run_tests', ['suman'], function (cb) {
 
 gulp.task('suman', [], function (cb) {
 
-
-    //process.stdin.resume();
-    //
-    //process.on('stdin', function () {
-    //    console.log(1);
-    //});
-    //
-    //process.on('exit', function () {
-    //    console.log('gulp is exiting...');
-    //});
 
     //first ping server to make sure it's running, otherwise, continue
     tcpp.probe('127.0.0.1', '6969', function (err, available) {
@@ -118,9 +93,6 @@ gulp.task('suman', [], function (cb) {
 });
 
 
-//process.on('message', function () {
-//
-//});
 
 
 

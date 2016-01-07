@@ -3,6 +3,7 @@
  */
 
 
+var debug = require('debug')('suman:test');
 var suite = require('../../lib').Test(module, 'suman.conf.js');
 
 
@@ -10,14 +11,14 @@ suite.new('desc', function () {
 
     this.before(function () {
 
-        console.log('before');
+        debug('before');
     });
 
     var i = 1;
 
     this.beforeEach(function (d0) {
 
-        console.log('beforeEach:', this.currentTest.desc);
+        debug('beforeEach:', this.currentTest.desc);
 
         this.currentTest.data.roger = i++;
 
@@ -30,7 +31,7 @@ suite.new('desc', function () {
 
         this.beforeEach(function (d1) {
 
-            console.log('beforeEach:', this.currentTest.desc);
+            debug('beforeEach:', this.currentTest.desc);
 
             this.currentTest.data.roger = i++;
 
@@ -40,11 +41,11 @@ suite.new('desc', function () {
 
       /*  this.loop([1, 2, 3], function (val, index) {
 
-            console.log('index:', index);
+            debug('index:', index);
 
             this.it('makes' + val, function (done) {
 
-                console.log(this.data);
+                debug(this.data);
                 setTimeout(function () {
                     done();
                 }, 2000);
@@ -59,7 +60,7 @@ suite.new('desc', function () {
 
             self.it('makes' + val, function (done) {
 
-                console.log(this.data);
+                debug(this.data);
                 setTimeout(function () {
                     done();
                 }, 2000);
@@ -69,7 +70,7 @@ suite.new('desc', function () {
 
         this.afterEach(function () {
 
-            console.log('afterEach:', this.currentTest);
+            debug('afterEach:', this.currentTest);
 
             delete this.currentTest.data.roger;
 
@@ -79,7 +80,7 @@ suite.new('desc', function () {
 
     this.afterEach(function () {
 
-        console.log('afterEach data:', this.currentTest.data);
+        debug('afterEach data:', this.currentTest.data);
 
     });
 

@@ -3,7 +3,7 @@
  */
 
 
-
+var debug = require('debug')('suman:test');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.new('gggg', function () {
@@ -15,19 +15,19 @@ Test.new('gggg', function () {
 
     this.after(function (done) {
 
-        console.log('5');
+        debug('5');
        done();
     });
 
     this.after(function (done) {
-        console.log('6');
+        debug('6');
         done();
     });
 
     this.describe(function () {
 
         this.after(function (done) {
-            console.log('3');
+            debug('3');
            done();
         });
 
@@ -43,7 +43,7 @@ Test.new('gggg', function () {
         }, function () {
 
             this.after(function (done) {
-                console.log('1');
+                debug('1');
                 done();
             });
 
@@ -71,7 +71,7 @@ Test.new('gggg', function () {
 
 
             this.after(function (done) {
-                console.log('2');
+                debug('2');
                done();
             });
 
@@ -79,7 +79,7 @@ Test.new('gggg', function () {
         });
 
         this.after(function (done) {
-            console.log('4');
+            debug('4');
             done();
         });
 
@@ -87,7 +87,7 @@ Test.new('gggg', function () {
     });
 
     this.after(function (done) {
-        console.log('7');
+        debug('7');
        done();
     });
 });

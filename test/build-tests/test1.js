@@ -6,13 +6,7 @@
 //context
 //gwt
 
-//
-//var suman = require('../index.js');
-//var Test = suman.make(module, 'test/config/sumanConfig');
-//
-//
-//Test.createSuite('suite uno', function (suite) {
-
+var debug = require('debug')('suman:test');
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
@@ -21,29 +15,16 @@ Test.new('suite uno', function (suite) {
 
     this.before(function (done) {
 
-        //throw new Error('rah');
-
-        //throw new Error('agaege');
         done();
 
     });
 
 
-    //https://www.promisejs.org/patterns/
-
-    //this.it('moo', {
-    //    parallel:false
-    //},function () {
-    //
-    //    console.log('rooola');
-    //
-    //});
-
     this.it.skip('foo2', {
         parallel: false
     }, function () {
 
-        console.log('rooola');
+        debug('rooola');
 
     });
 
@@ -121,7 +102,7 @@ Test.new('suite uno', function (suite) {
 
             setTimeout(function () {
 
-                throw new Error('blooods');
+                //throw new Error('blooods');
                 done();
             }, 1000);
 

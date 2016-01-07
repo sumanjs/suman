@@ -34,7 +34,8 @@ Test.new('suite tres', function (suite) {
 
     this.afterEach(function (done) {
 
-        done(888);
+        //done(888);
+        done();
 
     });
 

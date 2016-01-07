@@ -2,19 +2,19 @@
  * Created by denman on 1/2/2016.
  */
 
-
+var debug = require('debug')('suman:test');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.new('gggg', function () {
 
     this.before(function(){
 
-        console.log('before 1');
+        debug('before 1');
     });
 
     this.beforeEach(function(){
 
-        console.log('before');
+        debug('before');
     });
 
 
@@ -22,24 +22,24 @@ Test.new('gggg', function () {
 
         this.it(function(){
 
-            console.log('it-1')
+            debug('it-1')
         });
 
         this.it(function(){
 
-            console.log('it-2')
+            debug('it-2')
         });
 
         this.it(function(){
 
-            console.log('it-3')
+            debug('it-3')
         });
 
 
     });
 
     this.before(function(){
-        console.log('before 2');
+        debug('before 2');
     });
 
 

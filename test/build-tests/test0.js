@@ -3,7 +3,7 @@
  */
 
 
-
+var debug = require('debug')('suman:test');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 
@@ -15,7 +15,7 @@ Test.new('gggg', function () {
 
         this.before(function (done) {
             setTimeout(function () {
-                console.log('before1');
+                debug('before1');
                 done();
             }, 1000);
 
@@ -23,14 +23,14 @@ Test.new('gggg', function () {
 
         this.before(function (done) {
             setTimeout(function () {
-                console.log('before2');
+                debug('before2');
                 done();
             }, 1000);
         });
 
         this.before(function (done) {
             setTimeout(function () {
-                console.log('before3');
+                debug('before3');
                 done();
             }, 1000);
         });
@@ -44,7 +44,7 @@ Test.new('gggg', function () {
         this.beforeEach(function (done) {
 
             setTimeout(function () {
-                console.log('before Each 1');
+                debug('before Each 1');
                 done();
             }, 1000);
         });
@@ -52,7 +52,7 @@ Test.new('gggg', function () {
         this.beforeEach(function (done) {
 
             setTimeout(function () {
-                console.log('before Each 2');
+                debug('before Each 2');
                 done();
             }, 1000);
         });
@@ -60,7 +60,7 @@ Test.new('gggg', function () {
         this.beforeEach(function (done) {
 
             setTimeout(function () {
-                console.log('before Each 3');
+                debug('before Each 3');
                 done();
             }, 1000);
         });
@@ -76,7 +76,7 @@ Test.new('gggg', function () {
         this.beforeEach(function (done) {
 
             setTimeout(function () {
-                console.log('after Each 1');
+                debug('after Each 1');
                 done();
             }, 1000);
         });
@@ -84,7 +84,7 @@ Test.new('gggg', function () {
         this.afterEach(function (done) {
 
             setTimeout(function () {
-                console.log('after Each 2');
+                debug('after Each 2');
                 done();
             }, 1000);
         });
@@ -92,7 +92,7 @@ Test.new('gggg', function () {
         this.afterEach(function (done) {
 
             setTimeout(function () {
-                console.log('after Each 3');
+                debug('after Each 3');
                 done();
             }, 1000);
         });
@@ -103,7 +103,7 @@ Test.new('gggg', function () {
 
     this.describe('bum', {parallel: true}, function () {
 
-        console.log('describe');
+        debug('describe');
 
         this.it('mmm1', {
             parallel: true

@@ -8,6 +8,7 @@ module.exports = Object.freeze({
     uniqueAppName: 'suman',
     NODE_ENV: 'development',
     //outputDir: '/results',
+    pipeStdOut: 'bunyan',
     MAX_TOTAL_MEMORY: 3000,
     browser: 'Firefox',
     disableAutoOpen: false,
@@ -18,7 +19,7 @@ module.exports = Object.freeze({
     output: {
         'standard': {},
         'basic': {},
-        'web_': {
+        'web': {
             outputDir: '/results'
         }
     }
