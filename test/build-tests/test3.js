@@ -19,13 +19,11 @@ Test.new('My Suite', function (suite) {
 
             this.beforeEach(function(){
 
-                //console.log(this);
             });
 
             this.loop(['cjage','ppage'],function(val){
                 this.it('is chao' + val, function () {
 
-                    //throw new Error('false');
 
                 });
             });
@@ -50,29 +48,26 @@ Test.new('My Suite', function (suite) {
 
 });
 
-/*
 
-Test.new('My Suite', function (suite) {
-
-
-    this.describe('bugs', function () {
+Test.new('My Suite 222', function (suite) {
 
 
-        this.it('is meow', function () {
+    this.describe('bugs 222', function () {
 
-            console.log('3');
+
+        this.it('is meow 222', function () {
+
 
         });
 
-        this.describe('turtles', function () {
+        this.describe('turtles 222', function () {
 
             this.beforeEach(function(){
 
-                console.log('whoa');
 
             });
 
-            this.loop(['cjage','ppage'],function(val){
+            this.loop(['cjage 222','ppage 222'],function(val){
                 this.it('is chao' + val, function () {
 
                     throw new Error('false');
@@ -82,12 +77,11 @@ Test.new('My Suite', function (suite) {
 
 
 
-            this.describe('sounds', function () {
+            this.describe('sounds 2222', function () {
 
 
-                this.it('is good', function () {
+                this.it('is good 2222', function () {
 
-                    console.log('suman');
 
                 });
 
@@ -99,4 +93,4 @@ Test.new('My Suite', function (suite) {
     });
 
 
-});*/
+});

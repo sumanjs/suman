@@ -12,7 +12,6 @@ Test.new('suite 2', function (suite) {
 
     this.before(function(done){
 
-
         done();
 
     });

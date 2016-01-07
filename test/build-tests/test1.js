@@ -10,38 +10,37 @@ var debug = require('debug')('suman:test');
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
-Test.new('suite uno', function (suite) {
+Test.new('suite uno', function () {
 
 
-    this.before(function (done) {
-
+    this.before(done => {
         done();
-
     });
 
 
     this.it.skip('foo2', {
-        parallel: false
-    }, function () {
+            parallel: false
+        }, t => {
 
-        debug('rooola');
-
-    });
-
-
-    this.it.skip('bar2', {
-        parallel: true
-    }, function (done) {
+            debug('rooola');
+        })
 
 
-        done();
+        .it.skip('bar2', {
+            parallel: true
+        }, (t, done) => {
 
-    }).it('baz2', {
-        parallel: true
-    }, function () {
+            done();
 
-        //throw new Error('agaege');
-    });
+        })
+
+
+        .it('baz2', {
+            parallel: true
+        }, (t) => {
+
+        });
+
 
     //this['@When']('dogs',function(){
     //
@@ -50,18 +49,18 @@ Test.new('suite uno', function (suite) {
     //});
 
 
- /*   this.loop(['5', '6', '7'], function (value) {
+    this.loop(['5', '6', '7'], (value) => {
 
-        this.it('makes stuff ' + value, function () {
+        this.it('makes stuff ' + value, t => {
 
 
         });
 
     });
 
-    this.loop([8, 9, 10], function (value) {
+    this.loop([8, 9, 10], (value) => {
 
-        this.it('makes stuff ' + value, function (done) {
+        this.it('makes stuff ' + value, (t, done) => {
 
             done();
 
@@ -70,32 +69,39 @@ Test.new('suite uno', function (suite) {
     });
 
 
-    this.parallel(function () {
+    this.runParallel(function () {
 
 
-        this.it('makes stuff 8', function () {
+        this.it('makes stuff 8', t => {
+
+            throw new Error('yo1');
 
 
-        }).it('makes stuff 9', function () {
+        }).it('makes stuff 9', t => {
+
+            throw new Error('yo2');
 
 
-        }).it('makes stuff 10', function () {
+        }).it('makes stuff 10', t => {
 
 
         });
 
 
-    });*/
+    });
+
 
     this.describe.skip('suite five', {
+
         parallel: true
-    }, function () {
+
+    }, () => {
 
 
-        this.before(function () {
+        this.before(() => {
 
 
-        }).after(function () {
+        }).after(() => {
 
 
         }).it('makes stuff 20', function (done) {
@@ -121,7 +127,6 @@ Test.new('suite uno', function (suite) {
 
     });
 
-/*
     this.describe('suite two', function () {
 
 
@@ -182,11 +187,11 @@ Test.new('suite uno', function (suite) {
             }).after(function () {
 
 
-            }).it('makes stuff 18', function (done) {
+            }).it('makes stuff 18', function (t, done) {
 
                 done();
 
-            }).it('makes stuff 19', function (done) {
+            }).it('makes stuff 19', function (t, done) {
 
                 done();
 
@@ -197,7 +202,7 @@ Test.new('suite uno', function (suite) {
 
 
         });
-    });*/
+    });
 
 });
 

@@ -39,20 +39,17 @@ suite.new('desc', function () {
 
         });
 
-      /*  this.loop([1, 2, 3], function (val, index) {
-
-            debug('index:', index);
+        this.loop([1, 2, 3], function (val, index) {
 
             this.it('makes' + val, function (done) {
 
-                debug(this.data);
                 setTimeout(function () {
                     done();
                 }, 2000);
 
             });
 
-        });*/
+        });
 
         var self = this;
 
@@ -60,7 +57,6 @@ suite.new('desc', function () {
 
             self.it('makes' + val, function (done) {
 
-                debug(this.data);
                 setTimeout(function () {
                     done();
                 }, 2000);

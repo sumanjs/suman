@@ -16,7 +16,7 @@ Test.new('gggg', function () {
     this.after(function (done) {
 
         debug('5');
-       done();
+        done();
     });
 
     this.after(function (done) {
@@ -28,14 +28,13 @@ Test.new('gggg', function () {
 
         this.after(function (done) {
             debug('3');
-           done();
+            done();
         });
 
         this.beforeEach(function (done) {
 
             done();
         });
-
 
 
         this.describe('moodle', {
@@ -55,7 +54,7 @@ Test.new('gggg', function () {
 
             this.it('mmm1', {parallel: false}, function (done) {
 
-               done();
+                done();
 
             });
 
@@ -72,7 +71,7 @@ Test.new('gggg', function () {
 
             this.after(function (done) {
                 debug('2');
-               done();
+                done();
             });
 
 
@@ -88,6 +87,6 @@ Test.new('gggg', function () {
 
     this.after(function (done) {
         debug('7');
-       done();
+        done();
     });
 });

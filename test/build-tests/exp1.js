@@ -8,19 +8,17 @@ var Test = suman.Test(module, 'suman.conf.js');
 
 Test.new('foo', function () {
 
-    this.before(function () {
-
+    this.before(() => {
         debug('this.before 0');
     });
 
-    this.after(function () {
 
+    this.after(() => {
         debug('this.after 0');
     });
 
-    this.it('4', function (done) {
 
-        debug('4444444');
+    this.it('4', (t, done) => {
 
         setTimeout(function () {
             done();
@@ -28,7 +26,7 @@ Test.new('foo', function () {
 
     });
 
-    this.beforeEach(function () {
+    this.beforeEach((t, done) => {
 
         debug('this.before each 1');
 
@@ -37,33 +35,19 @@ Test.new('foo', function () {
 
     this.describe('2', function () {
 
-        this.before(function () {
-
+        this.before(() => {
             debug('this.before 1');
         });
 
+
         this.describe('3', {parallel: true}, function () {
 
-            this.beforeEach(function () {
 
+            this.beforeEach(t => {
                 debug('this.before each 2');
-
             });
 
-            this.it('it 5555', function (done) {
-
-                debug('555 ff 555');
-
-                setTimeout(function () {
-                    done();
-                }, 1000);
-
-
-            });
-
-            this.it('66666six', function (done) {
-
-                debug('66666');
+            this.it('it 5555', (t, done) => {
 
                 setTimeout(function () {
                     done();
@@ -71,21 +55,27 @@ Test.new('foo', function () {
 
             });
 
+            this.it('66666six', (t, done) => {
 
-            this.after(function () {
+                setTimeout(function () {
+                    done();
+                }, 1000);
 
+            });
+
+            this.after(() => {
                 debug('this.after x');
             });
+
         });
 
-        this.after(function () {
-
+        this.after(() => {
             debug('this.after y');
         });
+
     });
 
-    this.after(function () {
-
+    this.after(() => {
         debug('this.after z');
     });
 

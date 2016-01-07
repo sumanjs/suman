@@ -2,35 +2,40 @@
  * Created by denman on 1/2/2016.
  */
 
+"use strict";
+
 var debug = require('debug')('suman:test');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.new('gggg', function () {
 
-    this.before(function(){
+
+    this.before(() => {
 
         debug('before 1');
-    });
 
-    this.beforeEach(function(){
+    }).beforeEach(() => {
 
         debug('beforeEach');
-    });
 
 
-    this.describe('1',function(){
+    }).describe('1', () => {
 
-        this.it(function(){
+        this.it('[test] yo', (t, done) => {
 
-            debug('it-1')
+            setTimeout(function () {
+                debug(t);
+                done();
+            }, 1000);
+
         });
 
-        this.it(function(){
+        this.it(t => {
 
             debug('it-2')
         });
 
-        this.it(function(){
+        this.it(t => {
 
             debug('it-3')
         });
@@ -38,10 +43,10 @@ Test.new('gggg', function () {
 
     });
 
-    this.before(function(){
+
+    this.before(() => {
         debug('before 2');
     });
-
 
 
 });
