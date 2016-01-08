@@ -7,30 +7,28 @@ var debug = require('debug')('suman:test');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 
-Test.new('gggg', function () {
+Test.new('gggg', {parallel: true}, function () {
 
     this.describe('moodle', {
         parallel: true
     }, function () {
 
-        this.before(function (done) {
-            var self = this;
+        this.before(function (t, done) {
             setTimeout(function () {
-                debug('before1, ' + self.desc);
+                debug('before1, ' + t.desc);
                 done();
             }, 1000);
 
         });
 
-        this.before(function (done) {
-            var self = this;
+        this.before(function (t, done) {
             setTimeout(function () {
-                debug('before2, ' + self.desc);
+                debug('before2, ' + t.desc);
                 done();
             }, 1000);
         });
 
-        this.before(function (done) {
+        this.before(function (t, done) {
             var self = this;
             setTimeout(function () {
                 debug('before3, ' + self.desc);
@@ -44,31 +42,28 @@ Test.new('gggg', function () {
         parallel: true
     }, function () {
 
-        this.beforeEach(function (done) {
-            var self = this;
+        this.beforeEach(function (t, done) {
             setTimeout(function () {
-                debug('before Each 1, ' + self.currentTest.desc);
+                debug('before Each 1, ' + t.desc);
                 done();
             }, 1000);
         });
 
-        this.beforeEach(function (done) {
-            var self = this;
+        this.beforeEach(function (t, done) {
             setTimeout(function () {
-                debug('before Each 2, ' + self.currentTest.desc);
+                debug('before Each 2, ' + t.desc);
                 done();
             }, 1000);
         });
 
-        this.beforeEach(function (done) {
-            var self = this;
+        this.beforeEach(function (t, done) {
             setTimeout(function () {
-                debug('before Each 3, ' + self.currentTest.desc);
+                debug('before Each 3, ' + t.desc);
                 done();
             }, 1000);
         });
 
-        this.it('mmm1', {parallel: false}, function (done) {
+        this.it('mmm1', {parallel: false}, function (t, done) {
 
             setTimeout(function () {
                 done();
@@ -76,26 +71,31 @@ Test.new('gggg', function () {
 
         });
 
-        this.beforeEach(function (done) {
-            var self = this;
+        this.it('mmm2', {parallel: false}, function (t, done) {
+
             setTimeout(function () {
-                debug('before Each 4, ' + self.currentTest.desc);
+                done();
+            }, 1000);
+
+        });
+
+        this.beforeEach(function (t, done) {
+            setTimeout(function () {
+                debug('before Each 4, ' + t.desc);
                 done();
             }, 1000);
         });
 
-        this.afterEach(function (done) {
-            var self = this;
+        this.afterEach(function (t, done) {
             setTimeout(function () {
-                debug('after Each 1, ' + self.currentTest.desc);
+                debug('after Each 1, ' + t.desc);
                 done();
             }, 1000);
         });
 
-        this.afterEach(function (done) {
-            var self = this;
+        this.afterEach(function (t, done) {
             setTimeout(function () {
-                debug('after Each 2, ' + self.currentTest.desc);
+                debug('after Each 2, ' + t.desc);
                 done();
             }, 1000);
         });
@@ -108,37 +108,36 @@ Test.new('gggg', function () {
 
         debug('describe');
 
+
         this.it('aaa1', {
             parallel: true
-        }, function (done) {
-
+        }, function (t, done) {
             setTimeout(function () {
                 done();
             }, 1000);
-
         });
+
 
         this.it('aaa2', {
             parallel: true
-        }, function (done) {
+        }, function (t, done) {
             setTimeout(function () {
                 done();
             }, 1000);
-
         });
+
 
         this.it('aaa3', {
             parallel: true
-        }, function (done) {
+        }, function (t, done) {
             setTimeout(function () {
                 done();
             }, 1000);
-
         });
 
         this.it('aaa4', {
             parallel: true
-        }, function (done) {
+        }, function (t, done) {
             setTimeout(function () {
                 done();
             }, 1000);
@@ -146,6 +145,5 @@ Test.new('gggg', function () {
         });
 
     });
-
 
 });

@@ -13,10 +13,6 @@ var Test = suman.Test(module, 'suman.conf.js');
 Test.new('suite uno', function () {
 
 
-    this.before((t, done) => {
-        done();
-    });
-
 
     this.it.skip('foo2', {
             parallel: false
@@ -60,11 +56,11 @@ Test.new('suite uno', function () {
 
     this.loop([8, 9, 10], (value) => {
 
-        this.it('makes stuff ' + value, (t, done) => {
+        this.it('makes stuff ' + value, (t /*done*/) => {
 
-            setTimeout(function(){
-                done();
-            },3000);
+            //setTimeout(function(){
+            //    done();
+            //},3000);
 
 
         });
@@ -100,14 +96,22 @@ Test.new('suite uno', function () {
 
     }, function() {
 
+        var self = this;
+        setTimeout(function () {
+            //self.before((t, done) => {
+            //    done();
+            //});
+            //throw new Error('barf');
+        }, 1000);
 
-        this.before((turtle) => {
+
+        this.before(function() {
 
 
         }).after(() => {
 
 
-        }).it('makes stuff 20', function (done) {
+        }).it('makes stuff 20', function (t,done) {
 
             setTimeout(function () {
 
@@ -116,8 +120,11 @@ Test.new('suite uno', function () {
             }, 1000);
 
 
-        }).it.only('makes stuff 21', () => {
+        }).it.only('makes stuff 21', function() {
 
+            this.it(function(){
+
+            });
 
         }).it('makes stuff 22', () => {
 
