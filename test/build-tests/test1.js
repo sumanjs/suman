@@ -62,7 +62,10 @@ Test.new('suite uno', function () {
 
         this.it('makes stuff ' + value, (t, done) => {
 
-            done();
+            setTimeout(function(){
+                done();
+            },3000);
+
 
         });
 
@@ -95,7 +98,7 @@ Test.new('suite uno', function () {
 
         parallel: true
 
-    }, () => {
+    }, function() {
 
 
         this.before((turtle) => {
@@ -145,7 +148,7 @@ Test.new('suite uno', function () {
 
             parallel: true
 
-        }, () => {
+        }, function() {
 
 
             this.before(function (cholo) {
@@ -178,33 +181,34 @@ Test.new('suite uno', function () {
         });
 
 
-        this.describe.only('suite four', () => {
+        this.describe.only('suite four', function() {
 
 
-            this.before((molo) => {
+                this.before((molo) => {
 
 
-            }).beforeEach(() => {
+                }).beforeEach(() => {
 
 
-            }).after(() => {
+                }).after(() => {
 
 
-            }).it('makes stuff 18', (t, done) => {
+                }).it('makes stuff 18', (t, done) => {
 
-                done();
+                    done();
 
-            }).it('makes stuff 19', (t, done) => {
+                }).it('makes stuff 19', (t, done) => {
 
-                done();
+                    done();
 
-            }).afterEach(() => {
+                }).afterEach(() => {
+
+
+                });
 
 
             });
 
-
-        });
     });
 
 });
