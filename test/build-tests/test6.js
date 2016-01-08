@@ -17,22 +17,24 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 Test.new('suite tres', function (suite) {
 
 
-    this.before(function (done) {
+    this.before(function (t, done) {
 
         return done();
 
     });
 
 
-    this.it('my test', function () {
+    this.it('my test', (a,b) => {
 
         //throw new Error('rrr');
+
+        b();
 
     });
 
 
 
-    this.afterEach(function (done) {
+    this.afterEach(function (t, done) {
 
         //done(888);
         done();
@@ -43,7 +45,7 @@ Test.new('suite tres', function (suite) {
     this.describe('tarzan', function () {
 
 
-        this.before(function (done) {
+        this.before(function (t, done) {
 
             done();
 
@@ -59,7 +61,7 @@ Test.new('suite tres', function (suite) {
             this.describe('uuuuu3333 test', function () {
 
 
-                this.before(function (done) {
+                this.before(function (t, done) {
 
                     done();
 
