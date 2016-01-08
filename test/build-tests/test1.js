@@ -13,7 +13,7 @@ var Test = suman.Test(module, 'suman.conf.js');
 Test.new('suite uno', function () {
 
 
-    this.before(done => {
+    this.before((t, done) => {
         done();
     });
 
@@ -37,7 +37,7 @@ Test.new('suite uno', function () {
 
         .it('baz2', {
             parallel: true
-        }, (t) => {
+        }, t => {
 
         });
 
@@ -74,12 +74,12 @@ Test.new('suite uno', function () {
 
         this.it('makes stuff 8', t => {
 
-            throw new Error('yo1');
+            //throw new Error('yo1');
 
 
         }).it('makes stuff 9', t => {
 
-            throw new Error('yo2');
+            //throw new Error('yo2');
 
 
         }).it('makes stuff 10', t => {
@@ -113,16 +113,16 @@ Test.new('suite uno', function () {
             }, 1000);
 
 
-        }).it.only('makes stuff 21', function () {
+        }).it.only('makes stuff 21', () => {
 
 
-        }).it('makes stuff 22', function () {
+        }).it('makes stuff 22', () => {
 
 
-        }).after(function () {
+        }).after(() => {
 
 
-        })
+        });
 
 
     });
@@ -130,9 +130,9 @@ Test.new('suite uno', function () {
     this.describe('suite two', function () {
 
 
-        this.loop(['53', '63', '73'], function (value) {
+        this.loop(['53', '63', '73'], (value) => {
 
-            this.it('makes stuff ' + value, function () {
+            this.it('makes stuff ' + value, () => {
 
 
             });
@@ -140,8 +140,10 @@ Test.new('suite uno', function () {
         });
 
         this.describe('suite three', {
+
             parallel: true
-        }, function () {
+
+        }, () => {
 
 
             this.before(function () {
@@ -154,8 +156,7 @@ Test.new('suite uno', function () {
 
             this.loop(['59', '69', '79'], function (value) {
 
-
-                this.it('makes stuff ' + value, function () {
+                this.it('makes stuff ' + value, () => {
 
 
                 });
@@ -175,27 +176,27 @@ Test.new('suite uno', function () {
         });
 
 
-        this.describe.only('suite four', function () {
+        this.describe.only('suite four', () => {
 
 
-            this.before(function () {
+            this.before(() => {
 
 
-            }).beforeEach(function () {
+            }).beforeEach(() => {
 
 
-            }).after(function () {
+            }).after(() => {
 
 
-            }).it('makes stuff 18', function (t, done) {
-
-                done();
-
-            }).it('makes stuff 19', function (t, done) {
+            }).it('makes stuff 18', (t, done) => {
 
                 done();
 
-            }).afterEach(function () {
+            }).it('makes stuff 19', (t, done) => {
+
+                done();
+
+            }).afterEach(() => {
 
 
             });
