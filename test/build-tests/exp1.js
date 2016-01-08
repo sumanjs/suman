@@ -9,12 +9,12 @@ var Test = suman.Test(module, 'suman.conf.js');
 Test.new('foo', function () {
 
     this.before(() => {
-        debug('this.before 0');
+        debug('before 0');
     });
 
 
     this.after(() => {
-        debug('this.after 0');
+        debug('after 0');
     });
 
 
@@ -28,7 +28,8 @@ Test.new('foo', function () {
 
     this.beforeEach((t, done) => {
 
-        debug('this.before each 1');
+        debug('before each 1');
+        done();
 
     });
 
@@ -36,7 +37,7 @@ Test.new('foo', function () {
     this.describe('2', function () {
 
         this.before(() => {
-            debug('this.before 1');
+            debug('before 1');
         });
 
 
@@ -44,7 +45,7 @@ Test.new('foo', function () {
 
 
             this.beforeEach(t => {
-                debug('this.before each 2');
+                debug('before each 2');
             });
 
             this.it('it 5555', (t, done) => {

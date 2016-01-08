@@ -98,7 +98,7 @@ Test.new('suite uno', function () {
     }, () => {
 
 
-        this.before(() => {
+        this.before((turtle) => {
 
 
         }).after(() => {
@@ -118,6 +118,8 @@ Test.new('suite uno', function () {
 
         }).it('makes stuff 22', () => {
 
+
+            //console.log('this:',this);
 
         }).after(() => {
 
@@ -146,7 +148,7 @@ Test.new('suite uno', function () {
         }, () => {
 
 
-            this.before(function () {
+            this.before(function (cholo) {
 
 
             }).after(function () {
@@ -179,7 +181,7 @@ Test.new('suite uno', function () {
         this.describe.only('suite four', () => {
 
 
-            this.before(() => {
+            this.before((molo) => {
 
 
             }).beforeEach(() => {
