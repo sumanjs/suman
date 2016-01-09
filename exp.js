@@ -6,9 +6,19 @@
 //console.error(new Error('joe').stack);
 
 
-var json = {
-    "a":1,
-    "a":2
-};
+var async = require('async');
 
-console.log(JSON.stringify(json));
+
+
+async.map([1,2,3],function(val,cb){
+
+    setTimeout(function(){
+        console.log(val);
+        //cb(null,val+1);
+    });
+
+},function complete(err,results){
+
+    console.log('results:',results);
+
+});
