@@ -17,7 +17,7 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 Test.describe('suite tres', function (suite) {
 
 
-    this.before(function (t, done) {
+    this.before(function (done) {
 
         return done();
 
@@ -45,7 +45,7 @@ Test.describe('suite tres', function (suite) {
     this.describe('tarzan', function () {
 
 
-        this.before(function (t, done) {
+        this.before(function (done) {
 
             done();
 
@@ -61,7 +61,7 @@ Test.describe('suite tres', function (suite) {
             this.describe('uuuuu3333 test', function () {
 
 
-                this.before(function (t, done) {
+                this.before(function (done) {
 
                     done();
 

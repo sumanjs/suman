@@ -8,7 +8,7 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.describe('gggg', function () {
 
-    this.beforeEach(function (done) {
+    this.beforeEach(function (t,done) {
 
         done();
     });

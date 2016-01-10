@@ -10,28 +10,28 @@ Test.describe('suite dos', function (suite) {
 
     var dog = this;
 
-    this.it('my test',function(){
+    this.it('my test',function(t){
 
         var mike = dog;
-        this.data.rooogo = 'pooo';
+        t.data.rooogo = 'pooo';
 
     });
 
-    this.afterEach(function(done){
+    this.afterEach(function(t, done){
 
 
         done();
     });
 
 
-    this.afterEach(function(done){
+    this.afterEach(function(t,done){
 
 
         done();
     });
 
 
-    this.afterEach(function(done){
+    this.afterEach(function(t, done){
 
 
         done();

@@ -45,6 +45,29 @@ gulp.task('nodemon', [], function () {
 });
 
 
+gulp.task('watch_tests', ['suman'], function (cb) {
+
+    //testRunner('./test/build-tests','suman.conf.js');
+
+    suman.Runner({
+        $node_env: process.env.NODE_ENV,
+        fileOrDir: './test/build-tests',
+        configPath: './suman.conf.js'
+    }).on('message', function (msg) {
+        if(msg === 0){
+            console.log('msg from suman runner', msg);
+        }
+        else{
+            msg = new Error(msg);
+            console.error(msg);
+        }
+
+        cb(null);
+    });
+
+});
+
+
 gulp.task('run_tests', ['suman'], function (cb) {
 
     //testRunner('./test/build-tests','suman.conf.js');

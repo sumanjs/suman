@@ -12,28 +12,19 @@ var Test = suman.Test(module, 'suman.conf.js');
 
 Test.describe('suite uno', function () {
 
-    this.it.skip('foo2', {
-            parallel: false
-        }, t => {
-
-            debug('rooola');
-        })
+    this.it.skip('foo2', {parallel: false}, t => {
+        debug('rooola');
+    });
 
 
-        .it.skip('bar2', {
-            parallel: true
-        }, (t, done) => {
-
-            done();
-
-        })
+    this.it.skip('bar2', {parallel: true}, (t, done) => {
+        done();
+    });
 
 
-        .it('baz2', {
-            parallel: true
-        }, t => {
+    this.it('baz2', {parallel: true}, t => {
 
-        });
+    });
 
 
     //this['@When']('dogs',function(){
@@ -92,7 +83,7 @@ Test.describe('suite uno', function () {
 
         parallel: true
 
-    }, function() {
+    }, function () {
 
         var self = this;
         setTimeout(function () {
@@ -103,13 +94,13 @@ Test.describe('suite uno', function () {
         }, 1000);
 
 
-        this.before(function() {
+        this.before(function () {
 
 
         }).after(() => {
 
 
-        }).it('makes stuff 20', function (t,done) {
+        }).it('makes stuff 20', function (t, done) {
 
             setTimeout(function () {
 
@@ -118,9 +109,9 @@ Test.describe('suite uno', function () {
             }, 1000);
 
 
-        }).it.only('makes stuff 21', function() {
+        }).it.only('makes stuff 21', function () {
 
-            this.it(function(){
+            this.it(function () {
 
             });
 
@@ -153,10 +144,10 @@ Test.describe('suite uno', function () {
 
             parallel: true
 
-        }, function() {
+        }, function () {
 
 
-            this.before(function (cholo) {
+            this.before(function () {
 
 
             }).after(function () {
@@ -186,33 +177,33 @@ Test.describe('suite uno', function () {
         });
 
 
-        this.describe.only('suite four', function() {
+        this.describe('suite four', function () {
 
 
-                this.before((molo) => {
+            this.before(done => {
+                done();
+
+            }).beforeEach(() => {
 
 
-                }).beforeEach(() => {
+            }).after(() => {
 
 
-                }).after(() => {
+            }).it('makes stuff 18', (t, done) => {
 
+                done();
 
-                }).it('makes stuff 18', (t, done) => {
+            }).it('makes stuff 19', (t, done) => {
 
-                    done();
+                done();
 
-                }).it('makes stuff 19', (t, done) => {
-
-                    done();
-
-                }).afterEach(() => {
-
-
-                });
+            }).afterEach(() => {
 
 
             });
+
+
+        });
 
     });
 

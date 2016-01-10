@@ -10,16 +10,13 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 Test.describe('desc', function () {
 
     this.before(function () {
-
         debug('before');
     });
 
     var i = 1;
 
     this.beforeEach(function (t) {
-
         debug('beforeEach:', t.desc);
-
     });
 
 
