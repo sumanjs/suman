@@ -11,7 +11,7 @@
 var debug = require('debug')('suman:test');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
-Test.new('gggg', function () {
+Test.describe('gggg', function () {
 
     this.after(function (done) {
         debug('6');
@@ -102,7 +102,7 @@ Test.new('gggg', function () {
         });
 
 
-        this.it('mmm1', {parallel: false}, function (done) {
+        this.it('mmm1', {parallel: false}, (t, done) => {
 
             done();
 

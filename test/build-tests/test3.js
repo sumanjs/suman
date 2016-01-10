@@ -5,7 +5,7 @@
 
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
-Test.new('My Suite', function (suite) {
+Test.describe('My Suite', function (suite) {
 
 
     this.describe('bugs', function () {
@@ -13,6 +13,7 @@ Test.new('My Suite', function (suite) {
 
         this.it('is meow', function () {
 
+            throw new Error('jesus');
         });
 
         this.describe('turtles', function () {
@@ -49,7 +50,7 @@ Test.new('My Suite', function (suite) {
 });
 
 
-Test.new('My Suite 222', function (suite) {
+Test.describe('My Suite 222', function (suite) {
 
 
     this.describe('bugs 222', function () {

@@ -7,7 +7,7 @@
 var debug = require('debug')('suman:test');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
-Test.new('gggg', function () {
+Test.describe('gggg', function () {
 
 
     this.before(() => {

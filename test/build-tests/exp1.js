@@ -6,7 +6,7 @@ var debug = require('debug')('suman:test');
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
-Test.new('foo', function () {
+Test.describe('foo', function () {
 
     this.before(() => {
         debug('before 0');
@@ -41,7 +41,7 @@ Test.new('foo', function () {
         });
 
 
-        this.describe('3', {parallel: true}, function () {
+        this.describe.skip('3', {parallel: true}, function () {
 
 
             this.beforeEach(t => {

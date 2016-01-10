@@ -6,7 +6,7 @@
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 
-Test.new('suite dos', function (suite) {
+Test.describe('suite dos', function (suite) {
 
     var dog = this;
 

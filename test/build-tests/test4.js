@@ -4,10 +4,10 @@
 
 
 var debug = require('debug')('suman:test');
-var suite = require('../../lib').Test(module, 'suman.conf.js');
+var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 
-suite.new('desc', function () {
+Test.describe('desc', function () {
 
     this.before(function () {
 
@@ -16,67 +16,89 @@ suite.new('desc', function () {
 
     var i = 1;
 
-    this.beforeEach(function (d0) {
+    this.beforeEach(function (t) {
 
-        debug('beforeEach:', this.currentTest.desc);
-
-        this.currentTest.data.roger = i++;
-
-        d0();
+        debug('beforeEach:', t.desc);
 
     });
 
 
     this.describe(function () {
 
-        this.beforeEach(function (d1) {
+        this.beforeEach(function (t) {
 
-            debug('beforeEach:', this.currentTest.desc);
-
-            this.currentTest.data.roger = i++;
-
-            d1();
+            debug('beforeEach:', t.desc);
 
         });
 
-        this.loop([1, 2, 3], function (val, index) {
+    /*    this.describe(function(){
 
-            this.it('makes' + val, function (done) {
+            this.loop([1, 2, 3], function (val, index) {
 
-                setTimeout(function () {
-                    done();
-                }, 2000);
+                this.it('makes' + val, function (t, done) {
+
+                    setTimeout(function () {
+                        done();
+                    }, 500);
+
+                });
+
+            });
+
+        });*/
+
+        this.describe(function(){
+
+            this.loop([1, 2, 3], function (val, index) {
+
+                this.it('makes' + val, function (t) {
+
+                    return Promise.resolve(3);
+
+                });
 
             });
 
         });
 
-        var self = this;
 
-        [1,2,3].forEach(function(val){
 
-            self.it('makes' + val, function (done) {
+        this.describe(function(){
+            var self = this;
 
-                setTimeout(function () {
-                    done();
-                }, 2000);
+            [1, 2, 3].forEach(function (val) {
 
+                self.it('makes' + val, function (t) {
+
+                    return Promise.all([
+                        new Promise(function (resolve) {
+                            resolve('bob');
+                        }),
+                        new Promise(function (resolve) {
+                            resolve('woody');
+                        })
+                    ]).then(function(){
+                        throw new Error('mike');
+                    });
+
+                });
             });
         });
 
-        this.afterEach(function () {
 
-            debug('afterEach:', this.currentTest);
 
-            delete this.currentTest.data.roger;
+        this.afterEach(function (t) {
+
+            debug('afterEach:', t);
+            delete t.data;
 
         });
 
     });
 
-    this.afterEach(function () {
+    this.afterEach(function (t) {
 
-        debug('afterEach data:', this.currentTest.data);
+        debug('afterEach data:', t.data);
 
     });
 

@@ -6,7 +6,7 @@
 var debug = require('debug')('suman:test');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
-Test.new('gggg', function () {
+Test.describe('gggg', function () {
 
     this.beforeEach(function (done) {
 
@@ -31,7 +31,7 @@ Test.new('gggg', function () {
             done();
         });
 
-        this.beforeEach(function (done) {
+        this.beforeEach(function (t,done) {
 
             done();
         });
@@ -46,24 +46,24 @@ Test.new('gggg', function () {
                 done();
             });
 
-            this.beforeEach(function (done) {
+            this.beforeEach(function (t,done) {
 
                 done();
             });
 
 
-            this.it('mmm1', {parallel: false}, function (done) {
+            this.it('mmm1', {parallel: false}, function (t,done) {
 
                 done();
 
             });
 
-            this.beforeEach(function (done) {
+            this.beforeEach(function (t,done) {
 
                 done();
             });
 
-            this.afterEach(function (done) {
+            this.afterEach(function (t,done) {
 
                 done();
             });

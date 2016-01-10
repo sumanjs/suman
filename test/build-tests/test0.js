@@ -7,7 +7,7 @@ var debug = require('debug')('suman:test');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 
-Test.new('gggg', {parallel: true}, function () {
+Test.describe('gggg', {parallel: true}, function () {
 
     this.describe('moodle', {
         parallel: true

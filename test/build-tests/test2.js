@@ -7,7 +7,7 @@
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 
-Test.new('suite 2', function (suite) {
+Test.describe('suite 2', function (suite) {
 
 
     this.before(function(done){

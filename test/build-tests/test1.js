@@ -10,9 +10,7 @@ var debug = require('debug')('suman:test');
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
-Test.new('suite uno', function () {
-
-
+Test.describe('suite uno', function () {
 
     this.it.skip('foo2', {
             parallel: false

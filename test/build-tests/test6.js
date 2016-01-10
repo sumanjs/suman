@@ -14,7 +14,7 @@ Test.suite('suite tres', function (suite) {*/
 
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
-Test.new('suite tres', function (suite) {
+Test.describe('suite tres', function (suite) {
 
 
     this.before(function (t, done) {
