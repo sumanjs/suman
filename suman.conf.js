@@ -12,7 +12,6 @@ module.exports = Object.freeze({
     MAX_TOTAL_MEMORY: 3000,
     browser: 'Firefox',
     disableAutoOpen: false,
-    serverPort: 6969,
     expireResultsAfter: '10000000',
     resultsCapCount: 100,
     resultsCapSize: 7000, // 3 gb's
@@ -22,6 +21,10 @@ module.exports = Object.freeze({
         'web': {
             outputDir: '/results'
         }
+    },
+    server:{
+        host: 'localhost',
+        port: 6969,
     }
 
 });

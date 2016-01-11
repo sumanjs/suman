@@ -18,6 +18,18 @@ var appRoot = require('app-root-path');
 var helpers = require('./helpers');
 
 
+router.post('/done/:run_id', function (req, res, next) {
+
+    res.json({msg:'yes'});
+
+});
+
+router.post('/make/new', function (req, res, next) {
+
+    res.json({msg:'yes'});
+});
+
+
 router.get('/latest', function (req, res, next) {
 
     console.log('in latest');
@@ -51,7 +63,7 @@ router.get('/:run_id', function (req, res, next) {
     console.log('in runid only');
 
     var runId = req.params.run_id;
-    res.sendFile(path.resolve('results',runId,'temp.html'));
+    res.sendFile(path.resolve('results', runId, 'temp.html'));
 
 });
 
@@ -64,9 +76,6 @@ router.get('/:run_id', function (req, res, next) {
 //    res.sendFile(path.resolve('results',runId,testNum));
 //
 //});
-
-
-
 
 
 module.exports = router;

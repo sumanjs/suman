@@ -18,12 +18,12 @@ Test.describe('desc', function () {
 
     this.beforeEach(function (t) {
         debug('beforeEach:', t.desc);
-        throw new Error('ricola-1');
+        //throw new Error('ricola-1');
     });
 
     this.beforeEach(function (t) {
         debug('beforeEach:', t.desc);
-        throw new Error('ricola-2');
+        //throw new Error('ricola-2');
     });
 
 
@@ -93,7 +93,7 @@ Test.describe('desc', function () {
 
         this.afterEach(function (t) {
 
-            throw new Error('roodle');
+            //throw new Error('roodle');
             debug('afterEach:', t);
             delete t.data;
 
@@ -105,7 +105,7 @@ Test.describe('desc', function () {
 
         debug('afterEach data:', t.data);
 
-        throw new Error('cheeeky');
+        //throw new Error('cheeeky');
 
     });
 
@@ -113,7 +113,7 @@ Test.describe('desc', function () {
 
         debug('afterEach data:', t.data);
 
-        throw new Error('chizumbop');
+        //throw new Error('chizumbop');
 
     });
 

@@ -10,8 +10,6 @@ var config = require('univ-config')(module, '*suman*', 'config/conf');
 //core
 var express = require('express');
 var router = express.Router();
-var ejs = require('ejs');
-
 
 
 router.get('/',function(req,res){
