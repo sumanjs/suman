@@ -11,12 +11,19 @@ Test.describe('desc', function () {
 
     this.before(function () {
         debug('before');
+
     });
 
     var i = 1;
 
     this.beforeEach(function (t) {
         debug('beforeEach:', t.desc);
+        throw new Error('ricola-1');
+    });
+
+    this.beforeEach(function (t) {
+        debug('beforeEach:', t.desc);
+        throw new Error('ricola-2');
     });
 
 
@@ -65,7 +72,7 @@ Test.describe('desc', function () {
 
             [1, 2, 3].forEach(function (val) {
 
-                self.it('makes' + val, function (t) {
+                self.it('makes>' + val, function (t) {
 
                     return Promise.all([
                         new Promise(function (resolve) {
@@ -86,6 +93,7 @@ Test.describe('desc', function () {
 
         this.afterEach(function (t) {
 
+            throw new Error('roodle');
             debug('afterEach:', t);
             delete t.data;
 
@@ -96,6 +104,16 @@ Test.describe('desc', function () {
     this.afterEach(function (t) {
 
         debug('afterEach data:', t.data);
+
+        throw new Error('cheeeky');
+
+    });
+
+    this.afterEach(function (t) {
+
+        debug('afterEach data:', t.data);
+
+        throw new Error('chizumbop');
 
     });
 

@@ -5,6 +5,7 @@
 
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
+
 Test.describe('My Suite', function (suite) {
 
 
