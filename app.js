@@ -66,6 +66,19 @@ app.use('/users', require('./routes/users'));
 app.use('/results', require('./routes/results'));
 
 
+
+app.use(function(req, res, next) {
+
+    if(req.sumanData.success){
+        res.json({success: req.sumanData.success})
+    }
+    else{
+        next(new Error('not successful'));
+    }
+
+});
+
+
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
@@ -73,22 +86,16 @@ app.use(function(req, res, next) {
 });
 
 
-if (app.get('env') === 'development') {
+if (app.get('env') !== 'production') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+        res.json({error: err.stack});
     });
 }
 
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+    res.json({error:err.stack});
 });
 
 

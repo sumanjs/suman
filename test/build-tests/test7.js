@@ -19,7 +19,10 @@ Test.describe('gggg', function () {
         debug('beforeEach');
 
 
-    }).describe('1', () => {
+    });
+
+
+    this.describe('1', function(){
 
         this.it('[test] yo', (t, done) => {
 

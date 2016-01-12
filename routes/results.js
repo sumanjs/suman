@@ -12,7 +12,8 @@ var config = require('univ-config')(module, '*suman*', 'config/conf');
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var appRoot = require('app-root-path');
+var appRootPath = require('app-root-path');
+var fs = require('fs');
 
 //#helpers
 var helpers = require('./helpers');
@@ -20,13 +21,53 @@ var helpers = require('./helpers');
 
 router.post('/done/:run_id', function (req, res, next) {
 
-    res.json({msg:'yes'});
+    var data = body.data;
+
+    try{
+        var json = JSON.stringify(data.test);
+
+        if (data.outputPath) {
+            fs.appendFile(data.outputPath, json += ',',function(err){
+                if(err){
+                    next(err);
+                }
+                else{
+                    req.sumanData.success = {msg: 'appended data to ' + data.outputPath};
+                    next();
+                }
+            });
+        }
+    }
+    catch(err){
+        next(err);
+    }
+
 
 });
 
 router.post('/make/new', function (req, res, next) {
 
-    res.json({msg:'yes'});
+    var body = req.body;
+    var config = body.config;
+    var timestamp = body.timestamp;
+
+    try {
+        var outputDir = config.output.web.outputDir;
+        var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + timestamp);
+        fs.mkdir(outputPath, function (err) {
+            if (err) {
+                next(err);
+            }
+            else {
+                req.sumanData.success = {msg: 'created dir at ' + outputPath};
+                next();
+            }
+
+        });
+    }
+    catch (err) {
+        next(err);
+    }
 });
 
 

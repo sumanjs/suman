@@ -12,6 +12,7 @@ var debug = require('debug')('suman-server');
 var http = require('http');
 var _ = require('underscore');
 var socketio = require('socket.io');
+var fs = require('fs');
 
 var app = require('../app');
 app.set('port', process.env.PORT || '6969');
@@ -28,19 +29,38 @@ var io = socketio(server);
 //    console.log('a user connected');
 //});
 
-io.sockets.on('connection', function(socket) {
+io.sockets.on('connection', function (socket) {
 
     console.log('Client connected.');
 
     // Disconnect listener
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
         console.log('Client disconnected.');
     });
 
-    socket.on('TEST_DATA', function(data) {
+    socket.on('TEST_DATA', function (data) {
         console.log('TEST_DATA received');
-        //do something sync here
-        socket.emit('TEST_DATA_RECEIVED',{});
+
+        try {
+            var json = JSON.stringify(data.test);
+
+            if (data.outputPath) {
+                fs.appendFile(data.outputPath, json += ',', function (err) {
+                    if (err) {
+                        socket.emit('TEST_DATA_RECEIVED', {error: err.stack});
+                    }
+                    else {
+                        //req.sumanData.success = {msg: 'appended data to ' + data.outputPath};
+                        socket.emit('TEST_DATA_RECEIVED', {msg: 'appended data to ' + data.outputPath});
+                    }
+                });
+            }
+        }
+        catch (err) {
+            socket.emit('TEST_DATA_RECEIVED', {error: err.stack});
+        }
+
+
     });
 
 });
