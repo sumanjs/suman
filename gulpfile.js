@@ -97,7 +97,7 @@ gulp.task('suman', [], function (cb) {
     //first ping server to make sure it's running, otherwise, continue
     tcpp.probe('127.0.0.1', '6969', function (err, available) {
         if (err) {
-            console.error(err);
+            console.error(err.stack);
         }
         else if (available) {
             console.log('suman server already running');

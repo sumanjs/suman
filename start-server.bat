@@ -1,1 +1,0 @@
-start cmd.exe /k "node bin/www.js"

@@ -7,7 +7,6 @@ module.exports = Object.freeze({
 
     uniqueAppName: 'suman',
     NODE_ENV: 'development',
-    //outputDir: '/results',
     pipeStdOut: 'bunyan',
     MAX_TOTAL_MEMORY: 3000,
     browser: 'Firefox',
@@ -25,6 +24,7 @@ module.exports = Object.freeze({
     server:{
         host: 'localhost',
         port: 6969,
+        outputDir: '/results',
     }
 
 });
