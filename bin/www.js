@@ -2,10 +2,16 @@
  * Created by amills001c on 12/15/15.
  */
 
-
 var path = require('path');
-
 process.chdir(path.resolve(__dirname + '/../'));
+
+
+process.on('uncaughtException',function(err){
+
+    console.error(err.stack);
+
+});
+
 
 
 var debug = require('debug')('suman-server');

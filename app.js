@@ -23,7 +23,7 @@ app.engine('html', require('ejs').renderFile);
 app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 
@@ -31,7 +31,7 @@ app.use(cookieParser());
 //    maxage: '2h'
 //});
 
-app.use(express.static(path.resolve(__dirname + '/public'),{
+app.use(express.static(path.resolve(__dirname + '/public'), {
     //maxAge: '5h'
 }));
 
@@ -42,19 +42,19 @@ app.use(express.static(path.resolve(__dirname + '/public'),{
 //app.use('/results', express.static('results'));
 
 
-function onEnd(msg){
-    console.log('res has emitted end event, message:',msg);
+function onEnd(msg) {
+    console.log('res has emitted end event, message:', msg);
     var error = new Error('Not real error');
     console.log(error.stack);
 }
 
-app.use(function(req,res,next){
-    res.on('end',_.once(onEnd));
-    res.on('close',_.once(onEnd));
+app.use(function (req, res, next) {
+    res.on('end', _.once(onEnd));
+    res.on('close', _.once(onEnd));
     next();
 });
 
-app.use(function(req,res,next){
+app.use(function (req, res, next) {
     var requestUrl = req.parsedRequestUrl = url.parse(req.url);
     req.sumanData = {};
     next();
@@ -66,7 +66,7 @@ app.use('/users', require('./routes/users'));
 app.use('/results', require('./routes/results'));
 
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -74,7 +74,7 @@ app.use(function(req, res, next) {
 
 
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -83,7 +83,7 @@ if (app.get('env') === 'development') {
     });
 }
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
