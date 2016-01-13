@@ -6,6 +6,12 @@
 //console.error(new Error('joe').stack);
 
 
+var x = JSON.parse('{}');
+
+console.log(typeof x);
+
+
+/*
 var async = require('async');
 
 
@@ -21,4 +27,4 @@ async.map([1,2,3],function(val,cb){
 
     console.log('results:',results);
 
-});
+});*/

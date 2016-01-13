@@ -14,21 +14,21 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 Test.describe('gggg', function () {
 
     this.after(function (done) {
-        debug('6');
+
         done();
     });
 
     this.describe(function () {
 
         this.after(function (done) {
-            debug('3');
+
             done();
         });
 
         this.describe(function () {
 
             this.after(function (done) {
-                debug('3');
+
                 done();
             });
         });
@@ -37,34 +37,34 @@ Test.describe('gggg', function () {
     this.describe(function () {
 
         this.after(function (done) {
-            debug('3');
+
             done();
         });
 
         this.describe(function () {
 
             this.after(function (done) {
-                debug('3');
+
                 done();
             });
 
             this.describe(function () {
 
                 this.after(function (done) {
-                    debug('3');
+
                     done();
                 });
 
                 this.describe(function () {
 
                     this.after(function (done) {
-                        debug('3');
+
                         done();
                     });
                     this.describe(function () {
 
                         this.after(function (done) {
-                            debug('3');
+
                             done();
                         });
                     });
@@ -73,13 +73,13 @@ Test.describe('gggg', function () {
                 this.describe(function () {
 
                     this.after(function (done) {
-                        debug('3');
+
                         done();
                     });
                     this.describe(function () {
 
                         this.after(function (done) {
-                            debug('3');
+
                             done();
                         });
                     });
@@ -97,7 +97,7 @@ Test.describe('gggg', function () {
     }, function () {
 
         this.after(function (done) {
-            debug('1');
+
             done();
         });
 
@@ -110,7 +110,7 @@ Test.describe('gggg', function () {
 
 
         this.after(function (done) {
-            debug('2');
+
             done();
         });
 
@@ -118,13 +118,13 @@ Test.describe('gggg', function () {
     });
 
     this.after(function (done) {
-        debug('4');
+
         done();
     });
 
 
     this.after(function (done) {
-        debug('7');
+
         done();
     });
 

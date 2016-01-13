@@ -15,7 +15,6 @@ Test.describe('gggg', {parallel: true}, function () {
 
         this.before(done => {
             setTimeout(function () {
-                debug('before1, ');
                 done();
             }, 200);
 
@@ -23,20 +22,17 @@ Test.describe('gggg', {parallel: true}, function () {
 
         this.before(done => {
             setTimeout(function () {
-                debug('before2, ');
                 done();
             }, 200);
         });
 
         this.before(done => {
             setTimeout(function () {
-                debug('before3, ');
                 done();
             }, 200);
         });
 
         this.after(function () {
-            debug('after, d ');
         });
     });
 
