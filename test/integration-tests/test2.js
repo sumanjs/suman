@@ -10,7 +10,7 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 Test.describe('suite 2', function (suite) {
 
 
-    this.before(function(done){
+    this.before('D',function(done){
 
         done();
 
@@ -29,29 +29,27 @@ Test.describe('suite 2', function (suite) {
     });
 
 
-    this.describe.skip('desc', function(){
+    this.describe('desc', function(){
 
 
-        this.describe.skip('desc', function(){
+        this.describe('desc', function(){
 
 
 
 
-            this.before(function(done){
-
-
+            this.before('C',function(done){
 
                 done();
 
             });
 
-            this.it('does',function(){
+            this.it('does 1',function(){
 
 
 
             });
 
-            this.it.skip('does',function(){
+            this.it('does 2',function(){
 
 
 
@@ -60,7 +58,7 @@ Test.describe('suite 2', function (suite) {
         });
 
 
-        this.before(function(done){
+        this.before('B',function(done){
 
 
 
@@ -69,7 +67,7 @@ Test.describe('suite 2', function (suite) {
         });
 
 
-        this.it('does',function(){
+        this.it('does 3',function(){
 
 
 
@@ -77,14 +75,14 @@ Test.describe('suite 2', function (suite) {
 
         this.describe('desc 4', function(){
 
-            this.before(function(done){
+            this.before('A',function(done){
 
                 done();
 
             });
 
 
-            this.it('does',function(){
+            this.it('does 4',function(){
 
 
             });
@@ -92,8 +90,6 @@ Test.describe('suite 2', function (suite) {
         });
 
     });
-
-
 
 
 });

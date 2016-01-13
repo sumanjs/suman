@@ -13,8 +13,7 @@ process.on('uncaughtException',function(err){
 });
 
 
-
-var debug = require('debug')('suman-server');
+var debug = require('debug')('suman:server');
 var http = require('http');
 var _ = require('underscore');
 var socketio = require('socket.io');

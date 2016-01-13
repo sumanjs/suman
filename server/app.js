@@ -11,15 +11,17 @@ var bodyParser = require('body-parser');
 var url = require('url');
 var _ = require('underscore');
 
+//create express app
 var app = express();
 
+//disable etags
 app.disable('etag');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
-// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());

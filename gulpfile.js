@@ -13,8 +13,8 @@ var _ = require('underscore');
 var colors = require('colors/safe');
 var request = require('request');
 var ijson = require('idempotent-json');
-var tcpp = require('tcp-ping');
 var suman = require('./lib');
+var sumanConstants = suman.constants;
 
 //gulp plugins
 var nodemon = require('gulp-nodemon');
@@ -24,7 +24,6 @@ var argv = process.env.argv;
 var $node_env = process.env.NODE_ENV;
 
 //you should be able to run your tests with gulp, instead of npm run blah
-
 
 
 gulp.task('nodemon', [], function () {
@@ -54,10 +53,10 @@ gulp.task('watch_tests', ['suman'], function (cb) {
         fileOrDir: './test/build-tests',
         configPath: './suman.conf.js'
     }).on('message', function (msg) {
-        if(msg === 0){
+        if (msg === 0) {
             console.log('msg from suman runner', msg);
         }
-        else{
+        else {
             msg = new Error(msg);
             console.error(msg);
         }
@@ -74,45 +73,32 @@ gulp.task('run_tests', ['suman'], function (cb) {
 
     suman.Runner({
         $node_env: process.env.NODE_ENV,
-        fileOrDir: './test/build-tests',
-        configPath: './suman.conf.js'
+        fileOrDir: 'test/build-tests/test7.js',
+        configPath: 'suman.conf.js',
+        runOutputInNewTerminalWindow: false
     }).on('message', function (msg) {
-        if(msg === 0){
-            console.log('msg from suman runner', msg);
-        }
-        else{
-            msg = new Error(msg);
-            console.error(msg);
-        }
-
+        cb(msg);
+    }).on('error', function (err) {
+        cb(err);
+    }).on('exit', function (err) {
         cb(null);
     });
+
 
 });
 
 
 gulp.task('suman', [], function (cb) {
 
-
     //first ping server to make sure it's running, otherwise, continue
-    tcpp.probe('127.0.0.1', '6969', function (err, available) {
-        if (err) {
-            console.error(err.stack);
-        }
-        else if (available) {
-            console.log('suman server already running');
-            cb(null);
-        }
-        else {
-            suman.Server({
-                configPath: './suman.conf.js'
-            }).on('message', function (msg) {
-                console.log('msg from suman server', msg);
-                cb();
-            });
-            cb();
-        }
+
+    suman.Server({
+        configPath: './suman.conf.js'
+    }).on('msg', function (msg) {
+        console.log('msg', msg);
+        cb();
     });
+
 });
 
 

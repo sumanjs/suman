@@ -4,7 +4,7 @@
 
 "use strict";
 
-var debug = require('debug')('suman:test');
+var debug = require('debug')('suman');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.describe('gggg', function () {
@@ -12,22 +12,21 @@ Test.describe('gggg', function () {
 
     this.before(() => {
 
-        debug('before 1');
 
     }).beforeEach(() => {
-
-        debug('beforeEach');
-
 
     });
 
 
     this.describe('1', function(){
 
+        this.before(() => {
+
+        });
+
         this.it('[test] yo', (t, done) => {
 
             setTimeout(function () {
-                debug(t);
                 done();
             }, 1000);
 
@@ -35,12 +34,10 @@ Test.describe('gggg', function () {
 
         this.it(t => {
 
-            debug('it-2')
         });
 
         this.it(t => {
 
-            debug('it-3')
         });
 
 
@@ -48,7 +45,7 @@ Test.describe('gggg', function () {
 
 
     this.before(() => {
-        debug('before 2');
+
     });
 
 

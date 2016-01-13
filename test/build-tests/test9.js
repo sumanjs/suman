@@ -8,7 +8,7 @@
  */
 
 
-var debug = require('debug')('suman:test');
+var debug = require('debug')('suman');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.describe('gggg', function () {

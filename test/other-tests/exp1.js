@@ -2,7 +2,7 @@
  * Created by denman on 12/2/2015.
  */
 
-var debug = require('debug')('suman:test');
+var debug = require('debug')('suman');
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
