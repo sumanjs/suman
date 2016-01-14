@@ -13,8 +13,9 @@ describe('gggg', function () {
         console.log('beforeEach'); done();;
     });
 
-    after(function (done) {
+    after(function monkey(done) {
 
+        throw new Error('charles');
         console.log('after'); done();;
     });
 
