@@ -2,7 +2,6 @@
  * Created by denman on 1/2/2016.
  */
 
-"use strict";
 
 var debug = require('debug')('suman');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
@@ -15,28 +14,40 @@ Test.describe('gggg', function () {
 
     }).beforeEach(() => {
 
+
     });
 
 
-    this.describe('1', function(){
+    this.describe('1', {efa: true}, function () {
 
-        this.before(() => {
-
-        });
-
-        this.it('[test] yo', (t, done) => {
+        this.before((done) => {
 
             setTimeout(function () {
                 done();
-            }, 1000);
+            }, 10);
+        });
+
+        this.it('[test] yo', {parallel: false}, (t, done) => {
+
+            setTimeout(function () {
+                done();
+            }, 500);
 
         });
 
-        this.it(t => {
+        this.it('yo', {parallel: false}, (t, done) => {
+
+            setTimeout(function () {
+                done();
+            }, 500);
 
         });
 
-        this.it(t => {
+        this.it({parallel: false}, (t, done) => {
+
+            setTimeout(function () {
+                done();
+            }, 500);
 
         });
 

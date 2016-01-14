@@ -5,6 +5,7 @@
 
 module.exports = Object.freeze({
 
+    fullStackTraces: false,
     uniqueAppName: 'suman',
     NODE_ENV: 'development',
     pipeStdOut: 'bunyan',
@@ -24,7 +25,7 @@ module.exports = Object.freeze({
     server:{
         host: 'localhost',
         port: 6969,
-        outputDir: '/results',
+        outputDir: '/results'
     }
 
 });

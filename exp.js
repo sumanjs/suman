@@ -3,28 +3,8 @@
  */
 
 
-//console.error(new Error('joe').stack);
+var json = require('./config/suman.json');
 
+//process.stdout.write(JSON.stringify(json).replace(/"/g,''));
 
-var x = JSON.parse('{}');
-
-console.log(typeof x);
-
-
-/*
-var async = require('async');
-
-
-
-async.map([1,2,3],function(val,cb){
-
-    setTimeout(function(){
-        console.log(val);
-        //cb(null,val+1);
-    });
-
-},function complete(err,results){
-
-    console.log('results:',results);
-
-});*/
+process.stdout.write(String(json));

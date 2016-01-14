@@ -37,7 +37,7 @@ Test.describe('gggg', function () {
 
 
         this.describe('moodle', {
-            parallel: false
+            parallel: true
         }, function () {
 
             this.after(function (done) {

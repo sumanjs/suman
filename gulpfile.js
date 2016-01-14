@@ -10,7 +10,8 @@ var fs = require('fs');
 var async = require('async');
 var _ = require('underscore');
 //var EE = require('events').EventEmitter;
-var colors = require('colors/safe');
+//var colors = require('colors/safe');
+const chalk = require('chalk');
 var request = require('request');
 var ijson = require('idempotent-json');
 var suman = require('./lib');
@@ -69,8 +70,6 @@ gulp.task('watch_tests', ['suman'], function (cb) {
 
 gulp.task('run_tests', ['suman'], function (cb) {
 
-    //testRunner('./test/build-tests','suman.conf.js');
-
     suman.Runner({
         $node_env: process.env.NODE_ENV,
         fileOrDir: 'test/build-tests/test7.js',
@@ -84,13 +83,10 @@ gulp.task('run_tests', ['suman'], function (cb) {
         cb(null);
     });
 
-
 });
 
 
 gulp.task('suman', [], function (cb) {
-
-    //first ping server to make sure it's running, otherwise, continue
 
     suman.Server({
         configPath: './suman.conf.js'

@@ -12,12 +12,18 @@ Test.describe('My Suite', function (suite) {
     this.describe('bugs', function () {
 
 
-        this.it('is meow', function () {
+        this.it('is meow', function (t,done) {
 
-            throw new Error('jesus');
+            throw new Error('michal');
+
+            setTimeout(function(){
+                throw new Error('jesus');
+                done();
+            },10);
+
         });
 
-        this.describe('turtles', function () {
+        this.describe('turtles', 'meow', function () {
 
             this.beforeEach(function(){
 
@@ -51,7 +57,7 @@ Test.describe('My Suite', function (suite) {
 });
 
 
-Test.describe('My Suite 222', function (suite) {
+/*Test.describe('My Suite 222', function (suite) {
 
 
     this.describe('bugs 222', function () {
@@ -95,4 +101,4 @@ Test.describe('My Suite 222', function (suite) {
     });
 
 
-});
+});*/
