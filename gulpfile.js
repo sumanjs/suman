@@ -93,6 +93,8 @@ gulp.task('suman', [], function (cb) {
     }).on('msg', function (msg) {
         console.log('msg', msg);
         cb();
+    }).on('msg-2', function (msg) {
+        console.log('msg-2', msg);
     });
 
 });

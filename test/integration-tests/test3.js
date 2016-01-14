@@ -15,17 +15,7 @@ Test.describe('My Suite', function (suite) {
         this.it('is meow', function (t,done) {
 
 
-            this.it('is meow', function (t,done) {
 
-                //throw new Error('michal');
-
-                setTimeout(function(){
-                    throw new Error('jesus');
-                    done();
-                },10);
-
-            });
-            //throw new Error('michal');
 
             setTimeout(function(){
                 throw new Error('jesus');
@@ -37,6 +27,8 @@ Test.describe('My Suite', function (suite) {
         this.describe('turtles', {}, function () {
 
             this.beforeEach(function(){
+
+                throw new Error('michal');
 
             });
 

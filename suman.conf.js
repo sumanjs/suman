@@ -5,6 +5,7 @@
 
 module.exports = Object.freeze({
 
+    checkMemoryUsage: true,
     fullStackTraces: false,
     uniqueAppName: 'suman',
     NODE_ENV: 'development',
@@ -22,7 +23,7 @@ module.exports = Object.freeze({
             outputDir: '/results'
         }
     },
-    server:{
+    server: {
         host: 'localhost',
         port: 6969,
         outputDir: '/results'

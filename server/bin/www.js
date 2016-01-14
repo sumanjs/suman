@@ -34,16 +34,20 @@ var io = socketio(server);
 //    console.log('a user connected');
 //});
 
+
 io.sockets.on('connection', function (socket) {
 
-    console.log('Client connected.');
+    console.log('\nClient connected.\n');
+
+    socket.emit('message','listening');
 
     // Disconnect listener
     socket.on('disconnect', function () {
-        console.log('Client disconnected.');
+        console.log('\nClient disconnected.\n');
     });
 
     socket.on('TEST_DATA', function (data) {
+
         console.log('TEST_DATA received');
 
         try {
@@ -81,7 +85,11 @@ function onListening() {
     var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log('Server listening on ' + bind, ', CWD=', process.cwd());
     if (process.send) {
+        process.stdout.write('sending message that I am listening...');
         process.send({msg: 'listening'});
+    }
+    else{
+        process.stdout.write('process.send is not define, so I cannot send message that I am listening...');
     }
 }
 
