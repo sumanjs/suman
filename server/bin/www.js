@@ -48,14 +48,12 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('TEST_DATA', function (data) {
 
-        console.log('TEST_DATA received');
-
         try {
             var json = JSON.stringify(data.test);
 
             if (data.outputPath) {
 
-                console.log('data.outputPath:',data.outputPath);
+                console.log('TEST_DATA received - data.outputPath:',data.outputPath);
 
                 fs.appendFile(data.outputPath, json += ',', function (err) {
                     if (err) {
