@@ -69,7 +69,7 @@ io.sockets.on('connection', function (socket) {
                 });
             }
             else{
-                console.error(new Error('not output path for test data: ' + data.test));
+                console.error(new Error('no output path for test data: ' + JSON.stringify(data)).stack);
             }
         }
         catch (err) {
