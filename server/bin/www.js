@@ -59,6 +59,7 @@ io.sockets.on('connection', function (socket) {
 
                 fs.appendFile(data.outputPath, json += ',', function (err) {
                     if (err) {
+                        console.error(err.stack);
                         socket.emit('TEST_DATA_RECEIVED', {error: err.stack});
                     }
                     else {
