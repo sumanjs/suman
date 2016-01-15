@@ -89,12 +89,14 @@ app.use(function(req, res, next) {
 
 if (app.get('env') !== 'production') {
     app.use(function(err, req, res, next) {
+        console.log(err.stack);
         res.status(err.status || 500);
         res.json({error: err.stack});
     });
 }
 
 app.use(function (err, req, res, next) {
+    console.log(err.stack);
     res.status(err.status || 500);
     res.json({error:err.stack});
 });

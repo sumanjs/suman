@@ -15,7 +15,9 @@ module.exports = function (dir) {
 
     try {
 
-        dir = path.resolve(appRootPath + '/' + dir);
+        console.log('dir:', dir);
+
+        dir = path.resolve(dir);
 
         return _.sortBy(fs.readdirSync(dir), function (subdir) { //note: return the first element of array after sorting
             return parseInt(subdir);

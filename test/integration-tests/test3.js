@@ -28,7 +28,7 @@ Test.describe('My Suite', function (suite) {
 
             this.beforeEach(function(){
 
-                throw new Error('michal');
+                //throw new Error('michal');
 
             });
 
