@@ -78,7 +78,7 @@ Test.describe('desc', function () {
                             resolve('woody');
                         })
                     ]).then(function(){
-                        throw new Error('mike');
+                        //throw new Error('mike');
                     });
 
                 });

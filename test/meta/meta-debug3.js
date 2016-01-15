@@ -6,7 +6,7 @@
 
 console.log('NODE_ENV:', process.env.NODE_ENV);
 
-var suman = require('./lib');
+var suman = require('../../lib');
 
 suman.Runner({
     $node_env: process.env.NODE_ENV,

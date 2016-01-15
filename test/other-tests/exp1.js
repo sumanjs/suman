@@ -41,7 +41,7 @@ Test.describe('foo', function () {
         });
 
 
-        this.describe.skip('3', {parallel: true}, function () {
+        this.describe('3', {parallel: true}, function () {
 
 
             this.beforeEach(t => {

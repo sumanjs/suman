@@ -10,7 +10,7 @@ Test.describe('suite dos', function (suite) {
 
     var dog = this;
 
-    this.it('my test',function(t){
+    this.it('my 888',function(t){
 
         var mike = dog;
         t.data.rooogo = 'pooo';

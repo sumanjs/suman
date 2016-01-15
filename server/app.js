@@ -74,14 +74,14 @@ app.use(function(req, res, next) {
         res.json({success: req.sumanData.success})
     }
     else{
-        next(new Error('not successful'));
+        next();
     }
 
 });
 
 
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('Not Found - ' + req.originalUrl);
     err.status = 404;
     next(err);
 });

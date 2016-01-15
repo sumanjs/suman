@@ -17,6 +17,7 @@ var fs = require('fs');
 
 //#helpers
 var helpers = require('./helpers');
+var sumanUtils = require('../../lib/suman-utils');
 
 
 router.post('/done/:run_id', function (req, res, next) {
@@ -53,7 +54,7 @@ router.post('/finalize', function (req, res, next) {
 
     try {
         var outputDir = config.server.outputDir;
-        var outputPath = path.resolve(process.env.HOME + '/' + outputDir + '/' + timestamp + '/temp.html');
+        var outputPath = path.resolve(sumanUtils.getHomeDir() + '/' + outputDir + '/' + timestamp + '/temp.html');
 
         fs.writeFile(outputPath, rendered, (err) => {
             if (err) {
@@ -80,7 +81,7 @@ router.post('/make/new', function (req, res, next) {
 
     try {
         var outputDir = config.server.outputDir;
-        var outputPath = path.resolve(process.env.HOME + '/' + outputDir + '/' + timestamp);
+        var outputPath = path.resolve(sumanUtils.getHomeDir() + '/' + outputDir + '/' + timestamp);
         fs.mkdir(outputPath, function (err) {
             if (err) {
                 next(err);
@@ -101,7 +102,7 @@ router.post('/make/new', function (req, res, next) {
 router.get('/latest', function (req, res, next) {
 
     var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js'));
-    var folder = path.resolve(process.env.HOME + '/' + config.server.outputDir);
+    var folder = path.resolve(sumanUtils.getHomeDir() + '/' + config.server.outputDir);
     var runId = helpers.getPathOfMostRecentSubdir(folder);
 
     if (runId) {
@@ -118,7 +119,7 @@ router.get('/latest', function (req, res, next) {
 router.get('/:run_id/:test_num', function (req, res, next) {
 
     var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js'));
-    var folder = path.resolve(process.env.HOME + '/' + config.server.outputDir);
+    var folder = path.resolve(sumanUtils.getHomeDir() + '/' + config.server.outputDir);
 
     var runId = req.params.run_id;
     var testNum = req.params.test_num;
@@ -132,7 +133,7 @@ router.get('/:run_id/:test_num', function (req, res, next) {
 router.get('/:run_id', function (req, res, next) {
 
     var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js'));
-    var folder = path.resolve(process.env.HOME + '/' + config.server.outputDir);
+    var folder = path.resolve(sumanUtils.getHomeDir() + '/' + config.server.outputDir);
 
     var runId = req.params.run_id;
 
