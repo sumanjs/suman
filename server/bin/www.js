@@ -48,7 +48,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('TEST_DATA', function (data) {
 
-        console.log('TEST_DATA received:', JSON.stringify(data));
+        console.log('TEST_DATA received');
 
         try {
             var json = JSON.stringify(data.test);
