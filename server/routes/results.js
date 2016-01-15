@@ -84,9 +84,11 @@ router.post('/make/new', function (req, res, next) {
         var outputPath = path.resolve(sumanUtils.getHomeDir() + '/' + outputDir + '/' + timestamp);
         fs.mkdir(outputPath, function (err) {
             if (err) {
+                console.error(err.stack);
                 next(err);
             }
             else {
+                console.log('created dir at ' + outputPath);
                 req.sumanData.success = {msg: 'created dir at ' + outputPath};
                 next();
             }
