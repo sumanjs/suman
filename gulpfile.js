@@ -76,10 +76,12 @@ gulp.task('run_tests', ['suman'], function (cb) {
         configPath: 'suman.conf.js',
         runOutputInNewTerminalWindow: false
     }).on('message', function (msg) {
-        cb(msg);
+        console.log('message:',msg);
+    }).on('data',function(data){
+        console.log('data:',data);
     }).on('error', function (err) {
         cb(err);
-    }).on('exit', function (err) {
+    }).on('exit', function (code) {
         cb(null);
     });
 

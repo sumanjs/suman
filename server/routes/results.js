@@ -41,9 +41,36 @@ router.post('/done/:run_id', function (req, res, next) {
     catch (err) {
         next(err);
     }
-
-
 });
+
+
+router.post('/finalize', function (req, res, next) {
+
+    var body = req.body;
+    var rendered = body.rendered;
+    var config = body.config;
+    var timestamp = body.timestamp;
+
+    try {
+        var outputDir = config.server.outputDir;
+        var outputPath = path.resolve(process.env.HOME + '/' + outputDir + '/' + timestamp + '/temp.html');
+
+        fs.writeFile(outputPath, rendered, (err) => {
+            if (err) {
+                console.log(err.stack);
+                next(err);
+            }
+            else {
+                res.json({success: 'wrote rendered .ejs file'});
+            }
+        });
+
+    }
+    catch (err) {
+        next(err);
+    }
+});
+
 
 router.post('/make/new', function (req, res, next) {
 
@@ -52,8 +79,8 @@ router.post('/make/new', function (req, res, next) {
     var timestamp = body.timestamp;
 
     try {
-        var outputDir = config.output.web.outputDir;
-        var outputPath = path.resolve(appRootPath + '/' + outputDir + '/' + timestamp);
+        var outputDir = config.server.outputDir;
+        var outputPath = path.resolve(process.env.HOME + '/' + outputDir + '/' + timestamp);
         fs.mkdir(outputPath, function (err) {
             if (err) {
                 next(err);
@@ -73,16 +100,12 @@ router.post('/make/new', function (req, res, next) {
 
 router.get('/latest', function (req, res, next) {
 
-    console.log('in latest');
-
-    var folder = path.resolve(appRootPath.path, 'results');
-
-    console.log('folder:', folder);
-
+    var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js'));
+    var folder = path.resolve(process.env.HOME + '/' + config.server.outputDir);
     var runId = helpers.getPathOfMostRecentSubdir(folder);
 
     if (runId) {
-        var file = path.resolve(appRootPath.path, 'results', runId, 'temp.html');
+        var file = path.resolve(folder, runId, 'temp.html');
         console.log('***:', file);
         res.sendFile(file);
     }
@@ -94,12 +117,13 @@ router.get('/latest', function (req, res, next) {
 
 router.get('/:run_id/:test_num', function (req, res, next) {
 
-    console.log('in runid/testnum');
+    var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js'));
+    var folder = path.resolve(process.env.HOME + '/' + config.server.outputDir);
 
     var runId = req.params.run_id;
     var testNum = req.params.test_num;
 
-    res.sendFile(path.resolve(appRootPath.path, 'results', runId, testNum), {
+    res.sendFile(path.resolve(folder, runId, testNum), {
         maxAge: '58h'
     });
 
@@ -107,11 +131,12 @@ router.get('/:run_id/:test_num', function (req, res, next) {
 
 router.get('/:run_id', function (req, res, next) {
 
-    console.log('in runid only');
+    var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js'));
+    var folder = path.resolve(process.env.HOME + '/' + config.server.outputDir);
 
     var runId = req.params.run_id;
 
-    var file = path.resolve(appRootPath.path, 'results', runId, 'temp.html');
+    var file = path.resolve(folder, runId, 'temp.html');
     console.log(file);
     res.sendFile(file);
 

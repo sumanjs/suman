@@ -26,7 +26,12 @@ module.exports = Object.freeze({
     server: {
         host: 'localhost',
         port: 6969,
-        outputDir: '/results'
+        outputDir: '/suman_results'
+    },
+    remoteServer: {
+        host: 'localhost',
+        port: 6969,
+        outputDir: '/suman_results'
     }
 
 });
