@@ -97,7 +97,7 @@ router.post('/make/new', function (req, res, next) {
         var server = findSumanServer(config);
         if (server.host != os.hostname()) {
             console.error('hostnames dont match');
-            return next(new Error('hostnames dont match'));
+            return next(new Error('hostnames dont match - ' + os.hostname() + ' vs ' + server.host);
         }
 
         if (!server.outputDir) {
