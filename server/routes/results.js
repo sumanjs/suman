@@ -94,8 +94,20 @@ router.post('/make/new', function (req, res, next) {
     var timestamp = body.timestamp;
 
     try {
-        var outputDir = config.server.outputDir;
-        var outputPath = path.resolve(sumanUtils.getHomeDir() + '/' + outputDir + '/' + timestamp);
+        var server = findSumanServer(config);
+        if (server.host != os.hostname()) {
+            console.error('hostnames dont match');
+            return next(new Error('hostnames dont match'));
+        }
+
+        if (!server.outputDir) {
+            console.error('no outputDir defined');
+            return next(new Error('no outputDir defined'));
+        }
+
+        var outputDir = server.outputDir;
+        var outputPath = path.resolve(outputDir + '/' + timestamp);
+
         fs.mkdir(outputPath, function (err) {
             if (err) {
                 console.error(err.stack);
