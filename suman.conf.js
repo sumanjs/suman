@@ -2,6 +2,7 @@
  * Created by amills001c on 12/15/15.
  */
 
+//jarvisc - 69.252.255.134
 
 module.exports = Object.freeze({
 
@@ -23,8 +24,13 @@ module.exports = Object.freeze({
             outputDir: '/results'
         }
     },
+    //server: {
+    //    host: 'localhost',
+    //    port: 6969,
+    //    outputDir: '/suman_results'
+    //},
     server: {
-        host: 'localhost',
+        host: '69.252.255.134',
         port: 6969,
         outputDir: '/suman_results'
     },
@@ -32,6 +38,11 @@ module.exports = Object.freeze({
         host: 'localhost',
         port: 6969,
         outputDir: '/suman_results'
+    },
+    servers: {
+        'local': {},
+        'remote': {}
     }
+
 
 });

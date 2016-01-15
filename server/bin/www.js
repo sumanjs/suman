@@ -48,12 +48,15 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('TEST_DATA', function (data) {
 
-        console.log('TEST_DATA received');
+        console.log('TEST_DATA received:', JSON.stringify(data));
 
         try {
             var json = JSON.stringify(data.test);
 
             if (data.outputPath) {
+
+                console.log('data.outputPath:',data.outputPath);
+
                 fs.appendFile(data.outputPath, json += ',', function (err) {
                     if (err) {
                         socket.emit('TEST_DATA_RECEIVED', {error: err.stack});
@@ -64,8 +67,12 @@ io.sockets.on('connection', function (socket) {
                     }
                 });
             }
+            else{
+                console.error(new Error('not output path for test data: ' + data.test));
+            }
         }
         catch (err) {
+            console.error(err.stack);
             socket.emit('TEST_DATA_RECEIVED', {error: err.stack});
         }
 
