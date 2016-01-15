@@ -21,7 +21,7 @@ module.exports = Object.freeze({
         'standard': {},
         'basic': {},
         'web': {
-            outputDir: '/results'
+            servers: ['jarvissc']
         }
     },
     //server: {
@@ -29,19 +29,30 @@ module.exports = Object.freeze({
     //    port: 6969,
     //    outputDir: '/suman_results'
     //},
-    server: {
-        host: '69.252.255.134',
-        port: 6969,
-        outputDir: '/suman_results'
-    },
-    remoteServer: {
-        host: 'localhost',
-        port: 6969,
-        outputDir: '/suman_results'
-    },
+    //server: {
+    //    host: '69.252.255.134',
+    //    port: 6969,
+    //    outputDir: '/suman_results'
+    //},
+    //remoteServer: {
+    //    host: 'localhost',
+    //    port: 6969,
+    //    outputDir: '/suman_results'
+    //},
+
+    defaultServer: 'jarvissc',
+
     servers: {
-        'local': {},
-        'remote': {}
+        'local': {
+            host: '172.20.7.92', //10.172.47.79
+            port: 6969,
+            outputDir: '/Users/amills001c/suman_results'
+        },
+        'jarvissc': {
+            host: '69.252.255.134',
+            port: 6969,
+            outputDir: '/home/amills/suman_results'
+        }
     }
 
 

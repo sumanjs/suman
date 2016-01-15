@@ -14,10 +14,13 @@ var router = express.Router();
 var path = require('path');
 var appRootPath = require('app-root-path');
 var fs = require('fs');
+var os = require('os');
+
 
 //#helpers
 var helpers = require('./helpers');
 var sumanUtils = require('../../lib/suman-utils');
+var findSumanServer = require('../../lib/find-suman-server');
 
 
 router.post('/done/:run_id', function (req, res, next) {
@@ -53,8 +56,19 @@ router.post('/finalize', function (req, res, next) {
     var timestamp = body.timestamp;
 
     try {
-        var outputDir = config.server.outputDir;
-        var outputPath = path.resolve(sumanUtils.getHomeDir() + '/' + outputDir + '/' + timestamp + '/temp.html');
+        var server = findSumanServer(config);
+        if (server.host != os.hostname()) {
+            console.error('hostnames dont match');
+            return next(new Error('hostnames dont match'));
+        }
+
+        if (!server.outputDir) {
+            console.error('no outputDir defined');
+            return next(new Error('no outputDir defined'));
+        }
+
+        var outputDir = server.outputDir;
+        var outputPath = path.resolve(outputDir + '/' + timestamp + '/temp.html');
 
         fs.writeFile(outputPath, rendered, (err) => {
             if (err) {
