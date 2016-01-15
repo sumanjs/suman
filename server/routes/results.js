@@ -57,10 +57,11 @@ router.post('/finalize', function (req, res, next) {
 
     try {
         var server = findSumanServer(config);
-        if (server.host != os.hostname()) {
-            console.error('hostnames dont match');
-            return next(new Error('hostnames dont match'));
-        }
+
+        //if (server.host != os.hostname()) {
+        //    console.error('hostnames dont match');
+        //    return next(new Error('hostnames dont match'));
+        //}
 
         if (!server.outputDir) {
             console.error('no outputDir defined');
@@ -95,10 +96,10 @@ router.post('/make/new', function (req, res, next) {
 
     try {
         var server = findSumanServer(config);
-        if (server.host != os.hostname()) {
-            console.error('hostnames dont match');
-            return next(new Error('hostnames dont match - ' + os.hostname() + ' vs ' + server.host));
-        }
+        //if (server.host != os.hostname()) {
+        //    console.error('hostnames dont match');
+        //    return next(new Error('hostnames dont match - ' + os.hostname() + ' vs ' + server.host));
+        //}
 
         if (!server.outputDir) {
             console.error('no outputDir defined');
@@ -130,7 +131,15 @@ router.post('/make/new', function (req, res, next) {
 router.get('/latest', function (req, res, next) {
 
     var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js'));
-    var folder = path.resolve(sumanUtils.getHomeDir() + '/' + config.server.outputDir);
+
+    var server = findSumanServer(config);
+
+    if (!server.outputDir) {
+        console.error('no outputDir defined');
+        return next(new Error('no outputDir defined'));
+    }
+
+    var folder = path.resolve(server.outputDir);
     var runId = helpers.getPathOfMostRecentSubdir(folder);
 
     if (runId) {
@@ -147,7 +156,15 @@ router.get('/latest', function (req, res, next) {
 router.get('/:run_id/:test_num', function (req, res, next) {
 
     var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js'));
-    var folder = path.resolve(sumanUtils.getHomeDir() + '/' + config.server.outputDir);
+
+    var server = findSumanServer(config);
+
+    if (!server.outputDir) {
+        console.error('no outputDir defined');
+        return next(new Error('no outputDir defined'));
+    }
+
+    var folder = path.resolve(server.outputDir);
 
     var runId = req.params.run_id;
     var testNum = req.params.test_num;
@@ -161,7 +178,15 @@ router.get('/:run_id/:test_num', function (req, res, next) {
 router.get('/:run_id', function (req, res, next) {
 
     var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js'));
-    var folder = path.resolve(sumanUtils.getHomeDir() + '/' + config.server.outputDir);
+
+    var server = findSumanServer(config);
+
+    if (!server.outputDir) {
+        console.error('no outputDir defined');
+        return next(new Error('no outputDir defined'));
+    }
+
+    var folder = path.resolve(server.outputDir);
 
     var runId = req.params.run_id;
 
