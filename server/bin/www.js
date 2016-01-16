@@ -13,6 +13,11 @@ process.on('uncaughtException', function (err) {
 });
 
 
+var sumanLogos = require('../../lib/ascii');
+
+console.log(sumanLogos.suman);
+
+
 var debug = require('debug')('suman:server');
 var http = require('http');
 var _ = require('underscore');
