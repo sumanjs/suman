@@ -40,9 +40,14 @@ module.exports = Object.freeze({
     //    outputDir: '/suman_results'
     //},
 
-    defaultServer: 'jarvissc',
+    defaultServer: 'localhost',
 
     servers: {
+        'localhost': {
+            host: '127.0.0.1', //10.172.47.79
+            port: 6969,
+            outputDir: 'C:\\Users\\denman\\suman_results'
+        },
         'local': {
             host: '172.20.7.92', //10.172.47.79
             port: 6969,

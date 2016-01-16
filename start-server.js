@@ -7,7 +7,8 @@
 var suman = require('./lib');
 
 suman.Server({
-    configPath: './suman.conf.js'
+    configPath: './suman.conf.js',
+    serverName: 'localhost'
 }).on('msg', function (msg) {
     console.log('msg from suman server', msg);
     switch (msg) {
