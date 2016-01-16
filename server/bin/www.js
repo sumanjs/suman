@@ -15,7 +15,7 @@ process.on('uncaughtException', function (err) {
 
 var sumanLogos = require('../../lib/ascii');
 
-console.log(sumanLogos.suman);
+console.log(sumanLogos.suman_alligator);
 
 
 var debug = require('debug')('suman:server');
@@ -42,15 +42,15 @@ function onListening() {
 
     var addr = server.address();
     var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    console.log('Server listening on ' + bind, ', CWD=', process.cwd());
-    if (process.send) {
+    console.log('\tServer listening on ' + bind, ', CWD=', process.cwd());
+ /*   if (process.send) {
         process.stdout.write('sending message that I am listening...');
         process.send({msg: 'listening'});
     }
     else {
         process.stdout.write('process.send is not define, so I cannot send message that I am listening...');
     }
-
+*/
     if (sock) {
         sock = false;
         socketServer(server);
