@@ -4,7 +4,12 @@
 
 
 var debug = require('debug')('suman');
-var Test = require('../../lib').Test(module, 'suman.conf.js');
+
+
+//import * as suman from '../../lib';
+
+const Test = require('../../lib').Test(module, 'suman.conf.js');
+
 
 Test.describe('BBB', function () {
 

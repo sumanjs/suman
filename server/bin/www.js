@@ -42,7 +42,7 @@ function onListening() {
 
     var addr = server.address();
     var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    console.log('\tServer listening on ' + bind, ', CWD=', process.cwd());
+    console.log('\tServer listening on ' + bind, ', CWD =', process.cwd() + '\n\n');
  /*   if (process.send) {
         process.stdout.write('sending message that I am listening...');
         process.send({msg: 'listening'});
