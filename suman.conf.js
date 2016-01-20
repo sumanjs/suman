@@ -57,6 +57,12 @@ module.exports = Object.freeze({
             host: '69.252.255.134',
             port: 6969,
             outputDir: '/home/amills/suman_results'
+        },
+        'dev85.plaxo.com': {
+            host: '172.20.3.31',
+            port: 6969,
+            outputDir: '/home/amills/suman_results'
+
         }
     }
 
