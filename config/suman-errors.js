@@ -67,6 +67,10 @@ module.exports = {
         return control(isThrow, new Error('no host defined'));
     },
 
+    noPort: function (isThrow) {
+        return control(isThrow, new Error('no port defined'));
+    },
+
     badArgs: function (suman, isFatal, err) {
         return filter(suman, isFatal, err);
     }
