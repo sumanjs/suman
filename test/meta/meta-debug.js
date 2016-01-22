@@ -10,7 +10,7 @@ var path = require('path');
 
 var testRunner = require('../../lib/runner');
 
-var dirOrFile = path.resolve(appRootPath.path + '/test/other-tests');
+var dirOrFile = './test/other-tests';
 
-testRunner(dirOrFile,'suman.conf.js');
+testRunner([dirOrFile],'suman.conf.js');
 

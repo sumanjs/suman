@@ -41,7 +41,7 @@
     "test": "test"
   },
   "devDependencies": {
-    "gulp": "^3.9.0"
+    "gulp": "github:gulpjs/gulp#4.0"
   },
   "repository": {
     "type": "git",
