@@ -70,7 +70,7 @@ app.use('/results', require('./routes/results'));
 
 app.use(function(req, res, next) {
 
-    if(req.sumanData.success){
+    if(req.sumanData && req.sumanData.success){
         res.json({success: req.sumanData.success})
     }
     else{

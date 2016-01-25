@@ -31,16 +31,13 @@ router.post('/done/:run_id', function (req, res, next) {
         var json = JSON.stringify(data.test);
 
         if (data.outputPath) {
-            fs.appendFile(data.outputPath, json += ',', function (err) {
-                if (err) {
-                    next(err);
-                }
-                else {
-                    req.sumanData.success = {msg: 'appended data to ' + data.outputPath};
-                    next();
-                }
-            });
+            fs.appendFileSync(data.outputPath, json += ','); //we write synchronous because we have to ensure data doesn't get malformed in files on disk
+            req.sumanData.success = {msg: 'appended data to ' + data.outputPath};
         }
+        else{
+            console.error(new Error('no outputPath property on data: ' + data).stack);
+        }
+        next();
     }
     catch (err) {
         next(err);
