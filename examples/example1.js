@@ -6,7 +6,7 @@
 const Test = require('suman').Test(module, 'suman.conf.js');
 
 
-Test.describe('BBB', function () {
+Test.describe('@a-test', function () {
 
 
     this.before(() => {
@@ -18,7 +18,7 @@ Test.describe('BBB', function () {
     });
 
 
-    this.describe('1', {efa: true}, function () {
+    this.describe('1', {parallel: true}, function () {
 
         this.before((done) => {
 
@@ -27,7 +27,7 @@ Test.describe('BBB', function () {
             }, 10);
         });
 
-        this.it('[test] yo', {parallel: false}, (t, done) => {
+        this.it('yo', {}, (t, done) => {
 
             setTimeout(function () {
                 done();
@@ -35,7 +35,7 @@ Test.describe('BBB', function () {
 
         });
 
-        this.it('yo', {parallel: false}, (t, done) => {
+        this.it('yo', {}, (t, done) => {
 
             setTimeout(function () {
                 done();
@@ -43,7 +43,7 @@ Test.describe('BBB', function () {
 
         });
 
-        this.it({parallel: false}, (t, done) => {
+        this.it({}, (t, done) => {
 
             setTimeout(function () {
                 done();
