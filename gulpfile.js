@@ -91,7 +91,7 @@ gulp.task('run_all_tests', ['suman'], function (cb) {
 
     suman.Runner({
         $node_env: process.env.NODE_ENV,
-        fileOrDir: 'test/build-tests',
+        fileOrDir: ['test/build-tests'],
         configPath: 'suman.conf.js',
         runOutputInNewTerminalWindow: false
     }).on('message', function (msg) {

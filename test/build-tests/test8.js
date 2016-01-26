@@ -66,7 +66,7 @@ Test.describe('gggg', function () {
 
             this.it('mmm3', {parallel: false}, function (t,done) {
 
-                throw new Error('bad');
+                //throw new Error('bad');
                 done();
 
             });
