@@ -1,14 +1,10 @@
 /**
- * Created by denman on 1/3/2016.
+ * Created by amills001c on 1/25/16.
  */
 
 
-/**
- * Created by denman on 1/1/2016.
- */
+var Test = require('suman').Test(module, 'suman.conf.js');
 
-
-var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.describe('gggg', function () {
 

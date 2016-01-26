@@ -3,8 +3,8 @@
  */
 
 
-var debug = require('debug')('suman');
-var Test = require('../../lib').Test(module, 'suman.conf.js');
+const Test = require('../../lib').Test(module, 'suman.conf.js');
+
 
 Test.describe('gggg', function () {
 

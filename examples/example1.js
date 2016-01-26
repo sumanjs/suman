@@ -1,12 +1,9 @@
 /**
- * Created by denman on 1/2/2016.
+ * Created by amills001c on 1/25/16.
  */
 
 
-var debug = require('debug')('suman');
-
-
-const Test = require('../../lib').Test(module, 'suman.conf.js');
+const Test = require('suman').Test(module, 'suman.conf.js');
 
 
 Test.describe('BBB', function () {
