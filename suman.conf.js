@@ -21,7 +21,7 @@ module.exports = Object.freeze({
         'standard': {},
         'basic': {},
         'web': {
-            servers: ['localhost']
+            servers: ['dev85.plaxo.com']
         }
     },
     //server: {
@@ -40,7 +40,7 @@ module.exports = Object.freeze({
     //    outputDir: '/suman_results'
     //},
 
-    defaultServer: 'localhost',
+    defaultServer: 'dev85.plaxo.com',
 
     servers: {
         'localhost': {
