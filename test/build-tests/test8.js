@@ -8,7 +8,7 @@ const Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.describe('gggg', function () {
 
-    this.beforeEach(function (t,done) {
+    this.beforeEach(function (t, done) {
 
         done();
     });
@@ -30,7 +30,7 @@ Test.describe('gggg', function () {
             done();
         });
 
-        this.beforeEach(function (t,done) {
+        this.beforeEach(function (t, done) {
 
             done();
         });
@@ -45,38 +45,38 @@ Test.describe('gggg', function () {
                 done();
             });
 
-            this.beforeEach(function (t,done) {
+            this.beforeEach(function (t, done) {
 
                 //throw new Error('yikies');
                 done();
             });
 
 
-            this.it('mmm1', {parallel: false}, function (t,done) {
+            this.it('mmm1', {parallel: false}, function (t, done) {
 
                 done();
 
             });
 
-            this.it('mmm2', {parallel: false}, function (t,done) {
+            this.it('mmm2', {parallel: false}, function (t, done) {
 
                 done();
 
             });
 
-            this.it('mmm3', {parallel: false}, function (t,done) {
+            this.it('mmm3', {parallel: false}, function (t, done) {
 
                 //throw new Error('bad');
                 done();
 
             });
 
-            this.beforeEach(function (t,done) {
+            this.beforeEach(function (t, done) {
 
                 done();
             });
 
-            this.afterEach(function (t,done) {
+            this.afterEach(function (t, done) {
 
                 done();
             });
@@ -103,10 +103,10 @@ Test.describe('gggg', function () {
         done();
     });
 
-    this.it('7777', {parallel: false}, function (t) {
+    this.it('7777', {parallel: false, delay: 100}, function (t) {
 
-        return new Promise(function(resolve){
-           resolve('0')
+        return new Promise(function (resolve) {
+            resolve('0')
         });
 
     });
