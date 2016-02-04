@@ -4,6 +4,9 @@
 
 //jarvisc - 69.252.255.134
 
+//TODO need to add a delay option for tests running in a loop
+//TODO add option of timestamp of when test started/completed
+
 module.exports = Object.freeze({
 
     verbose: true, //handles and logs warnings (using warning level?)
@@ -22,7 +25,7 @@ module.exports = Object.freeze({
         'standard': {},
         'basic': {},
         'web': {
-            servers: ['localhost']
+            servers: ['local']
         }
     },
     //server: {
@@ -42,7 +45,7 @@ module.exports = Object.freeze({
     //},
 
     //defaultServer: 'dev85.plaxo.com',
-    defaultServer: 'localhost',
+    defaultServer: 'local',
 
     servers: {
         'localhost': {
@@ -51,7 +54,7 @@ module.exports = Object.freeze({
             outputDir: 'C:\\Users\\denman\\suman_results'
         },
         'local': {
-            host: '172.20.7.92', //10.172.47.79
+            host: '127.0.0.1', //10.172.47.79
             port: 6969,
             outputDir: '/Users/amills001c/suman_results'
         },
