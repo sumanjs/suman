@@ -1,2 +1,16 @@
  *** this file will contain console.log output ***
+a Finished '[36mrun_all_tests[39m' after [35m23 ms[39m
+a msg listening
+a '[36msuman[39m' [31merrored after[39m [35m5.32 s[39m
+a Error: task completion callback called too many times
+    at finish (c:\Users\denman\WebstormProjects\suman\node_modules\gulp\node_modules\orchestrator\lib\runTask.js:15:10)
+    at cb (c:\Users\denman\WebstormProjects\suman\node_modules\gulp\node_modules\orchestrator\lib\runTask.js:29:3)
+    at EventEmitter.<anonymous> (c:\Users\denman\WebstormProjects\suman\gulpfile.js:116:9)
+    at emitOne (events.js:77:13)
+    at EventEmitter.emit (events.js:169:7)
+    at Socket.<anonymous> (c:\Users\denman\WebstormProjects\suman\lib\index.js:228:24)
+    at Socket.Emitter.emit (c:\Users\denman\WebstormProjects\suman\node_modules\socket.io-client\node_modules\component-emitter\index.js:131:20)
+    at Socket.onevent (c:\Users\denman\WebstormProjects\suman\node_modules\socket.io-client\lib\socket.js:263:10)
+    at Socket.onpacket (c:\Users\denman\WebstormProjects\suman\node_modules\socket.io-client\lib\socket.js:221:12)
+    at Manager.<anonymous> (c:\Users\denman\WebstormProjects\suman\node_modules\socket.io-client\node_modules\component-bind\index.js:21:15)
 a

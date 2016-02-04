@@ -103,9 +103,11 @@ Test.describe('gggg', function () {
         done();
     });
 
-    this.it('7777', {parallel: false}, function (t,done) {
+    this.it('7777', {parallel: false}, function (t) {
 
-        done();
+        return new Promise(function(resolve){
+           resolve('0')
+        });
 
     });
 

@@ -6,6 +6,7 @@
 
 module.exports = Object.freeze({
 
+    verbose: true, //handles and logs warnings (using warning level?)
     checkMemoryUsage: true,
     fullStackTraces: false,
     uniqueAppName: 'suman',
