@@ -15,12 +15,13 @@ Test.describe('My Suite', function (suite) {
         this.it('is meow', function (t,done) {
 
 
-
-
-            setTimeout(function(){
-                throw new Error('jesus');
-                done();
-            },10);
+            //throw new Error('jesus christ');
+            //
+            //
+            //setTimeout(function(){
+            //    throw new Error('jesus');
+            //    done();
+            //},10);
 
         });
 

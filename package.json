@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
