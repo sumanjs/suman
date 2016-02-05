@@ -6,6 +6,10 @@ if(require.main !== module){
     return;
 }
 
+//TODO: we can run fn.toString to see if done is never called in the function!!
+//TODO, along with options {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an error...
+//TODO: if error is thrown after test is completed (in a setTimeout, for example) do we handle that?
+
 console.log('Suman running...');
 
 var fs = require('fs');
