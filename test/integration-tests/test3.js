@@ -12,7 +12,7 @@ Test.describe('My Suite', function (suite) {
     this.describe('bugs', function () {
 
 
-        this.it('is meow', function (t,done) {
+        this.it('is meow', function (t) {
 
 
             //throw new Error('jesus christ');

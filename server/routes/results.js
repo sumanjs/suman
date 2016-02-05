@@ -127,7 +127,9 @@ router.post('/make/new', function (req, res, next) {
 
 router.get('/latest', function (req, res, next) {
 
-    var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js'));
+    var config = require(path.resolve(appRootPath + '/' + 'suman.conf.js')); //TODO need to fix this path - if this is global suman then this won't work
+
+    //note: see: https://www.dropbox.com/s/mv3mply6k2052du/Screenshot%202016-02-04%2021.37.58.png?dl=0
 
     var server = findSumanServer(config);
 

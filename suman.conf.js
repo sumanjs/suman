@@ -7,6 +7,8 @@
 //TODO need to add a delay option for tests running in a loop
 //TODO add option of timestamp of when test started/completed
 
+//TODO on ms windows error messages do not always give url/link/path of test file with error
+
 module.exports = Object.freeze({
 
     verbose: true, //handles and logs warnings (using warning level?)
@@ -20,12 +22,13 @@ module.exports = Object.freeze({
     disableAutoOpen: false,
     expireResultsAfter: '10000000',
     resultsCapCount: 100,
+    suppressRunnerOutput: true,
     resultsCapSize: 7000, // 3 gb's
     output: {
         'standard': {},
         'basic': {},
         'web': {
-            servers: ['local']
+            servers: ['localhost']
         }
     },
     //server: {
@@ -45,7 +48,7 @@ module.exports = Object.freeze({
     //},
 
     //defaultServer: 'dev85.plaxo.com',
-    defaultServer: 'local',
+    defaultServer: 'localhost',
 
     servers: {
         'localhost': {

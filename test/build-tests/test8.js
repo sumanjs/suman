@@ -103,7 +103,9 @@ Test.describe('gggg', function () {
         done();
     });
 
-    this.it('7777', {parallel: false, delay: 100}, function (t) {
+    //console.log('jingooooo'); //TODO: blocks!!! Causes problems
+
+    this.it('7779999', {parallel: false, delay: 100}, function (t) {
 
         return new Promise(function (resolve) {
             resolve('0')
