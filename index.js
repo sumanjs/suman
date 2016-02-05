@@ -40,7 +40,7 @@ try {
 }
 catch (err) {
     console.error('\n => ' + err + '\n');
-    console.error('   ' + colors.bgCyan.black('Suman error => Could not find path to your config file given by --cfg at the command line.'));
+    console.error('   ' + colors.bgCyan.black('Suman error => Could not find path to your config file in your current working directory or given by --cfg at the command line.'));
     return;
 }
 
