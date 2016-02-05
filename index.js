@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 
 
+if(require.main !== module){
+    //prevents users from fucking up by accident and getting in an infinite loop that will lock up their system
+    return;
+}
+
+console.log('Suman running...');
+
 var fs = require('fs');
 var path = require('path');
 var colors = require('colors/safe');
@@ -17,22 +24,18 @@ var suman = require('./lib');
 var sumanConfig, configPath, index;
 
 
-console.log('1  => ' + args);
-
-console.log('1.1  => ' + args[0]);
-
 if (args.indexOf('--cfg') !== -1) {
     index = args.indexOf('--cfg');
     configPath = args[index + 1];
     args.splice(index, 2);
 }
 
-console.log('2  => ' + args);
-
 try {
     var pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
     sumanConfig = require(pth);
-    console.log('Config used: ' + pth);
+    if(sumanConfig.verbose !== false){  //default to true
+        console.log(colors.cyan('Suman config used: ' + pth +'\n'));
+    }
     //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
 }
 catch (err) {
@@ -76,12 +79,10 @@ else {
         args.splice(index, 1);
     }
 
-    console.log(args);
-
     dir = JSON.parse(JSON.stringify(args)); //whatever args are remaining are assumed to be file or directory paths to tests
 
     if (dir.length < 1) {
-        throw new Error('No file or dir specified');
+        console.error('   ' + colors.bgCyan('Suman error => No file or dir specified at command line'));
         return;
     }
     else {

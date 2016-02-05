@@ -3,6 +3,12 @@
  */
 
 
+if(require.main === module){
+    //prevents users from fucking up by accident and getting in an infinite loop that will lock up their system
+    return;
+}
+
+
 console.log('NODE_ENV:', process.env.NODE_ENV);
 
 var appRootPath = require('app-root-path');

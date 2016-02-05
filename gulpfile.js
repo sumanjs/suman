@@ -87,7 +87,7 @@ gulp.task('run_tests', ['suman'], function (cb) {
 
 });
 
-gulp.task('run_all_tests', ['suman'], function (cb) {
+gulp.task('run_all_tests', ['suman_server'], function (cb) {
 
     suman.Runner({
         $node_env: process.env.NODE_ENV,
@@ -107,7 +107,7 @@ gulp.task('run_all_tests', ['suman'], function (cb) {
 });
 
 
-gulp.task('suman', [], function (cb) {
+gulp.task('suman_server', [], function (cb) {
 
     suman.Server({
         configPath: './suman.conf.js'
