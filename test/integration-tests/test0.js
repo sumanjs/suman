@@ -16,20 +16,20 @@ Test.describe('gggg', {parallel: false}, function () {
         this.before(done => {
             setTimeout(function () {
                 done();
-            }, 700);
+            }, 50);
 
         });
 
         this.before(done => {
             setTimeout(function () {
                 done();
-            }, 700);
+            }, 50);
         });
 
         this.before(done => {
             setTimeout(function () {
                 done();
-            }, 700);
+            }, 50);
         });
 
         this.after(function () {
@@ -38,35 +38,35 @@ Test.describe('gggg', {parallel: false}, function () {
 
 
     this.describe('moodle', {
-        parallel: false
+        parallel: true
     }, function () {
 
         this.beforeEach((t, done) => {
             setTimeout(function () {
                 debug('before Each 1, ' + t.desc);
                 done();
-            }, 700);
+            }, 50);
         });
 
         this.beforeEach((t, done)=> {
             setTimeout(function () {
                 debug('before Each 2, ' + t.desc);
                 done();
-            }, 700);
+            }, 50);
         });
 
         this.beforeEach((t, done) => {
             setTimeout(function () {
                 debug('before Each 3, ' + t.desc);
                 done();
-            }, 700);
+            }, 50);
         });
 
         this.it('mmm1', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
-            }, 700);
+            }, 50);
 
         });
 
@@ -74,7 +74,7 @@ Test.describe('gggg', {parallel: false}, function () {
 
             setTimeout(function () {
                 done();
-            }, 700);
+            }, 50);
 
         });
 
@@ -82,7 +82,7 @@ Test.describe('gggg', {parallel: false}, function () {
 
             setTimeout(function () {
                 done();
-            }, 700);
+            }, 50);
 
         });
 
@@ -90,21 +90,21 @@ Test.describe('gggg', {parallel: false}, function () {
             setTimeout(function () {
                 debug('before Each 4, ' + t.desc);
                 done();
-            }, 700);
+            }, 50);
         });
 
         this.afterEach(function (t, done) {
             setTimeout(function () {
                 debug('after Each 1, ' + t.desc);
                 done();
-            }, 700);
+            }, 50);
         });
 
         this.afterEach(function (t, done) {
             setTimeout(function () {
                 debug('after Each 2, ' + t.desc);
                 done();
-            }, 700);
+            }, 50);
         });
 
         this.after(function () {
@@ -123,7 +123,7 @@ Test.describe('gggg', {parallel: false}, function () {
         }, function (t, done) {
             setTimeout(function () {
                 done();
-            }, 700);
+            }, 50);
         });
 
 
@@ -132,7 +132,7 @@ Test.describe('gggg', {parallel: false}, function () {
         }, function (t, done) {
             setTimeout(function () {
                 done();
-            }, 700);
+            }, 50);
         });
 
 
@@ -141,7 +141,7 @@ Test.describe('gggg', {parallel: false}, function () {
         }, function (t, done) {
             setTimeout(function () {
                 done();
-            }, 700);
+            }, 50);
         });
 
         this.it('aaa4', {
@@ -149,7 +149,7 @@ Test.describe('gggg', {parallel: false}, function () {
         }, function (t, done) {
             setTimeout(function () {
                 done();
-            }, 700);
+            }, 50);
 
         });
 

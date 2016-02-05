@@ -3,11 +3,6 @@
  */
 
 
-/**
- * Created by denman on 1/1/2016.
- */
-
-
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.describe('gggg', function () {
