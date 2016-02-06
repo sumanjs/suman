@@ -31,37 +31,19 @@ module.exports = Object.freeze({
             servers: ['localhost']
         }
     },
-    //server: {
-    //    host: 'localhost',
-    //    port: 6969,
-    //    outputDir: '/suman_results'
-    //},
-    //server: {
-    //    host: '69.252.255.134',
-    //    port: 6969,
-    //    outputDir: '/suman_results'
-    //},
-    //remoteServer: {
-    //    host: 'localhost',
-    //    port: 6969,
-    //    outputDir: '/suman_results'
-    //},
-
-    //defaultServer: 'dev85.plaxo.com',
-    defaultServer: 'localhost',
 
     servers: {
-        'localhost': {
+        'windows': {
             host: '127.0.0.1', //10.172.47.79
             port: 6969,
             outputDir: 'C:\\Users\\denman\\suman_results'
         },
-        'local': {
-            host: '127.0.0.1', //10.172.47.79
+        'CACSVML-13295.local': {
+            host: '127.0.0.1',
             port: 6969,
             outputDir: '/Users/amills001c/suman_results'
         },
-        'jarvissc': {
+        'smartconnect.sjc.i.sv.comcast.com': {
             host: '69.252.255.134',
             port: 6969,
             outputDir: '/home/amills/suman_results'
@@ -73,6 +55,5 @@ module.exports = Object.freeze({
 
         }
     }
-
 
 });

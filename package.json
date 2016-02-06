@@ -9,12 +9,11 @@
   "author": "Olegzandr Denman",
   "license": "ISC",
   "dependencies": {
-    "ansi-8-bit": "^1.0.1",
+    "ansi-256-colors": "^1.1.0",
     "ansi-styles": "^2.1.0",
     "app-root-path": "^1.0.0",
     "assert": "^1.3.0",
     "async": "^1.5.0",
-    "bluebird": "^3.0.6",
     "body-parser": "^1.14.1",
     "chalk": "^1.1.1",
     "colors": "^1.1.2",

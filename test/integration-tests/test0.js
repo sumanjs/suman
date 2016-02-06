@@ -7,6 +7,8 @@ var debug = require('debug')('suman');
 var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 
+console.log('some bs');
+
 Test.describe('gggg', {parallel: false}, function () {
 
     this.describe('moodle', {
@@ -73,7 +75,7 @@ Test.describe('gggg', {parallel: false}, function () {
         this.it('mmm2', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
-                done();
+                done(new Error('chuck'));
             }, 50);
 
         });

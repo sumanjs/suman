@@ -3,18 +3,21 @@
  */
 
 var path = require('path');
-process.chdir(path.resolve(__dirname + '/../'));
+process.chdir(path.resolve(__dirname + '/../')); // TODO ? why ?
 
 
 process.on('uncaughtException', function (err) {
-
-    console.error(err.stack);
-
+    console.error('Uncaught Exception => ' + err.stack);
 });
 
 
-var sumanLogos = require('../../lib/ascii');
+//config
+var config = require('univ-config')(module, '*suman*', 'server/config/conf');
 
+console.log(JSON.stringify(config));
+
+
+var sumanLogos = require('../../lib/ascii');
 console.log(sumanLogos.suman_alligator);
 
 
@@ -24,44 +27,37 @@ var _ = require('underscore');
 
 var app = require('../app');
 app.set('port', process.env.PORT || '6969');
-var server = http.createServer(app);
+var httpServer = http.createServer(app);
 var socketServer = require('./socket-server');
 
-server.listen(app.get('port'));
-server.on('error', onError);
-server.on('listening', onListening);
+httpServer.listen(app.get('port'));
+httpServer.on('error', onError);
+httpServer.on('listening', onListening);
 
 
 function onError(error) {
-    console.log(error);
+    console.error(error.stack);
 }
 
 var sock = true;
 
 function onListening() {
 
-    var addr = server.address();
+    var addr = httpServer.address();
     var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log('\tServer listening on ' + bind, ', CWD =', process.cwd() + '\n\n');
- /*   if (process.send) {
-        process.stdout.write('sending message that I am listening...');
-        process.send({msg: 'listening'});
-    }
-    else {
-        process.stdout.write('process.send is not define, so I cannot send message that I am listening...');
-    }
-*/
+
     if (sock) {
         sock = false;
-        socketServer(server);
+        socketServer(httpServer);
     }
 
 }
 
-process.on("SIGINT", function (code) {
-    console.log("sigint caught -" + code);
+process.on('SIGINT', function (code) {
+    console.log('...SIGINT caught, code => ' + code, ', exiting ...');
     process.exit(code);
 });
 
 
-module.exports = server;
+module.exports = httpServer;
