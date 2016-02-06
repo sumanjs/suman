@@ -101,7 +101,7 @@ else {
     });
 
     if (dir.length < 1) {
-        console.error('   ' + colors.bgCyan('Suman error => No file or dir specified at command line\n\n'));
+        console.error('   ' + colors.bgCyan('Suman error => No file or dir specified at command line') + '\n\n');
         return;
     }
     else {
