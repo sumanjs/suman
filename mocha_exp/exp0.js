@@ -15,7 +15,6 @@ describe('gggg', function () {
 
     after(function monkey(done) {
 
-        throw new Error('charles');
         console.log('after'); done();;
     });
 
