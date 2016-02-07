@@ -33,7 +33,7 @@ module.exports = Object.freeze({
     },
 
     servers: {
-        'windows': {
+        'denman-lenovo': {
             host: '127.0.0.1', //10.172.47.79
             port: 6969,
             outputDir: 'C:\\Users\\denman\\suman_results'
