@@ -7,6 +7,8 @@ if (require.main !== module || process.argv.indexOf('--suman') > -1) {
     return;
 }
 
+//TODO: can Suman do dependency injection? At least can inject done and t in callbacks if they are referenced literally
+//TODO: instead of using --delay, you can do dependency injection
 //TODO: need to a suman server stop command at the command line
 //TODO: we can run fn.toString to see if done is never called in the function!!
 //TODO, along with options {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an error...
@@ -96,7 +98,7 @@ else {
     //whatever args are remaining are assumed to be file or directory paths to tests
     dir = JSON.parse(JSON.stringify(args)).filter(function (item) {
         if (String(item).indexOf('-') === 0) {
-            console.log(colors.magenta(' => Probably a bad command line option "' + item + '", Suman is ignoring it.'))
+            console.log(colors.magenta(' Suman error => Probably a bad command line option "' + item + '", Suman is ignoring it.'))
             return false;
         }
         return true;
