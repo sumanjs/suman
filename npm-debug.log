@@ -14,10 +14,10 @@
 9 verbose lifecycle suman@0.9.9~merge: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/amills001c/WebstormProjects/ORESoftware/suman/node_modules/.bin:/Users/amills001c/.rvm/gems/ruby-2.2.1/bin:/Users/amills001c/.rvm/gems/ruby-2.2.1@global/bin:/Users/amills001c/.rvm/rubies/ruby-2.2.1/bin:/Users/amills001c/google_app_engine_stuff/google-cloud-sdk/bin:/usr/local/bin:/usr/local/bin/meteor:/usr/local/redis/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/Users/amills001c/golang/bin:/Users/amills001c/apache-maven-3.3.3/bin:/Users/amills001c/.rvm/bin
 10 verbose lifecycle suman@0.9.9~merge: CWD: /Users/amills001c/WebstormProjects/ORESoftware/suman
 11 silly lifecycle suman@0.9.9~merge: Args: [ '-c', 'git merge -Xignore-all-space "origin/master"' ]
-12 silly lifecycle suman@0.9.9~merge: Returned: code: 128  signal: null
+12 silly lifecycle suman@0.9.9~merge: Returned: code: 1  signal: null
 13 info lifecycle suman@0.9.9~merge: Failed to exec merge script
 14 verbose stack Error: suman@0.9.9 merge: `git merge -Xignore-all-space "origin/master"`
-14 verbose stack Exit status 128
+14 verbose stack Exit status 1
 14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:233:16)
 14 verbose stack     at emitTwo (events.js:87:13)
 14 verbose stack     at EventEmitter.emit (events.js:172:7)
@@ -34,7 +34,7 @@
 20 error npm  v3.3.9
 21 error code ELIFECYCLE
 22 error suman@0.9.9 merge: `git merge -Xignore-all-space "origin/master"`
-22 error Exit status 128
+22 error Exit status 1
 23 error Failed at the suman@0.9.9 merge script 'git merge -Xignore-all-space "origin/master"'.
 23 error This is most likely a problem with the suman package,
 23 error not with npm itself.

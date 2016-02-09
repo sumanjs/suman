@@ -30,7 +30,7 @@
     "net-ping": "^1.1.12",
     "request": "^2.67.0",
     "serve-favicon": "^2.3.0",
-    "socket.io": "^1.4.3",
+    "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.3",
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
