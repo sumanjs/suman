@@ -55,6 +55,7 @@ try {
     //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
 }
 catch (err) {
+    //TODO: try to get suman.conf.js from root of project
     console.error('\n => ' + err + '\n');
     console.error('   ' + colors.bgCyan.black('Suman error => Could not find path to your config file in your current working directory or given by --cfg at the command line.'));
     return;
