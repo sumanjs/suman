@@ -2,8 +2,6 @@
  * Created by denman on 2/7/2016.
  */
 
-
-
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
@@ -23,7 +21,6 @@ Test.describe('A', ['delay'], function (delay) {
         setTimeout(function () {
             done();
         }, 1000);
-
     });
 
     this.describe('B', function (delay) {
@@ -34,12 +31,11 @@ Test.describe('A', ['delay'], function (delay) {
         }, 100);
 
         this.describe(function () {
-            arr.forEach((item)=> {
+            arr.forEach(item => {
 
                 this.it('[test]' + item, function (t) {
                     console.log('B => ' + t.desc);
                 });
-
             });
         });
     });
@@ -58,28 +54,22 @@ Test.describe('A', ['delay'], function (delay) {
                 delay();
             }, 100);
 
-            arr.forEach((item)=> {
+            arr.forEach(item => {
 
                 this.it('[test]' + item, function (t) {
                     console.log('C => ' + t.desc);
                 });
-
             });
-
 
             this.describe('D', function () {
 
-                arr.forEach((item)=> {
+                arr.forEach(item => {
 
                     this.it('[test]' + item, function (t) {
                         console.log('D => ' + t.desc);
                     });
-
                 });
-
             });
         });
-
     });
-
 });

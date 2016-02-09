@@ -32,7 +32,7 @@ module.exports = Object.freeze({
         }
     },
 
-    ioc: 'ioc.js',
+    ioc: 'suman.ioc.js',
 
     servers: {
         'denman-lenovo': {

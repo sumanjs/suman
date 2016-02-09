@@ -1,13 +1,17 @@
 /**
- * Created by denman on 2/7/2016.
+ * Created by amills001c on 2/9/16.
  */
 
 
+"use strict";
 
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
-Test.describe('A', ['delay'], function (delay) {
+Test.describe('B', ['socket.io', 'request', 'delay', 'roodles', 'choodles'], function (socketio, request, delay, roodles, choodles) {
+
+    console.log('roodles:', roodles);
+    console.log('choodles:', choodles);
 
     var arr = [1, 2, 3];
 
@@ -18,11 +22,41 @@ Test.describe('A', ['delay'], function (delay) {
         delay();
     }, 100);
 
+
     this.before(function (done) {
 
         setTimeout(function () {
+            console.log('BEFORE');
             done();
-        }, 1000);
+        }, 100);
+
+    });
+
+    function timeout(charlie) {
+        return new Promise(function (resolve) {
+            setTimeout(function () {
+                resolve(charlie || 'yikes');
+            }, 100);
+        })
+    }
+
+
+    this.before(async function () {
+        return await timeout();
+    });
+
+
+    this.beforeEach(async function (t) {
+        t.data.lion = await timeout();
+    });
+
+
+    this.beforeEach(function (t, done) {
+
+        setTimeout(function () {
+            console.log('BEFORE EACH');
+            done();
+        }, 100);
 
     });
 
@@ -34,10 +68,11 @@ Test.describe('A', ['delay'], function (delay) {
         }, 100);
 
         this.describe(function () {
+
             arr.forEach((item)=> {
 
                 this.it('[test]' + item, function (t) {
-                    console.log('B => ' + t.desc);
+                    console.log('B => ' + t.desc, t.data.lion);
                 });
 
             });

@@ -18,6 +18,10 @@ var suman = require('./lib');
 var sumanConstants = suman.constants;
 
 //gulp plugins
+var babel = require('gulp-babel');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var rename = require('gulp-rename');
 var nodemon = require('gulp-nodemon');
 
 //args & env
@@ -25,6 +29,17 @@ var argv = process.env.argv;
 var $node_env = process.env.NODE_ENV;
 
 //you should be able to run your tests with gulp, instead of npm run blah
+
+
+gulp.task('clean-temp', function () {
+    return del(['dest']);
+});
+
+gulp.task('es6-commonjs', [/*'clean-temp'*/], function () {
+    return gulp.src(['test/*.js', 'test/**/*.js'])
+        .pipe(babel())
+        .pipe(gulp.dest('test-dest'));
+});
 
 
 gulp.task('nodemon', [], function () {
@@ -72,13 +87,13 @@ gulp.task('run_tests', ['suman'], function (cb) {
 
     suman.Runner({
         $node_env: process.env.NODE_ENV,
-        fileOrDir: ['test/build-tests','test/integration-tests'],
+        fileOrDir: ['test/build-tests', 'test/integration-tests'],
         configPath: 'suman.conf.js',
         runOutputInNewTerminalWindow: false
     }).on('message', function (msg) {
-        console.log('message:',msg);
-    }).on('data',function(data){
-        console.log('data:',data);
+        console.log('message:', msg);
+    }).on('data', function (data) {
+        console.log('data:', data);
     }).on('error', function (err) {
         cb(err);
     }).on('exit', function (code) {
@@ -95,9 +110,9 @@ gulp.task('run_all_tests', ['suman_server'], function (cb) {
         configPath: 'suman.conf.js',
         runOutputInNewTerminalWindow: false
     }).on('message', function (msg) {
-        console.log('message:',msg);
-    }).on('data',function(data){
-        console.log('data:',data);
+        console.log('message:', msg);
+    }).on('data', function (data) {
+        console.log('data:', data);
     }).on('error', function (err) {
         cb(err);
     }).on('exit', function (code) {
