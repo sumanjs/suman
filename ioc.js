@@ -9,29 +9,21 @@ var async = require('async');
 
 module.exports = function loadAsyncDepsForSuman(suman, cb) {
 
-    async.parallel([
-        function (cb) {
+    suman.configure({
+
+        'request': function (cb) {
 
             setTimeout(function () {
-                cb(null, {
-                    'request': require('request')
-                });
+                cb(null, require('request'));
             }, 1000);
 
         },
-        function (cb) {
+        'socket.io': function (cb) {
 
             setTimeout(function () {
-                cb(null, {
-                    'socket.io': require('socket.io')
-                });
+                cb(null, require('socket.io'));
             }, 1000);
-
         }
-
-    ], function (err, deps) {
-        cb(err, deps);
     });
-
 
 };

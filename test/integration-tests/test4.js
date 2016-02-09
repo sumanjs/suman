@@ -26,7 +26,7 @@ Test.describe('A', function (delay) {
 
     });
 
-    this.describe('B', function (delay) {
+    this.describe.skip('B', function (delay) {
 
         setTimeout(function () {
             arr.push(8);
@@ -44,7 +44,7 @@ Test.describe('A', function (delay) {
         });
     });
 
-    this.describe('C', function (delay) {
+    this.describe.skip('C', function (delay) {
 
         setTimeout(function () {
             arr.push(9);
