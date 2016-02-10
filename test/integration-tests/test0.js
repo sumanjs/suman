@@ -9,14 +9,14 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 console.log('some bs');
 
-Test.describe('gggg', {parallel: false}, function (delay, whoa, cherry) {
+Test.describe('gggg', {parallel: false}, function (delay, socketio, whoa, cherry) {
 
-    console.log('cherry:',cherry);
-    console.log('whoa:',whoa);
+    console.log('cherry:', cherry);
+    console.log('whoa:', whoa);
 
-    setTimeout(function(){
-       delay();
-    },100);
+    setTimeout(function () {
+        delay();
+    }, 100);
 
     this.describe('moodle', {parallel: false}, function () {
 
@@ -44,9 +44,7 @@ Test.describe('gggg', {parallel: false}, function (delay, whoa, cherry) {
     });
 
 
-    this.describe('moodle', {
-        parallel: true
-    }, function () {
+    this.describe('moodle', {parallel: true}, function () {
 
         this.beforeEach((t, done) => {
             setTimeout(function () {
@@ -85,7 +83,7 @@ Test.describe('gggg', {parallel: false}, function (delay, whoa, cherry) {
 
         });
 
-        this.it('mmm3', {parallel: false}, (t, done) => {
+        this.it('mmm3', {parallel: false}, (done, t) => {
 
             setTimeout(function () {
                 done();

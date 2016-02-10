@@ -3,24 +3,22 @@
  */
 
 
-var path = require('path');
 
 //#config
-var config = require('univ-config')(module, '*suman*', 'server/config/conf');
+const config = require('univ-config')(module, '*suman*', 'server/config/conf');
 
 //#core
-var express = require('express');
-var router = express.Router();
-var path = require('path');
-var appRootPath = require('app-root-path');
-var fs = require('fs');
-var os = require('os');
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const appRootPath = require('app-root-path');
+const fs = require('fs');
+const os = require('os');
 
 
 //#helpers
-var helpers = require('./helpers');
-var sumanUtils = require('../../lib/suman-utils');
-var findSumanServer = require('../../lib/find-suman-server');
+const helpers = require('./helpers');
+const findSumanServer = require('../../lib/find-suman-server');
 
 
 router.post('/done/:run_id', function (req, res, next) {

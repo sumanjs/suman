@@ -7,7 +7,7 @@
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
-Test.describe('A', {}, ['request', 'socket.io'], function (request, socketio) {
+Test.describe('A', {}, ['request', 'socketio'], function (request, socketio) {
 
     //console.log('request:', request.toString());
     //console.log('socketio:', socketio.toString());
@@ -21,10 +21,10 @@ Test.describe('A', {}, ['request', 'socket.io'], function (request, socketio) {
         //delay();
     }, 100);
 
-    this.before(function (done) {
+    this.before(function (doe) {
 
         setTimeout(function () {
-            done();
+
         }, 1000);
 
     });

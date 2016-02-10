@@ -16,14 +16,14 @@ module.exports = function loadAsyncDepsForSuman(suman, cb) {
 
             setTimeout(function () {
                 cb(null, require('request'));
-            }, 1000);
+            }, 100);
 
         },
-        'socket.io': function (cb) {
+        'socketio': function (cb) {
 
             setTimeout(function () {
                 cb(null, require('socket.io'));
-            }, 1000);
+            }, 100);
         },
         'choodles': function (cb) {
 
@@ -31,7 +31,7 @@ module.exports = function loadAsyncDepsForSuman(suman, cb) {
                 cb(null, {
                     choodles: true
                 });
-            }, 1000);
+            }, 100);
         },
         'roodles': function (cb) {
 
@@ -39,7 +39,7 @@ module.exports = function loadAsyncDepsForSuman(suman, cb) {
                 cb(null, {
                     roodles: false
                 });
-            }, 1000);
+            }, 100);
         },
         'whoa': function (cb) {
 
@@ -49,7 +49,7 @@ module.exports = function loadAsyncDepsForSuman(suman, cb) {
                         chocolate:'yes'
                     }
                 });
-            }, 1000);
+            }, 100);
         },
         'cherry': function (cb) {
 
@@ -59,7 +59,7 @@ module.exports = function loadAsyncDepsForSuman(suman, cb) {
                         garbage: 'no'
                     }
                 });
-            }, 1000);
+            }, 100);
         }
     });
 

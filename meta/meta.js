@@ -5,7 +5,7 @@
 
 console.log('NODE_ENV:', process.env.NODE_ENV);
 
-var testRunner = require('../../lib').Runner;
+var testRunner = require('../lib').Runner;
 
 //testRunner('./test/build-tests','suman.conf.js');
 

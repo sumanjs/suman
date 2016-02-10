@@ -6,7 +6,7 @@
 
 //TODO need to add a delay option for tests running in a loop
 //TODO add option of timestamp of when test started/completed
-
+//TODO: verbosity should have levels, not just true or false
 //TODO on ms windows error messages do not always give url/link/path of test file with error
 
 module.exports = Object.freeze({
