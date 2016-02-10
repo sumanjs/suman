@@ -9,11 +9,13 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 console.log('some bs');
 
-Test.describe('gggg', {parallel: false}, ['delay'], function ( whoa, delay) {
+Test.describe('gggg', {parallel: false}, function (delay, whoa, cherry) {
+
+    console.log('cherry:',cherry);
+    console.log('whoa:',whoa);
 
     setTimeout(function(){
-       //delay();
-        whoa();
+       delay();
     },100);
 
     this.describe('moodle', {parallel: false}, function () {

@@ -40,6 +40,26 @@ module.exports = function loadAsyncDepsForSuman(suman, cb) {
                     roodles: false
                 });
             }, 1000);
+        },
+        'whoa': function (cb) {
+
+            setTimeout(function () {
+                cb(null, {
+                    whoa: {
+                        chocolate:'yes'
+                    }
+                });
+            }, 1000);
+        },
+        'cherry': function (cb) {
+
+            setTimeout(function () {
+                cb(null, {
+                    cherry: {
+                        garbage: 'no'
+                    }
+                });
+            }, 1000);
         }
     });
 
