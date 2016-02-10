@@ -2,37 +2,27 @@
  * Created by amills001c on 2/9/16.
  */
 
+"use strict";
 
 
-
-describe('A', function () {
-
-
-    var arr = null;
-
-
-    //doSomethingSync();
-
-    before('b', function (done) {
-
-        console.log(3);
+function timeout(charlie) {
+    return new Promise(function (resolve) {
         setTimeout(function () {
-            arr = [1, 2, 3];
-            console.log(4);
-            done();
+            resolve(charlie || 'yikes');
         }, 100);
+    })
+}
 
 
-    });
-
-    console.log(2);
-
-    it('tests', function (done) {
-
-        console.log(1);
-        ///do some async testing
-        done();
-    });
+async function doSomethingAsync() {
+    return await timeout();
+}
 
 
+var val = doSomethingAsync();
+
+console.log(val);
+
+val.then(function (vl) {
+    console.log(vl);
 });

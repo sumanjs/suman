@@ -10,8 +10,6 @@ var Test = suman.Test(module, 'suman.conf.js');
 
 Test.describe('B', ['socket.io', 'request', 'delay', 'roodles', 'choodles'], function (socketio, request, delay, roodles, choodles) {
 
-    console.log('roodles:', roodles);
-    console.log('choodles:', choodles);
 
     var arr = [1, 2, 3];
 
