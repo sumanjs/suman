@@ -7,11 +7,16 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 console.log('some bs');
 
-Test.describe('gggg', { parallel: false }, function () {
+Test.describe('gggg', { parallel: false }, function (delay, whoa, cherry) {
 
-    this.describe('moodle', {
-        parallel: false
-    }, function () {
+    console.log('cherry:', cherry);
+    console.log('whoa:', whoa);
+
+    setTimeout(function () {
+        delay();
+    }, 100);
+
+    this.describe('moodle', { parallel: false }, function () {
 
         this.before(done => {
             setTimeout(function () {
@@ -69,7 +74,7 @@ Test.describe('gggg', { parallel: false }, function () {
         this.it('mmm2', { parallel: false }, (t, done) => {
 
             setTimeout(function () {
-                done(new Error('chuck'));
+                done();
             }, 50);
         });
 

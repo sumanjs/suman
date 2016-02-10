@@ -9,7 +9,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
 
-Test.describe('B', ['socket.io', 'request', 'delay', 'roodles', 'choodles'], function (socketio, request, delay, roodles, choodles) {
+Test.describe('B', ['socket.io', 'request'], function (socketio, request, roodles, choodles, delay) {
+
+    console.log('roodles:', roodles);
+    console.log('choodles:', choodles);
 
     var arr = [1, 2, 3];
 
@@ -21,7 +24,6 @@ Test.describe('B', ['socket.io', 'request', 'delay', 'roodles', 'choodles'], fun
     }, 100);
 
     this.before(function (done) {
-
         setTimeout(function () {
             console.log('BEFORE');
             done();
