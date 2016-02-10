@@ -35,7 +35,7 @@ gulp.task('clean-temp', function () {
     return del(['dest']);
 });
 
-gulp.task('es6-commonjs', [/*'clean-temp'*/], function () {
+gulp.task('es7_2_es5', [/*'clean-temp'*/], function () {
     return gulp.src(['test/*.js', 'test/**/*.js'])
         .pipe(babel())
         .pipe(gulp.dest('test-dest'));

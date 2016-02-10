@@ -75,7 +75,7 @@ Test.describe('gggg', {parallel: false}, function () {
         this.it('mmm2', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
-                done(new Error('chuck'));
+                done();
             }, 50);
 
         });
