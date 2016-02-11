@@ -44,7 +44,13 @@ see:  https://medium.com/@the1mills/introducing-suman-a-node-js-testing-library-
 
 ### FAQ
 
-* Why does Suman stricly enforce parameter names?
+* Q: Why does Suman stricly enforce parameter/argument names?
+
+* A: Suman does this for three main reasons:
+
+   1) Consistency - someone looks at the tests you wrote and they immediate recognize the variables because the names are given
+   2) Suman can analyze your code for mistakes if it knows the variable names you use
+   3. Dependency injection - the order of your dependencies doesn't matter as long as you stick to the naming convention
 
 * 
 

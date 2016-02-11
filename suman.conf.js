@@ -11,6 +11,7 @@
 
 module.exports = Object.freeze({
 
+    safe: true, //reads files in with fs.createReadStream and makes sure it's a suman test before running
     verbose: true, //handles and logs warnings (using warning level?)
     checkMemoryUsage: true,
     fullStackTraces: false,
