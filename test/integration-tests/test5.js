@@ -21,10 +21,10 @@ Test.describe('A', {}, ['request', 'socketio'], function (request, socketio) {
         //delay();
     }, 100);
 
-    this.before(function (doe) {
+    this.before(function (a, b, c, done) {
 
         setTimeout(function () {
-
+            done();
         }, 1000);
 
     });
