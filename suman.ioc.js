@@ -3,12 +3,15 @@
  */
 
 
+//*************************************************************************************************************************************
+// this is for dependency injection, y'all
+// the purpose is to inject dependencies / values that are acquired *asynchronously*
+// synchronous deps should be loaded with the require function, as per usual, but deps and values (such as db values) can and should be loaded via this module
+// tests will run in separate processes, but you can use code sharing (not memory sharing) to share setup between tests, which is actually pretty cool
+// ****************************************************************************************************************************************
 
-var async = require('async');
 
-
-module.exports = function loadAsyncDepsForSuman(suman, cb) {
-
+module.exports = (suman) => {  //load async deps for any of your suman tests
 
     suman.configure({
 
@@ -46,7 +49,7 @@ module.exports = function loadAsyncDepsForSuman(suman, cb) {
             setTimeout(function () {
                 cb(null, {
                     whoa: {
-                        chocolate:'yes'
+                        chocolate: 'yes'
                     }
                 });
             }, 100);
