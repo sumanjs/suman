@@ -66,6 +66,7 @@ Test.describe('BBB', function () {
 });
 
 
+/*
 
 
 Test.describe('BBB2', function () {
@@ -180,6 +181,7 @@ Test.describe('BBB2', function () {
 
 
 });
+*/
 
 
-module.exports.wait  = true;
+module.exports.wait  = false;

@@ -2,7 +2,7 @@
 
 
 if (require.main !== module || process.argv.indexOf('--suman') > -1) {
-    //prevents users from fucking up by accident and getting in some weird infinite loop that will lock up their system
+    //prevents users from fucking up by accident and getting in some possible infinite process.spawn loop that will lock up their system
     console.log('Warning: attempted to require Suman index.js but this cannot be.');
     return;
 }
