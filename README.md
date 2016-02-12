@@ -77,52 +77,40 @@ Test.describe('FirstExample', function(){     //  our test suite
 
 
      this.it('uno', t => {     // a test case
-   
         if(!t.data){
            throw new Error('This will not happen because t.data is predefined by Suman for each test');  
         }
-  
      });
 
      this.it('dos', t => {       // a test case 
-   
         assert(false,'not good');  
-  
      });
      
      
        this.it('tres', t => {       // a test case 
-        
              return new Promise(function(resolve,reject){    // obligatory Promise example
-       
                     resolve(t);  //test passes no matter what LOL
-       
              });
        });
      
      
      this.describe('all tests herein will run in parallel', {parallel:true}, function(){
      
-          
           [1,2,3].forEach(item => {
-          
                this.it('item is a number', () => {
                     assert.equal(typeof item,'number');
                });
-          
           });
           
           
           ['a','b','c'].forEach(item => {
                     
                 this.it('now we use asynchrony', (t,done) => {
-                         
                        setTimeout(function(){
                              done(new Error('Test failed'));
                        }, 2000);
-                
                 });
-                  
+                 
            });
      
      });
@@ -143,7 +131,7 @@ var suman = require('suman');
 var Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
 
 
-Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){    // you actually don't need the dependency array for DI, but it's in this example to make it clearer*
+Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){    // normally we only need to inject a couple of values per test
 
      var results = [];
      
@@ -170,17 +158,13 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
           results.forEach(result => {
           
             this.it('tests db result', t => {
-                     
                      assert(t.data.the);
-            
              });
              
-           this.it('tests db result', (t,done) => {
+            this.it('tests db result', (t,done) => {
                                   
                  setTimeout(function(){
-                             
                        done(new Error('Passing an error to done will fail the test as it should');
-                             
                     },2000);
                         
                  });
