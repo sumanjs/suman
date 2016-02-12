@@ -20,7 +20,7 @@ the most unnecessary places, but we have to deal with it).
 trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
 
 
-Compared to Suman, most testing frameworks are frivolous and dumbed-down. For example, Tape's ability to pre-load modules using the command line before running tests is a total joke
+Compared to Suman, most testing frameworks are frivolous and dumbed-down. For example, Tape's ability to pre-load modules using the command line before running tests is sort of a joke
 compared to the dependency injection ability of this library.
 
 
