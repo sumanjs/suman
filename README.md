@@ -66,10 +66,10 @@ simple example:
 
 ```js
 
-var assert = require('assert');   // standard core Node assert module FTW
-var suman = require('suman');
+const assert = require('assert');   // standard core Node assert module FTW
+const suman = require('suman');
 
-var Test = suman.init(module);
+const Test = suman.init(module);
 
 Test.describe('FirstExample', function(){     //  our test suite
 
@@ -128,10 +128,10 @@ an example with more features:
 
 ```js
 
-var assert = require('assert');
-var suman = require('suman');
+const assert = require('assert');
+const suman = require('suman');
 
-var Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
+const Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
 
 
 Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){    // normally we only need to inject a couple of values per test
