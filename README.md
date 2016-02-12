@@ -89,7 +89,7 @@ Test.describe('FirstExample', function(){   // the test suite
           [1,2,3].forEach(item => {
           
                this.it('item is a number', () => {
-                    assert(typeof item,'number');
+                    assert.equal(typeof item,'number');
                });
           
           });
@@ -100,7 +100,6 @@ Test.describe('FirstExample', function(){   // the test suite
                 this.it('now we use asynchrony', (t,done) => {
                          
                        setTimeout(function(){
-                       
                              done(new Error('Test failed'));
                        }, 2000);
                 
@@ -182,8 +181,8 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 
 ### Examples
 
-see:  /examples directory
-see:  https://medium.com/@the1mills/introducing-suman-a-node-js-testing-library-20fdae524cd
+* see:  /examples directory
+* see:  https://medium.com/@the1mills/introducing-suman-a-node-js-testing-library-20fdae524cd
 
 
 ### FAQ
