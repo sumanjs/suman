@@ -2,6 +2,7 @@
 
 ## ```npm install -D suman```
 
+(disclaimer: Suman is in beta, despite the current version number)
 
 Suman is designed to be a direct successor to Mocha, Chai, Tape and Jasmine. Mocha is most familiar to us and perhaps to you - Mocha was an awesome test library, but has several shortcomings that we experienced ourselves over time, and eventually we wanted a test runner
 that we could use that was better than Mocha. If you like Mocha and BDD test interfaces you will love Suman.
@@ -48,6 +49,8 @@ compared to the dependency injection ability of this library.
 * the rules for the before/after/beforeEach/afterEach hooks are identical to the rules with Mocha
 * skip/only also work like Mocha
 
+
+### => We can say with some confidence that Suman is the most powerful test framework for serverside JavaScript on planet Earth.
 
 
 ### Important aside - How is Suman better than AVA?
@@ -141,7 +144,8 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
           }).forEach(function(val){
                results.push(val);
            });
-           
+          
+      }).then(function(){
            delay(); // calling this allows us to invoke the next describe callback, this allows us to effectively block so that we can register a dynamic number of test cases (if we want to)
      });
      
@@ -198,7 +202,7 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 * Q: Why dependency injection in Node.js? Isn't it a waste of time?
   A: Normally it is. Dependency injection is very useful in the browser and is used by both Angular and RequireJS. In Node.js we usually have all our dependencies or we can easily load
      our dependencies synchronously on demand with the require function. However, with test suites, it was until now impossible to load dependencies and values *asynchronously* before registering test cases.
-     DI allows you truly awesome ability to create and procure values asynchronously before running any tests run, and injecting them in any test suite you wish.
+     DI allows you truly awesome ability to create and procure values asynchronously before any tests are run, and injecting the values in any test suite you wish.
 
 
 ###Extra info
