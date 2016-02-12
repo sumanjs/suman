@@ -39,7 +39,17 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 * prefer standard core assert Node module (unopinionated assertions)
 
 
-## usage
+* Suman is designed to be used specifically for integration and system testing, using a BDD interface
+
+* Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems
+
+* the rules for the before/after/beforeEach/afterEach hooks are identical to the rules with Mocha
+
+* skip/only also work like Mocha
+
+
+
+# usage examples
 
 simple example:
 
