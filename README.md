@@ -1,6 +1,6 @@
 #Suman
 
-## ```npm install --save-dev suman```
+## ```npm install -D suman```
 
 
 Suman is designed to be a direct successor to Mocha. Mocha was an awesome test library, but has several shortcomings that we experienced ourselves over time, and eventually we wanted a test runner
@@ -48,6 +48,12 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 * skip/only also work like Mocha
 
 
+# Important question - Why is Suman better than AVA?
+
+Suman borrows the excellent features from Mocha that AVA seems to ignore. 
+Suman has more powerful facilities for asynchronous testing due to the Mocha-style hooks.
+Dependency injection ability also makes Suman extremely convenient to use, compared to AVA.
+
 
 # usage examples
 
@@ -60,7 +66,7 @@ var suman = require('suman');
 
 var Test = suman.init(module);
 
-Test.describe('FirstExample', function(){   // the test suite
+Test.describe('FirstExample', function(){     //  our test suite
 
 
      this.beforeEach('runs before every it()', t => {
@@ -85,7 +91,7 @@ Test.describe('FirstExample', function(){   // the test suite
      
        this.it('tres', t => {       // a test case 
         
-             return new Promise(function(resolve,reject){    //obligatory promise example
+             return new Promise(function(resolve,reject){    // obligatory Promise example
        
                     resolve(t);  //test passes no matter what LOL
        
@@ -115,10 +121,8 @@ Test.describe('FirstExample', function(){   // the test suite
                 
                 });
                   
-                    
            });
      
-    
      });
 
 });
