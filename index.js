@@ -7,12 +7,11 @@ if (require.main !== module || process.argv.indexOf('--suman') > -1) {
     return;
 }
 
-
 //TODO: need to a suman server stop command at the command line
 //TODO, along with options {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an error...
 //TODO, add option for {timeout: 3000}
 //TODO: if error is thrown after test is completed (in a setTimeout, for example) do we handle that?
-
+//TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
 
 console.log(' => Suman running...');
 

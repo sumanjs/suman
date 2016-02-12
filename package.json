@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "0.9.9",
+  "version": "1.1.0",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -35,7 +35,7 @@
     "socket.io-client": "^1.4.3",
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
-    "univ-config": "^1.4.0",
+    "univ-config": "^1.4.3",
     "v8flags": "^2.0.10"
   },
   "directories": {
