@@ -36,6 +36,7 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 * hooks behave just like in Mocha
 * syntax and structure is borrowed directly from Mocha so that conversion is as easy as possible
 * command line tools and better grep facilities than predecessors
+* prefer standard core assert Node module (unopinionated assertions)
 
 
 ## usage
@@ -44,12 +45,12 @@ simple example:
 
 ```js
 
-var assert = require('assert');
+var assert = require('assert');   // standard core Node assert module FTW
 var suman = require('suman');
 
 var Test = suman.init(module);
 
-Test.describe('@First', function(){   // the test suite
+Test.describe('FirstExample', function(){   // the test suite
 
 
      this.beforeEach('runs before every it()', t => {
@@ -67,7 +68,7 @@ Test.describe('@First', function(){   // the test suite
 
      this.it('dos', t => {       // a test case 
    
-        assert(true,false,'not good');
+        assert(false,'not good');  
   
      });
      
@@ -90,7 +91,7 @@ Test.describe('@First', function(){   // the test suite
                          
                        setTimeout(function(){
                        
-                             done(new Error('Test failed');
+                             done(new Error('Test failed'));
                        }, 2000);
                 
                 });
@@ -108,19 +109,20 @@ Test.describe('@First', function(){   // the test suite
 });
 
 
-
 ```
 
-more features:
+an example with more features:
+
 
 ```js
 
 var assert = require('assert');
 var suman = require('suman');
 
-var Test = suman.init(module,'suman.conf.js');  //we have a suman config file which is useful for configuring reporting etc
+var Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
 
-Test.describe('@Second', ['delay', 'db', 'val'], function(delay, db, val){    // you actually don't need the dependency array for DI, but it's in this example to make it clearer*
+
+Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){    // you actually don't need the dependency array for DI, but it's in this example to make it clearer*
 
      var results = [];
      
