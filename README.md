@@ -73,6 +73,16 @@ Test.describe('FirstExample', function(){   // the test suite
      });
      
      
+       this.it('tres', t => {       // a test case 
+        
+             return new Promise(function(resolve,reject){    //obligatory promise example
+       
+                    resolve(t);  //test passes no matter what LOL
+       
+             });
+       });
+     
+     
      this.describe('all tests herein will run in parallel', {parallel:true}, function(){
      
           
@@ -99,12 +109,8 @@ Test.describe('FirstExample', function(){   // the test suite
                     
            });
      
-     
-     
+    
      });
-
-
-
 
 });
 
@@ -167,10 +173,7 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
      
       });
 
-
-
 });
-
 
 
 
