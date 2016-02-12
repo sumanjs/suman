@@ -13,9 +13,9 @@ The reasons why Mocha and its peers need a replacement are:
 * Mocha could not move forward with ES6 features due to certain patterns used
 * heavy usage of globals was bringing Mocha down
 * Mocha lacked real ability to do true dynamic testing (meaning, registering a dynamic number of it() test cases) ---> e.g., make a network call, get X values, create a test case for each.
-* Mocha had confusing and obfuscated context values (values for 'this'), which we have greatly simplified, allow for usage of arrow functions (which we guarantee people will try to use in
+* Mocha had confusing and obfuscated context values (values for 'this'), which we have greatly simplified, allowing for the usage of arrow functions (which we guarantee people will try to use in
 the most unnecessary places, but we have to deal with it).
-* and lastly a BIG ONE: clean reporting - at the command line, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
+* and lastly a BIG ONE: clean reporting - at the command line, using Mocha, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
 trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
 
 
@@ -73,7 +73,7 @@ Test.describe('FirstExample', function(){   // the test suite
      });
      
      
-     this.describe('all tests herein will run in parallel, {parallel:true}, function(){
+     this.describe('all tests herein will run in parallel', {parallel:true}, function(){
      
           
           [1,2,3].forEach(item => {
