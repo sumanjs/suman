@@ -3,7 +3,7 @@
 ## ```npm install -D suman```
 
 
-Suman is designed to be a direct successor to Mocha. Mocha was an awesome test library, but has several shortcomings that we experienced ourselves over time, and eventually we wanted a test runner
+Suman is designed to be a direct successor to Mocha, Chai, Tape and Jasmine. Mocha is most familiar to us and perhaps to you - Mocha was an awesome test library, but has several shortcomings that we experienced ourselves over time, and eventually we wanted a test runner
 that we could use that was better than Mocha. If you like Mocha and BDD test interfaces you will love Suman.
 
 The reasons why Mocha and its peers need a replacement are:
@@ -17,6 +17,10 @@ The reasons why Mocha and its peers need a replacement are:
 the most unnecessary places, but we have to deal with it).
 * and lastly a BIG ONE: clean reporting - at the command line, using Mocha, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
 trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
+
+
+Compared to Suman, most testing frameworks are frivolous and dumbed-down. For example, Tape's ability to pre-load modules using the command line before running tests is a total joke
+compared to the dependency injection ability of this library.
 
 
 ## Suman features:
@@ -40,18 +44,16 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 
 
 * Suman is designed to be used specifically for integration and system testing, using a BDD interface
-
 * Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems
-
 * the rules for the before/after/beforeEach/afterEach hooks are identical to the rules with Mocha
-
 * skip/only also work like Mocha
 
 
-# Important question - Why is Suman better than AVA?
+
+### Important aside - How is Suman better than AVA?
 
 Suman borrows the excellent features from Mocha that AVA seems to ignore. 
-Suman has more powerful facilities for asynchronous testing due to the Mocha-style hooks.
+Suman has more powerful facilities for asynchronous testing due to Mocha/Chai-style hooks.
 Dependency injection ability also makes Suman extremely convenient to use, compared to AVA.
 
 
