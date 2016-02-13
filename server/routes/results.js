@@ -129,7 +129,13 @@ router.get('/latest', function (req, res, next) {
         if (runId) {
             var file = path.resolve(folder, runId, 'temp.html');
             console.log('***:', file);
-            res.sendFile(file);
+            res.sendFile(file, {
+                maxAge: 4
+            },function(err){
+                if(err){
+                    next(err);
+                }
+            });
         }
         else {
             next(new Error('no latest results exist'));
