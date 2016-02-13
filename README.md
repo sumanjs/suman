@@ -201,15 +201,13 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 
 ## Table of Goodness
 
-|       | Supports ES6/ES7 | Supports test isolation using  | Concurrency within suites | Dependency Injection |
-|       | features         |  multiple Node.js processes    |                           |                      |     
-|-------|------------------|------------------------------- |---------------------------|----------------------|
-| Mocha | No               | No                             | No                        | No                   |
-| Chai  | No               | No                             | No                        | No                   |
-| Tape  | No               | No                             | No                        | No                   |
-| AVA   | Yes              | Yes                            | Yes                       | No                   |
-| Suman | Yes              | Yes                            | Yes                       | Yes                  |
-
+|       | Supports ES6/ES7  features | Supports test isolation using  multiple Node.js processes | Concurrency within suites | Dependency Injection |
+|-------|----------------------------|-----------------------------------------------------------|---------------------------|----------------------|
+| Mocha | No                         | No                                                        | No                        | No                   |
+| Chai  | No                         | No                                                        | No                        | No                   |
+| Tape  | No                         | No                                                        | No                        | No                   |
+| AVA   | Yes                        | Yes                                                       | Yes                       | No                   |
+| Suman | Yes                        | Yes                                                       | Yes                       | Yes                  |
 
 ## Table of Madness
 
