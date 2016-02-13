@@ -37,9 +37,9 @@ compared to the dependency injection ability of this library.
 * extremely powerful, while aiming to be straightforward, clean, concise, consistent and accurate
 * designed with ES6 and ES7 in mind, including async/await and generators
 * very simple but powerful dependency injection (DI/IoC) of values and dependencies, 
-       * --> controlled by the developer (used primarily for injecting values acquired asynchronously, such as DB values)
-       * --> inspired by familiar tools such as Angular and RequireJS
-       * --> completely optional, it's the developer's choice whether to incorporate DI or not
+       * => controlled by the developer (used primarily for injecting values acquired asynchronously, such as DB values)
+       * => inspired by familiar tools such as Angular and RequireJS
+       * => completely optional, it's the developer's choice whether to incorporate DI or not
        
 * bdd interface
 * no globals whatsoever
@@ -197,7 +197,8 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 ```
 
 
-# Comparisons
+# Test Framework Comparison
+
 
 ## Table of Goodness
 
@@ -209,19 +210,19 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 | AVA   | Yes                        | Yes                                                       | Yes                       | No                   |
 | Suman | Yes                        | Yes                                                       | Yes                       | Yes                  |
 
-## Table of Madness
+
+## Matrix of Madness
+
+|       | Forces you to use their assertion library          | Confusing bind(this) contexts                                         | Developer debugging / console.log output mixed with test output                                           | t.plan() and t.end() madness with useless feature of tests as streams           | lack of concurrency  |
+|-------|----------------------------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|----------------------|
+| Mocha | No                                                 | Yes                                                                   | Yes                                                                                                       | No                                                                              | Yes                  |
+| Chai  | No                                                 | Yes                                                                   | Yes                                                                                                       | No                                                                              | Yes                  |
+| Tape  | Yes                                                | No                                                                    | Yes                                                                                                       | Yes                                                                             | Yes                  |
+| Ava   | Yes                                                | No                                                                    | ?                                                                                                         | Yes                                                                             | No                   |
+| Suman | Nope, Suman prefers the Node.js core assert module | Nope, Suman greatly simplifies the context puzzle that Mocha provided | Nope, Suman runner uses silent option with child_process so your output doesn't mix with the test results | Nope, tests are just plain objects and you don't need to explicitly call .end() | Nope                 |
 
 
-|       | Forces you to use their assertion library madness  | Confusing bind(this) contexts madness                                 | Developer debugging / console.log output mixed with test output madness                                   | t.plan() and t.end() madness with useless feature of tests as streams?          | lack of concurrency madness |
-|-------|----------------------------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|-----------------------------|
-| Mocha | No                                                 | Yes                                                                   | Yes                                                                                                       | No                                                                              | Yes                         |
-| Chai  | No                                                 | Yes                                                                   | Yes                                                                                                       | No                                                                              | Yes                         |
-| Tape  | Yes                                                | No                                                                    | Yes                                                                                                       | Yes                                                                             | Yes                         |
-| Ava   | Yes                                                | No                                                                    | ?                                                                                                         | Yes                                                                             | No                          |
-| Suman | Nope, Suman prefers the Node.js core assert module | Nope, Suman greatly simplifies the context puzzle that Mocha provided | Nope, Suman runner uses silent option with child_process so your output doesn't mix with the test results | Nope, tests are just plain objects and you don't need to explicitly call .end() | Nope                        |
-
-
-### Examples
+### More Suman Examples
 
 * see:  /examples directory
 * see:  https://medium.com/@the1mills/introducing-suman-a-node-js-testing-library-20fdae524cd
@@ -249,10 +250,7 @@ Ava is also an up and coming testing library for Node.js.
 If you are familiar with Mocha and like both its power and simplicity, you may prefer Suman over Ava.
 
 
-### simple teaser examples ?  --->  see /examples directory
 
-
-
-*dependency arrays of strings exist so that during minification we can still know where to inject dependencies, that's why Angular and RequireJS have deps arrays of strings - they don't get
+** dependency arrays of strings exist so that during minification we can still know where to inject dependencies, that's why Angular and RequireJS have deps arrays of strings - they don't get
 corrupted by minification/uglification. But in testing frameworks, it is very unlikely we need to minify, so we can go without the dep array 99% of the time,
 and just use metaprogramming with the callback argument list to locate the dependencies
