@@ -209,7 +209,7 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 | Chai  | Yes                                                                       | No                                    | No                                                        | No                        | No                   |
 | Tape  | Yes                                                                       | No                                    | No                                                        | No                        | No                   |
 | AVA   | No                                                                        | Yes                                   | Yes                                                       | Yes                       | No                   |
-| Suman | Yes, you can run any given test suite with the plain old node executable  | Yes, Suman will support all features  | Yes                                                       | Yes                       | Yes                  |
+| Suman | Yep, you can run any given test suite with the plain old node executable  | Yep, Suman will support all features  | Yep                                                       | Yep                       | Yep                  |
 
 
 ## Matrix of Madness
