@@ -18,7 +18,7 @@ module.exports = function () {
             sumanConfig = require(cwd + '/' + cfgPath);
         }
         else {
-            sumanConfig = require(__dirname + '/../../suman.conf.js');
+            sumanConfig = require(__dirname + '/../../suman.default.conf.js');
         }
 
     }
@@ -27,7 +27,7 @@ module.exports = function () {
     }
 
     if (sumanConfig.servers) {
-        serverConfig = sumanConfig.servers[os.hostname()];
+        serverConfig = sumanConfig.servers[os.hostname()] || sumanConfig.servers['*default'];
     }
 
 

@@ -28,9 +28,10 @@ compared to the dependency injection ability of this library.
 
 * extremely powerful, while aiming to be straightforward, clean, concise, consistent and accurate
 * designed with ES6 and ES7 in mind, including async/await and generators
-* simple but powerful dependency injection (DI/IoC) of values and dependencies, 
+* very simple but powerful dependency injection (DI/IoC) of values and dependencies, 
        * --> controlled by the developer (used primarily for injecting values acquired asynchronously, such as DB values)
        * --> inspired by familiar tools such as Angular and RequireJS
+       * --> completely optional, it's the developer's choice whether to incorporate DI or not
        
 * bdd interface
 * no globals whatsoever
@@ -90,10 +91,10 @@ Test.describe('FirstExample', function(){     //  our test suite
      });
      
      
-       this.it('tres', t => {       // a test case 
-             return new Promise(function(resolve,reject){    // obligatory Promise example
-                    resolve(t);  //test passes no matter what LOL
-             });
+     this.it('tres', t => {       // a test case 
+         return new Promise(function(resolve,reject){                 // obligatory Promise example
+                 resolve(null);  //test passes no matter what LOL
+           });
        });
      
      
@@ -108,10 +109,10 @@ Test.describe('FirstExample', function(){     //  our test suite
           
           ['a','b','c'].forEach(item => {
                     
-                this.it('now we use asynchrony', (t,done) => {
-                       setTimeout(function(){
-                             done(new Error('Test failed'));
-                       }, 2000);
+               this.it('now we use asynchrony', (t,done) => {
+                    setTimeout(function(){
+                        done(new Error('Test failed'));
+                    }, 2000);
                 });
                  
            });
@@ -147,15 +148,19 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
           
       }).then(function(){
            delay(); // calling this allows us to invoke the next describe callback, this allows us to effectively block so that we can register a dynamic number of test cases (if we want to)
-     });
+      });
+      
      
       this.beforeEach(t => {
             t.data.the = 'clash';  
       });
      
+     
       this.beforeEach(async function(t) {     //obligatory ES7 example 
-            return await val.somePromiseMaker();  
+            var ret = await val.somePromiseMaker();  
+            return await ret.doSomeThingAsync();
       });
+      
      
       this.describe('this does not run until after db call completes and delay is called', function(){
       

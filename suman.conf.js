@@ -35,6 +35,12 @@ module.exports = Object.freeze({
 
     ioc: 'suman.ioc.js',
 
+    reporters: {
+
+
+
+    },
+
     servers: {
         'denman-lenovo': {
             host: '127.0.0.1', //10.172.47.79

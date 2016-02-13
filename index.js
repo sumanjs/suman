@@ -12,6 +12,7 @@ if (require.main !== module || process.argv.indexOf('--suman') > -1) {
 //TODO, add option for {timeout: 3000}
 //TODO: if error is thrown after test is completed (in a setTimeout, for example) do we handle that?
 //TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
+//TODO: suman -s (server) needs to try user's config first, if that fails, then use default suman config
 
 console.log(' => Suman running...');
 
@@ -54,9 +55,22 @@ try {
 }
 catch (err) {
     //TODO: try to get suman.conf.js from root of project
-    console.error('\n => ' + err + '\n');
+
     console.error('   ' + colors.bgCyan.black('Suman error => Could not find path to your config file in your current working directory or given by --cfg at the command line.'));
-    return;
+    console.error('   ' + colors.bgCyan.black('Suman msg => Using default Suman configuration.'));
+
+    try{
+        var pth = path.resolve(__dirname + '/suman.default.conf.js');
+        sumanConfig = require(pth);
+        if (sumanConfig.verbose !== false) {  //default to true
+            console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
+        }
+    }
+    catch(err){
+        console.error('\n => ' + err + '\n');
+        return;
+    }
+
 }
 
 
