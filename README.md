@@ -1,6 +1,13 @@
 #Suman
 
+For test suites in your project:
+
 ## ```npm install -D suman```
+
+For command line tools:
+
+## ```npm install -g suman```
+
 
 (disclaimer: Suman is in beta, despite the current version number)
 
@@ -20,7 +27,8 @@ the most unnecessary places, but we have to deal with it).
 trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
 
 
-Compared to Suman, most testing frameworks are frivolous and dumbed-down. For example, Tape's ability to pre-load modules using the command line before running tests is sort of a joke
+Compared to Suman, most testing frameworks are frivolous and dumbed-down, and don't feel robust enough to test mission critical systems.
+For example, Tape's ability to pre-load modules using the command line before running tests is sort of a joke
 compared to the dependency injection ability of this library.
 
 
@@ -42,7 +50,7 @@ compared to the dependency injection ability of this library.
 * hooks behave just like in Mocha
 * syntax and structure is borrowed directly from Mocha so that conversion is as easy as possible
 * command line tools and better grep facilities than predecessors
-* prefer standard core assert Node module (unopinionated assertions)
+* => prefer standard core assert Node module (unopinionated assertions)
 
 
 * Suman is designed to be used specifically for integration and system testing, using a BDD interface
@@ -51,14 +59,17 @@ compared to the dependency injection ability of this library.
 * skip/only also work like Mocha
 
 
-### => We can say with some confidence that Suman is the most powerful test framework for serverside JavaScript on planet Earth.
+### => We can say with some confidence that Suman is the most powerful test framework for serverside JavaScript on planet Earth,
+ because it gives the developer total control and access to a very large set of features.
 
 
 ### Important aside - How is Suman better than AVA?
 
-Suman borrows the excellent features from Mocha that AVA seems to ignore. 
-Suman has more powerful facilities for asynchronous testing due to Mocha/Chai-style hooks.
-Dependency injection ability also makes Suman extremely convenient to use, compared to AVA.
+Suman borrows some excellent features from Mocha that AVA seems to ignore, including the ability
+ to use nested describe statements for more control and preventing the sharing of scope. AVA basically
+ conned Tape and added concurrency. Suman conned Mocha, added concurrency and dependency injection and 
+ less confusing contexts for hooks. Suman has more powerful facilities for asynchronous testing due to Mocha/Chai-style hooks
+ and nested describes. Dependency injection ability also makes Suman extremely convenient to use, compared to AVA.
 
 
 # usage examples
@@ -75,15 +86,13 @@ const Test = suman.init(module);
 Test.describe('FirstExample', function(){     //  our test suite
 
 
-     this.beforeEach('runs before every it()', t => {
+      this.beforeEach('runs before every it()', t => {
            t.data.foo = 'bar';
       });
 
 
      this.it('uno', t => {     // a test case
-        if(!t.data){
-           throw new Error('This will not happen because t.data is predefined by Suman for each test');  
-        }
+        assert(t.data,'This will not happen because t.data is predefined by Suman for each test');  
      });
 
      this.it('dos', t => {       // a test case 
@@ -186,6 +195,32 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 
 
 ```
+
+
+# Comparisons
+
+## Table of Goodness
+
+|       | Supports ES6/ES7 | Supports test isolation using  | Concurrency within suites | Dependency Injection |
+|       | features         |  multiple Node.js processes    |                           |                      |     
+|-------|------------------|------------------------------- |---------------------------|----------------------|
+| Mocha | No               | No                             | No                        | No                   |
+| Chai  | No               | No                             | No                        | No                   |
+| Tape  | No               | No                             | No                        | No                   |
+| AVA   | Yes              | Yes                            | Yes                       | No                   |
+| Suman | Yes              | Yes                            | Yes                       | Yes                  |
+
+
+## Table of Madness
+
+
+|       | Forces you to use their assertion library madness  | Confusing bind(this) contexts madness                                 | Developer debugging / console.log output mixed with test output madness                                   | t.plan() and t.end() madness with useless feature of tests as streams?          | lack of concurrency madness |
+|-------|----------------------------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|-----------------------------|
+| Mocha | No                                                 | Yes                                                                   | Yes                                                                                                       | No                                                                              | Yes                         |
+| Chai  | No                                                 | Yes                                                                   | Yes                                                                                                       | No                                                                              | Yes                         |
+| Tape  | Yes                                                | No                                                                    | Yes                                                                                                       | Yes                                                                             | Yes                         |
+| Ava   | Yes                                                | No                                                                    | ?                                                                                                         | Yes                                                                             | No                          |
+| Suman | Nope, Suman prefers the Node.js core assert module | Nope, Suman greatly simplifies the context puzzle that Mocha provided | Nope, Suman runner uses silent option with child_process so your output doesn't mix with the test results | Nope, tests are just plain objects and you don't need to explicitly call .end() | Nope                        |
 
 
 ### Examples
