@@ -202,13 +202,14 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 
 ## Table of Goodness
 
-|       | Supports ES6/ES7  features | Supports test isolation using  multiple Node.js processes | Concurrency within suites | Dependency Injection |
-|-------|----------------------------|-----------------------------------------------------------|---------------------------|----------------------|
-| Mocha | No                         | No                                                        | No                        | No                   |
-| Chai  | No                         | No                                                        | No                        | No                   |
-| Tape  | No                         | No                                                        | No                        | No                   |
-| AVA   | Yes                        | Yes                                                       | Yes                       | No                   |
-| Suman | Yes                        | Yes                                                       | Yes                       | Yes                  |
+
+|       | Node-able                                                                 | Supports ES6/ES7  features            | Supports test isolation using  multiple Node.js processes | Concurrency within suites | Dependency Injection |
+|-------|---------------------------------------------------------------------------|---------------------------------------|-----------------------------------------------------------|---------------------------|----------------------|
+| Mocha | No                                                                        | No                                    | No                                                        | No                        | No                   |
+| Chai  | Yes                                                                       | No                                    | No                                                        | No                        | No                   |
+| Tape  | Yes                                                                       | No                                    | No                                                        | No                        | No                   |
+| AVA   | No                                                                        | Yes                                   | Yes                                                       | Yes                       | No                   |
+| Suman | Yes, you can run any given test suite with the plain old node executable  | Yes, Suman will support all features  | Yes                                                       | Yes                       | Yes                  |
 
 
 ## Matrix of Madness
