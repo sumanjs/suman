@@ -1,5 +1,5 @@
 const assert = require('assert');
-const suman = require('suman');
+const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
 
 /////////////////////////////////////////////////////
 var Test = suman.Test(module);
@@ -18,7 +18,7 @@ function promiseTimeout(t) {
     })
 }
 
-Test.describe('@Test1', {parallel: true}, function () {
+Test.describe('@Test1', {parallel: true}, function (request,socketio) {
 
 
     this.it('one', t => {
