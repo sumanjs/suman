@@ -11,15 +11,17 @@ For command line tools:
 
 (disclaimer: Suman is in beta, despite the current version number)
 
-Suman is designed to be a direct successor to Mocha, Chai, Tape and Jasmine. Mocha is most familiar to us and perhaps to you - Mocha was an awesome test library, but has several shortcomings that we experienced ourselves over time, and eventually we wanted a test runner
+Suman is a test runner for serverside JavaScript. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
+and to compete with the new Node.js test runner AVA. Mocha is most familiar to us and perhaps to you - 
+Mocha was an awesome test library, but has several shortcomings that we experienced ourselves over time, and eventually we wanted a test runner
 that we could use that was better than Mocha. If you like Mocha and BDD test interfaces you will love Suman.
 
 The reasons why Mocha and its peers need a replacement are:
 
-* in Mocha everything was run in series, which can take unnecessary amounts of time for async tests
+* in Mocha, Tape and Jasmine everything was run in series, which can take unnecessary amounts of time for async tests
 * in Mocha suites were not run in separate processes (necessary for isolation and independence of test results)
 * Mocha could not move forward with ES6 features due to certain patterns used
-* heavy usage of globals was bringing Mocha down
+* heavy usage of globals was bringing Mocha and Jasmine down
 * Mocha lacked real ability to do true dynamic testing (meaning, registering a dynamic number of it() test cases) ---> e.g., make a network call, get X values, create a test case for each.
 * Mocha had confusing and obfuscated context values (values for 'this'), which we have greatly simplified, allowing for the usage of arrow functions (which we guarantee people will try to use in
 the most unnecessary places, but we have to deal with it).
@@ -66,9 +68,9 @@ compared to the dependency injection ability of this library.
 ### Important aside - How is Suman better than AVA?
 
 Suman borrows some excellent features from Mocha that AVA seems to ignore, including the ability
- to use nested describe statements for more control and preventing the sharing of scope. AVA basically
+ to use nested describe statements for more control and preventing the sharing of scope within tests. AVA basically
  conned Tape and added concurrency. Suman conned Mocha, added concurrency and dependency injection and 
- less confusing contexts for hooks. Suman has more powerful facilities for asynchronous testing due to Mocha/Chai-style hooks
+ less confusing contexts for hooks. Suman has more powerful facilities for asynchronous testing due to Mocha/Jasmine-style hooks
  and nested describes. Dependency injection ability also makes Suman extremely convenient to use, compared to AVA.
 
 
@@ -214,7 +216,7 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 
 ## Matrix of Madness
 
-|         | Implicit globals | Forces you to use their assertion library madness  | Confusing bind(this) contexts madness                                 | Developer debugging / console.log output mixed with test output madness                                   | t.plan() and t.end() madness with useless feature of tests as streams?          | no concurrency madness |
+|         | Implicit globals | Forces you to use their assertion library madness  | Confusing bind(this) contexts madness                                 | Developer debugging / console.log output mixed with test output madness                                   | t.plan() and t.end() madness with useless feature of tests as streams          | no concurrency madness |
 |---------|------------------|----------------------------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|------------------------|
 | Mocha   | Yes              | No                                                 | Yes                                                                   | Yes                                                                                                       | No                                                                              | Yes                    |
 | Jasmine | Yes              | No                                                 | Yes                                                                   | Yes                                                                                                       | No                                                                              | Yes                    |
@@ -236,8 +238,8 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
    A: Suman does this for three main reasons:
 
    1. Consistency - someone looks at the tests you wrote and they immediate recognize the variables because the names are given
-   2. Suman can analyze your code for mistakes if it knows the variable names you use
-   3. Dependency injection - the order of your dependencies doesn't matter as long as you stick to the naming convention
+   2. Suman can better analyze your code for mistakes if it knows the variable names you use
+   3. Dependency injection - the order of your dependencies doesn't matter as long as you stick to the naming convention, which is pretty nice
 
 * Q: Why dependency injection in Node.js? Isn't it a waste of time?
   A: Normally it is. Dependency injection is very useful in the browser and is used by both Angular and RequireJS. In Node.js we usually have all our dependencies or we can easily load
@@ -245,11 +247,12 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
      DI allows you truly awesome ability to create and procure values asynchronously before any tests are run, and injecting the values in any test suite you wish.
 
 
-###Extra info
+### Extra info
 
-Ava is also an up and coming testing library for Node.js. 
+AVA is also an up and coming testing library for Node.js. 
 If you are familiar with Mocha and like both its power and simplicity, you may prefer Suman over Ava.
-
+As was stated above AVA draws more from Tape and Suman draws more from Mocha. Suman was designed to make the transition
+from Mocha to be seamless.
 
 
 ** dependency arrays of strings exist so that during minification we can still know where to inject dependencies, that's why Angular and RequireJS have deps arrays of strings - they don't get
