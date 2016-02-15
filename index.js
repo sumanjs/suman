@@ -2,11 +2,13 @@
 
 
 /*
+
  if (require.main !== module || process.argv.indexOf('--suman') > -1) {
  //prevents users from fucking up by accident and getting in some possible infinite process.spawn loop that will lock up their system
  console.log('Warning: attempted to require Suman index.js but this cannot be.');
  return;
  }
+
  */
 
 
@@ -63,16 +65,16 @@ try {
 catch (err) {
     //TODO: try to get suman.conf.js from root of project
 
-    console.error('  ' + colors.bgCyan.black('Suman error => Could not find path to your config file in your current working directory or given by --cfg at the command line...','\n',
-        '  ..now looking for a config file at the root of your project.'));
-    try{
+    console.error('  ' + colors.bgCyan.black('Suman error => Could not find path to your config file in your current working directory or given by --cfg at the command line...', '\n',
+            '  ..now looking for a config file at the root of your project.'));
+    try {
         var pth = path.resolve(sumanUtils.findProjectRoot(cwd) + '/' + 'suman.conf.js');
         sumanConfig = require(pth);
         if (sumanConfig.verbose !== false) {  //default to true
             console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
         }
     }
-    catch(err){
+    catch (err) {
         console.error('   ' + colors.bgCyan.black('Suman msg => Using default Suman configuration.'));
         try {
             var pth = path.resolve(__dirname + '/suman.default.conf.js');
