@@ -26,7 +26,7 @@ Test.describe('B', ['socketio', 'request', 'delay'], function (socketio, request
     this.before(function (done) {
 
         setTimeout(function () {
-            console.log('BEFORE');
+            //console.log('BEFORE');
             done();
         }, 100);
 
@@ -41,20 +41,27 @@ Test.describe('B', ['socketio', 'request', 'delay'], function (socketio, request
     }
 
 
-    this.before(async function () {
-        return await timeout();
+    //this.before(async function () {
+    //    return await timeout();
+    //});
+
+
+    this.beforeEach(async function (t, done, run) {
+        console.log('TTTTTTT:', t);
+        console.log('DDDDD:', done);
+        console.log('RRRRR:', run);
+        //t.data.lion = await timeout();
     });
 
-
-    this.beforeEach(async function (t) {
-        t.data.lion = await timeout();
+    this.beforeEach(function (t) {
+        t.data.lion = 'barb';
     });
 
 
     this.beforeEach(function (t, done) {
 
         setTimeout(function () {
-            console.log('BEFORE EACH');
+            //console.log('BEFORE EACH');
             done();
         }, 100);
 

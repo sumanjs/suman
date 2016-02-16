@@ -198,6 +198,22 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 
 ```
 
+```js
+
+const assert = require('assert');
+const suman = require('suman');
+
+const Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
+
+
+Test.describe('ThirdExample', function(delay, db, val){    // note: as stated above, unless we need to minify our tests for some reason, we don't need a dep array, just the callback
+
+
+
+});
+
+```
+
 
 # Test Framework Comparison
 

@@ -12,48 +12,48 @@ var Test = require('../../lib').Test(module, 'suman.conf.js');
 
 Test.describe('suite tres', function (suite) {
 
+    this.before(function (done) {
+
+        return done();
+    });
+
+    this.it('my test99999', (a, b) => {
+
+        //throw new Error('rrr');
+
+        b();
+    });
+
+    this.afterEach(function (t, done) {
+
+        //done(888);
+        done();
+    });
+
+    this.describe('tarzan', function () {
+
         this.before(function (done) {
 
-                return done();
+            done();
         });
 
-        this.it('my test99999', (a, b) => {
+        this.it('my tarzan test', function () {});
 
-                //throw new Error('rrr');
+        this.describe('uuuuu test', function () {
 
-                b();
-        });
-
-        this.afterEach(function (t, done) {
-
-                //done(888);
-                done();
-        });
-
-        this.describe('tarzan', function () {
+            this.describe('uuuuu3333 test', function () {
 
                 this.before(function (done) {
 
-                        done();
+                    done();
                 });
 
-                this.it('my tarzan test', function () {});
+                this.it('my 3333 test', function () {});
+            });
 
-                this.describe('uuuuu test', function () {
+            this.before(function () {});
 
-                        this.describe('uuuuu3333 test', function () {
-
-                                this.before(function (done) {
-
-                                        done();
-                                });
-
-                                this.it('my 3333 test', function () {});
-                        });
-
-                        this.before(function () {});
-
-                        this.it('my boooz test', function () {});
-                });
+            this.it('my boooz test', function () {});
         });
+    });
 });

@@ -4,7 +4,33 @@
 
 "use strict";
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+function _asyncToGenerator(fn) {
+    return function () {
+        var gen = fn.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            function step(key, arg) {
+                try {
+                    var info = gen[key](arg);
+                    var value = info.value;
+                } catch (error) {
+                    reject(error);
+                    return;
+                }
+                if (info.done) {
+                    resolve(value);
+                } else {
+                    return Promise.resolve(value).then(function (value) {
+                        return step("next", value);
+                    }, function (err) {
+                        return step("throw", err);
+                    });
+                }
+            }
+
+            return step("next");
+        });
+    };
+}
 
 var suman = require('../../lib');
 var Test = suman.Test(module, 'suman.conf.js');
@@ -44,14 +70,13 @@ Test.describe('B', ['socketio', 'request', 'delay'], function (socketio, request
     //});
 
     this.beforeEach(function () {
-        var ref = _asyncToGenerator(function* (t, done, run) {
+        var ref = _asyncToGenerator(function* (t) {
             console.log('TTTTTTT:', t);
-            console.log('DDDDD:', done);
-            console.log('RRRRR:', run);
             //t.data.lion = await timeout();
         });
 
-        return function (_x, _x2, _x3) {
+        return function (_x) {
+            console.log('XXXX:', _x);
             return ref.apply(this, arguments);
         };
     }());

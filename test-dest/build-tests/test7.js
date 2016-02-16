@@ -44,80 +44,121 @@ Test.describe('BBB', function () {
     this.before(() => {});
 });
 
+/*
+
+
 Test.describe('BBB2', function () {
 
-    this.before(() => {}).beforeEach(() => {});
 
-    this.describe('1', { efa: true }, function () {
+    this.before(() => {
 
-        this.before(done => {
+
+    }).beforeEach(() => {
+
+
+    });
+
+
+    this.describe('1', {efa: true}, function () {
+
+        this.before((done) => {
 
             setTimeout(function () {
                 done();
             }, 10);
         });
 
-        this.it('[test] yo', { parallel: false }, (t, done) => {
+        this.it('[test] yo', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
             }, 500);
+
         });
 
-        this.it('yo', { parallel: false }, (t, done) => {
+        this.it('yo', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
             }, 500);
+
         });
 
-        this.it({ parallel: false }, (t, done) => {
+        this.it({parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
             }, 500);
+
         });
+
+
     });
 
-    this.before(() => {});
+
+    this.before(() => {
+
+    });
+
+
 });
+
 
 Test.describe('BBB2', function () {
 
-    this.before(() => {}).beforeEach(() => {});
 
-    this.describe('1', { efa: true }, function () {
+    this.before(() => {
 
-        this.before(done => {
+
+    }).beforeEach(() => {
+
+
+    });
+
+
+    this.describe('1', {efa: true}, function () {
+
+        this.before((done) => {
 
             setTimeout(function () {
                 done();
             }, 10);
         });
 
-        this.it('[test] yo', { parallel: false }, (t, done) => {
+        this.it('[test] yo', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
             }, 500);
+
         });
 
-        this.it('yo', { parallel: false }, (t, done) => {
+        this.it('yo', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
             }, 500);
+
         });
 
-        this.it({ parallel: false }, (t, done) => {
+        this.it({parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
             }, 500);
+
         });
+
+
     });
 
-    this.before(() => {});
-});
 
-module.exports.wait = true;
+    this.before(() => {
+
+    });
+
+
+});
+*/
+
+module.exports.wait = false;

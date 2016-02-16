@@ -3,30 +3,27 @@
  */
 
 //core
-var gulp = require('gulp');
-var path = require('path');
-var fs = require('fs');
-//var socketio = require('socket.io');
-var async = require('async');
-var _ = require('underscore');
-//var EE = require('events').EventEmitter;
-//var colors = require('colors/safe');
+const gulp = require('gulp');
+const path = require('path');
+const fs = require('fs');
+const async = require('async');
+const _ = require('underscore');
 const chalk = require('chalk');
-var request = require('request');
-var ijson = require('idempotent-json');
-var suman = require('./lib');
-var sumanConstants = suman.constants;
+const request = require('request');
+const ijson = require('idempotent-json');
+const suman = require('./lib');
+const sumanConstants = suman.constants;
 
 //gulp plugins
-var babel = require('gulp-babel');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var rename = require('gulp-rename');
-var nodemon = require('gulp-nodemon');
+const babel = require('gulp-babel');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const rename = require('gulp-rename');
+const nodemon = require('gulp-nodemon');
 
 //args & env
-var argv = process.env.argv;
-var $node_env = process.env.NODE_ENV;
+const argv = process.env.argv;
+const $node_env = process.env.NODE_ENV;
 
 //you should be able to run your tests with gulp, instead of npm run blah
 
@@ -35,8 +32,8 @@ gulp.task('clean-temp', function () {
     return del(['dest']);
 });
 
-gulp.task('es7_2_es5', [/*'clean-temp'*/], function () {
-    return gulp.src(['test/*.js', 'test/**/*.js'])
+gulp.task('transpile', [/*'clean-temp'*/], function () {
+    return gulp.src(['test/**/*.js'])
         .pipe(babel())
         .pipe(gulp.dest('test-dest'));
 });

@@ -11,7 +11,9 @@
 
  */
 
-
+//TODO: if no grep-suite
+//TODO: https://github.com/nodejs/node/issues/5252
+//TODO: http://www.node-tap.org/basics/
 //TODO: need to a suman server stop command at the command line
 //TODO, along with options {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an error...
 //TODO, add option for {timeout: 3000}
@@ -20,7 +22,11 @@
 //TODO: if suman/suman runner runs legit suman tests but the tests have no test cases, it needs to report that too
 //TODO: suman -s (server) needs to try user's config first, if that fails, then use default suman config
 
+/////////////////////////////////////////////////////////////////
+
 console.log(' => Suman running...');
+
+/////////////////////////////////////////////////////////////////
 
 var fs = require('fs');
 var path = require('path');
@@ -39,7 +45,7 @@ var cwd = process.cwd();
 var sumanUtils = require('./lib/utils');
 var suman = require('./lib');
 
-var sumanConfig, configPath, index, serverName;
+var sumanConfig, configPath, index, serverName, pth;
 
 
 if (args.indexOf('--cfg') !== -1) {
@@ -55,7 +61,7 @@ if (args.indexOf('--n') !== -1) {
 }
 
 try {
-    var pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
+    pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
     sumanConfig = require(pth);
     if (sumanConfig.verbose !== false) {  //default to true
         console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
@@ -68,7 +74,7 @@ catch (err) {
     console.error('  ' + colors.bgCyan.black('Suman error => Could not find path to your config file in your current working directory or given by --cfg at the command line...', '\n',
             '  ..now looking for a config file at the root of your project.'));
     try {
-        var pth = path.resolve(sumanUtils.findProjectRoot(cwd) + '/' + 'suman.conf.js');
+        pth = path.resolve(sumanUtils.findProjectRoot(cwd) + '/' + 'suman.conf.js');
         sumanConfig = require(pth);
         if (sumanConfig.verbose !== false) {  //default to true
             console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
@@ -77,7 +83,7 @@ catch (err) {
     catch (err) {
         console.error('   ' + colors.bgCyan.black('Suman msg => Using default Suman configuration.'));
         try {
-            var pth = path.resolve(__dirname + '/suman.default.conf.js');
+            pth = path.resolve(__dirname + '/suman.default.conf.js');
             sumanConfig = require(pth);
             if (sumanConfig.verbose !== false) {  //default to true
                 console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
@@ -111,18 +117,26 @@ if (args.indexOf('--server') !== -1 || args.indexOf('-s') !== -1) {
 }
 else {
 
-    var dir, grepFile, useRunner, d;
+    var dir, grepFile, grepSuite, useRunner, d;
 
     d = domain.create();
 
     d.on('error', function (err) {
-        console.log(colors.magenta(' Suman error => ' + err.stack));
+        //TODO: add link showing how to set up Babel
+        console.log(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually if you wish to use ES7 features)' + '\n' +
+            ' => Suman error => '  + err.stack + '\n'));
     });
 
 
     if (args.indexOf('--grep-file') !== -1) {
         index = args.indexOf('--grep-file');
         grepFile = args[index + 1];
+        args.splice(index, 2);
+    }
+
+    if (args.indexOf('--grep-suite') !== -1) {
+        index = args.indexOf('--grep-suite');
+        grepSuite = args[index + 1];
         args.splice(index, 2);
     }
 
@@ -135,7 +149,7 @@ else {
     //whatever args are remaining are assumed to be file or directory paths to tests
     dir = (JSON.parse(JSON.stringify(args)) || []).filter(function (item) {
         if (String(item).indexOf('-') === 0) {
-            console.log(colors.magenta(' Suman error => Probably a bad command line option "' + item + '", Suman is ignoring it.'))
+            console.log(colors.magenta(' => Suman warning => Probably a bad command line option "' + item + '", Suman is ignoring it.'))
             return false;
         }
         return true;
@@ -160,6 +174,7 @@ else {
         else {
             d.run(function () {
                 suman.Runner({
+                    grepSuite: grepSuite,
                     grepFile: grepFile,
                     $node_env: process.env.NODE_ENV,
                     fileOrDir: dir,
@@ -167,7 +182,7 @@ else {
                     //configPath: configPath || 'suman.conf.js'
                 }).on('message', function (msg) {
                     console.log('msg from suman runner', msg);
-                    process.exit(msg);
+                    //process.exit(msg);
                 });
             });
         }

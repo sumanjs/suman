@@ -55,6 +55,7 @@ function filter(suman, isFatal, err) {
     }
 
     if (isFatal) {
+        console.error(new Error('Fatal error').stack);
         process.exit(1);
     }
 
