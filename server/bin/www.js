@@ -10,7 +10,7 @@ process.chdir(path.resolve(__dirname + '/../')); // TODO ? why ?
 
 
 process.on('uncaughtException', function (err) {
-    console.error('Uncaught Exception => ' + err.stack);
+    console.error('=> Suman => Uncaught Exception => ' + err.stack);
 });
 
 /////////////////////////////////////////////////////////////
