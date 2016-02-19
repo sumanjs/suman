@@ -11,6 +11,7 @@
 
  */
 
+//TODO: npm i babel -g, then babel-node --stage 0 myapp.js
 //TODO: if no grep-suite
 //TODO: https://github.com/nodejs/node/issues/5252
 //TODO: http://www.node-tap.org/basics/
@@ -188,4 +189,3 @@ else {
         }
     }
 }
-
