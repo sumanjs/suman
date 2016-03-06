@@ -1,7 +1,6 @@
 # Suman
 
-
-[![npm package](https://www.npmjs.com/package/suman?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/suman)
+[![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
 
 For test suites in your project:
 
@@ -16,7 +15,7 @@ For command line tools:
 
 Suman is a test runner for serverside JavaScript. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
 and to compete with the new Node.js test runner AVA. Mocha is most familiar to us and perhaps to you - 
-Mocha was an awesome test library, but has several shortcomings that we experienced ourselves over time, and eventually we wanted a test runner
+Mocha was an awesome test library, but has many bugs and several shortcomings that we experienced ourselves over time, and eventually we wanted a test runner
 that we could use that was better than Mocha. If you like Mocha and BDD test interfaces you will love Suman.
 
 The reasons why Mocha and its peers need a replacement are:
@@ -44,6 +43,7 @@ compared to the dependency injection ability of this library.
 * very simple but powerful dependency injection (DI/IoC) of values and dependencies, 
        * => controlled by the developer (used primarily for injecting values acquired asynchronously, such as DB values)
        * => inspired by familiar tools such as Angular and RequireJS
+       * => load any core (built-in) module by name
        * => completely optional, it's the developer's choice whether to incorporate DI or not
        
 * bdd interface
@@ -54,18 +54,18 @@ compared to the dependency injection ability of this library.
 * ability to store past test reports (backdata) and view test results chronologically with browser to look at trends
 * hooks behave just like in Mocha
 * syntax and structure is borrowed directly from Mocha so that conversion is as easy as possible
-* command line tools and better grep facilities than predecessors
+* solid command line tools and better grep facilities than predecessors
 * => prefer standard core assert Node module (unopinionated assertions)
 
 
-* Suman is designed to be used specifically for integration and system testing, using a BDD interface
+* Suman is designed to be used specifically for integration and system testing of backend facilities, using a BDD interface
 * Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems
 * the rules for the before/after/beforeEach/afterEach hooks are identical to the rules with Mocha
 * skip/only also work like Mocha
 
 
 ### => We can say with some confidence that Suman is the most powerful test framework for serverside JavaScript on planet Earth,
- because it gives the developer total control and access to a very large set of features.
+ because it gives the developer total control and access to a very large set of features, with the explicit goal of being bug-free first, full-featured second.
 
 
 ### Important aside - How is Suman better than AVA?
@@ -83,12 +83,10 @@ simple example:
 
 ```js
 
-const assert = require('assert');   // standard core Node assert module FTW
 const suman = require('suman');
-
 const Test = suman.init(module);
 
-Test.describe('FirstExample', function(){     //  our test suite
+Test.describe('FirstExample', function(assert){     //  our test suite, we inject the core 'assert' module
 
 
       this.beforeEach('runs before every it()', t => {
@@ -143,13 +141,12 @@ an example with more features:
 
 ```js
 
-const assert = require('assert');
 const suman = require('suman');
 
 const Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
 
 
-Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){    // normally we only need to inject a couple of values per test
+Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val, assert){    // normally we only need to inject a couple of values per test
 
      var results = [];
      
@@ -203,13 +200,12 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val){
 
 ```js
 
-const assert = require('assert');
 const suman = require('suman');
 
 const Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
 
 
-Test.describe('ThirdExample', function(delay, db, val){    // note: as stated above, unless we need to minify our tests for some reason, we don't need a dep array, just the callback
+Test.describe('ThirdExample', function(assert, delay, db, val){    // note: as stated above, unless we need to minify our tests for some reason, we don't need a dep array, just the callback
 
 
 
@@ -229,7 +225,7 @@ Test.describe('ThirdExample', function(delay, db, val){    // note: as stated ab
 | Mocha   | No                                                                        | No                                    | No                                                        | No                        | No                   |
 | Jasmine | No                                                                        | No                                    | No                                                        | No                        | No                   |
 | Tape    | Yes                                                                       | No                                    | No                                                        | No                        | No                   |
-| AVA     | No                                                                        | Yes                                   | Yes                                                       | Yes                       | No                   |
+| AVA     | Yes, if you omit ES7                                                      | Yes                                   | Yes                                                       | Yes                       | No                   |
 | Suman   | Yep, you can run any given test suite with the plain old node executable  | Yep, Suman will support all features  | Yep                                                       | Yep                       | Yep                  |
 
 
