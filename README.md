@@ -1,4 +1,7 @@
-#Suman
+# Suman
+
+
+[![npm package](https://www.npmjs.com/package/suman?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/suman)
 
 For test suites in your project:
 

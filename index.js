@@ -11,6 +11,8 @@
 
  */
 
+
+//TODO: allow for injection of any core module in a test
 //TODO: npm i babel -g, then babel-node --stage 0 myapp.js
 //TODO: if no grep-suite
 //TODO: https://github.com/nodejs/node/issues/5252
@@ -29,16 +31,16 @@ console.log(' => Suman running...');
 
 /////////////////////////////////////////////////////////////////
 
-var fs = require('fs');
-var path = require('path');
-var colors = require('colors/safe');
-var os = require('os');
+const fs = require('fs');
+const path = require('path');
+const colors = require('colors/safe');
+const os = require('os');
 const domain = require('domain');
 
 ////////////////////////////////////////////////////////////////////
 
-var args = JSON.parse(JSON.stringify(process.argv.slice(2))); //copy args
-var cwd = process.cwd();
+const args = JSON.parse(JSON.stringify(process.argv.slice(2))); //copy args
+const cwd = process.cwd();
 
 ////////////////////////////////////////////////////////////////////
 
