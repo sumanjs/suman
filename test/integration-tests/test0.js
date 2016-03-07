@@ -9,10 +9,18 @@ var Test = require('../../lib').init(module, 'suman.conf.js');
 
 console.log('some bs');
 
-Test.describe('gggg', {parallel: false}, function (delay, socketio, whoa, cherry) {
+Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, child_process, socketio, suite, whoa, cherry, https) {
 
-    console.log('cherry:', cherry);
-    console.log('whoa:', whoa);
+
+    //console.log('child_process:',child_process);
+    //console.log('http:',http);
+    //console.log('https:',https);
+    //console.log('cherry:', cherry);
+    //console.log('whoa:', whoa);
+    //console.log('suite:',suite);
+    //console.log('fs:',fs);
+    //console.log('assert:',assert);
+
 
     setTimeout(function () {
         delay();
@@ -53,7 +61,7 @@ Test.describe('gggg', {parallel: false}, function (delay, socketio, whoa, cherry
             }, 50);
         });
 
-        this.beforeEach((t, done)=> {
+        this.beforeEach((t, done) => {
             setTimeout(function () {
                 debug('before Each 2, ' + t.desc);
                 done();

@@ -2,12 +2,11 @@
 
 [![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
 
-For test suites in your project:
 
+For test suites in your project:
 ## ```npm install -D suman```
 
 For command line tools:
-
 ## ```npm install -g suman```
 
 
@@ -142,7 +141,6 @@ an example with more features:
 ```js
 
 const suman = require('suman');
-
 const Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
 
 
@@ -201,7 +199,6 @@ Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val, 
 ```js
 
 const suman = require('suman');
-
 const Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
 
 

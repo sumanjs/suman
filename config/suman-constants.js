@@ -7,8 +7,8 @@
 
 module.exports = Object.freeze({
 
-    'SUMAN_SERVER_MESSAGE': 'SUMAN_SERVER_MESSAGE'
-
-
+    SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
+    SUMAN_HARD_LIST: ['delay', 'suite'],
+    CORE_MODULE_LIST: require('builtin-modules')
 
 });
