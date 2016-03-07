@@ -12,7 +12,7 @@
  */
 
 
-//TODO: allow for injection of any core module in a test
+//TODO: https://nodejs.org/en/blog/uncategorized/profiling-node-js/
 //TODO: npm i babel -g, then babel-node --stage 0 myapp.js
 //TODO: if no grep-suite
 //TODO: https://github.com/nodejs/node/issues/5252

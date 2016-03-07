@@ -222,7 +222,7 @@ Test.describe('ThirdExample', function(assert, delay, db, val){    // note: as s
 | Mocha   | No                                                                        | No                                    | No                                                        | No                        | No                   |
 | Jasmine | No                                                                        | No                                    | No                                                        | No                        | No                   |
 | Tape    | Yes                                                                       | No                                    | No                                                        | No                        | No                   |
-| AVA     | Yes, if you omit ES7                                                      | Yes                                   | Yes                                                       | Yes                       | No                   |
+| AVA     | No                                                                        | Yes                                   | Yes                                                       | Yes                       | No                   |
 | Suman   | Yep, you can run any given test suite with the plain old node executable  | Yep, Suman will support all features  | Yep                                                       | Yep                       | Yep                  |
 
 
