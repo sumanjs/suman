@@ -72,7 +72,8 @@
   },
   "bin": {
     "suman": "index.js",
-    "suman_debug": "index-debug.js"
+    "suman-debug": "index-debug.js",
+    "suman-babel": "index-babel.js"
   },
   "homepage": "https://github.com/ORESoftware/suman#readme",
   "description": ""

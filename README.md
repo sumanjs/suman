@@ -1,7 +1,10 @@
 # Suman
 
+<br>
+
 [![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
 
+<br>
 
 For test suites in your project:
 ## ```npm install -D suman```
@@ -9,10 +12,11 @@ For test suites in your project:
 For command line tools:
 ## ```npm install -g suman```
 
+<br>
 
 (disclaimer: Suman is in beta, despite the current version number)
 
-Suman is a test runner for serverside JavaScript. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
+Suman is a test runner for Node.js. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
 and to compete with the new Node.js test runner AVA. Mocha is most familiar to us and perhaps to you - 
 Mocha was an awesome test library, but has many bugs and several shortcomings that we experienced ourselves over time, and eventually we wanted a test runner
 that we could use that was better than Mocha. If you like Mocha and BDD test interfaces you will love Suman.
@@ -88,9 +92,9 @@ const Test = suman.init(module);
 Test.describe('FirstExample', function(assert){     //  our test suite, we inject the core 'assert' module
 
 
-      this.beforeEach('runs before every it()', t => {
-           t.data.foo = 'bar';
-      });
+     this.beforeEach('runs before every it()', t => {
+         t.data.foo = 'bar';
+     });
 
 
      this.it('uno', t => {     // a test case
@@ -144,7 +148,7 @@ const suman = require('suman');
 const Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
 
 
-Test.describe('SecondExample', ['delay', 'db', 'val'], function(delay, db, val, assert){    // normally we only need to inject a couple of values per test
+Test.describe('SecondExample', ['delay', 'db', 'some-val'], function(delay, db, someval, assert){    // normally we only need to inject a couple of values per test
 
      var results = [];
      
