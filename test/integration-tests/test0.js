@@ -130,8 +130,17 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
 
     this.describe('bum', {parallel: false}, function () {
 
+        this.describe('x', function () {
+            this.it('cccc', {
+                parallel: false
+            }, function (t, done) {
+                setTimeout(function () {
+                    done();
+                }, 50);
+            });
+        });
 
-        this.it('aaa1', {
+        this.it.only('aaa1', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {

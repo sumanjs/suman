@@ -28,6 +28,7 @@
 //TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
 //TODO: if suman/suman runner runs legit suman tests but the tests have no test cases, it needs to report that too
 //TODO: suman -s (server) needs to try user's config first, if that fails, then use default suman config
+//TODO: fix it.only describe.only behavior (test0.js)
 
 /////////////////////////////////////////////////////////////////
 
