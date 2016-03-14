@@ -75,7 +75,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
             }, 50);
         });
 
-        this.it('mmm1', {parallel: false}, (t, done) => {
+        this.it.SKIP('mmm1', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
@@ -133,7 +133,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         this.describe('x', function () {
 
             this.describe('y', function () {
-                this.it.ONLY('ddd', {
+                this.it.only('ddd', {
                     parallel: false
                 }, function (t, done) {
                     setTimeout(function () {
@@ -142,7 +142,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
                 });
             });
 
-            this.it.ONLY('cccc', {
+            this.it.only('cccc', {
                 parallel: false
             }, function (t, done) {
                 setTimeout(function () {
