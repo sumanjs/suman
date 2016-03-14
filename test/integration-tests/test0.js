@@ -80,17 +80,13 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
                 done();
             }, 50);
 
-        });
-
-        this.it('mmm2', {parallel: false}, (t, done) => {
+        }).it('mmm2', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
             }, 50);
 
-        });
-
-        this.it('mmm3', {parallel: false}, (done, t) => {
+        }).it('mmm3', {parallel: false}, (done, t) => {
 
             setTimeout(function () {
                 done();
@@ -153,7 +149,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
 
-        this.it.only('aaa1', {
+        this.it.ONLY('aaa1', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
@@ -162,7 +158,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
 
-        this.it('aaa2', {
+        this.it.ONLY('aaa2', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
@@ -193,6 +189,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
     });
+
 
     this.after(function () {
         debug('after, c');
