@@ -12,16 +12,6 @@ console.log('some bs');
 Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, child_process, socketio, suite, whoa, cherry, https) {
 
 
-    //console.log('child_process:',child_process);
-    //console.log('http:',http);
-    //console.log('https:',https);
-    //console.log('cherry:', cherry);
-    //console.log('whoa:', whoa);
-    //console.log('suite:',suite);
-    //console.log('fs:',fs);
-    //console.log('assert:',assert);
-
-
     setTimeout(function () {
         delay();
     }, 100);
@@ -140,7 +130,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
             });
         });
 
-        this.it.only('aaa1', {
+        this.it('aaa1', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {

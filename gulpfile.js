@@ -79,6 +79,16 @@ gulp.task('watch_tests', ['suman'], function (cb) {
 
 });
 
+gulp.task('run_tests0', [], function(cb){
+    suman.Runner({
+        $node_env: process.env.NODE_ENV,
+        fileOrDir: ['./test/integration-tests'],
+        configPath: 'suman.conf.js'
+    }).on('message', function (msg) {
+        console.log('msg from suman runner', msg);
+        process.exit(msg);
+    });
+});
 
 gulp.task('run_tests', ['suman'], function (cb) {
 

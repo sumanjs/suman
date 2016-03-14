@@ -11,9 +11,10 @@
 
  */
 
-
-
-//TODO: get it to work with Istanbul/NYC
+//TODO: suman.ioc.js should have files that only run once, which will be started by the runner, not test suites
+//TODO: move startSuite function to TestSuite and find a good name for that class
+//TODO: switch from underscore to lodash
+//TODO: get it to work with Istanbul/NYC  <<
 //TODO: if no tests are run, need to indicate this
 //TODO: special key combo (ctrl+save+r) will run tests after a change, using gulp file watchers?
 //TODO: https://nodejs.org/en/blog/uncategorized/profiling-node-js/
