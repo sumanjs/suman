@@ -3,85 +3,70 @@
  */
 
 
-var Test = require('../../lib').Test(module, 'suman.conf.js');
+var Test = require('../../lib').init(module, 'suman.conf.js');
 
 Test.describe('gggg', function () {
 
     this.after(function (done) {
-
         done();
     });
 
     this.describe(function () {
-
         this.after(function (done) {
-
             done();
         });
 
         this.describe(function () {
-
             this.after(function (done) {
-
                 done();
             });
         });
     });
 
     this.describe(function () {
-
         this.after(function (done) {
-
             done();
         });
 
         this.describe(function () {
-
             this.after(function (done) {
-
                 done();
             });
 
             this.describe(function () {
-
                 this.after(function (done) {
-
                     done();
                 });
 
                 this.describe(function () {
-
                     this.after(function (done) {
-
                         done();
                     });
+
                     this.describe(function () {
-
                         this.after(function (done) {
-
                             done();
                         });
                     });
                 });
 
                 this.describe(function () {
-
                     this.after(function (done) {
-
                         done();
                     });
+
                     this.describe(function () {
 
-                        this.after(function (done) {
+                        this.it.ONLY('mmm2', {parallel: false}, (t, done) => {
+                            done();
+                        });
 
+                        this.after(function (done) {
                             done();
                         });
                     });
                 });
-
-
             });
-
         });
     });
 
@@ -96,30 +81,23 @@ Test.describe('gggg', function () {
         });
 
 
-        this.it('mmm1', {parallel: false}, (t, done) => {
-
+        this.it.ONLY('mmm1', {parallel: false}, (t, done) => {
             done();
-
         });
 
 
         this.after(function (done) {
-
             done();
         });
 
-
     });
 
 
     this.after(function (done) {
-
         done();
     });
 
-
     this.after(function (done) {
-
         done();
     });
 

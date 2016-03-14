@@ -10,9 +10,7 @@ var Test = suman.new(module, 'suman.conf.js');
 
 
 Test.suite('suite tres', function (suite) {*/
-
-
-var Test = require('../../lib').Test(module, 'suman.conf.js');
+var Test = require('../../lib').init(module, 'suman.conf.js');
 
 Test.describe('suite tres', function (suite) {
 
@@ -35,24 +33,17 @@ Test.describe('suite tres', function (suite) {
 
 
     this.afterEach(function (t, done) {
-
-        //done(888);
         done();
-
     });
 
 
     this.describe('tarzan', function () {
 
-
         this.before(function (done) {
-
             done();
-
         });
 
         this.it('my tarzan test', function () {
-
 
         });
 
@@ -60,16 +51,11 @@ Test.describe('suite tres', function (suite) {
 
             this.describe('uuuuu3333 test', function () {
 
-
                 this.before(function (done) {
-
                     done();
-
                 });
 
                 this.it('my 3333 test', function () {
-
-
 
                 });
 
@@ -78,13 +64,9 @@ Test.describe('suite tres', function (suite) {
 
             this.before(function () {
 
-
-
             });
 
             this.it('my boooz test', function () {
-
-
 
             });
 

@@ -6,7 +6,7 @@
 var debug = require('debug')('suman');
 
 
-const Test = require('../../lib').Test(module, 'suman.conf.js');
+const Test = require('../../lib').init(module, 'suman.conf.js');
 
 
 Test.describe('BBB', function () {

@@ -3,7 +3,7 @@
  */
 
 
-var Test = require('../../lib').Test(module, 'suman.conf.js');
+var Test = require('../../lib').init(module, 'suman.conf.js');
 
 
 Test.describe('My Suite', function () {

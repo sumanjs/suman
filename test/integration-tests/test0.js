@@ -21,7 +21,6 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
     //console.log('fs:',fs);
     //console.log('assert:',assert);
 
-
     setTimeout(function () {
         delay();
     }, 100);
@@ -75,7 +74,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
             }, 50);
         });
 
-        this.it.SKIP('mmm1', {parallel: false}, (t, done) => {
+        this.it('mmm1', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
@@ -133,7 +132,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         this.describe('x', function () {
 
             this.describe('y', function () {
-                this.it.only('ddd', {
+                this.it('ddd', {
                     parallel: false
                 }, function (t, done) {
                     setTimeout(function () {
@@ -142,7 +141,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
                 });
             });
 
-            this.it.only('cccc', {
+            this.it('cccc', {
                 parallel: false
             }, function (t, done) {
                 setTimeout(function () {
