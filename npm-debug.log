@@ -1,0 +1,41 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'merge',
+1 verbose cli   'master' ]
+2 info using npm@2.14.12
+3 info using node@v4.3.1
+4 verbose run-script [ 'premerge', 'merge', 'postmerge' ]
+5 info premerge suman@1.1.31
+6 info merge suman@1.1.31
+7 verbose unsafe-perm in lifecycle true
+8 info suman@1.1.31 Failed to exec merge script
+9 verbose stack Error: suman@1.1.31 merge: `git merge -Xignore-all-space "master"`
+9 verbose stack Exit status 1
+9 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:214:16)
+9 verbose stack     at emitTwo (events.js:87:13)
+9 verbose stack     at EventEmitter.emit (events.js:172:7)
+9 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
+9 verbose stack     at emitTwo (events.js:87:13)
+9 verbose stack     at ChildProcess.emit (events.js:172:7)
+9 verbose stack     at maybeClose (internal/child_process.js:821:16)
+9 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
+10 verbose pkgid suman@1.1.31
+11 verbose cwd /Users/amills001c/WebstormProjects/oresoftware/suman
+12 error Darwin 15.0.0
+13 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "merge" "master"
+14 error node v4.3.1
+15 error npm  v2.14.12
+16 error code ELIFECYCLE
+17 error suman@1.1.31 merge: `git merge -Xignore-all-space "master"`
+17 error Exit status 1
+18 error Failed at the suman@1.1.31 merge script 'git merge -Xignore-all-space "master"'.
+18 error This is most likely a problem with the suman package,
+18 error not with npm itself.
+18 error Tell the author that this fails on your system:
+18 error     git merge -Xignore-all-space "master"
+18 error You can get their info via:
+18 error     npm owner ls suman
+18 error There is likely additional logging output above.
+19 verbose exit [ 1, true ]
