@@ -11,8 +11,6 @@
 
  */
 
-
-
 //TODO: get it to work with Istanbul/NYC
 //TODO: if no tests are run, need to indicate this
 //TODO: special key combo (ctrl+save+r) will run tests after a change, using gulp file watchers?
