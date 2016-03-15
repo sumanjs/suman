@@ -11,6 +11,7 @@
 
  */
 
+//TODO: If developer creates suman.ioc.js but does not have a suman.conf.js, it should still work
 //TODO: suman.ioc.js should have files that only run once, which will be started by the runner, not test suites
 //TODO: move startSuite function to TestSuite and find a good name for that class
 //TODO: switch from underscore to lodash
