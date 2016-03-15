@@ -12,6 +12,17 @@ console.log('some bs');
 Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, child_process, socketio, suite, whoa, cherry, https) {
 
 
+
+    //console.log('child_process:',child_process);
+    //console.log('http:',http);
+    //console.log('https:',https);
+    //console.log('cherry:', cherry);
+    //console.log('whoa:', whoa);
+    //console.log('suite:',suite);
+    //console.log('fs:',fs);
+    //console.log('assert:',assert);
+
+
     setTimeout(function () {
         delay();
     }, 100);
@@ -71,17 +82,13 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
                 done();
             }, 50);
 
-        });
-
-        this.it('mmm2', {parallel: false}, (t, done) => {
+        }).it('mmm2', {parallel: false}, (t, done) => {
 
             setTimeout(function () {
                 done();
             }, 50);
 
-        });
-
-        this.it('mmm3', {parallel: false}, (done, t) => {
+        }).it('mmm3', {parallel: false}, (done, t) => {
 
             setTimeout(function () {
                 done();
@@ -121,6 +128,19 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
     this.describe('bum', {parallel: false}, function () {
 
         this.describe('x', function () {
+
+
+            this.describe('y', function () {
+                this.it('ddd', {
+                    parallel: false
+                }, function (t, done) {
+                    setTimeout(function () {
+                        done();
+                    }, 50);
+                });
+            });
+
+
             this.it('cccc', {
                 parallel: false
             }, function (t, done) {
@@ -130,7 +150,8 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
             });
         });
 
-        this.it('aaa1', {
+
+        this.it.SKIP('aaa1', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
@@ -139,7 +160,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
 
-        this.it('aaa2', {
+        this.it.ONLY('aaa2', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
@@ -170,6 +191,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
     });
+
 
     this.after(function () {
         debug('after, c');

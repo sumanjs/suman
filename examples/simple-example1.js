@@ -4,7 +4,7 @@ const assert = require('assert');
 const suman = require('../lib');
 
 /////////////////////////////////////////////////////
-var Test = suman.Test(module, 'suman.conf.js');
+var Test = suman.init(module, 'suman.conf.js');
 /////////////////////////////////////////////////////
 
 

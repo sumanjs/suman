@@ -4,17 +4,17 @@
 
 
 var suman = require('../../lib');
-var Test = suman.Test(module, 'suman.conf.js');
+var Test = suman.init(module, 'suman.conf.js');
 
 Test.describe('foo', function () {
 
     this.before(() => {
-        debug('before 0');
+
     });
 
 
     this.after(() => {
-        debug('after 0');
+
     });
 
 
@@ -28,7 +28,6 @@ Test.describe('foo', function () {
 
     this.beforeEach((t, done) => {
 
-        debug('before each 1');
         done();
 
     });
@@ -37,7 +36,7 @@ Test.describe('foo', function () {
     this.describe('2', function () {
 
         this.before(() => {
-            debug('before 1');
+
         });
 
 
@@ -45,7 +44,7 @@ Test.describe('foo', function () {
 
 
             this.beforeEach(t => {
-                debug('before each 2');
+
             });
 
             this.it('it 5555', (t, done) => {
@@ -65,19 +64,19 @@ Test.describe('foo', function () {
             });
 
             this.after(() => {
-                debug('this.after x');
+
             });
 
         });
 
         this.after(() => {
-            debug('this.after y');
+
         });
 
     });
 
     this.after(() => {
-        debug('this.after z');
+
     });
 
 

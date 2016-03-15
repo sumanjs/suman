@@ -2,7 +2,7 @@ const assert = require('assert');
 const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
 
 /////////////////////////////////////////////////////
-var Test = suman.Test(module);
+var Test = suman.init(module);
 /////////////////////////////////////////////////////
 
 

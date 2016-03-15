@@ -6,14 +6,14 @@
 "use strict";
 
 var suman = require('../../lib');
-var Test = suman.Test(module, 'suman.conf.js');
+var Test = suman.init(module, 'suman.conf.js');
 
 Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, choodles, fs) {
 
     console.log('roodles:', roodles);
     console.log('choodles:', choodles);
 
-    console.log('fs:',fs);
+    console.log('fs:', fs);
 
     var arr = [1, 2, 3];
 
