@@ -105,20 +105,18 @@ Test.describe('FirstExample', function(assert){     //  this is our test suite, 
 
 
      this.it('uno', t => {     // a test case
-        assert(t.data,'This will not happen because t.data is predefined by Suman for each test');  
-     });
      
-
-     this.it('dos', t => {       // a test case 
+        assert(t.data,'This will pass because t.data is predefined by Suman for each test');  
+     
+     }).it('dos', t => {       // a test case, (you can chain test cases and hooks if you want to) 
+     
         assert(false,'not good');  
-     });
      
-     
-     this.it('tres', t => {       // a test case 
-         return new Promise(function(resolve,reject){                 // obligatory Promise example
-                 resolve(null);  //test passes no matter what LOL
+     }).it('tres', t => {       // a test case 
+         return new Promise(function(resolve,reject){               
+                 resolve(null);  
            });
-       });
+     });
      
      
      this.describe('all tests herein will run in parallel', {parallel:true}, function(){
@@ -177,7 +175,7 @@ Test.describe('SecondExample', ['db', 'some-val'], function(db, someval, delay, 
       });
      
      
-      this.beforeEach(async function(t) {     //obligatory ES7 example 
+      this.beforeEach(async function(t) {                 //obligatory ES7 example 
             var ret = await val.somePromiseMaker();  
             return await ret.doSomeThingAsync();
       });
