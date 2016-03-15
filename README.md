@@ -25,26 +25,25 @@ want them to be powerful and full-featured).
 
 ### The reasons why Mocha and its peers need a replacement are:
 
-* in Mocha, Tape and Jasmine everything was run in series, which can take unnecessary amounts of time for async tests
-* in Mocha, Tape and Jasmine suites were not run in separate processes (necessary for isolation, speed and independence of test results)
+* Using Mocha, Tape and Jasmine everything was run in series, which can take unnecessary amounts of time for async tests
+* In Mocha, Tape and Jasmine suites were not run in separate processes (necessary for isolation, speed and independence of test results)
 * Mocha could not move forward with ES6/ES7 features due to certain software patterns used (globals and complex context binding)
-* heavy usage of globals was bringing Mocha and Jasmine down
+* Heavy usage of globals was bringing Mocha and Jasmine down
 * Mocha lacked real ability to do true dynamic testing (meaning, registering a dynamic number of it() test cases) ---> e.g., make a network call, get X values, create a test case for each.
 * Mocha had confusing and obfuscated context values (values for 'this'), which we have greatly simplified, allowing for the usage of arrow functions 
 * Compared to Suman, most testing frameworks don't feel robust enough to test mission critical systems.
 For example, Tape's ability to pre-load modules using the command line before running tests is nowhere near as powerful or easy to use
 as the dependency injection ability of this library.
-* and lastly a BIG ONE: clean reporting - at the command line, using Mocha, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
+* And lastly, a BIG ONE: clean reporting - at the command line, using Mocha, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
 trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
 
 
 ## Suman features:
 
-<br>
-* bdd interface
-* extremely powerful, while aiming to be straightforward, clean, concise, consistent and accurate
-* designed with ES6 and ES7 in mind, including async/await and generators
-<br>
+* => bdd interface
+* => extremely powerful, while aiming to be straightforward, clean, concise, consistent and accurate
+* => designed with ES6 and ES7 in mind, including async/await and generators
+
 
 * <b>Very simple but powerful dependency injection (DI/IoC) of values and dependencies</b>
     *  used primarily for injecting values acquired asynchronously, such as DB connections and values

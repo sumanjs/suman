@@ -1,10 +1,10 @@
 /**
- * Created by amills001c on 12/15/15.
+ * Created by denman on 12/15/15.
  */
 
 
-var os = require('os');
-var path = require('path');
+const os = require('os');
+const path = require('path');
 
 
 module.exports = Object.freeze({

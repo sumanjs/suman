@@ -1,8 +1,8 @@
 /**
- * Created by amills001c on 12/15/15.
+ * Created by denman on 12/15/15.
  */
 
-//jarvisc - 69.252.255.134
+
 
 //TODO need to add a delay option for tests running in a loop
 // TODO: add timeout option for tests etc
