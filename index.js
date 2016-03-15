@@ -11,6 +11,7 @@
 
  */
 
+//TODO: log global and locally install version of Suman when running at command line
 //TODO: If developer creates suman.ioc.js but does not have a suman.conf.js, it should still work
 //TODO: suman.ioc.js should have files that only run once, which will be started by the runner, not test suites
 //TODO: move startSuite function to TestSuite and find a good name for that class
@@ -81,8 +82,8 @@ try {
 catch (err) {
     //TODO: try to get suman.conf.js from root of project
 
-    console.error('  ' + colors.bgCyan.black('Suman error => Could not find path to your config file in your current working directory or given by --cfg at the command line...', '\n',
-            '  ..now looking for a config file at the root of your project.'));
+    console.error('  ' + colors.bgCyan.black('Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...', '\n',
+            '...now looking for a config file at the root of your project...'));
     try {
         pth = path.resolve(sumanUtils.findProjectRoot(cwd) + '/' + 'suman.conf.js');
         sumanConfig = require(pth);
@@ -95,9 +96,6 @@ catch (err) {
         try {
             pth = path.resolve(__dirname + '/suman.default.conf.js');
             sumanConfig = require(pth);
-            if (sumanConfig.verbose !== false) {  //default to true
-                console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
-            }
         }
         catch (err) {
             console.error('\n => ' + err + '\n');
