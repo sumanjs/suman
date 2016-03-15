@@ -45,31 +45,31 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 * designed with ES6 and ES7 in mind, including async/await and generators
 
 * very simple but powerful dependency injection (DI/IoC) of values and dependencies
-        => used primarily for injecting values acquired asynchronously, such as DB connections and values
-        => can be used to ensure that other network components are live before running tests, and the test runner will report if they are not live
-        => inspired by familiar tools such as Angular and RequireJS
-        => load any core ("built-in") Node.js module by name :)
-        => completely optional, it's the developer's choice whether to incorporate DI or not
+        *=> used primarily for injecting values acquired asynchronously, such as DB connections and values
+        *=> can be used to ensure that other network components are live before running tests, and the test runner will report if they are not live
+        *=> inspired by familiar tools such as Angular and RequireJS
+        *=> load any core ("built-in") Node.js module by name :)
+        *=> completely optional, it's the developer's choice whether to incorporate DI or not
        
 * full-blown concurrency
-        => your tests will run much, much faster
-        => suites are run in separate Node.js processes for speed and isolation
-        => test cases in any given suite can be run concurrently, using asynchronous I/O
+        *=> your tests will run much, much faster
+        *=> suites are run in separate Node.js processes for speed and isolation
+        *=> test cases in any given suite can be run concurrently, using asynchronous I/O
        
 * improved reporting
-        => web reporter so that you can share test results with your team
-        => using the Suman runner, you can prevent any developer logging output from mixing with test reports
-        => ability to store past test reports (backdata) and view test results chronologically with browser to look at trends
+        *=> web reporter so that you can share test results with your team
+        *=> using the Suman runner, you can prevent any developer logging output from mixing with test reports
+        *=> ability to store past test reports (backdata) and view test results chronologically with browser to look at trends
        
 * easy migration from Mocha
-        => hooks behave just like in Mocha
-        => syntax and structure is borrowed directly from Mocha so that conversion is as easy as possible
-        => solid command line tools and better grep facilities than predecessors
-        => the rules for the before/after/beforeEach/afterEach hooks are identical to the rules with Mocha
-        => skip/only also work like Mocha
+        *=> hooks behave just like in Mocha
+        *=> syntax and structure is borrowed directly from Mocha so that conversion is as easy as possible
+        *=> solid command line tools and better grep facilities than predecessors
+        *=> the rules for the before/after/beforeEach/afterEach hooks are identical to the rules with Mocha
+        *=> skip/only also work like Mocha
 
 * freedom: Suman is not highly opinionated
-       => Suman prefers standard core assert Node module (unopinionated assertions), but you can use any assertion lib that throws errors
+        *=> Suman prefers standard core assert Node module (unopinionated assertions), but you can use any assertion lib that throws errors
 
 
 ## Suman design
