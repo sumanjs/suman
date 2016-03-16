@@ -1,6 +1,7 @@
 /**
- * Created by denman on 2/8/16.
+ * Created by denman on 3/16/2016.
  */
+
 
 
 //*************************************************************************************************************************************
@@ -13,8 +14,11 @@
 
 module.exports = (suman) => {  //load async deps for any of your suman tests
 
-    suman.configure({});
+    suman.runOnce(function(){
 
 
+
+
+    });
 
 };
