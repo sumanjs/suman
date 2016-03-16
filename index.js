@@ -11,6 +11,7 @@
 
  */
 
+//TODO: default configuration should provide default values using lodash defaults / underscore defaults
 //TODO: log global and locally install version of Suman when running at command line
 //TODO: If developer creates suman.ioc.js but does not have a suman.conf.js, it should still work
 //TODO: suman.ioc.js should have files that only run once, which will be started by the runner, not test suites
