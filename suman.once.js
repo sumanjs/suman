@@ -12,13 +12,24 @@
 // ****************************************************************************************************************************************
 
 
-module.exports = (suman) => {  //load async deps for any of your suman tests
+module.exports = () => {  //load async deps for any of your suman tests
 
-    suman.runOnce(function(){
+    return {
 
+        'charlie': function(){
+            return 'charlie';
+        },
+        smartconnect: function(){
 
+        },
+        'dolce-vida': (cb)=>{
 
+            process.nextTick(function(){
+                cb(null,new Error('rub'))
+            });
 
-    });
+        }
+
+    }
 
 };

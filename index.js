@@ -85,8 +85,8 @@ try {
 catch (err) {
     //TODO: try to get suman.conf.js from root of project
 
-    console.error('  ' + colors.bgCyan.black('Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...', '\n',
-            '...now looking for a config file at the root of your project...'));
+    console.error(colors.bgCyan.black(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'), '\n',
+        colors.bgCyan.black(' => ...now looking for a config file at the root of your project...'));
     try {
         pth = path.resolve(sumanUtils.findProjectRoot(cwd) + '/' + 'suman.conf.js');
         sumanConfig = require(pth);

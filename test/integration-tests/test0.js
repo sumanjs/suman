@@ -7,7 +7,7 @@
 const suman = require('../../lib');
 
 var Test = suman.init(module, {
-    components: ['smartconnect','dolce-vida']
+    integrants: ['smartconnect', 'dolce-vida']
 });
 
 
