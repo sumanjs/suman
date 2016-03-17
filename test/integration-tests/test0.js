@@ -3,14 +3,17 @@
  */
 
 
-var debug = require('debug')('suman');
-var Test = require('../../lib').init(module, 'suman.conf.js');
+
+const suman = require('../../lib');
+
+var Test = suman.init(module, {
+    components: ['smartconnect','dolce-vida']
+});
 
 
 console.log('some bs');
 
 Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, child_process, socketio, suite, whoa, cherry, https) {
-
 
 
     //console.log('child_process:',child_process);
@@ -55,23 +58,17 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
 
     this.describe('moodle', {parallel: true}, function () {
 
-        this.beforeEach((t, done) => {
-            setTimeout(function () {
-                debug('before Each 1, ' + t.desc);
-                done();
-            }, 50);
-        });
 
         this.beforeEach((t, done) => {
             setTimeout(function () {
-                debug('before Each 2, ' + t.desc);
                 done();
             }, 50);
-        });
-
-        this.beforeEach((t, done) => {
+        }).beforeEach((t, done) => {
             setTimeout(function () {
-                debug('before Each 3, ' + t.desc);
+                done();
+            }, 50);
+        }).beforeEach((t, done) => {
+            setTimeout(function () {
                 done();
             }, 50);
         });
@@ -98,27 +95,27 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
 
         this.beforeEach(function (t, done) {
             setTimeout(function () {
-                debug('before Each 4, ' + t.desc);
+
                 done();
             }, 50);
         });
 
         this.afterEach(function (t, done) {
             setTimeout(function () {
-                debug('after Each 1, ' + t.desc);
+
                 done();
             }, 50);
         });
 
         this.afterEach(function (t, done) {
             setTimeout(function () {
-                debug('after Each 2, ' + t.desc);
+
                 done();
             }, 50);
         });
 
         this.after(function () {
-            debug('after, a ');
+
         });
 
 
@@ -187,14 +184,14 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
         this.after(function () {
-            debug('after, b ');
+
         });
 
     });
 
 
     this.after(function () {
-        debug('after, c');
+
     });
 
 });

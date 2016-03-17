@@ -11,6 +11,7 @@
 
  */
 
+//TODO: need to establish dependencies between tests - if one test needs to run not at the same time as another
 //TODO: default configuration should provide default values using lodash defaults / underscore defaults
 //TODO: log global and locally install version of Suman when running at command line
 //TODO: If developer creates suman.ioc.js but does not have a suman.conf.js, it should still work
@@ -33,6 +34,7 @@
 //TODO: if suman/suman runner runs legit suman tests but the tests have no test cases, it needs to report that too
 //TODO: suman -s (server) needs to try user's config first, if that fails, then use default suman config
 //TODO: fix it.only describe.only behavior (test0.js)
+//TODO: randomize test runs as per https://github.com/sindresorhus/ava/issues/595
 
 /////////////////////////////////////////////////////////////////
 
