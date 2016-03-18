@@ -11,6 +11,7 @@
 
  */
 
+//TODO: readme needs to have examples by ES5, ES6, ES7
 //TODO: need to establish dependencies between tests - if one test needs to run not at the same time as another
 //TODO: default configuration should provide default values using lodash defaults / underscore defaults
 //TODO: log global and locally install version of Suman when running at command line
