@@ -3,8 +3,12 @@
  */
 
 
+var suman = require('../../lib');
+var Test = suman.init(module, {
+    integrants: ['smartconnect', 'dolce-vida','charlie']
+});
 
-var Test = require('../../lib').init(module, 'suman.conf.js');
+
 
 Test.describe('suite 2', function () {
 

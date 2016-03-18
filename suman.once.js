@@ -16,16 +16,16 @@ module.exports = () => {  //load async deps for any of your suman tests
 
     return {
 
-        'charlie': function(){
+        'charlie': function () {
             return 'charlie';
         },
-        smartconnect: function(){
+        smartconnect: function () {
 
         },
-        'dolce-vida': (cb)=>{
+        'dolce-vida': (cb)=> {
 
-            process.nextTick(function(){
-                cb(null,new Error('rub'))
+            process.nextTick(function () {
+                cb(null, new Error('rub'))
             });
 
         }

@@ -11,6 +11,7 @@
 
  */
 
+//TODO: suman --init should install suman directory at root of project, and suman.conf.js at root of project
 //TODO: readme needs to have examples by ES5, ES6, ES7
 //TODO: need to establish dependencies between tests - if one test needs to run not at the same time as another
 //TODO: default configuration should provide default values using lodash defaults / underscore defaults
@@ -36,6 +37,7 @@
 //TODO: suman -s (server) needs to try user's config first, if that fails, then use default suman config
 //TODO: fix it.only describe.only behavior (test0.js)
 //TODO: randomize test runs as per https://github.com/sindresorhus/ava/issues/595
+//TODO: steal unicode chars from existing projects
 
 /////////////////////////////////////////////////////////////////
 
@@ -86,7 +88,7 @@ try {
 catch (err) {
     //TODO: try to get suman.conf.js from root of project
 
-    console.error(colors.bgCyan.black(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'), '\n',
+    console.error('   ' + colors.bgCyan.black(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'), '\n',' ',
         colors.bgCyan.black(' => ...now looking for a config file at the root of your project...'));
     try {
         pth = path.resolve(sumanUtils.findProjectRoot(cwd) + '/' + 'suman.conf.js');
@@ -96,7 +98,7 @@ catch (err) {
         }
     }
     catch (err) {
-        console.error('   ' + colors.bgCyan.black('Suman msg => Using default Suman configuration.'));
+        console.log('   ' + colors.bgCyan.black(' => Suman msg => Using default Suman configuration.'));
         try {
             pth = path.resolve(__dirname + '/suman.default.conf.js');
             sumanConfig = require(pth);

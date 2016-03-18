@@ -7,15 +7,16 @@
 //gwt
 
 
-var debug = require('debug')('suman');
 var suman = require('../../lib');
-var Test = suman.init(module, 'suman.conf.js');
+var Test = suman.init(module, {
+    integrants: ['smartconnect', 'dolce-vida']
+});
 
 
 Test.describe('suite uno', function () {
 
     this.it.skip('foo2', {parallel: true}, t => {
-        debug('rooola');
+
     });
 
 

@@ -57,7 +57,7 @@ Test.describe('gggg', function () {
 
                     this.describe(function () {
 
-                        this.it.ONLY('mmm2', {parallel: false}, (t, done) => {
+                        this.it.skip('mmm2', {parallel: false}, (t, done) => {
                             done();
                         });
 
@@ -71,7 +71,7 @@ Test.describe('gggg', function () {
     });
 
 
-    this.describe('moodle', {
+    this.describe.skip('moodle', {
         parallel: false
     }, function () {
 
@@ -81,7 +81,7 @@ Test.describe('gggg', function () {
         });
 
 
-        this.it.ONLY('mmm1', {parallel: false}, (t, done) => {
+        this.it('mmm1', {parallel: false}, (t, done) => {
             done();
         });
 

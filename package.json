@@ -28,6 +28,7 @@
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4",
     "idempotent-json": "^0.9.2",
+    "immutable": "^3.7.6",
     "lodash": "^4.6.1",
     "morgan": "^1.6.1",
     "net-ping": "^1.1.12",
