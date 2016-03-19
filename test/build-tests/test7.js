@@ -3,10 +3,13 @@
  */
 
 
-var debug = require('debug')('suman');
+
+const Test = require('../../lib').init(module, {
+    integrants: ['smartconnect', 'dolce-vida']
+});
 
 
-const Test = require('../../lib').init(module, 'suman.conf.js');
+module.exports.wait  = false;
 
 
 Test.describe('BBB', function () {
@@ -66,7 +69,6 @@ Test.describe('BBB', function () {
 });
 
 
-/*
 
 
 Test.describe('BBB2', function () {
@@ -181,7 +183,5 @@ Test.describe('BBB2', function () {
 
 
 });
-*/
 
 
-module.exports.wait  = false;

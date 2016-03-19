@@ -6,7 +6,6 @@
 module.exports = () => {
 
 
-
     return {
 
 
@@ -21,10 +20,9 @@ module.exports = () => {
         C: {
             testPath: 'test/integration-tests/test3.js',
             obstructs: []
-        },
+        }
 
 
     }
 
-
-}
+};

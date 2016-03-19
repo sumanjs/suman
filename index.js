@@ -88,7 +88,7 @@ try {
 catch (err) {
     //TODO: try to get suman.conf.js from root of project
 
-    console.error('   ' + colors.bgCyan.black(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'), '\n',' ',
+    console.error('   ' + colors.bgCyan.black(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'), '\n', ' ',
         colors.bgCyan.black(' => ...now looking for a config file at the root of your project...'));
     try {
         pth = path.resolve(sumanUtils.findProjectRoot(cwd) + '/' + 'suman.conf.js');
@@ -138,7 +138,7 @@ else {
     d.on('error', function (err) {
         //TODO: add link showing how to set up Babel
         console.log(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually if you wish to use ES7 features)' + '\n' +
-            ' => Suman error => '  + err.stack + '\n'));
+            ' => Suman error => ' + err.stack + '\n'));
     });
 
 
@@ -174,6 +174,9 @@ else {
         return;
     }
     else {
+
+        //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
+        // and pretend it does not exist.
 
         dir = dir.map(function (item) {
             return path.resolve(item);
