@@ -15,11 +15,11 @@ module.exports = () => {
         },
         B: {
             testPath: 'test/integration-tests/test1.js',
-            obstructs: []
+            obstructs: ['C']
         },
         C: {
             testPath: 'test/integration-tests/test3.js',
-            obstructs: []
+            obstructs: ['A']
         }
 
 
