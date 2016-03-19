@@ -20,8 +20,11 @@ module.exports = () => {
         C: {
             testPath: 'test/integration-tests/test3.js',
             obstructs: ['A']
+        },
+        D: {
+            testPath: 'test/integration-tests/test4.js',
+            obstructs: ['A']
         }
-
 
     }
 
