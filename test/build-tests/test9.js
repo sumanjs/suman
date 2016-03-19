@@ -71,7 +71,7 @@ Test.describe('gggg', function () {
     });
 
 
-    this.describe.skip('moodle', {
+    this.describe('moodle', {
         parallel: false
     }, function () {
 

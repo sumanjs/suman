@@ -11,6 +11,7 @@
 
  */
 
+//TODO: suman command line input should allow for a file and directory combination
 //TODO: suman --init should install suman directory at root of project, and suman.conf.js at root of project
 //TODO: readme needs to have examples by ES5, ES6, ES7
 //TODO: need to establish dependencies between tests - if one test needs to run not at the same time as another
