@@ -32,14 +32,19 @@ module.exports = () => {
             testPath: 'test/integration-tests/test5.js',
             obstructs: ['G']
         },
+        Z: {
+            testPath: 'test/build-tests/test7.js',
+            obstructs: ['G']
+        },
         G: {
             testPath: 'test/build-tests/test8.js',
             obstructs: []
         },
         H: {
             testPath: 'test/build-tests/test9.js',
-            obstructs: ['A']
+            obstructs: ['G']
         }
+
 
     }
 
