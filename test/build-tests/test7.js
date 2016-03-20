@@ -69,6 +69,7 @@ Test.describe('BBB', function () {
 });
 
 
+/*
 
 
 Test.describe('BBB2', function () {
@@ -96,7 +97,7 @@ Test.describe('BBB2', function () {
 
             setTimeout(function () {
                 done();
-            }, 500);
+            }, 600);
 
         });
 
@@ -184,4 +185,5 @@ Test.describe('BBB2', function () {
 
 });
 
+*/
 

@@ -10,7 +10,7 @@ module.exports = () => {
 
         A: {
             testPath: 'test/integration-tests/test0.js',
-            obstructs: ['B']
+            obstructs: ['B','C','D']
         },
         B: {
             testPath: 'test/integration-tests/test1.js',
@@ -18,27 +18,27 @@ module.exports = () => {
         },
         C: {
             testPath: 'test/integration-tests/test2.js',
-            obstructs: ['D']
+            obstructs: ['D','E','F']
         },
         D: {
             testPath: 'test/integration-tests/test3.js',
-            obstructs: ['E']
+            obstructs: ['E','C']
         },
         E: {
             testPath: 'test/integration-tests/test4.js',
-            obstructs: ['F']
+            obstructs: ['F','A']
         },
         F: {
             testPath: 'test/integration-tests/test5.js',
-            obstructs: ['G']
+            obstructs: ['G','B','C']
         },
         Z: {
             testPath: 'test/build-tests/test7.js',
-            obstructs: ['G']
+            obstructs: ['B','G','F','E']
         },
         G: {
             testPath: 'test/build-tests/test8.js',
-            obstructs: []
+            obstructs: ['F','A','B','H','C','Z']
         },
         H: {
             testPath: 'test/build-tests/test9.js',
