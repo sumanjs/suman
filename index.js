@@ -59,7 +59,7 @@ var sumanInstalledLocally = true;
 
 try {
     console.log(require.resolve('suman'));
-} catch(e) {
+} catch (e) {
     sumanInstalledLocally = false;
     console.log(colors.bgYellow(' => Suman message => note that Suman is not installed locally, you may wish to install suman globally, and then run "$ suman --init"'));
 }
@@ -77,7 +77,7 @@ var suman = require('./lib');
 
 const root = sumanUtils.findProjectRoot(process.cwd());
 
-var sumanConfig, configPath, index, serverName, pth, convert, src, dest;
+var sumanConfig, configPath, index, init, serverName, pth, convert, src, dest;
 
 
 if (args.indexOf('--cfg') !== -1) {
@@ -92,6 +92,10 @@ if (args.indexOf('--n') !== -1) {
     args.splice(index, 2);
 }
 
+if (args.indexOf('--init') !== -1) {
+    init = true;
+}
+
 if (args.indexOf('--convert') !== -1) {
     index = args.indexOf('--convert');
     src = args[index + 1];
@@ -103,7 +107,7 @@ if (args.indexOf('--convert') !== -1) {
         console.log('Oh, and by the way, before deleting dirs in general, its a good idea to run a commit with whatever source control system you are using.');
         return;
     }
-    else{
+    else {
         convert = true;
     }
 }
@@ -141,13 +145,17 @@ catch (err) {
     }
 }
 
-if (convert) {
+if (init) {
 
-    require('./lib/convert-files/convert-dir')(src,dest);
+    require('./lib/init/init-project')({
+        force: process.argv.indexOf('--force') || process.argv.indexOf('-f')
+    });
 
-}
+} else if (convert) {
 
-else if (args.indexOf('--server') !== -1 || args.indexOf('-s') !== -1) {
+    require('./lib/convert-files/convert-dir')(src, dest);
+
+} else if (args.indexOf('--server') !== -1 || args.indexOf('-s') !== -1) {
 
     suman.Server({
         //configPath: 'suman.conf.js',

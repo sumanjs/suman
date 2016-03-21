@@ -8,7 +8,9 @@ For command line tools:
 ## ```npm install -g suman```
 
 For test suites in your project:
-## ```npm install -D suman```  => or preferably just run ```$ suman --init``` after installing suman as a global module
+##  run ```$ suman --init``` after installing suman as a global module
+
+### to simply install Suman as dev-dependency in any project you can use ```npm install -D suman```
 
 <br>
 
