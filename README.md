@@ -8,10 +8,10 @@ For command line tools:
 ## ```npm install -g suman```
 
 For test suites in your project:
-### You should run  ```$ suman --init```  in your project root after installing suman as a global module
+### You should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
 
 => to simply install Suman as dev-dependency in any project you can use ```npm install -D suman```, 
-however '$ suman init' is the preferred way to initialized suman in a given project. 
+however ```$ suman --init``` is the preferred way to initialized suman in a given project. 
 
 <br>
 
