@@ -1,78 +1,68 @@
+'use strict';
+
 /**
  * Created by denman on 1/3/2016.
  */
 
-var Test = require('../../lib').Test(module, 'suman.conf.js');
+var Test = require('../../lib').init(module, 'suman.conf.js');
 
 Test.describe('gggg', function () {
 
     this.after(function (done) {
-
         done();
     });
 
     this.describe(function () {
-
         this.after(function (done) {
-
             done();
         });
 
         this.describe(function () {
-
             this.after(function (done) {
-
                 done();
             });
         });
     });
 
     this.describe(function () {
-
         this.after(function (done) {
-
             done();
         });
 
         this.describe(function () {
-
             this.after(function (done) {
-
                 done();
             });
 
             this.describe(function () {
-
                 this.after(function (done) {
-
                     done();
                 });
 
                 this.describe(function () {
-
                     this.after(function (done) {
-
                         done();
                     });
+
                     this.describe(function () {
-
                         this.after(function (done) {
-
                             done();
                         });
                     });
                 });
 
                 this.describe(function () {
-
                     this.after(function (done) {
-
                         done();
                     });
+
                     this.describe(function () {
 
-                        this.after(function (done) {
+                        this.it.skip('mmm2', { parallel: false }, function (t, done) {
+                            done();
+                        });
 
+                        this.after(function (done) {
                             done();
                         });
                     });
@@ -90,24 +80,20 @@ Test.describe('gggg', function () {
             done();
         });
 
-        this.it('mmm1', { parallel: false }, (t, done) => {
-
+        this.it('mmm1', { parallel: false }, function (t, done) {
             done();
         });
 
         this.after(function (done) {
-
             done();
         });
     });
 
     this.after(function (done) {
-
         done();
     });
 
     this.after(function (done) {
-
         done();
     });
 });

@@ -1,0 +1,49 @@
+{
+    "channel": {
+        "type": "XH"
+    },
+    "customer": {
+        "account_number": "8497404620452729",
+        "account_status": null,
+        "address": {
+            "line1": "Addr Test1",
+            "line2": null,
+            "state": "TX",
+            "zip": "77590"
+        },
+        "alt_phone": null,
+        "firstname": "FNTest1",
+        "home_phone": null,
+        "language_preference": null,
+        "lastname": "Test 11",
+        "location": {
+            "division": null,
+            "market": null,
+            "region": null,
+            "vodsysteminfo": null
+        },
+        "ppv_hold_status": null,
+        "ppv_limit": null,
+        "ppv_used": null
+    },
+    "events": [
+        {
+            "data": {
+                "cspIngestTime": 1452203447132,
+                "description": "Customer is experiencing a Network Connection Issue with their Xfinty Home",
+                "error_code": null,
+                "event_id": "e306ac1d-8ebe-491c-9d14-38ef824542f3",
+                "eventname": null,
+                "source": null,
+                "state": "open"
+            },
+            "event_name": "xfinityhome.broadband_offline",
+            "type": "topic"
+        }
+    ],
+    "resources": [
+        {
+            "type": null
+        }
+    ]
+}

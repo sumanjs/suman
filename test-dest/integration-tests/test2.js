@@ -1,13 +1,17 @@
+'use strict';
+
 /**
  * Created by denman on 12/3/15.
  */
 
-var Test = require('../../lib').Test(module, 'suman.conf.js');
+var suman = require('../../lib');
+var Test = suman.init(module, {
+    integrants: ['smartconnect', 'dolce-vida', 'charlie']
+});
 
 Test.describe('suite 2', function () {
 
     this.before('D', function (done) {
-
         done();
     });
 

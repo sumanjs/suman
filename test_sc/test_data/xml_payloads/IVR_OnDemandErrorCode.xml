@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PostCDR>
+    <CallID>1402944746,3085,164</CallID>
+    <CDRRecord>
+        <RegionID>3016</RegionID>
+        <CallDate>20140616</CallDate>
+        <CSGAcct>8499101410192154</CSGAcct>
+        <IVRResolved>Y</IVRResolved>
+        <IVRSelection>X</IVRSelection>
+        <IVRBucket>BROADCAST</IVRBucket>
+        <IVRLOB>X</IVRLOB>
+        <Tag />
+        <TagDetail />
+        <ServiceType>RES</ServiceType>
+        <Customer>Y</Customer>
+        <Language>E</Language>
+        <AcctStat />
+        <ANI>7132134515</ANI>
+        <EnteredPhone>7132134515</EnteredPhone>
+        <DialedNumber>7133411092</DialedNumber>
+        <UnixTime>1402944746</UnixTime>
+        <CallTime>0</CallTime>
+        <Duration>12</Duration>
+        <AppName>care</AppName>
+        <DivisionID>1</DivisionID>
+        <MarketID>35</MarketID>
+        <Market>Houston</Market>
+        <MarketMatch>SPA</MarketMatch>
+        <HeadEnd />
+        <Node />
+        <MAC>0</MAC>
+        <RepeatOffender>N</RepeatOffender>
+        <RepeatCaller />
+        <Broadcast />
+        <BroadCallBack />
+        <Outage />
+        <OutageCallback />
+        <VTN />
+        <ArcherOutage />
+        <PPV />
+        <PayAmt />
+        <PayStat />
+        <TechETA>0</TechETA>
+        <ApptResch>0</ApptResch>
+        <DynSales />
+        <TransferTerm />
+        <TransferResult />
+        <IVRResolvedBucket>N</IVRResolvedBucket>
+        <NLRawUtterance>0</NLRawUtterance>
+        <NLName>On Demand Error Code</NLName>
+        <NLDescription>Customer is calling about an error code received</NLDescription>
+        <NLTagNumber>011</NLTagNumber>
+        <NLTagName>ON_DEMAND_ERRORCODES</NLTagName>
+    </CDRRecord>
+</PostCDR>

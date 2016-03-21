@@ -1,0 +1,43 @@
+{
+  "metadata": {},
+  "payload":{
+    "incident": {
+      "correlation_id": "96cfeb34-5742-4aaa-899b-7d813c23af29",
+      "error_code": null,
+      "source": "XH",
+      "data": {}
+    },
+    "events": [
+      {
+        "type": "Touchscreen Offline",
+        "error_code": null,
+        "state": "open",
+        "source": "XH",
+        "eventname": null,
+        "event_id": "87b05218-9b9b-44ab-b7bd-0affc7875359",
+        "time": "2016-01-05T19:13:11.5117576Z",
+        "description": "Customer is experiencing a Network Connection Issue with their Xfinty Home",
+        "data": {
+          "state": "open",
+          "source": null,
+          "description": "Customer is experiencing a Network Connection Issue with their Xfinty Home",
+          "cspIngestTime": 1452021176175,
+          "error_code": null,
+          "eventname": null,
+          "event_id": "87b05218-9b9b-44ab-b7bd-0affc7875359"
+        }
+      }
+    ],
+    "customer": {
+      "accountnum": "8497404620452729",
+      "data": null
+    },
+
+    "resources": [
+      {
+        "type": null,
+        "data": null
+      }
+    ]
+  }
+}

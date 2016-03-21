@@ -1,3 +1,5 @@
+"use strict";
+
 define([], function () {
 
     describe("Check some false values", function () {

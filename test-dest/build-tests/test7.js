@@ -1,39 +1,43 @@
+'use strict';
+
 /**
  * Created by denman on 1/2/2016.
  */
 
-var debug = require('debug')('suman');
+var Test = require('../../lib').init(module, {
+    integrants: ['smartconnect', 'dolce-vida']
+});
 
-const Test = require('../../lib').Test(module, 'suman.conf.js');
+module.exports.wait = false;
 
 Test.describe('BBB', function () {
 
-    this.before(() => {}).beforeEach(() => {});
+    this.before(function () {}).beforeEach(function () {});
 
     this.describe('1', { efa: true }, function () {
 
-        this.before(done => {
+        this.before(function (done) {
 
             setTimeout(function () {
                 done();
             }, 10);
         });
 
-        this.it('[test] yo', { parallel: false }, (t, done) => {
+        this.it('[test] yo', { parallel: false }, function (t, done) {
 
             setTimeout(function () {
                 done();
             }, 500);
         });
 
-        this.it('yo', { parallel: false }, (t, done) => {
+        this.it('yo', { parallel: false }, function (t, done) {
 
             setTimeout(function () {
                 done();
             }, 500);
         });
 
-        this.it({ parallel: false }, (t, done) => {
+        this.it({ parallel: false }, function (t, done) {
 
             setTimeout(function () {
                 done();
@@ -41,7 +45,7 @@ Test.describe('BBB', function () {
         });
     });
 
-    this.before(() => {});
+    this.before(function () {});
 });
 
 /*
@@ -72,7 +76,7 @@ Test.describe('BBB2', function () {
 
             setTimeout(function () {
                 done();
-            }, 500);
+            }, 600);
 
         });
 
@@ -160,5 +164,3 @@ Test.describe('BBB2', function () {
 
 });
 */
-
-module.exports.wait = false;

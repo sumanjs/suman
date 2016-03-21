@@ -1,9 +1,11 @@
+'use strict';
+
 /**
  * Created by denman on 1/3/2016.
  */
 
 var debug = require('debug')('suman');
-var Test = require('../../lib').Test(module, 'suman.conf.js');
+var Test = require('../../lib').init(module, 'suman.conf.js');
 
 Test.describe('desc', function () {
 

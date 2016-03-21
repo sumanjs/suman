@@ -12,7 +12,7 @@
  */
 
 //TODO: suman command line input should allow for a file and directory combination
-//TODO: suman --init should install suman directory at root of project, and suman.conf.js at root of project
+//TODO: suman --init should install suamn node_module, and suman directory at root of project, and suman.conf.js at root of project
 //TODO: readme needs to have examples by ES5, ES6, ES7
 //TODO: need to establish dependencies between tests - if one test needs to run not at the same time as another
 //TODO: default configuration should provide default values using lodash defaults / underscore defaults
@@ -51,6 +51,18 @@ const path = require('path');
 const colors = require('colors/safe');
 const os = require('os');
 const domain = require('domain');
+const cp = require('child_process');
+
+////////////////////////////////////////////////////////////////////
+
+var sumanInstalledLocally = true;
+
+try {
+    console.log(require.resolve('suman'));
+} catch(e) {
+    sumanInstalledLocally = false;
+    console.log(colors.bgYellow(' => Suman message => note that Suman is not installed locally, you may wish to install suman globally, and then run "$ suman --init"'));
+}
 
 ////////////////////////////////////////////////////////////////////
 
@@ -63,7 +75,9 @@ const cwd = process.cwd();
 var sumanUtils = require('./lib/utils');
 var suman = require('./lib');
 
-var sumanConfig, configPath, index, serverName, pth;
+const root = sumanUtils.findProjectRoot(process.cwd());
+
+var sumanConfig, configPath, index, serverName, pth, convert, src, dest;
 
 
 if (args.indexOf('--cfg') !== -1) {
@@ -76,6 +90,22 @@ if (args.indexOf('--n') !== -1) {
     index = args.indexOf('--n');
     serverName = args[index + 1];
     args.splice(index, 2);
+}
+
+if (args.indexOf('--convert') !== -1) {
+    index = args.indexOf('--convert');
+    src = args[index + 1];
+    dest = args[index + 2];
+    args.splice(index, 3);
+    if (args.indexOf('-f') === -1) {
+        console.log('Are you sure you want to remove all contents within the folder with path="' + path.resolve(root + '/' + dest) + '" ?');
+        console.log('If you are sure, try the same command with the -f option.');
+        console.log('Oh, and by the way, before deleting dirs in general, its a good idea to run a commit with whatever source control system you are using.');
+        return;
+    }
+    else{
+        convert = true;
+    }
 }
 
 try {
@@ -111,8 +141,13 @@ catch (err) {
     }
 }
 
+if (convert) {
 
-if (args.indexOf('--server') !== -1 || args.indexOf('-s') !== -1) {
+    require('./lib/convert-files/convert-dir')(src,dest);
+
+}
+
+else if (args.indexOf('--server') !== -1 || args.indexOf('-s') !== -1) {
 
     suman.Server({
         //configPath: 'suman.conf.js',

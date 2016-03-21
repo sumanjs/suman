@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Created by denman on 12/2/2015.
  */
@@ -7,8 +9,7 @@ var Test = suman.new(module, 'suman.conf.js');
 
 
 Test.suite('suite tres', function (suite) {*/
-
-var Test = require('../../lib').Test(module, 'suman.conf.js');
+var Test = require('../../lib').init(module, 'suman.conf.js');
 
 Test.describe('suite tres', function (suite) {
 
@@ -17,7 +18,7 @@ Test.describe('suite tres', function (suite) {
         return done();
     });
 
-    this.it('my test99999', (a, b) => {
+    this.it('my test99999', function (a, b) {
 
         //throw new Error('rrr');
 
@@ -25,15 +26,12 @@ Test.describe('suite tres', function (suite) {
     });
 
     this.afterEach(function (t, done) {
-
-        //done(888);
         done();
     });
 
     this.describe('tarzan', function () {
 
         this.before(function (done) {
-
             done();
         });
 
@@ -44,7 +42,6 @@ Test.describe('suite tres', function (suite) {
             this.describe('uuuuu3333 test', function () {
 
                 this.before(function (done) {
-
                     done();
                 });
 

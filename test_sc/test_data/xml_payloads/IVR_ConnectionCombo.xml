@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<PostCDR>
+	<CallID>1454537904,3277,266</CallID>
+	<CDRRecord>
+		<RegionID>9</RegionID>
+		<CallDate>20160203</CallDate>
+		<CSGAcct>8497404620452729</CSGAcct>
+		<IVRResolved>N</IVRResolved>
+		<IVRSelection>TECH</IVRSelection>
+		<IVRBucket>Technical</IVRBucket>
+		<IVRLOB>CDV</IVRLOB>
+		<Tag>071</Tag>
+		<TagDetail/>
+		<ServiceType>RES</ServiceType>
+		<Customer>Y</Customer>
+		<Language>E</Language>
+		<AcctStat>none</AcctStat>
+		<ANI>8575261222</ANI>
+		<EnteredPhone>8575261222</EnteredPhone>
+		<DialedNumber/>
+		<UnixTime>1454537904</UnixTime>
+		<CallTime>171824</CallTime>
+		<Duration>157</Duration>
+		<AppName>eivr</AppName>
+		<DivisionID>2</DivisionID>
+		<MarketID>27</MarketID>
+		<Market>GBR</Market>
+		<MarketMatch>SPA</MarketMatch>
+		<HeadEnd>quincy.ma</HeadEnd>
+		<Node>MA016329</Node>
+		<MAC/>
+		<RepeatOffender>N</RepeatOffender>
+		<RepeatCaller>N</RepeatCaller>
+		<Broadcast/>
+		<BroadCallBack/>
+		<Outage/>
+		<OutageCallback>N</OutageCallback>
+		<VTN/>
+		<ArcherOutage/>
+		<PPV/>
+		<PayAmt/>
+		<PayStat/>
+		<TechETA/>
+		<ApptResch>N</ApptResch>
+		<DynSales/>
+		<TransferTerm>795028061126</TransferTerm>
+		<TransferResult/>
+		<IVRResolvedBucket/>
+		<NLRawUtterance>no internet service no telephone service</NLRawUtterance>
+		<DasBalanceDueDate>2016-01-22T00:00:00-05:00</DasBalanceDueDate>
+		<DunningGroup>110</DunningGroup>
+		<DasBalanceDue>0.00</DasBalanceDue>
+		<DelinquentAmount>0.00</DelinquentAmount>
+		<PTPDate/>
+		<OutageBlockingIndicator>N</OutageBlockingIndicator>
+		<DasUID>ed07ce6943c64c0a8f8c1cfee9c86bf3</DasUID>
+		<CellphoneIndicator>N</CellphoneIndicator>
+		<NLTagNum>071</NLTagNum>
+		<NLTagName>CONNECTION_COMBO</NLTagName>
+		<NLName>Connection Combo</NLName>
+		<NLDesc>Customer is having no connection with more than 2 services.</NLDesc>
+		<AuthStat>F</AuthStat>
+	</CDRRecord>
+</PostCDR>

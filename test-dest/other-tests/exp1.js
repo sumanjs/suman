@@ -1,71 +1,57 @@
+'use strict';
+
 /**
  * Created by denman on 12/2/2015.
  */
 
-var debug = require('debug')('suman');
 var suman = require('../../lib');
-var Test = suman.Test(module, 'suman.conf.js');
+var Test = suman.init(module, 'suman.conf.js');
 
 Test.describe('foo', function () {
 
-    this.before(() => {
-        debug('before 0');
-    });
+    this.before(function () {});
 
-    this.after(() => {
-        debug('after 0');
-    });
+    this.after(function () {});
 
-    this.it('4', (t, done) => {
+    this.it('4', function (t, done) {
 
         setTimeout(function () {
             done();
         }, 1000);
     });
 
-    this.beforeEach((t, done) => {
+    this.beforeEach(function (t, done) {
 
-        debug('before each 1');
         done();
     });
 
     this.describe('2', function () {
 
-        this.before(() => {
-            debug('before 1');
-        });
+        this.before(function () {});
 
         this.describe('3', { parallel: true }, function () {
 
-            this.beforeEach(t => {
-                debug('before each 2');
-            });
+            this.beforeEach(function (t) {});
 
-            this.it('it 5555', (t, done) => {
+            this.it('it 5555', function (t, done) {
 
                 setTimeout(function () {
                     done();
                 }, 1000);
             });
 
-            this.it('66666six', (t, done) => {
+            this.it('66666six', function (t, done) {
 
                 setTimeout(function () {
                     done();
                 }, 1000);
             });
 
-            this.after(() => {
-                debug('this.after x');
-            });
+            this.after(function () {});
         });
 
-        this.after(() => {
-            debug('this.after y');
-        });
+        this.after(function () {});
     });
 
-    this.after(() => {
-        debug('this.after z');
-    });
+    this.after(function () {});
 });

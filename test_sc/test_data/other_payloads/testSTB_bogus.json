@@ -1,0 +1,83 @@
+{
+     "metadata": {},
+    "payload": {
+    "incident": {
+        "state": "open",
+        "type": null,
+        "description": null,
+        "title": null,
+        "source": "STB",
+        "data": {
+            
+        },
+        "error_code": null
+    },
+    "customer": {
+        "data": {
+            
+        },
+        "accountnum": "8497404620452729"
+    },
+    "events": [
+        {
+            "time": "1970-01-01T00: 00: 00Z",
+            "event_id": null,
+            "type": "Appt",
+            "eventname": "ivr.null.scs.null",
+            "data": {
+                "paystat": null,
+                "STBBucket": "Technical",
+                "callTime": 0,
+                "tag": null,
+                "broadcast": null,
+                "STBResolved": "N",
+                "state": "open",
+                "mac": 0,
+                "enteredPhone": "000-000-0000",
+                "ANI": 6093480828,
+                "apptResch": 0,
+                "divisionId": 0,
+                "payAmt": null,
+                "accountStatus": null,
+                "nlDesc": null,
+                "marketMatch": null,
+                "outageCallback": null,
+                "regionId": 0,
+                "STBResolvedBucket": "N",
+                "marketId": 0,
+                "outage": null,
+                "headEnd": null,
+                "unixTime": 0,
+                "tagDetail": null,
+                "CSGAcct": "8497404620452729",
+                "repeatCaller": null,
+                "serviceType": null,
+                "nlName": null,
+                "ivrLOB": null,
+                "callDate": 0,
+                "nlTagName": null,
+                "ppv": null,
+                "nlRawUtterance": null,
+                "appName": null,
+                "repeatOffender": null,
+                "node": null,
+                "duration": 0,
+                "market": null,
+                "ivrSelection": null,
+                "language": null,
+                "nlTagNum": null,
+                "transferTerm": null,
+                "techETA": 0,
+                "dialedNumber": "000-000-0000"
+            },
+            "error_code": null,
+            "description": null,
+            "state": "open",
+            "source": "STB"
+        }
+    ],
+    "resources": [
+        
+    ]
+}
+}

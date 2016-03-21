@@ -4,15 +4,15 @@
 
 "use strict";
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
-
 var suman = require('../../lib');
-var Test = suman.Test(module, 'suman.conf.js');
+var Test = suman.init(module, 'suman.conf.js');
 
-Test.describe('B', ['socketio', 'request', 'delay'], function (socketio, request, delay, roodles, choodles) {
+Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, choodles, fs) {
 
     console.log('roodles:', roodles);
     console.log('choodles:', choodles);
+
+    console.log('fs:', fs);
 
     var arr = [1, 2, 3];
 
@@ -43,18 +43,13 @@ Test.describe('B', ['socketio', 'request', 'delay'], function (socketio, request
     //    return await timeout();
     //});
 
-    this.beforeEach(function () {
-        var ref = _asyncToGenerator(function* (t, done, run) {
-            console.log('TTTTTTT:', t);
-            console.log('DDDDD:', done);
-            console.log('RRRRR:', run);
-            //t.data.lion = await timeout();
-        });
-
-        return function (_x, _x2, _x3) {
-            return ref.apply(this, arguments);
-        };
-    }());
+    this.beforeEach(function (t, done, run) {
+        console.log('TTTTTTT:', t);
+        console.log('DDDDD:', done);
+        console.log('RRRRR:', run);
+        done();
+        //t.data.lion = await timeout();
+    });
 
     this.beforeEach(function (t) {
         t.data.lion = 'barb';
@@ -76,10 +71,11 @@ Test.describe('B', ['socketio', 'request', 'delay'], function (socketio, request
         }, 100);
 
         this.describe(function () {
+            var _this = this;
 
-            arr.forEach(item => {
+            arr.forEach(function (item) {
 
-                this.it('[test]' + item, function (t) {
+                _this.it('[test]' + item, function (t) {
                     console.log('B => ' + t.desc, t.data.lion);
                 });
             });
@@ -94,24 +90,26 @@ Test.describe('B', ['socketio', 'request', 'delay'], function (socketio, request
         }, 100);
 
         this.describe('j', function (delay) {
+            var _this2 = this;
 
             setTimeout(function () {
                 arr.push(13);
                 delay();
             }, 100);
 
-            arr.forEach(item => {
+            arr.forEach(function (item) {
 
-                this.it('[test]' + item, function (t) {
+                _this2.it('[test]' + item, function (t) {
                     console.log('C => ' + t.desc);
                 });
             });
 
             this.describe('D', function () {
+                var _this3 = this;
 
-                arr.forEach(item => {
+                arr.forEach(function (item) {
 
-                    this.it('[test]' + item, function (t) {
+                    _this3.it('[test]' + item, function (t) {
                         console.log('D => ' + t.desc);
                     });
                 });

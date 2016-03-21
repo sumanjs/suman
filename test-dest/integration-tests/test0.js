@@ -1,16 +1,27 @@
+'use strict';
+
 /**
  * Created by denman on 1/1/2016.
  */
 
-var debug = require('debug')('suman');
-var Test = require('../../lib').init(module, 'suman.conf.js');
+var suman = require('../../lib');
+
+var Test = suman.init(module, {
+    integrants: ['smartconnect', 'dolce-vida']
+});
 
 console.log('some bs');
 
-Test.describe('gggg', { parallel: false }, function (delay, socketio, whoa, cherry) {
+Test.describe('gggg', { parallel: false }, function (http, delay, assert, fs, child_process, socketio, suite, whoa, cherry, https) {
 
-    console.log('cherry:', cherry);
-    console.log('whoa:', whoa);
+    //console.log('child_process:',child_process);
+    //console.log('http:',http);
+    //console.log('https:',https);
+    //console.log('cherry:', cherry);
+    //console.log('whoa:', whoa);
+    //console.log('suite:',suite);
+    //console.log('fs:',fs);
+    //console.log('assert:',assert);
 
     setTimeout(function () {
         delay();
@@ -18,19 +29,19 @@ Test.describe('gggg', { parallel: false }, function (delay, socketio, whoa, cher
 
     this.describe('moodle', { parallel: false }, function () {
 
-        this.before(done => {
+        this.before(function (done) {
             setTimeout(function () {
                 done();
             }, 50);
         });
 
-        this.before(done => {
+        this.before(function (done) {
             setTimeout(function () {
                 done();
             }, 50);
         });
 
-        this.before(done => {
+        this.before(function (done) {
             setTimeout(function () {
                 done();
             }, 50);
@@ -41,42 +52,31 @@ Test.describe('gggg', { parallel: false }, function (delay, socketio, whoa, cher
 
     this.describe('moodle', { parallel: true }, function () {
 
-        this.beforeEach((t, done) => {
+        this.beforeEach(function (t, done) {
             setTimeout(function () {
-                debug('before Each 1, ' + t.desc);
                 done();
             }, 50);
-        });
-
-        this.beforeEach((t, done) => {
+        }).beforeEach(function (t, done) {
             setTimeout(function () {
-                debug('before Each 2, ' + t.desc);
                 done();
             }, 50);
-        });
-
-        this.beforeEach((t, done) => {
-            setTimeout(function () {
-                debug('before Each 3, ' + t.desc);
-                done();
-            }, 50);
-        });
-
-        this.it('mmm1', { parallel: false }, (t, done) => {
-
+        }).beforeEach(function (t, done) {
             setTimeout(function () {
                 done();
             }, 50);
         });
 
-        this.it('mmm2', { parallel: false }, (t, done) => {
+        this.it('mmm1', { parallel: false }, function (t, done) {
 
             setTimeout(function () {
                 done();
             }, 50);
-        });
+        }).it('mmm2', { parallel: false }, function (t, done) {
 
-        this.it('mmm3', { parallel: false }, (done, t) => {
+            setTimeout(function () {
+                done();
+            }, 50);
+        }).it('mmm3', { parallel: false }, function (done, t) {
 
             setTimeout(function () {
                 done();
@@ -85,33 +85,52 @@ Test.describe('gggg', { parallel: false }, function (delay, socketio, whoa, cher
 
         this.beforeEach(function (t, done) {
             setTimeout(function () {
-                debug('before Each 4, ' + t.desc);
+
                 done();
             }, 50);
         });
 
         this.afterEach(function (t, done) {
             setTimeout(function () {
-                debug('after Each 1, ' + t.desc);
+
                 done();
             }, 50);
         });
 
         this.afterEach(function (t, done) {
             setTimeout(function () {
-                debug('after Each 2, ' + t.desc);
+
                 done();
             }, 50);
         });
 
-        this.after(function () {
-            debug('after, a ');
-        });
+        this.after(function () {});
     });
 
     this.describe('bum', { parallel: false }, function () {
 
-        this.it('aaa1', {
+        this.describe('x', function () {
+
+            this.describe('y', function () {
+                this.it('ddd', {
+                    parallel: false
+                }, function (t, done) {
+                    setTimeout(function () {
+                        done();
+                    }, 50);
+                });
+            });
+
+            this.it('cccc', {
+                parallel: false
+            }, function (t, done) {
+                setTimeout(function () {
+                    done();
+                }, 50);
+            });
+        });
+
+        this.it.SKIP('aaa1', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
@@ -119,7 +138,7 @@ Test.describe('gggg', { parallel: false }, function (delay, socketio, whoa, cher
             }, 50);
         });
 
-        this.it('aaa2', {
+        this.it.ONLY('aaa2', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
@@ -143,12 +162,8 @@ Test.describe('gggg', { parallel: false }, function (delay, socketio, whoa, cher
             }, 50);
         });
 
-        this.after(function () {
-            debug('after, b ');
-        });
+        this.after(function () {});
     });
 
-    this.after(function () {
-        debug('after, c');
-    });
+    this.after(function () {});
 });

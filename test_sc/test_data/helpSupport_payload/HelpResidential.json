@@ -1,0 +1,27 @@
+{
+  "metadata": {},
+  "payload": {
+    "incident": {
+      "source": "Help Residential",
+      "data": null
+    },
+    "events": [
+      {
+        "type": "Help Article Views",
+        "source": "Help Residential",
+        "event_id": null,
+        "time": "2016-02-12T16:36:09.5959798-05:00",
+        "description": "Customer viewed an article",
+        "data": {
+          "articleID": "HOW7622",
+          "articleURL": "https://customer.localhost.xfinity.com/help-and-support/cable-tv/x1-stb-activation/"
+        }
+      }
+    ],
+    "customer": {
+      "accountnum": "8499101410192154",
+      "data": null
+    },
+    "resources": null
+  }
+}

@@ -1,9 +1,11 @@
+'use strict';
+
 /**
  * Created by denman on 2/7/2016.
  */
 
 var suman = require('../../lib');
-var Test = suman.Test(module, 'suman.conf.js');
+var Test = suman.init(module, 'suman.conf.js');
 
 Test.describe('A', {}, ['request', 'socketio'], function (request, socketio) {
 
@@ -34,9 +36,11 @@ Test.describe('A', {}, ['request', 'socketio'], function (request, socketio) {
         }, 100);
 
         this.describe(function () {
-            arr.forEach(item => {
+            var _this = this;
 
-                this.it('[test]' + item, function (t) {
+            arr.forEach(function (item) {
+
+                _this.it('[test]' + item, function (t) {
                     console.log('B => ' + t.desc);
                 });
             });
@@ -51,24 +55,26 @@ Test.describe('A', {}, ['request', 'socketio'], function (request, socketio) {
         }, 100);
 
         this.describe('j', function (delay) {
+            var _this2 = this;
 
             setTimeout(function () {
                 arr.push(13);
                 delay();
             }, 100);
 
-            arr.forEach(item => {
+            arr.forEach(function (item) {
 
-                this.it('[test]' + item, function (t) {
+                _this2.it('[test]' + item, function (t) {
                     console.log('C => ' + t.desc);
                 });
             });
 
             this.describe('D', function () {
+                var _this3 = this;
 
-                arr.forEach(item => {
+                arr.forEach(function (item) {
 
-                    this.it('[test]' + item, function (t) {
+                    _this3.it('[test]' + item, function (t) {
                         console.log('D => ' + t.desc);
                     });
                 });

@@ -1,8 +1,10 @@
+"use strict";
+
 // collection of test files
 var testFiles = [];
 
 // Used to convert paths to find test files
-var pathToModule = function (path) {
+var pathToModule = function pathToModule(path) {
     return path.replace(/^\/base\//, "../../").replace(/\.js$/, '');
 };
 
