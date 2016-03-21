@@ -4,10 +4,10 @@
 [![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
 <br>
 
-For command line tools:
+<i>For command line tools:</i>
 ## ```npm install -g suman```
 
-For test suites in your project:
+<i>For test suites in your project:</i>
 ### You should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
 
 => to simply install Suman as dev-dependency in any project you can use ```npm install -D suman```, <br>
@@ -61,6 +61,8 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
     *  your tests will run much, much faster
     *  suites are run in separate Node.js processes for speed and isolation
     *  test cases in any given suite can be run concurrently, using asynchronous I/O
+    *  capability to control maximum number of processes running at a time
+    *  capability to add constaints to prevent any pair of tests from running at the same time
        
        
 * <b>Improved reporting</b>
