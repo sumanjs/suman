@@ -55,18 +55,6 @@ const cp = require('child_process');
 
 ////////////////////////////////////////////////////////////////////
 
-var sumanInstalledLocally = true;
-
-try {
-    console.log(require.resolve('suman'));
-} catch (e) {
-    sumanInstalledLocally = false;
-    console.log(colors.bgYellow(' => Suman message => note that Suman is not installed locally, you may wish to install suman globally, and then run "$ suman --init"'));
-}
-
-////////////////////////////////////////////////////////////////////
-
-const args = JSON.parse(JSON.stringify(process.argv.slice(2))); //copy args
 const cwd = process.cwd();
 
 ////////////////////////////////////////////////////////////////////
@@ -76,6 +64,34 @@ var sumanUtils = require('./lib/utils');
 var suman = require('./lib');
 
 const root = sumanUtils.findProjectRoot(process.cwd());
+
+////////////////////////////////////////////////////////////////////
+
+var sumanInstalledLocally = true;
+
+var err;
+
+try {
+    console.log(require.resolve(root + '/node_modules/suman'));
+} catch (e) {
+    err = e;
+}
+
+if (err) {
+    sumanInstalledLocally = false;
+    console.log(colors.bgYellow(' => Suman message => note that Suman is not installed locally, you may wish to install suman globally, and then run "$ suman --init"'));
+}
+else {
+    console.log(colors.bgYellow(' => Suman message => Suman appears to be installed locally.'));
+
+}
+
+////////////////////////////////////////////////////////////////////
+
+const args = JSON.parse(JSON.stringify(process.argv.slice(2))); //copy args
+
+////////////////////////////////////////////////////////////////////
+
 
 var sumanConfig, configPath, index, init, serverName, pth, convert, src, dest;
 
