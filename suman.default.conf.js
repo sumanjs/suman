@@ -10,13 +10,14 @@ const path = require('path');
 
 module.exports = Object.freeze({
 
+    defaultTestSuiteTimeout: 15000,
     maxParallelProcesses: 25,           //maximum parallel processes running at one time
     ultraSafe: false,                   //if true, Suman reads files in with fs.createReadStream before running any file and makes sure it's a suman test before running
     verbose: true,                      //handles and logs warnings (using warning level?)
     checkMemoryUsage: false,            //limits stack traces to just relevant test case or test line
-    fullStackTraces: false,             //
+    fullStackTraces: false,             //allows you to view more than 3 lines for errors in test cases and hooks
     uniqueAppName: 'suman',
-    NODE_ENV: 'development',            //NODE_ENV to use if you don't specify one
+    NODE_ENV: 'development',            // NODE_ENV to use if you don't specify one
     pipeStdOut: 'bunyan',
     browser: 'Firefox',                 // browser to open test results with
     disableAutoOpen: false,             // use true if you never want suman to automatically open the browser to the latest test results

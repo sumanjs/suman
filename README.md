@@ -10,21 +10,25 @@
 <i> => For test suites in your project:</i>
 ### You should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
 
+=> to convert a Mocha test or whole directory of Mocha tests to Suman tests use <br>
+```$ suman --convert source<file/dir> dest<file/dir>```
+
 => to simply install Suman as dev-dependency in any project you can use ```$ npm install -D suman```, <br>
 however ```$ suman --init``` is the preferred way to initialized suman in a given project. 
+
 
 <br>
 
 (disclaimer: Suman is in beta, despite the current version number)
 
-Suman is a test runner for Node.js and is focused on asynchronous testing of backend services. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
+<i> Suman is a test runner for Node.js and is focused on asynchronous testing of backend services. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
 and to compete with the new Node.js test runner AVA. Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
 massive improvements over Mocha. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings 
 that we experienced ourselves over time, and eventually we wanted a test runner that we could use that was more robust and more streamlined than Mocha,
 that was also enterprise-grade. Suman is designed to be used specifically for integration and system testing of backend facilities, using a BDD interface
 If you like Mocha and BDD test interfaces you will love Suman. Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems,
 and is not currently intended to be used for front-end testing. (Your backend testing framework and front-end testing framework should probably be different if you
-want them both to be powerful and full-featured).
+want them both to be powerful and full-featured).</i>
 
 ### The reasons why Mocha and its peers need a replacement are:
 
@@ -288,7 +292,7 @@ with the plain old Node executable, as opposed to adding the complexity of trans
 
  Suman borrows some excellent features from Mocha that AVA seems to ignore, including the ability
  to use nested describe statements for more control and preventing the sharing of scope within tests. AVA basically
- conned Tape and added concurrency. Suman conned Mocha, added concurrency, better reporting, dependency injection and 
+ co-opted Tape and added concurrency. Suman co-opted Mocha, added concurrency, better reporting, dependency injection and 
  less confusing contexts for hooks. Suman has more powerful facilities for asynchronous testing than AVA due to Mocha/Jasmine-style hooks
  and nested describes. Dependency injection ability also makes Suman extremely convenient to use, compared to AVA.
  
