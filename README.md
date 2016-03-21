@@ -4,10 +4,10 @@
 [![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
 <br>
 
-<i>For command line tools:</i>
+<i> => For command line tools:</i>
 ## ```npm install -g suman```
 
-<i>For test suites in your project:</i>
+<i> => For test suites in your project:</i>
 ### You should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
 
 => to simply install Suman as dev-dependency in any project you can use ```$ npm install -D suman```, <br>
