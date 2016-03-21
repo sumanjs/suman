@@ -1,6 +1,0 @@
---require should
---require nodeunit
---require supertest
---reporter spec
---ui bdd
---recursive
