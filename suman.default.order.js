@@ -5,6 +5,36 @@
 // ************************************************************************************************************************
 
 
+//example:
+
+
+/*
+
+
+ module.exports = () => {
+
+ return {
+
+ A: {
+ testPath: '',
+ obstructs: [],
+ estimatedTimeInSeconds: 500
+ },
+ B: {
+ testPath: '',
+ obstructs: [],
+ estimatedTimeInSeconds: 500
+ }
+
+ }
+
+ };
+
+
+*/
+
+
+
 module.exports = () => {
 
     return {
