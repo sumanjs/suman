@@ -83,7 +83,7 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
        
     
 * <b> Test runner tuning </b>
-    *  Add contraints to prevent two separate tests from running at the same time
+    *  Add contraints to prevent any given pair of tests from running at the same time
     *  Cap the total number of processes running at the same time
     *  Suman 'once' feature gives developer the option to run checks to see if all necessary network components are live before running any given test
     
@@ -116,7 +116,7 @@ simple example:
 const suman = require('suman');
 const Test = suman.init(module);
 
-Test.describe('FirstExample', function(assert){     //  this is our test suite, and we inject the core 'assert' module
+Test.describe('FirstExample', function(assert, path, http){     //  this is our test suite, and we inject some core modules
 
 
      this.beforeEach('runs before every it()', t => {
