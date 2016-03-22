@@ -19,22 +19,28 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 <br>
 
+---
+
 (disclaimer: Suman is in beta, despite the current version number)
+
+---
 
 <i> Suman is a test runner for Node.js and is focused on asynchronous testing of backend services. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
 and to compete with the new Node.js test runner AVA. Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
 massive improvements over Mocha, specifically for backend testing. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings 
 that we experienced ourselves over time, and eventually we wanted a test runner that we could use that was more robust and more streamlined than Mocha,
-that was also enterprise-grade. Suman is designed to be used specifically for integration and system testing of backend facilities, using a BDD interface
+that was also enterprise-grade. Suman is designed to be used specifically for integration and system testing of backend facilities, using a BDD interface.
 If you like Mocha and BDD test interfaces you will love Suman. Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems,
 and is not currently intended to be used for front-end testing. (Your backend testing framework and front-end testing framework should probably be different if you
 want them both to be powerful and full-featured). This library gives you features for backend testing that are not available in other testing frameworks since this
 library is not constained by the requirement that it must run in the browser.</i>
 
+---
+
 ### The reasons why Mocha and its peers need a replacement are:
 
 * In Mocha, Tape and Jasmine suites were not run in separate processes (necessary for isolation, speed and independence of test results)
-* Using Mocha, Tape and Jasmine everything was not only run in a single process but all test cases and hooks were also run in series, which can take unnecessary amounts of time for async tests
+* Using Mocha, Tape and Jasmine everything was not only run in a single process but all test cases and hooks were also run in series, which can take unnecessary amounts of time for tests using async I/O
 * Mocha and Jasmine could not move forward with ES6/ES7 features due to certain software patterns used (globals and complex context binding)
 * Furthermore, Mocha and Jasmine could not have certain useful serverside features, because they were also constained by running in the browser.
 * Mocha lacked real ability to do true dynamic testing (meaning, registering a dynamic number of it() test cases) => e.g., make a network call, get X values, create a test case for each.
