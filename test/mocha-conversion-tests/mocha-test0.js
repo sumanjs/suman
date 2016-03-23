@@ -12,6 +12,8 @@ describe('a',function(){
 
         it('a', function(done){
 
+            this.parent.title;
+
 
         });
 

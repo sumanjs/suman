@@ -7,6 +7,7 @@
     "build_ES6": "babel test --presets babel-preset-es2015 --out-dir test-dest",
     "view_results": "open -a Google\\ Chrome view/results.html",
     "merge": "git merge -Xignore-all-space",
+    "debug_mocha":"node-debug _mocha --no-timeouts ",
     "convert": "node index.js --convert test/mocha-conversion-tests/ test/mocha-conversion-test-dest/ -f"
   },
   "author": "Olegzandr Denman",
