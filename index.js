@@ -11,6 +11,7 @@
 
  */
 
+//TODO: need to implement  -b, --bail   => bail after first test failure
 //TODO: suman command line input should allow for a file and directory combination
 //TODO: suman --init should install suamn node_module, and suman directory at root of project, and suman.conf.js at root of project
 //TODO: readme needs to have examples by ES5, ES6, ES7

@@ -30,7 +30,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         delay();
     }, 100);
 
-    this.describe('moodle', {parallel: false}, function () {
+    this.context('moodle', {parallel: false}, function () {
 
         this.before(done => {
             setTimeout(function () {
