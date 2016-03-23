@@ -43,6 +43,8 @@ describe('a',function(){
         beforeEach(function(){
 
             console.log('beforeEach this b:',this.parent);
+            this.parent.title;
+
 
         });
 
@@ -50,9 +52,8 @@ describe('a',function(){
         it('b', function(done){
 
             console.log('it this b:',this.parent);
-
-
             done();
+
         });
 
 
