@@ -1,5 +1,9 @@
 [logo]: https://www.dropbox.com/home?preview=45deaf3b-4945-4998-b9b8-5c63be8acdcd.png "Logo Title Text 2"
 
+Inline-style: 
+![alt text](https://www.dropbox.com/home?preview=45deaf3b-4945-4998-b9b8-5c63be8acdcd.png "Logo Title Text 1")
+
+
 <br>
 [![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
 <br>
