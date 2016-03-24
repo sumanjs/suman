@@ -51,7 +51,13 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
             }, 50);
         });
 
-        this.after(function () {
+        this.before(function *() {
+            var val = yield new Promise(function(resolve){
+                  setTimeout(function(){
+                      resolve('dude');
+                  });
+            });
+            return console.log('val:',val);
         });
     });
 
@@ -148,7 +154,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
 
-        this.it.SKIP('aaa1', {
+        this.it('aaa1', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
@@ -157,7 +163,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
 
-        this.it.ONLY('aaa2', {
+        this.it('aaa2', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
