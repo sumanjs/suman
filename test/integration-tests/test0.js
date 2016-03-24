@@ -148,7 +148,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
 
-        this.it.SKIP('aaa1', {
+        this.it.ONLY('aaa1', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
@@ -166,7 +166,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
 
-        this.it('aaa3', {
+        this.it.ONLY('aaa3', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
