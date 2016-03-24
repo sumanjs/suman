@@ -52,7 +52,7 @@ describe('a',function(){
 
         afterEach(function(){
 
-            console.log(this.currentTest.title)           // t.title
+            console.log(this.currentTest.title) ;          // t.title
             console.log(this.currentTest.parent.title);   // this.title
             console.log(this.test.parent);                // this
         });
