@@ -1,7 +1,7 @@
-[logo]: https://www.dropbox.com/home?preview=45deaf3b-4945-4998-b9b8-5c63be8acdcd.png "Logo Title Text 2"
+[logo]: https://github.com/ORESoftware/suman/blob/master/images/6290f877-6356-409b-8b74-08a4cec53299.png "Logo Title Text 2"
 
 Inline-style: 
-![alt text](https://www.dropbox.com/home?preview=45deaf3b-4945-4998-b9b8-5c63be8acdcd.png "Logo Title Text 1")
+![alt text](https://github.com/ORESoftware/suman/blob/master/images/6290f877-6356-409b-8b74-08a4cec53299.png "Logo Title Text 1")
 
 
 <br>
