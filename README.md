@@ -63,11 +63,11 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 * => designed with ES6 and ES7 in mind, including async/await and generators
 
 
-* <b> Very simple but powerful dependency injection (DI/IoC) of (network) values and dependencies</b>
-    *  used primarily for injecting values acquired asynchronously, such as successful network connections and database values
+* <b> Very simple but powerful dependency injection (DI/IoC) of network values, test dependencies and library dependencies</b>
+    *  most useful for injecting values acquired asynchronously, such as successful network connections and database values
     *  inspired by familiar tools such as Angular and RequireJS
-    *  load any core ("built-in") Node.js module by name 
-    *  DI is optional, it's the developer's choice whether to incorporate DI or not
+    *  load any core/"built-in" Node.js module by name 
+    *  DI is used throughout the library, and relieves the burden on the developer to remember order of parameters
        
   
 * <b> Full-blown concurrency</b>
@@ -81,7 +81,7 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 * <b> Improved reporting </b>
     *  using the Suman test runner, you can prevent any logging output from mixing with test reports
     *  Suman includes a standard web reporter that you can use to share test results with your team, using the Suman server
-    *  ability to store past test reports (backdata) and view test results chronologically with browser to look at trends
+    *  Suman server provides ability to store past test results (backdata) and view test results chronologically with browser to look at trends
        
     
 * <b> Test runner tuning </b>
@@ -97,12 +97,14 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 
 * <b> Freedom: Suman is not highly opinionated, but gives you powerful features</b>
     *  Suman prefers standard core assert Node module (Suman has unopinionated assertions), but you can use any assertion lib that throws errors
-    *  Callbacks, promises (async/await), and streams are supported in any test case.
+    *  Callbacks, promises, async/await, generators and event-emitters/streams are supported in any test case or hook.
 
 
 ## Suman design
 
 * no globals whatsoever, which were avoided due to the problems they caused for Jasmine and Mocha.
+* Suman uses domains to isolate errors in asynchronous tests and hooks, and currently this is the only solution to this problem at the moment. 
+Domains are facing deprecation, and Suman will replace domains with whichever suitable replacement is chosen by the Node.js core technical committee.
 
 
 ## We can say with some confidence that Suman is the most powerful test framework for serverside JavaScript on planet Earth

@@ -11,6 +11,8 @@
 
  */
 
+//TODO: add option to do no reporting but at command line for speed
+//TODO: need to handle stubbed tests
 //TODO: need to implement  -b, --bail   => bail after first test failure
 //TODO: suman command line input should allow for a file and directory combination
 //TODO: suman --init should install suamn node_module, and suman directory at root of project, and suman.conf.js at root of project
@@ -40,6 +42,8 @@
 //TODO: fix it.only describe.only behavior (test0.js)
 //TODO: randomize test runs as per https://github.com/sindresorhus/ava/issues/595
 //TODO: steal unicode chars from existing projects
+//TODO: logging to disk or to network may be out of order so may need to do sync logging at end of run, instead of async during
+//TODO: does babel-node work with child_prcesses?
 
 /////////////////////////////////////////////////////////////////
 
@@ -80,10 +84,10 @@ try {
 
 if (err) {
     sumanInstalledLocally = false;
-    console.log(colors.bgYellow(' => Suman message => note that Suman is not installed locally, you may wish to install suman globally, and then run "$ suman --init"'));
+    console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
 }
 else {
-    console.log(colors.bgYellow(' => Suman message => Suman appears to be installed locally.'));
+    console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
 
 }
 
@@ -140,8 +144,9 @@ try {
 catch (err) {
     //TODO: try to get suman.conf.js from root of project
 
-    console.error('   ' + colors.bgCyan.black(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'), '\n', ' ',
-        colors.bgCyan.black(' => ...now looking for a config file at the root of your project...'));
+    console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
+    console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
+
     try {
         pth = path.resolve(sumanUtils.findProjectRoot(cwd) + '/' + 'suman.conf.js');
         sumanConfig = require(pth);
@@ -150,7 +155,7 @@ catch (err) {
         }
     }
     catch (err) {
-        console.log('   ' + colors.bgCyan.black(' => Suman msg => Using default Suman configuration.'));
+        console.log(colors.bgCyan.black(' => Suman msg => Warning - no configuration found in your project, using default Suman configuration.'));
         try {
             pth = path.resolve(__dirname + '/suman.default.conf.js');
             sumanConfig = require(pth);
@@ -198,7 +203,7 @@ else {
 
     d.on('error', function (err) {
         //TODO: add link showing how to set up Babel
-        console.log(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually if you wish to use ES7 features)' + '\n' +
+        console.log(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
             ' => Suman error => ' + err.stack + '\n'));
     });
 
@@ -246,6 +251,7 @@ else {
         if (!useRunner && dir.length === 1 && fs.statSync(dir[0]).isFile()) {
             //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
             d.run(function () {
+                process.sumanConfig = sumanConfig;
                 require(dir[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
             });
         }
