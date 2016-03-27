@@ -1,10 +1,8 @@
-'use strict';
-
 /**
  * Created by denman on 1/1/2016.
  */
 
-var Test = require('../../lib').init(module, 'suman.conf.js');
+const Test = require('../../lib').init(module, 'suman.conf.js');
 
 Test.describe('gggg', function () {
 
@@ -20,7 +18,7 @@ Test.describe('gggg', function () {
         done();
     });
 
-    this.describe(function () {
+    this.context(function () {
 
         this.after(function (done) {
             done();

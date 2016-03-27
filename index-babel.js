@@ -1,2 +1,2 @@
-#!/usr/bin/env babel-node --stage 3
+#!/usr/bin/env babel-node --presets stage-3
 require('./index');

@@ -71,11 +71,10 @@ Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, ch
         }, 100);
 
         this.describe(function () {
-            var _this = this;
 
-            arr.forEach(function (item) {
+            arr.forEach(item => {
 
-                _this.it('[test]' + item, function (t) {
+                this.it('[test]' + item, function (t) {
                     console.log('B => ' + t.desc, t.data.lion);
                 });
             });
@@ -90,26 +89,24 @@ Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, ch
         }, 100);
 
         this.describe('j', function (delay) {
-            var _this2 = this;
 
             setTimeout(function () {
                 arr.push(13);
                 delay();
             }, 100);
 
-            arr.forEach(function (item) {
+            arr.forEach(item => {
 
-                _this2.it('[test]' + item, function (t) {
+                this.it('[test]' + item, function (t) {
                     console.log('C => ' + t.desc);
                 });
             });
 
             this.describe('D', function () {
-                var _this3 = this;
 
-                arr.forEach(function (item) {
+                arr.forEach(item => {
 
-                    _this3.it('[test]' + item, function (t) {
+                    this.it('[test]' + item, function (t) {
                         console.log('D => ' + t.desc);
                     });
                 });

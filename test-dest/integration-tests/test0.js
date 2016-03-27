@@ -1,12 +1,10 @@
-'use strict';
-
 /**
  * Created by denman on 1/1/2016.
  */
 
-var suman = require('../../lib');
+const suman = require('../../lib');
 
-var Test = suman.init(module, {
+const Test = suman.init(module, {
     integrants: ['smartconnect', 'dolce-vida']
 });
 
@@ -27,56 +25,63 @@ Test.describe('gggg', { parallel: false }, function (http, delay, assert, fs, ch
         delay();
     }, 100);
 
-    this.describe('moodle', { parallel: false }, function () {
+    this.context('moodle', { parallel: false }, function () {
 
-        this.before(function (done) {
+        this.before(done => {
             setTimeout(function () {
                 done();
             }, 50);
         });
 
-        this.before(function (done) {
+        this.before(done => {
             setTimeout(function () {
                 done();
             }, 50);
         });
 
-        this.before(function (done) {
+        this.before(done => {
             setTimeout(function () {
                 done();
             }, 50);
         });
 
-        this.after(function () {});
+        this.before(function* () {
+            var val = yield new Promise(function (resolve) {
+                setTimeout(function () {
+                    resolve('dude');
+                });
+            });
+            return console.log('val:', val);
+        });
     });
 
     this.describe('moodle', { parallel: true }, function () {
 
-        this.beforeEach(function (t, done) {
+        this.beforeEach((t, done) => {
             setTimeout(function () {
                 done();
             }, 50);
-        }).beforeEach(function (t, done) {
+        }).beforeEach((t, done) => {
             setTimeout(function () {
                 done();
             }, 50);
-        }).beforeEach(function (t, done) {
+        }).beforeEach((t, done) => {
             setTimeout(function () {
                 done();
             }, 50);
         });
 
-        this.it('mmm1', { parallel: false }, function (t, done) {
+        this.it('mmm1', { parallel: false }, (t, done) => {
 
             setTimeout(function () {
                 done();
             }, 50);
-        }).it('mmm2', { parallel: false }, function (t, done) {
+        }).it('mmm2', { parallel: false }, (t, done) => {
 
             setTimeout(function () {
                 done();
             }, 50);
-        }).it('mmm3', { parallel: false }, function (done, t) {
+        }).it('mmm3', { parallel: false }, (done, t) => {
 
             setTimeout(function () {
                 done();
@@ -130,7 +135,7 @@ Test.describe('gggg', { parallel: false }, function (http, delay, assert, fs, ch
             });
         });
 
-        this.it.SKIP('aaa1', {
+        this.it('aaa1', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
@@ -138,7 +143,7 @@ Test.describe('gggg', { parallel: false }, function (http, delay, assert, fs, ch
             }, 50);
         });
 
-        this.it.ONLY('aaa2', {
+        this.it('aaa2', {
             parallel: false
         }, function (t, done) {
             setTimeout(function () {
