@@ -30,6 +30,14 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         delay();
     }, 100);
 
+
+    this.it('makes noise', {}, function () {
+
+
+
+    });
+
+
     this.context('moodle', {parallel: false}, function () {
 
         this.before(done => {
@@ -52,12 +60,12 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
         });
 
         this.before(function *() {
-            var val = yield new Promise(function(resolve){
-                  setTimeout(function(){
-                      resolve('dude');
-                  });
+            var val = yield new Promise(function (resolve) {
+                setTimeout(function () {
+                    resolve('dude');
+                });
             });
-            return console.log('val:',val);
+            return console.log('val:', val);
         });
     });
 

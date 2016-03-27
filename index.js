@@ -11,6 +11,7 @@
 
  */
 
+//TODO: implement spawn function for generators https://gist.github.com/jakearchibald/31b89cba627924972ad6
 //TODO: need to implement  -b, --bail   => bail after first test failure
 //TODO: suman command line input should allow for a file and directory combination
 //TODO: suman --init should install suamn node_module, and suman directory at root of project, and suman.conf.js at root of project
