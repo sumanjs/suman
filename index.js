@@ -45,6 +45,7 @@
 //TODO: steal unicode chars from existing projects
 //TODO: logging to disk or to network may be out of order so may need to do sync logging at end of run, instead of async during
 //TODO: does babel-node work with child_prcesses?
+//TODO: allow possibility to inject before/after/describe/context/it/test/beforeEach/afterEach into describes/contexts
 
 /////////////////////////////////////////////////////////////////
 

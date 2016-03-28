@@ -20,6 +20,7 @@ module.exports = () => {  //load async deps for any of your suman tests
             return 'charlie';
         },
         'smartconnect': function () {
+            return {};
 
         },
         'dolce-vida': (cb)=> {

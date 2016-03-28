@@ -34,7 +34,9 @@ gulp.task('clean-temp', function () {
 
 gulp.task('transpile', [/*'clean-temp'*/], function () {
     return gulp.src(['test/**/*.js'])
-        .pipe(babel())
+        .pipe(babel({
+            presets: ['es2016']
+        }))
         .pipe(gulp.dest('test-dest'));
 });
 
@@ -79,7 +81,7 @@ gulp.task('watch_tests', ['suman'], function (cb) {
 
 });
 
-gulp.task('run_tests0', [], function(cb){
+gulp.task('run_tests0', [], function (cb) {
     suman.Runner({
         $node_env: process.env.NODE_ENV,
         fileOrDir: ['./test/integration-tests'],

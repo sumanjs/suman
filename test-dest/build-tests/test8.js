@@ -1,8 +1,16 @@
+'use strict';
+
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Created by denman on 1/1/2016.
  */
 
-const Test = require('../../lib').init(module, 'suman.conf.js');
+var Test = require('../../lib').init(module, 'suman.conf.js');
 
 Test.describe('gggg', function () {
 
@@ -41,22 +49,21 @@ Test.describe('gggg', function () {
             });
 
             this.it('mmm1', { parallel: false }, function (t, done) {
-                done();
-            });
 
-            this.it('mmm2', { parallel: false }, function (t, done) {
                 done();
-            });
-
-            this.it('mmm3', { parallel: false }, function (t, done) {
+            }).it('mmm2', { parallel: false }, function (t, done) {
+                done();
+            }).it('mmm3', { parallel: false }, function (t, done) {
                 done();
             });
 
             this.beforeEach(function (t, done) {
+
                 done();
             });
 
             this.afterEach(function (t, done) {
+
                 done();
             });
 
@@ -76,7 +83,7 @@ Test.describe('gggg', function () {
 
     this.it('7779999', { parallel: false, delay: 100 }, function (t) {
 
-        return new Promise(function (resolve) {
+        return new _promise2.default(function (resolve) {
             resolve('0');
         });
     });

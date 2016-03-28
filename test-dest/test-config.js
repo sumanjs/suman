@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Created by denman on 2/11/2016.
  */
@@ -12,7 +14,7 @@ module.exports = function () {
             foo: 'bar'
         },
         prop3: {
-            jungle: function () {
+            jungle: function jungle() {
                 return 'book';
             }
         }

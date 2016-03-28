@@ -1,96 +1,133 @@
+'use strict';
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Created by denman on 1/2/2016.
  */
 
-const Test = require('../../lib').init(module, {
-  exportTests: true, //module.exports.wait = false;
-  integrants: ['smartconnect', 'dolce-vida']
+var Test = require('../../lib').init(module, {
+    exportTests: true, //module.exports.wait = false;
+    integrants: ['smartconnect', 'dolce-vida']
 });
 
 Test.describe('BBB', { parallel: true }, function (fs) {
 
-  this.before((t, ctn) => {
+    this.before(function (ctn) {
 
-    ctn();
-  });
-
-  this.beforeEach((t, ctn) => {
-
-    console.log('args:', 'poo');
-    ctn('poop');
-  });
-
-  this.context('1', { efa: true }, function () {
-
-    this.before(done => {
-
-      setTimeout(function () {
-        done();
-      }, 10);
+        ctn();
     });
 
-    this.test('[test] yo 1', { parallel: true }, (t, fail, done, pass) => {
+    this.beforeEach(function (t, ctn) {
 
-      fs.createReadStream('c:\\NUL').pipe(fs.createWriteStream('c:\\NUL')).on('error', fail).on('finish', pass);
+        console.log('args:', 'poo');
+        ctn('poop');
     });
 
-    //this.test('[test] yo 1', {parallel: true}, async function (fail, pass) {
-    //
-    //    fs.createReadStream('c:\\NUL').pipe(fs.createWriteStream('c:\\NUL')).on('error', fail).on('finish', pass);
-    //
-    //});
+    this.context('1', { efa: true }, function () {
 
-    this.test('[test] yo 2', { parallel: false }, function (t) {
+        this.before(function (done) {
 
-      return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                done();
+            }, 10);
+        });
 
-        resolve();
-      });
+        this.test('[test] yo 1', { parallel: true }, function (t, fail, done, pass) {
+
+            fs.createReadStream('c:\\NUL').pipe(fs.createWriteStream('c:\\NUL')).on('error', fail).on('finish', pass);
+        });
+
+        //this.test('[test] yo 1', {parallel: true}, async function (fail, pass) {
+        //
+        //    fs.createReadStream('c:\\NUL').pipe(fs.createWriteStream('c:\\NUL')).on('error', fail).on('finish', pass);
+        //
+        //});
+
+        this.test('[test] yo 2', { parallel: false }, function (t) {
+
+            return new _promise2.default(function (resolve, reject) {
+
+                resolve();
+            });
+        });
+
+        //this.it('[test] yo 2', {parallel: false}, new Promise(function (resolve, reject) {
+        //
+        //    Promise.delay(1000).then(function () {
+        //        resolve();
+        //    });
+        //
+        //}).then(function(){
+        //
+        //
+        //
+        //}));
+
+        function p(val) {
+            return new _promise2.default(function (resolve) {
+                resolve('doooog' + val);
+            });
+        }
+
+        this.it('[test] gen', { parallel: false }, _regenerator2.default.mark(function _callee() {
+            var t, val;
+            return _regenerator2.default.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.next = 2;
+                            return 3;
+
+                        case 2:
+                            t = _context.sent;
+                            _context.next = 5;
+                            return p();
+
+                        case 5:
+                            val = _context.sent;
+
+                            console.log('valA', val);
+                            _context.next = 9;
+                            return p(val);
+
+                        case 9:
+                            val = _context.sent;
+
+                            console.log('valB', val);
+
+                        case 11:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, this);
+        }));
+
+        this.it('yo', { parallel: false }, function (t, done) {
+
+            setTimeout(function () {
+                done();
+            }, 500);
+        });
+
+        this.it('chubs', { parallel: false }, function (t, done) {
+
+            setTimeout(function () {
+                done();
+            }, 500);
+        });
     });
 
-    //this.it('[test] yo 2', {parallel: false}, new Promise(function (resolve, reject) {
-    //
-    //    Promise.delay(1000).then(function () {
-    //        resolve();
-    //    });
-    //
-    //}).then(function(){
-    //
-    //
-    //
-    //}));
-
-    function p(val) {
-      return new Promise(function (resolve) {
-        resolve('doooog' + val);
-      });
-    }
-
-    this.it('[test] gen', { parallel: false }, function* () {
-
-      var t = yield 3;
-      var val = yield p();
-      console.log('valA', val);
-      var val = yield p(val);
-      console.log('valB', val);
-    });
-
-    this.it('yo', { parallel: false }, (t, done) => {
-
-      setTimeout(function () {
-        done();
-      }, 500);
-    });
-
-    this.it('chubs', { parallel: false }, (t, done) => {
-
-      setTimeout(function () {
-        done();
-      }, 500);
-    });
-  });
-
-  this.before(() => {});
+    this.before(function () {});
 });
 
 /*

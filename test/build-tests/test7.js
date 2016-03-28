@@ -13,7 +13,7 @@ const Test = require('../../lib').init(module, {
 Test.describe('BBB', {parallel: true}, function (fs) {
 
 
-    this.before((t, ctn) => {
+    this.before(ctn => {
 
         ctn();
 

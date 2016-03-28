@@ -4,6 +4,12 @@
 
 "use strict";
 
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var suman = require('../../lib');
 var Test = suman.init(module, 'suman.conf.js');
 
@@ -32,7 +38,7 @@ Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, ch
     });
 
     function timeout(charlie) {
-        return new Promise(function (resolve) {
+        return new _promise2.default(function (resolve) {
             setTimeout(function () {
                 resolve(charlie || 'yikes');
             }, 100);
@@ -71,10 +77,11 @@ Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, ch
         }, 100);
 
         this.describe(function () {
+            var _this = this;
 
-            arr.forEach(item => {
+            arr.forEach(function (item) {
 
-                this.it('[test]' + item, function (t) {
+                _this.it('[test]' + item, function (t) {
                     console.log('B => ' + t.desc, t.data.lion);
                 });
             });
@@ -89,24 +96,26 @@ Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, ch
         }, 100);
 
         this.describe('j', function (delay) {
+            var _this2 = this;
 
             setTimeout(function () {
                 arr.push(13);
                 delay();
             }, 100);
 
-            arr.forEach(item => {
+            arr.forEach(function (item) {
 
-                this.it('[test]' + item, function (t) {
+                _this2.it('[test]' + item, function (t) {
                     console.log('C => ' + t.desc);
                 });
             });
 
             this.describe('D', function () {
+                var _this3 = this;
 
-                arr.forEach(item => {
+                arr.forEach(function (item) {
 
-                    this.it('[test]' + item, function (t) {
+                    _this3.it('[test]' + item, function (t) {
                         console.log('D => ' + t.desc);
                     });
                 });

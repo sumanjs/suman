@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Created by denman on 1/3/2016.
  */
@@ -56,7 +58,7 @@ Test.describe('gggg', function () {
 
                     this.describe(function () {
 
-                        this.it.skip('mmm2', { parallel: false }, (t, done) => {
+                        this.it.skip('mmm2', { parallel: false }, function (t, done) {
                             done();
                         });
 
@@ -78,7 +80,7 @@ Test.describe('gggg', function () {
             done();
         });
 
-        this.it('mmm1', { parallel: false }, (t, done) => {
+        this.it('mmm1', { parallel: false }, function (t, done) {
             done();
         });
 

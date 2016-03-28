@@ -3,15 +3,18 @@
  */
 
 
-const suman = require('../../lib');
-const Test = suman.init(module);
+import * as suman from '../../lib';
+const Test = suman.init(module, {
+
+});
 
 
 Test.describe('Test uno', function () {
 
     debugger;
 
-    this.it('is a test', async function (t, done, fail, pass) {
+    this.it('is a test', async (t, done, fail, pass) => {
+        
 
         const foo = await 3;
         const bar = await new Promise(function(resolve){

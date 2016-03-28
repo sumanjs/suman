@@ -45,23 +45,28 @@ Test.describe('gggg', function () {
 
 
             this.it('mmm1', {parallel: false}, function (t, done) {
-                done();
-            });
 
-            this.it('mmm2', {parallel: false}, function (t, done) {
                 done();
-            });
 
-            this.it('mmm3', {parallel: false}, function (t, done) {
+            }).it('mmm2', {parallel: false}, function (t, done) {
                 done();
+
+
+            }).it('mmm3', {parallel: false}, function (t, done) {
+                done();
+
             });
 
             this.beforeEach(function (t, done) {
+
                 done();
+
             });
 
             this.afterEach(function (t, done) {
+
                 done();
+
             });
 
 
