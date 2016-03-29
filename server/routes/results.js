@@ -138,6 +138,7 @@ router.get('/latest', function (req, res, next) {
             });
         }
         else {
+            //TODO this will happen if the suman_results dir is deleted, we should add the folder if it gets deleted
             next(new Error('no latest results exist'));
         }
 

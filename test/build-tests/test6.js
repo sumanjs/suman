@@ -11,8 +11,6 @@ const Test = suman.init(module, {
 
 Test.describe('Test uno', function () {
 
-    debugger;
-
     this.it('is a test', async (t, done, fail, pass) => {
         
 

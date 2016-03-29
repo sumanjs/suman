@@ -4,26 +4,20 @@
 /*
 
  if (require.main !== module || process.argv.indexOf('--suman') > -1) {
- //prevents users from fucking up by accident and getting in some possible infinite process.spawn loop that will lock up their system
+ //prevents users from f*king up by accident and getting in some possible infinite process.spawn loop that will lock up their system
  console.log('Warning: attempted to require Suman index.js but this cannot be.');
  return;
  }
 
  */
 
-//TODO: implement spawn function for generators https://gist.github.com/jakearchibald/31b89cba627924972ad6
 //TODO: add option to do no reporting but at command line for speed
 //TODO: need to handle stubbed tests
 //TODO: need to implement  -b, --bail   => bail after first test failure
 //TODO: suman command line input should allow for a file and directory combination
 //TODO: suman --init should install suamn node_module, and suman directory at root of project, and suman.conf.js at root of project
 //TODO: readme needs to have examples by ES5, ES6, ES7
-//TODO: need to establish dependencies between tests - if one test needs to run not at the same time as another
 //TODO: default configuration should provide default values using lodash defaults / underscore defaults
-//TODO: log global and locally install version of Suman when running at command line
-//TODO: If developer creates suman.ioc.js but does not have a suman.conf.js, it should still work
-//TODO: suman.ioc.js should have files that only run once, which will be started by the runner, not test suites
-//TODO: move startSuite function to TestSuite and find a good name for that class
 //TODO: switch from underscore to lodash
 //TODO: get it to work with Istanbul/NYC  <<
 //TODO: if no tests are run, need to indicate this
@@ -33,23 +27,27 @@
 //TODO: if no grep-suite
 //TODO: https://github.com/nodejs/node/issues/5252
 //TODO: http://www.node-tap.org/basics/
-//TODO: need to a suman server stop command at the command line
-//TODO, along with options {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an error...
+//TODO: need a suman server stop command at the command line
+//TODO, along with options {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an (async) error...
 //TODO, add option for {timeout: 3000}
 //TODO: if error is thrown after test is completed (in a setTimeout, for example) do we handle that?
 //TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
 //TODO: if suman/suman runner runs legit suman tests but the tests have no test cases, it needs to report that too
 //TODO: suman -s (server) needs to try user's config first, if that fails, then use default suman config
-//TODO: fix it.only describe.only behavior (test0.js)
 //TODO: randomize test runs as per https://github.com/sindresorhus/ava/issues/595
 //TODO: steal unicode chars from existing projects
 //TODO: logging to disk or to network may be out of order so may need to do sync logging at end of run, instead of async during
 //TODO: does babel-node work with child_prcesses?
 //TODO: allow possibility to inject before/after/describe/context/it/test/beforeEach/afterEach into describes/contexts
+//TODO: create suman --diagnostics option at command line to check for common problems
+
 
 /////////////////////////////////////////////////////////////////
 
-console.log(' => Suman running...');
+const pkgJSON = require('./package.json');
+const v = pkgJSON.version;
+
+console.log(' => Suman v' + v + ' running...');
 
 /////////////////////////////////////////////////////////////////
 
@@ -79,19 +77,21 @@ var sumanInstalledLocally = true;
 var err;
 
 try {
-    console.log(require.resolve(root + '/node_modules/suman'));
+    require.resolve(root + '/node_modules/suman');
 } catch (e) {
     err = e;
 }
+finally {
+    if (err) {
+        sumanInstalledLocally = false;
+        console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
+    }
+    else {
+        console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
 
-if (err) {
-    sumanInstalledLocally = false;
-    console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
+    }
 }
-else {
-    console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
 
-}
 
 ////////////////////////////////////////////////////////////////////
 
@@ -186,10 +186,19 @@ if (init) {
         config: sumanConfig,
         serverName: serverName || os.hostname()
     }).on('msg', function (msg) {
-        console.log('msg from suman server', msg);
         switch (msg) {
             case 'listening':
-                process.exit();
+                console.log('Suman server is listening on localhost:6969');
+                // process.exit();
+                break;
+            default:
+                console.log(msg);
+        }
+    }).on('SUMAN_SERVER_MSG', function (msg) {
+        switch (msg) {
+            case 'listening':
+                console.log('Suman server is listening on localhost:6969');
+                // process.exit();
                 break;
             default:
                 console.log(msg);

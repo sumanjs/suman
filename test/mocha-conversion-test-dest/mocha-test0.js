@@ -22,7 +22,7 @@
 
  */
 
-const suman = require('suman');
+const suman = require('../../lib');
 const Test = suman.init(module);
 
 /**

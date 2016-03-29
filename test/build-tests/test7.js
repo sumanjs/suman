@@ -5,7 +5,7 @@
 
 
 const Test = require('../../lib').init(module, {
-    exportTests: true, //module.exports.wait = false;
+    export: true, //module.exports.wait = false;
     integrants: ['smartconnect', 'dolce-vida']
 });
 
@@ -14,14 +14,11 @@ Test.describe('BBB', {parallel: true}, function (fs) {
 
 
     this.before(ctn => {
-
         ctn();
-
     });
 
     this.beforeEach((t, ctn) => {
 
-        console.log('args:', 'poo');
         ctn('poop');
 
     });
@@ -39,15 +36,9 @@ Test.describe('BBB', {parallel: true}, function (fs) {
 
         this.test('[test] yo 1', {parallel: true}, (t, fail, done, pass) => {
 
-            fs.createReadStream('c:\\NUL').pipe(fs.createWriteStream('c:\\NUL')).on('error', fail).on('finish', pass);
+            fs.createReadStream('/dev/null').pipe(fs.createWriteStream('/dev/null')).on('error', fail).on('finish', pass);
 
         });
-
-        //this.test('[test] yo 1', {parallel: true}, async function (fail, pass) {
-        //
-        //    fs.createReadStream('c:\\NUL').pipe(fs.createWriteStream('c:\\NUL')).on('error', fail).on('finish', pass);
-        //
-        //});
 
 
         this.test('[test] yo 2', {parallel: false}, function (t) {
@@ -83,9 +74,8 @@ Test.describe('BBB', {parallel: true}, function (fs) {
 
             var t = yield 3;
             var val = yield p();
-            console.log('valA',val);
-            var val = yield p(val);
-            console.log('valB',val);
+            val = yield p(val);
+
         });
 
 
