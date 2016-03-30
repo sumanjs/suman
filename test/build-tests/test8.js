@@ -3,7 +3,10 @@
  */
 
 
-const Test = require('../../lib').init(module, 'suman.conf.js');
+const Test = require('../../lib').init(module, {
+    export: false, //module.exports.wait = false;
+    integrants: []
+});
 
 
 Test.describe('gggg', function () {
@@ -53,6 +56,8 @@ Test.describe('gggg', function () {
 
 
             }).it('mmm3', {parallel: false}, function (t, done) {
+
+                throw new Error('Whoa');
                 done();
 
             });

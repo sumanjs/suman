@@ -27,8 +27,6 @@ var Test = suman.init(module, {}); /**
 Test.describe('Test uno', function () {
     var _this = this;
 
-    debugger;
-
     this.it('is a test', function () {
         var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(t, done, fail, pass) {
             var foo, bar, baz;

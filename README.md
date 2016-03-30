@@ -106,6 +106,10 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 * Suman uses domains to isolate errors in asynchronous tests and hooks, and currently this is the only solution to this problem at the moment. 
 Domains are facing deprecation, and Suman will replace domains with whichever suitable replacement is chosen by the Node.js core technical committee.
 
+## Details matter
+
+* we designed Suman with details in mind
+* friendly error messages
 
 ## We can say with some confidence that Suman is the most powerful test framework for serverside JavaScript on planet Earth
  => as it gives the developer total control and access to a very large set of features, with the explicit goal of being bug-free first, full-featured second.

@@ -24,7 +24,7 @@
 
  */
 
-var suman = require('suman');
+var suman = require('../../lib');
 var Test = suman.init(module);
 
 /**

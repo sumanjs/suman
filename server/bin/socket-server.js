@@ -32,6 +32,8 @@ module.exports = function(server){
 
                 if (data.outputPath) {
 
+                    //TODO: this functionality needs to mirror writing to disk in suman test runner etc
+
                     console.log('TEST_DATA received - data.outputPath:',data.outputPath);
 
                     fs.appendFile(data.outputPath, json += ',', function (err) {

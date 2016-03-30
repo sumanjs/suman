@@ -11,6 +11,7 @@
 
  */
 
+//TODO: need to figure out way to grep suite name without having to run the test
 //TODO: add option to do no reporting but at command line for speed
 //TODO: need to handle stubbed tests
 //TODO: need to implement  -b, --bail   => bail after first test failure
@@ -42,12 +43,7 @@
 //TODO: create suman --diagnostics option at command line to check for common problems
 
 
-/////////////////////////////////////////////////////////////////
 
-const pkgJSON = require('./package.json');
-const v = pkgJSON.version;
-
-console.log(' => Suman v' + v + ' running...');
 
 /////////////////////////////////////////////////////////////////
 
@@ -58,7 +54,14 @@ const os = require('os');
 const domain = require('domain');
 const cp = require('child_process');
 
+
 ////////////////////////////////////////////////////////////////////
+
+const pkgJSON = require('./package.json');
+const v = pkgJSON.version;
+
+console.log(colors.gray.italic(' => Suman v' + v + ' running...'));
+
 
 const cwd = process.cwd();
 
@@ -212,7 +215,7 @@ else {
 
     d = domain.create();
 
-    d.on('error', function (err) {
+    d.once('error', function (err) {
         //TODO: add link showing how to set up Babel
         console.log(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
             ' => Suman error => ' + err.stack + '\n'));

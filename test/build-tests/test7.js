@@ -5,7 +5,7 @@
 
 
 const Test = require('../../lib').init(module, {
-    export: true, //module.exports.wait = false;
+    export: false, //module.exports.wait = false;
     integrants: ['smartconnect', 'dolce-vida']
 });
 
@@ -83,7 +83,7 @@ Test.describe('BBB', {parallel: true}, function (fs) {
 
             setTimeout(function () {
                 done();
-            }, 500);
+            }, 100);
 
         });
 
@@ -91,7 +91,7 @@ Test.describe('BBB', {parallel: true}, function (fs) {
 
             setTimeout(function () {
                 done();
-            }, 500);
+            }, 100);
 
         });
 

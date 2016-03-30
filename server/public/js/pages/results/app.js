@@ -1,6 +1,4 @@
-/**
- * Created by denman on 12/16/15.
- */
+/* globals React */
 
 // http://tylermcginnis.com/reactjs-tutorial-a-comprehensive-guide-to-building-apps-with-react/
 

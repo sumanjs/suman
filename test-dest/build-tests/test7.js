@@ -15,20 +15,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 var Test = require('../../lib').init(module, {
-    exportTests: true, //module.exports.wait = false;
+    export: false, //module.exports.wait = false;
     integrants: ['smartconnect', 'dolce-vida']
 });
 
 Test.describe('BBB', { parallel: true }, function (fs) {
 
     this.before(function (ctn) {
-
         ctn();
+        throw new Error('barf');
     });
 
     this.beforeEach(function (t, ctn) {
 
-        console.log('args:', 'poo');
         ctn('poop');
     });
 
@@ -43,14 +42,8 @@ Test.describe('BBB', { parallel: true }, function (fs) {
 
         this.test('[test] yo 1', { parallel: true }, function (t, fail, done, pass) {
 
-            fs.createReadStream('c:\\NUL').pipe(fs.createWriteStream('c:\\NUL')).on('error', fail).on('finish', pass);
+            fs.createReadStream('/dev/null').pipe(fs.createWriteStream('/dev/null')).on('error', fail).on('finish', pass);
         });
-
-        //this.test('[test] yo 1', {parallel: true}, async function (fail, pass) {
-        //
-        //    fs.createReadStream('c:\\NUL').pipe(fs.createWriteStream('c:\\NUL')).on('error', fail).on('finish', pass);
-        //
-        //});
 
         this.test('[test] yo 2', { parallel: false }, function (t) {
 
@@ -94,17 +87,13 @@ Test.describe('BBB', { parallel: true }, function (fs) {
 
                         case 5:
                             val = _context.sent;
-
-                            console.log('valA', val);
-                            _context.next = 9;
+                            _context.next = 8;
                             return p(val);
 
-                        case 9:
+                        case 8:
                             val = _context.sent;
 
-                            console.log('valB', val);
-
-                        case 11:
+                        case 9:
                         case 'end':
                             return _context.stop();
                     }
@@ -116,14 +105,14 @@ Test.describe('BBB', { parallel: true }, function (fs) {
 
             setTimeout(function () {
                 done();
-            }, 500);
+            }, 100);
         });
 
         this.it('chubs', { parallel: false }, function (t, done) {
 
             setTimeout(function () {
                 done();
-            }, 500);
+            }, 100);
         });
     });
 

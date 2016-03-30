@@ -10,6 +10,15 @@ const path = require('path');
 
 module.exports = Object.freeze({
 
+    sumanRunner: {
+
+    },
+
+    sumanServer: {
+
+    },
+
+    noFrills: false,
     defaultTestSuiteTimeout: 15000,
     maxParallelProcesses: 25,           //maximum parallel processes running at one time
     ultraSafe: false,                   //if true, Suman reads files in with fs.createReadStream before running any file and makes sure it's a suman test before running
@@ -40,6 +49,8 @@ module.exports = Object.freeze({
     reporters:{
 
     },
+
+    defaultSumanResultsDir: (process.env.HOME || process.env.USERPROFILE) + '/suman_results',
 
     servers: {                           // list of servers to output test result data to, with the os.hostname() as the key
 
