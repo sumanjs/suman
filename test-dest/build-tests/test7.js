@@ -23,7 +23,6 @@ Test.describe('BBB', { parallel: true }, function (fs) {
 
     this.before(function (ctn) {
         ctn();
-        throw new Error('barf');
     });
 
     this.beforeEach(function (t, ctn) {

@@ -8,7 +8,7 @@ var assert = require("assert"),
 
 describe('a',function(){
 
-    (this.parent);
+    var x = (this.parent);
 
     this.title.X;
     this.file.X;

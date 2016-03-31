@@ -12,6 +12,8 @@ const chalk = require('chalk');
 const request = require('request');
 const ijson = require('idempotent-json');
 const suman = require('./lib');
+const cp = require('child_process');
+
 const sumanConstants = suman.constants;
 
 //gulp plugins
@@ -46,19 +48,37 @@ gulp.task('transpile-test', [/*'clean-temp'*/], function () {
 gulp.task('transpile-lib', [/*'clean-temp'*/], function () {
     return gulp.src(['server/lib-es6/**/*.js'])
         .pipe(babel({
-            presets: ['es2015', 'react']
+            presets: ['react']
         }))
         .pipe(gulp.dest('server/lib-es5'));
 });
 
 
-gulp.task('transpile-rc', [/*'clean-temp'*/], function () {
-    return gulp.src(['server/lib-es6/react-components/**/*.js'])
+gulp.task('transpile-rc', ['transpile-lib'], function () {
+    return gulp.src(['server/lib-es5/react-components/**/*.js'])
         .pipe(babel({
-            modules: 'amd',
-            presets: ['es2015', 'react']
+            plugins: ['transform-es2015-modules-amd']
         }))
         .pipe(gulp.dest('server/public/js/react-components'));
+});
+
+
+gulp.task('convert', ['transpile-lib'], function (cb) {   //convert commonjs to amd
+
+    cp.exec('r.js -convert server/lib-es5/react-components server/public/js/react-components', function (err, stdout, stderr) {
+        if (err) {
+            cb(err)
+        }
+        else if (err = (String(stdout).match(/error/i) || String(stderr).match(/error/i))) {
+            console.error(stdout + stderr);
+            cb(err);
+        }
+        else {
+            cb(null);
+        }
+
+    });
+
 });
 
 

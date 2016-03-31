@@ -6,74 +6,75 @@
 
 var Test = require('../../lib').init(module, 'suman.conf.js');
 
-Test.describe('gggg', function () {
+Test.describe('A describe', function () {
 
     this.after(function (done) {
         done();
     });
 
-    this.describe(function () {
+    this.describe('B describe', function () {
+
         this.after(function (done) {
             done();
         });
 
-        this.describe(function () {
+        this.it('b1 test', { parallel: false }, function (t) {});
+
+        this.test('b2 test', function () {});
+
+        this.test('b3 test', function () {});
+
+        this.test('b4 test', function () {});
+
+        this.describe('C', function () {
             this.after(function (done) {
                 done();
             });
         });
     });
 
-    this.describe(function () {
+    this.describe('D describe', function () {
+
         this.after(function (done) {
             done();
         });
 
-        this.describe(function () {
+        this.test('d1 test', function () {});
+
+        this.test('d2 test', function () {});
+
+        this.describe('E', function () {
+
+            this.test('e1 test', function () {});
+
+            this.test('e2 test', function () {});
+
+            this.test('e3 test', function () {});
+
             this.after(function (done) {
                 done();
-            });
-
-            this.describe(function () {
-                this.after(function (done) {
-                    done();
-                });
-
-                this.describe(function () {
-                    this.after(function (done) {
-                        done();
-                    });
-
-                    this.describe(function () {
-                        this.after(function (done) {
-                            done();
-                        });
-                    });
-                });
-
-                this.describe(function () {
-                    this.after(function (done) {
-                        done();
-                    });
-
-                    this.describe(function () {
-
-                        this.it.skip('mmm2', { parallel: false }, function (t, done) {
-                            done();
-                        });
-
-                        this.after(function (done) {
-                            done();
-                        });
-                    });
-                });
             });
         });
     });
 
-    this.describe('moodle', {
-        parallel: false
-    }, function () {
+    this.describe('F', function () {
+        this.after(function (done) {
+            done();
+        });
+
+        this.describe('G', function () {
+
+            this.it('mmm2', { parallel: false }, function (t, done) {
+                done();
+            });
+
+            this.after(function (done) {
+                done();
+            });
+        });
+    });
+
+    this.describe('moodle', { parallel: false }, function () {
 
         this.after(function (done) {
 
@@ -87,6 +88,10 @@ Test.describe('gggg', function () {
         this.after(function (done) {
             done();
         });
+    });
+
+    this.it('a test', { parallel: false }, function (t, done) {
+        done();
     });
 
     this.after(function (done) {

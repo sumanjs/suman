@@ -10,6 +10,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var url = require('url');
 var _ = require('underscore');
+const domain = require('domain');
 
 //create express app
 var app = express();
@@ -44,6 +45,24 @@ app.use(express.static(path.resolve(__dirname + '/public'), {
 //app.use('/results', express.static('results'));
 
 
+app.use(function (req, res, next) {
+
+    const d = domain.create();
+
+    d.once('error', function (err) {
+        console.error(err.stack);
+        res.json({
+            error: err.stack
+        })
+    });
+
+    d.run(function () {
+        next();
+    })
+
+});
+
+
 function onEnd(msg) {
     console.log('res has emitted end event, message:', msg);
     var error = new Error('Not real error');
@@ -63,28 +82,25 @@ app.use(function (req, res, next) {
 });
 
 
-// app.use('/', require('./routes/index'));
-// app.use('/users', require('./routes/users'));
-// app.use('/results', require('./routes/results'));
 
-app.use('/', require('./routes-dest/index'));
-app.use('/users', require('./routes-dest/users'));
-app.use('/results', require('./routes-dest/results'));
+app.use('/', require('./lib-es5/routes/index'));
+app.use('/users', require('./lib-es5/routes-dest/users'));
+app.use('/results', require('./lib-es5/routes-dest/results'));
 
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
 
-    if(req.sumanData && req.sumanData.success){
+    if (req.sumanData && req.sumanData.success) {
         res.json({success: req.sumanData.success})
     }
-    else{
+    else {
         next();
     }
 
 });
 
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     var err = new Error('Not Found - ' + req.originalUrl);
     err.status = 404;
     next(err);
@@ -92,7 +108,7 @@ app.use(function(req, res, next) {
 
 
 if (app.get('env') !== 'production') {
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
         console.log(err.stack);
         res.status(err.status || 500);
         res.json({error: err.stack});
@@ -102,7 +118,7 @@ if (app.get('env') !== 'production') {
 app.use(function (err, req, res, next) {
     console.log(err.stack);
     res.status(err.status || 500);
-    res.json({error:err.stack});
+    res.json({error: err.stack});
 });
 
 

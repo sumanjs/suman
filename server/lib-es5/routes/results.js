@@ -2,8 +2,6 @@
  * Created by denman on 12/16/15.
  */
 
-
-
 //#config
 const config = require('univ-config')(module, '*suman*', 'server/config/conf');
 
@@ -33,7 +31,6 @@ const AccordionSection = require('../react-components/accordion/AccordionSection
 const helpers = require('./helpers/index');
 // const findSumanServer = require('../../lib/find-suman-server');
 
-
 router.post('/done/:run_id', function (req, res, next) {
 
     var data = body.data;
@@ -43,18 +40,15 @@ router.post('/done/:run_id', function (req, res, next) {
 
         if (data.outputPath) {
             fs.appendFileSync(data.outputPath, json += ','); //we write synchronous because we have to ensure data doesn't get malformed in files on disk
-            req.sumanData.success = {msg: 'appended data to ' + data.outputPath};
-        }
-        else {
+            req.sumanData.success = { msg: 'appended data to ' + data.outputPath };
+        } else {
             console.error(new Error('no outputPath property on data: ' + data).stack);
         }
         next();
-    }
-    catch (err) {
+    } catch (err) {
         next(err);
     }
 });
-
 
 router.post('/finalize', function (req, res, next) {
 
@@ -62,7 +56,6 @@ router.post('/finalize', function (req, res, next) {
     var rendered = body.rendered;
     //var config = body.config;
     var timestamp = body.timestamp;
-
 
     var outputDir = config.suman_server_config.outputDir;
 
@@ -73,18 +66,15 @@ router.post('/finalize', function (req, res, next) {
 
     var outputPath = path.resolve(outputDir + '/' + timestamp + '/temp.html');
 
-    fs.writeFile(outputPath, rendered, (err) => {
+    fs.writeFile(outputPath, rendered, err => {
         if (err) {
             console.log(err.stack);
             next(err);
-        }
-        else {
-            res.json({success: 'wrote rendered .ejs file'});
+        } else {
+            res.json({ success: 'wrote rendered .ejs file' });
         }
     });
-
 });
-
 
 router.post('/make/new', function (req, res, next) {
 
@@ -106,22 +96,18 @@ router.post('/make/new', function (req, res, next) {
             if (err) {
                 console.error(err.stack);
                 next(err);
-            }
-            else {
+            } else {
                 console.log('created dir at ' + outputPath);
-                req.sumanData.success = {msg: 'created dir at ' + outputPath};
+                req.sumanData.success = { msg: 'created dir at ' + outputPath };
                 next();
             }
-
         });
-    }
-    catch (err) {
+    } catch (err) {
         next(err);
     }
 });
 
 router.get('/:run_id/:test_num', function (req, res, next) {
-
 
     var outputDir = config.suman_server_config.outputDir;
 
@@ -138,8 +124,7 @@ router.get('/:run_id/:test_num', function (req, res, next) {
 
         if (err) {
             next(err);
-        }
-        else {
+        } else {
 
             var lastChar = String(data).slice(-1);
             if (lastChar === ',') {
@@ -152,17 +137,12 @@ router.get('/:run_id/:test_num', function (req, res, next) {
 
             console.log('parsed:', parsed);
 
-            res.send(ReactDOMServer.renderToString(<TestFileSuite data={parsed}/>));
+            res.send(ReactDOMServer.renderToString(React.createElement(TestFileSuite, { data: parsed })));
         }
-
     });
-
-
 });
 
-
 router.get('/latest', function (req, res, next) {
-
 
     var outputDir = config.suman_server_config.outputDir;
 
@@ -177,9 +157,7 @@ router.get('/latest', function (req, res, next) {
     if (!runId) {
         //TODO this will happen if the suman_results dir is deleted, we should add the folder if it gets deleted
         next(new Error('no latest results exist'));
-
-    }
-    else {
+    } else {
 
         const dirName = path.resolve(folder + '/' + runId);
 
@@ -187,9 +165,7 @@ router.get('/latest', function (req, res, next) {
 
             if (err) {
                 next(err);
-            }
-            else {
-
+            } else {
 
                 // const children = items.map(function(){
                 //
@@ -248,9 +224,7 @@ router.get('/latest', function (req, res, next) {
                 //     </html>
                 // ));
 
-                var data = ReactDOMServer.renderToString(
-                    <Accordion title="Accordion Title Here"/>
-                );
+                var data = ReactDOMServer.renderToString(React.createElement(Accordion, { title: 'Accordion Title Here' }));
 
                 // res.send(data);
 
@@ -258,17 +232,11 @@ router.get('/latest', function (req, res, next) {
                     data: data
                 });
             }
-
-
         });
-
     }
-
 });
 
-
 router.get('/:run_id', function (req, res, next) {
-
 
     try {
         var outputDir = config.suman_server_config.outputDir;
@@ -285,13 +253,9 @@ router.get('/:run_id', function (req, res, next) {
         var file = path.resolve(folder, runId, 'temp.html');
         console.log(file);
         res.sendFile(file);
-    }
-    catch (err) {
+    } catch (err) {
         next(err);
     }
-
-
 });
-
 
 module.exports = router;

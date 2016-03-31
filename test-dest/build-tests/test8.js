@@ -10,7 +10,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Created by denman on 1/1/2016.
  */
 
-var Test = require('../../lib').init(module, 'suman.conf.js');
+var Test = require('../../lib').init(module, {
+    export: false, //module.exports.wait = false;
+    integrants: []
+});
 
 Test.describe('gggg', function () {
 
@@ -54,6 +57,8 @@ Test.describe('gggg', function () {
             }).it('mmm2', { parallel: false }, function (t, done) {
                 done();
             }).it('mmm3', { parallel: false }, function (t, done) {
+
+                // throw new Error('Whoa');  //TODO: fatal error throws off logs
                 done();
             });
 
