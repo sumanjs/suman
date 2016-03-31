@@ -63,9 +63,13 @@ app.use(function (req, res, next) {
 });
 
 
-app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/users'));
-app.use('/results', require('./routes/results'));
+// app.use('/', require('./routes/index'));
+// app.use('/users', require('./routes/users'));
+// app.use('/results', require('./routes/results'));
+
+app.use('/', require('./routes-new-dest/index'));
+app.use('/users', require('./routes-new-dest/users'));
+app.use('/results', require('./routes-new-dest/results'));
 
 
 app.use(function(req, res, next) {

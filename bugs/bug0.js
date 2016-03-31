@@ -13,7 +13,7 @@ const Test = require('../lib').init(module, {
 });
 
 
-Test.describe('BBB', {parallel: false}, function (fs) {
+Test.describe('BBB', {parallel: true}, function (fs) {
 
     // console.log('fs:',fs);
 

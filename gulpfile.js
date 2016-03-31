@@ -41,6 +41,15 @@ gulp.task('transpile', [/*'clean-temp'*/], function () {
 });
 
 
+gulp.task('transpile-routes', [/*'clean-temp'*/], function () {
+    return gulp.src(['server/routes-new/**/*.js'])
+        .pipe(babel({
+            presets: ['react']
+        }))
+        .pipe(gulp.dest('server/routes-new-dest'));
+});
+
+
 gulp.task('nodemon', [], function () {
 
     nodemon({
