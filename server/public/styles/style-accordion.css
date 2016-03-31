@@ -1,0 +1,117 @@
+* {
+    box-sizing: border-box;
+}
+*:before, *:after {
+    box-sizing: border-box;
+}
+
+body {
+    background: black;
+}
+
+.main {
+    position: absolute;
+    background: #f12e50;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    max-width: 30em;
+    min-width: 15em;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+}
+.main .title {
+    color: #fff;
+    background: #c80e3d;
+    text-align: center;
+    font-weight: 700;
+    line-height: 1.2em;
+    padding: 1em;
+}
+
+.section {
+    position: relative;
+    width: 100%;
+    border-bottom: 5px solid #c80e3d;
+    border-left: 2px solid #c80e3d;
+    border-right: 2px solid #c80e3d;
+}
+.section button {
+    position: absolute;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    height: 3em;
+    width: 3em;
+    outline: 0;
+    border: 0;
+    background: none;
+    text-indent: -9999%;
+    pointer-events: none;
+}
+.section button:before {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 12px;
+    width: 4px;
+    border-radius: .3em;
+    background: #ee0c4b;
+    transform-origin: 50%;
+    top: 50%;
+    left: 50%;
+    transition: all .25s ease-in-out;
+    transform: translate(75%, -50%) rotate(45deg);
+}
+.section button:after {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 12px;
+    width: 4px;
+    border-radius: .3em;
+    background: #ee0c4b;
+    transform-origin: 50%;
+    top: 50%;
+    left: 50%;
+    transition: all .25s ease-in-out;
+    transform: translate(-75%, -50%) rotate(-45deg);
+}
+
+.section.open button:before, .section.open button:after {
+    height: 14px;
+}
+.section.open button:before {
+    transform: translate(0%, -50%) rotate(-45deg);
+}
+.section.open button:after {
+    transform: translate(0%, -50%) rotate(45deg);
+}
+.section.open .articlewrap {
+    height: 120px;
+}
+
+.articlewrap {
+    height: 0;
+    overflow: hidden;
+    transition: all .2s ease-in;
+}
+
+.sectionhead {
+    width: 100%;
+    overflow: hidden;
+    background: white;
+    cursor: pointer;
+    font-weight: 700;
+    color: #888;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 1em;
+    padding-right: 2.1em;
+}
+
+.article {
+    padding: 1em;
+    color: #333;
+    line-height: 1.3;
+}

@@ -42,6 +42,7 @@
     "net-ping": "^1.1.12",
     "parse-function": "^2.3.0",
     "react": "^0.14.8",
+    "react-css": "0.0.2",
     "react-dom": "^0.14.8",
     "request": "^2.67.0",
     "residence": "0.0.1",

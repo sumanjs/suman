@@ -57,7 +57,7 @@ Test.describe('gggg', function () {
 
             }).it('mmm3', {parallel: false}, function (t, done) {
 
-                throw new Error('Whoa');
+                // throw new Error('Whoa');  //TODO: fatal error throws off logs
                 done();
 
             });

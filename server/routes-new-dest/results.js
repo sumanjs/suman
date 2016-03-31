@@ -24,6 +24,8 @@ const router = express.Router();
 const HTMLParent = require('./react-components/HTMLParent');
 const HTMLAdopterParent = require('./react-components/HTMLAdopterParent');
 const TestFileSuite = require('./react-components/TestFileSuite');
+const Accordion = require('./react-components/accordion/AccordionComp2');
+const AccordionSection = require('./react-components/accordion/AccordionSection2');
 
 //#helpers
 const helpers = require('./helpers');
@@ -110,62 +112,132 @@ router.post('/make/new', function (req, res, next) {
     }
 });
 
-router.get('/latest', function (req, res, next) {
-
-    try {
-        var outputDir = config.suman_server_config.outputDir;
-
-        if (!outputDir) {
-            console.error('no outputDir defined');
-            return next(new Error('no outputDir defined'));
-        }
-
-        var folder = path.resolve(outputDir);
-        var runId = helpers.getPathOfMostRecentSubdir(folder);
-
-        if (!runId) {
-            //TODO this will happen if the suman_results dir is deleted, we should add the folder if it gets deleted
-            next(new Error('no latest results exist'));
-        } else {
-
-            fs.readdir(path.resolve(folder + '/' + runId), function (err, items) {
-
-                const children = [{
-                    comp: TestFileSuite,
-                    props: {
-                        items: items
-                    }
-                }];
-
-                const HTMLParent = HTMLAdopterParent(children);
-                res.send(ReactDOMServer.renderToString(React.createElement(HTMLParent, { items: items })));
-            });
-        }
-    } catch (err) {
-        next(err);
-    }
-});
-
 router.get('/:run_id/:test_num', function (req, res, next) {
 
-    try {
-        var outputDir = config.suman_server_config.outputDir;
+    var outputDir = config.suman_server_config.outputDir;
 
-        if (!outputDir) {
-            console.error('no outputDir defined');
-            return next(new Error('no outputDir defined'));
+    if (!outputDir) {
+        console.error('no outputDir defined');
+        return next(new Error('no outputDir defined'));
+    }
+
+    var folder = path.resolve(outputDir);
+    var runId = req.params.run_id;
+    var testNum = req.params.test_num;
+
+    fs.readFile(path.resolve(folder + '/' + runId + '/' + testNum + '.txt'), {}, function (err, data) {
+
+        if (err) {
+            next(err);
+        } else {
+
+            var lastChar = String(data).slice(-1);
+            if (lastChar === ',') {
+                data = String(data).substring(0, String(data).length - 1); //strip off trailing comma
+            }
+
+            data = '[' + data + ']'; //make parseable by JSON
+
+            var parsed = JSON.parse(data);
+
+            console.log('parsed:', parsed);
+
+            res.send(ReactDOMServer.renderToString(React.createElement(TestFileSuite, { data: parsed })));
         }
+    });
+});
 
-        var folder = path.resolve(outputDir);
+router.get('/latest', function (req, res, next) {
 
-        var runId = req.params.run_id;
-        var testNum = req.params.test_num;
+    var outputDir = config.suman_server_config.outputDir;
 
-        res.sendFile(path.resolve(folder, runId, testNum), {
-            maxAge: '58h'
+    if (!outputDir) {
+        console.error('no outputDir defined');
+        return next(new Error('no outputDir defined'));
+    }
+
+    var folder = path.resolve(outputDir);
+    var runId = helpers.getPathOfMostRecentSubdir(folder);
+
+    if (!runId) {
+        //TODO this will happen if the suman_results dir is deleted, we should add the folder if it gets deleted
+        next(new Error('no latest results exist'));
+    } else {
+
+        const dirName = path.resolve(folder + '/' + runId);
+
+        fs.readdir(dirName, function (err, items) {
+
+            if (err) {
+                next(err);
+            } else {
+
+                // const children = items.map(function(){
+                //
+                //      return  {
+                //          comp: TestFileSuite,
+                //          props: {
+                //              item: items
+                //          }
+                //      }
+                //
+                //  });
+                //
+                //
+                //  const HTMLParent = HTMLAdopterParent(children);
+                //  res.send(ReactDOMServer.renderToString(<HTMLParent />));
+
+                // res.send(ReactDOMServer.renderToString((
+                //     <html>
+                //     <head>
+                //
+                //         <link href={'/styles/style-accordion.css'} rel={'stylesheet'} type={'text/css'}></link>
+                //
+                //     </head>
+                //
+                //     <body>
+                //
+                //
+                //     <Accordion selected='2'>
+                //         <AccordionSection title='Section 1' id='1'>
+                //             Section 1 content
+                //         </AccordionSection>
+                //         <AccordionSection title='Section 2' id='2'>
+                //             Section 2 content
+                //         </AccordionSection>
+                //         <AccordionSection title='Section 3' id='3'>
+                //             Section 3 content
+                //         </AccordionSection>
+                //     </Accordion>
+                //     </body>
+                //     </html>
+                // )));
+
+                // var data = ReactDOMServer.renderToString((
+                //     <html>
+                //     <head>
+                //
+                //         <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.8/react.js"></script>
+                //         <script src="//fb.me/react-dom-0.14.2.js"></script>
+                //         <link href={'/styles/style-accordion.css'} rel={'stylesheet'} type={'text/css'}></link>
+                //
+                //     </head>
+                //
+                //     <body>
+                //     <Accordion title="Accordion Title Here"/>
+                //     </body>
+                //     </html>
+                // ));
+
+                var data = ReactDOMServer.renderToString(React.createElement(Accordion, { title: 'Accordion Title Here' }));
+
+                // res.send(data);
+
+                res.render('index', {
+                    data: data
+                });
+            }
         });
-    } catch (err) {
-        next(err);
     }
 });
 
