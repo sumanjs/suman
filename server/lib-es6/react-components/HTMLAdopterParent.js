@@ -35,19 +35,6 @@ module.exports = function (children) {
                     <meta charSet="UTF-8"></meta>
                     <title>Title</title>
 
-                    <style>{"\
-                    .test-cases{\
-                    border:2px solid black;\
-                    margin-left:30px\
-                    background-color:blue;\
-                    \
-                    }\
-                        .describe{\
-                          margin-left:90px;\
-                          background-color:yellow;\
-                        }\
-                      "}</style>
-
                 </head>
                 <body>
 

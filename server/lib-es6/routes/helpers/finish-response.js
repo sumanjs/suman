@@ -1,5 +1,5 @@
 /**
- * Created by denman on 12/15/15.
+ * Created by denman on 12/14/2015.
  */
 
 var url = require('url');
@@ -9,9 +9,10 @@ var path = require('path');
 
 module.exports = function (req, res) {
 
-    var helpers = require('../helpers');
+    var helpers = require('index');
 
-    var error = req.sumanData.error || new Error('unknown Suman error');
-    res.write(error);
+    //var error = new Error('Not real error');
+    //console.log(error.stack);
+
     res.end();
 };

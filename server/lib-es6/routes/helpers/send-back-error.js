@@ -10,7 +10,7 @@ var path = require('path');
 
 module.exports = function (req, res) {
 
-    var helpers = require('../helpers');
+    var helpers = require('index');
 
     var error = req.sumanData.error || new Error('unknown Suman error');
     res.write(error);

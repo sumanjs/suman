@@ -20,6 +20,8 @@ const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const rename = require('gulp-rename');
 const nodemon = require('gulp-nodemon');
+const requirejs = require('gulp-requirejs');
+
 
 //args & env
 const argv = process.env.argv;
@@ -32,7 +34,7 @@ gulp.task('clean-temp', function () {
     return del(['dest']);
 });
 
-gulp.task('transpile', [/*'clean-temp'*/], function () {
+gulp.task('transpile-test', [/*'clean-temp'*/], function () {
     return gulp.src(['test/**/*.js'])
         .pipe(babel({
             presets: ['es2016']
@@ -41,20 +43,22 @@ gulp.task('transpile', [/*'clean-temp'*/], function () {
 });
 
 
-gulp.task('transpile-routes', [/*'clean-temp'*/], function () {
-    return gulp.src(['server/routes-new/**/*.js'])
+gulp.task('transpile-lib', [/*'clean-temp'*/], function () {
+    return gulp.src(['server/lib-es6/**/*.js'])
         .pipe(babel({
-            presets: ['react']
+            presets: ['es2015', 'react']
         }))
-        .pipe(gulp.dest('server/routes-new-dest'));
+        .pipe(gulp.dest('server/lib-es5'));
 });
 
-gulp.task('transpile-views', [/*'clean-temp'*/], function () {
-    return gulp.src(['server/public/js/pages/results-pre/**/*.js'])
+
+gulp.task('transpile-rc', [/*'clean-temp'*/], function () {
+    return gulp.src(['server/lib-es6/react-components/**/*.js'])
         .pipe(babel({
-            presets: ['react']
+            modules: 'amd',
+            presets: ['es2015', 'react']
         }))
-        .pipe(gulp.dest('server/public/js/pages/results'));
+        .pipe(gulp.dest('server/public/js/react-components'));
 });
 
 

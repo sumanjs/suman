@@ -21,9 +21,7 @@ requirejs.config({
         'react': '//cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react',
         'reactDOM': '//cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom',
         'socketio': '//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.min',
-        '@Accordion':'/js/pages/results/Accordion'
-        //'reactDOMServer':'/js/vendor/react-dom-server'
-        //'@worker': '/js/workers/one'
+        '@Accordion':'/js/react-components/Accordion'
     },
 
     'shim': {
@@ -46,10 +44,14 @@ requirejs.onResourceLoad = function (context, map, depArray) {
 require(['jquery', 'flux', 'socketio', 'react', 'reactDOM', 'underscore', 'async'], function () {
 
     $(document).ready(function () {
+        
+        
         require(['js/pages/results/app'], function (Application) {
             console.log('Application module loaded ----> (3) ----> time:', (Date.now() - window.startDate));
             Application.start();
         });
+        
+        
     });
 
 });

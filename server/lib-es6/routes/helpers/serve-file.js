@@ -2,14 +2,16 @@
  * Created by denman on 12/14/2015.
  */
 
+
 var url = require('url');
 var fs = require('fs');
 var appRootPath = require('app-root-path');
 var path = require('path');
 
-module.exports = function (req, res) {
 
-    var helpers = require('../helpers');
+module.exports = function(req,res){
+
+    var helpers = require('index');
 
     var fsPath = req.sumanData.fsPath;
 
@@ -28,11 +30,16 @@ module.exports = function (req, res) {
             if (stat.isFile()) {
                 res.writeHead(200);
                 var stream = fs.createReadStream(fsPath).pipe(res); //calls res.end()
-            } else {
-                    res.writeHead(500);
-                }
-        } catch (err) {
+            }
+            else {
+                res.writeHead(500);
+            }
+        }
+        catch(err){
             helpers.finishResponse(req, res);
         }
+
+
     });
+
 };
