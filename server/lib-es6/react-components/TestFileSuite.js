@@ -21,6 +21,7 @@ module.exports = React.createClass({
         var testCases = items.map(function(tests){
             return(
                 <li className="testResults">
+
                     Test Description: <span className="items">{tests.desc}</span>,
                     Completed: {tests.complete ? <span className="items" id="tick">&#x2713;</span> : <span className="items" id="cross">&#x2717;</span>},
                     Type: <span className="items">{tests.type}</span>,
@@ -68,7 +69,7 @@ module.exports = React.createClass({
             <div className="describe">
                 <ul>
                     <li className="descriptionName">
-                        <label>Description:</label>{item.desc}
+                        <label>Description: '{item.desc}', options: {JSON.stringify(item.opts)}</label>
                     </li>
                     <div className="test-cases">
                         Test Cases:

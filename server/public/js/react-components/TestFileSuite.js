@@ -113,9 +113,11 @@ module.exports = React.createClass({
                     React.createElement(
                         'label',
                         null,
-                        'Description:'
-                    ),
-                    item.desc
+                        'Description: \'',
+                        item.desc,
+                        '\', options: ',
+                        JSON.stringify(item.opts)
+                    )
                 ),
                 React.createElement(
                     'div',
