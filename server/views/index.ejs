@@ -6,10 +6,14 @@
 
     <script>
 
-        window.childData = Object(<%-childData%>);
+        window.childData = Object(<%- childData %>);
         console.log('child-data:', window.childData);
 
     </script>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet">
 
     <script data-main="/js/main" src="/js/vendor/require.js"></script>
     <link href='/styles/style-accordion.css' rel='stylesheet' type='text/css'>
@@ -19,6 +23,27 @@
 <body>
 
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div>
+            <img id="suman_logo" class="col-md-4" src="/images/suman-main-logo.png">
+        </div>
+        <div id="page-header" class="row">
+            <div class="col-md-4">Project: Baymax, Git commit refspec: <b>a5deb1c9c24d48c9efa67f737075bdbcaf2f23cf</b>
+            </div>
+            <div class="col-md-6">Date run: 4/3/2015
+            </div>
+            <div class="col-md-6">Number of test suite files: 4
+            </div>
+            <div class="col-md-6">Passing suites: 30, Non-passing: 2, Crashed suites: 1
+            </div>
+            <div class="col-md-6">Total time to run: 2 mins, 35 seconds
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div id="react-main-mount">
     <%- data %>

@@ -251,24 +251,51 @@ router.get('/latest', function (req, res, next) {
                 //     </html>
                 // ));
 
-                var i = 1;
+                var j = 1;
 
                 const childData = [];
 
                 async.each(items, function (item, cb) {
 
-                    fs.readFile(path.resolve(dirName + '/' + item), {}, function (err, result) {
-                        
-                        var props = {
-                            title: item,
-                            id: i++,
-                            runId: runId,
-                            testId: String(path.basename(item, '.txt'))
-                        };
+                    fs.readFile(path.resolve(dirName + '/' + item), {}, function (err, data) {
 
-                        childData.push(props);
+                        if(err){
+                            cb(err);
+                        }
+                        else{
 
-                        cb(null, <AccordionSection {...props} />);
+                            var lastChar = String(data).slice(-1);
+                            if (lastChar === ',') {
+                                data = String(data).substring(0, String(data).length - 1); //strip off trailing comma
+                            }
+
+                            data = JSON.parse('[' + data + ']'); //make parseable by JSON
+
+
+                            var topLevelDescribe = null;
+
+                            for(var i =0; i < data.length; i++){
+                                const val = data[i];
+                                if(val.testId === 0){
+                                    topLevelDescribe = val;
+                                    break;
+                                }
+                            }
+
+                           var fileName = String(path.basename(item, '.txt'));
+
+                            var props = {
+                                title: 'TestSuite: ' + topLevelDescribe.desc + ' @' + fileName,
+                                id: j++,
+                                runId: runId,
+                                testId: fileName
+                            };
+
+                            childData.push(props);
+
+                            cb(null, <AccordionSection {...props} />);
+                        }
+
 
                     });
 
@@ -293,7 +320,7 @@ router.get('/latest', function (req, res, next) {
                         });
 
                     }
-                    
+
                 });
 
             }
