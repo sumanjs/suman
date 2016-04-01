@@ -19,7 +19,7 @@
     transition: height .5s, padding-top .5s, padding-bottom .5s;
 }
 .accordion-section.selected > .body {
-    height: 300px;
+    height: 400px;
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: #DCDCDC;
