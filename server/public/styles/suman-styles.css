@@ -2,12 +2,10 @@
 .test-cases {
     border: 2px solid black;
     margin-left: 30px;
-    background-color: lightgray;
+    background-color: #F8F8FF;
 }
 
 .describe {
-    margin-left: 20px;
-    background-color: yellow;
     color:black;
 }
 

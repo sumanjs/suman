@@ -17,14 +17,16 @@ module.exports = React.createClass({
 
     },
 
-    formatTestCases: function(items){
-        var testCases = items.map(function(tests){
-            return(
+    formatTestCases: function (items) {
+        var testCases = items.map(function (tests) {
+            return (
                 <li className="testResults">
                     Test Description: <span className="items">{tests.desc}</span>,
-                    Completed: {tests.complete ? <span className="items" id="tick">&#x2713;</span> : <span className="items" id="cross">&#x2717;</span>},
+                    Completed: {tests.complete ? <span className="items" id="tick">&#x2713;</span> :
+                    <span className="items" id="cross">&#x2717;</span>},
                     Type: <span className="items">{tests.type}</span>,
-                    Error: {!tests.error ? <span className="items">No Errors</span> : <span className="items" id="errors">{tests.error}</span>},
+                    Error: {!tests.error ? <span className="items">No Errors</span> :
+                    <span className="items" id="errors">{tests.error}</span>},
                     Timeout: <span className="items">{tests.timeout}</span>,
                     DateStarted: <span className="items">{tests.dateStarted}</span>,
                     DateComplete: <span className="items">{tests.dateComplete}</span>
@@ -34,22 +36,22 @@ module.exports = React.createClass({
             );
         }.bind(this));
 
-        return(
+        return (
             <ul>
                 {testCases}
             </ul>
         );
 
     },
-    testCases: function(item){
-        if(item.length === 0){
-            return(
+    testCases: function (item) {
+        if (item.length === 0) {
+            return (
                 <div className="no-tests">
                     Test Cases not defined
                 </div>
             );
-        }else{
-            return(
+        } else {
+            return (
                 <div>
                     {this.formatTestCases(item)}
                 </div>
@@ -70,10 +72,11 @@ module.exports = React.createClass({
                     <li className="descriptionName">
                         <label>Description:</label>{item.desc}
                     </li>
-                    <div className="test-cases">
+                    {item.tests.length > 0 ? <div className="test-cases">
                         Test Cases:
                         {this.testCases(item.tests)}
-                    </div>
+                    </div> : null}
+
                     <div className="suite-children">
                         {children.map((child) => {
                             return this.recurse(child);
@@ -88,11 +91,11 @@ module.exports = React.createClass({
 
 
     getDescribes: function () {
-        console.log('data:',this.props.data);
-        if(this.props.data && this.props.data[0]) {
+        console.log('data:', this.props.data);
+        if (this.props.data && this.props.data[0]) {
             return this.recurse(this.props.data[0]);
         }
-        else{
+        else {
             return (
                 <div>
                     Insert spinner here
