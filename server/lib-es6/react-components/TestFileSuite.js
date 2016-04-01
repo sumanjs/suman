@@ -17,6 +17,46 @@ module.exports = React.createClass({
 
     },
 
+    formatTestCases: function(items){
+        var testCases = items.map(function(tests){
+            return(
+                <li className="testResults">
+                    Test Description: <span className="items">{tests.desc}</span>,
+                    Completed: {tests.complete ? <span className="items" id="tick">&#x2713;</span> : <span className="items" id="cross">&#x2717;</span>},
+                    Type: <span className="items">{tests.type}</span>,
+                    Error: {!tests.error ? <span className="items">No Errors</span> : <span className="items" id="errors">{tests.error}</span>},
+                    Timeout: <span className="items">{tests.timeout}</span>,
+                    DateStarted: <span className="items">{tests.dateStarted}</span>,
+                    DateComplete: <span className="items">{tests.dateComplete}</span>
+
+
+                </li>
+            );
+        }.bind(this));
+
+        return(
+            <ul>
+                {testCases}
+            </ul>
+        );
+
+    },
+    testCases: function(item){
+        if(item.length === 0){
+            return(
+                <div className="no-tests">
+                    Test Cases not defined
+                </div>
+            );
+        }else{
+            return(
+                <div>
+                    {this.formatTestCases(item)}
+                </div>
+            );
+        }
+    },
+
     recurse: function recurse(item) {
 
         var children = this.findChildren(item.children.map(function (child) {
@@ -24,20 +64,22 @@ module.exports = React.createClass({
         }));
 
         return (
-            
-            <div className="describe">
-                {item.desc}
-                <div className="test-cases">
-                    Test Cases:
-                    {JSON.stringify(item.tests)}
-                </div>
-                <div className="suite-children">
-                    {item.children.length > 0 ? 'Children of ' + item.desc : '(no children)'}
-                    {children.map((child) => {
-                        return this.recurse(child);
-                    })}
-                </div>
 
+            <div className="describe">
+                <ul>
+                    <li className="descriptionName">
+                        <label>Description:</label>{item.desc}
+                    </li>
+                    <div className="test-cases">
+                        Test Cases:
+                        {this.testCases(item.tests)}
+                    </div>
+                    <div className="suite-children">
+                        {children.map((child) => {
+                            return this.recurse(child);
+                        })}
+                    </div>
+                </ul>
             </div>
 
         )

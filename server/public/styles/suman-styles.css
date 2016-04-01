@@ -1,0 +1,53 @@
+
+.test-cases {
+    border: 2px solid black;
+    margin-left: 30px;
+    background-color: lightgray;
+}
+
+.describe {
+    margin-left: 20px;
+    background-color: yellow;
+    color:black;
+}
+
+.testResults{
+    margin-right: 5px;
+    color:black;
+    border: 3px solid darkred;
+    margin-bottom: 5px;
+    font-weight:bold;
+}
+
+ul li{
+    list-style-type: circle;
+}
+
+.descriptionName{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.descriptionName label{
+    font-weight:bold;
+}
+
+.no-tests{
+    margin-left: 25px;
+}
+
+
+.testResults .items{
+    font-weight: lighter;
+    color: green;
+    font-size: 15px;
+}
+
+
+.testResults #cross{
+    color:red;
+}
+
+.testResults #errors{
+    color:red;
+}
