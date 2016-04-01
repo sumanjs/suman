@@ -23,8 +23,21 @@ Test.describe('BBB', {parallel: true}, function (fs) {
 
     });
 
+    this.describe('loop', function () {
 
-    this.context('1', {efa: true}, function () {
+        [1, 2, 3, 4, 5, 6].forEach(val=> {
+
+            this.it('tests ' + val, {parallel: !!val}, function () {
+                
+                
+
+            });
+        })
+
+    });
+
+
+    this.describe('1', {efa: true}, function () {
 
         this.before((done) => {
 
@@ -81,7 +94,9 @@ Test.describe('BBB', {parallel: true}, function (fs) {
 
         this.it('yo', {parallel: false}, (t, done) => {
 
+            throw new Error('PAsta');
             setTimeout(function () {
+
                 done();
             }, 100);
 

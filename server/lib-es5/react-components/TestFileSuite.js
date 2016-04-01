@@ -42,11 +42,11 @@ module.exports = React.createClass({
                     { className: 'items' },
                     tests.type
                 ),
-                ', Error: ',
+                ', Test error: ',
                 !tests.error ? React.createElement(
                     'span',
                     { className: 'items' },
-                    'No Errors'
+                    '(null)'
                 ) : React.createElement(
                     'span',
                     { className: 'items', id: 'errors' },
@@ -69,6 +69,12 @@ module.exports = React.createClass({
                     'span',
                     { className: 'items' },
                     tests.dateComplete
+                ),
+                'Total time: ',
+                React.createElement(
+                    'span',
+                    { className: 'items' },
+                    tests.dateComplete - tests.dateStarted
                 )
             );
         }.bind(this));

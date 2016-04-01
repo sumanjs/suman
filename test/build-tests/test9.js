@@ -5,7 +5,7 @@
 
 var Test = require('../../lib').init(module, 'suman.conf.js');
 
-Test.describe('A describe', function () {
+Test.describe('A describe', {parallel: true}, function () {
 
     this.after(function (done) {
         done();

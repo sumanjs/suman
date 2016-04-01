@@ -12,13 +12,17 @@
 .testResults{
     margin-right: 5px;
     color:black;
-    border: 1px solid darkred;
+    border: 1px solid cornflowerblue;
     margin-bottom: 5px;
     font-weight:bold;
 }
 
 ul li{
     list-style-type: circle;
+}
+
+.table-text-center th, .table-text-center td {
+    text-align: center;
 }
 
 @media (min-width: 1400px) {
@@ -30,7 +34,7 @@ ul li{
 #suman_logo {
 
     float: right;
-    width: 18vw;
+    width: 15vw;
     height: 15vh;
 }
 

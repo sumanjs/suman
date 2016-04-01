@@ -26,12 +26,12 @@ module.exports = React.createClass({
                     Completed: {tests.complete ? <span className="items" id="tick">&#x2713;</span> :
                     <span className="items" id="cross">&#x2717;</span>},
                     Type: <span className="items">{tests.type}</span>,
-                    Error: {!tests.error ? <span className="items">No Errors</span> :
+                    Test error: {!tests.error ? <span className="items">(null)</span> :
                     <span className="items" id="errors">{tests.error}</span>},
                     Timeout: <span className="items">{tests.timeout}</span>,
                     DateStarted: <span className="items">{tests.dateStarted}</span>,
                     DateComplete: <span className="items">{tests.dateComplete}</span>
-
+                    Total time: <span className="items">{tests.dateComplete - tests.dateStarted}</span>
 
                 </li>
             );

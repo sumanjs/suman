@@ -11,6 +11,7 @@
 
  */
 
+//TODO: need to make sure to make suman_results readable/writable
 //TODO: need to figure out way to grep suite name without having to run the test
 //TODO: add option to do no reporting but at command line for speed
 //TODO: need to handle stubbed tests
