@@ -23,6 +23,24 @@ ul li{
     list-style-type: circle;
 }
 
+@media (min-width: 1400px) {
+    .container{
+        max-width: 1270px;
+    }
+}
+
+#suman_logo {
+
+    float: right;
+    width: 18vw;
+    height: 15vh;
+}
+
+#page-header {
+    float: left;
+    margin-top: 2%
+}
+
 .descriptionName{
     margin-bottom: 5px;
     margin-top: 5px;
