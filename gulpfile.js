@@ -82,24 +82,6 @@ gulp.task('convert', ['transpile-lib'], function (cb) {   //convert commonjs to 
 });
 
 
-gulp.task('nodemon', [], function () {
-
-    nodemon({
-
-        script: 'bin/www',
-        ext: 'js',
-        ignore: ['public/*', '*.git/*', '*.idea/*', 'routes/*', 'gulpfile.js'],
-        args: [], //TODO: add these from command line
-        nodeArgs: ['--harmony_destructuring'],
-        env: {
-            NODE_ENV: $node_env
-        }
-
-    }).on('restart', []);
-
-});
-
-
 gulp.task('watch_tests', ['suman'], function (cb) {
 
     //testRunner('./test/build-tests','suman.conf.js');
@@ -182,6 +164,24 @@ gulp.task('suman_server', [], function (cb) {
     }).on('msg-2', function (msg) {
         console.log('msg-2', msg);
     });
+
+});
+
+
+gulp.task('nodemon', ['convert'], function () {
+
+    nodemon({
+
+        script: 'server/bin/www',
+        ext: 'js',
+        ignore: ['server/lib-es5/**/*','server/public/*', '*.git/*', '*.idea/*', 'gulpfile.js'],
+        args: [], //TODO: add these from command line
+        nodeArgs: ['--harmony_destructuring'],
+        env: {
+            NODE_ENV: $node_env  || 'development'
+        }
+
+    }).on('restart', ['convert']);
 
 });
 

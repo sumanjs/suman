@@ -49,15 +49,6 @@ Test.describe('desc', function () {
 
         this.describe(function(){
 
-            this.loop([1, 2, 3], function (val, index) {
-
-                this.it('makes' + val, function (t) {
-
-                    return Promise.resolve(3);
-
-                });
-
-            });
 
         });
 

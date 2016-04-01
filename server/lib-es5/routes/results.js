@@ -9,6 +9,7 @@ const config = require('univ-config')(module, '*suman*', 'server/config/conf');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const async = require('async');
 
 //#npm
 const React = require('react');
@@ -24,14 +25,14 @@ const router = express.Router();
 const HTMLParent = require('../react-components/HTMLParent');
 const HTMLAdopterParent = require('../react-components/HTMLAdopterParent');
 const TestFileSuite = require('../react-components/TestFileSuite');
-const Accordion = require('../react-components/accordion/AccordionComp2');
-const AccordionSection = require('../react-components/accordion/AccordionSection2');
+const Accordion = require('../react-components/AccordionComp');
+const AccordionSection = require('../react-components/AccordionSection');
 
 //#helpers
 const helpers = require('./helpers/index');
 // const findSumanServer = require('../../lib/find-suman-server');
 
-router.post('/done/:run_id', function (req, res, next) {
+router.post('/done/:runId', function (req, res, next) {
 
     var data = body.data;
 
@@ -107,7 +108,7 @@ router.post('/make/new', function (req, res, next) {
     }
 });
 
-router.get('/:run_id/:test_num', function (req, res, next) {
+router.get('/:runId/:testId', function (req, res, next) {
 
     var outputDir = config.suman_server_config.outputDir;
 
@@ -117,8 +118,8 @@ router.get('/:run_id/:test_num', function (req, res, next) {
     }
 
     var folder = path.resolve(outputDir);
-    var runId = req.params.run_id;
-    var testNum = req.params.test_num;
+    var runId = req.params.runId;
+    var testNum = req.params.testId;
 
     fs.readFile(path.resolve(folder + '/' + runId + '/' + testNum + '.txt'), {}, function (err, data) {
 
@@ -132,17 +133,17 @@ router.get('/:run_id/:test_num', function (req, res, next) {
             }
 
             data = '[' + data + ']'; //make parseable by JSON
-
-            var parsed = JSON.parse(data);
-
-            console.log('parsed:', parsed);
-
-            res.send(ReactDOMServer.renderToString(React.createElement(TestFileSuite, { data: parsed })));
+            // var parsed = JSON.parse(data);
+            // console.log('parsed:', parsed);
+            res.send(data);
+            // res.send(ReactDOMServer.renderToString(<TestFileSuite data={parsed}/>));
         }
     });
 });
 
 router.get('/latest', function (req, res, next) {
+
+    //TODO: this should render git branch and commit
 
     var outputDir = config.suman_server_config.outputDir;
 
@@ -224,38 +225,65 @@ router.get('/latest', function (req, res, next) {
                 //     </html>
                 // ));
 
-                var data = ReactDOMServer.renderToString(React.createElement(Accordion, { title: 'Accordion Title Here' }));
+                var i = 1;
 
-                // res.send(data);
+                const childData = [];
 
-                res.render('index', {
-                    data: data
+                async.each(items, function (item, cb) {
+
+                    fs.readFile(path.resolve(dirName + '/' + item), {}, function (err, result) {
+
+                        var props = {
+                            title: item,
+                            id: i++,
+                            runId: runId,
+                            testId: String(path.basename(item, '.txt'))
+                        };
+
+                        childData.push(props);
+
+                        cb(null, React.createElement(AccordionSection, props));
+                    });
+                }, function complete(err, results) {
+
+                    if (err) {
+                        next(err);
+                    } else {
+                        var data = ReactDOMServer.renderToString(React.createElement(
+                            Accordion,
+                            { title: 'Accordion Title Here' },
+                            results
+                        ));
+
+                        // res.send(data);
+
+                        res.render('index', {
+                            data: data,
+                            childData: JSON.stringify(childData)
+                        });
+                    }
                 });
             }
         });
     }
 });
 
-router.get('/:run_id', function (req, res, next) {
+router.get('/:runId', function (req, res, next) {
 
-    try {
-        var outputDir = config.suman_server_config.outputDir;
+    var outputDir = config.suman_server_config.outputDir;
 
-        if (!outputDir) {
-            console.error('no outputDir defined');
-            return next(new Error('no outputDir defined'));
-        }
-
-        var folder = path.resolve(outputDir);
-
-        var runId = req.params.run_id;
-
-        var file = path.resolve(folder, runId, 'temp.html');
-        console.log(file);
-        res.sendFile(file);
-    } catch (err) {
-        next(err);
+    if (!outputDir) {
+        console.error('no outputDir defined');
+        return next(new Error('no outputDir defined'));
     }
+
+    var folder = path.resolve(outputDir);
+
+    var runId = req.params.runId;
+
+    var file = path.resolve(folder, runId, 'temp.html');
+    console.log(file);
+    res.sendFile(file);
 });
 
 module.exports = router;

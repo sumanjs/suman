@@ -1,4 +1,4 @@
-define(function (require, exports, module) {const React = require('react');
+const React = require('react');
 
 const Accordion = React.createClass({
     displayName: 'Accordion',
@@ -46,4 +46,3 @@ const Accordion = React.createClass({
 });
 
 module.exports = Accordion;
-});

@@ -2,7 +2,7 @@ define(function (require, exports, module) {const React = require('react');
 var $ = require('jquery');
 const ReactDOM = require('react-dom');
 
-const TestFileSuite = require('../TestFileSuite');
+const TestFileSuite = require('./TestFileSuite');
 
 const AccordionSection = React.createClass({
     displayName: 'AccordionSection',
@@ -12,8 +12,6 @@ const AccordionSection = React.createClass({
 
         return {
             loaded: false,
-            runId: '1459464754546',
-            testId: 'test4',
             testData: []
         };
     },
@@ -21,6 +19,10 @@ const AccordionSection = React.createClass({
     render: function () {
 
         const className = 'accordion-section' + (this.props._selected ? ' selected' : '');
+
+        // <div className='body'>
+        //     {this.props.children}
+        // </div>
 
         return React.createElement(
             'div',
@@ -33,14 +35,8 @@ const AccordionSection = React.createClass({
             React.createElement(
                 'div',
                 { className: 'body' },
-                this.props.children
-            ),
-            React.createElement(
-                'div',
-                { className: 'body' },
                 React.createElement(TestFileSuite, { data: this.state.testData })
-            ),
-            '(bottom)'
+            )
         );
     },
 
@@ -54,7 +50,7 @@ const AccordionSection = React.createClass({
 
             $.ajax({
                 type: 'GET',
-                url: '/results/' + this.state.runId + '/' + this.state.testId
+                url: '/results/' + this.props.runId + '/' + this.props.testId
 
             }).done(resp => {
 

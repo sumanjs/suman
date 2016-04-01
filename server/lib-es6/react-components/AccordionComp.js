@@ -1,12 +1,7 @@
 const React = require('react');
-var fromCSS = require('react-css').fromCSS;
 
-const fs = require('fs');
-const path = require('path');
 
 const Accordion = React.createClass({
-    displayName: 'Accordion',
-
 
     getInitialState: function () {
         // we should also listen for property changes and reset the state
@@ -22,10 +17,10 @@ const Accordion = React.createClass({
         // enhance the section contents so we can track clicks and show sections
         const children = React.Children.map(this.props.children, this.enhanceSection);
 
-        return React.createElement(
-            'div',
-            { className: 'accordion' },
-            children
+        return (
+            <div className='accordion'>
+                {children}
+            </div>
         );
     },
 
@@ -45,8 +40,11 @@ const Accordion = React.createClass({
 
     // when this section is selected, inform the parent Accordion component
     onSelect: function (id) {
-        this.setState({ selected: id });
+        this.setState({selected: id});
     }
 });
 
+
 module.exports = Accordion;
+
+

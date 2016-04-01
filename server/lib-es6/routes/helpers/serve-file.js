@@ -5,7 +5,6 @@
 
 var url = require('url');
 var fs = require('fs');
-var appRootPath = require('app-root-path');
 var path = require('path');
 
 

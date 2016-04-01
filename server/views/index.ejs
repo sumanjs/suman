@@ -4,16 +4,24 @@
     <meta charset="UTF-8">
     <title>Suman Test Results</title>
 
+    <script>
+
+        window.childData = Object(<%-childData%>);
+        console.log('child-data:', window.childData);
+
+    </script>
+
     <script data-main="/js/main" src="/js/vendor/require.js"></script>
     <link href='/styles/style-accordion.css' rel='stylesheet' type='text/css'>
 
 </head>
 <body>
 
+
+
 <div id="react-main-mount">
     <%- data %>
 </div>
-
 
 
 </body>

@@ -19,15 +19,7 @@ Test.describe('suite 2', function () {
 
 
     var cars = [1, 2, 3];
-
-    this.loop(cars, function (value) {
-
-        this.it('fantasy', function () {
-
-
-        });
-
-    });
+    
 
 
     this.describe('desc', function () {

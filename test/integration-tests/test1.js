@@ -120,15 +120,7 @@ Test.describe('suite uno', function () {
 
 
             });
-
-            this.loop(['59', '69', '79'], function (value) {
-
-                this.it('makes stuff ' + value, () => {
-
-
-                });
-
-            });
+            
 
             this.it('makes stuff 16', function () {
 

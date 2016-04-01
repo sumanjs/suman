@@ -86,11 +86,7 @@ Test.describe('suite uno', function () {
         }, function () {
 
             this.before(function () {}).after(function () {});
-
-            this.loop(['59', '69', '79'], function (value) {
-
-                this.it('makes stuff ' + value, function () {});
-            });
+            
 
             this.it('makes stuff 16', function () {});
 

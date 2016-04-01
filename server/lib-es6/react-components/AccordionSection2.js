@@ -1,7 +1,10 @@
+
+
 const React = require('react');
 
 
 var Section = React.createClass({
+    
     handleClick: function (e) {
 
         console.log('event:',e);

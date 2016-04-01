@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+
 
 const React = require('react');
 
@@ -56,4 +56,3 @@ var Section = React.createClass({
 });
 
 module.exports = Section;
-});

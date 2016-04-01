@@ -3,7 +3,7 @@
  */
 
 
-define(['react', 'reactDOM'], function (React, ReactDOM) {
+define(['react', 'react-dom'], function (React, ReactDOM) {
 
 
     var ContactItem = React.createClass({

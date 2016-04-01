@@ -36,16 +36,21 @@ module.exports = function(server){
 
                     console.log('TEST_DATA received - data.outputPath:',data.outputPath);
 
-                    fs.appendFile(data.outputPath, json += ',', function (err) {
-                        if (err) {
-                            console.error(err.stack);
-                            socket.emit('TEST_DATA_RECEIVED', {error: err.stack});
-                        }
-                        else {
-                            //req.sumanData.success = {msg: 'appended data to ' + data.outputPath};
-                            socket.emit('TEST_DATA_RECEIVED', {msg: 'appended data to ' + data.outputPath});
-                        }
+                    process.nextTick(function(){
+                        socket.emit('TEST_DATA_RECEIVED', {msg: 'appended data to ' + data.outputPath});
                     });
+                  
+
+                    // fs.appendFile(data.outputPath, json += ',', function (err) {
+                    //     if (err) {
+                    //         console.error(err.stack);
+                    //         socket.emit('TEST_DATA_RECEIVED', {error: err.stack});
+                    //     }
+                    //     else {
+                    //         //req.sumanData.success = {msg: 'appended data to ' + data.outputPath};
+                    //         socket.emit('TEST_DATA_RECEIVED', {msg: 'appended data to ' + data.outputPath});
+                    //     }
+                    // });
                 }
                 else{
                     console.error(new Error('no output path for test data: ' + JSON.stringify(data)).stack);

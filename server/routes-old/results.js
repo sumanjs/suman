@@ -21,7 +21,7 @@ const helpers = require('./helpers');
 const findSumanServer = require('../../lib/find-suman-server');
 
 
-router.post('/done/:run_id', function (req, res, next) {
+router.post('/done/:runId', function (req, res, next) {
 
     var data = body.data;
 
@@ -149,7 +149,7 @@ router.get('/latest', function (req, res, next) {
 
 });
 
-router.get('/:run_id/:test_num', function (req, res, next) {
+router.get('/:runId/:testId', function (req, res, next) {
 
 
     try{
@@ -162,8 +162,8 @@ router.get('/:run_id/:test_num', function (req, res, next) {
 
         var folder = path.resolve(outputDir);
 
-        var runId = req.params.run_id;
-        var testNum = req.params.test_num;
+        var runId = req.params.runId;
+        var testNum = req.params.testId;
 
         res.sendFile(path.resolve(folder, runId, testNum), {
             maxAge: '58h'
@@ -176,7 +176,7 @@ router.get('/:run_id/:test_num', function (req, res, next) {
 
 });
 
-router.get('/:run_id', function (req, res, next) {
+router.get('/:runId', function (req, res, next) {
 
 
     try{
@@ -189,7 +189,7 @@ router.get('/:run_id', function (req, res, next) {
 
         var folder = path.resolve(outputDir);
 
-        var runId = req.params.run_id;
+        var runId = req.params.runId;
 
         var file = path.resolve(folder, runId, 'temp.html');
         console.log(file);

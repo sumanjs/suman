@@ -6,9 +6,9 @@ var url = require('url');
 var fs = require('fs');
 var appRootPath = require('app-root-path');
 var path = require('path');
-var helpers = require('index');
+var helpers = require('./index');
 var du = require('du');
-var config = require('../../../suman.conf.js');
+var config = require('../../../../suman.conf.js');
 
 module.exports = function (req, res) {
 
@@ -44,11 +44,12 @@ module.exports = function (req, res) {
             }
         }
 
+        var fsPath;
         if (resultsPath === 'latest') {
 
             var serveThisDir = helpers.getPathOfMostRecentSubdir(mainDir);
             if (serveThisDir) {
-                var fsPath = req.sumanData.fsPath = path.resolve(appRootPath + '/' + 'results' + '/' + serveThisDir + '/' + 'temp.html');
+                fsPath = req.sumanData.fsPath = path.resolve(appRootPath + '/' + 'results' + '/' + serveThisDir + '/' + 'temp.html');
                 if (fsPath) {
                     helpers.serveFile(req, res);
                 } else {
@@ -60,7 +61,7 @@ module.exports = function (req, res) {
             }
         } else if (typeof Number(resultsPath) === 'number' && !isNaN(Number(resultsPath))) {
 
-            var fsPath = req.sumanData.fsPath = path.resolve(appRootPath + '/' + 'results' + '/' + resultsPath + '/' + 'temp.html');
+            fsPath = req.sumanData.fsPath = path.resolve(appRootPath + '/' + 'results' + '/' + resultsPath + '/' + 'temp.html');
             if (fsPath) {
                 helpers.serveFile(req, res);
             } else {
