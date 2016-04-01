@@ -23,9 +23,11 @@ module.exports = React.createClass({
                 <li className="testResults">
 
                     Test Description: <span className="items">{tests.desc}</span>,
-                    Completed: {tests.complete ? <span className="items" id="tick">&#x2713;</span> : <span className="items" id="cross">&#x2717;</span>},
+                    Completed: {tests.complete ? <span className="items" id="tick">&#x2713;</span> :
+                    <span className="items" id="cross">&#x2717;</span>},
                     Type: <span className="items">{tests.type}</span>,
-                    Error: {!tests.error ? <span className="items">No Errors</span> : <span className="items" id="errors">{tests.error}</span>},
+                    Error: {!tests.error ? <span className="items">No Errors</span> :
+                    <span className="items" id="errors">{tests.error}</span>},
                     Timeout: <span className="items">{tests.timeout}</span>,
                     DateStarted: <span className="items">{tests.dateStarted}</span>,
                     DateComplete: <span className="items">{tests.dateComplete}</span>
@@ -71,10 +73,11 @@ module.exports = React.createClass({
                     <li className="descriptionName">
                         <label>Description: '{item.desc}', options: {JSON.stringify(item.opts)}</label>
                     </li>
-                    <div className="test-cases">
+                    {item.tests.length > 0 ? <div className="test-cases">
                         Test Cases:
                         {this.testCases(item.tests)}
-                    </div>
+                    </div> : null}
+
                     <div className="suite-children">
                         {children.map((child) => {
                             return this.recurse(child);

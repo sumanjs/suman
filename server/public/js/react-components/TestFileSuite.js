@@ -119,12 +119,12 @@ module.exports = React.createClass({
                         JSON.stringify(item.opts)
                     )
                 ),
-                React.createElement(
+                item.tests.length > 0 ? React.createElement(
                     'div',
                     { className: 'test-cases' },
                     'Test Cases:',
                     this.testCases(item.tests)
-                ),
+                ) : null,
                 React.createElement(
                     'div',
                     { className: 'suite-children' },

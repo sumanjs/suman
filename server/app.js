@@ -82,7 +82,6 @@ app.use(function (req, res, next) {
 });
 
 
-
 app.use('/', require('./lib-es5/routes/index'));
 app.use('/users', require('./lib-es5/routes/users'));
 app.use('/results', require('./lib-es5/routes/results'));
