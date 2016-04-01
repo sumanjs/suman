@@ -42,7 +42,7 @@
 //TODO: does babel-node work with child_prcesses?
 //TODO: allow possibility to inject before/after/describe/context/it/test/beforeEach/afterEach into describes/contexts
 //TODO: create suman --diagnostics option at command line to check for common problems
-
+//TODO: write metadata file out along with txt files
 
 
 
