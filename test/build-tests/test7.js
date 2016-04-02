@@ -5,21 +5,23 @@
 
 
 const Test = require('../../lib').init(module, {
-    export: false, //module.exports.wait = false;
+    export: false,
     integrants: ['smartconnect', 'dolce-vida']
 });
 
 
-Test.describe('BBB', {parallel: true}, function (fs) {
+Test.describe('Suite', {parallel: true}, function (fs) {
 
 
     this.before(ctn => {
         ctn();
     });
 
-    this.beforeEach((t, ctn) => {
+    this.beforeEach(t => {
 
-        ctn('poop');
+        return doSomethingAync().then(function(val){
+            t.data.val = val;
+        })
 
     });
 
@@ -30,7 +32,6 @@ Test.describe('BBB', {parallel: true}, function (fs) {
             this.it('tests ' + val, {parallel: !!val}, function () {
                 
                 
-
             });
         })
 
