@@ -8,7 +8,9 @@
 
 
 var suman = require('../../lib');
+
 var Test = suman.init(module, {
+    interface: 'TDD',
     integrants: ['smartconnect', 'dolce-vida']
 });
 
@@ -20,7 +22,7 @@ Test.describe('suite uno', function () {
     });
 
 
-    this.it.skip('bar2', {parallel: false}, (t, done) => {
+    this.it('bar2', {parallel: false}, (t, done) => {
         done();
     });
 
@@ -77,7 +79,9 @@ Test.describe('suite uno', function () {
         }).after(() => {
 
 
-        }).it.only('makes stuff 20', function (t, done) {
+        });
+
+        this.it('makes stuff 20', function (t, done) {
 
             setTimeout(function () {
 

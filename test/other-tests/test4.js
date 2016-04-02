@@ -3,7 +3,6 @@
  */
 
 
-var debug = require('debug')('suman');
 var Test = require('../../lib').init(module, 'suman.conf.js');
 
 
@@ -55,11 +54,10 @@ Test.describe('desc', function () {
 
 
         this.describe(function(){
-            var self = this;
 
-            [1, 2, 3].forEach(function (val) {
+            [1, 2, 3].forEach( (val) => {
 
-                self.it('makes>' + val, function (t) {
+                this.it('makes>' + val,  (t) => {
 
                     return Promise.all([
                         new Promise(function (resolve) {
@@ -88,14 +86,11 @@ Test.describe('desc', function () {
 
     this.afterEach(function (t) {
 
-        debug('afterEach data:', t.data);
-
 
     });
 
     this.afterEach(function (t) {
 
-        debug('afterEach data:', t.data);
 
     });
 

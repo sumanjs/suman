@@ -18,10 +18,7 @@ Test.describe('Suite', {parallel: true}, function (fs) {
     });
 
     this.beforeEach(t => {
-
-        return doSomethingAync().then(function(val){
-            t.data.val = val;
-        })
+        
 
     });
 

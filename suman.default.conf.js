@@ -13,6 +13,10 @@ module.exports = Object.freeze({
 
     sumanServer: {},
 
+    opts:{
+       //these can be set by the command line
+    },
+
     warningLevel: 3,
     noFrills: false,
     defaultTestSuiteTimeout: 15000,

@@ -7,11 +7,13 @@
 const suman = require('../../lib');
 
 const Test = suman.init(module, {
-    integrants: ['smartconnect', 'dolce-vida']
+    integrants: ['smartconnect', 'dolce-vida'],
+    interface: 'TDD'
 });
 
 
 console.log('some bs');
+
 
 Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, child_process, socketio, suite, whoa, cherry, https) {
 
@@ -32,9 +34,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
 
 
     this.it('makes noise', {}, function () {
-
-
-
+        
     });
 
 
@@ -65,7 +65,7 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
                     resolve('dude');
                 });
             });
-            return console.log('val:', val);
+             console.log('val:', val);
         });
     });
 
