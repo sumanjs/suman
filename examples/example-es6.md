@@ -1,25 +1,29 @@
-/**
- * Created by denman on 3/26/2016.
- */
 
 
-import * as suman from 'suman';  //es6 import syntax
+
+## ES6 syntax with annotations
+
+
+```js
+
+
+import * as suman from 'suman';  // es6 import syntax
 const Test = suman.init(module, {
-    interface: 'BDD'   //BDD interface is default but are explicit
+    interface: 'BDD'   //BDD interface is default but we are explicit
 });
 
 
-// here we create the test suite, we can pass in core modules, and any value defined in suman.ioc.js
-Test.describe('#Test1', function (assert, fs, http, path) {
+// here we create the test suite, we can inject core modules, and any value defined in suman.ioc.js
+Test.describe('Example#1', function (assert, fs, http, path) {
 
 
     this.describe('tests multiplication', function () {
 
-        this.beforeEach(t => {   //this runs before any test case inside this describe block
+        this.beforeEach(t => {   //this runs before any test case within the 'tests multiplication' describe block
             t.data.foo = 3;
         });
 
-        this.it('[test] 1', async(t) => {  // t represents this test case, t.data properties can be set prior in hooks
+        this.it('[test] 1', async t => {  // t represents this test case, t.data properties can be set prior in hooks
 
             const bar = await new Promise(function (resolve) {
                 resolve('7');
@@ -35,11 +39,11 @@ Test.describe('#Test1', function (assert, fs, http, path) {
 
     this.describe('tests streams', function () {
 
-        this.beforeEach(t => {  //this runs before any test case inside this describe block
+        this.beforeEach(t => {  //this runs before any test case inside the 'tests streams' describe block
             t.data.srcDir = path.resolve(process.env.HOME + '/test_data');
         });
 
-        //fail and pass are analagous to done('err') and done(null) respectively
+        //fail and pass are analagous to done(err) and done(null) respectively
         this.it('[test] 2', (t, fail, pass) => {
 
             fs.createReadStream(t.data.srcDir)
@@ -84,3 +88,5 @@ Test.describe('#Test1', function (assert, fs, http, path) {
     });
 
 });
+
+```
