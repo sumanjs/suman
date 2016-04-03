@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>suman</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>suman</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li class="active"><a>Main</a></li>
+            <li><a>api-bdd.js</a></li>
+            <li><a>api-tdd.js</a></li>
+            <li><a>circle.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="Main" class="readme"><p><img src="https://github.com/ORESoftware/suman/blob/master/images/6290f877-6356-409b-8b74-08a4cec53299.png" alt="alt text" title="Suman Primary Logo"></p>
+<p>&lt;br&gt;
+<a href="https://nodei.co/npm/suman/"><img src="https://nodei.co/npm/suman.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM"></a>
+&lt;br&gt;</p>
+<p>&lt;i&gt; =&gt; For command line tools:&lt;/i&gt;</p>
+<h2><code>npm install -g suman</code></h2>
+<p>&lt;i&gt; =&gt; For test suites in your project:&lt;/i&gt;</p>
+<h3>You should run  <code>$ suman --init</code>  in your &lt;i&gt;project root&lt;/i&gt; after installing suman as a global module</h3>
+<p>=&gt; to convert a Mocha test or whole directory of Mocha tests to Suman tests use &lt;br&gt;
+<code>$ suman --convert &lt;src-file/src-dir&gt; &lt;dest-file/dest-dir&gt;</code></p>
+<p>=&gt; to simply install Suman as dev-dependency in any project you can use <code>$ npm install -D suman</code>, &lt;br&gt;
+however <code>$ suman --init</code> is the preferred way to initialized suman in a given project.</p>
+<p>&lt;br&gt;</p>
+<hr>
+<p>(disclaimer: Suman is in beta, despite the current version number; Suman only supports Node versions &gt; 4.0)</p>
+<hr>
+<p>&lt;i&gt; Suman is a test runner for Node.js and is focused on asynchronous testing of backend services. Suman is designed to be a direct successor to Mocha, Tape and Jasmine,
+and to compete with the new Node.js test runner AVA. Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
+massive improvements over Mocha, specifically for backend testing. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings
+that we experienced ourselves over time, and eventually we wanted a test runner that we could use that was more robust and more streamlined than Mocha,
+that was also enterprise-grade. Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems,
+and is not currently intended to be used for front-end testing. (Your backend testing framework and front-end testing framework should probably be different if you
+want them both to be powerful and full-featured). This library gives you features for backend testing that are not available in other testing frameworks since this
+library is not constained by the requirement that it must run in the browser.&lt;/i&gt;</p>
+<hr>
+<h3>The reasons why Mocha and its peers need a replacement are:</h3>
+<ul>
+<li>In Mocha, Tape and Jasmine suites were not run in separate processes (necessary for isolation, speed and independence of test results)</li>
+<li>Using Mocha, Tape and Jasmine everything was not only run in a single process but all test cases and hooks were also run in series, which can take unnecessary amounts of time for tests using async I/O</li>
+<li>Mocha and Jasmine could not move forward with ES6/ES7 features due to certain software patterns used (globals and complex context binding)</li>
+<li>Furthermore, Mocha and Jasmine could not have certain useful serverside features, because they were also constained by running in the browser.</li>
+<li>Mocha lacked real ability to do true dynamic testing (meaning, registering a dynamic number of it() test cases) =&gt; e.g., make a network call, get X values, create a test case for each.</li>
+<li>Mocha had confusing and obfuscated context values (values for 'this'), which we have greatly simplified, allowing for the usage of arrow functions, etc</li>
+<li>Most Node.js test frameworks don't 'feel' robust enough to test mission critical systems =&gt; Suman was written to provide a highly robust test framework
+to the Node.js community.</li>
+<li>Mocha, Jasmine and Tape lack some other nice features that are implemented by Suman. For example, Tape's ability to pre-load modules using the command line
+before running tests is nowhere near as powerful or easy to use as the dependency injection ability of this library.</li>
+<li>And lastly, a BIG ONE: clean reporting - at the command line, using Mocha, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
+trick up its sleeve to allow for 100% clean reporting for any test or group of tests.</li>
+</ul>
+<h1>Suman features:</h1>
+<ul>
+<li>=&gt; tdd/bdd interfaces</li>
+<li>=&gt; easy migration from Mocha</li>
+<li>=&gt; extremely powerful, while aiming to be straightforward, clean, concise, consistent and accurate</li>
+<li>=&gt; designed with ES6 and ES7 in mind, including Promises, async/await and generators</li>
+</ul>
+<ul>
+<li>&lt;b&gt; Very simple but powerful dependency injection (DI/IoC) of network values, test dependencies and library dependencies&lt;/b&gt;
+<ul>
+<li>most useful for injecting values acquired asynchronously, such as successful network connections and database values</li>
+<li>inspired by familiar tools such as Angular and RequireJS</li>
+<li>load any core/&quot;built-in&quot; Node.js module by name</li>
+<li>DI is used throughout the library, and relieves the burden on the developer to remember order of parameters</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>&lt;b&gt; Full-blown concurrency&lt;/b&gt;
+<ul>
+<li>your tests will run much, much faster</li>
+<li>suites are run in separate Node.js processes for speed and isolation</li>
+<li>test cases in any given suite can be run concurrently, using asynchronous I/O</li>
+<li>capability to control maximum number of processes running at a time</li>
+<li>capability to add constaints to prevent any given pair of tests from running at the same time</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>&lt;b&gt; Improved reporting &lt;/b&gt;
+<ul>
+<li>using the Suman test runner, you can prevent any logging output from mixing with test reports</li>
+<li>Suman includes a standard web reporter that you can use to share test results with your team, using the Suman server</li>
+<li>Suman server provides ability to store past test results (backdata) and view test results chronologically with browser to look at trends</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>&lt;b&gt; Test runner tuning &lt;/b&gt;</p>
+<ul>
+<li>Add contraints to prevent any given pair of tests from running at the same time</li>
+<li>Cap the total number of processes running at the same time</li>
+<li>Suman 'once' feature gives developer the option to run checks to see if all necessary network components are live before running any given test</li>
+</ul>
+</li>
+<li>
+<p>&lt;b&gt; Easy migration from Mocha &lt;/b&gt;</p>
+<ul>
+<li>Suman includes a command line option to convert whole directories or individual Mocha tests to Suman tests</li>
+<li>before/after/beforeEach/afterEach hooks behave just like in Mocha</li>
+<li>solid command line tools and better grep facilities than predecessors</li>
+<li>skip/only also work like Mocha</li>
+</ul>
+</li>
+<li>
+<p>&lt;b&gt; Freedom: Suman is not highly opinionated, but gives you powerful features&lt;/b&gt;</p>
+<ul>
+<li>Suman prefers standard core assert Node module (Suman has unopinionated assertions), but you can use any assertion lib that throws errors</li>
+<li>Callbacks, promises, async/await, generators and event-emitters/streams are supported in any test case or hook.</li>
+</ul>
+</li>
+</ul>
+<h2>Suman design</h2>
+<ul>
+<li>no globals whatsoever, which were avoided due to the problems they caused for Jasmine and Mocha.</li>
+<li>Suman uses domains to isolate errors in asynchronous tests and hooks, and currently this is the only solution to this problem at the moment.
+Domains are facing deprecation, and Suman will replace domains with whichever suitable replacement is chosen by the Node.js core technical committee.</li>
+</ul>
+<h2>Details matter</h2>
+<ul>
+<li>we designed Suman with details in mind</li>
+<li>friendly error messages</li>
+</ul>
+<h2>We can say with some confidence that Suman is the most powerful test framework for serverside JavaScript on planet Earth</h2>
+<p>=&gt; as it gives the developer total control and access to a very large set of features, with the explicit goal of being bug-free first, full-featured second.</p>
+<h2>usage examples</h2>
+<p>simple example:</p>
+<pre><code class="language-js">
+const suman = require('suman');
+const Test = suman.init(module);
+
+Test.describe('FirstExample', function(assert, path, http){     //  this is our test suite, and we inject some core modules
+
+
+     this.beforeEach('runs before every it()', t =&gt; {
+         t.data.foo = 'bar';
+     });
+
+
+     this.it('uno', t =&gt; {     // a test case
+     
+        assert(t.data,'This will pass because t.data is predefined by Suman for each test');  
+     
+     }).it('dos', t =&gt; {       // a test case, (you can chain test cases and hooks if you want to) 
+     
+        assert(false,'not good');  
+     
+     }).it('tres', t =&gt; {       // a test case 
+         return new Promise(function(resolve,reject){               
+                 resolve(null);  
+           });
+     });
+     
+     
+     this.describe('all tests herein will run in parallel', {parallel:true}, function(){
+     
+          [1,2,3].forEach(item =&gt; {
+               this.it('item is a number', () =&gt; {
+                    assert.equal(typeof item,'number');
+               });
+          });
+          
+          
+          ['a','b','c'].forEach(item =&gt; {
+                    
+               this.it('now we use asynchrony', (t,done) =&gt; {
+                    setTimeout(function(){
+                        done(new Error('Test failed'));
+                    }, 2000);
+                });
+                 
+           });
+     
+     });
+
+});
+
+
+</code></pre>
+<h3>an example with more features:</h3>
+<pre><code class="language-js">
+const suman = require('suman');
+const Test = suman.init(module,'suman.conf.js');  //we now utilize our own suman config file which is useful for configuring reporting etc
+
+
+Test.describe('SecondExample', ['db', 'some-val'], function(db, someval, delay, assert){    // normally we only need to inject a couple of values per test
+
+     var results = [];
+     
+     db.makeDatabaseCall().then(function(values){  // db connection is already made because it was created and injected
+         (values || []).filter(function(val){
+             return val &amp;&amp; val.foo;
+          }).forEach(function(val){
+               results.push(val);
+           });
+          
+      }).then(function(){
+           delay(); // calling this allows us to invoke the next describe callback, this allows us to effectively block so that we can register a dynamic number of test cases (if we want to)
+      });
+      
+     
+      this.beforeEach(t =&gt; {
+            t.data.the = 'clash';  
+      });
+     
+     
+      this.beforeEach(async function(t) {                 //obligatory ES7 example 
+            var ret = await val.somePromiseMaker();  
+            return await ret.doSomeThingAsync();
+      });
+      
+     
+      this.describe('this does not run until after db call completes and delay is called', function(){
+      
+          results.forEach(result =&gt; {
+          
+            this.it('tests db result', t =&gt; {
+                     assert(t.data.the);
+             });
+             
+            this.it('tests db result', (t,done) =&gt; {
+                                  
+                 setTimeout(function(){
+                       done(new Error('Passing an error to done will fail the test as it should');
+                    },2000);
+                        
+                 });
+             });
+     
+      });
+
+});
+
+
+
+</code></pre>
+<pre><code class="language-js">
+const suman = require('suman');
+const Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
+
+
+Test.describe('ThirdExample', function(assert, delay, db, val){    // note: as stated above, unless we need to minify our tests for some reason, we don't need a dep array, just the callback
+
+
+
+});
+
+</code></pre>
+<h1>Test Framework Comparison</h1>
+<h2>Table of Goodness</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Node-able</th>
+<th>Supports ES6/ES7  features</th>
+<th>Supports test isolation using  multiple Node.js processes</th>
+<th>Concurrency within suites</th>
+<th>Dependency Injection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mocha</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Jasmine</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Tape</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>AVA</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Suman</td>
+<td>Yep, you can run any given test suite with the plain old node executable</td>
+<td>Yep, Suman will support all features</td>
+<td>Yep</td>
+<td>Yep</td>
+<td>Yep</td>
+</tr>
+</tbody>
+</table>
+<h2>Matrix of Madness</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Implicit globals</th>
+<th>Forces you to use their assertion library madness</th>
+<th>Confusing bind(this) contexts madness</th>
+<th>Developer debugging / console.log output mixed with test output madness</th>
+<th>t.plan() and t.end() madness with useless feature of tests as streams</th>
+<th>no concurrency madness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mocha</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Jasmine</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Tape</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>AVA</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>?</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Suman</td>
+<td>Nope</td>
+<td>Nope, Suman prefers the Node.js core assert module</td>
+<td>Nope, Suman greatly simplifies the context puzzle that Mocha provided</td>
+<td>Nope, Suman runner uses silent option with child_process so your output doesn't mix with the test results</td>
+<td>Nope, tests are just plain objects and you don't need to explicitly call .end()</td>
+<td>Nope</td>
+</tr>
+</tbody>
+</table>
+<h3>More Suman Examples</h3>
+<ul>
+<li>see:  /examples directory</li>
+<li>see:  https://medium.com/@the1mills/introducing-suman-a-node-js-testing-library-20fdae524cd</li>
+</ul>
+<h3>SLA</h3>
+<p>The Service Level Agreement is that Suman will constantly be up-to-date with the newest features available via the node executable.
+We will focus on what's in Node and not what's available in Babel or other transpilers. That being said, we will also work to ensure Babel features are also supported,
+but we will primarily focus on making Suman completely bug-free when it comes to the latest version of Node, not the latest abilities of Babel or the like.
+By the time any ES6/ES7/ES8 feature is available in Node, it will be supported by Suman. We want to emphasize the utility of just running things
+with the plain old Node executable, as opposed to adding the complexity of transpilation.</p>
+<h3>FAQ</h3>
+<ul>
+<li>
+<p>Q: Why does Suman strictly enforce parameter/argument names?</p>
+<ul>
+<li>
+<p>A: Suman does this for three main reasons:</p>
+<ol>
+<li>Consistency - someone looks at the tests you wrote and they immediate recognize the variables because the names are given</li>
+<li>Suman can better analyze your code for mistakes if it knows the variable names you use</li>
+<li>Dependency injection - the order of your dependencies doesn't matter as long as you stick to the naming convention, which is pretty nice</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>Q: Why dependency injection in Node.js? Isn't it a waste of time?</p>
+<ul>
+<li>A: Normally it is. Dependency injection is very useful in the browser and is used by both Angular and RequireJS. In Node.js we usually have all our dependencies or we can easily load
+our dependencies synchronously on demand with the require function. However, with test suites, it was until now impossible to load dependencies and values <em>asynchronously</em> before registering test cases.
+DI allows you truly awesome ability to create and procure values asynchronously before any tests are run, and injecting the values in any test suite you wish.</li>
+</ul>
+</li>
+<li>
+<p>Q: Can I use arrow functions?</p>
+<ul>
+<li>A: Yes you can use arrow functions anywhere <em>except</em> for the describe callbacks</li>
+</ul>
+</li>
+</ul>
+<h3>Important aside - How is Suman better than AVA?</h3>
+<p>Suman borrows some excellent features from Mocha that AVA seems to ignore, including the ability
+to use nested describe statements for more control and preventing the sharing of scope within tests. AVA basically
+co-opted Tape and added concurrency. Suman co-opted Mocha, added concurrency, better reporting, dependency injection and
+less confusing contexts for hooks. Suman has more powerful facilities for asynchronous testing than AVA due to Mocha/Jasmine-style hooks
+and nested describes. Dependency injection ability also makes Suman extremely convenient to use, compared to AVA.</p>
+<h3>Extra info</h3>
+<p>If you are familiar with Mocha and like both its power and simplicity, you may prefer Suman over Ava,
+and Suman provides the simplest migration path from Mocha. As was stated AVA draws more from Tape and Suman draws more from Mocha.
+Suman was designed to make the transition from Mocha to be seamless.</p>
+<p>** dependency arrays of strings exist so that during minification we can still know where to inject dependencies, that's why Angular and RequireJS have deps arrays of strings - they don't get
+corrupted by minification/uglification. But in testing frameworks, it is very unlikely we need to minify, so we can go without the dep array 99% of the time,
+and just use metaprogramming with the callback argument list to locate the dependencies</p>
+</section>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>
