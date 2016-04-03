@@ -13,7 +13,7 @@
 ### You should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
 
 => to convert a Mocha test or whole directory of Mocha tests to Suman tests use <br>
-```$ suman --convert source<file/dir> dest<file/dir>```
+```$ suman --convert <src-file/src-dir> <dest-file/dest-dir>```
 
 => to simply install Suman as dev-dependency in any project you can use ```$ npm install -D suman```, <br>
 however ```$ suman --init``` is the preferred way to initialized suman in a given project. 
@@ -23,7 +23,7 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 ---
 
-(disclaimer: Suman is in beta, despite the current version number)
+(disclaimer: Suman is in beta, despite the current version number; Suman only supports Node versions > 4.0)
 
 ---
 
@@ -31,8 +31,7 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 and to compete with the new Node.js test runner AVA. Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
 massive improvements over Mocha, specifically for backend testing. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings 
 that we experienced ourselves over time, and eventually we wanted a test runner that we could use that was more robust and more streamlined than Mocha,
-that was also enterprise-grade. Suman is designed to be used specifically for integration and system testing of backend facilities, using a BDD interface.
-If you like Mocha and BDD test interfaces you will love Suman. Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems,
+that was also enterprise-grade. Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems,
 and is not currently intended to be used for front-end testing. (Your backend testing framework and front-end testing framework should probably be different if you
 want them both to be powerful and full-featured). This library gives you features for backend testing that are not available in other testing frameworks since this
 library is not constained by the requirement that it must run in the browser.</i>
@@ -57,10 +56,10 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 
 # Suman features:
 
-* => bdd interface
+* => tdd/bdd interfaces
 * => easy migration from Mocha
 * => extremely powerful, while aiming to be straightforward, clean, concise, consistent and accurate
-* => designed with ES6 and ES7 in mind, including async/await and generators
+* => designed with ES6 and ES7 in mind, including Promises, async/await and generators
 
 
 * <b> Very simple but powerful dependency injection (DI/IoC) of network values, test dependencies and library dependencies</b>

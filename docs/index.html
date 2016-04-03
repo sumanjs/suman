@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>index.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>index.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-meta">#!/usr/bin/env node --harmony</span>
+
+
+<span class="hljs-comment">/*
+
+ if (require.main !== module || process.argv.indexOf('--suman') &gt; -1) {
+</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>prevents users from f*king up by accident and getting in some possible infinite process.spawn loop that will lock up their system</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre> console.log('Warning: attempted to require Suman index.js but this cannot be.');
+ return;
+ }
+
+ */</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>TODO: need to make sure to make suman_results readable/writable
+TODO: need to figure out way to grep suite name without having to run the test
+TODO: add option to do no reporting but at command line for speed
+TODO: need to handle stubbed tests
+TODO: need to implement  -b, –bail   =&gt; bail after first test failure
+TODO: suman command line input should allow for a file and directory combination
+TODO: suman –init should install suamn node_module, and suman directory at root of project, and suman.conf.js at root of project
+TODO: readme needs to have examples by ES5, ES6, ES7
+TODO: default configuration should provide default values using lodash defaults / underscore defaults
+TODO: switch from underscore to lodash
+TODO: get it to work with Istanbul/NYC  &lt;&lt;
+TODO: if no tests are run, need to indicate this
+TODO: special key combo (ctrl+save+r) will run tests after a change, using gulp file watchers?
+TODO: <a href="https://nodejs.org/en/blog/uncategorized/profiling-node-js/">https://nodejs.org/en/blog/uncategorized/profiling-node-js/</a>
+TODO: npm i babel -g, then babel-node –stage 0 myapp.js
+TODO: if no grep-suite
+TODO: <a href="https://github.com/nodejs/node/issues/5252">https://github.com/nodejs/node/issues/5252</a>
+TODO: <a href="http://www.node-tap.org/basics/">http://www.node-tap.org/basics/</a>
+TODO: need a suman server stop command at the command line
+TODO, along with options {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an (async) error…
+TODO, add option for {timeout: 3000}
+TODO: if error is thrown after test is completed (in a setTimeout, for example) do we handle that?
+TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
+TODO: if suman/suman runner runs legit suman tests but the tests have no test cases, it needs to report that too
+TODO: suman -s (server) needs to try user’s config first, if that fails, then use default suman config
+TODO: randomize test runs as per <a href="https://github.com/sindresorhus/ava/issues/595">https://github.com/sindresorhus/ava/issues/595</a>
+TODO: steal unicode chars from existing projects
+TODO: logging to disk or to network may be out of order so may need to do sync logging at end of run, instead of async during
+TODO: does babel-node work with child_prcesses?
+TODO: allow possibility to inject before/after/describe/context/it/test/beforeEach/afterEach into describes/contexts
+TODO: create suman –diagnostics option at command line to check for common problems
+TODO: write metadata file out along with txt files
+TODO: interface (TDD/BDD) should be an option in suman.init options obj</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>///////////////////////////////////////////////////////////////</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-comment">/**
+ * Represents a book.
+ * @constructor
+ */</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
+<span class="hljs-keyword">const</span> colors = <span class="hljs-built_in">require</span>(<span class="hljs-string">'colors/safe'</span>);
+<span class="hljs-keyword">const</span> os = <span class="hljs-built_in">require</span>(<span class="hljs-string">'os'</span>);
+<span class="hljs-keyword">const</span> domain = <span class="hljs-built_in">require</span>(<span class="hljs-string">'domain'</span>);
+<span class="hljs-keyword">const</span> cp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>//////////////////////////////////////////////////////////////////</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-comment">/** This is a description of the foo function. */</span>
+<span class="hljs-keyword">const</span> pkgJSON = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./package.json'</span>);
+<span class="hljs-keyword">const</span> v = pkgJSON.version;
+<span class="hljs-built_in">console</span>.log(colors.gray.italic(<span class="hljs-string">' =&gt; Suman v'</span> + v + <span class="hljs-string">' running...'</span>));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>//////////////////////////////////////////////////////////////////</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-comment">/**
+ * Class representing a socket connection.
+ *
+ * @class
+ * @tutorial socket-tutorial
+ */</span>
+<span class="hljs-keyword">const</span> cwd = process.cwd();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>//////////////////////////////////////////////////////////////////</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>#project</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> sumanUtils = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./lib/utils'</span>);
+<span class="hljs-keyword">var</span> suman = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./lib'</span>);
+
+<span class="hljs-keyword">const</span> root = sumanUtils.findProjectRoot(process.cwd());</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>//////////////////////////////////////////////////////////////////</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-comment">/**
+ * Solves equations of the form a * x = b
+ * @example &lt;caption&gt;Example usage of method1.&lt;/caption&gt;
+ * // returns 2
+ * treasure maker
+ * globalNS.method1(5, 10);
+ * @returns {Number} Returns the value of x for the equation.
+ */</span>
+<span class="hljs-keyword">var</span> sumanInstalledLocally = <span class="hljs-literal">true</span>;
+
+<span class="hljs-keyword">var</span> err;
+
+<span class="hljs-keyword">try</span> {
+    <span class="hljs-built_in">require</span>.resolve(root + <span class="hljs-string">'/node_modules/suman'</span>);
+} <span class="hljs-keyword">catch</span> (e) {
+    err = e;
+}
+<span class="hljs-keyword">finally</span> {
+    <span class="hljs-keyword">if</span> (err) {
+        sumanInstalledLocally = <span class="hljs-literal">false</span>;
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">' '</span> + colors.yellow(<span class="hljs-string">'=&gt; Suman message =&gt; note that Suman is not installed locally, you may wish to run "$ suman --init"'</span>));
+    }
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">' '</span> + colors.yellow(<span class="hljs-string">'=&gt; Suman message =&gt; Suman appears to be installed locally.'</span>));
+
+    }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>//////////////////////////////////////////////////////////////////</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">const</span> args = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(process.argv.slice(<span class="hljs-number">2</span>))); <span class="hljs-comment">//copy args</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>//////////////////////////////////////////////////////////////////</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+
+<span class="hljs-keyword">var</span> sumanConfig, configPath, index, init, serverName, pth, convert, src, dest;
+
+
+<span class="hljs-keyword">if</span> (args.indexOf(<span class="hljs-string">'--cfg'</span>) !== <span class="hljs-number">-1</span>) {
+    index = args.indexOf(<span class="hljs-string">'--cfg'</span>);
+    configPath = args[index + <span class="hljs-number">1</span>];
+    args.splice(index, <span class="hljs-number">2</span>);
+}
+
+<span class="hljs-keyword">if</span> (args.indexOf(<span class="hljs-string">'--n'</span>) !== <span class="hljs-number">-1</span>) {
+    index = args.indexOf(<span class="hljs-string">'--n'</span>);
+    serverName = args[index + <span class="hljs-number">1</span>];
+    args.splice(index, <span class="hljs-number">2</span>);
+}
+
+<span class="hljs-keyword">if</span> (args.indexOf(<span class="hljs-string">'--init'</span>) !== <span class="hljs-number">-1</span>) {
+    init = <span class="hljs-literal">true</span>;
+}
+
+<span class="hljs-keyword">if</span> (args.indexOf(<span class="hljs-string">'--convert'</span>) !== <span class="hljs-number">-1</span>) {
+    index = args.indexOf(<span class="hljs-string">'--convert'</span>);
+    src = args[index + <span class="hljs-number">1</span>];
+    dest = args[index + <span class="hljs-number">2</span>];
+    args.splice(index, <span class="hljs-number">3</span>);
+    <span class="hljs-keyword">if</span> (args.indexOf(<span class="hljs-string">'-f'</span>) === <span class="hljs-number">-1</span>) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Are you sure you want to remove all contents within the folder with path="'</span> + path.resolve(root + <span class="hljs-string">'/'</span> + dest) + <span class="hljs-string">'" ?'</span>);
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'If you are sure, try the same command with the -f option.'</span>);
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Oh, and by the way, before deleting dirs in general, its a good idea to run a commit with whatever source control system you are using.'</span>);
+        <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">else</span> {
+        convert = <span class="hljs-literal">true</span>;
+    }
+}
+
+<span class="hljs-keyword">try</span> {
+    pth = path.resolve(configPath || (cwd + <span class="hljs-string">'/'</span> + <span class="hljs-string">'suman.conf.js'</span>));
+    sumanConfig = <span class="hljs-built_in">require</span>(pth);
+    <span class="hljs-keyword">if</span> (sumanConfig.verbose !== <span class="hljs-literal">false</span>) {  <span class="hljs-comment">//default to true</span>
+        <span class="hljs-built_in">console</span>.log(colors.cyan(<span class="hljs-string">' =&gt; Suman config used: '</span> + pth + <span class="hljs-string">'\n'</span>));
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>TODO: There’s a potential bug where the user passes a test path to the config argument like so –cfg path/to/test</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>}
+<span class="hljs-keyword">catch</span> (err) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>TODO: try to get suman.conf.js from root of project</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    <span class="hljs-built_in">console</span>.log(colors.bgBlack.yellow(<span class="hljs-string">' =&gt; Suman warning =&gt; Could not find path to your config file in your current working directory or given by --cfg at the command line...'</span>));
+    <span class="hljs-built_in">console</span>.log(colors.bgBlack.yellow(<span class="hljs-string">' =&gt; ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'</span>));
+
+    <span class="hljs-keyword">try</span> {
+        pth = path.resolve(sumanUtils.findProjectRoot(cwd) + <span class="hljs-string">'/'</span> + <span class="hljs-string">'suman.conf.js'</span>);
+        sumanConfig = <span class="hljs-built_in">require</span>(pth);
+        <span class="hljs-keyword">if</span> (sumanConfig.verbose !== <span class="hljs-literal">false</span>) {  <span class="hljs-comment">//default to true</span>
+            <span class="hljs-built_in">console</span>.log(colors.cyan(<span class="hljs-string">' =&gt; Suman config used: '</span> + pth + <span class="hljs-string">'\n'</span>));
+        }
+    }
+    <span class="hljs-keyword">catch</span> (err) {
+        <span class="hljs-built_in">console</span>.log(colors.bgCyan.black(<span class="hljs-string">' =&gt; Suman msg =&gt; Warning - no configuration found in your project, using default Suman configuration.'</span>));
+        <span class="hljs-keyword">try</span> {
+            pth = path.resolve(__dirname + <span class="hljs-string">'/suman.default.conf.js'</span>);
+            sumanConfig = <span class="hljs-built_in">require</span>(pth);
+        }
+        <span class="hljs-keyword">catch</span> (err) {
+            <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'\n =&gt; '</span> + err + <span class="hljs-string">'\n'</span>);
+            <span class="hljs-keyword">return</span>;
+        }
+    }
+}
+
+<span class="hljs-keyword">if</span> (init) {
+
+    <span class="hljs-built_in">require</span>(<span class="hljs-string">'./lib/init/init-project'</span>)({
+        force: process.argv.indexOf(<span class="hljs-string">'--force'</span>) || process.argv.indexOf(<span class="hljs-string">'-f'</span>)
+    });
+
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (convert) {
+
+    <span class="hljs-built_in">require</span>(<span class="hljs-string">'./lib/convert-files/convert-dir'</span>)(src, dest);
+
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (args.indexOf(<span class="hljs-string">'--server'</span>) !== <span class="hljs-number">-1</span> || args.indexOf(<span class="hljs-string">'-s'</span>) !== <span class="hljs-number">-1</span>) {
+
+    suman.Server({</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>configPath: ‘suman.conf.js’,</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        config: sumanConfig,
+        serverName: serverName || os.hostname()
+    }).on(<span class="hljs-string">'msg'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">msg</span>) </span>{
+        <span class="hljs-keyword">switch</span> (msg) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'listening'</span>:
+                <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Suman server is listening on localhost:6969'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>process.exit();</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">default</span>:
+                <span class="hljs-built_in">console</span>.log(msg);
+        }
+    }).on(<span class="hljs-string">'SUMAN_SERVER_MSG'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">msg</span>) </span>{
+        <span class="hljs-keyword">switch</span> (msg) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'listening'</span>:
+                <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Suman server is listening on localhost:6969'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>process.exit();</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">default</span>:
+                <span class="hljs-built_in">console</span>.log(msg);
+        }
+    });
+
+}
+<span class="hljs-keyword">else</span> {
+
+    <span class="hljs-keyword">var</span> dir, grepFile, grepSuite, useRunner, d;
+
+    d = domain.create();
+
+    d.once(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>TODO: add link showing how to set up Babel</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-built_in">console</span>.log(colors.magenta(<span class="hljs-string">' =&gt; Suman warning =&gt; (note: You will need to transpile your test files manually if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)'</span> + <span class="hljs-string">'\n'</span> +
+            <span class="hljs-string">' =&gt; Suman error =&gt; '</span> + err.stack + <span class="hljs-string">'\n'</span>));
+    });
+
+
+    <span class="hljs-keyword">if</span> (args.indexOf(<span class="hljs-string">'--grep-file'</span>) !== <span class="hljs-number">-1</span>) {
+        index = args.indexOf(<span class="hljs-string">'--grep-file'</span>);
+        grepFile = args[index + <span class="hljs-number">1</span>];
+        args.splice(index, <span class="hljs-number">2</span>);
+    }
+
+    <span class="hljs-keyword">if</span> (args.indexOf(<span class="hljs-string">'--grep-suite'</span>) !== <span class="hljs-number">-1</span>) {
+        index = args.indexOf(<span class="hljs-string">'--grep-suite'</span>);
+        grepSuite = args[index + <span class="hljs-number">1</span>];
+        args.splice(index, <span class="hljs-number">2</span>);
+    }
+
+    <span class="hljs-keyword">if</span> (args.indexOf(<span class="hljs-string">'--rnr'</span>) !== <span class="hljs-number">-1</span>) {
+        index = args.indexOf(<span class="hljs-string">'--rnr'</span>);
+        useRunner = <span class="hljs-literal">true</span>;
+        args.splice(index, <span class="hljs-number">1</span>);
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>whatever args are remaining are assumed to be file or directory paths to tests</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    dir = (<span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(args)) || []).filter(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">item</span>) </span>{
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">String</span>(item).indexOf(<span class="hljs-string">'-'</span>) === <span class="hljs-number">0</span>) {
+            <span class="hljs-built_in">console</span>.log(colors.magenta(<span class="hljs-string">' =&gt; Suman warning =&gt; Probably a bad command line option "'</span> + item + <span class="hljs-string">'", Suman is ignoring it.'</span>))
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    });
+
+    <span class="hljs-keyword">if</span> (dir.length &lt; <span class="hljs-number">1</span>) {
+        <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'   '</span> + colors.bgCyan(<span class="hljs-string">'Suman error =&gt; No test file or dir specified at command line'</span>) + <span class="hljs-string">'\n\n'</span>);
+        <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
+and pretend it does not exist.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+        dir = dir.map(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">item</span>) </span>{
+            <span class="hljs-keyword">return</span> path.resolve(item);
+        });
+
+        <span class="hljs-keyword">if</span> (!useRunner &amp;&amp; dir.length === <span class="hljs-number">1</span> &amp;&amp; fs.statSync(dir[<span class="hljs-number">0</span>]).isFile()) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>TODO: we could read file in (fs.createReadStream) and see if suman is referenced</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            d.run(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+                process.sumanConfig = sumanConfig;
+                <span class="hljs-built_in">require</span>(dir[<span class="hljs-number">0</span>]);  <span class="hljs-comment">//if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up</span>
+            });
+        }
+        <span class="hljs-keyword">else</span> {
+            d.run(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+                suman.Runner({
+                    grepSuite: grepSuite,
+                    grepFile: grepFile,
+                    $node_env: process.env.NODE_ENV,
+                    fileOrDir: dir,
+                    config: sumanConfig</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>configPath: configPath || ‘suman.conf.js’</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                }).on(<span class="hljs-string">'message'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">msg</span>) </span>{
+                    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'msg from suman runner'</span>, msg);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>process.exit(msg);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                });
+            });
+        }
+    }
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

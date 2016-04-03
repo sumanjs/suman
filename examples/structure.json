@@ -1,0 +1,34 @@
+{
+  "01-getting-started": {
+    "title": "Getting Started with Suman",
+    "children": []
+  },
+  "02-simple-examples":{
+    "title":"Simple Examples",
+    "children":["example-a","example-es6","parallel-example","simple-example1"]
+  },
+  "example-a": {
+    "title": "Example A"
+  },
+  "example-es6": {
+    "title": "Example ES6"
+  },
+  "05-advanced-use":{
+    "title":"Advanced Use"
+  },
+  "07-suman-patterns-and-recipes":{
+    "title":"Suman Patterns and Recipes"
+  },
+  "08-suman-anti-patterns":{
+    "title":"Suman Anti-Patterns"
+  },
+  "19-converting-from-mocha": {
+    "title": "Converting from Mocha to Suman"
+  },
+  "12-using-suman-with-babel": {
+    "title": "Using Suman with Babel"
+  },
+  "99-faq":{
+    "title":"FAQ"
+  }
+}

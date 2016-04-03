@@ -1,0 +1,28 @@
+
+
+
+1. <span style="background-color:#FF8C00">``` $ npm install -g suman```</span>
+
+2. cd into the project where you want to use Suman to power your tests
+
+3. Run <span style="background-color:#FF8C00">```$ suman --init```</span>
+
+You have installed Suman, and now you will see that you have some new files in your project. 
+You have a <span style="background-color:#DCDCDC">```suman.conf.js```</span> file at the root of your project.
+You also have a directory called suman at the root of your project which contains 3 files, <span style="background-color:#DCDCDC">```suman.once.js```</span>, <span style="background-color:#DCDCDC">```suman.order.js```</span>,
+<span style="background-color:#DCDCDC">```suman.ioc.js```</span>. If you want to find out what these files are for, go to the Advanced Usage section from the home page, 
+but for now, if you are brand new to suman you can ignore those and come back to them later.
+
+## Alright, let's run a test
+
+Individual test suites can be run with either <span style="background-color:#9ACD32">```$ node path/to/your-test.js```</span> 
+or <span style="background-color:#9ACD32">```$ suman path/to/your-test.js```</span>,
+the result is the same.
+
+To use the Suman runner, you use <span style="background-color:#9ACD32">```$ suman --rnr path/to/your-test.js```</span>  or simply point suman to a directory like so <span style="background-color:#9ACD32">```$ suman path/to/tests/folder```</span>
+and suman will use the runner, because if you point Suman at a folder, Suman must use the Suman runner to run the tests. 
+If you point Suman at an individual test file, you the developer have the choice about whether to use the runner or not, using the <span style="background-color:#9ACD32">```--rnr```</span> flag.
+
+The biggest advantage of using the runner with a single test file is that the runner can suppress your
+console.log/debugging output, because using the runner will run your test suite in a child_process.
+

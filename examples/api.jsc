@@ -1,0 +1,96 @@
+
+/**
+* @namespace
+ *
+ */
+
+
+const suman = require('suman');
+
+/** This is a description of the getPerson function. */
+function getPerson(name) {
+}
+
+
+/** This is a description of the Test function. */
+const Test = suman.init(module, {
+    interface: 'BDD'   // BDD interface is default but are explicit
+});
+
+
+/** This is a description of the describe function. */
+Test.describe('#Test1', function (assert, fs, http, path) {
+
+
+    this.describe('tests multiplication', function () {
+
+        this.beforeEach(t => {   //this runs before any test case inside this describe block
+            t.data.foo = 3;
+        });
+
+        this.it('[test] 1', function*(t) {  // t represents this test case, t.data properties can be set prior in hooks
+
+            const bar = yield new Promise(function (resolve) {
+                resolve('7');
+            });
+            const baz = bar * t.data.foo;
+            assert.equal(baz, 21);
+
+
+        });
+
+    });
+
+    
+
+    this.describe('tests streams', function () {
+
+        this.beforeEach(t => {  //this runs before any test case inside this describe block
+            t.data.srcDir = path.resolve(process.env.HOME + '/test_data');
+        });
+
+        //fail and pass are analagous to done('err') and done(null) respectively
+        this.it('[test] 2', (t, fail, pass) => {
+
+            fs.createReadStream(t.data.srcDir)
+                .pipe(fs.createWriteStream('/dev/null')).on('error', fail).on('finish', pass);
+
+        });
+
+    });
+
+
+    this.describe('tests http request', function () {
+
+        ['/foo', '/bar', '/bar'].forEach(val => {
+
+            this.it('[test] 3', (t, done) => {
+
+                return http.get({
+                    hostname: 'example.com',
+                    path: val
+                }, res => {
+
+                    res.setEncoding('utf8');
+
+                    var body = '';
+
+                    res.on('data', (data) => {
+                        body += data;
+                    });
+
+                    res.on('end', ()=> {
+                        const result = JSON.parse(body);
+                        assert(result.x = 'y');
+                        done();
+                    });
+
+                });
+
+            });
+
+        });
+
+    });
+
+});

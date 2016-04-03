@@ -1,11 +1,9 @@
 
 
-const assert = require('assert');
-const suman = require('../lib');
 
-/////////////////////////////////////////////////////
-var Test = suman.init(module, 'suman.conf.js');
-/////////////////////////////////////////////////////
+```js
+const suman = require('suman');
+const Test = suman.init(module);
 
 
 Test.describe('@Test1', function () {
@@ -77,3 +75,4 @@ Test.describe('@Test1', function () {
 
 
 });
+```
