@@ -1,5 +1,5 @@
 
-![alt text](https://github.com/ORESoftware/suman/blob/master/images/6290f877-6356-409b-8b74-08a4cec53299.png "Suman Primary Logo")
+![alt text](https://github.com/ORESoftware/suman/blob/master/images/suman.png "Suman Primary Logo")
 
 
 <br>
