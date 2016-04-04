@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: simple-example1</title>
+    <title>JSDoc: Tutorial: Anatomy of Suman Suites</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,88 +17,57 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: simple-example1</h1>
+    <h1 class="page-title">Tutorial: Anatomy of Suman Suites</h1>
 
     <section>
 
 <header>
     
 
-    <h2>simple-example1</h2>
+    <h2>Anatomy of Suman Suites</h2>
 </header>
 
 <article>
-    <pre class="prettyprint source lang-js"><code>const suman = require('suman');
-const Test = suman.init(module);
+    <pre class="prettyprint source lang-js"><code>
+Test.describe('root suite description', {}, function(){   //root suite
 
 
-Test.describe('@Test1', function () {
+    //we are in the context of the root suite
 
-    var config = null;
+    const self = this;  // avoid the self pattern in Suman tests, here for explanation only :)
 
-    this.beforeEach(function () {
-        if (config) {
-            throw new Error('config should be null before each test :)');
-        }
+    this.before(function(){
+
+         // this === self; //true
+
     });
 
-    this.afterEach(function () {
-        config = null;
-    });
+    this.beforeEach(function(){
 
-    this.it('does not throw', function () {
-
-        assert.doesNotThrow(function () {  //prob unnecessary, but for clarity
-
-            config = require('univ-config')(module, '*', 'test/test-config');
-
-        });
+          // this === self; //true
 
     });
 
 
-    this.it('does throw part 1', function () {
+    this.describe('child suite A', {}, function(){
 
-        assert.throws(function () {
+          // this.parent.title === 'root suite description'; // true
 
-            config = require('univ-config')(module, 'some string without an asterisk', 'test/test-config');
+          //const self = this;  //can't do this because self is already defined
 
-        }, 'Whoops');
-
-    });
-
-    this.it('does throw part 2', function () {
-
-        assert.throws(function () {
-
-            config = require('univ-config')(module, '***', 'test/test-config/bad-path');
-
-        }, 'Whoops');
-
-    });
+          const that = this;  // that !== self // true;   
 
 
-    this.it('does throw part 3', function () {
+        this.describe('child suite B', {}, function(){
 
-        assert.throws(function () {
-
-            config = require('univ-config')(module, '***', 'test/test-config/bad-path');
-
-        }, 'Whoops');
-
-    });
+             // this.parent.title === 'child suite A'; // true
 
 
-    this.it('verify config values', function () {
 
-        config = require('univ-config')(module, '***', 'test/test-config');
+         });
 
-        assert.equal(config.prop1, 1);
-        assert.deepEqual(config.prop2, {foo: 'bar'}, 'prop2 has unexpected value');
-        assert(typeof config.prop3.jungle === 'function', 'prop3 is not a function');
 
-    });
-
+  });
 
 });</code></pre>
 </article>

@@ -45,14 +45,14 @@ Test.describe('Suite', {parallel: true}, function (fs) {
 
         });
 
-        this.test('[test] yo 1', {parallel: true}, (t, fail, done, pass) => {
+        this.it('[test] yo 1', {parallel: true}, (t, fail, done, pass) => {
 
             fs.createReadStream('/dev/null').pipe(fs.createWriteStream('/dev/null')).on('error', fail).on('finish', pass);
 
         });
 
 
-        this.test('[test] yo 2', {parallel: false}, function (t) {
+        this.it('[test] yo 2', {parallel: false}, function (t) {
 
             return new Promise(function (resolve, reject) {
 

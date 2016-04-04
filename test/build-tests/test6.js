@@ -1,44 +1,69 @@
+
+
 const suman = require('../../lib');
-var Test = suman.init(module);
+var Test = suman.init(module, {
+    interface: 'TDD'
+});
 
 
-Test.describe('@Test1', {parallel: true}, function () {
-
-    this
-
-        .it('one', t => {
-            return promiseTimeout(t);
-        })
-
-
-        .it('two', t => {
-            return promiseTimeout(t);
-        })
+function promiseTimeout() {
+    return new Promise(function (resolve) {
+        setTimeout(function(){
+            resolve(3);
+        },100);
+    });
+}
 
 
-        .it('three', t => {
-            return promiseTimeout(t);
-        })
+Test.suite('@Test1', {parallel: false}, function () {
+
+    this.setupTest(function () {
+
+    });
 
 
-        .it('four', (t) => {
-            return promiseTimeout(t);
-        })
+    this.test('one', t => {
+        return promiseTimeout(t);
+    });
 
 
-        .it('five', t => {
-            return promiseTimeout(t);
-        })
+    this.suite('hello', {}, function () {
 
 
-        .it('four', (t) => {
-            return promiseTimeout(t);
-        })
-
-
-        .it('five', t => {
+        this.test('two', t => {
             return promiseTimeout(t);
         });
+
+
+        this.test('three', t => {
+            return promiseTimeout(t);
+        });
+
+
+        this.test('four', (t) => {
+            return promiseTimeout(t);
+        });
+
+
+        this.test('five', t => {
+            return promiseTimeout(t);
+        });
+
+        this.suite(function () {
+
+            this.test('four', (t) => {
+                return promiseTimeout(t);
+            });
+
+
+            this.test('five', t => {
+                return promiseTimeout(t);
+            });
+
+        });
+
+
+    })
 
 
 });

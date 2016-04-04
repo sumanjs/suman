@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width" charset="utf-8">
-    <title>Suman - BDD interface</title>
+    <title>&lt;img src='/images/suman.png'&gt;   BDD interface</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/cayman.min.css">
     <link rel="stylesheet" href="css/prism.min.css">
@@ -22,15 +22,22 @@
     </div>
     <header id="overview" class="jumbotron subhead">
       <div class="container">
-        <h1>Suman - BDD interface</h1>
-        <p class="lead"></p>
+          <div class="row">
+              <div class="col-md-2">
+                  <img height="40%" width="40%" src='/suman/images/suman.png'>
+              </div>
+              <div class="col-md-8">
+                  <h1> BDD interface</h1>
+              </div>
+              <p class="lead"></p>
+          </div>
       </div>
     </header>
     <div class="container">
       <div class="row">
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
-            <li><a href="index.html">Main</a></li>
+            <li><a href="/suman/index.html">Home</a></li>
             <li class="active"><a href="api-bdd.js.html">api-bdd.js</a></li>
           </ul>
           <div class="scrollspy">
@@ -108,14 +115,13 @@
 
     return {
         describe: function(description, options, callback){
-             // this is the skeleton of the way suman is setup, this describe function is different
-             // than the describe function on the TestSuite prototype. But both describe functions
+             // this is the skeleton of the way suman is structured, this describe function is different
+             // than the describe function on the TestSuite prototype. Both describe functions
              // have the same signature and return type (undefined). The primary difference is that this
              // describe is the top-level describe and defines the entire Suite and
              // the available injected values in the callback differ.
         }
     }
-
 };
 
 

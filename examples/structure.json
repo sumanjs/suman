@@ -28,6 +28,12 @@
   "12-using-suman-with-babel": {
     "title": "Using Suman with Babel"
   },
+  "30-anatomy-of-suman-suite":{
+    "title": "Anatomy of Suman Suites"
+  },
+  "011-high-level-overview":{
+    "title": "Higher Level Overview"
+  },
   "99-faq":{
     "title":"FAQ"
   }

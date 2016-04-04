@@ -109,6 +109,8 @@ Domains are facing deprecation, and Suman will replace domains with whichever su
 
 * we designed Suman with details in mind
 * friendly error messages
+* when debugging, timeouts will automatically be set to 'infinity'
+
 
 ## We can say with some confidence that Suman is the most powerful test framework for serverside JavaScript on planet Earth
  => as it gives the developer total control and access to a very large set of features, with the explicit goal of being bug-free first, full-featured second.
@@ -265,7 +267,7 @@ Test.describe('ThirdExample', function(assert, delay, db, val){    // note: as s
 
 ## Matrix of Madness
 
-|         | Implicit globals | Forces you to use their assertion library madness  | Confusing bind(this) contexts madness                                 | Developer debugging / console.log output mixed with test output madness                                   | t.plan() and t.end() madness with useless feature of tests as streams          | no concurrency madness |
+|         | Implicit globals | Forces you to use their assertion library madness  | Confusing bind(this) contexts madness                                 | Developer debugging / console.log output mixed with test output madness                                   | t.plan() and t.end() madness                                                    | no concurrency madness |
 |---------|------------------|----------------------------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|------------------------|
 | Mocha   | Yes              | No                                                 | Yes                                                                   | Yes                                                                                                       | No                                                                              | Yes                    |
 | Jasmine | Yes              | No                                                 | Yes                                                                   | Yes                                                                                                       | No                                                                              | Yes                    |

@@ -4,6 +4,7 @@
 
 
 import * as suman from 'suman';  //es6 import syntax
+
 const Test = suman.init(module, {
     interface: 'BDD'   //BDD interface is default but are explicit
 });

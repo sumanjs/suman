@@ -1,6 +1,3 @@
-/**
- * Created by amills001c on 3/20/16.
- */
 
 
 import * as suman from '../../lib';
