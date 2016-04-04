@@ -102,7 +102,7 @@ but they are available to be injected in the callback if you name them.
 
 ```js
 
-this.it('test case', function(done, pass, fail){  
+this.it('test case', (done, pass, fail) => {  
 
  // done is exact same as Mocha's done
  // pass is analogous with the ctn function in hooks, it is a non-error-first callback
@@ -117,7 +117,7 @@ this.it('test case', function(done, pass, fail){
 
 ```js
 
-this.it('test case', function(){    // we don't need any callbacks, and Suman handles thrown errors inside Promises
+this.it('test case', () => {    // we don't need any callbacks, and Suman handles thrown errors inside Promises properly
 
  return doSomethingAysnc().then(function(val){
       assert(typeof val === 'object');
@@ -131,7 +131,7 @@ this.it('test case', function(){    // we don't need any callbacks, and Suman ha
 
 ```js
 
-this.it('test case', function(pass, fail){    
+this.it('test case', (pass, fail) => {    
 
   new MyEventEmitter().startDoingBusiness().on('error',fail).on('success',pass);
 
