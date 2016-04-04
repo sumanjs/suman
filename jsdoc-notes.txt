@@ -12,7 +12,7 @@ jsdoc -u examples -d jsdoc-out
 instructions on how to generate docs
 
 
-1. jsdoc -u examples -d jsdoc-out
+1. jsdoc examples -u examples -d jsdoc-out
 2. mr-doc -s examples/bdd-api -o mr-docs -n "BDD interface"
 3. mr-doc -s examples/tdd-api -o mr-docs -n "TDD interface"
 4. cut/copy mr-doc directory into jsdoc-out dir
