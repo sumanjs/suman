@@ -11,6 +11,8 @@
 
  */
 
+//TODO: nice docs => https://cdnjs.com/libraries/backbone.js/tutorials/organizing-backbone-using-modules
+//TODO: https://github.com/mochajs/mocha/issues/492
 //TODO: https://www.npmjs.com/package/tap-mocha-reporter
 //TODO: need to make sure to make suman_results readable/writable
 //TODO: need to figure out way to grep suite name without having to run the test
