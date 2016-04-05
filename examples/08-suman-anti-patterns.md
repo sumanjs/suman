@@ -5,7 +5,7 @@ There are several anti-patterns when using Suman
 have used self or that instead of this, then you should write your code to avoid the self pattern when using Suman. With arrow functions, you can
 avoid the self/that pattern, when using functional loops for example.
 
-2. Putting code outside of Test.describe. As much code as possible should be inside the Test.describe callback.
+2. Putting code outside of ```Test.describe```. As much code of your test code as possible should be inside the Test.describe callback.
 There are several reasons for this. It makes it a bit easier to see the title of your suite. It also minimizes the 
 amount of code loaded before a test suite is actually run.
 

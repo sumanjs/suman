@@ -11,6 +11,7 @@
 
  */
 
+//TODO: need to add ability to kill test runner after it's started - https://gist.github.com/tedmiston/5935757
 //TODO: nice docs => https://cdnjs.com/libraries/backbone.js/tutorials/organizing-backbone-using-modules
 //TODO: https://github.com/mochajs/mocha/issues/492
 //TODO: https://www.npmjs.com/package/tap-mocha-reporter
@@ -34,7 +35,6 @@
 //TODO: http://www.node-tap.org/basics/
 //TODO: need a suman server stop command at the command line
 //TODO, along with options {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an (async) error...
-//TODO, add option for {timeout: 3000}
 //TODO: if error is thrown after test is completed (in a setTimeout, for example) do we handle that?
 //TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
 //TODO: if suman/suman runner runs legit suman tests but the tests have no test cases, it needs to report that too
@@ -44,9 +44,8 @@
 //TODO: logging to disk or to network may be out of order so may need to do sync logging at end of run, instead of async during
 //TODO: does babel-node work with child_prcesses?
 //TODO: allow possibility to inject before/after/describe/context/it/test/beforeEach/afterEach into describes/contexts
-//TODO: create suman --diagnostics option at command line to check for common problems
+//TODO: create suman --diagnostics option at command line to check for common problems with both project and test suites
 //TODO: write metadata file out along with txt files
-//TODO: interface (TDD/BDD) should be an option in suman.init options obj
 
 
 
