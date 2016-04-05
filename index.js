@@ -11,6 +11,15 @@
 
  */
 
+/*// Start reading from stdin so we don't exit.
+process.stdin.resume();
+
+process.on('SIGINT', () => {
+    console.log('Got SIGINT.  Press Control-D to exit.');
+});*/
+
+//TODO: add support question to gulp github to see if we can use special key combo with gulp for below item
+//TODO: add suman.gulp.js => watches with special key combo will transpile tests
 //TODO: need to add ability to kill test runner after it's started - https://gist.github.com/tedmiston/5935757
 //TODO: nice docs => https://cdnjs.com/libraries/backbone.js/tutorials/organizing-backbone-using-modules
 //TODO: https://github.com/mochajs/mocha/issues/492

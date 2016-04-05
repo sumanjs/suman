@@ -37,7 +37,7 @@
     "title": "Using Suman with Babel"
   },
   "30-anatomy-of-suman-suite": {
-    "title": "Anatomy of Suman Suites"
+    "title": "Anatomy of Suman Test Suites"
   },
   "40-integrating-with-ci-cd":{
     "title": "Integrating with CI/CD"

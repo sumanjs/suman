@@ -5,6 +5,9 @@
 
 //we have our root suite, followed by a nested child suite A, that in turn has a nested child suite B
 
+//if you run this example, and look at the logs, you will get a feel for how a Suman test is executed
+
+
 const suman = require('suman');
 const Test = suman.init(module, {});
 
@@ -16,7 +19,7 @@ Test.describe('root suite description', {}, function () {   // we define the roo
     const self = this;    // (avoid the self pattern in Suman tests, here for explanation only :)
 
 
-    this.before(function () {
+    this.before(() => {
         console.log('1', this === self); //true
     });
 
@@ -25,48 +28,48 @@ Test.describe('root suite description', {}, function () {   // we define the roo
     });
 
     this.it(function () {
-        console.log('3', this === self);
+        console.log('3', this === self);  //true
     });
 
 
-    this.describe('child suite A', {}, function () {  //calling 'this.describe' creates a child suite, and the new context is this child suite
+    this.describe('child suite A', {}, function () {  //calling 'this.describe' creates a child suite
 
         console.log('4', this.parent.title === 'root suite description'); // true
 
-        const that = this;
+        const that = this;  //we have a new context, and the new context is this child suite A
 
         console.log('5', that !== self);  // true
 
         this.before(function () {
-            console.log('8', this === that); //true
+            console.log('6', this === that); //true
         });
 
-        this.beforeEach(function () {
-            console.log('9', this === that); //true
+        this.beforeEach(() => {
+            console.log('7', this === that); //true
         });
 
         this.it(function () {
-            console.log('10', this === that); //true
+            console.log('8', this === that); //true
         });
 
 
         this.describe('child suite B', {}, function () {  //calling 'this.describe' creates a child suite
 
-            const ctx = this;
+            const ctx = this; //we have a new context, and the new context is this child suite B
 
-            console.log('6', this.parent.title === 'child suite A');  // true
-            console.log('7', (ctx !== that && ctx !== self));  // true
+            console.log('9', this.parent.title === 'child suite A');  // true
+            console.log('10', (ctx !== that && ctx !== self));  // true
 
             this.before(function () {
-                console.log('8', this === ctx); //true
+                console.log('11', this === ctx); //true
             });
 
             this.beforeEach(function () {
-                console.log('9', this === ctx); //true
+                console.log('12', this === ctx); //true
             });
 
-            this.it(function () {
-                console.log('10', this === ctx); //true
+            this.it(() => {
+                console.log('13', this === ctx); //true
             });
 
         });
