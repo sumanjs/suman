@@ -5,7 +5,6 @@
 
 var url = require('url');
 var fs = require('fs');
-var appRootPath = require('app-root-path');
 var path = require('path');
 var helpers = require('./index');
 var du = require('du');
@@ -30,7 +29,7 @@ module.exports = function (req, res) {
     //
     console.log('results path:', resultsPath);
 
-    var mainDir = path.resolve(appRootPath + '/results/');
+    var mainDir = path.resolve(appRootPath + '/results/');  //TODO: appRootPath removed
 
     du(mainDir, function (err, size) { //get size of results dir
         console.log('The size of /results/ is:', size, 'bytes');

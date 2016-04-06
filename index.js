@@ -122,8 +122,9 @@ finally {
         console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
     }
     else {
-        console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
-
+        if(false){  //only if user asks for verbose option
+            console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
+        }
     }
 }
 
