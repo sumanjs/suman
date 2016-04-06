@@ -3,27 +3,26 @@
  */
 
 var assert = require("assert"),
- fs = require('fs');
+    fs = require('fs');
 
 
+describe('a', function () {
 
-describe('a',function(){
 
+    after(function  (d) {
 
-    before(function(){
-
-        console.log('before this a:',this.parent);
-
-    });
-
-    beforeEach(function(){
-
-        console.log('beforeEach this a:',this.parent);
+        console.log('before this a:', this.parent);
 
     });
 
+    beforeEach(function () {
 
-    it('a', function(done){
+        console.log('beforeEach this a:', this.parent);
+
+    });
+
+
+    it('a', function (done) {
 
         console.log('it this a:', this.parent);
 
@@ -32,34 +31,32 @@ describe('a',function(){
     });
 
 
-    describe('b',function(){
+    describe('b', function () {
 
-        before(function(){
+        before(function () {
 
-            console.log('before this b:',this.parent);
+            console.log('before this b:', this.parent);
 
         });
 
-        beforeEach(function(){
+        beforeEach(function () {
 
-            console.log('beforeEach this b:',this.parent);
+            console.log('beforeEach this b:', this.parent);
             this.parent.title;
 
 
         });
 
 
-        it('b', function(done){
+        it('b', function (done) {
 
-            console.log('it this b:',this.parent);
+            console.log('it this b:', this.parent);
             done();
 
         });
 
 
-
     });
-
 
 
 });
