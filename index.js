@@ -19,6 +19,7 @@ process.on('SIGINT', () => {
 });*/
 
 
+//TODO: add option to choose mode:'series'/'parallel'
 //TODO: bail + hooks https://github.com/mochajs/mocha/issues/690
 //TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense
 //TODO: conversion, this.title needs to work for a describe block (same as this.desc)

@@ -3,10 +3,14 @@ const suman = require('../../lib');
 const Test = suman.init(module, {});
 
 
-Test.describe('gggg', {parallel: true}, function () {
+Test.describe('Zulu', {parallel: false}, function () {
 
 
     this.describe('A', {parallel: true}, function () {
+
+        this.before(function(){
+            console.log('before A');
+        });
 
         this.it(this.desc + '1', function (t, done) {
             setTimeout(function () {
@@ -20,10 +24,43 @@ Test.describe('gggg', {parallel: true}, function () {
             }, 800);
         });
 
+        this.after(function(){
+            console.log('after 1');
+        });
+
+        this.describe('AA', {parallel: false}, function () {
+
+            this.before(function(){
+                console.log('before AA');
+            });
+
+            this.it(this.desc + '1', function (t, done) {
+                setTimeout(function () {
+                    done();
+                }, 800);
+            });
+
+            this.it(this.desc + '2', function (t, done) {
+                setTimeout(function () {
+                    done();
+                }, 800);
+            });
+
+            this.after(function(){
+                console.log('after 2');
+            });
+
+
+        });
+
     });
 
 
-    this.describe('B', {parallel: true}, function () {
+    this.describe('B', {parallel: false}, function () {
+
+        this.before(function(){
+            console.log('before B');
+        });
 
         this.it(this.desc + '1', function (t, done) {
             setTimeout(function () {
@@ -41,6 +78,10 @@ Test.describe('gggg', {parallel: true}, function () {
 
 
     this.describe('C', {parallel: true}, function () {
+
+        this.before(function(){
+            console.log('before C');
+        });
 
 
         this.it(this.desc + '1', function (t, done) {
@@ -61,6 +102,11 @@ Test.describe('gggg', {parallel: true}, function () {
     this.describe('D', {parallel: true}, function () {
 
 
+        this.before(function(){
+            console.log('before D');
+        });
+
+
         this.it(this.desc + '1', function (t, done) {
             setTimeout(function () {
                 done();
@@ -74,6 +120,5 @@ Test.describe('gggg', {parallel: true}, function () {
         });
 
     });
-
 
 });
