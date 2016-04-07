@@ -3,13 +3,21 @@ const suman = require('../../lib');
 const Test = suman.init(module, {});
 
 
-Test.describe('Zulu', {parallel: false}, function () {
+Test.describe('Zulu', {mode: 'series'}, function () {
 
+
+    this.beforeEach(function (t) {
+        console.log('before each ' + t.desc);
+    });
 
     this.describe('A', {parallel: true}, function () {
 
-        this.before(function(){
-            console.log('before A');
+        this.before(function* () {
+            console.log('before ', this.desc);
+        });
+
+        this.beforeEach(function *(t) {
+            console.log('before each ' + t.desc);
         });
 
         this.it(this.desc + '1', function (t, done) {
@@ -24,42 +32,17 @@ Test.describe('Zulu', {parallel: false}, function () {
             }, 800);
         });
 
-        this.after(function(){
+        this.after(function () {
             console.log('after 1');
-        });
-
-        this.describe('AA', {parallel: false}, function () {
-
-            this.before(function(){
-                console.log('before AA');
-            });
-
-            this.it(this.desc + '1', function (t, done) {
-                setTimeout(function () {
-                    done();
-                }, 800);
-            });
-
-            this.it(this.desc + '2', function (t, done) {
-                setTimeout(function () {
-                    done();
-                }, 800);
-            });
-
-            this.after(function(){
-                console.log('after 2');
-            });
-
-
         });
 
     });
 
 
-    this.describe('B', {parallel: false}, function () {
+    this.describe('B', {parallel: true}, function () {
 
-        this.before(function(){
-            console.log('before B');
+        this.before(function () {
+            console.log('before ', this.desc);
         });
 
         this.it(this.desc + '1', function (t, done) {
@@ -79,8 +62,8 @@ Test.describe('Zulu', {parallel: false}, function () {
 
     this.describe('C', {parallel: true}, function () {
 
-        this.before(function(){
-            console.log('before C');
+        this.before(function () {
+            console.log('before ', this.desc);
         });
 
 
@@ -102,8 +85,8 @@ Test.describe('Zulu', {parallel: false}, function () {
     this.describe('D', {parallel: true}, function () {
 
 
-        this.before(function(){
-            console.log('before D');
+        this.before(function () {
+            console.log('before ', this.desc);
         });
 
 

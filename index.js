@@ -19,6 +19,16 @@ process.on('SIGINT', () => {
 });*/
 
 
+/*
+
+ tests passed: 5
+ tests failed: 4
+ tests stubbed:4
+ tests skipped:  30 (only is triggerred)
+ suites skipped: 2
+
+*/
+
 //TODO: add option to choose mode:'series'/'parallel'
 //TODO: bail + hooks https://github.com/mochajs/mocha/issues/690
 //TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense
