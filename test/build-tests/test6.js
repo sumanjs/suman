@@ -1,5 +1,3 @@
-
-
 const suman = require('../../lib');
 var Test = suman.init(module, {
     interface: 'TDD'
@@ -8,15 +6,14 @@ var Test = suman.init(module, {
 
 function promiseTimeout() {
     return new Promise(function (resolve) {
-        setTimeout(function(){
+        setTimeout(function () {
             resolve(3);
-        },100);
+        }, 100);
     });
 }
 
 
-
-Test.suite('@Test1', {parallel: false}, function () {
+Test.suite('@Test1', {parallel: false, bail: true}, function () {
 
     this.setupTest(function () {
 
@@ -31,9 +28,7 @@ Test.suite('@Test1', {parallel: false}, function () {
     this.suite('hello', {}, function () {
 
 
-        this.test('two', t => {
-            return promiseTimeout(t);
-        });
+        this.test('two');
 
 
         this.test('three', t => {

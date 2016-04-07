@@ -18,6 +18,10 @@ process.on('SIGINT', () => {
     console.log('Got SIGINT.  Press Control-D to exit.');
 });*/
 
+
+//TODO: bail + hooks https://github.com/mochajs/mocha/issues/690
+//TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense
+//TODO: conversion, this.title needs to work for a describe block (same as this.desc)
 //TODO: add support question to gulp github to see if we can use special key combo with gulp for below item
 //TODO: add suman.gulp.js => watches with special key combo will transpile tests
 //TODO: need to add ability to kill test runner after it's started - https://gist.github.com/tedmiston/5935757
