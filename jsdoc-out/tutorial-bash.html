@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: Suman Anti-Patterns</title>
+    <title>JSDoc: Tutorial: bash</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,35 +17,37 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: Suman Anti-Patterns</h1>
+    <h1 class="page-title">Tutorial: bash</h1>
 
     <section>
 
 <header>
     
 
-    <h2>Suman Anti-Patterns</h2>
+    <h2>bash</h2>
 </header>
 
 <article>
-    <p>There are several anti-patterns when using Suman</p>
-<ol>
-<li><p>self/that. I am personally a fan of self/that usage. However, when using Suman, it is indeed an anti-pattern. If you notice that you
-have used self or that instead of this, then you should write your code to avoid the self pattern when using Suman. With arrow functions, you can
-avoid the self/that pattern, when using functional loops for example.</p>
-</li>
-<li><p>Putting code outside of <code>Test.describe</code>. As much code of your test code as possible should be inside the Test.describe callback.
-There are several reasons for this. It makes it a bit easier to see the title of your suite. It also minimizes the 
-amount of code loaded before a test suite is actually run.</p>
-</li>
-<li><p>Arrow functions for describe blocks. Arrow functions are useful for Suman, and they can be used everywhere except 
-for describe blocks. This has to do with arrow functions binding the context for the callback to the wrong value.</p>
-</li>
-<li><p>Nesting hooks and test cases. Describes are supposed to be nested! But every other callback is not designed to be nested.
-Suman will throw an error if you try to do it, whereas Mocha would let you errantly do it; see this issue LOL,
-https://github.com/mochajs/mocha/issues/1975, sorry Tom, wasn't me.</p>
-</li>
-</ol>
+    <pre class="prettyprint source"><code>function test_temporal_filter(){
+        # manually set date to 23:30 04/06/2016
+        date 233004062016;
+        # run mocha enrichment tests
+        mocha test_temporal_filter.js
+        # use ntp to reset the date
+        ntpdate us.pool.ntp.org
+}
+
+function test_enrichment(){
+        mocha test/integration/testEnrichment.js
+}
+
+function test_some_other_scenario(){
+        suman test/whatever/*.js
+}
+
+test_temoral_filter();
+test_enrichment();
+test_some_other_scenario();</code></pre>
 </article>
 
 </section>

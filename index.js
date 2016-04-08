@@ -29,6 +29,8 @@ process.on('SIGINT', () => {
 
 */
 
+//TODO: give ability to users to provide shell scripts to launch individual mocha tests, that way they can provide environment
+// settings for child_process
 //TODO: add option to choose mode:'series'/'parallel'
 //TODO: bail + hooks https://github.com/mochajs/mocha/issues/690
 //TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense

@@ -54,7 +54,9 @@ change Main to Home =>
   <li><a href="/suman/index.html">Home</a></li>
 
 
+
   8. cut/copy jsdoc-out/index.html to root of project
+
 
 
   9. add this to the main div in the new index.html file

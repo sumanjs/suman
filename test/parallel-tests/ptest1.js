@@ -10,7 +10,7 @@ Test.describe('Zulu', {mode: 'series'}, function () {
         console.log('before each ' + t.desc);
     });
 
-    this.describe('A', {parallel: true}, function () {
+    this.describe.skip('A', {parallel: true}, function () {
 
         this.before(function* () {
             console.log('before ', this.desc);
@@ -38,6 +38,14 @@ Test.describe('Zulu', {mode: 'series'}, function () {
 
     });
 
+    this.describe('Z', function(){
+
+        this.it('Z1',function(){
+
+        })
+
+    });
+
 
     this.describe('B', {parallel: true}, function () {
 
@@ -45,13 +53,13 @@ Test.describe('Zulu', {mode: 'series'}, function () {
             console.log('before ', this.desc);
         });
 
-        this.it(this.desc + '1', function (t, done) {
+        this.it.SKIP(this.desc + '1', function (t, done) {
             setTimeout(function () {
                 done();
             }, 500);
         });
 
-        this.it(this.desc + '2', function (t, done) {
+        this.it.SKIP(this.desc + '2', function (t, done) {
             setTimeout(function () {
                 done();
             }, 500);
@@ -79,6 +87,65 @@ Test.describe('Zulu', {mode: 'series'}, function () {
             }, 300);
         });
 
+        this.describe.skip('M', {parallel: true}, function () {
+
+            this.before(function () {
+                console.log('before ', this.desc);
+            });
+
+            this.it(this.desc + '1', function (t, done) {
+                setTimeout(function () {
+                    done();
+                }, 500);
+            });
+
+            this.it(this.desc + '2', function (t, done) {
+                setTimeout(function () {
+                    done();
+                }, 500);
+            });
+
+            this.describe.skip('O', {parallel: true}, function () {
+
+                this.before(function () {
+                    console.log('before ', this.desc);
+                });
+
+                this.it(this.desc + '1', function (t, done) {
+                    setTimeout(function () {
+                        done();
+                    }, 500);
+                });
+
+                this.it(this.desc + '2', function (t, done) {
+                    setTimeout(function () {
+                        done();
+                    }, 500);
+                });
+
+                this.describe.skip('P', {parallel: true}, function () {
+
+                    this.before(function () {
+                        console.log('before ', this.desc);
+                    });
+
+                    this.it(this.desc + '1', function (t, done) {
+                        setTimeout(function () {
+                            done();
+                        }, 500);
+                    });
+
+                    this.it(this.desc + '2', function (t, done) {
+                        setTimeout(function () {
+                            done();
+                        }, 500);
+                    });
+
+                });
+            });
+
+        });
+
     });
 
 
@@ -96,7 +163,7 @@ Test.describe('Zulu', {mode: 'series'}, function () {
             }, 100);
         });
 
-        this.it(this.desc + '2', function (t, done) {
+        this.it.skip(this.desc + '2', function (t, done) {
             setTimeout(function () {
                 done();
             }, 100);

@@ -21,15 +21,15 @@ Test.describe('A describe', {parallel: true}, function () {
 
         });
 
-        this.test('b2 test', function () {
+        this.it('b2 test', function () {
 
         });
 
-        this.test('b3 test', function () {
+        this.it('b3 test', function () {
 
         });
 
-        this.test('b4 test', function () {
+        this.it('b4 test', function () {
 
         });
 
@@ -47,26 +47,26 @@ Test.describe('A describe', {parallel: true}, function () {
             done();
         });
 
-        this.test('d1 test', function () {
+        this.it('d1 test', function () {
 
         });
 
-        this.test('d2 test', function () {
+        this.it('d2 test', function () {
 
         });
 
 
         this.describe('E', function () {
 
-            this.test('e1 test', function () {
+            this.it('e1 test', function () {
 
             });
 
-            this.test('e2 test', function () {
+            this.it('e2 test', function () {
 
             });
 
-            this.test('e3 test', function () {
+            this.it('e3 test', function () {
 
             });
 
@@ -127,5 +127,5 @@ Test.describe('A describe', {parallel: true}, function () {
     });
 
 
-})
-;
+    
+});
