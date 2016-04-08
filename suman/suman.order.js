@@ -12,15 +12,15 @@ module.exports = () => {
 
         A: {
             testPath: 'test/integration-tests/test0.js',
-            obstructs: ['B','C']
+            obstructs: [/*'B','C'*/]
         },
         B: {
             testPath: 'test/integration-tests/test1.js',
-            obstructs: ['C']
+            obstructs: [/*'C'*/]
         },
         C: {
             testPath: 'test/integration-tests/test2.js',
-            obstructs: ['A']
+            obstructs: [/*'A'*/]
         },
         //D: {
         //    testPath: 'test/integration-tests/test3.js',
@@ -36,15 +36,15 @@ module.exports = () => {
         //},
         Z: {
             testPath: 'test/build-tests/test7.js',
-            obstructs: ['B','G']
+            obstructs: [/*'B','G'*/]
         },
         G: {
             testPath: 'test/build-tests/test8.js',
-            obstructs: ['A','B','H','C','Z']
+            obstructs: [/*'A','B','H','C','Z'*/]
         },
         H: {
             testPath: 'test/build-tests/test9.js',
-            obstructs: ['G']
+            obstructs: [/*'G'*/]
         }
 
     }
