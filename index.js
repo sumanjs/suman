@@ -29,6 +29,8 @@ process.on('SIGINT', () => {
 
 */
 
+//TODO: whatever is returned in a beforeEach hook should be assigned to each test (?)
+//TODO: suman postinstall script
 //TODO: give ability to users to provide shell scripts to launch individual mocha tests, that way they can provide environment
 // settings for child_process
 //TODO: add option to choose mode:'series'/'parallel'
