@@ -81,7 +81,7 @@ Test.describe('Suite', {parallel: true}, function (fs) {
             });
         }
 
-        this.it('[test] gen', {parallel: false}, function*() {
+        this.it('[test] gen', {parallel: false}, function *() {
 
             var t = yield 3;
             var val = yield p();
@@ -92,7 +92,7 @@ Test.describe('Suite', {parallel: true}, function (fs) {
 
         this.it('yo', {parallel: false}, (t, done) => {
 
-            throw new Error('PAsta');
+            // throw new Error('PAsta');
             setTimeout(function () {
 
                 done();
