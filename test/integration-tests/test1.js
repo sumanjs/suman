@@ -10,7 +10,7 @@
 var suman = require('../../lib');
 
 var Test = suman.init(module, {
-    interface: 'TDD',
+    interface: 'BDD',
     integrants: ['smartconnect', 'dolce-vida']
 });
 

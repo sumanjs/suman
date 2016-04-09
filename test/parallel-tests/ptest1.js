@@ -1,5 +1,4 @@
 const suman = require('../../lib');
-
 const Test = suman.init(module, {});
 
 
@@ -10,6 +9,10 @@ Test.describe('Zulu', {mode: 'series'}, function () {
         console.log('before each ' + t.desc);
     });
 
+    this.it('val',{});
+
+    this.it('foo');
+
     this.describe.skip('A', {parallel: true}, function () {
 
         this.before(function* () {
@@ -19,6 +22,7 @@ Test.describe('Zulu', {mode: 'series'}, function () {
         this.beforeEach(function *(t) {
             console.log('before each ' + t.desc);
         });
+
 
         this.it(this.desc + '1', function (t, done) {
             setTimeout(function () {

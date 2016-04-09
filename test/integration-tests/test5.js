@@ -12,6 +12,8 @@ Test.describe('A', {}, ['request', 'socketio'], function (request, socketio) {
     //console.log('request:', request.toString());
     //console.log('socketio:', socketio.toString());
 
+    throw new Error('shit');
+
     var arr = [1, 2, 3];
 
     setTimeout(function () {
@@ -29,7 +31,7 @@ Test.describe('A', {}, ['request', 'socketio'], function (request, socketio) {
 
     });
 
-    this.describe('B', function (delay) {
+    this.describe.SKIP('B', function (delay) {
 
         setTimeout(function () {
             arr.push(8);
