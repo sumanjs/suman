@@ -25,6 +25,7 @@
     "bluebird": "^3.3.4",
     "body-parser": "^1.14.1",
     "builtin-modules": "^1.1.1",
+    "callsite": "^1.0.0",
     "chalk": "^1.1.1",
     "colors": "^1.1.2",
     "cookie-parser": "^1.4.0",
