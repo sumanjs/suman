@@ -41,14 +41,19 @@ function filter(suman, isFatal, err) {
                 return item;
             }
         }
-    }).filter(function(item){
+    }).filter(function (item) {
         return item;
     }).join('\n').concat('\n');
 
-    var msg = isFatal ? 'FATAL' : 'NON_FATAL_ERR';
+    var type = isFatal ? 'FATAL' : 'NON_FATAL_ERR';
 
     if (process.send) {
-        process.send({msg: stack, type: msg, fatal: isFatal});
+        process.send({
+            type: type,
+            data: {
+                msg: stack
+            }
+        });
     }
     else {
         process.stdout.write(stack);

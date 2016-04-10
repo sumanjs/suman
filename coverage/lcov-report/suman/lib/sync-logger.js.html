@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for suman\lib\sync-logger.js</title>
+    <title>Code coverage report for suman/lib/sync-logger.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">35.71% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/12</span>
+        <span class='fraction'>5/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/4</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/2</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">35.71% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/12</span>
+        <span class='fraction'>5/14</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -79,7 +79,19 @@
 34
 35
 36
-37</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -106,13 +118,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
@@ -140,16 +164,28 @@ process.stdout.on('finish', <span class="fstat-no" title="function not covered" 
 &nbsp;
 });
 &nbsp;
-module.exports = function runnerLog(data) {
+module.exports = {
 &nbsp;
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (true) {
-        okToWrite = false;
-        process.stdout.write(String(data));
-        //process.stdout.end();
+&nbsp;
+    log: <span class="fstat-no" title="function not covered" >function runnerLog(data) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (true) {</span>
+<span class="cstat-no" title="statement not covered" >            okToWrite = false;</span>
+<span class="cstat-no" title="statement not covered" >            process.stdout.write(String(data));</span>
+            //process.stdout.end();
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            messages.push(data);</span>
+        }
+&nbsp;
+    },
+&nbsp;
+    logArray: <span class="fstat-no" title="function not covered" >function logArray(arr){</span>
+<span class="cstat-no" title="statement not covered" >        arr.forEach(<span class="fstat-no" title="function not covered" >function(data){</span></span>
+<span class="cstat-no" title="statement not covered" >            process.stdout.write('\n\t' + String(data));</span>
+        });
     }
-    else {
-<span class="cstat-no" title="statement not covered" >        messages.push(data);</span>
-    }
+&nbsp;
 &nbsp;
 };</pre></td></tr>
 </table></pre>
@@ -157,7 +193,7 @@ module.exports = function runnerLog(data) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 13 2016 22:23:13 GMT-0700 (Pacific Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 09 2016 00:02:34 GMT-0700 (PDT)
 </div>
 </div>
 <script src="../../prettify.js"></script>

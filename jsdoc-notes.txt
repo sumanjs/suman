@@ -1,13 +1,5 @@
-jsdoc -u examples examples -d jsdoc-out
 
 http://www.fusioncharts.com/blog/2014/06/extend-jsdoc-api-documentation-through-tutorials/
-
-jsdoc -u examples -d jsdoc-out
-
-
-
-
-
 
 instructions on how to generate docs
 

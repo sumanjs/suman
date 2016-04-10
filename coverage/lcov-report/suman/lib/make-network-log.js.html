@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for suman\lib\make-network-log.js</title>
+    <title>Code coverage report for suman/lib/make-network-log.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">45.57% </span>
+        <span class="strong">44.16% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>36/79</span>
+        <span class='fraction'>34/77</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">22.73% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>4/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">45.57% </span>
+        <span class="strong">44.16% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>36/79</span>
+        <span class='fraction'>34/77</span>
       </div>
     </div>
   </div>
@@ -217,9 +217,7 @@
 172
 173
 174
-175
-176
-177</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+175</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -236,10 +234,8 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -407,7 +403,6 @@ const path = require('path');
 const os = require('os');
 &nbsp;
 //#npm
-const appRootPath = require('app-root-path');
 const request = require('request');
 const tcpp = require('tcp-ping');
 const socketio = require('socket.io-client');
@@ -415,7 +410,6 @@ const _ = require('underscore');
 const async = require('async');
 &nbsp;
 //#project
-const ee = require('./ee');
 const sumanErrors = require('../config/suman-errors');
 const sumanUtils = require('./utils');
 const findSumanServer = require('./find-suman-server');
@@ -515,7 +509,7 @@ module.exports = function makeSendTestData(config, timestamp, setup) {
 &nbsp;
                         //TODO: should be able to use *default server if it's there
 &nbsp;
-                        var outputPath;
+                        var outputPath, dir;
                         <span class="missing-if-branch" title="else path not taken" >E</span>if (server) {
 &nbsp;
                             <span class="missing-if-branch" title="else path not taken" >E</span>if (server.outputDir) {
@@ -534,7 +528,7 @@ module.exports = function makeSendTestData(config, timestamp, setup) {
                         }
                         else <span class="cstat-no" title="statement not covered" >if (sumanConfig.servers &amp;&amp; sumanConfig.servers[hostname] &amp;&amp; sumanConfig.servers[hostname].outputDir) {</span>
 <span class="cstat-no" title="statement not covered" >                            try {</span>
-<span class="cstat-no" title="statement not covered" >                                var dir = sumanConfig.servers[hostname].outputDir;</span>
+<span class="cstat-no" title="statement not covered" >                                dir = sumanConfig.servers[hostname].outputDir;</span>
 <span class="cstat-no" title="statement not covered" >                                outputPath = path.resolve(dir + '/' + timestamp);</span>
 <span class="cstat-no" title="statement not covered" >                                fs.mkdir(outputPath, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >                                    cb(err, false, outputPath);</span>
@@ -547,7 +541,7 @@ module.exports = function makeSendTestData(config, timestamp, setup) {
                         }
                         else <span class="cstat-no" title="statement not covered" >if (sumanConfig.servers &amp;&amp; sumanConfig.servers['*default'] &amp;&amp; sumanConfig.servers['*default'].outputDir) {</span>
 <span class="cstat-no" title="statement not covered" >                            try {</span>
-<span class="cstat-no" title="statement not covered" >                                var dir = sumanConfig.servers['*default'].outputDir;</span>
+<span class="cstat-no" title="statement not covered" >                                dir = sumanConfig.servers['*default'].outputDir;</span>
 <span class="cstat-no" title="statement not covered" >                                outputPath = path.resolve(dir + '/' + timestamp);</span>
 <span class="cstat-no" title="statement not covered" >                                fs.mkdir(outputPath, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >                                    cb(err, false, outputPath);</span>
@@ -577,7 +571,7 @@ module.exports = function makeSendTestData(config, timestamp, setup) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 13 2016 22:23:13 GMT-0700 (Pacific Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 09 2016 00:02:34 GMT-0700 (PDT)
 </div>
 </div>
 <script src="../../prettify.js"></script>

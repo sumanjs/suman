@@ -5,12 +5,12 @@
 
 
 const Test = require('../../lib').init(module, {
-    export: false,
+    export: true,
     integrants: ['smartconnect', 'dolce-vida']
 });
 
 
-Test.describe('Suite', {parallel: true}, function (fs) {
+Test.describe('Suite7', {parallel: true}, function (fs) {
 
 
     this.before(ctn => {

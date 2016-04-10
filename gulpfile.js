@@ -167,6 +167,22 @@ gulp.task('suman_server', [], function (cb) {
 
 });
 
+gulp.task('collect-coverage', [], function (cb) {
+
+    cp.exec('istanbul cover test/build-tests/test6.js test/build-tests/test7.js', function (err, stdout, stderr) {
+
+        if (err) {
+            console.error(err.stack);
+        }
+        console.log(stdout);
+        console.log(stderr);
+
+        cb(null);
+
+    });
+
+});
+
 
 gulp.task('nodemon', ['convert'], function () {
 
@@ -174,11 +190,11 @@ gulp.task('nodemon', ['convert'], function () {
 
         script: 'server/bin/www',
         ext: 'js',
-        ignore: ['server/lib-es5/**/*','server/public/*', '*.git/*', '*.idea/*', 'gulpfile.js'],
+        ignore: ['server/lib-es5/**/*', 'server/public/*', '*.git/*', '*.idea/*', 'gulpfile.js'],
         args: [], //TODO: add these from command line
         nodeArgs: ['--harmony_destructuring'],
         env: {
-            NODE_ENV: $node_env  || 'development'
+            NODE_ENV: $node_env || 'development'
         }
 
     }).on('restart', ['convert']);

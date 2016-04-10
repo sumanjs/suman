@@ -12,11 +12,11 @@
  */
 
 /*// Start reading from stdin so we don't exit.
-process.stdin.resume();
+ process.stdin.resume();
 
-process.on('SIGINT', () => {
-    console.log('Got SIGINT.  Press Control-D to exit.');
-});*/
+ process.on('SIGINT', () => {
+ console.log('Got SIGINT.  Press Control-D to exit.');
+ });*/
 
 
 /*
@@ -27,9 +27,11 @@ process.on('SIGINT', () => {
  tests skipped:  30 (only is triggerred)
  suites skipped: 2
 
-*/
+ */
 
 
+//TODO: need to test skip and only thoroughly
+//TODO: after hooks could be for collecting code/test coverage
 //TODO: whatever is returned in a beforeEach hook should be assigned to each test (?)
 //TODO: suman postinstall script
 //TODO: add hyperlinks to terminal window for table output
@@ -76,7 +78,7 @@ process.on('SIGINT', () => {
 //TODO: allow possibility to inject before/after/describe/context/it/test/beforeEach/afterEach into describes/contexts
 //TODO: create suman --diagnostics option at command line to check for common problems with both project and test suites
 //TODO: write metadata file out along with txt files
-
+//TODO: exit code for runner does not match if any process exits with a code greater than 0
 
 
 /////////////////////////////////////////////////////////////////
@@ -143,7 +145,7 @@ finally {
         console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
     }
     else {
-        if(false){  //only if user asks for verbose option
+        if (false) {  //only if user asks for verbose option
             console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
         }
     }
@@ -319,22 +321,27 @@ else {
         if (!useRunner && dir.length === 1 && fs.statSync(dir[0]).isFile()) {
             //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
             d.run(function () {
-                process.sumanConfig = sumanConfig;
-                require(dir[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+                process.nextTick(function () {
+                    process.sumanConfig = sumanConfig;
+                    require(dir[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+
+                });
             });
         }
         else {
             d.run(function () {
-                suman.Runner({
-                    grepSuite: grepSuite,
-                    grepFile: grepFile,
-                    $node_env: process.env.NODE_ENV,
-                    fileOrDir: dir,
-                    config: sumanConfig
-                    //configPath: configPath || 'suman.conf.js'
-                }).on('message', function (msg) {
-                    console.log('msg from suman runner', msg);
-                    //process.exit(msg);
+                process.nextTick(function(){
+                    suman.Runner({
+                        grepSuite: grepSuite,
+                        grepFile: grepFile,
+                        $node_env: process.env.NODE_ENV,
+                        fileOrDir: dir,
+                        config: sumanConfig
+                        //configPath: configPath || 'suman.conf.js'
+                    }).on('message', function (msg) {
+                        console.log('msg from suman runner', msg);
+                        //process.exit(msg);
+                    });
                 });
             });
         }

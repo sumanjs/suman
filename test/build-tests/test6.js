@@ -13,9 +13,23 @@ function promiseTimeout() {
 }
 
 
-Test.suite('@Test1', {parallel: false, bail: true}, function () {
+Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
+
 
     this.setupTest(function () {
+
+    });
+
+    this.teardownTest(function(){
+
+    });
+
+    this.setup(function(){
+
+    });
+
+    this.teardown(function(){
+
 
     });
 
@@ -25,7 +39,7 @@ Test.suite('@Test1', {parallel: false, bail: true}, function () {
     });
 
 
-    this.suite('hello', {}, function () {
+    this.suite.skip('hello', {}, function () {
 
 
         this.test('two');
@@ -42,6 +56,7 @@ Test.suite('@Test1', {parallel: false, bail: true}, function () {
 
 
         this.test('five', t => {
+            throw new Error('fools');
             return promiseTimeout(t);
         });
 
