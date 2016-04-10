@@ -329,14 +329,12 @@ Suman was designed to make the transition from Mocha to be seamless.
 corrupted by minification/uglification. But in testing frameworks, it is very unlikely we need to minify, so we can go without the dep array 99% of the time,
 and just use metaprogramming with the callback argument list to locate the dependencies
 
-<div id="container">
+
     <br>
     <center>
     [![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
     </center>
     <br>
-</div>
 
-Hi !
 
 
