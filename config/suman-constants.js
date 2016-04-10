@@ -9,7 +9,19 @@ module.exports = Object.freeze({
 
     DEBUGGING_NODE_ENV: 'dev_local_debug',
     SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
-    SUMAN_HARD_LIST: ['delay', 'suite', 'before', 'after', 'beforeEach', 'afterEach', 'it', 'test', 'describe', 'context'],
+    SUMAN_HARD_LIST: [
+        'delay',
+        'suite',
+        'before',
+        'after',
+        'beforeEach',
+        'afterEach',
+        'it',
+        'test',
+        'describe',
+        'context',
+        'extra'
+    ],
     CORE_MODULE_LIST: require('builtin-modules'),
     EXIT_CODES: {
         SUCCESSFUL_RUN: 0,
@@ -34,8 +46,8 @@ module.exports = Object.freeze({
         'need a regular function as a callback. The remainder of your tests can be arrow function galore. \nIf you dont understand this, read up on how arrow functions bind "this" ' +
         'to lexical scope, and why they cant just be used everywhere.'
     },
-    RUNNER_MESSAGE_TYPE:{
-        FATAL:'FATAL',
+    RUNNER_MESSAGE_TYPE: {
+        FATAL: 'FATAL',
 
     }
 

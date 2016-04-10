@@ -10,8 +10,9 @@ const Test = require('../../lib').init(module, {
 });
 
 
-Test.describe('Suite7', {parallel: true}, function (fs) {
+Test.describe('Suite7', {parallel: true}, function (fs, extra) {
 
+    console.log('extra:',extra);
 
     this.before(ctn => {
         ctn();

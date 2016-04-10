@@ -3,11 +3,11 @@
  */
 
 
-var sumanEvents = require('./test7').sumanEvents;
+var sumanEvents = require('./test7');
 
-sumanEvents.on('test-ready',function(test){
+sumanEvents.on('test-ready', function (test) {
 
-    test('marz');
+    test({a:'b',c:'d'});
 
 });
 
