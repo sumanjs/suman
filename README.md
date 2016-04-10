@@ -330,11 +330,9 @@ corrupted by minification/uglification. But in testing frameworks, it is very un
 and just use metaprogramming with the callback argument list to locate the dependencies
 
 
-    <br>
-    <center>
-    [![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
-    </center>
-    <br>
+
+[![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
+
 
 
 
