@@ -18,7 +18,7 @@ module.exports = function () {
             sumanConfig = require(cwd + '/' + cfgPath);
         }
         else {
-            sumanConfig = require(__dirname + '/../../suman.default.conf.js');
+            sumanConfig = require(__dirname + '/../../default-conf-files/suman.default.conf.js');
         }
 
     }

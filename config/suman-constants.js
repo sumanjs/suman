@@ -48,7 +48,7 @@ module.exports = Object.freeze({
         'to lexical scope, and why they cant just be used everywhere.'
     },
     RUNNER_MESSAGE_TYPE: {
-        FATAL: 'FATAL',
+        FATAL: 'FATAL'
 
     }
 

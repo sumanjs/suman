@@ -311,7 +311,7 @@ catch (err) {
     catch (err) {
         console.log(colors.bgCyan.black(' => Suman msg => Warning - no configuration found in your project, using default Suman configuration.'));
         try {
-            pth = path.resolve(__dirname + '/suman.default.conf.js');
+            pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
             sumanConfig = require(pth);
         }
         catch (err) {

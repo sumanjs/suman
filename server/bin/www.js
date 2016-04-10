@@ -42,7 +42,7 @@ try {
 }
 catch (err) {
     console.log(colors.yellow(' => Suman Server warning => Could not find a suman.conf.js config file in the root of your project. Using default config.'));
-    configPath = path.resolve(__dirname + '/../../suman.default.conf.js');
+    configPath = path.resolve(__dirname + '/../../default-conf-files/suman.default.conf.js');
     sumanConfig = require(configPath);
 }
 
