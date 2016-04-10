@@ -331,19 +331,12 @@ and just use metaprogramming with the callback argument list to locate the depen
 
 <div id="container">
     <br>
+    <center>
     [![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
+    </center>
     <br>
 </div>
 
 Hi !
 
-#container {
-    height:100px;
-    line-height:100px;
-}
-
-#container img {
-    vertical-align:middle;
-    max-height:100%;
-}
 
