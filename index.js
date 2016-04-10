@@ -30,6 +30,8 @@
  */
 
 
+
+//TODO: set up recursive option for runner
 //TODO: need to test skip and only thoroughly
 //TODO: after hooks could be for collecting code/test coverage
 //TODO: whatever is returned in a beforeEach hook should be assigned to each test (?)
