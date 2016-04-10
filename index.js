@@ -31,9 +31,10 @@
 
 
 
+//TODO: one possible solution is to name files that aren't supposed to be run directly with another extension besides .js
 //TODO: set up recursive option for runner
 //TODO: need to test skip and only thoroughly
-//TODO: after hooks could be for collecting code/test coverage
+//TODO: hooks after suman runs (opposite of suman.once.js) could be for collecting code/test coverage
 //TODO: whatever is returned in a beforeEach hook should be assigned to each test (?)
 //TODO: suman postinstall script
 //TODO: add hyperlinks to terminal window for table output
@@ -91,11 +92,18 @@
  */
 const fs = require('fs');
 const path = require('path');
-const colors = require('colors/safe');
 const os = require('os');
 const domain = require('domain');
 const cp = require('child_process');
 
+
+//#npm
+const dashdash = require('dashdash');
+const colors = require('colors/safe');
+
+
+//#project
+const constants = require('./config/suman-constants');
 
 ////////////////////////////////////////////////////////////////////
 
@@ -123,6 +131,106 @@ var suman = require('./lib');
 const root = sumanUtils.findProjectRoot(process.cwd());
 
 ////////////////////////////////////////////////////////////////////
+
+
+const options = [
+    {
+        name: 'version',
+        type: 'bool',
+        help: 'Print tool version and exit.'
+    },
+    {
+        names: ['help', 'h'],
+        type: 'bool',
+        help: 'Print this help and exit.'
+    },
+    {
+        names: ['verbose', 'v'],
+        type: 'arrayOfBool',
+        help: 'Verbose output. Use multiple times for more verbose.'
+    },
+    {
+        names: ['init'],
+        type: 'bool',
+        help: 'Initialize Suman in your project; install it globally first.'
+    },
+    {
+        names: ['force', 'f'],
+        type: 'bool',
+        help: 'Force the command at hand.'
+    },
+    {
+        names: ['convert', 'cnvt'],
+        type: 'bool',
+        help: 'Convert Mocha test file or directory to Suman test(s).'
+    },
+    {
+        names: ['runner', 'rnr'],
+        type: 'bool',
+        help: 'Force usage of runner when executing only one test file.'
+    },
+    {
+        names: ['server', 's'],
+        type: 'bool',
+        help: 'Convert Mocha test file or directory to Suman test(s).'
+    },
+    {
+        names: ['config', 'cfg'],
+        type: 'string',
+        help: 'Path to the suman.conf.js file you wish to use.'
+    },
+    {
+        names: ['grep-file-base-name', 'gfbn'],
+        type: 'string',
+        help: 'Regex string used to match file names; only the basename of the file path.'
+    },
+    {
+        names: ['grep-file', 'gf'],
+        type: 'string',
+        help: 'Regex string used to match file names.'
+    },
+    {
+        names: ['grep-suite', 'gs'],
+        type: 'string',
+        help: 'Path to the suman.conf.js file you wish to use.'
+    },
+    {
+        names: ['server-name', 'sn'],
+        type: 'string',
+        help: 'Path to the suman.conf.js file you wish to use.'
+    },
+    {
+        names: ['file'],
+        type: 'string',
+        help: 'File to process',
+        helpArg: 'FILE'
+    }
+];
+
+var opts, parser = dashdash.createParser({options: options});
+try {
+    opts = parser.parse(process.argv);
+} catch (e) {
+    console.error('Error: %s', e.message);
+    process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
+}
+
+console.log("# opts:", opts);
+console.log("# args:", opts._args);
+
+// Use `parser.help()` for formatted options help.
+if (opts.help) {
+    process.stdout.write('\n');
+    var help = parser.help({includeEnv: true}).trimRight();
+    console.log('usage: suman \<file/dir>\ [OPTIONS]\n\n'
+        + colors.magenta('options:') + '\n'
+        + help);
+    process.stdout.write('\n');
+    process.exit(0);
+}
+
+
+//////////////////////////////////////////////////////////////////////
 
 /**
  * Solves equations of the form a * x = b
@@ -156,45 +264,28 @@ finally {
 
 ////////////////////////////////////////////////////////////////////
 
-const args = JSON.parse(JSON.stringify(process.argv.slice(2))); //copy args
+// const args = JSON.parse(JSON.stringify(process.argv.slice(2))); //copy args
 
 ////////////////////////////////////////////////////////////////////
 
 
-var sumanConfig, configPath, index, init, serverName, pth, convert, src, dest;
+var sumanConfig, pth;
 
 
-if (args.indexOf('--cfg') !== -1) {
-    index = args.indexOf('--cfg');
-    configPath = args[index + 1];
-    args.splice(index, 2);
-}
+//TODO: use harmony destructuring args later on
+const configPath = opts.config;
+const serverName = opts.server_name;
+const convert = opts.convert;
+const src = opts.src;
+const dest = opts.dest;
+const init = opts.init;
+const force = opts.force;
+const server = opts.server;
+const useRunner = opts.runner;
+const grepFile = opts.grep_file;
+const grepFileBaseName = opts.grep_file_base_name;
+const grepSuite = opts.grep_suite;
 
-if (args.indexOf('--n') !== -1) {
-    index = args.indexOf('--n');
-    serverName = args[index + 1];
-    args.splice(index, 2);
-}
-
-if (args.indexOf('--init') !== -1) {
-    init = true;
-}
-
-if (args.indexOf('--convert') !== -1) {
-    index = args.indexOf('--convert');
-    src = args[index + 1];
-    dest = args[index + 2];
-    args.splice(index, 3);
-    if (args.indexOf('-f') === -1) {
-        console.log('Are you sure you want to remove all contents within the folder with path="' + path.resolve(root + '/' + dest) + '" ?');
-        console.log('If you are sure, try the same command with the -f option.');
-        console.log('Oh, and by the way, before deleting dirs in general, its a good idea to run a commit with whatever source control system you are using.');
-        return;
-    }
-    else {
-        convert = true;
-    }
-}
 
 try {
     pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
@@ -230,17 +321,42 @@ catch (err) {
     }
 }
 
+
+const optCheck = [init,convert,server].filter(function(item){
+    return item;
+});
+
+if(optCheck.length > 1){
+    console.error('\tIf you choose one of the following options, you may only pick one option  { --convert, --init, --server }');
+    console.error('\tUse --help for more information.\n');
+    process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
+    return;
+}
+
+
+if (convert) {
+    if (!force) {
+        console.log('Are you sure you want to remove all contents within the folder with path="' + path.resolve(root + '/' + dest) + '" ?');
+        console.log('If you are sure, try the same command with the -f option.');
+        console.log('Oh, and by the way, before deleting dirs in general, its a good idea to run a commit with whatever source control system you are using.');
+        return;
+    }
+}
+
 if (init) {
 
     require('./lib/init/init-project')({
-        force: process.argv.indexOf('--force') || process.argv.indexOf('-f')
+        force: force
     });
 
 } else if (convert) {
 
-    require('./lib/convert-files/convert-dir')(src, dest);
+    require('./lib/convert-files/convert-dir')({
+        source: src,
+        dest: dest
+    });
 
-} else if (args.indexOf('--server') !== -1 || args.indexOf('-s') !== -1) {
+} else if (server) {
 
     suman.Server({
         //configPath: 'suman.conf.js',
@@ -269,37 +385,20 @@ if (init) {
 }
 else {
 
-    var dir, grepFile, grepSuite, useRunner, d;
-
-    d = domain.create();
+    const d = domain.create();
+    const args = opts._args;
 
     d.once('error', function (err) {
         //TODO: add link showing how to set up Babel
-        console.log(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
+        console.error(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually' +
+            ' if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
             ' => Suman error => ' + err.stack + '\n'));
+        process.exit(constants.EXIT_CODES.UNEXPECTED_FATAL_ERROR);
     });
 
 
-    if (args.indexOf('--grep-file') !== -1) {
-        index = args.indexOf('--grep-file');
-        grepFile = args[index + 1];
-        args.splice(index, 2);
-    }
-
-    if (args.indexOf('--grep-suite') !== -1) {
-        index = args.indexOf('--grep-suite');
-        grepSuite = args[index + 1];
-        args.splice(index, 2);
-    }
-
-    if (args.indexOf('--rnr') !== -1) {
-        index = args.indexOf('--rnr');
-        useRunner = true;
-        args.splice(index, 1);
-    }
-
     //whatever args are remaining are assumed to be file or directory paths to tests
-    dir = (JSON.parse(JSON.stringify(args)) || []).filter(function (item) {
+    var dir = (JSON.parse(JSON.stringify(args)) || []).filter(function (item) {
         if (String(item).indexOf('-') === 0) {
             console.log(colors.magenta(' => Suman warning => Probably a bad command line option "' + item + '", Suman is ignoring it.'))
             return false;
@@ -332,7 +431,7 @@ else {
         }
         else {
             d.run(function () {
-                process.nextTick(function(){
+                process.nextTick(function () {
                     suman.Runner({
                         grepSuite: grepSuite,
                         grepFile: grepFile,

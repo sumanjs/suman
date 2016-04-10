@@ -2,9 +2,7 @@
 ![alt text](https://github.com/ORESoftware/suman/blob/master/images/suman.png "Suman Primary Logo")
 
 
-<br>
-[![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
-<br>
+
 
 <i> => For command line tools:</i>
 ## ```npm install -g suman```
@@ -50,6 +48,8 @@ library is not constained by the requirement that it must run in the browser.</i
 to the Node.js community.
 * Mocha, Jasmine and Tape lack some other nice features that are implemented by Suman. For example, Tape's ability to pre-load modules using the command line 
 before running tests is nowhere near as powerful or easy to use as the dependency injection ability of this library.
+* Using Mocha, Tape, Jasmine you could not easily pass data to tests, to reuse the same test code for different scenarios; Suman allows you to pass dynamic data
+to tests using dependency injection.
 * And lastly, a BIG ONE: clean reporting - at the command line, using Mocha, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
 trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
 
@@ -125,7 +125,7 @@ simple example:
 const suman = require('suman');
 const Test = suman.init(module);
 
-Test.describe('FirstExample', function(assert, path, http){     //  this is our test suite, and we inject some core modules
+Test.describe('FirstExample', function(assert, path, http){     //  this is our test suite, and we inject some core modules by name
 
 
      this.beforeEach('runs before every it()', t => {
@@ -328,3 +328,22 @@ Suman was designed to make the transition from Mocha to be seamless.
 ** dependency arrays of strings exist so that during minification we can still know where to inject dependencies, that's why Angular and RequireJS have deps arrays of strings - they don't get
 corrupted by minification/uglification. But in testing frameworks, it is very unlikely we need to minify, so we can go without the dep array 99% of the time,
 and just use metaprogramming with the callback argument list to locate the dependencies
+
+<div id="container">
+    <br>
+    [![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
+    <br>
+</div>
+
+Hi !
+
+#container {
+    height:100px;
+    line-height:100px;
+}
+
+#container img {
+    vertical-align:middle;
+    max-height:100%;
+}
+

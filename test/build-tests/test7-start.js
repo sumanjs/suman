@@ -3,9 +3,9 @@
  */
 
 
-var sumanEvents = require('./test7');
+var sumanEvents = require('./test7.js');
 
-sumanEvents.on('test-ready', function (test) {
+sumanEvents.on('test', function (test) {
 
     test({a:'b',c:'d'});
 
