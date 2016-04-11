@@ -30,7 +30,9 @@
  */
 
 
-
+//TODO: https://realguess.net/2015/08/03/rules-on-structuring-the-test-directory-structure-with-mocha/
+//TODO: http://stackoverflow.com/questions/10753288/how-to-specify-test-directory-for-mocha
+//TODO: https://github.com/substack/picture-tube
 //TODO: one possible solution is to name files that aren't supposed to be run directly with another extension besides .js
 //TODO: set up recursive option for runner
 //TODO: need to test skip and only thoroughly
@@ -65,7 +67,6 @@
 //TODO: special key combo (ctrl+save+r) will run tests after a change, using gulp file watchers?
 //TODO: https://nodejs.org/en/blog/uncategorized/profiling-node-js/
 //TODO: npm i babel -g, then babel-node --stage 0 myapp.js
-//TODO: if no grep-suite
 //TODO: https://github.com/nodejs/node/issues/5252
 //TODO: http://www.node-tap.org/basics/
 //TODO: need a suman server stop command at the command line
@@ -86,10 +87,6 @@
 
 /////////////////////////////////////////////////////////////////
 
-/**
- * Represents a book.
- * @constructor
- */
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -107,27 +104,19 @@ const constants = require('./config/suman-constants');
 
 ////////////////////////////////////////////////////////////////////
 
-/** This is a description of the foo function. */
 const pkgJSON = require('./package.json');
 const v = pkgJSON.version;
 console.log(colors.gray.italic(' => Suman v' + v + ' running...'));
 
 ////////////////////////////////////////////////////////////////////
 
-/**
- * Class representing a socket connection.
- *
- * @class
- * @tutorial socket-tutorial
- */
 const cwd = process.cwd();
 
 ////////////////////////////////////////////////////////////////////
 
 //#project
-var sumanUtils = require('./lib/utils');
-var suman = require('./lib');
-
+const sumanUtils = require('./lib/utils');
+const suman = require('./lib');
 const root = sumanUtils.findProjectRoot(process.cwd());
 
 ////////////////////////////////////////////////////////////////////
@@ -146,13 +135,23 @@ const options = [
     },
     {
         names: ['verbose', 'v'],
-        type: 'arrayOfBool',
+        type: 'bool',
         help: 'Verbose output. Use multiple times for more verbose.'
     },
     {
         names: ['init'],
         type: 'bool',
         help: 'Initialize Suman in your project; install it globally first.'
+    },
+    {
+        names: ['coverage'],
+        type: 'bool',
+        help: 'Run Suman tests and see coverage report.'
+    },
+    {
+        names: ['recursive', 'r'],
+        type: 'bool',
+        help: 'Use this option to recurse through sub-directories of tests.'
     },
     {
         names: ['force', 'f'],
@@ -163,6 +162,11 @@ const options = [
         names: ['convert', 'cnvt'],
         type: 'bool',
         help: 'Convert Mocha test file or directory to Suman test(s).'
+    },
+    {
+        names: ['ignore-brk'],
+        type: 'bool',
+        help: 'Use this option to aid in the debugging of child_processes.'
     },
     {
         names: ['runner', 'rnr'],
@@ -207,16 +211,23 @@ const options = [
     }
 ];
 
+////////////////////////////////////////////////////////////////////
+
+
 var opts, parser = dashdash.createParser({options: options});
 try {
     opts = parser.parse(process.argv);
 } catch (e) {
-    console.error('Error: %s', e.message);
+    console.error(' => Suman command line options error: %s', e.message);
+    console.error(' => Try "$ suman --help" or visit oresoftware.github.io/suman');
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
 }
 
 console.log("# opts:", opts);
 console.log("# args:", opts._args);
+global.sumanOpts = opts;
+global.sumanArgs = opts._args;
+
 
 // Use `parser.help()` for formatted options help.
 if (opts.help) {
@@ -262,13 +273,6 @@ finally {
 }
 
 
-////////////////////////////////////////////////////////////////////
-
-// const args = JSON.parse(JSON.stringify(process.argv.slice(2))); //copy args
-
-////////////////////////////////////////////////////////////////////
-
-
 var sumanConfig, pth;
 
 
@@ -285,6 +289,7 @@ const useRunner = opts.runner;
 const grepFile = opts.grep_file;
 const grepFileBaseName = opts.grep_file_base_name;
 const grepSuite = opts.grep_suite;
+const coverage = opts.coverage;
 
 
 try {
@@ -322,11 +327,11 @@ catch (err) {
 }
 
 
-const optCheck = [init,convert,server].filter(function(item){
+const optCheck = [init, convert, server].filter(function (item) {
     return item;
 });
 
-if(optCheck.length > 1){
+if (optCheck.length > 1) {
     console.error('\tIf you choose one of the following options, you may only pick one option  { --convert, --init, --server }');
     console.error('\tUse --help for more information.\n');
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
@@ -343,13 +348,44 @@ if (convert) {
     }
 }
 
+//note: whatever args are remaining are assumed to be file or directory paths to tests
+var dirs = (JSON.parse(JSON.stringify(opts._args)) || []).filter(function (item) {
+    if (String(item).indexOf('-') === 0) {
+        console.log(colors.magenta(' => Suman warning => Probably a bad command line option "' + item + '", Suman is ignoring it.'))
+        return false;
+    }
+    return true;
+});
+
+
 if (init) {
 
     require('./lib/init/init-project')({
         force: force
     });
 
-} else if (convert) {
+} else if (coverage) {
+
+    if (dirs.length < 1) {
+        console.error('   ' + colors.bgCyan('Suman error => No test file or dir specified at command line') + '\n\n');
+        return;
+    }
+    else {
+
+        //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
+        // and pretend it does not exist.
+
+        dirs = dirs.map(function (item) {
+            return path.resolve(item);
+        });  //TODO: filter out any non .js files?
+
+        require('./lib/run-coverage/exec-istanbul')(dirs, false);
+
+
+    }
+
+}
+else if (convert) {
 
     require('./lib/convert-files/convert-dir')({
         source: src,
@@ -397,16 +433,7 @@ else {
     });
 
 
-    //whatever args are remaining are assumed to be file or directory paths to tests
-    var dir = (JSON.parse(JSON.stringify(args)) || []).filter(function (item) {
-        if (String(item).indexOf('-') === 0) {
-            console.log(colors.magenta(' => Suman warning => Probably a bad command line option "' + item + '", Suman is ignoring it.'))
-            return false;
-        }
-        return true;
-    });
-
-    if (dir.length < 1) {
+    if (dirs.length < 1) {
         console.error('   ' + colors.bgCyan('Suman error => No test file or dir specified at command line') + '\n\n');
         return;
     }
@@ -415,16 +442,16 @@ else {
         //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
         // and pretend it does not exist.
 
-        dir = dir.map(function (item) {
+        dirs = dirs.map(function (item) {
             return path.resolve(item);
         });
 
-        if (!useRunner && dir.length === 1 && fs.statSync(dir[0]).isFile()) {
+        if (!useRunner && dirs.length === 1 && fs.statSync(dirs[0]).isFile()) {
             //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
             d.run(function () {
                 process.nextTick(function () {
                     process.sumanConfig = sumanConfig;
-                    require(dir[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+                    require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
 
                 });
             });
@@ -436,7 +463,7 @@ else {
                         grepSuite: grepSuite,
                         grepFile: grepFile,
                         $node_env: process.env.NODE_ENV,
-                        fileOrDir: dir,
+                        fileOrDir: dirs,
                         config: sumanConfig
                         //configPath: configPath || 'suman.conf.js'
                     }).on('message', function (msg) {

@@ -20,7 +20,8 @@ module.exports = Object.freeze({
         'test',
         'describe',
         'context',
-        'extra'
+        'extra',
+        '$uda'
     ],
     CORE_MODULE_LIST: require('builtin-modules'),
     EXIT_CODES: {
@@ -39,7 +40,8 @@ module.exports = Object.freeze({
         UNKNOWN_RUNNER_CHILD_PROCESS_STATE: 65,
         ERROR_IN_ROOT_SUITE: 66,
         IOC_DEPS_ACQUISITION_ERROR: 67,
-        EXPORT_TEST_BUT_RAN_TEST_FILE_DIRECTLY: 68
+        EXPORT_TEST_BUT_RAN_TEST_FILE_DIRECTLY: 68,
+        DELAY_NOT_REFERENCED: 69
     },
     ERROR_MESSAGES: {
         INVALID_FUNCTION_TYPE_USAGE: 'You cannot use an arrow function with describe callbacks; however, you may use arrow functions everywhere else.\n' +

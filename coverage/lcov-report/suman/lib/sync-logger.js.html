@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">35.71% </span>
+        <span class="strong">57.14% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/14</span>
+        <span class='fraction'>4/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/4</span>
+        <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/4</span>
+        <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">35.71% </span>
+        <span class="strong">57.14% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/14</span>
+        <span class='fraction'>4/7</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -74,62 +74,28 @@
 29
 30
 31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+32</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -144,8 +110,8 @@
  */
 &nbsp;
 &nbsp;
-    //#core
-var fs = require('fs');
+//#core
+const fs = require('fs');
 &nbsp;
 &nbsp;
 //var stream = fs.createReadStream('/dev/null').pipe(process.stdout);
@@ -155,33 +121,16 @@ var fs = require('fs');
 var messages = [];
 var okToWrite = true;
 &nbsp;
-process.stdout.on('finish', <span class="fstat-no" title="function not covered" >function () {</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    okToWrite = true;</span>
-<span class="cstat-no" title="statement not covered" >    if (messages.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >        runnerLog(messages.pop());</span>
-    }
-&nbsp;
-});
 &nbsp;
 module.exports = {
 &nbsp;
 &nbsp;
     log: <span class="fstat-no" title="function not covered" >function runnerLog(data) {</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (true) {</span>
-<span class="cstat-no" title="statement not covered" >            okToWrite = false;</span>
-<span class="cstat-no" title="statement not covered" >            process.stdout.write(String(data));</span>
-            //process.stdout.end();
-        }
-        else {
-<span class="cstat-no" title="statement not covered" >            messages.push(data);</span>
-        }
-&nbsp;
+<span class="cstat-no" title="statement not covered" >        process.stdout.write(String(data));</span>
     },
 &nbsp;
-    logArray: <span class="fstat-no" title="function not covered" >function logArray(arr){</span>
-<span class="cstat-no" title="statement not covered" >        arr.forEach(<span class="fstat-no" title="function not covered" >function(data){</span></span>
+    logArray: <span class="fstat-no" title="function not covered" >function logArray(arr) {</span>
+<span class="cstat-no" title="statement not covered" >        arr.forEach(<span class="fstat-no" title="function not covered" >function (data) {</span></span>
 <span class="cstat-no" title="statement not covered" >            process.stdout.write('\n\t' + String(data));</span>
         });
     }
@@ -193,7 +142,7 @@ module.exports = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 09 2016 00:02:34 GMT-0700 (PDT)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 11 2016 01:24:20 GMT-0700 (PDT)
 </div>
 </div>
 <script src="../../prettify.js"></script>

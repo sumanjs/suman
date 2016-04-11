@@ -21,7 +21,7 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 ---
 
-(disclaimer: Suman is in beta, despite the current version number; Suman only supports Node versions > 4.0)
+(disclaimers: Suman is in beta, despite the current version number; Suman supports Node versions >= 4.0)
 
 ---
 
@@ -330,6 +330,8 @@ corrupted by minification/uglification. But in testing frameworks, it is very un
 and just use metaprogramming with the callback argument list to locate the dependencies
 
 
+Note that because Suman should be installed as a devDependency, it won't show up as being used in the standard
+NPM badge:
 <br>
 <br>
 [![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
