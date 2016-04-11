@@ -29,7 +29,7 @@
 
  */
 
-
+//TODO: freeze module.exports inside the init fn, iff module.exports.keys.lenght ===0
 //TODO: https://realguess.net/2015/08/03/rules-on-structuring-the-test-directory-structure-with-mocha/
 //TODO: http://stackoverflow.com/questions/10753288/how-to-specify-test-directory-for-mocha
 //TODO: https://github.com/substack/picture-tube
@@ -74,10 +74,8 @@
 //TODO: if error is thrown after test is completed (in a setTimeout, for example) do we handle that?
 //TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
 //TODO: if suman/suman runner runs legit suman tests but the tests have no test cases, it needs to report that too
-//TODO: suman -s (server) needs to try user's config first, if that fails, then use default suman config
 //TODO: randomize test runs as per https://github.com/sindresorhus/ava/issues/595
 //TODO: steal unicode chars from existing projects
-//TODO: logging to disk or to network may be out of order so may need to do sync logging at end of run, instead of async during
 //TODO: does babel-node work with child_prcesses?
 //TODO: allow possibility to inject before/after/describe/context/it/test/beforeEach/afterEach into describes/contexts
 //TODO: create suman --diagnostics option at command line to check for common problems with both project and test suites
@@ -367,7 +365,7 @@ if (init) {
 } else if (coverage) {
 
     if (dirs.length < 1) {
-        console.error('   ' + colors.bgCyan('Suman error => No test file or dir specified at command line') + '\n\n');
+        console.error('   ' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
         return;
     }
     else {
@@ -434,7 +432,7 @@ else {
 
 
     if (dirs.length < 1) {
-        console.error('   ' + colors.bgCyan('Suman error => No test file or dir specified at command line') + '\n\n');
+        console.error('   ' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
         return;
     }
     else {

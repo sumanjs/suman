@@ -1,0 +1,1916 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for suman/lib/TestSuite.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">suman/lib/</a> TestSuite.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">58.72% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>165/281</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">43.75% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>42/96</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">39.68% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>25/63</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">58.72% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>165/281</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Created by denman on 12/28/15.
+ */
+&nbsp;
+&nbsp;
+//TODO: create immutable props - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+&nbsp;
+//#core
+const domain = require('domain');
+const _ = require('underscore');
+const async = require('async');
+&nbsp;
+//#npm
+const fnArgs = require('function-arguments');
+const debugCore = require('debug')('suman:core');
+&nbsp;
+//#project
+const incr = require('./incrementer');
+const makeSuiteLite = require('./make-suite-lite');
+const makeHandleExtraOpts = require('./handle-extra-opts');
+const SumanErrors = require('../config/suman-errors');
+const utils = require('./utils');
+const makeTheTrap = require('./test-suite-helpers/make-the-trap');
+const makeHandleBeforesAndAfters = require('./test-suite-helpers/make-handle-befores-afters');
+&nbsp;
+///////////////////////////////////////////////////////////////////////
+&nbsp;
+function makeTestSuite(suman, gracefulExit, testErrors, ee) {
+&nbsp;
+    const allDescribeBlocks = suman.allDescribeBlocks;
+    const handleExtraOpts = makeHandleExtraOpts(suman);
+    const ParallelTestSet = require('./ParallelTestSet')(suman);
+    const LoopTestSet = require('./LoopTestSet')(suman);
+    const runTheTrap = makeTheTrap(suman, gracefulExit, testErrors);
+    const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
+&nbsp;
+    const _interface = String(suman.interface).toUpperCase() === 'TDD' ? <span class="branch-0 cbranch-no" title="branch not covered" >'TDD' </span>: 'BDD';
+&nbsp;
+    function TestSuiteBase(obj) {
+&nbsp;
+        this.testId = incr();
+        this.isSetupComplete = false;
+        this.isTopLevel = obj.isTopLevel || undefined;
+        this.isDescribe = obj.isDescribe || undefined;
+        this.parallel = obj.parallel || false;
+        this.skipped = obj.skip || false;
+        this.only = obj.only || false;
+        this.opts = obj.opts;
+&nbsp;
+        const children = [];
+        const tests = [];
+        const parallelTests = [];
+        const testsParallel = [];
+        const loopTests = [];
+        const befores = [];
+        const beforeEaches = [];
+        const afters = [];
+        const afterEaches = [];
+&nbsp;
+        this.getChildren = function () {
+            return children;
+        };
+&nbsp;
+        this.getTests = function () {
+            return tests;
+        };
+&nbsp;
+        this.getParallelTests = function () {
+            return parallelTests;
+        };
+&nbsp;
+        this.getTestsParallel = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return testsParallel;</span>
+        };
+&nbsp;
+        this.getLoopTests = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return loopTests;</span>
+        };
+&nbsp;
+        this.getBefores = function () {
+            return befores;
+        };
+&nbsp;
+        this.getBeforeEaches = function () {
+            return beforeEaches;
+        };
+&nbsp;
+        this.getAfters = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return afters;</span>
+        };
+&nbsp;
+        this.getAfterEaches = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return afterEaches;</span>
+        };
+    }
+&nbsp;
+    const TestSuiteMaker = {};
+&nbsp;
+    TestSuiteMaker.new = function (data) {  //TODO: need to validate raw data...
+&nbsp;
+        var it, describe;
+&nbsp;
+        function TestSuite(obj) {
+&nbsp;
+            this.desc = obj.desc;
+            this.opts = obj.opts;
+&nbsp;
+&nbsp;
+            const before = function (desc, before) {
+                handleSetupComplete(this);
+                const obj = handleOptionalDesc(desc, before);
+                //TODO: add timeout option
+                const fn = obj.fn;
+                fn.ctx = this;
+                fn.type = 'before';
+                fn.timeOutError = new Error('timed out - did you forget to call done()?');
+                fn.NO_DONE = new Error('No done referenced in callback');
+                this.getBefores().push(fn);
+                return this;
+            };
+&nbsp;
+            _interface === 'TDD' ? <span class="branch-0 cbranch-no" title="branch not covered" >this.setup = before </span>: this.before = before;
+&nbsp;
+            const after = <span class="fstat-no" title="function not covered" >function (desc, after) {</span>
+<span class="cstat-no" title="statement not covered" >                handleSetupComplete(this);</span>
+<span class="cstat-no" title="statement not covered" >                const obj = handleOptionalDesc(desc, after);</span>
+<span class="cstat-no" title="statement not covered" >                const fn = obj.fn;</span>
+<span class="cstat-no" title="statement not covered" >                fn.ctx = this;</span>
+                //TODO: add timeout option
+<span class="cstat-no" title="statement not covered" >                fn.type = 'after';</span>
+<span class="cstat-no" title="statement not covered" >                fn.timeOutError = new Error('timed out - did you forget to call done()?');</span>
+<span class="cstat-no" title="statement not covered" >                fn.NO_DONE = new Error('No done referenced in callback');</span>
+<span class="cstat-no" title="statement not covered" >                this.getAfters().push(fn);</span>
+<span class="cstat-no" title="statement not covered" >                return this;</span>
+            };
+&nbsp;
+            _interface === 'TDD' ? <span class="branch-0 cbranch-no" title="branch not covered" >this.teardown = after </span>: this.after = after;
+&nbsp;
+            const beforeEach = function (desc, aBeforeEach) {
+                handleSetupComplete(this);
+                var obj = handleOptionalDesc(desc, aBeforeEach);
+                const fn = obj.fn;
+                fn.ctx = this;
+                //TODO: add timeout option
+                fn.type = 'beforeEach';
+                fn.timeOutError = new Error('timed out - did you forget to call done()?');
+                fn.NO_DONE = new Error('No done referenced in callback');
+                this.getBeforeEaches().push(fn);
+                return this;
+            };
+&nbsp;
+            _interface === 'TDD' ? <span class="branch-0 cbranch-no" title="branch not covered" >this.setupTest = beforeEach </span>: this.beforeEach = beforeEach;
+&nbsp;
+            const afterEach = <span class="fstat-no" title="function not covered" >function (desc, aAfterEach) {</span>
+<span class="cstat-no" title="statement not covered" >                handleSetupComplete(this);</span>
+<span class="cstat-no" title="statement not covered" >                var obj = handleOptionalDesc(desc, aAfterEach);</span>
+<span class="cstat-no" title="statement not covered" >                const fn = obj.fn;</span>
+<span class="cstat-no" title="statement not covered" >                fn.ctx = this;</span>
+                //TODO: add timeout option
+<span class="cstat-no" title="statement not covered" >                fn.type = 'afterEach';</span>
+<span class="cstat-no" title="statement not covered" >                fn.timeOutError = new Error('timed out - did you forget to call done()?');</span>
+<span class="cstat-no" title="statement not covered" >                fn.NO_DONE = new Error('No done referenced in callback');</span>
+<span class="cstat-no" title="statement not covered" >                this.getAfterEaches().push(fn);</span>
+<span class="cstat-no" title="statement not covered" >                return this;</span>
+            };
+&nbsp;
+            _interface === 'TDD' ? <span class="branch-0 cbranch-no" title="branch not covered" >this.teardownTest = afterEach </span>: this.afterEach = afterEach;
+&nbsp;
+            it = function (desc, opts, cb) {
+&nbsp;
+                handleSetupComplete(this);
+&nbsp;
+                var obj = handleExtraOpts.handleExtraTestCaseOpts(desc, opts, cb);
+&nbsp;
+                desc = obj.desc;
+                opts = obj.opts;
+                cb = obj.cb;
+&nbsp;
+&nbsp;
+                var testData = null;
+&nbsp;
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (opts.skip) {
+<span class="cstat-no" title="statement not covered" >                    testData = {testId: incr(), desc: desc, skipped: true};</span>
+<span class="cstat-no" title="statement not covered" >                    this.getTests().push(testData);</span>
+<span class="cstat-no" title="statement not covered" >                    return this;</span>
+                }
+&nbsp;
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (suman.itOnlyIsTriggered &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!opts.only)</span> {
+                    //TODO: fix this
+<span class="cstat-no" title="statement not covered" >                    testData = {testId: incr(), desc: desc, skippedDueToOnly: true};</span>
+<span class="cstat-no" title="statement not covered" >                    this.getTests().push(testData);</span>
+<span class="cstat-no" title="statement not covered" >                    return this;</span>
+                }
+&nbsp;
+                var stubbed = false;
+&nbsp;
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (!cb) {
+<span class="cstat-no" title="statement not covered" >                    stubbed = true;</span>
+                }
+                else {
+                    cb.NO_DONE = new Error('No done referenced in callback');
+                    cb.timeOutError = new Error('timed out - did you forget to call done()?');
+                }
+&nbsp;
+                testData = _.extend({}, opts, {
+                    testId: incr(),
+                    stubbed: stubbed,
+                    data: {},
+                    //opts: opts,
+                    type: 'it-standard',
+                    timeout: opts.timeout || 5000,
+                    desc: desc,
+                    cb: cb,
+                    timedOut: false,
+                    complete: false,
+                    error: null
+                });
+&nbsp;
+&nbsp;
+                if (opts.parallel || (this.parallel &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >opts.parallel !== false)</span>) {
+                    this.getParallelTests().push(testData);
+                }
+                else {
+                    this.getTests().push(testData);
+                }
+&nbsp;
+                return this;
+            };
+&nbsp;
+            _interface === 'TDD' ? <span class="branch-0 cbranch-no" title="branch not covered" >this.test = it </span>: this.it = it;
+&nbsp;
+&nbsp;
+            describe = this.context = function (desc, opts, cb) {
+&nbsp;
+                handleSetupComplete(this);
+                var obj = handleExtraOpts.handleExtraOpts(desc, opts, cb);
+&nbsp;
+                desc = obj.desc;
+                opts = obj.opts;
+                cb = obj.cb;
+&nbsp;
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (utils.isArrowFunction(cb)) { //TODO: need to check for generators or async/await as well
+<span class="cstat-no" title="statement not covered" >                    throw new Error('You cannot use an arrow function with describe callbacks; however, you may use arrow functions everywhere else, except describes.')</span>
+                }
+&nbsp;
+&nbsp;
+                var suite = null;
+&nbsp;
+                // if (opts.skip) {
+                //     suite = {testId: incr(), desc: desc, skipped: true};
+                //     this.getChildren().push(suite);
+                //     allDescribeBlocks.push(suite);
+                //     return;
+                // }
+&nbsp;
+                //TODO: need to investigate, even if suite is not declared only, there may be a sub-suite that is declared "only"
+                // if (suman.describeOnlyIsTriggered &amp;&amp; !opts.only) {
+                //     //describeOnlyIsTriggered &amp;&amp; and this describe is not an only, so skipped
+                //     return;
+                // }
+&nbsp;
+                // if (this.parallel) {
+                //     if (opts.parallel === false) {
+                //         //TODO: we may want to switch this, so that the child can override this
+                //         process.stdout.write('\nwarning: parent describe ("' + this.desc + '") is parallel, so child describe ("' + desc + '") will be parallel also.\n\n');
+                //     }
+                //     opts.parallel = true;  //note: if parent is parallel, child is also parallel because we say so
+                // }
+&nbsp;
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (this.parallel &amp;&amp; opts.parallel === false) {
+<span class="cstat-no" title="statement not covered" >                    process.stdout.write('\n=&gt; Suman warning =&gt; parent describe ("' + this.desc + '") is parallel, so child describe ("' + desc + '") will be run in parallel with other sibling suites.');</span>
+<span class="cstat-no" title="statement not covered" >                    process.stdout.write('\n=&gt; Suman warning =&gt; To see more info on this, visit: oresoftware.github.io/suman\n\n');</span>
+                }
+&nbsp;
+                suite = TestSuiteMaker.new(_.extend({}, opts, {
+                    desc: desc,
+                    title: desc,
+                    isDescribe: true,
+                    opts: opts
+                }));
+&nbsp;
+                suite.skipped = opts.skip || this.skipped;
+                suite.parent = _.pick(this, 'testId', 'desc', 'title', 'parallel');
+                this.getChildren().push({testId: suite.testId});
+                allDescribeBlocks.push(suite);
+&nbsp;
+&nbsp;
+                var parent = this;
+&nbsp;
+                suite.run = function run(callback) {  //TODO: put run on the proto
+&nbsp;
+                    const d = domain.create();
+&nbsp;
+                    d.once('error', <span class="fstat-no" title="function not covered" >function (err) {</span>
+<span class="cstat-no" title="statement not covered" >                        d.exit();</span>
+<span class="cstat-no" title="statement not covered" >                        process.nextTick(<span class="fstat-no" title="function not covered" >function(){</span></span>
+<span class="cstat-no" title="statement not covered" >                            console.error(err.stack);</span>
+<span class="cstat-no" title="statement not covered" >                            suman.logFatalSuite(suite);</span>
+<span class="cstat-no" title="statement not covered" >                            gracefulExit([err]);</span>
+                        });
+                    });
+&nbsp;
+                    d.run(function () {
+&nbsp;
+                        //note: this needs to be called synchronously, so that we bind skip and only to the right suite
+&nbsp;
+                        suite.__bindExtras(suite);
+&nbsp;
+                        <span class="missing-if-branch" title="else path not taken" >E</span>if (cb.length &lt; 1) {
+                            //TODO: do we want this to be async (process.nextTick?)
+                            cb.apply(suite, []);
+                            suite.__proto__.isSetupComplete = true;
+                            suite.__bindExtras(parent);  //bind extras back to parent test
+                            suite.__invokeChildren(callback);
+                        }
+                        else {
+                            //TODO: right now this.describes are only geared up for one injected param, "delay"; need to generify.
+<span class="cstat-no" title="statement not covered" >                            suite.__proto__.isDelayed = true;</span>
+<span class="cstat-no" title="statement not covered" >                            cb.apply(suite, [<span class="fstat-no" title="function not covered" >function delay(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                                process.nextTick(<span class="fstat-no" title="function not covered" >function () {</span>  //need to make sure delay is called asynchronously, but this should take care of it</span>
+<span class="cstat-no" title="statement not covered" >                                    suite.__proto__.isSetupComplete = true;</span>
+<span class="cstat-no" title="statement not covered" >                                    suite.__bindExtras(parent); </span> //bind extras back to parent test
+<span class="cstat-no" title="statement not covered" >                                    suite.__invokeChildren(callback); </span>// pass callback
+                                });
+                            }]);
+                        }
+                    });
+                };
+            };
+&nbsp;
+            _interface === 'TDD' ? <span class="branch-0 cbranch-no" title="branch not covered" >this.suite = describe </span>: this.describe = describe;
+        }
+&nbsp;
+&nbsp;
+        TestSuite.prototype = Object.create(new TestSuiteBase(data));
+&nbsp;
+        TestSuite.prototype.__bindExtras = function bindExtras(ctx) {
+&nbsp;
+            describe.skip = describe.SKIP = <span class="fstat-no" title="function not covered" >function (desc, opts, cb) {</span>
+<span class="cstat-no" title="statement not covered" >                const obj = handleExtraOpts.handleExtraOpts(desc, opts, cb);</span>
+<span class="cstat-no" title="statement not covered" >                obj.opts.skip = true;</span>
+<span class="cstat-no" title="statement not covered" >                describe.bind(ctx)(obj.desc, obj.opts, obj.cb);</span>
+            };
+&nbsp;
+            describe.only = describe.ONLY = <span class="fstat-no" title="function not covered" >function (desc, opts, cb) {</span>
+<span class="cstat-no" title="statement not covered" >                suman.describeOnlyIsTriggered = true;</span>
+<span class="cstat-no" title="statement not covered" >                const obj = handleExtraOpts.handleExtraOpts(desc, opts, cb);</span>
+<span class="cstat-no" title="statement not covered" >                obj.opts.only = true;</span>
+<span class="cstat-no" title="statement not covered" >                describe.bind(ctx)(obj.desc, obj.opts, obj.cb);</span>
+            };
+&nbsp;
+            it.skip = it.SKIP = <span class="fstat-no" title="function not covered" >function (desc, opts, cb) {</span>
+<span class="cstat-no" title="statement not covered" >                const obj = handleExtraOpts.handleExtraTestCaseOpts(desc, opts, cb);</span>
+<span class="cstat-no" title="statement not covered" >                obj.opts.skip = true;</span>
+<span class="cstat-no" title="statement not covered" >                return it.bind(ctx)(obj.desc, obj.opts, obj.cb);</span>
+            };
+&nbsp;
+            it.only = it.ONLY = <span class="fstat-no" title="function not covered" >function (desc, opts, cb) {</span>
+<span class="cstat-no" title="statement not covered" >                suman.itOnlyIsTriggered = true;</span>
+<span class="cstat-no" title="statement not covered" >                const obj = handleExtraOpts.handleExtraTestCaseOpts(desc, opts, cb);</span>
+<span class="cstat-no" title="statement not covered" >                obj.opts.only = true;</span>
+<span class="cstat-no" title="statement not covered" >                return it.bind(ctx)(obj.desc, obj.opts, obj.cb);</span>
+            };
+&nbsp;
+        };
+&nbsp;
+        TestSuite.prototype.__invokeChildren = function (start) {
+&nbsp;
+            var self = this;
+            var testIds = _.pluck(this.getChildren(), 'testId');
+&nbsp;
+            var children = allDescribeBlocks.filter(function (test) {
+                return _.contains(testIds, test.testId)/* &amp;&amp; !test.skipped*/;
+            });
+&nbsp;
+            async.eachSeries(children, function (child, cb) {
+&nbsp;
+                child.run(function () {
+                    cb(null);
+                });
+&nbsp;
+            }, function complete() {
+                start();
+            });
+&nbsp;
+        };
+&nbsp;
+&nbsp;
+        function handleSetupComplete(test) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (test.isSetupComplete) {
+<span class="cstat-no" title="statement not covered" >                var e = new Error('You cannot call the following functions asynchronously - describe(), it(), before(), beforeEach(), after(), afterEach()\n\t- do not ' +</span>
+                    'put these calls inside a setTimeout, setImmediate, process.nextTick or any other asynchronous calls. ***This includes nesting these calls inside each other.***\n\t' +
+                    'This is a fatal error because behavior will be completely indeterminate upon asynchronous registry of these calls.');
+<span class="cstat-no" title="statement not covered" >                e.sumanFatal = true;</span>
+<span class="cstat-no" title="statement not covered" >                throw e;</span>
+            }
+        }
+&nbsp;
+        function handleOptionalDesc(desc, fn) {
+            var obj = {};
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof desc === 'function') {
+                obj.fn = desc;
+                obj.fn.desc = null;
+            }
+            else <span class="cstat-no" title="statement not covered" >if (typeof desc === 'string') {</span>
+<span class="cstat-no" title="statement not covered" >                if (typeof fn !== 'function') {</span>
+<span class="cstat-no" title="statement not covered" >                    throw new Error('fn is not a function');</span>
+                }
+<span class="cstat-no" title="statement not covered" >                obj.fn = fn;</span>
+<span class="cstat-no" title="statement not covered" >                obj.fn.desc = desc;</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                throw new Error('Bad arguments to before/after/beforeEach/afterEach');</span>
+            }
+&nbsp;
+            return obj;
+        }
+&nbsp;
+        TestSuite.prototype.toString = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this.constructor + ':' + this.desc;</span>
+        };
+&nbsp;
+&nbsp;
+        TestSuite.prototype.log = <span class="fstat-no" title="function not covered" >function (data) {</span>
+<span class="cstat-no" title="statement not covered" >            suman.log(data, this);</span>
+        };
+&nbsp;
+&nbsp;
+        // TestSuite.prototype.series = function (cb) {
+        //     if (typeof cb === 'function') {
+        //         cb.apply(this, []);
+        //     }
+        //     return this;
+        // };
+&nbsp;
+&nbsp;
+        // TestSuite.prototype.runParallel = function (cb) {
+        //     var self = this;
+        //     var parTest = new ParallelTestSet();
+        //     this.getTestsParallel().push(parTest);
+        //     cb.apply(parTest, []);
+        //     return this;
+        // };
+&nbsp;
+&nbsp;
+        // TestSuite.prototype.loop = function (arr, cb) {
+        //     var self = this;
+        //     var loopTest = new LoopTestSet();
+        //
+        //     arr.forEach(function (item, index) {
+        //         cb.apply(loopTest, [item, index]);
+        //     });
+        //
+        //     //suman.logData(loopTest);
+        //     this.getLoopTests().push(loopTest);
+        //     return this;
+        // };
+&nbsp;
+&nbsp;
+        TestSuite.prototype.__startSuite = function startSuite(finished) {
+&nbsp;
+            var self = this;
+&nbsp;
+&nbsp;
+            //TODO: do we need to notify parent that child is complete if child is skipped?
+&nbsp;
+&nbsp;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (this.skipped) {
+                // return finished();
+            }
+&nbsp;
+            //TODO: incongruent behavior with ONLY, in same cases we eliminate describes before they are registered
+            //TODO: and in other cases they get registered but rejected after they start
+            //TODO: furthemore if a child describe is only, but the parent is not, then we still need to run hooks for parent
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (suman.describeOnlyIsTriggered &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!this.only)</span> {
+<span class="cstat-no" title="statement not covered" >                this.skippedDueToOnly = true;</span>
+                // return finished();
+            }
+&nbsp;
+&nbsp;
+<span class="fstat-no" title="function not covered" >            function notifyParentThatChildIsComplete(parentTestId, childTestId, cb) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                var parent = null;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                for (var i = 0; i &lt; allDescribeBlocks.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                    var temp = allDescribeBlocks[i];</span>
+<span class="cstat-no" title="statement not covered" >                    if (temp.testId === parentTestId) {</span>
+<span class="cstat-no" title="statement not covered" >                        parent = temp;</span>
+<span class="cstat-no" title="statement not covered" >                        break;</span>
+                    }
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (!parent) { //note: root suite has no parent</span>
+<span class="cstat-no" title="statement not covered" >                    throw new Error('No parent defined for child, should not happen.');</span>
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    var lastChild = parent.getChildren()[parent.getChildren().length - 1];</span>
+<span class="cstat-no" title="statement not covered" >                    if (lastChild.testId === childTestId) {</span>
+<span class="cstat-no" title="statement not covered" >                        async.mapSeries(parent.getAfters(), handleBeforesAndAfters(self), <span class="fstat-no" title="function not covered" >function complete(err, results) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            gracefulExit(results, <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                                if (parent.parent) {</span>
+<span class="cstat-no" title="statement not covered" >                                    notifyParentThatChildIsComplete(parent.parent.testId, parent.testId, cb);</span>
+                                } else {
+<span class="cstat-no" title="statement not covered" >                                    cb(null);</span>
+                                }
+                            });
+                        });
+                    } else {
+<span class="cstat-no" title="statement not covered" >                        cb(null);</span>
+                    }
+                }
+            }
+&nbsp;
+&nbsp;
+            async.series([
+                function runBefores(cb) {
+&nbsp;
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if(self.skipped || self.skippedDueToOnly){
+<span class="cstat-no" title="statement not covered" >                        process.nextTick(<span class="fstat-no" title="function not covered" >function(){</span></span>
+<span class="cstat-no" title="statement not covered" >                             cb(null);</span>
+                        });
+                    }
+                    else{
+                        //TODO: can probably prevent befores from running by checking self.tests.length &lt; 1
+                        async.mapSeries(self.getBefores(), handleBeforesAndAfters(self), <span class="fstat-no" title="function not covered" >function complete(err, results) {</span>
+<span class="cstat-no" title="statement not covered" >                            gracefulExit(results, <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                                cb(null);</span>
+                            });
+                        });
+                    }
+&nbsp;
+                },
+<span class="fstat-no" title="function not covered" >                function runTests(cb) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    var fn1 = self.parallel ? async.parallel : async.series;</span>
+<span class="cstat-no" title="statement not covered" >                    var fn2 = self.parallel ? async.each : async.eachSeries;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    fn1([<span class="fstat-no" title="function not covered" >function runPotentiallySerialTests(cb) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            fn2(self.getTests(), <span class="fstat-no" title="function not covered" >function (test, cb) {</span></span>
+<span class="cstat-no" title="statement not covered" >                                if(self.skippedDueToOnly || self.skipped){</span>
+<span class="cstat-no" title="statement not covered" >                                    test.skipped = true;</span>
+                                }
+<span class="cstat-no" title="statement not covered" >                                runTheTrap(self, test, {</span>
+                                    parallel: false
+                                }, cb);
+                            }, <span class="fstat-no" title="function not covered" >function complete(err, results) {</span>
+<span class="cstat-no" title="statement not covered" >                                cb(null, results);</span>
+                            });
+&nbsp;
+                        }, <span class="fstat-no" title="function not covered" >function runParallelTests(cb) {</span>
+&nbsp;
+                            // var flattened = _.flatten([self.getTestsParallel(), self.getLoopTests()], true).concat([{
+                            //     tests: self.getParallelTests()
+                            // }]);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                            var flattened = [{tests: self.getParallelTests()}];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                            fn2(flattened, <span class="fstat-no" title="function not covered" >function ($set, cb) {</span> //run all parallel sets in series</span>
+                                // console.log('$set:',$set);
+<span class="cstat-no" title="statement not covered" >                                async.each($set.tests, <span class="fstat-no" title="function not covered" >function (test, cb) {</span> //but individual sets of parallel tests can run in parallel</span>
+<span class="cstat-no" title="statement not covered" >                                    if(self.skippedDueToOnly || self.skipped){</span>
+<span class="cstat-no" title="statement not covered" >                                        test.skipped = true;</span>
+                                    }
+<span class="cstat-no" title="statement not covered" >                                    runTheTrap(self, test, {</span>
+                                        parallel: true
+                                    }, cb);
+                                }, <span class="fstat-no" title="function not covered" >function done(err, results) {</span>
+<span class="cstat-no" title="statement not covered" >                                    cb(null, results);</span>
+                                });
+                            }, <span class="fstat-no" title="function not covered" >function done(err, results) {</span>
+<span class="cstat-no" title="statement not covered" >                                cb(null, results);</span>
+                            });
+                        }],
+<span class="fstat-no" title="function not covered" >                        function doneWithallDescribeBlocks(err, results) {</span>
+<span class="cstat-no" title="statement not covered" >                            cb(null, results);</span>
+                        });
+&nbsp;
+                },
+<span class="fstat-no" title="function not covered" >                function runAfters(cb) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    if (self.getChildren().length &lt; 1 &amp;&amp; !self.skipped &amp;&amp; !self.skippedDueToOnly) {</span>
+<span class="cstat-no" title="statement not covered" >                        async.mapSeries(self.getAfters(), handleBeforesAndAfters(self), <span class="fstat-no" title="function not covered" >function complete(err, results) {</span></span>
+<span class="cstat-no" title="statement not covered" >                            gracefulExit(results, <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                                cb(null);</span>
+                            });
+                        });
+                    } else {
+<span class="cstat-no" title="statement not covered" >                        process.nextTick(<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                            cb(null);</span>
+                        });
+                    }
+                }
+&nbsp;
+            ], <span class="fstat-no" title="function not covered" >function allDone(err, results) {</span>
+<span class="cstat-no" title="statement not covered" >                if (self.getChildren().length &lt; 1 &amp;&amp; self.parent) {</span>
+<span class="cstat-no" title="statement not covered" >                    notifyParentThatChildIsComplete(self.parent.testId, self.testId, <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                        finished();</span>
+                    });
+                } else {
+<span class="cstat-no" title="statement not covered" >                    finished();</span>
+                }
+            });
+&nbsp;
+        };
+&nbsp;
+        return new TestSuite(data);
+&nbsp;
+    };
+&nbsp;
+    return {
+        Maker: TestSuiteMaker
+    };
+&nbsp;
+}
+&nbsp;
+&nbsp;
+module.exports = makeTestSuite;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 11 2016 14:45:48 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

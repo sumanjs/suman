@@ -3,6 +3,7 @@
  */
 
 
+const constants = require('./suman-constants');
 
 function SumanError() {
 
@@ -23,27 +24,29 @@ function control(isThrow, err) {
 
 function filter(suman, isFatal, err) {
 
-    var stack = String(err.stack).split('\n');
+    // var stack = String(err.stack).split('\n');
+
+    const stack = err.stack || err;
 
     var firstMatch = false;
 
-    stack = stack.map(function (item, index) {
-        if (index === 0) {
-            return item;
-        }
-        //TODO: need to make this work with Windows also
-        if (item) {
-            //if (String(item).match(/at TestSuite/) && !String(item).match(/suman\/lib/)) {
-            //    return item;
-            //}
-            if (!firstMatch && String(item).match(suman.fileName) /*|| !String(item).match(/suman\/lib/)*/) {
-                firstMatch = true;
-                return item;
-            }
-        }
-    }).filter(function (item) {
-        return item;
-    }).join('\n').concat('\n');
+    // stack = stack.map(function (item, index) {
+    //     if (index === 0) {
+    //         return item;
+    //     }
+    //     //TODO: need to make this work with Windows also
+    //     if (item) {
+    //         //if (String(item).match(/at TestSuite/) && !String(item).match(/suman\/lib/)) {
+    //         //    return item;
+    //         //}
+    //         if (!firstMatch && String(item).match(suman.fileName) /*|| !String(item).match(/suman\/lib/)*/) {
+    //             firstMatch = true;
+    //             return item;
+    //         }
+    //     }
+    // }).filter(function (item) {
+    //     return item;
+    // }).join('\n').concat('\n');
 
     var type = isFatal ? 'FATAL' : 'NON_FATAL_ERR';
 
@@ -60,8 +63,7 @@ function filter(suman, isFatal, err) {
     }
 
     if (isFatal) {
-        console.error(new Error('Fatal error').stack);
-        process.exit(1);
+        process.exit(constants.EXIT_CODES.BAD_CONFIG_OR_PROGRAM_ARGUMENTS);
     }
 
 }

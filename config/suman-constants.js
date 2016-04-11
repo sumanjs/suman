@@ -27,6 +27,7 @@ module.exports = Object.freeze({
     EXIT_CODES: {
         SUCCESSFUL_RUN: 0,
         GREP_SUITE_DID_NOT_MATCH: 0,
+        BAD_CONFIG_OR_PROGRAM_ARGUMENTS: 54,
         UNEXPECTED_NON_FATAL_ERROR: 55,
         TEST_CASE_FAIL: 56,
         INVALID_ARROW_FUNCTION_USAGE: 57,
