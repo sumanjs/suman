@@ -29,6 +29,7 @@
 
  */
 
+//TODO: https://github.com/gotwarlost/istanbul/issues/596#issuecomment-208688593
 //TODO: http://blog.yld.io/2016/01/13/using-streams/#.VwyjZZMrKXk
 //TODO: freeze module.exports inside the init fn, iff module.exports.keys.lenght ===0
 //TODO: https://realguess.net/2015/08/03/rules-on-structuring-the-test-directory-structure-with-mocha/
