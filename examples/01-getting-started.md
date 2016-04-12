@@ -1,5 +1,5 @@
 
-
+### :: Installation ::
 
 1. => <span style="background-color:#FF8C00">&nbsp;```$ npm install -g suman```</span>
 
@@ -26,3 +26,4 @@ If you point Suman at an individual test file, you the developer have the choice
 The biggest advantage of using the runner with a single test file is that the runner can suppress your
 console.log/debugging output, because using the runner will run your test suite in a child_process.
 
+Here is a simple test file you can use to try Suman out, put the code in any .js file and run it with one of the above commands.

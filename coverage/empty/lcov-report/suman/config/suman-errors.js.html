@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20.69% </span>
+        <span class="strong">33.33% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/29</span>
+        <span class='fraction'>7/21</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/16</span>
+        <span class='fraction'>0/10</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/8</span>
+        <span class='fraction'>0/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20.69% </span>
+        <span class="strong">33.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/29</span>
+        <span class='fraction'>7/21</span>
       </div>
     </div>
   </div>
@@ -127,11 +127,14 @@
 82
 83
 84
-85</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+85
+86
+87</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -152,32 +155,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,8 +181,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -216,6 +220,7 @@
  */
 &nbsp;
 &nbsp;
+const constants = require('./suman-constants');
 &nbsp;
 <span class="fstat-no" title="function not covered" >function SumanError() {</span>
 &nbsp;
@@ -236,27 +241,29 @@ SumanError.prototype.constructor = SumanError;
 &nbsp;
 <span class="fstat-no" title="function not covered" >function filter(suman, isFatal, err) {</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    var stack = String(err.stack).split('\n');</span>
+    // var stack = String(err.stack).split('\n');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    const stack = err.stack || err;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    var firstMatch = false;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    stack = stack.map(<span class="fstat-no" title="function not covered" >function (item, index) {</span></span>
-<span class="cstat-no" title="statement not covered" >        if (index === 0) {</span>
-<span class="cstat-no" title="statement not covered" >            return item;</span>
-        }
-        //TODO: need to make this work with Windows also
-<span class="cstat-no" title="statement not covered" >        if (item) {</span>
-            //if (String(item).match(/at TestSuite/) &amp;&amp; !String(item).match(/suman\/lib/)) {
-            //    return item;
-            //}
-<span class="cstat-no" title="statement not covered" >            if (!firstMatch &amp;&amp; String(item).match(suman.fileName) /*|| !String(item).match(/suman\/lib/)*/) {</span>
-<span class="cstat-no" title="statement not covered" >                firstMatch = true;</span>
-<span class="cstat-no" title="statement not covered" >                return item;</span>
-            }
-        }
-    }).filter(<span class="fstat-no" title="function not covered" >function (item) {</span>
-<span class="cstat-no" title="statement not covered" >        return item;</span>
-    }).join('\n').concat('\n');
+    // stack = stack.map(function (item, index) {
+    //     if (index === 0) {
+    //         return item;
+    //     }
+    //     //TODO: need to make this work with Windows also
+    //     if (item) {
+    //         //if (String(item).match(/at TestSuite/) &amp;&amp; !String(item).match(/suman\/lib/)) {
+    //         //    return item;
+    //         //}
+    //         if (!firstMatch &amp;&amp; String(item).match(suman.fileName) /*|| !String(item).match(/suman\/lib/)*/) {
+    //             firstMatch = true;
+    //             return item;
+    //         }
+    //     }
+    // }).filter(function (item) {
+    //     return item;
+    // }).join('\n').concat('\n');
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    var type = isFatal ? 'FATAL' : 'NON_FATAL_ERR';</span>
 &nbsp;
@@ -273,8 +280,7 @@ SumanError.prototype.constructor = SumanError;
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (isFatal) {</span>
-<span class="cstat-no" title="statement not covered" >        console.error(new Error('Fatal error').stack);</span>
-<span class="cstat-no" title="statement not covered" >        process.exit(1);</span>
+<span class="cstat-no" title="statement not covered" >        process.exit(constants.EXIT_CODES.BAD_CONFIG_OR_PROGRAM_ARGUMENTS);</span>
     }
 &nbsp;
 }
@@ -301,7 +307,7 @@ module.exports = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 11 2016 14:44:37 GMT-0700 (PDT)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 11 2016 16:14:34 GMT-0700 (PDT)
 </div>
 </div>
 <script src="../../prettify.js"></script>

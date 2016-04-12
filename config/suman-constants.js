@@ -21,7 +21,8 @@ module.exports = Object.freeze({
         'describe',
         'context',
         'extra',
-        '$uda'
+        '$uda',
+        'writable'
     ],
     CORE_MODULE_LIST: require('builtin-modules'),
     EXIT_CODES: {

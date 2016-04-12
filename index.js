@@ -29,6 +29,7 @@
 
  */
 
+//TODO: http://blog.yld.io/2016/01/13/using-streams/#.VwyjZZMrKXk
 //TODO: freeze module.exports inside the init fn, iff module.exports.keys.lenght ===0
 //TODO: https://realguess.net/2015/08/03/rules-on-structuring-the-test-directory-structure-with-mocha/
 //TODO: http://stackoverflow.com/questions/10753288/how-to-specify-test-directory-for-mocha
@@ -291,18 +292,23 @@ const coverage = opts.coverage;
 
 
 try {
+    //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
+
     pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
     sumanConfig = require(pth);
     if (sumanConfig.verbose !== false) {  //default to true
         console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
     }
-    //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
+
 }
 catch (err) {
     //TODO: try to get suman.conf.js from root of project
 
-    console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
-    console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
+    if(!init){
+        console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
+        console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
+
+    }
 
     try {
         pth = path.resolve(sumanUtils.findProjectRoot(cwd) + '/' + 'suman.conf.js');
@@ -312,7 +318,7 @@ catch (err) {
         }
     }
     catch (err) {
-        console.log(colors.bgCyan.black(' => Suman msg => Warning - no configuration found in your project, using default Suman configuration.'));
+        console.log(colors.bgCyan.black(' => Suman message => Warning - no configuration found in your project, using default Suman configuration.'));
         try {
             pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
             sumanConfig = require(pth);
