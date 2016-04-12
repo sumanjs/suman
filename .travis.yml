@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - '5'
+  - '4'
+  - '0.12'
+script: 'node index test/build-tests/test6.js'
+after_script: 'cat coverage/lcov.info | coveralls'
