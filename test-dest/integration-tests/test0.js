@@ -17,7 +17,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var suman = require('../../lib');
 
 var Test = suman.init(module, {
-    integrants: ['smartconnect', 'dolce-vida']
+    integrants: ['smartconnect', 'dolce-vida'],
+    interface: 'BDD'
 });
 
 console.log('some bs');
@@ -74,7 +75,8 @@ Test.describe('gggg', { parallel: false }, function (http, delay, assert, fs, ch
 
                         case 2:
                             val = _context.sent;
-                            return _context.abrupt('return', console.log('val:', val));
+
+                            console.log('val:', val);
 
                         case 4:
                         case 'end':

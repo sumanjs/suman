@@ -10,6 +10,20 @@ const Test = suman.init(module, {
 });
 
 
+function async(bool) {
+    return function (target, key, descriptor) {
+        descriptor.enumerable = value;
+        return descriptor;
+    }
+}
+
+@async(true);
+function makeAsync(){
+
+}
+
+
+
 // here we create the test suite, we can pass in core modules, and any value defined in suman.ioc.js
 Test.describe('#Test1', function (assert, fs, http, path) {
 
@@ -19,6 +33,7 @@ Test.describe('#Test1', function (assert, fs, http, path) {
         this.beforeEach(t => {   //this runs before any test case inside this describe block
             t.data.foo = 3;
         });
+
 
         this.it('[test] 1', async(t) => {  // t represents this test case, t.data properties can be set prior in hooks
 
@@ -51,15 +66,19 @@ Test.describe('#Test1', function (assert, fs, http, path) {
     });
 
 
-    this.describe('tests http request', function(){
+    this.describe('tests http request', function () {
 
-        ['/foo','/bar','/bar'].forEach(val => {
+        ['/foo', '/bar', '/bar'].forEach(val => {
 
-            this.it('[test] 3',  (t, done) =>{
+            this.it('[test] 3', (t, done) => {
 
                 return http.get({
                     hostname: 'example.com',
-                    path: val
+                    path: val,
+                    headers: {
+                        'Accept': 'text/plain',
+                        'Content-Type': 'application/json'
+                    }
                 }, res => {
 
                     res.setEncoding('utf8');

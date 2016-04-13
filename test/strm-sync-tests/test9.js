@@ -11,13 +11,27 @@ const Test = suman.init(module, {
 });
 
 
-Test.suite('@Test1', {parallel: false, bail: true}, function (assert, fs, path, stream, extra, writable, delay) {
+Test.suite('@Test1', {
+
+    'async/await': true,
+    parallel: false,
+    bail: true
+
+}, function (assert, fs, delay, path, stream, extra, writable) {
 
 
     const strm = new stream.Writable({
 
-        write: function (chunk, encoding, cb) {
+        write: (chunk, encoding, cb)=> {
             console.log('whoooa:', String(chunk));
+
+            this.test('yolo', function () {
+
+                assert(true === true);
+
+            });
+
+            cb();
         }
     });
 
@@ -26,6 +40,6 @@ Test.suite('@Test1', {parallel: false, bail: true}, function (assert, fs, path, 
     // writable.uncork();
 
     strm.on('finish', delay);
-    strm.on('end',delay);
+    strm.on('end', delay);
 
 });

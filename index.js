@@ -29,6 +29,9 @@
 
  */
 
+
+//TODO: need glob support for source
+//TODO: to be compliant with Babel, need to put context for functions in extra param
 //TODO: https://github.com/gotwarlost/istanbul/issues/596#issuecomment-208688593
 //TODO: http://blog.yld.io/2016/01/13/using-streams/#.VwyjZZMrKXk
 //TODO: freeze module.exports inside the init fn, iff module.exports.keys.lenght ===0

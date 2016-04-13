@@ -34,56 +34,68 @@ var assert = require("assert"),
 
 Test.describe('a', function () {
 
+    var x = ({formerly: "this.parent"});
 
-    this.after(done => {
-
-        console.log('before this a:', this.parent);
-
-    });
-
-    this.beforeEach(t => {
-
-        console.log('beforeEach this a:', this.parent);
-
-    });
-
-
-    this.it('a', (t, done) => {
-
-        console.log('it this a:', this.parent);
-
-        done();
-
-    });
-
+    this.title.X;
+    this.file.X;
+    {
+        formerly:"this.parent"
+    }
+    .
+    title;  //{formerly:"this.parent"} is null
 
     this.describe('b', function () {
 
+        (this.parent);
+        this.title.X;             // ''
+        this.file.X;              // ''
+        this.parent.title;        // ''
+
         this.before(() => {
 
-            console.log('before this b:', this.parent);
+            //{formerly:"this.currentTest"};   //  currentTest is not defined for before hooks
+            //this.title;  //  this.title;  (this = this)
 
         });
 
         this.beforeEach(t => {
 
-            console.log('beforeEach this b:', this.parent);
-            this.parent.title;
+            (this.title);   // this.title
+            (t);    // t = t
+            (this);    // this = this
+        });
 
+        this.it('a', t => {
+
+            (t.title);          // t.title
+            (this.title);   // this.title
+
+        });
+
+        this.it('a', t => {
+
+            (t.title);               // t.title
+            (this.title);        // this.title
 
         });
 
 
-        this.it('b', (t, done) => {
+        this.afterEach(t => {
 
-            console.log('it this b:', this.parent);
-            done();
-
+            (t.title);          // t.title
+            (this.title);   // this.title
+            (this);                // this
         });
 
+
+        this.after(() => {
+
+            (this.title);
+
+        });
 
     });
 
-
 });
 */
+"use strict";

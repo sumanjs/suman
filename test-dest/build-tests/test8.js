@@ -15,7 +15,7 @@ var Test = require('../../lib').init(module, {
     integrants: []
 });
 
-Test.describe('gggg', function () {
+Test.describe('gggg', { parallel: true }, function () {
 
     this.beforeEach(function (t, done) {
         done();
@@ -29,7 +29,7 @@ Test.describe('gggg', function () {
         done();
     });
 
-    this.context(function () {
+    this.describe('sharks', function () {
 
         this.after(function (done) {
             done();
@@ -37,6 +37,16 @@ Test.describe('gggg', function () {
 
         this.beforeEach(function (t, done) {
             done();
+        });
+
+        this.describe('pre-moodle', function () {
+
+            this.it('is async', function (done) {
+
+                setTimeout(function () {
+                    done();
+                }, 1000);
+            });
         });
 
         this.describe('moodle', {

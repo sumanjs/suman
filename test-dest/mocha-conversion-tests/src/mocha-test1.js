@@ -68,3 +68,4 @@ describe('a',function(){
     });
 
 });*/
+"use strict";

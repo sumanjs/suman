@@ -15,10 +15,10 @@ var Test = suman.init(module, 'suman.conf.js');
 
 Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, choodles, fs) {
 
-    console.log('roodles:', roodles);
-    console.log('choodles:', choodles);
-
-    console.log('fs:', fs);
+    // console.log('roodles:', roodles);
+    // console.log('choodles:', choodles);
+    //
+    // console.log('fs:', fs);
 
     var arr = [1, 2, 3];
 
@@ -50,9 +50,9 @@ Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, ch
     //});
 
     this.beforeEach(function (t, done, run) {
-        console.log('TTTTTTT:', t);
-        console.log('DDDDD:', done);
-        console.log('RRRRR:', run);
+        // console.log('TTTTTTT:', t);
+        // console.log('DDDDD:', done);
+        // console.log('RRRRR:', run);
         done();
         //t.data.lion = await timeout();
     });

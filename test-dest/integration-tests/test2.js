@@ -16,7 +16,7 @@ Test.describe('suite 2', function () {
     });
 
     var cars = [1, 2, 3];
-    
+
     this.describe('desc', function () {
 
         this.describe('desc', function () {

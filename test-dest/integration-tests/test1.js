@@ -9,7 +9,9 @@
 //gwt
 
 var suman = require('../../lib');
+
 var Test = suman.init(module, {
+    interface: 'BDD',
     integrants: ['smartconnect', 'dolce-vida']
 });
 
@@ -17,7 +19,7 @@ Test.describe('suite uno', function () {
 
     this.it.skip('foo2', { parallel: true }, function (t) {});
 
-    this.it.skip('bar2', { parallel: false }, function (t, done) {
+    this.it('bar2', { parallel: false }, function (t, done) {
         done();
     });
 
@@ -62,7 +64,9 @@ Test.describe('suite uno', function () {
 
     }, function () {
 
-        this.before(function () {}).after(function () {}).it.only('makes stuff 20', function (t, done) {
+        this.before(function () {}).after(function () {});
+
+        this.it('makes stuff 20', function (t, done) {
 
             setTimeout(function () {
 
@@ -86,7 +90,6 @@ Test.describe('suite uno', function () {
         }, function () {
 
             this.before(function () {}).after(function () {});
-            
 
             this.it('makes stuff 16', function () {});
 

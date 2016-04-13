@@ -7,10 +7,12 @@
 var suman = require('../../lib');
 var Test = suman.init(module, 'suman.conf.js');
 
-Test.describe('A', {}, ['request', 'socketio'], function (request, socketio) {
+Test.describe('A', {}, function (request, socketio) {
 
     //console.log('request:', request.toString());
     //console.log('socketio:', socketio.toString());
+
+    // throw new Error('shit');
 
     var arr = [1, 2, 3];
 
@@ -28,14 +30,14 @@ Test.describe('A', {}, ['request', 'socketio'], function (request, socketio) {
         }, 1000);
     });
 
-    this.describe('B', function (delay) {
+    this.describe.SKIP('B', function (delay) {
 
         setTimeout(function () {
             arr.push(8);
             delay();
         }, 100);
 
-        this.describe(function () {
+        this.describe('ruffles', function () {
             var _this = this;
 
             arr.forEach(function (item) {

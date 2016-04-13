@@ -21,9 +21,12 @@
  </suman-message>
  *!/
 
-const suman = require('suman');
+const suman = require('../lib');
 const Test = suman.init(module);
 
+/!**
+ * Created by amills001c on 4/6/16.
+ *!/
 /!**
  * Created by amills001c on 3/20/16.
  *!/
@@ -35,55 +38,20 @@ var assert = require("assert"),
 Test.describe('a', function () {
 
 
-    this.after(done => {
-
+    this.before(() => {
         console.log('before this a:', this.parent);
-
     });
 
-    this.beforeEach(t => {
+    this.after(() => {
 
-        console.log('beforeEach this a:', this.parent);
-
-    });
-
-
-    this.it('a', (t, done) => {
-
-        console.log('it this a:', this.parent);
-
-        done();
+        console.log('after this a:', this.parent);
 
     });
 
 
-    this.describe('b', function () {
-
-        this.before(() => {
-
-            console.log('before this b:', this.parent);
-
-        });
-
-        this.beforeEach(t => {
-
-            console.log('beforeEach this b:', this.parent);
-            this.parent.title;
-
-
-        });
-
-
-        this.it('b', (t, done) => {
-
-            console.log('it this b:', this.parent);
-            done();
-
-        });
-
-
-    });
+    this.it('a');
 
 
 });
 */
+"use strict";

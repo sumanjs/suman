@@ -4,11 +4,11 @@
 
 
 
-const suman = require('../../lib');
+const suman = require('../../lib/index');
 
 const Test = suman.init(module, {
     integrants: ['smartconnect', 'dolce-vida'],
-    interface: 'BDD',
+    interface: 'BDD'
 });
 
 

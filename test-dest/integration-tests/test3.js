@@ -30,10 +30,6 @@ Test.describe('My Suite', function () {
 
             });
 
-            this.loop(['cjage', 'ppage'], function (val) {
-                this.it('is chao' + val, function () {});
-            });
-
             this.describe('sounds', function () {
 
                 this.it('is good', function () {});
