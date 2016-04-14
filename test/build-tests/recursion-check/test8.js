@@ -3,7 +3,7 @@
  */
 
 
-const Test = require('../../lib').init(module, {
+const Test = require('../../../lib').init(module, {
     export: false, //module.exports.wait = false;
     integrants: []
 });

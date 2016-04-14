@@ -30,19 +30,18 @@
  */
 
 
-//TODO: need glob support for source
+//TODO: need glob support for source //https://github.com/isaacs/node-glob
 //TODO: to be compliant with Babel, need to put context for functions in extra param
 //TODO: https://github.com/gotwarlost/istanbul/issues/596#issuecomment-208688593
 //TODO: http://blog.yld.io/2016/01/13/using-streams/#.VwyjZZMrKXk
 //TODO: freeze module.exports inside the init fn, iff module.exports.keys.lenght ===0
-//TODO: https://realguess.net/2015/08/03/rules-on-structuring-the-test-directory-structure-with-mocha/
 //TODO: http://stackoverflow.com/questions/10753288/how-to-specify-test-directory-for-mocha
 //TODO: https://github.com/substack/picture-tube
 //TODO: one possible solution is to name files that aren't supposed to be run directly with another extension besides .js
 //TODO: set up recursive option for runner
 //TODO: need to test skip and only thoroughly
 //TODO: hooks after suman runs (opposite of suman.once.js) could be for collecting code/test coverage
-//TODO: whatever is returned in a beforeEach hook should be assigned to each test (?)
+//TODO: whatever is returned in a beforeEach hook should be assigned to each test (?) NO, multiple hooks would overwrite ret
 //TODO: suman postinstall script
 //TODO: add hyperlinks to terminal window for table output
 //TODO: give ability to users to provide shell scripts to launch individual mocha tests, that way they can provide environment
@@ -175,6 +174,11 @@ const options = [
         names: ['runner', 'rnr'],
         type: 'bool',
         help: 'Force usage of runner when executing only one test file.'
+    },
+    {
+        names: ['full-stack-traces', 'fst'],
+        type: 'bool',
+        help: 'Full stack traces will be shown for all exceptions, including test failures.'
     },
     {
         names: ['server', 's'],
@@ -322,7 +326,7 @@ catch (err) {
         }
     }
     catch (err) {
-        console.log(colors.bgCyan.black(' => Suman message => Warning - no configuration found in your project, using default Suman configuration.'));
+        console.log(colors.bgCyan.white(' => Suman message => Warning - no configuration found in your project, using default Suman configuration.'));
         try {
             pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
             sumanConfig = require(pth);

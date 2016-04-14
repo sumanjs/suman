@@ -15,7 +15,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra) {
 
 
     this.before(ctn => {
-        throw new Error('aga');
+        //throw new Error('aga');
         ctn();
     });
 

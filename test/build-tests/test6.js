@@ -39,7 +39,7 @@ Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
     });
 
 
-    this.suite.skip('hello', {}, function () {
+    this.suite('hello', {}, function () {
 
 
         this.test('two');
