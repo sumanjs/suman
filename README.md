@@ -5,13 +5,13 @@
 
 > ---
 >
->    Suman library documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
+>    <span style="color:#FF8C00">&#9658; Suman library documentation:</span> [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
 >
 > ---
 
 <br>
 <br>
-# &#9658; Quick reference
+# <span style="color:#FF8C00">&#9658; Quick reference</span>
 
 <br>
 <i> => For command line tools:</i>
