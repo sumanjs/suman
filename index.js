@@ -29,6 +29,9 @@
 
  */
 
+//TODO: did you forget to call done? should become "did you forget to call fail/pass?" etc under right conditions
+//TODO: implement Test.on('end') or Test.on('completed');
+//TODO: if you can get tired of using this.it, you have two options, chain them, or put them in a series/parallel block
 //TODO: need glob support for source //https://github.com/isaacs/node-glob
 //TODO: http://altamodatech.com/blogs/?p=452
 //TODO: TESTS=$(shell find test/ -name "*.test.js")
