@@ -28,6 +28,8 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 
 <br>
+# About
+<br>
 
 ---
 
