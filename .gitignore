@@ -14,3 +14,8 @@ suman.conf.js
 test_sc
 test_sc_dest
 bugs
+coverage
+docs
+jsdoc-out
+mr-docs
+exp*.js

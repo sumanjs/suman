@@ -11,7 +11,7 @@
 
 <br>
 <br>
-# Quick reference
+# > Quick reference
 
 <br>
 <i> => For command line tools:</i>
@@ -28,7 +28,7 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 
 <br>
-# About
+# > About
 <br>
 
 ---
@@ -79,7 +79,7 @@ intuitive to use over the long-run.
 * As Suman is a command line application, we can utilize a more functional programming style
 
 
-# Suman features:
+# > Suman features:
 
 * => tdd/bdd interfaces
 * => easy migration from Mocha (automated, see below)
@@ -142,9 +142,9 @@ Domains are facing deprecation, and Suman will replace domains with whichever su
  => as it gives the developer total control and access to a very large set of features, with the explicit goal of being bug-free first, full-featured second.
 
 
-## usage examples
+## Simple usage examples
 
-simple example:
+simple example using ES6:  
 
 ```js
 
@@ -206,10 +206,10 @@ Test.describe('FirstExample', function(assert, path, http){     //  this is our 
 ```js
 
 const suman = require('suman');
-const Test = suman.init(module,'suman.conf.js');  //we now utilize our own suman config file which is useful for configuring reporting etc
+const Test = suman.init(module);  
 
 
-Test.describe('SecondExample', ['db', 'some-val'], function(db, someval, delay, assert){    // normally we only need to inject a couple of values per test
+Test.describe('SecondExample', function(db, someval, delay, assert){    // normally we only need to inject a couple of values per test
 
      var results = [];
      
@@ -261,19 +261,6 @@ Test.describe('SecondExample', ['db', 'some-val'], function(db, someval, delay, 
 
 ```
 
-```js
-
-const suman = require('suman');
-const Test = suman.init(module,'suman.conf.js');  //we now utilize a suman config file which is useful for configuring reporting etc
-
-
-Test.describe('ThirdExample', function(assert, delay, db, val){    // note: as stated above, unless we need to minify our tests for some reason, we don't need a dep array, just the callback
-
-
-
-});
-
-```
 
 
 # Test Framework Comparison
