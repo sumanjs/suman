@@ -9,9 +9,10 @@
 >
 > ---
 
+<br>
+<br>
 # Quick reference:
 
-<br>
 <br>
 <i> => For command line tools:</i>
 ## ```npm install -g suman```
