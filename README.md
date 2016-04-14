@@ -3,11 +3,11 @@
 
 ![alt text](https://github.com/ORESoftware/suman/blob/master/images/suman.png "Suman Primary Logo")
 
-<blockquote>
+> ---
 >
 > Suman Library Documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
 >
-</blockquote>
+> ---
 
 <br>
 <br>
@@ -73,6 +73,8 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 * Use stream APIs when possible
 * Provide a full-featured, non-dumbed-down API that's easy to get started with, and
 intuitive to use over the long-run.
+* Listen to what the community wants.
+
 
 # Suman features:
 
