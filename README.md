@@ -5,7 +5,7 @@
 
 > ---
 >
->    Suman Library Documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
+>    Suman library documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
 >
 > ---
 
@@ -77,6 +77,7 @@ intuitive to use over the long-run.
 * Leverage Javascript's strengths.
 * Don't be lazy.
 * As Suman is a command line application, we can utilize a more functional programming style
+* Details matter*
 
 
 # ▶ Suman features:
@@ -131,7 +132,7 @@ intuitive to use over the long-run.
 * Suman uses domains to isolate errors in asynchronous tests and hooks, and currently this is the only solution to this problem at the moment. 
 Domains are facing deprecation, and Suman will replace domains with whichever suitable replacement is chosen by the Node.js core technical committee.
 
-## Details matter
+## *Details matter
 
 * we designed Suman with details in mind
 * friendly error messages
@@ -144,7 +145,7 @@ Domains are facing deprecation, and Suman will replace domains with whichever su
 
 ## Simple usage examples
 
-simple example using ES6:  
+#### simple example using ES6:  
 
 ```js
 
@@ -263,7 +264,7 @@ Test.describe('SecondExample', function(db, someval, delay, assert){    // norma
 
 
 
-# Test Framework Comparison
+# &#9658; Test Framework Comparison
 
 
 ## Table of Goodness
