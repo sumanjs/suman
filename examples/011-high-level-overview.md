@@ -1,23 +1,70 @@
 
 
-Suman was designed to greatly improve Mocha. It uses the same pattern of nested describe blocks (suites), as this is a good pattern
+Suman was designed to greatly improve Mocha. It uses the same pattern of nested describe blocks ("suite-blocks" in Suman parlance), as this is a good pattern
 allowing for fine-grain control of different sections of the same test suite - something which Tape and AVA probably will always lack -
 nested describes/suites allow us to organize our tests, create separate lexical scopes 
-as well as having different options/settings, and running different hooks in each section/block.
+as well as having different options/settings, and running different hooks in each section/block. Having these nested blocks
+is something that Tape and AVA will sorely miss.
 
 For those who are familiar with Mocha and Jasmine, the most apparent difference between Suman and the former are the fact that there are no 
 globally defined functions and that 'this' is used to access the Suman API once you are within the root suite of a Suman test.
-Using this makes perfect sense, for a few reasons.
+Using 'this' for the API makes sense, for a few reasons.
 
 1. 'this' cannot be reassigned
 2. 'this' appears 'for free' and stays out of sight if you don't need it.
 3.  We already need some context for the callbacks, so might as well use it for all calls
 
 
-Suman simplifies the way contexts are bound; in Mocha contexts were genuinely confusing, even to those who used Mocha for a long time. The number of contexts in a Suman test suite is exactly equal to the number of describe statements.
-This is why you can't use arrow functions with describe callbacks, because describe callbacks are bound a new TestSuite context.
+Suman simplifies the way contexts are bound; in Mocha contexts were genuinely confusing, even to those who used Mocha for a long time. 
+The number of "hidden" contexts in a Suman test suite is exactly equal to the number of describe statements. By hidden contexts,
+we mean the context binding that takes place behind the scenes in the internal Suman API. Note that there is one primary caveat
+with Suman's approach to this problem: You can use arrow functions, generators and async functions anywhere you want using Suman
+*except* you must use traditional functions for describe hooks. The reason is that Suman binds a new context to the describe hooks,
+and as aforementioned, this is the only instance where a new context is created using Suman.
 
-Suman uses the same pattern as Mocha and Jasmine to determine if a test or hook should wait for a callback
+<br>
+<br>
+
+##  Suman uses a simple pattern to determine if a test or hook needs a callback function to fire in order to continue 
+
+####  The question: Is a callback function named as a param?
+
+<b> Yes? </b> Then the return value is ignored and we wait for a callback to fire (done,fail,pass,ctn,fatal) are the five available callbacks functions
+in Suman and each has a purpose. {done, fail, pass} are availble in tests hooks. {done, ctn, fatal} are available in
+before/after/beforeEach/afterEach hooks. If you are really smart you may have a guess as to what they do.*
+
+<b>No?  </b> If no callback function is named, Promise.resolve() is called on the return value for every hook in Suman, including tests.
+This goes for generator functions, async/await and functions that of course just return a Promise, without using generators or async/await.
+
+
+That's pretty much it! What it means actually, is that all tests in Suman are async. Even if you were to do this:
+
+```js
+this.it('callback immediately', done => {
+
+       done();
+       
+});
+```
+
+internally, process.nextTick() is called after done is fired, so that things end up remainging async. This keeps the internals of the library
+running smoothly and predictably.
+
+likewise if you do this:
+
+```js
+this.it('callback immediately', () => {
+
+       return 'bunnies';
+       
+});
+```
+
+```Promise.resolve('bunnies').then()``` is what is going to end up happening, so this is async also.
+
+
+
+the same pattern as Mocha and Jasmine to determine if a test or hook should wait for a callback
 to be fired by the developer before exiting the test or hook. With Mocha and Jasmine if your callback function had done as a parameter, these test frameworks would know to wait 
 for that callback for fire before a test case or hook was finished. First we will talk about how basic callback
 arguments, like done, allow us to run test cases and hooks asynchronously. Along with standard callbacks,
@@ -142,6 +189,23 @@ this.it('test case', (pass, fail) => {
 
 
 
+Here's a quiz to get your mind jogging:
 
+(match each function on the left, to the according functionality on the right.
+
+
+done
+
+
+fatal
+
+
+fail
+
+
+ctn
+
+
+pass
 
 

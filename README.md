@@ -80,7 +80,7 @@ intuitive to use over the long-run.
 * Details matter*
 
 
-# ▶ Suman features:
+# &#9658; Suman features:
 
 * => tdd/bdd interfaces
 * => easy migration from Mocha (automated, see below)

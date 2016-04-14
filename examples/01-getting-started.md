@@ -48,7 +48,7 @@ Test.describe('SimpleTest', function (assert, fs, http, os) {
     });
 
 
-    ['describe', 'it', 'before', 'after', 'afterEach'].forEach(item => {
+    ['describe', 'it', 'before', 'beforeEach', 'after', 'afterEach'].forEach(item => {
 
         this.it('tests-suman suite block for: ' + item, function () {
             assert(this.hasOwnProperty(item));
@@ -109,3 +109,8 @@ Test.describe('SimpleTest', function (assert, fs, http, os) {
 });
 
 ```
+
+
+here's some gist
+
+<script src="https://gist.github.com/ORESoftware/0c772aedd3630bb54f27.js"></script>
