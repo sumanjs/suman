@@ -10,6 +10,7 @@
 > ---
 
 <br>
+ <span style="color:#FF8C00">&#9658; Suman library documentation:</span> 
 <br>
 # <span style="color:#FF8C00">&#9658; Quick reference</span>
 
