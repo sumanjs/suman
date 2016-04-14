@@ -1,8 +1,10 @@
+[![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
+
 
 ![alt text](https://github.com/ORESoftware/suman/blob/master/images/suman.png "Suman Primary Logo")
 
 
-[![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
+# Documentation: oresoftware.github.com/suman
 
 <i> => For command line tools:</i>
 ## ```npm install -g suman```

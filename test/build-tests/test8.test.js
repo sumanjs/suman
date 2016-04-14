@@ -33,13 +33,13 @@ Test.describe('gggg', {parallel: true}, function () {
             done();
         });
 
-        this.describe('pre-moodle',function(){
+        this.describe('pre-moodle', function () {
 
-            this.it('is async', function(done){
+            this.it('is async', function (done) {
 
-                setTimeout(function(){
+                setTimeout(function () {
                     done();
-                },1000);
+                }, 1000);
             })
 
         });
@@ -55,6 +55,33 @@ Test.describe('gggg', {parallel: true}, function () {
 
             this.beforeEach(function (t, done) {
                 done();
+            });
+
+
+            this.series(function (it) {
+
+
+                it('makes rain', {}, function () {
+
+
+                });
+
+                it('makes rain', {}, function () {
+
+
+                });
+
+                it('makes rain', {}, function () {
+
+
+                });
+
+                it('makes rain', {}, function () {
+
+
+                });
+
+
             });
 
 
