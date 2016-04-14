@@ -5,7 +5,7 @@
 
 
 const Test = require('../../lib').init(module, {
-    export: true,
+    export: false,
     integrants: ['smartconnect', 'dolce-vida']
 });
 
@@ -15,7 +15,6 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra) {
 
 
     this.before(ctn => {
-        //throw new Error('aga');
         ctn();
     });
 

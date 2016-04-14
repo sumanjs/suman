@@ -2,6 +2,8 @@ const suman = require('../../lib');
 const Test = suman.init(module, {});
 
 
+console.log('Filename:', Test.file);
+
 Test.describe('Zulu', {mode: 'series'}, function () {
 
 
@@ -13,7 +15,7 @@ Test.describe('Zulu', {mode: 'series'}, function () {
 
     this.it('foo');
 
-    this.describe.skip('A', {parallel: true}, function () {
+    this.suite.skip('A', {parallel: true}, function () {
 
         this.before(function* () {
             console.log('before ', this.desc);

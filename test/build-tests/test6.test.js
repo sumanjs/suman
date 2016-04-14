@@ -33,6 +33,27 @@ Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
 
     });
 
+    
+    this.series(function(test){
+
+        return [
+            
+            test('makes rain', {}, function(){
+
+                
+            }),
+
+            test('makes rain', {}, function(){
+
+                
+            })
+
+
+        ]
+
+    });
+    
+    
 
     this.test('one', t => {
         return promiseTimeout(t);
