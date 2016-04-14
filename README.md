@@ -3,15 +3,15 @@
 
 ![alt text](https://github.com/ORESoftware/suman/blob/master/images/suman.png "Suman Primary Logo")
 
-> ---
+<blockquote>
 >
-> Documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
+> Suman Library Documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
 >
-> ---
+</blockquote>
 
 <br>
 <br>
-# Quick reference:
+# Quick reference
 
 <br>
 <i> => For command line tools:</i>
@@ -71,7 +71,7 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 * "Just works"
 * Stick to Node core modules
 * Use stream APIs when possible
-* Provide a full-featured API that's easy to get started with and
+* Provide a full-featured, non-dumbed-down API that's easy to get started with, and
 intuitive to use over the long-run.
 
 # Suman features:
