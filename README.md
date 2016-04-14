@@ -11,7 +11,7 @@
 
 <br>
 <br>
-# ▶ Quick reference
+# &#9658; Quick reference
 
 <br>
 <i> => For command line tools:</i>
@@ -28,7 +28,7 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 
 <br>
-# ▶ About
+# &#9658; About
 <br>
 
 ---
