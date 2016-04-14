@@ -11,7 +11,7 @@
 
 <br>
 <br>
-# > Quick reference
+# ▶ Quick reference
 
 <br>
 <i> => For command line tools:</i>
@@ -28,7 +28,7 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 
 <br>
-# > About
+# ▶ About
 <br>
 
 ---
@@ -79,7 +79,7 @@ intuitive to use over the long-run.
 * As Suman is a command line application, we can utilize a more functional programming style
 
 
-# > Suman features:
+# ▶ Suman features:
 
 * => tdd/bdd interfaces
 * => easy migration from Mocha (automated, see below)
