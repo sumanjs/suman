@@ -4,7 +4,7 @@
 ![alt text](https://github.com/ORESoftware/suman/blob/master/images/suman.png "Suman Primary Logo")
 
 
-<div style="float: right;"> Documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")</div>
+<p style="float: right;"> Documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")>
 
 <i> => For command line tools:</i>
 ## ```npm install -g suman```
