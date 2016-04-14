@@ -5,7 +5,7 @@
 
 > ---
 >
->     Suman library documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
+>    Suman library documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
 >
 > ---
 
