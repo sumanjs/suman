@@ -28,7 +28,7 @@
 </header>
 
 <article>
-    <ol>
+    <h3>:: Installation ::</h3><ol>
 <li><p>=&gt; <span style="background-color:#FF8C00">&nbsp;<code>$ npm install -g suman</code></span></p>
 </li>
 <li><p>=&gt; cd into the project where you want to use Suman to power your tests</p>
@@ -49,6 +49,79 @@ and suman will use the runner, because if you point Suman at a folder, Suman mus
 If you point Suman at an individual test file, you the developer have the choice about whether to use the runner or not, using the <span style="background-color:#9ACD32"><code>--rnr</code></span> flag.</p>
 <p>The biggest advantage of using the runner with a single test file is that the runner can suppress your
 console.log/debugging output, because using the runner will run your test suite in a child_process.</p>
+<p>Here is a simple test file you can use to try Suman out, put the code in any .js file and run it with one of the above commands.</p>
+<pre class="prettyprint source lang-js"><code>
+const suman = require('suman');
+const Test = suman.init(module);
+
+
+Test.describe('SimpleTest', function (assert, fs, http, os) {
+
+
+    this.it('tests-arrays', function () {
+        assert.equal(typeof [], 'object');
+    });
+
+
+    ['describe', 'it', 'before', 'after', 'afterEach'].forEach(item => {
+
+        this.it('tests-suman suite block for: ' + item, function () {
+            assert(this.hasOwnProperty(item));
+        });
+
+    });
+
+    this.it('Check that Test.file is equiv. to module.filename', {timeout:3000},  done => {
+        setTimeout(function(){
+            assert(module.filename === Test.file);
+            done();
+        },2999);
+    });
+
+
+    this.it('reads this file, pipes to /dev/null', (fail, pass) => {
+
+        const destFile = os.hostname === 'win32' ? process.env.USERPROFILE + '/temp' : '/dev/null';
+
+        fs.createReadStream(Test.file).pipe(fs.createWriteStream(destFile))
+            .on('error', fail).on('finish', pass);
+
+    });
+
+
+    this.it('uses promises to handle http', {timeout: 4000}, function () {
+
+        return new Promise(function (resolve, reject) {
+
+            const req = http.request({
+
+                method: 'GET',
+                hostname: 'example.com'
+
+            }, res => {
+
+                var data = '';
+
+                res.on('data', function (d) {
+                    data += d;
+                });
+
+                res.on('end', function () {
+
+                    assert(typeof data === 'string');
+                    resolve();
+
+                });
+
+            });
+
+            req.end();
+            req.on('error', reject);
+        });
+
+    });
+
+});</code></pre>
 </article>
 
 </section>
@@ -56,13 +129,13 @@ console.log/debugging output, because using the runner will run your test suite 
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-01-getting-started.html">Getting Started with Suman</a></li><li><a href="tutorial-011-high-level-overview.html">Higher Level Overview</a></li><li><a href="tutorial-02-simple-examples.html">Simple Examples</a></li><li><a href="tutorial-05-advanced-use.html">Advanced Use</a></li><li><a href="tutorial-07-suman-patterns-and-recipes.html">Suman Patterns and Recipes</a></li><li><a href="tutorial-08-suman-anti-patterns.html">Suman Anti-Patterns</a></li><li><a href="tutorial-12-using-suman-with-babel.html">Using Suman with Babel</a></li><li><a href="tutorial-19-converting-from-mocha.html">Converting from Mocha to Suman</a></li><li><a href="tutorial-30-anatomy-of-suman-suite.html">Anatomy of Suman Test Suites</a></li><li><a href="tutorial-40-integrating-with-ci-cd.html">Integrating with CI/CD</a></li><li><a href="tutorial-50-suman-parallelism.html">50-suman-parallelism</a></li><li><a href="tutorial-70-usage-with-code-coverage-tools.html">70-usage-with-code-coverage-tools</a></li><li><a href="tutorial-90-roadmap.html">90-roadmap</a></li><li><a href="tutorial-99-faq.html">FAQ</a></li><li><a href="tutorial-bash.html">bash</a></li><li><a href="tutorial-suman-reporters.html">suman-reporters</a></li><li><a href="tutorial-suman-server-and-web-reporter.html">suman-server-and-web-reporter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-01-getting-started.html">Getting Started with Suman</a></li><li><a href="tutorial-011-high-level-overview.html">Higher Level Overview</a></li><li><a href="tutorial-02-simple-examples.html">Simple Examples</a></li><li><a href="tutorial-05-advanced-use.html">Advanced Use</a></li><li><a href="tutorial-07-suman-patterns-and-recipes.html">Suman Patterns and Recipes</a></li><li><a href="tutorial-08-suman-anti-patterns.html">Suman Anti-Patterns</a></li><li><a href="tutorial-12-using-suman-with-babel.html">Using Suman with Babel</a></li><li><a href="tutorial-19-converting-from-mocha.html">Converting from Mocha to Suman</a></li><li><a href="tutorial-30-anatomy-of-suman-suite.html">Anatomy of Suman Test Suites</a></li><li><a href="tutorial-40-integrating-with-ci-cd.html">Integrating with CI/CD</a></li><li><a href="tutorial-50-suman-parallelism.html">50-suman-parallelism</a></li><li><a href="tutorial-70-usage-with-code-coverage-tools.html">70-usage-with-code-coverage-tools</a></li><li><a href="tutorial-90-roadmap.html">90-roadmap</a></li><li><a href="tutorial-99-faq.html">FAQ</a></li><li><a href="tutorial-bash.html">bash</a></li><li><a href="tutorial-suman-best-practices.html">suman-best-practices</a></li><li><a href="tutorial-suman-reporters.html">suman-reporters</a></li><li><a href="tutorial-suman-server-and-web-reporter.html">suman-server-and-web-reporter</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Apr 09 2016 00:29:33 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Apr 14 2016 00:25:10 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>

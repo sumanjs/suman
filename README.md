@@ -1,7 +1,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
 
 
-![alt text](https://github.com/ORESoftware/suman/blob/master/images/suman.png "Suman Primary Logo")
+![alt text](https://raw.githubusercontent.com/ORESoftware/suman/master/images/suman.png "Suman Primary Logo")
 
 > ---
 >
@@ -74,6 +74,9 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 * Provide a full-featured, non-dumbed-down API that's easy to get started with, and
 intuitive to use over the long-run.
 * Listen to what the community wants.
+* Leverage Javascript's strengths.
+* Don't be lazy.
+* As Suman is a command line application, we can utilize a more functional programming style
 
 
 # Suman features:

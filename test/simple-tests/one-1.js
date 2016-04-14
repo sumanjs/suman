@@ -23,11 +23,11 @@ Test.describe('SimpleTest', function (assert, fs, http, os) {
 
     });
 
-    this.it.only('Check that Test.file is equiv. to module.filename', {timeout:1970},  done => {
+    this.it('Check that Test.file is equiv. to module.filename', {timeout:20},  done => {
         setTimeout(function(){
             assert(module.filename === Test.file);
             done();
-        },1999);
+        },19);
     });
 
 
