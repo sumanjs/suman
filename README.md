@@ -4,7 +4,7 @@
 ![alt text](https://github.com/ORESoftware/suman/blob/master/images/suman.png "Suman Primary Logo")
 
 
-# Documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
+<div style="float: right;"> Documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")</div>
 
 <i> => For command line tools:</i>
 ## ```npm install -g suman```
@@ -59,21 +59,25 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 ## Suman Philosophy 
 
 * "Just works"
-* 
+* Stick to Node core modules
+* Use stream APIs when possible
+* Provide a full-featured API that's easy to get started with and
+intuitive to use over the long-run.
 
 # Suman features:
 
 * => tdd/bdd interfaces
-* => easy migration from Mocha
+* => easy migration from Mocha (automated, see below)
 * => extremely powerful, while aiming to be straightforward, clean, concise, consistent and accurate
 * => designed with ES6 and ES7 in mind, including Promises, async/await and generators
 
 
-* <b> Very simple but powerful dependency injection (DI/IoC) of network values, test dependencies and library dependencies</b>
+* <b> Very simple but powerful dependency injection (DI/IoC)</b>
     *  most useful for injecting values acquired asynchronously, such as successful network connections and database values
     *  inspired by familiar tools such as Angular and RequireJS
     *  load any core/"built-in" Node.js module by name 
     *  DI is used throughout the library, and relieves the burden on the developer to remember order of parameters
+    *  Inject network values, test dependencies and library dependencies
        
   
 * <b> Full-blown concurrency</b>
