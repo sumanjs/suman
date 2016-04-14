@@ -29,7 +29,9 @@
 
  */
 
-
+//TODO: http://altamodatech.com/blogs/?p=452
+//TODO: TESTS=$(shell find test/ -name "*.test.js")
+//TODO: makefiles vs. gulp vs. plain js
 //TODO: need glob support for source
 //TODO: to be compliant with Babel, need to put context for functions in extra param
 //TODO: https://github.com/gotwarlost/istanbul/issues/596#issuecomment-208688593
@@ -112,6 +114,20 @@ const v = pkgJSON.version;
 console.log(colors.gray.italic(' => Suman v' + v + ' running...'));
 
 ////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+
+//68 is best
+
+// var pictureTube = require('picture-tube');
+// var tube = pictureTube({
+//     cols:68
+// });
+// tube.pipe(process.stdout);
+//
+// fs.createReadStream('./images/suman-sm.png').pipe(tube);
+
+///////////////////////////////////////////////////////////////////
 
 const cwd = process.cwd();
 
@@ -214,8 +230,7 @@ const options = [
     }
 ];
 
-////////////////////////////////////////////////////////////////////
-
+/////////////////////////////////////////////////////////////////////
 
 var opts, parser = dashdash.createParser({options: options});
 try {
@@ -357,7 +372,7 @@ if (convert) {
 }
 
 //note: whatever args are remaining are assumed to be file or directory paths to tests
-var dirs = (JSON.parse(JSON.stringify(opts._args)) || []).filter(function (item) {
+var dirs = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
     if (String(item).indexOf('-') === 0) {
         console.log(colors.magenta(' => Suman warning => Probably a bad command line option "' + item + '", Suman is ignoring it.'))
         return false;

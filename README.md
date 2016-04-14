@@ -39,7 +39,7 @@ library is not constained by the requirement that it must run in the browser.</i
 ### The reasons why Mocha and its peers need a replacement are:
 
 * In Mocha, Tape and Jasmine suites were not run in separate processes (necessary for isolation, speed and independence of test results)
-* Using Mocha, Tape and Jasmine everything was not only run in a single process but all test cases and hooks were also run in series, which can take unnecessary amounts of time for tests using async I/O
+* Using Mocha, Tape and Jasmine everything was not only run in a single process but all test cases and hooks were also run in series, which takes unnecessary amounts of time for tests utilizing async I/O
 * Mocha and Jasmine could not move forward with ES6/ES7 features due to certain software patterns used (globals and complex context binding)
 * Furthermore, Mocha and Jasmine could not have certain useful serverside features, because they were also constained by running in the browser.
 * Mocha lacked real ability to do true dynamic testing (meaning, registering a dynamic number of it() test cases) => e.g., make a network call, get X values, create a test case for each.
@@ -50,9 +50,14 @@ to the Node.js community.
 before running tests is nowhere near as powerful or easy to use as the dependency injection ability of this library.
 * Using Mocha, Tape, Jasmine you could not easily pass data to tests, to reuse the same test code for different scenarios; Suman allows you to pass dynamic data
 to tests using dependency injection.
-* And lastly, a BIG ONE: clean reporting - at the command line, using Mocha, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
+* And lastly, a BIG ONE: clean reporting - at the command line, using Mocha and Jasmine, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
 trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
 
+
+## Suman Philosophy 
+
+* "Just works"
+* 
 
 # Suman features:
 

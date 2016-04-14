@@ -17,6 +17,7 @@ module.exports = Object.freeze({
        //these can be set by the command line
     },
 
+    useSuiteNameInTestCaseOutput: false,
     warningLevel: 3,
     noFrills: false,
     defaultTestSuiteTimeout: 15000,
