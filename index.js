@@ -29,6 +29,9 @@
 
  */
 
+//TODO: have to allow users to use bash scripts as hooks to setup process information, this involves
+// having an option to use spawn instead of fork in the runner
+//TODO: https://github.com/JacksonGariety/gulp-nodemon/issues/110#event-628179539
 //TODO: did you forget to call done? should become "did you forget to call fail/pass?" etc under right conditions
 //TODO: implement Test.on('end') or Test.on('completed');
 //TODO: if you can get tired of using this.it, you have two options, chain them, or put them in a series/parallel block
@@ -37,7 +40,7 @@
 //TODO: TESTS=$(shell find test/ -name "*.test.js")
 //TODO: makefiles vs. gulp vs. plain js
 //TODO: need glob support for source
-//TODO: to be compliant with Babel, need to put context for functions in extra param
+//TODO: to be compliant with Babel transpilation, need to put context for functions in extra param
 //TODO: https://github.com/gotwarlost/istanbul/issues/596#issuecomment-208688593
 //TODO: http://blog.yld.io/2016/01/13/using-streams/#.VwyjZZMrKXk
 //TODO: freeze module.exports inside the init fn, iff module.exports.keys.lenght ===0
@@ -51,7 +54,7 @@
 //TODO: suman postinstall script
 //TODO: add hyperlinks to terminal window for table output
 //TODO: give ability to users to provide shell scripts to launch individual mocha tests, that way they can provide environment
-// settings for child_process
+// settings for child_process, shell scripts should be in a directory called sh in the same directory as the test
 //TODO: add option to choose mode:'series'/'parallel'
 //TODO: bail + hooks https://github.com/mochajs/mocha/issues/690
 //TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense
