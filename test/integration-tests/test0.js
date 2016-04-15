@@ -8,11 +8,35 @@ const suman = require('../../lib/index');
 
 const Test = suman.init(module, {
     integrants: ['smartconnect', 'dolce-vida'],
-    interface: 'BDD'
+    interface: 'BDD',
+    ioc: createIOCArgs()
 });
 
 
-console.log('some bs');
+
+
+function createIOCArgs(){
+
+    return {
+        roodles: {
+            camera:'man'
+        },
+        whoa: {
+            bob: 'bouche'
+        },
+        cherry: {
+            'wrong':'number'
+        }
+
+
+
+    }
+}
+
+
+
+
+
 
 
 Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, child_process, socketio, suite, whoa, cherry, https) {
@@ -109,14 +133,12 @@ Test.describe('gggg', {parallel: false}, function (http, delay, assert, fs, chil
 
         this.beforeEach(function (t, done) {
             setTimeout(function () {
-
                 done();
             }, 50);
         });
 
         this.afterEach(function (t, done) {
             setTimeout(function () {
-
                 done();
             }, 50);
         });

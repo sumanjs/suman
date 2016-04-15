@@ -44,7 +44,11 @@ module.exports = Object.freeze({
         ERROR_IN_ROOT_SUITE: 66,
         IOC_DEPS_ACQUISITION_ERROR: 67,
         EXPORT_TEST_BUT_RAN_TEST_FILE_DIRECTLY: 68,
-        DELAY_NOT_REFERENCED: 69
+        DELAY_NOT_REFERENCED: 69,
+        INTEGRANT_VERIFICATION_ERROR: 70,
+        ERROR_CREATED_SUMAN_OBJ: 71,
+        IOC_PASSED_TO_SUMAN_INIT_BAD_FORM: 72,
+        ERROR_ACQUIRING_IOC_DEPS: 73
     },
     ERROR_MESSAGES: {
         INVALID_FUNCTION_TYPE_USAGE: 'You cannot use an arrow function with describe callbacks; however, you may use arrow functions everywhere else.\n' +

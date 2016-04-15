@@ -10,7 +10,7 @@ module.exports = (suman) => {  //load async deps for any of your suman tests
         'socketio': function () {
             return require('socket.io');
         },
-        'choodles': function (cb) {
+        'choodles': function (data, cb) {
 
             setTimeout(function () {
                 cb(null, {
@@ -18,7 +18,7 @@ module.exports = (suman) => {  //load async deps for any of your suman tests
                 });
             }, 100);
         },
-        'roodles': function (cb) {
+        'roodles': function (data, cb) {
 
             setTimeout(function () {
                 cb(null, {
@@ -26,7 +26,7 @@ module.exports = (suman) => {  //load async deps for any of your suman tests
                 });
             }, 100);
         },
-        'whoa': function (cb) {
+        'whoa': function (data, cb) {
 
             setTimeout(function () {
                 cb(null, {
@@ -36,7 +36,7 @@ module.exports = (suman) => {  //load async deps for any of your suman tests
                 });
             }, 100);
         },
-        'cherry': function (cb) {
+        'cherry': function (data, cb) {
 
             setTimeout(function () {
                 cb(null, {
