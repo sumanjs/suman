@@ -17,4 +17,36 @@ Suman will throw an error if you try to do it, whereas Mocha would let you erran
 https://github.com/mochajs/mocha/issues/1975, sorry Tom, wasn't me.
 
 
+5. Using nextTick or setImmediate in hook / test callbacks
 
+```js
+
+// not ideal
+this.it('not necesary', function(done){
+
+       var c;
+      if(c = condition()){
+          c.doSomethingAsync().then(function(val){
+               done(null,val)
+          });
+      }
+      else{
+        process.nextTick(done);   // no need to wrap in nextTick call
+      }
+
+});
+
+// this is better
+this.it('not necesary', function(done){
+      var c;
+           if(c = condition()){
+               c.doSomethingAsync().then(function(val){
+                    done(null,val)
+               });
+           }
+      else{
+        done();   // this is just fine
+      }
+
+});
+```
