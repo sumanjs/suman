@@ -18,8 +18,7 @@
  This project yearns for a really excellent web reporter UI and corresponding backend to support it,
  and what he have now is just the beginning when it comes to the web reporter.
  
- Here is a screenshot of the web reporter as it is now: 
- https://www.dropbox.com/s/84juaku0njvlukf/Screenshot%202016-04-15%2022.29.16.png?dl=0
+ Here is a screenshot of the web reporter as it is now:  https://goo.gl/LE5xLo
  
  With some work it could prove to be indispensable for developers working with this lib. This project is very multifaceted and
  it will involve full-stack work with SQLite, Express and React. Relative newbs welcome. Thanks!
