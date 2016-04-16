@@ -9,6 +9,7 @@
 >
 > ---
 
+<p style="background-color:orange">
 
 <br>
  <b>Looking for open source devs: </b>
@@ -24,6 +25,7 @@
  it will be full-stack work with SQLite, Express and React. Thanks!
  
 <br>
+</p>
 <br>
 # &#9658; Quick reference
 
@@ -51,7 +53,7 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 ---
 
-<i> Suman is a test runner for Node.js and is focused on asynchronous testing of backend services. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
+<i> Suman is a test runner for Node.js and is focused on asynchronous testing of backend services. Suman is heavy on features and it might blow your mind. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
 and to compete with the new Node.js test runner AVA. Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
 massive improvements over Mocha, specifically for backend testing. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings 
 that we experienced ourselves over time, and eventually we wanted a test runner that we could use that was more robust and more streamlined than Mocha,
@@ -106,6 +108,7 @@ intuitive to use over the long-run.
 
 * <b> Improved mechanics, syntax and semantics </b>
     * Pass data from test cases to hooks and back to test cases using the value option of a test case, and t.data in the hook
+    (not really possible with Mocha, and very much a missing feature)
     * done callback function is now accompanied by other functions that have unique meanings and behavior
     
 
@@ -146,7 +149,7 @@ intuitive to use over the long-run.
     *  skip/only also work like Mocha
 
 * <b> Freedom: Suman is not highly opinionated, but gives you powerful features</b>
-    *  Suman prefers standard core assert Node module (Suman has unopinionated assertions), but you can use any assertion lib that throws errors
+    *  Suman prefers the standard core assert Node module (Suman has unopinionated assertions), but like Mocha you can use any assertion lib that throws errors
     *  Callbacks, promises, async/await, generators and event-emitters/streams are supported in any test case or hook.
 
 
