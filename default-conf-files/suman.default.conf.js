@@ -13,10 +13,20 @@ module.exports = Object.freeze({
 
     sumanServer: {},
 
-    opts:{
-       //these can be set by the command line
+    opts: {
+        //these can be set by the command line
     },
 
+    defaultSumanHomeDir: function () {
+        return (process.env.HOME || process.env.USERPROFILE) + '/suman_data';
+    },
+
+    defaultSumanResultsDir: function () {
+        return path.resolve(this.defaultSumanHomeDir() + '/suman_results');
+    },
+
+
+    sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
     warningLevel: 3,
     noFrills: false,
@@ -57,8 +67,6 @@ module.exports = Object.freeze({
     order: 'suman/suman.order.js',      // location of your main IoC file (canonical location is the root of your project)
 
     reporters: {},
-
-    defaultSumanResultsDir: (process.env.HOME || process.env.USERPROFILE) + '/suman_results',
 
     servers: {                           // list of servers to output test result data to, with the os.hostname() as the key
 

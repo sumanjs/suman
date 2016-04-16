@@ -14,23 +14,11 @@
 /*// Start reading from stdin so we don't exit.
  process.stdin.resume();
 
- process.on('SIGINT', () => {
- console.log('Got SIGINT.  Press Control-D to exit.');
- });*/
-
-
-/*
-
- tests passed: 5
- tests failed: 4
- tests stubbed:4
- tests skipped:  30 (only is triggerred)
- suites skipped: 2
-
  */
 
+//TODO: command to kill runner works too well, need to use ctrl+D instead
 //TODO: have to allow users to use bash scripts as hooks to setup process information, this involves
-// having an option to use spawn instead of fork in the runner
+// having an option to use spawn instead of fork in the runner, see ./bash/a and ./bash/b
 //TODO: https://github.com/JacksonGariety/gulp-nodemon/issues/110#event-628179539
 //TODO: did you forget to call done? should become "did you forget to call fail/pass?" etc under right conditions
 //TODO: implement Test.on('end') or Test.on('completed');
@@ -55,6 +43,7 @@
 //TODO: add hyperlinks to terminal window for table output
 //TODO: give ability to users to provide shell scripts to launch individual mocha tests, that way they can provide environment
 // settings for child_process, shell scripts should be in a directory called sh in the same directory as the test
+//  see ./bash/a and ./bash/b
 //TODO: add option to choose mode:'series'/'parallel'
 //TODO: bail + hooks https://github.com/mochajs/mocha/issues/690
 //TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense
@@ -234,6 +223,12 @@ const options = [
         help: 'Path to the suman.conf.js file you wish to use.'
     },
     {
+        names: ['tail-errors', 'tail-err'],   //TODO
+        type: 'bool',
+        help: 'Option to tail the suman-err.log file defined by the path in your suman config.'
+
+    },
+    {
         names: ['file'],
         type: 'string',
         help: 'File to process',
@@ -334,7 +329,7 @@ try {
 catch (err) {
     //TODO: try to get suman.conf.js from root of project
 
-    if(!init){
+    if (!init) {
         console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
         console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
 
