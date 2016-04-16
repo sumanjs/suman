@@ -11,7 +11,7 @@
 
 
 <br>
- <b>Looking for open source devs: <b>
+ <b>Looking for open source devs: </b>
  <br>
  Suman is currently looking for a full-stack web developer experienced with both Node.js and React to split the plaudits for this project,
  and who is interested in contributing to open source with the notion that it's very unlikely any monetary gains will be seen from it :)
