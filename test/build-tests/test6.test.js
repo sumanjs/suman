@@ -43,10 +43,7 @@ Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
                 
             }),
 
-            test('makes rain', {}, function(){
-
-                
-            })
+            test('makes rain', {})
 
 
         ]

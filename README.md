@@ -9,6 +9,17 @@
 >
 > ---
 
+
+<br>
+ Advertisement: Suman is currently looking for a full-stack web developer experienced with both Node.js and React to split the plaudits for this project.
+ We want a really excellent web reporter for this project and what he have now is just the beginning when it comes to the web reporter.
+ 
+ Here is a screenshot of the web reporter as it is now: 
+ https://www.dropbox.com/s/84juaku0njvlukf/Screenshot%202016-04-15%2022.29.16.png?dl=0
+ 
+ With some work it could prove to be indispensable for developers working with this lib. This project is very multifaceted and
+ it will be full-stack work with SQLite, Express and React. Thanks!
+ 
 <br>
 <br>
 # &#9658; Quick reference
