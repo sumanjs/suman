@@ -55,7 +55,8 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 and to compete with the new Node.js test runner AVA. Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
 massive improvements over Mocha, specifically for backend testing. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings 
 that we experienced ourselves over time, and eventually we wanted a test runner that we could use that was more robust and more streamlined than Mocha,
-that was also enterprise-grade. Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems,
+that was also enterprise-grade. We are experienced Mocha users and know exactly what Mocha is missing (but we will take feature requests from you too!). 
+Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems,
 and is not currently intended to be used for front-end testing. (Your backend testing framework and front-end testing framework should probably be different if you
 want them both to be powerful and full-featured). This library gives you features for backend testing that are not available in other testing frameworks since this
 library is not constained by the requirement that it must run in the browser.</i>
@@ -84,7 +85,7 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 
 * "Just works"
 * Stick to Node core modules
-* Use stream APIs when possible
+* Use stream APIs when possible and reasonable
 * Provide a full-featured, non-dumbed-down API that's easy to get started with, and
 intuitive to use over the long-run.
 * Listen to what the community wants.
