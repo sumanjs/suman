@@ -11,8 +11,10 @@
 
 
 <br>
- Advertisement: Suman is currently looking for a full-stack web developer experienced with both Node.js and React to split the plaudits for this project.
- We want a really excellent web reporter for this project and what he have now is just the beginning when it comes to the web reporter.
+ Looking for open source devs: 
+ Suman is currently looking for a full-stack web developer experienced with both Node.js and React to split the plaudits for this project,
+ and who is interested in contributing to open source with the notion that it's very unlikely any monetary gains will be seen from it :)
+ This project yearns for a really excellent web reporter and what he have now is just the beginning when it comes to the web reporter.
  
  Here is a screenshot of the web reporter as it is now: 
  https://www.dropbox.com/s/84juaku0njvlukf/Screenshot%202016-04-15%2022.29.16.png?dl=0
