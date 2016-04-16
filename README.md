@@ -161,9 +161,9 @@ Domains are facing deprecation, and Suman will replace domains with whichever su
 
 ## Simple usage examples
 
-#### simple example using ES6/ES7:  
+#### example using ES6/ES7 API:  
 
-Suman is as simple as you want it to be.
+<i> Suman is as simple as you want it to be; but it's also packed with features that you can use. </i>
 
 ```js
 
@@ -171,9 +171,11 @@ import * as suman from 'suman';
 const Test = suman.init(module);
 
 
-Test.describe('ES6/ES7 API Example', function(xxx, assert, path, http){   //  this is our root test suite
+Test.describe('ES6/ES7 API Example', function(xxx, assert, path, http){   // this is our root test suite
 
-    // we have injected some core modules by name (http, assert, path) and a module in our own project, xxx
+    // we have injected some core modules by name (http, assert, path) 
+    // we have also injected a module in our own project, xxx
+    
 
      this.beforeEach((t, done, fatal) => {
      
@@ -203,7 +205,7 @@ Test.describe('ES6/ES7 API Example', function(xxx, assert, path, http){   //  th
 
 
      this.it('detects metal', t => {
-         assert(t.moo = 'kewl');             
+         assert(t.moo = 'kabab');             
      });
      
      this.it('uses ES7', async t => {
@@ -221,6 +223,8 @@ Test.describe('ES6/ES7 API Example', function(xxx, assert, path, http){   //  th
 
 ### basic ES5 API:
 
+<i> It is recommended to avoid adding the extra complexity of transpiling your tests from ES7</i>
+<i> So using ES5 with some sprinkles of ES6 is just fine :)</i>
 
 ```js
 
