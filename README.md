@@ -96,11 +96,17 @@ intuitive to use over the long-run.
 
 # &#9658; Suman features:
 
-* => tdd/bdd interfaces
-* => easy migration from Mocha (automated, see below)
-* => extremely powerful, while aiming to be straightforward, clean, concise, consistent and accurate
-* => designed with ES6 and ES7 in mind, including Promises, async/await and generators
+* basics:
+    * => tdd/bdd interfaces
+    * => easy migration from Mocha (it's automated, see below)
+    * => extremely powerful, while aiming to be straightforward, clean, concise, consistent and accurate
+    * => designed with ES6 and ES7 in mind, including Promises, async/await and generators
 
+
+* <b> Improved mechanics, syntax and semantics </b>
+    * Pass data from test cases to hooks and back to test cases using the value option of a test case, and t.data in the hook
+    * done callback function is now accompanied by other functions that have unique meanings and behavior
+    
 
 * <b> Very simple but powerful dependency injection (DI/IoC)</b>
     *  most useful for injecting values acquired asynchronously, such as successful network connections and database values
@@ -108,6 +114,9 @@ intuitive to use over the long-run.
     *  load any core/"built-in" Node.js module by name 
     *  DI is used throughout the library, and relieves the burden on the developer to remember order of parameters
     *  Inject network values, test dependencies and library dependencies
+        * the truth is, once you have more than 3 or 4 dependencies (params to a function), 
+        it's easier to design the API to inject them rather than deal with
+        contingincies, which is why Angular and RequireJS, while having often many more than 5 params use DI, as well as Suman
        
   
 * <b> Full-blown concurrency</b>
@@ -163,7 +172,7 @@ Domains are facing deprecation, and Suman will replace domains with whichever su
 
 #### example using ES6/ES7 API:  
 
-<i> Suman is as simple as you want it to be; but it's also packed with features that you can use. </i>
+<i> Suman is as simple as you want it to be; but it's also jam-packed with features that you can use. </i>
 
 ```js
 
@@ -171,10 +180,10 @@ import * as suman from 'suman';
 const Test = suman.init(module);
 
 
-Test.describe('ES6/ES7 API Example', function(xxx, assert, path, http){   // this is our root test suite
+Test.describe('ES6/ES7 API Example', function(baz, assert, path, http){   // this is our root test suite.
 
     // we have injected some core modules by name (http, assert, path) 
-    // we have also injected a module in our own project, xxx
+    // we have also injected a module from our own project, baz
     
 
      this.beforeEach((t, done, fatal) => {
@@ -210,7 +219,7 @@ Test.describe('ES6/ES7 API Example', function(xxx, assert, path, http){   // thi
      
      this.it('uses ES7', async t => {
      
-        const val = await xxx.doSomethingAsync();  //xxx is a value we've demanded and injected into our test suite
+        const val = await baz.doSomethingAsync();  
         assert(path.resolve(val.foo) === '/bar');
          
      });
@@ -232,7 +241,7 @@ const suman = require('suman');
 const Test = suman.init(module);  
 
 
-Test.describe('ES5 API Example', function(delay, assert){    
+Test.describe('ES5 API Example', {mode: parallel}, function(delay, assert){    
 
     
     

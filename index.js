@@ -16,6 +16,7 @@
 
  */
 
+//TODO: add value option to each test case {value: 'obj') for using with beforeEach etc
 //TODO: command to kill runner works too well, need to use ctrl+D instead
 //TODO: have to allow users to use bash scripts as hooks to setup process information, this involves
 // having an option to use spawn instead of fork in the runner, see ./bash/a and ./bash/b
