@@ -159,63 +159,66 @@ Domains are facing deprecation, and Suman will replace domains with whichever su
 
 ## Simple usage examples
 
-#### simple example using ES6:  
+#### simple example using ES6/ES7:  
+
+Suman is as simple as you want it to be.
 
 ```js
 
-const suman = require('suman');
+import * as suman from 'suman';
 const Test = suman.init(module);
 
-Test.describe('FirstExample', function(assert, path, http){     //  this is our test suite, and we inject some core modules by name
 
+Test.describe('ES6/ES7 API Example', function(xxx, assert, path, http){   //  this is our root test suite, and we inject some modules by name
 
-     this.beforeEach('runs before every it()', t => {
-         t.data.foo = 'bar';
-     });
-
-
-     this.it('uno', t => {     // a test case
+     this.beforeEach(function(ctn, fatal){
      
-        assert(t.data,'This will pass because t.data is predefined by Suman for each test');  
-     
-     }).it('dos', t => {       // a test case, (you can chain test cases and hooks if you want to) 
-     
-        assert(false,'not good');  
-     
-     }).it('tres', t => {       // a test case 
-         return new Promise(function(resolve,reject){               
-                 resolve(null);  
+       const req = http.request({
+        
+          hostname: 'example.com'
+        
+        }, res => {
+        
+           var data = '';
+           
+           res.on('data', function($data){
+           
            });
-     });
-     
-     
-     this.describe('all tests herein will run in parallel', {parallel:true}, function(){
-     
-          [1,2,3].forEach(item => {
-               this.it('item is a number', () => {
-                    assert.equal(typeof item,'number');
-               });
-          });
-          
-          
-          ['a','b','c'].forEach(item => {
-                    
-               this.it('now we use asynchrony', (t,done) => {
-                    setTimeout(function(){
-                        done(new Error('Test failed'));
-                    }, 2000);
-                });
-                 
+           
+           res.on('end', function(){
+           
+              
            });
+        
+        
+        });
+        
+        req.on('error', fatal);
+        req.end();
+        
      
      });
+
+
+     this.it('detects metal', t => {
+     
+                   
+     });
+     
+     this.it('uses ES7', async t => {
+     
+        const val = await xxx.doSomethingAsync();  //xxx is a value we've demanded and injected into our test suite
+        assert(path.resolve(val.foo) === '/bar');
+         
+     });
+
 
 });
 
 
 ```
 
-### an example with more features:
+### basic ES5 API:
 
 
 ```js
@@ -224,51 +227,10 @@ const suman = require('suman');
 const Test = suman.init(module);  
 
 
-Test.describe('SecondExample', function(db, someval, delay, assert){    // normally we only need to inject a couple of values per test
+Test.describe('ES5 API Example', function(delay, assert){    
 
-     var results = [];
-     
-     db.makeDatabaseCall().then(function(values){  // db connection is already made because it was created and injected
-         (values || []).filter(function(val){
-             return val && val.foo;
-          }).forEach(function(val){
-               results.push(val);
-           });
-          
-      }).then(function(){
-           delay(); // calling this allows us to invoke the next describe callback, this allows us to effectively block so that we can register a dynamic number of test cases (if we want to)
-      });
-      
-     
-      this.beforeEach(t => {
-            t.data.the = 'clash';  
-      });
-     
-     
-      this.beforeEach(async function(t) {                 //obligatory ES7 example 
-            var ret = await val.somePromiseMaker();  
-            return await ret.doSomeThingAsync();
-      });
-      
-     
-      this.describe('this does not run until after db call completes and delay is called', function(){
-      
-          results.forEach(result => {
-          
-            this.it('tests db result', t => {
-                     assert(t.data.the);
-             });
-             
-            this.it('tests db result', (t,done) => {
-                                  
-                 setTimeout(function(){
-                       done(new Error('Passing an error to done will fail the test as it should');
-                    },2000);
-                        
-                 });
-             });
-     
-      });
+    
+    
 
 });
 
