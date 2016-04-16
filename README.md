@@ -149,8 +149,10 @@ Domains are facing deprecation, and Suman will replace domains with whichever su
 ## *Details matter
 
 * we designed Suman with details in mind
-* friendly error messages
-* when debugging, timeouts will automatically be set to 'infinity'
+    * much better semantics, with new standard functions alongside Mocha's 'done' callback: 'ctn', 'pass', 'fail' and 'fatal' are new functions
+    each with a unique purpose and meaning, and done is still in Suman's API with the same meaning as Mocha!
+    * friendly error messages, that also get sent to suman-stderr.log for reference
+    * when debugging, (the debug flag is set) timeouts will automatically be set to 'infinity'
 
 
 ## We can say with some confidence that Suman is the most powerful test framework for serverside JavaScript on planet Earth
@@ -169,25 +171,25 @@ import * as suman from 'suman';
 const Test = suman.init(module);
 
 
-Test.describe('ES6/ES7 API Example', function(xxx, assert, path, http){   //  this is our root test suite, and we inject some modules by name
+Test.describe('ES6/ES7 API Example', function(xxx, assert, path, http){   //  this is our root test suite
 
-     this.beforeEach(function(ctn, fatal){
+    // we have injected some core modules by name (http, assert, path) and a module in our own project, xxx
+
+     this.beforeEach((t, done, fatal) => {
      
        const req = http.request({
-        
           hostname: 'example.com'
-        
         }, res => {
         
            var data = '';
            
            res.on('data', function($data){
-           
+                  data += $data;
            });
            
            res.on('end', function(){
-           
-              
+                  t.data.foo = data;
+                  done();
            });
         
         
@@ -201,8 +203,7 @@ Test.describe('ES6/ES7 API Example', function(xxx, assert, path, http){   //  th
 
 
      this.it('detects metal', t => {
-     
-                   
+         assert(t.moo = 'kewl');             
      });
      
      this.it('uses ES7', async t => {
