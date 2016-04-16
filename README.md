@@ -9,23 +9,22 @@
 >
 > ---
 
-<p style="background-color:orange">
 
-<br>
- <b>Looking for open source devs: </b>
+ <br>
+ <b>Looking for open source dev(s): </b>
  <br>
  Suman is currently looking for a full-stack web developer experienced with both Node.js and React to split the plaudits for this project,
  and who is interested in contributing to open source with the notion that it's very unlikely any monetary gains will be seen from it :)
- This project yearns for a really excellent web reporter and what he have now is just the beginning when it comes to the web reporter.
+ This project yearns for a really excellent web reporter UI and corresponding backend to support it,
+ and what he have now is just the beginning when it comes to the web reporter.
  
  Here is a screenshot of the web reporter as it is now: 
  https://www.dropbox.com/s/84juaku0njvlukf/Screenshot%202016-04-15%2022.29.16.png?dl=0
  
  With some work it could prove to be indispensable for developers working with this lib. This project is very multifaceted and
- it will be full-stack work with SQLite, Express and React. Thanks!
+ it will involve full-stack work with SQLite, Express and React. Relative newbs welcome. Thanks!
  
 <br>
-</p>
 <br>
 # &#9658; Quick reference
 
@@ -110,6 +109,7 @@ intuitive to use over the long-run.
     * Pass data from test cases to hooks and back to test cases using the value option of a test case, and t.data in the hook
     (not really possible with Mocha, and very much a missing feature)
     * done callback function is now accompanied by other functions that have unique meanings and behavior
+    * encapsulation and immutability are utilized much more effectively than with Mocha etc
     
 
 * <b> Very simple but powerful dependency injection (DI/IoC)</b>
