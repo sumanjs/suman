@@ -45,7 +45,6 @@
 //TODO: give ability to users to provide shell scripts to launch individual mocha tests, that way they can provide environment
 // settings for child_process, shell scripts should be in a directory called sh in the same directory as the test
 //  see ./bash/a and ./bash/b
-//TODO: add option to choose mode:'series'/'parallel'
 //TODO: bail needs to be implemented for runner as well as individual tests
 //TODO: bail + hooks https://github.com/mochajs/mocha/issues/690
 //TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense
@@ -120,6 +119,7 @@ console.log(colors.gray.italic(' => Suman v' + v + ' running...'));
 // var tube = pictureTube({
 //     cols:68
 // });
+//
 // tube.pipe(process.stdout);
 //
 // fs.createReadStream('./images/suman-sm.png').pipe(tube);
