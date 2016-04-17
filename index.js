@@ -179,6 +179,11 @@ const options = [
         help: 'Convert Mocha test file or directory to Suman test(s).'
     },
     {
+        names: ['bail', 'b'],
+        type: 'bool',
+        help: 'Bail upon the first test error.'
+    },
+    {
         names: ['ignore-brk'],
         type: 'bool',
         help: 'Use this option to aid in the debugging of child_processes.'
@@ -227,7 +232,6 @@ const options = [
         names: ['tail-errors', 'tail-err'],   //TODO
         type: 'bool',
         help: 'Option to tail the suman-err.log file defined by the path in your suman config.'
-
     },
     {
         names: ['file'],
@@ -242,14 +246,18 @@ const options = [
 var opts, parser = dashdash.createParser({options: options});
 try {
     opts = parser.parse(process.argv);
-} catch (e) {
-    console.error(' => Suman command line options error: %s', e.message);
+} catch (err) {
+    console.error(' => Suman command line options error: %s', err.message);
     console.error(' => Try "$ suman --help" or visit oresoftware.github.io/suman');
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
 }
 
-console.log("# opts:", opts);
-console.log("# args:", opts._args);
+
+if(process.env.NODE_ENV === 'dev_local_debug'){
+    console.log("# opts:", opts);
+    console.log("# args:", opts._args);
+}
+
 global.sumanOpts = opts;
 global.sumanArgs = opts._args;
 
@@ -268,14 +276,7 @@ if (opts.help) {
 
 //////////////////////////////////////////////////////////////////////
 
-/**
- * Solves equations of the form a * x = b
- * @example <caption>Example usage of method1.</caption>
- * // returns 2
- * treasure maker
- * globalNS.method1(5, 10);
- * @returns {Number} Returns the value of x for the equation.
- */
+
 var sumanInstalledLocally = true;
 
 var err;
@@ -328,12 +329,12 @@ try {
 
 }
 catch (err) {
+
     //TODO: try to get suman.conf.js from root of project
 
     if (!init) {
         console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
         console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
-
     }
 
     try {
@@ -464,7 +465,7 @@ else {
 
 
     if (dirs.length < 1) {
-        console.error('   ' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
+        console.error('\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
         return;
     }
     else {
@@ -482,7 +483,6 @@ else {
                 process.nextTick(function () {
                     process.sumanConfig = sumanConfig;
                     require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
-
                 });
             });
         }

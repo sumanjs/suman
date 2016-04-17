@@ -1,6 +1,7 @@
 const suman = require('../../lib');
 var Test = suman.init(module, {
-    interface: 'TDD'
+    interface: 'TDD',
+    integrants: ['dolce-vida']
 });
 
 
@@ -16,31 +17,34 @@ function promiseTimeout() {
 Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
 
 
-    this.setupTest(function () {
+    this.setupTest(function (t) {
+
+        console.log('t:', t);
 
     });
 
-    this.teardownTest(function(){
+    this.teardownTest(function () {
 
     });
 
-    this.setup(function(){
+    this.setup(function () {
 
     });
 
-    this.teardown(function(){
+    this.teardown(function () {
 
 
     });
 
-    
-    this.series(function(test){
+
+    this.series(function (test) {
 
         return [
-            
-            test('makes rain', {}, function(){
 
-                
+            test('makes rain', {value: 5}, function (t) {
+
+                console.log('t:', t);
+
             }),
 
             test('makes rain', {})
@@ -49,8 +53,7 @@ Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
         ]
 
     });
-    
-    
+
 
     this.test('one', t => {
         return promiseTimeout(t);

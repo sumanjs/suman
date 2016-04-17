@@ -25,9 +25,9 @@ module.exports = () => {  //load async deps for any of your suman tests
         },
         'dolce-vida': (cb)=> {
 
-            process.nextTick(function () {
-                cb(null, new Error('rub'))
-            });
+            setTimeout(function () {
+                cb(null, new Error('rub'));
+            }, 1000);
 
         }
 

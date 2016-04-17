@@ -5,7 +5,7 @@
 
 
 const Test = require('../../lib').init(module, {
-    export: false,
+    export: true,
     integrants: ['smartconnect', 'dolce-vida'],
     ioc: {
         choodles: function(){
@@ -18,7 +18,7 @@ const Test = require('../../lib').init(module, {
 Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles) {
 
 
-    console.log('choodles:',choodles);
+    console.log('extra:',extra);
 
 
     this.before(ctn => {
