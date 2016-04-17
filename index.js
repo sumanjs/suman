@@ -46,6 +46,7 @@
 // settings for child_process, shell scripts should be in a directory called sh in the same directory as the test
 //  see ./bash/a and ./bash/b
 //TODO: add option to choose mode:'series'/'parallel'
+//TODO: bail needs to be implemented for runner as well as individual tests
 //TODO: bail + hooks https://github.com/mochajs/mocha/issues/690
 //TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense
 //TODO: conversion, this.title needs to work for a describe block (same as this.desc)

@@ -57,7 +57,6 @@ Test.describe('gggg', {parallel: false}, function (http, assert, fs, child_proce
     console.log('before beforeEach');
 
     this.beforeEach(function(t){
-
         console.log('boooo');
         console.log('t:',t);
     });
@@ -65,6 +64,7 @@ Test.describe('gggg', {parallel: false}, function (http, assert, fs, child_proce
     this.it('makes noise', {}, function () {
 
         console.log('test');
+        throw new Error('bahahams');
 
     });
 

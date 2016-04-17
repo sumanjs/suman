@@ -27,7 +27,7 @@ module.exports = () => {  //load async deps for any of your suman tests
 
             setTimeout(function () {
                 cb(null, new Error('rub'));
-            }, 1000);
+            }, 100);
 
         }
 
