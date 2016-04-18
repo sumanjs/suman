@@ -5,7 +5,7 @@
 
 > ---
 >
->    Suman library documentation: [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
+>    /////  Suman library documentation => [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")
 >
 > ---
 
@@ -17,6 +17,8 @@
 <i> => For command line tools:</i>
 ## ```npm install -g suman```
 
+<br>
+<br>
 <i> => For test suites in your project:</i>
 ### You should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
 
@@ -341,7 +343,7 @@ NPM badge:
  Suman is currently looking for a full-stack web developer experienced with both Node.js and React to split the plaudits for this project,
  and who is interested in contributing to open source with the notion that it's very unlikely any monetary gains will be seen from it :)
  This project yearns for a really excellent web reporter UI and corresponding backend to support it,
- and what he have now is just the beginning when it comes to the web reporter.
+ and what we have now is just the beginning when it comes to the web reporter.
  
  Here is a screenshot of the web reporter as it is now:  https://goo.gl/LE5xLo
  
