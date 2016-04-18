@@ -48,6 +48,7 @@
     "react-css": "0.0.2",
     "react-dom": "^0.14.8",
     "request": "^2.67.0",
+    "require-from-string": "^1.1.0",
     "residence": "0.0.1",
     "serve-favicon": "^2.3.0",
     "socket.io": "^1.4.5",

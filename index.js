@@ -11,10 +11,6 @@
 
  */
 
-/*// Start reading from stdin so we don't exit.
- process.stdin.resume();
-
- */
 
 //TODO: add value option to each test case {value: 'obj') for using with beforeEach etc
 //TODO: command to kill runner works too well, need to use ctrl+D instead
@@ -93,11 +89,13 @@ const path = require('path');
 const os = require('os');
 const domain = require('domain');
 const cp = require('child_process');
+const vm = require('vm');
 
 
 //#npm
 const dashdash = require('dashdash');
 const colors = require('colors/safe');
+// const requireFromString = require('require-from-string');
 
 
 //#project
@@ -173,6 +171,11 @@ const options = [
         names: ['force', 'f'],
         type: 'bool',
         help: 'Force the command at hand.'
+    },
+    {
+        names: ['pipe', 'p'],
+        type: 'bool',
+        help: 'Pipe data to Suman using stdout to stdin.'
     },
     {
         names: ['convert', 'cnvt'],
@@ -254,7 +257,7 @@ try {
 }
 
 
-if(process.env.NODE_ENV === 'dev_local_debug'){
+if (process.env.NODE_ENV === 'dev_local_debug') {
     console.log("# opts:", opts);
     console.log("# args:", opts._args);
 }
@@ -272,6 +275,47 @@ if (opts.help) {
         + help);
     process.stdout.write('\n');
     process.exit(0);
+}
+
+
+/////////////////////////////////////////////////////////////////////
+
+
+
+function requireFromString(src, filename) {
+    var Module = module.constructor;
+    var m = new Module();
+    m.filename= '/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js';
+    m.paths = ['/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests'];
+    m._compile(src, filename);
+    return m.exports;
+}
+
+
+
+if (opts.pipe) {
+
+    process.stdin.setEncoding('utf8');
+
+    var data = '';
+
+    process.stdin.on('readable', () => {
+        var chunk = process.stdin.read();
+        if (chunk !== null) {
+            data += chunk;
+        }
+    });
+
+    process.stdin.on('end', () => {
+        const mod = requireFromString(data, 'jamboree.js', {
+            appendPaths: []
+        });
+
+        console.log('roo.maxParallelProcesses:',mod.maxParallelProcesses);
+    });
+
+
+    return;
 }
 
 

@@ -1,3 +1,7 @@
+
+
+console.log('cwd:',process.cwd());
+
 const suman = require('../../lib');
 var Test = suman.init(module, {
     interface: 'TDD',
