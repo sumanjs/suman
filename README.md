@@ -10,20 +10,6 @@
 > ---
 
 
- <br>
- <b>Looking for open source dev(s): </b>
- <br>
- Suman is currently looking for a full-stack web developer experienced with both Node.js and React to split the plaudits for this project,
- and who is interested in contributing to open source with the notion that it's very unlikely any monetary gains will be seen from it :)
- This project yearns for a really excellent web reporter UI and corresponding backend to support it,
- and what he have now is just the beginning when it comes to the web reporter.
- 
- Here is a screenshot of the web reporter as it is now:  https://goo.gl/LE5xLo
- 
- With some work it could prove to be indispensable for developers working with this lib. This project is very multifaceted and
- it will involve full-stack work with SQLite, Express and React. Relative newbs welcome. Thanks!
- 
-<br>
 <br>
 # &#9658; Quick reference
 
@@ -51,7 +37,9 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 ---
 
-<i> Suman is a test runner for Node.js and is focused on asynchronous testing of backend services. Suman is heavy on features and it might blow your mind. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
+<i> Suman is a new test runner for Node.js and is focused on high-throughput maximum concurrency asynchronous testing of backend services. 
+
+Suman is feature-rich and very fun to use. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
 and to compete with the new Node.js test runner AVA. Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
 massive improvements over Mocha, specifically for backend testing. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings 
 that we experienced ourselves over time, and eventually we wanted a test runner that we could use that was more robust and more streamlined than Mocha,
@@ -347,3 +335,17 @@ NPM badge:
 
 
 
+ <br>
+ <b>Looking for open source dev(s): </b>
+ <br>
+ Suman is currently looking for a full-stack web developer experienced with both Node.js and React to split the plaudits for this project,
+ and who is interested in contributing to open source with the notion that it's very unlikely any monetary gains will be seen from it :)
+ This project yearns for a really excellent web reporter UI and corresponding backend to support it,
+ and what he have now is just the beginning when it comes to the web reporter.
+ 
+ Here is a screenshot of the web reporter as it is now:  https://goo.gl/LE5xLo
+ 
+ With some work it could prove to be indispensable for developers working with this lib. This project is very multifaceted and
+ it will involve full-stack work with SQLite, Express and React. Relative newbs welcome. Thanks!
+ 
+<br>
