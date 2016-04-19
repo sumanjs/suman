@@ -203,6 +203,11 @@ const options = [
         help: 'Full stack traces will be shown for all exceptions, including test failures.'
     },
     {
+        names: ['processes', 'procs'],
+        type: 'integer',
+        help: 'Override config value for maximum number of parallel Node.js processes.'
+    },
+    {
         names: ['server', 's'],
         type: 'bool',
         help: 'Convert Mocha test file or directory to Suman test(s).'
@@ -233,7 +238,7 @@ const options = [
         help: 'Path to the suman.conf.js file you wish to use.'
     },
     {
-        names: ['tail-errors', 'tail-err'],   //TODO
+        names: ['tail-errors', 'tail-err'],   //TODO: this is to simply provide a shortcut, we should have an err-log in each project
         type: 'bool',
         help: 'Option to tail the suman-err.log file defined by the path in your suman config.'
     },

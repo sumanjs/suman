@@ -8,7 +8,7 @@ const suman = require('../../lib');
 
 const Test = suman.init(module, {});
 
-Test.describe('1', {parallel:true}, function () {
+Test.describe('1', {parallel:false}, function () {
 
 
     this.it('one', function (done) {

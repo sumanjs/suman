@@ -313,7 +313,9 @@ with the plain old Node executable, as opposed to adding the complexity of trans
  to use nested describe statements for more control and preventing the sharing of scope within tests. AVA basically
  co-opted Tape and added concurrency. Suman co-opted Mocha, added concurrency, better reporting, dependency injection and 
  less confusing contexts for hooks. Suman has more powerful facilities for asynchronous testing than AVA due to Mocha/Jasmine-style hooks
- and nested describes. Dependency injection ability also makes Suman extremely convenient to use, compared to AVA.
+ and nested describes. Dependency injection ability also makes Suman extremely convenient and fun to use, compared to AVA.
+ Suman is simply much more powerful and richer in features than AVA. 
+ 
  
 ### Extra info
 
