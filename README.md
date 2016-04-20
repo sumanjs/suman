@@ -9,6 +9,7 @@
 >
 > ---
 
+# "Replaces Mocha, rivals AVA" - John Lee Hooker
 
 <br>
 # &#9658; Quick reference

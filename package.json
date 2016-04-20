@@ -29,6 +29,7 @@
     "chalk": "^1.1.1",
     "colors": "^1.1.2",
     "cookie-parser": "^1.4.0",
+    "cross-spawn": "^2.2.3",
     "dashdash": "^1.13.0",
     "debug": "^2.2.0",
     "du": "^0.1.0",

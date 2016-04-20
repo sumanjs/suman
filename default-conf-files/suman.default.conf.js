@@ -55,17 +55,6 @@ module.exports = Object.freeze({
         }
     },
 
-    aux: {
-        once: 'suman/suman.once.js',        // location of your main IoC file (canonical location is the root of your project)
-        order: 'suman/suman.order.js',      // location of your main IoC file (canonical location is the root of your project)
-        ioc: 'suman/suman.ioc.js',          // location of your main IoC file (canonical location is the root of your project)
-
-    },
-
-    ioc: 'suman/suman.ioc.js',          // location of your main IoC file (canonical location is the root of your project)
-    once: 'suman/suman.once.js',        // location of your main IoC file (canonical location is the root of your project)
-    order: 'suman/suman.order.js',      // location of your main IoC file (canonical location is the root of your project)
-
     reporters: {},
 
     servers: {                           // list of servers to output test result data to, with the os.hostname() as the key

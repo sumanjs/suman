@@ -173,6 +173,11 @@ const options = [
         help: 'Force the command at hand.'
     },
     {
+        names: ['fforce', 'ff'],
+        type: 'bool',
+        help: 'Force the command at hand, with super double force.'
+    },
+    {
         names: ['pipe', 'p'],
         type: 'bool',
         help: 'Pipe data to Suman using stdout to stdin.'
@@ -360,6 +365,7 @@ const src = opts.src;
 const dest = opts.dest;
 const init = opts.init;
 const force = opts.force;
+const fforce = opts.fforce;
 const server = opts.server;
 const useRunner = opts.runner;
 const grepFile = opts.grep_file;
@@ -442,7 +448,8 @@ var dirs = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
 if (init) {
 
     require('./lib/init/init-project')({
-        force: force
+        force: force,
+        fforce: fforce
     });
 
 } else if (coverage) {
