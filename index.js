@@ -11,7 +11,7 @@
 
  */
 
-
+//TODO: https://hellocoding.wordpress.com/2015/01/19/delete-all-commit-history-github/
 //TODO: add value option to each test case {value: 'obj') for using with beforeEach etc
 //TODO: command to kill runner works too well, need to use ctrl+D instead
 //TODO: have to allow users to use bash scripts as hooks to setup process information, this involves
@@ -295,8 +295,8 @@ if (opts.help) {
 function requireFromString(src, filename) {
     var Module = module.constructor;
     var m = new Module();
-    m.filename= '/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js';
-    m.paths = ['/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests'];
+    m.filename= '/Users/denmanm1/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js';
+    m.paths = ['/Users/denmanm1/WebstormProjects/oresoftware/suman/test/build-tests'];
     m._compile(src, filename);
     return m.exports;
 }

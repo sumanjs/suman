@@ -25,7 +25,7 @@ const suman = require('suman');
 const Test = suman.init(module);
 
 /!**
- * Created by amills001c on 3/20/16.
+ * Created by denmanm1 on 3/20/16.
  *!/
 
 var assert = require("assert"),
