@@ -1,18 +1,36 @@
 
 
 >>> Suman runner start >>>
-Beggining of run at 1461223707283 = [Thu Apr 21 2016 00:28:27 GMT-0700 (Pacific Daylight Time)]
+Beggining of run at 1461227135720 = [Thu Apr 21 2016 01:25:35 GMT-0700 (Pacific Daylight Time)]
+Command issued from the following directory "C:\Users\denman\WebstormProjects\suman"
 Command = ["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\denman\\WebstormProjects\\suman\\index","test\\build-tests"]
-[C:\Users\denman\WebstormProjects\suman\test\build-tests\test6.test.js]jimmy
-[C:\Users\denman\WebstormProjects\suman\test\build-tests\tes-t7-start.test.js]Error: ENOENT: no such file or directory, open 'C:\dev\null'
-    at Error (native)
-[C:\Users\denman\WebstormProjects\suman\test\build-tests\tes-t7-start.test.js]Error: Warning: test callback requested twice
-    at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-callback-helpers.js:63:35
-    at WriteStream.fail (C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:141:33)
-    at emitOne (events.js:82:20)
-    at WriteStream.emit (events.js:169:7)
-    at WriteStream.<anonymous> (fs.js:1841:12)
-    at FSReqWrap.oncomplete (fs.js:82:15)
+
+
+[test6.test.js] Error: jimmy
+[test6.test.js]     at Object.<anonymous> (C:\Users\denman\WebstormProjects\suman\test\build-tests\test6.test.js:20:7)
+[test6.test.js]     at Module._compile (module.js:435:26)
+[test6.test.js]     at Object.Module._extensions..js (module.js:442:10)
+[test6.test.js]     at Module.load (module.js:356:32)
+[test6.test.js]     at Function.Module._load (module.js:311:12)
+[test6.test.js]     at Module.require (module.js:366:17)
+[test6.test.js]     at require (module.js:385:17)
+[test6.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\run-child.js:53:9
+[test6.test.js]     at doNTCallback0 (node.js:419:9)
+[test6.test.js]     at process._tickDomainCallback (node.js:389:13)
+[test6.test.js] 
+
+[tes-t7-start.test.js] Error: ENOENT: no such file or directory, open 'C:\dev\null'
+[tes-t7-start.test.js]     at Error (native)
+[tes-t7-start.test.js] 
+
+[tes-t7-start.test.js] Error: Warning: test callback requested twice
+[tes-t7-start.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-callback-helpers.js:63:35
+[tes-t7-start.test.js]     at WriteStream.fail (C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:141:33)
+[tes-t7-start.test.js]     at emitOne (events.js:82:20)
+[tes-t7-start.test.js]     at WriteStream.emit (events.js:169:7)
+[tes-t7-start.test.js]     at WriteStream.<anonymous> (fs.js:1841:12)
+[tes-t7-start.test.js]     at FSReqWrap.oncomplete (fs.js:82:15)
+[tes-t7-start.test.js] 
 <<<<< Suman runner end <<<<<<
 
 
