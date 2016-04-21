@@ -28,6 +28,7 @@ module.exports = Object.freeze({
     EXIT_CODES: {
         SUCCESSFUL_RUN: 0,
         GREP_SUITE_DID_NOT_MATCH: 0,
+        BAD_GREP_SUITE_OPTION:52,
         SUMAN_UNCAUGHT_EXCEPTION: 53,
         BAD_CONFIG_OR_PROGRAM_ARGUMENTS: 54,
         UNEXPECTED_NON_FATAL_ERROR: 55,
@@ -63,7 +64,7 @@ module.exports = Object.freeze({
         'need a regular function as a callback. The remainder of your tests can be arrow function galore. \nIf you dont understand this, read up on how arrow functions bind "this" ' +
         'to lexical scope, and why they cant just be used everywhere.'
     },
-    RUNNER_MESSAGE_TYPE: {
+    runner_message_type: {
         FATAL: 'FATAL',
         TABLE_DATA:'TABLE_DATA',
         INTEGRANT_INFO:'INTEGRANT_INFO',
@@ -74,7 +75,6 @@ module.exports = Object.freeze({
         NON_FATAL_ERR:'NON_FATAL_ERR',
         CONSOLE_LOG:'CONSOLE_LOG',
         MAX_MEMORY:'MAX_MEMORY'
-
     }
 
 });

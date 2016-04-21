@@ -150,9 +150,19 @@ const options = [
         help: 'Verbose output. Use multiple times for more verbose.'
     },
     {
+        names: ['vverbose', 'vv'],
+        type: 'bool',
+        help: 'Very verbose output. There is either verbose or very verbose (vverbose).'
+    },
+    {
         names: ['init'],
         type: 'bool',
         help: 'Initialize Suman in your project; install it globally first.'
+    },
+    {
+        names: ['no-tables'],
+        type: 'bool',
+        help: 'No ascii tables will be outputted to terminal.'
     },
     {
         names: ['coverage'],
@@ -243,12 +253,6 @@ const options = [
         names: ['tail-errors', 'tail-err'],   //TODO: this is to simply provide a shortcut, we should have an err-log in each project
         type: 'bool',
         help: 'Option to tail the suman-err.log file defined by the path in your suman config.'
-    },
-    {
-        names: ['file'],
-        type: 'string',
-        help: 'File to process',
-        helpArg: 'FILE'
     }
 ];
 
@@ -264,9 +268,18 @@ try {
 }
 
 
-if (process.env.NODE_ENV === 'dev_local_debug') {
+if (process.env.NODE_ENV === 'dev_local_debug' || opts.vverbose) {
     console.log("# opts:", opts);
     console.log("# args:", opts._args);
+}
+
+
+if (opts.fforce) {
+    opts.force = true;
+}
+
+if (opts.vverbose) {
+    opts.verbose = true;
 }
 
 global.sumanOpts = opts;
@@ -288,16 +301,14 @@ if (opts.help) {
 /////////////////////////////////////////////////////////////////////
 
 
-
 function requireFromString(src, filename) {
     var Module = module.constructor;
     var m = new Module();
-    m.filename= '/Users/denmanm1/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js';
+    m.filename = '/Users/denmanm1/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js';
     m.paths = ['/Users/denmanm1/WebstormProjects/oresoftware/suman/test/build-tests'];
     m._compile(src, filename);
     return m.exports;
 }
-
 
 
 if (opts.pipe) {
@@ -318,7 +329,7 @@ if (opts.pipe) {
             appendPaths: []
         });
 
-        console.log('roo.maxParallelProcesses:',mod.maxParallelProcesses);
+        console.log('roo.maxParallelProcesses:', mod.maxParallelProcesses);
     });
 
 

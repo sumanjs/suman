@@ -1,8 +1,18 @@
 
 
->>> Suman start >>>
-Beggining of run at 1461211341023 = [Wed Apr 20 2016 21:02:21 GMT-0700 (PDT)]
-Command = ["/Users/amills001c/.nvm/versions/node/v4.3.2/bin/node","/Users/amills001c/WebstormProjects/oresoftware/suman/index","--rnr","test/build-tests"]
+>>> Suman runner start >>>
+Beggining of run at 1461223707283 = [Thu Apr 21 2016 00:28:27 GMT-0700 (Pacific Daylight Time)]
+Command = ["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\denman\\WebstormProjects\\suman\\index","test\\build-tests"]
+[C:\Users\denman\WebstormProjects\suman\test\build-tests\test6.test.js]jimmy
+[C:\Users\denman\WebstormProjects\suman\test\build-tests\tes-t7-start.test.js]Error: ENOENT: no such file or directory, open 'C:\dev\null'
+    at Error (native)
+[C:\Users\denman\WebstormProjects\suman\test\build-tests\tes-t7-start.test.js]Error: Warning: test callback requested twice
+    at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-callback-helpers.js:63:35
+    at WriteStream.fail (C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:141:33)
+    at emitOne (events.js:82:20)
+    at WriteStream.emit (events.js:169:7)
+    at WriteStream.<anonymous> (fs.js:1841:12)
+    at FSReqWrap.oncomplete (fs.js:82:15)
 <<<<< Suman runner end <<<<<<
 
 

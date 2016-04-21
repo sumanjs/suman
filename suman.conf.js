@@ -48,12 +48,6 @@ module.exports = Object.freeze({
         return path.resolve(this.defaultSumanHomeDir() + '/suman_results');
     },
 
-    
-    reporters: {
-
-
-    },
-
 
     servers: {
         'CACSVML-16845':{
