@@ -3,7 +3,7 @@
  */
 
 
-const path = require('path');
+
 
 process.on('SIGINT', function (code) {
     console.log('...SIGINT caught, code => ' + code, ', exiting ...');
@@ -16,6 +16,7 @@ process.on('uncaughtException', function (err) {
 
 /////////////////////////////////////////////////////////////
 
+const path = require('path');
 const http = require('http');
 const _ = require('underscore');
 const fs = require('fs');

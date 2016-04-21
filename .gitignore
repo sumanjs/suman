@@ -1,16 +1,9 @@
-/bash
-/jsdoc-notes.txt
-# Created by .ignore support plugin (hsz.mobi)
-
 nul
 NUL
 .idea/
 node_modules/
 bower_components/
 exp.js
-_future/
-competition
-suman.conf.js
 test_sc
 test_sc_dest
 bugs
@@ -18,4 +11,3 @@ coverage
 docs
 jsdoc-out
 mr-docs
-exp*.js
