@@ -11,8 +11,9 @@
 
  */
 
+//TODO: runner needs to show tests in table even if they fail out before sending table data
+//TODO: need to change suman file to use ee for reporting
 //TODO: https://hellocoding.wordpress.com/2015/01/19/delete-all-commit-history-github/
-//TODO: add value option to each test case {value: 'obj') for using with beforeEach etc
 //TODO: command to kill runner works too well, need to use ctrl+D instead
 //TODO: have to allow users to use bash scripts as hooks to setup process information, this involves
 // having an option to use spawn instead of fork in the runner, see ./bash/a and ./bash/b
@@ -77,7 +78,9 @@
 //TODO: create suman --diagnostics option at command line to check for common problems with both project and test suites
 //TODO: write metadata file out along with txt files
 //TODO: exit code for runner does not match if any process exits with a code greater than 0
-
+//TODO  need to add a delay option for tests running in a loop
+//TODO  on ms windows error messages do not always give url/link/path of test file with error
+//TODO: https://github.com/nodejs/node/issues/5252#issuecomment-212784934
 
 /////////////////////////////////////////////////////////////////
 
@@ -102,7 +105,7 @@ const constants = require('./config/suman-constants');
 
 const pkgJSON = require('./package.json');
 const v = pkgJSON.version;
-console.log(colors.gray.italic(' => Suman v' + v + ' running...'));
+console.log(colors.yellow.italic(' => Suman v' + v + ' running...'));
 
 ////////////////////////////////////////////////////////////////////
 

@@ -1,68 +1,21 @@
 
 
 >>> Suman start run indiv. >>>
-Beginning of run at 1461201400176 = [Wed Apr 20 2016 18:16:40 GMT-0700 (PDT)]
-Command = ["/Users/amills001c/.nvm/versions/node/v4.3.2/bin/node","/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js"]
-<<< Suman end run <<<
-
-
-
-
-
-
-
-
-
-
->>> Suman start run indiv. >>>
-Beginning of run at 1461201760258 = [Wed Apr 20 2016 18:22:40 GMT-0700 (PDT)]
-Command = ["/Users/amills001c/.nvm/versions/node/v4.3.2/bin/node","/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js"]
-<<< Suman end run <<<
-
-
-
-
-
-
-
-
-
-
->>> Suman start run indiv. >>>
-Beginning of run at 1461208523857 = [Wed Apr 20 2016 20:15:23 GMT-0700 (PDT)]
-Command = ["/Users/amills001c/.nvm/versions/node/v4.3.2/bin/node","/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js"]
-<<< Suman end run <<<
-
-
-
-
-
-
-
-
-
-
->>> Suman start run indiv. >>>
-Beginning of run at 1461208687372 = [Wed Apr 20 2016 20:18:07 GMT-0700 (PDT)]
-Command = ["/Users/amills001c/.nvm/versions/node/v4.3.2/bin/node","/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js"]
-<<< Suman end run <<<
-
-
-
-
-
-
-
-
-
-
->>> Suman start run indiv. >>>
-Beginning of run at 1461229489074 = [Thu Apr 21 2016 02:04:49 GMT-0700 (PDT)]
+Beginning of run at 1461229853957 = [Thu Apr 21 2016 02:10:53 GMT-0700 (PDT)]
 Command = ["/Users/amills001c/.nvm/versions/node/v4.3.2/bin/node","/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests/tes-t7.jsx"]
+<<< Suman end run <<<
+
+
+
+
+
+
+
+
 
 
 >>> Suman start run indiv. >>>
-Beginning of run at 1461229499836 = [Thu Apr 21 2016 02:04:59 GMT-0700 (PDT)]
+Beginning of run at 1461229882994 = [Thu Apr 21 2016 02:11:22 GMT-0700 (PDT)]
 Command = ["/Users/amills001c/.nvm/versions/node/v4.3.2/bin/node","/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests/tes-t7.jsx"]
 <<< Suman end run <<<
 

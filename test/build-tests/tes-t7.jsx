@@ -8,8 +8,8 @@ const Test = require('../../lib').init(module, {
     export: false,
     integrants: ['smartconnect', 'dolce-vida'],
     ioc: {
-        choodles: function(){
-            
+        choodles: function () {
+
         }
     }
 });
@@ -18,7 +18,7 @@ const Test = require('../../lib').init(module, {
 Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles) {
 
 
-    console.log('extra:',extra);
+    console.log('extra:', extra);
 
 
     this.before(ctn => {
@@ -26,7 +26,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles) {
     });
 
     this.beforeEach(t => {
-        
+
 
     });
 
@@ -35,8 +35,8 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles) {
         [1, 2, 3, 4, 5, 6].forEach(val=> {
 
             this.it('tests ' + val, {parallel: !!val}, function () {
-                
-                
+
+
             });
         })
 
