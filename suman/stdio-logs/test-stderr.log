@@ -54,3 +54,22 @@ Command = ["/Users/amills001c/.nvm/versions/node/v4.3.2/bin/node","/Users/amills
 
 
 
+
+
+>>> Suman start run indiv. >>>
+Beginning of run at 1461229489074 = [Thu Apr 21 2016 02:04:49 GMT-0700 (PDT)]
+Command = ["/Users/amills001c/.nvm/versions/node/v4.3.2/bin/node","/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests/tes-t7.jsx"]
+
+
+>>> Suman start run indiv. >>>
+Beginning of run at 1461229499836 = [Thu Apr 21 2016 02:04:59 GMT-0700 (PDT)]
+Command = ["/Users/amills001c/.nvm/versions/node/v4.3.2/bin/node","/Users/amills001c/WebstormProjects/oresoftware/suman/test/build-tests/tes-t7.jsx"]
+<<< Suman end run <<<
+
+
+
+
+
+
+
+

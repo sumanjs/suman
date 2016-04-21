@@ -5,7 +5,7 @@
 
 
 const Test = require('../../lib').init(module, {
-    export: true,
+    export: false,
     integrants: ['smartconnect', 'dolce-vida'],
     ioc: {
         choodles: function(){
