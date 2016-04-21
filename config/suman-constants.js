@@ -64,7 +64,16 @@ module.exports = Object.freeze({
         'to lexical scope, and why they cant just be used everywhere.'
     },
     RUNNER_MESSAGE_TYPE: {
-        FATAL: 'FATAL'
+        FATAL: 'FATAL',
+        TABLE_DATA:'TABLE_DATA',
+        INTEGRANT_INFO:'INTEGRANT_INFO',
+        LOG_DATA:'LOG_DATA',
+        LOG_RESULT:'LOG_RESULT',
+        FATAL_SOFT:'FATAL_SOFT',
+        WARNING:'WARNING',
+        NON_FATAL_ERR:'NON_FATAL_ERR',
+        CONSOLE_LOG:'CONSOLE_LOG',
+        MAX_MEMORY:'MAX_MEMORY'
 
     }
 
