@@ -1,0 +1,26 @@
+.accordion {
+    border: solid 1px #000;
+    border-bottom-width: 0;
+}
+.accordion-section {
+    border-bottom: solid 1px #000;
+}
+
+.accordion-section > h3 {
+    padding: 6px;
+    font-size: 16px;
+    background-color: #CCC;
+    margin: 0;
+}
+.accordion-section > .body {
+    height: 0;
+    padding: 0 10px;
+    overflow: auto;
+    transition: height .5s, padding-top .5s, padding-bottom .5s;
+}
+.accordion-section.selected > .body {
+    height: 400px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #DCDCDC;
+}

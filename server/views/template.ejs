@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Suman Test Results</title>
+
+
+    <!-- ///////////////  here we run the front-end application /////////////////////////////-->
+    <% if(true) { %>
+    <!-- DEVELOPMENT-->
+    <script data-main="/js/main" src="/js/vendor/require.js"></script>
+    <% } else { %>
+    <!-- TEST and PRODUCTION-->
+    <script src="/optimized/bundles/Common.js.gz"></script>
+    <% } %>
+
+
+    <!-- ////////////////////////////////////////////////////////////////////////////////////-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
+    <!--<script src="/js/workers/one"></script>-->
+
+    <script>
+
+        define('SumanTestFiles',function(){
+            return <%- data %>;
+        });
+
+    </script>
+
+</head>
+
+
+<body>
+
+<div id="react-app"></div>
+
+</body>
+</html>

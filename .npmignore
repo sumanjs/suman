@@ -1,0 +1,11 @@
+/.idea/
+/results/
+/node_modules/
+compendium_of_mocha_problems
+/bower_components/
+bugs
+coverage
+docs
+jsdoc-out
+mr-docs
+exp*.js

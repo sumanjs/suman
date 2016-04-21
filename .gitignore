@@ -1,0 +1,17 @@
+nul
+NUL
+.idea/
+node_modules/
+bower_components/
+test_sc
+test_sc_dest
+bugs
+coverage
+docs
+jsdoc-out
+mr-docs
+_future
+jsdoc-notes.txt
+makefile
+makefile2
+exp*.js
