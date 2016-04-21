@@ -21,7 +21,7 @@
 //TODO: implement Test.on('end') or Test.on('completed');
 //TODO: if you can get tired of using this.it, you have two options, chain them, or put them in a series/parallel block
 //TODO: need glob support for source //https://github.com/isaacs/node-glob
-//TODO: http://altamodatech.com/blogs/?p=452
+//TODO: http://altamodatech.com/blogs/?p=452  //How To Use Mocha for Node Testing in Windows
 //TODO: TESTS=$(shell find test/ -name "*.test.js")
 //TODO: makefiles vs. gulp vs. plain js
 //TODO: need glob support for source
@@ -54,15 +54,12 @@
 //TODO: need to make sure to make suman_results readable/writable
 //TODO: need to figure out way to grep suite name without having to run the test
 //TODO: add option to do no reporting but at command line for speed
-//TODO: need to handle stubbed tests
 //TODO: need to implement  -b, --bail   => bail after first test failure
 //TODO: suman command line input should allow for a file and directory combination
-//TODO: suman --init should install suamn node_module, and suman directory at root of project, and suman.conf.js at root of project
 //TODO: readme needs to have examples by ES5, ES6, ES7
 //TODO: default configuration should provide default values using lodash defaults / underscore defaults
 //TODO: switch from underscore to lodash
 //TODO: get it to work with Istanbul/NYC  <<
-//TODO: if no tests are run, need to indicate this
 //TODO: special key combo (ctrl+save+r) will run tests after a change, using gulp file watchers?
 //TODO: https://nodejs.org/en/blog/uncategorized/profiling-node-js/
 //TODO: npm i babel -g, then babel-node --stage 0 myapp.js
