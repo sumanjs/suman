@@ -1,0 +1,27 @@
+
+
+>>> Suman start run indiv. >>>
+
+Beginning of run at 1461317027860 = [Fri Apr 22 2016 02:23:47 GMT-0700 (Pacific Daylight Time)]
+Command = ["C:\\Program Files\\nodejs\\node.exe","c:\\Users\\denman\\WebstormProjects\\suman-private\\test\\build-tests\\tes-t7.jsx"]
+
+
+Test error: [test] yo 1Error: ENOENT: no such file or directory, open 'c:\dev\null'
+    at Error (native)
+
+Error: ENOENT: no such file or directory, open 'c:\dev\null'
+    at Error (native)
+
+Warning: the following test callback was invoked twice by your code => [test] yo 1
+
+
+
+<<< Suman end run <<<
+
+
+
+
+
+
+
+

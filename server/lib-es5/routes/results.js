@@ -3,7 +3,7 @@
  */
 
 //#config
-const config = require('univ-config')(module, '*suman*', 'server/config/conf');
+const config = require('adore')(module, '*suman*', 'server/config/conf');
 
 //#core
 const fs = require('fs');

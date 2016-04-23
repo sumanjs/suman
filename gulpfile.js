@@ -10,7 +10,7 @@ const async = require('async');
 const _ = require('underscore');
 const chalk = require('chalk');
 const request = require('request');
-const ijson = require('idempotent-json');
+const ijson = require('siamese');
 const suman = require('./lib');
 const cp = require('child_process');
 

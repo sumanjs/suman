@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.35",
+  "version": "1.1.36",
   "main": "lib/index.js",
   "scripts": {
     "test": "suman",
@@ -13,6 +13,7 @@
   "author": "Olegzandr Denman",
   "license": "ISC",
   "dependencies": {
+    "adore": "^1.4.32",
     "ansi-256-colors": "^1.1.0",
     "ansi-styles": "^2.1.0",
     "ascii-table": "0.0.8",
@@ -38,7 +39,6 @@
     "function-arguments": "^1.0.4",
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4",
-    "idempotent-json": "^0.9.2",
     "immutable": "^3.7.6",
     "jquery": "^2.2.2",
     "lodash": "^4.6.1",
@@ -52,12 +52,12 @@
     "require-from-string": "^1.1.0",
     "residence": "0.0.1",
     "serve-favicon": "^2.3.0",
+    "siamese": "^2.0.31",
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.3",
     "tap": "^5.7.0",
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
-    "univ-config": "^1.4.3",
     "v8flags": "^2.0.10"
   },
   "directories": {

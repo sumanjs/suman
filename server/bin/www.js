@@ -29,7 +29,7 @@ const sumanUtils = require('../../lib/utils');
 
 
 //config
-var config = require('univ-config')(module, '*suman*', 'server/config/conf');
+var config = require('adore')(module, '*suman*', 'server/config/conf');
 
 
 const root = sumanUtils.findProjectRoot(path.resolve(__dirname + '/../../../../'));

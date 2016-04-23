@@ -24,7 +24,7 @@ Test.describe('@Test1', function () {
 
         assert.doesNotThrow(function () {  //prob unnecessary, but for clarity
 
-            config = require('univ-config')(module, '*', 'test/test-config');
+            config = require('adore')(module, '*', 'test/test-config');
 
         });
 
@@ -35,7 +35,7 @@ Test.describe('@Test1', function () {
 
         assert.throws(function () {
 
-            config = require('univ-config')(module, 'some string without an asterisk', 'test/test-config');
+            config = require('adore')(module, 'some string without an asterisk', 'test/test-config');
 
         }, 'Whoops');
 
@@ -45,7 +45,7 @@ Test.describe('@Test1', function () {
 
         assert.throws(function () {
 
-            config = require('univ-config')(module, '***', 'test/test-config/bad-path');
+            config = require('adore')(module, '***', 'test/test-config/bad-path');
 
         }, 'Whoops');
 
@@ -56,7 +56,7 @@ Test.describe('@Test1', function () {
 
         assert.throws(function () {
 
-            config = require('univ-config')(module, '***', 'test/test-config/bad-path');
+            config = require('adore')(module, '***', 'test/test-config/bad-path');
 
         }, 'Whoops');
 
@@ -65,7 +65,7 @@ Test.describe('@Test1', function () {
 
     this.it('verify config values', function () {
 
-        config = require('univ-config')(module, '***', 'test/test-config');
+        config = require('adore')(module, '***', 'test/test-config');
 
         assert.equal(config.prop1, 1);
         assert.deepEqual(config.prop2, {foo: 'bar'}, 'prop2 has unexpected value');
