@@ -15,22 +15,13 @@ module.exports = Object.freeze({
     checkMemoryUsage: true,
     fullStackTraces: false,
     uniqueAppName: 'suman',
-    NODE_ENV: 'development',
-    pipeStdOut: 'bunyan',
-    MAX_TOTAL_MEMORY: 3000,
+    DEFAULT_NODE_ENV: 'development',
     browser: 'Firefox',
     disableAutoOpen: false,
     expireResultsAfter: '10000000',
     resultsCapCount: 100,
     suppressRunnerOutput: true,
     resultsCapSize: 7000, // 3 gb's
-    output: {
-        'standard': {},
-        'basic': {},
-        'web': {
-            servers: ['localhost']
-        }
-    },
 
     defaultSumanHomeDir: function () {
         return path.normalize(path.resolve((process.env.HOME || process.env.USERPROFILE) + path.sep + 'suman_data'));
@@ -40,6 +31,10 @@ module.exports = Object.freeze({
         return path.normalize(path.resolve(this.defaultSumanHomeDir() + path.sep + 'suman_results'));
     },
 
+    reporters: {
+        'tap': 'suman/reporters/tap',
+        'std': ''
+    },
 
     servers: {
         'CACSVML-16845':{

@@ -8,34 +8,34 @@ var Test = require('../../lib').init(module, 'suman.conf.js');
 
 Test.describe('My Suite', function () {
 
-    this.describe('bugs', function () {
+            this.describe('bugs', function () {
 
-        this.it('is meow', function (t) {
+                        this.it('is meow', function (t) {
 
-            //throw new Error('jesus christ');
-            //
-            //
-            //setTimeout(function(){
-            //    throw new Error('jesus');
-            //    done();
-            //},10);
+                                    //throw new Error('jesus christ');
+                                    //
+                                    //
+                                    //setTimeout(function(){
+                                    //    throw new Error('jesus');
+                                    //    done();
+                                    //},10);
 
-        });
+                        });
 
-        this.describe('turtles', {}, function () {
+                        this.describe('turtles', {}, function () {
 
-            this.beforeEach(function () {
+                                    this.beforeEach(function () {
 
-                //throw new Error('michal');
+                                                //throw new Error('michal');
 
+                                    });
+
+                                    this.describe('sounds', function () {
+
+                                                this.it('is good', function () {});
+                                    });
+                        });
             });
-
-            this.describe('sounds', function () {
-
-                this.it('is good', function () {});
-            });
-        });
-    });
 });
 
 /*Test.describe('My Suite 222', function (suite) {

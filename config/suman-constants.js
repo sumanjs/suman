@@ -25,10 +25,14 @@ module.exports = Object.freeze({
         'writable'
     ],
     CORE_MODULE_LIST: require('builtin-modules'),
+    RUNNER_EXIT_CODES:{
+        UNCAUGHT_EXCEPTION: 777
+
+    },
     EXIT_CODES: {
         SUCCESSFUL_RUN: 0,
         GREP_SUITE_DID_NOT_MATCH: 0,
-        BAD_GREP_SUITE_OPTION:52,
+        BAD_GREP_SUITE_OPTION: 52,
         SUMAN_UNCAUGHT_EXCEPTION: 53,
         BAD_CONFIG_OR_PROGRAM_ARGUMENTS: 54,
         UNEXPECTED_NON_FATAL_ERROR: 55,
@@ -66,15 +70,21 @@ module.exports = Object.freeze({
     },
     runner_message_type: {
         FATAL: 'FATAL',
-        TABLE_DATA:'TABLE_DATA',
-        INTEGRANT_INFO:'INTEGRANT_INFO',
-        LOG_DATA:'LOG_DATA',
-        LOG_RESULT:'LOG_RESULT',
-        FATAL_SOFT:'FATAL_SOFT',
-        WARNING:'WARNING',
-        NON_FATAL_ERR:'NON_FATAL_ERR',
-        CONSOLE_LOG:'CONSOLE_LOG',
-        MAX_MEMORY:'MAX_MEMORY'
+        TABLE_DATA: 'TABLE_DATA',
+        INTEGRANT_INFO: 'INTEGRANT_INFO',
+        LOG_DATA: 'LOG_DATA',
+        LOG_RESULT: 'LOG_RESULT',
+        FATAL_SOFT: 'FATAL_SOFT',
+        WARNING: 'WARNING',
+        NON_FATAL_ERR: 'NON_FATAL_ERR',
+        CONSOLE_LOG: 'CONSOLE_LOG',
+        MAX_MEMORY: 'MAX_MEMORY'
+    },
+    broadcast_event_type: {
+        TEST_CASE_FAIL: 'test-case-fail',
+        TEST_CASE_PASS: 'test-case-pass',
+        TEST_CASE_STUBBED: 'test-case-stubbed',
+        TEST_CASE_SKIPPED: 'test-case-skipped',
     }
 
 });

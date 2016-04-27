@@ -12,7 +12,7 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _suman = require('../../lib');
+var _suman = require('suman');
 
 var suman = _interopRequireWildcard(_suman);
 
@@ -24,17 +24,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Test = suman.init(module, {
     interface: 'BDD' //BDD interface is default but are explicit
-});
+}); /**
+     * Created by denman on 3/26/2016.
+     */
+
+function async(bool) {
+    return function (target, key, descriptor) {
+        descriptor.enumerable = value;
+        return descriptor;
+    };
+}
 
 // here we create the test suite, we can pass in core modules, and any value defined in suman.ioc.js
-/**
- * Created by denman on 3/26/2016.
- */
-
 Test.describe('#Test1', function (assert, fs, http, path) {
 
     this.describe('tests multiplication', function () {
-        var _this = this;
+        var _this2 = this;
 
         this.beforeEach(function (t) {
             //this runs before any test case inside this describe block
@@ -64,10 +69,11 @@ Test.describe('#Test1', function (assert, fs, http, path) {
                                 return _context.stop();
                         }
                     }
-                }, _callee, _this);
-            }));
+                }, _callee, _this2);
+            })),
+                _this = _this2;
             return function (_x) {
-                return ref.apply(this, arguments);
+                return ref.apply(_this, arguments);
             };
         }());
     });
@@ -87,11 +93,11 @@ Test.describe('#Test1', function (assert, fs, http, path) {
     });
 
     this.describe('tests http request', function () {
-        var _this2 = this;
+        var _this3 = this;
 
         ['/foo', '/bar', '/bar'].forEach(function (val) {
 
-            _this2.it('[test] 3', function (t, done) {
+            _this3.it('[test] 3', function (t, done) {
 
                 return http.get({
                     hostname: 'example.com',

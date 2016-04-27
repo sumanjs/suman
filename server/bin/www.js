@@ -47,7 +47,7 @@ catch (err) {
     sumanConfig = require(configPath);
 }
 
-console.log('\n', ' => Suman config used: ', configPath);
+console.log(' => Suman config used: ', configPath);
 
 const sumanLogos = require('../../lib/ascii');
 console.log(sumanLogos.suman_alligator);

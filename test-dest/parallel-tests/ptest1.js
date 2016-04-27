@@ -9,6 +9,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var suman = require('../../lib');
 var Test = suman.init(module, {});
 
+console.log('Filename:', Test.file);
+
 Test.describe('Zulu', { mode: 'series' }, function () {
 
     this.beforeEach(function (t) {

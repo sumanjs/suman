@@ -1,17 +1,22 @@
 
 
 >>> Suman runner start >>>
-Beggining of run at 1461305035229 = [Thu Apr 21 2016 23:03:55 GMT-0700 (Pacific Daylight Time)]
+Beggining of run at 1461742657996 = [Wed Apr 27 2016 00:37:37 GMT-0700 (Pacific Daylight Time)]
 Command issued from the following directory "C:\Users\denman\WebstormProjects\suman-private"
-Command = ["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\denman\\WebstormProjects\\suman-private\\index","test\\build-tests"]
+Command = ["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\denman\\WebstormProjects\\suman-private\\index","test\\integration-tests"]
 
 
-[tes-t7-start.test.js] Error: ENOENT: no such file or directory, open 'C:\dev\null'
-[tes-t7-start.test.js]     at Error (native)
+[0.js] 
+[0.js] 
+[0.js] Test error: makes noise
 
-[tes-t7-start.test.js] 
-[tes-t7-start.test.js] Warning: the following test callback was invoked twice by your code => [test] yo 1
-[tes-t7-start.test.js] 
+[0.js] Error: bahahams
+[0.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman-private\test\integration-tests\test0.js:67:15)
+[0.js]     at C:\Users\denman\WebstormProjects\suman-private\lib\test-suite-helpers\handle-test.js:158:56
+[0.js]     at doNTCallback0 (node.js:419:9)
+[0.js]     at process._tickDomainCallback (node.js:389:13)
+[0.js] 
+[0.js] 
 <<<<< Suman runner end <<<<<<
 
 
