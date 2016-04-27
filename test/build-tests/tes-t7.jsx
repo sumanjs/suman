@@ -6,7 +6,7 @@
 
 const Test = require('../../lib').init(module, {
     export: false,
-    //integrants: ['smartconnect', 'dolce-vida'],
+    integrants: ['smartconnect', 'dolce-vida'],
     ioc: {
         choodles: function () {
 
@@ -117,12 +117,6 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles) {
         });
 
     });
-
-
-    this.before(() => {
-
-    });
-
 
 });
 

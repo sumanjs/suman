@@ -17,6 +17,7 @@
 //TODO: running with bare node executable should make no network connections and only save to local db if it exists
 //TODO: fork() is just a wrapper around spawn(). You can open the file with fs.open(), then pass the file descriptor in the options as { stdio: ['inherit', fd, fd] }
 //TODO: need to put std reporter in suman.conf.js
+//TODO: https://github.com/nodejs/help
 //TODO: runner needs to show tests in table even if they fail out before sending table data
 //TODO: need to change suman file to use ee for reporting
 //TODO: https://hellocoding.wordpress.com/2015/01/19/delete-all-commit-history-github/

@@ -46,9 +46,9 @@ router.get('/', function (req, res, next) {
     }
 
 
-    var project = ['Baymax', 'Viper', 'Falcor', 'Brokerify'];
+    var project = [ 'Viper', 'Falcor', 'Brokerify'];
 
-    var runBy = ['adrian001c', 'denmanm1', 'rpowar001c'];
+    var runBy = ['userC', 'denmanm1', 'userB'];
 
     var runAt = [new Date('December 31 1999 23:59:59'), new Date('December 4, 1995 03:24:00'), new Date('December 17, 1995 09:24:00')];
 
