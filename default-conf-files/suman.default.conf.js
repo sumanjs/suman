@@ -17,15 +17,8 @@ module.exports = Object.freeze({
         //these can be set by the command line
     },
 
-    defaultSumanHomeDir: function () {
-        return (process.env.HOME || process.env.USERPROFILE) + '/suman_data';
-    },
 
-    defaultSumanResultsDir: function () {
-        return path.resolve(this.defaultSumanHomeDir() + '/suman_results');
-    },
-
-
+    timeoutToSearchForAvailServer: 2000,
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
     warningLevel: 3,

@@ -4,6 +4,9 @@ module.exports = () => {  //load async deps for any of your suman tests
 
     return {
 
+        'should': function(){
+            return require('should');
+        },
         'request': function () {
             return require('request');  //this is not very useful, but below we can see useful asynchronous loading of deps
         },

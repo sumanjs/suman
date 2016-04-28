@@ -1,22 +1,13 @@
 
 
 >>> Suman runner start >>>
-Beggining of run at 1461742657996 = [Wed Apr 27 2016 00:37:37 GMT-0700 (Pacific Daylight Time)]
-Command issued from the following directory "C:\Users\denman\WebstormProjects\suman-private"
-Command = ["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\denman\\WebstormProjects\\suman-private\\index","test\\integration-tests"]
+Beggining of run at 1461822191434 = [Wed Apr 27 2016 22:43:11 GMT-0700 (Pacific Daylight Time)]
+Command issued from the following directory "c:\Users\denman\WebstormProjects\suman-private"
+Command = ["C:\\Program Files\\nodejs\\node.exe","c:\\Users\\denman\\WebstormProjects\\suman-private\\index.js","test\\build-tests\\test6.test.js","--rnr","--ignore-brk"]
 
 
-[0.js] 
-[0.js] 
-[0.js] Test error: makes noise
-
-[0.js] Error: bahahams
-[0.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman-private\test\integration-tests\test0.js:67:15)
-[0.js]     at C:\Users\denman\WebstormProjects\suman-private\lib\test-suite-helpers\handle-test.js:158:56
-[0.js]     at doNTCallback0 (node.js:419:9)
-[0.js]     at process._tickDomainCallback (node.js:389:13)
-[0.js] 
-[0.js] 
+[test6.test.js] jimmy
+[test6.test.js] 
 <<<<< Suman runner end <<<<<<
 
 

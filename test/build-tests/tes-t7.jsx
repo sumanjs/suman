@@ -15,7 +15,7 @@ const Test = require('../../lib').init(module, {
 });
 
 
-Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles) {
+Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, should) {
 
 
     console.log('extra:', extra);
@@ -36,6 +36,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles) {
 
             this.it('tests ' + val, {parallel: !!val}, function () {
 
+                //this.should.have.property('name', 'tj');
 
             });
         })

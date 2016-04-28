@@ -1,17 +1,10 @@
 #!/usr/bin/env node --harmony
 
 
-/*
 
- if (require.main !== module || process.argv.indexOf('--suman') > -1) {
- //prevents users from f*king up by accident and getting in some possible infinite process.spawn loop that will lock up their system
- console.log('Warning: attempted to require Suman index.js but this cannot be.');
- return;
- }
-
- */
-
-
+//TODO: add max memory value in overall table for runner
+//TODO: change fs.appendFileSync to fs.appendFile?
+//TODO: need assertions to print out pretty
 //TODO: if using local server and SQLite, then each cp should save data directly to db. however, if remote server, then
 // should only the parent process (runner) make the network connection? Possibly remove network code from suman file
 //TODO: running with bare node executable should make no network connections and only save to local db if it exists
@@ -89,6 +82,26 @@
 
 /////////////////////////////////////////////////////////////////
 
+
+/*
+
+
+
+ if (require.main !== module || process.argv.indexOf('--suman') > -1) {
+ //prevents users from f*king up by accident and getting in some possible infinite process.spawn loop that will lock up their system
+ console.log('Warning: attempted to require Suman index.js but this cannot be.');
+ return;
+ }
+
+ */
+
+process.on('SIGINT', () => {
+    console.log('Got SIGINT.  Press Control-D to exit.');
+});
+
+
+/////////////////////////////////////////////////////////////////
+
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -102,6 +115,7 @@ const EE = require('events');
 //#npm
 const dashdash = require('dashdash');
 const colors = require('colors/safe');
+const async = require('async');
 // const requireFromString = require('require-from-string');
 
 
@@ -139,6 +153,8 @@ const cwd = process.cwd();
 const sumanUtils = require('./lib/utils');
 const suman = require('./lib');
 const root = sumanUtils.findProjectRoot(process.cwd());
+const makeNetworkLog = require('./lib/make-network-log');
+const findSumanServer = require('./lib/find-suman-server');
 
 ////////////////////////////////////////////////////////////////////
 
@@ -146,7 +162,7 @@ const opts = require('./lib/parse-cmd-line-opts/parse-opts');
 
 ////////////////////////////////////////////////////////////////////
 
-
+global.viaSuman = true;
 global.resultBroadcaster = new EE();
 
 
@@ -206,7 +222,7 @@ const dest = opts.dest;
 const init = opts.init;
 const force = opts.force;
 const fforce = opts.fforce;
-const server = opts.server;
+const s = opts.server;
 const useRunner = opts.runner;
 const grepFile = opts.grep_file;
 const grepFileBaseName = opts.grep_file_base_name;
@@ -292,7 +308,7 @@ const reporterKV = sumanConfig.reporters || {};
     if (!val) {
         throw new Error(' => Suman fatal error => no reporter with name = "' + item + '" in your suman.conf.js file.');
     }
-    else{
+    else {
         if (!path.isAbsolute(val)) {
             val = path.resolve(root + '/' + val);
         }
@@ -373,7 +389,7 @@ else if (convert) {
         dest: dest
     });
 
-} else if (server) {
+} else if (s) {
 
     suman.Server({
         //configPath: 'suman.conf.js',
@@ -402,55 +418,92 @@ else if (convert) {
 }
 else {
 
-    const d = domain.create();
-    const args = opts._args;
+    const timestamp = global.timestamp = Date.now();
+    const networkLog = global.networkLog = makeNetworkLog(sumanConfig, timestamp);
+    const server = global.server = findSumanServer(sumanConfig, null);
 
-    d.once('error', function (err) {
-        //TODO: add link showing how to set up Babel
-        console.error(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually' +
-            ' if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
-            ' => Suman error => ' + err.stack + '\n'));
-        process.exit(constants.EXIT_CODES.UNEXPECTED_FATAL_ERROR);
-    });
+    networkLog.createNewTestRun(sumanConfig, server, function (err) {
 
-
-    if (dirs.length < 1) {
-        console.error('\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
-        return;
-    }
-    else {
-
-        //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
-        // and pretend it does not exist.
-
-        dirs = dirs.map(function (item) {
-            return path.resolve(item);
-        });
-
-        if (!useRunner && dirs.length === 1 && fs.statSync(dirs[0]).isFile()) {
-            //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
-            d.run(function () {
-                process.nextTick(function () {
-                    require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
-                });
-            });
+        if (err) {
+            console.error(err.stack);
+            process.exit(constants.EXIT_CODES.ERROR_INVOKING_NETWORK_LOG_IN_RUNNER);
         }
         else {
-            d.run(function () {
-                process.nextTick(function () {
-                    suman.Runner({
-                        grepSuite: grepSuite,
-                        grepFile: grepFile,
-                        $node_env: process.env.NODE_ENV,
-                        fileOrDir: dirs,
-                        config: sumanConfig
-                        //configPath: configPath || 'suman.conf.js'
-                    }).on('message', function (msg) {
-                        console.log('msg from suman runner', msg);
-                        //process.exit(msg);
-                    });
+
+            const dummyErr = 'dummy error to shortcut next task';
+
+            async.series([
+                function A(cb) {
+                    process.nextTick(function () {
+                        //if safe is false or undefined, we skip the following task B, by passing dummy err
+                        cb(global.sumanOpts.safe ? null : dummyErr);
+                    })
+                },
+                function B(cb) {
+                    async.each([], function (item, cb) {
+
+                    }, cb);
+                }
+            ], function (err, results) {
+
+                if (err && err !== dummyErr) {
+                    throw err;
+                }
+
+                const d = domain.create();
+                const args = opts._args;
+
+                d.once('error', function (err) {
+                    //TODO: add link showing how to set up Babel
+                    console.error(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually' +
+                        ' if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
+                        ' => Suman error => ' + err.stack + '\n'));
+                    process.exit(constants.EXIT_CODES.UNEXPECTED_FATAL_ERROR);
                 });
+
+
+                if (dirs.length < 1) {
+                    console.error('\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
+                    return;
+                }
+                else {
+
+                    //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
+                    // and pretend it does not exist.
+
+                    dirs = dirs.map(function (item) {
+                        return path.resolve(item);
+                    });
+
+                    if (!useRunner && dirs.length === 1 && fs.statSync(dirs[0]).isFile()) {
+                        //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
+                        d.run(function () {
+                            process.nextTick(function () {
+                                require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+                            });
+                        });
+                    }
+                    else {
+                        d.run(function () {
+                            process.nextTick(function () {
+                                suman.Runner({
+                                    grepSuite: grepSuite,
+                                    grepFile: grepFile,
+                                    $node_env: process.env.NODE_ENV,
+                                    fileOrDir: dirs,
+                                    //configPath: configPath || 'suman.conf.js'
+                                }).on('message', function (msg) {
+                                    console.log('msg from suman runner', msg);
+                                    //process.exit(msg);
+                                });
+                            });
+                        });
+                    }
+                }
+
             });
         }
-    }
+
+    });
+
 }
