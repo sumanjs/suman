@@ -17,13 +17,13 @@
 <br>
 <i> => For command line tools:</i>
 ## ```npm install -g suman```
-
-<br>
 <br>
 <i> => For test suites in your project:</i>
-### You should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
+## ```$ suman --init```
 
-=> to convert a Mocha test or whole directory of Mocha tests to Suman tests use <br>
+### Note: you should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
+
+=> to convert a Mocha test or whole directory(s) of Mocha tests to Suman tests use <br>
 ```$ suman --convert <src-file/src-dir> <dest-file/dest-dir>```
 
 => to simply install Suman as dev-dependency in any project you can use ```$ npm install -D suman```, <br>
@@ -52,6 +52,10 @@ and is not currently intended to be used for front-end testing. (Your backend te
 want them both to be powerful and full-featured). This library gives you features for backend testing that are not available in other testing frameworks since this
 library is not constained by the requirement that it must run in the browser. The bottom line is that all the problems with Mocha were fixed by this library.
 If you have a special question, concern or requirement don't hesitate to open an issue to see if Suman has you covered.</i>
+
+---
+
+ Suman was written to support Linux, OSX and Windows
 
 ---
 

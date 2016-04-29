@@ -47,6 +47,7 @@ catch (err) {
     sumanConfig = require(configPath);
 }
 
+global.sumanConfig = sumanConfig;
 console.log(' => Suman config used: ', configPath);
 
 const sumanLogos = require('../../lib/ascii');
@@ -64,7 +65,7 @@ async.parallel([
 
     function (cb) {
         //ensure that results directory exists, handle any error that is not EEXISTS error
-        sumanUtils.makeResultsDir(true, sumanConfig, function (err) {
+        sumanUtils.makeResultsDir(true, function (err) {
             cb(err);
         });
     },

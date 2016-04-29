@@ -368,7 +368,6 @@ function getRunId(req, res, next) {
                         };
 
                         childData.push(props);
-
                         cb(null, React.createElement(AccordionSection, props));
                     }
                 });

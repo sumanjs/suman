@@ -27,11 +27,10 @@ Test.suite('@Test1-EMpty', {parallel: false, bail: true}, function () {
 
     this.test('fails right away', function () {
         throw new Error('chuck');
-
     });
 
 
     this.test('should never run if bail is set to true', function () {
-
+        assert(false);
     });
 });

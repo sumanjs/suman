@@ -7,7 +7,7 @@
 const Test = require('../../lib').init(module, {
     export: false,
     integrants: ['smartconnect', 'dolce-vida'],
-    ioc: {
+    iocData: {  //we pass this data to ioc file
         choodles: function () {
 
         }
@@ -19,6 +19,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, should)
 
 
     console.log('extra:', extra);
+    console.log('choodles:', choodles);
 
 
     this.before(ctn => {

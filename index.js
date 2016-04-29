@@ -1,9 +1,12 @@
 #!/usr/bin/env node --harmony
 
-
-
+//TODO: npm install mocha -g --save-dev
+//TODO: paths issue - suman command may not be issued in a project at all, which means findRoot(cwd) will not yield
+// correct result - need to mitigate
+//TODO: overall consolidated table can have a count of failed test files vs passed test files
+//TODO: t.plan is useful for making sure code gets hit that might not actually run
 //TODO: add max memory value in overall table for runner
-//TODO: change fs.appendFileSync to fs.appendFile?
+//TODO: change fs.appendFileSync to fs.appendFile? no, causes corruption
 //TODO: need assertions to print out pretty
 //TODO: if using local server and SQLite, then each cp should save data directly to db. however, if remote server, then
 // should only the parent process (runner) make the network connection? Possibly remove network code from suman file
@@ -12,11 +15,10 @@
 //TODO: need to put std reporter in suman.conf.js
 //TODO: https://github.com/nodejs/help
 //TODO: runner needs to show tests in table even if they fail out before sending table data
-//TODO: need to change suman file to use ee for reporting
 //TODO: https://hellocoding.wordpress.com/2015/01/19/delete-all-commit-history-github/
 //TODO: command to kill runner works too well, need to use ctrl+D instead
 //TODO: have to allow users to use bash scripts as hooks to setup process information, this involves
-// having an option to use spawn instead of fork in the runner, see ./bash/a and ./bash/b
+// having an option to use spawn instead of fork in the runner, see ./lib/bash/a and ./lib/bash/b
 //TODO: https://github.com/JacksonGariety/gulp-nodemon/issues/110#event-628179539
 //TODO: did you forget to call done? should become "did you forget to call fail/pass?" etc under right conditions
 //TODO: implement Test.on('end') or Test.on('completed');
@@ -52,7 +54,6 @@
 //TODO: https://www.npmjs.com/package/tap-mocha-reporter
 //TODO: need to make sure to make suman_results readable/writable (move to sqlite3)
 //TODO: need to figure out way to grep suite name without having to run the test
-//TODO: add option to do no reporting but at command line for speed
 //TODO: need to implement  -b, --bail   => bail after first test failure
 //TODO: suman command line input should allow for a file and directory combination
 //TODO: readme needs to have examples by ES5, ES6, ES7
@@ -64,14 +65,12 @@
 //TODO: npm i babel -g, then babel-node --stage 0 myapp.js
 //TODO: https://github.com/nodejs/node/issues/5252
 //TODO: need a suman server stop command at the command line
-//TODO, along with options {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an (async) error...
+//TODO, along with options {plan:3}, {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an (async) error...
 //TODO: if error is thrown after test is completed (in a setTimeout, for example) do we handle that?
 //TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
-//TODO: if suman/suman runner runs legit suman tests but the tests have no test cases, it needs to report that too
 //TODO: randomize test runs as per https://github.com/sindresorhus/ava/issues/595
 //TODO: steal unicode chars from existing projects
-//TODO: does babel-node work with child_prcesses?
-//TODO: allow possibility to inject before/after/describe/context/it/test/beforeEach/afterEach into describes/contexts
+//TODO: does babel-node work with child_processes?
 //TODO: create suman --diagnostics option at command line to check for common problems with both project and test suites
 //TODO: write metadata file out along with txt files
 //TODO  need to add a delay option for tests running in a loop (why? => google github issue)
@@ -79,6 +78,7 @@
 //TODO: https://github.com/nodejs/node/issues/5252#issuecomment-212784934
 //TODO: need to determine how to determine if async/await if such
 //TODO: add skip option for top-level describe
+//TODO: implement Test.on('end') so that we can force exit the test using process.exit()
 
 /////////////////////////////////////////////////////////////////
 
@@ -171,9 +171,7 @@ if (process.env.NODE_ENV === 'dev_local_debug' || opts.vverbose) {
     console.log("# args:", opts._args);
 }
 
-
 /////////////////////////////////////////////////////////////////////
-
 
 function requireFromString(src, filename) {
     var Module = module.constructor;
@@ -346,7 +344,7 @@ if (tailRunner) {
     require('./lib/make-tail/tail-runner');
 }
 else if (tailTest) {
-
+    require('./lib/make-tail/tail-test');
 }
 else if (init) {
 
@@ -358,7 +356,7 @@ else if (init) {
 } else if (coverage) {
 
     if (dirs.length < 1) {
-        console.error('   ' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
+        console.error('\n   ' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
         return;
     }
     else {
@@ -378,14 +376,14 @@ else if (init) {
 else if (convert) {
 
     if (!force) {
-        console.log('Are you sure you want to remove all contents within the folder with path="' + path.resolve(root + '/' + dest) + '" ?');
+        console.log('Are you sure you want to overwrite contents within the folder with path="' + path.resolve(root + '/' + dest) + '" ?');
         console.log('If you are sure, try the same command with the -f option.');
-        console.log('Oh, and by the way, before deleting dirs in general, its a good idea to run a commit with whatever source control system you are using.');
+        console.log('Before running --force, it\'s a good idea to run a commit with whatever source control system you are using.');
         return;
     }
 
     require('./lib/convert-files/convert-dir')({
-        source: src,
+        src: src,
         dest: dest
     });
 
@@ -463,7 +461,7 @@ else {
 
 
                 if (dirs.length < 1) {
-                    console.error('\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
+                    console.error('\n\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
                     return;
                 }
                 else {
