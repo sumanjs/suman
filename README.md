@@ -43,7 +43,8 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 <i> Suman is a new test runner for Node.js and is focused on high-throughput maximum concurrency asynchronous testing of backend services. 
 
 Suman is feature-rich and very fun to use. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
-and to compete with the new Node.js test runner AVA. Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
+and to compete with the new Node.js test runner AVA; it's aim is to be more sophisticated and featureful than it's predecessors any competition.
+Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
 massive improvements over Mocha, specifically for backend testing. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings 
 that we experienced ourselves over time, and eventually we wanted a test runner that we could use that was more robust and more streamlined than Mocha,
 that was also enterprise-grade. We are experienced Mocha users and know exactly what Mocha is missing (but we will take feature requests from you too!). 
@@ -63,6 +64,8 @@ If you have a special question, concern or requirement don't hesitate to open an
 
 * In Mocha, Tape and Jasmine suites were not run in separate processes (necessary for isolation, speed and independence of test results)
 * Using Mocha, Tape and Jasmine everything was not only run in a single process but all test cases and hooks were also run in series, which takes unnecessary amounts of time for tests utilizing async I/O
+* Mocha prescribed no solution to the problem of starting up the services necessary to do system/integration testing -using Mocha/Tape/AVA is up to the developer to manually start those services, 
+which makes automated testing basically impossible.
 * Mocha and Jasmine could not move forward with ES6/ES7 features due to certain software patterns used (globals and complex context binding)
 * a BIG ONE: clean reporting - at the command line, using Mocha and Jasmine, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
 trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
@@ -109,17 +112,6 @@ to the Node.js community.
     * done callback function is now accompanied by other functions that have unique meanings and behavior
     * encapsulation and immutability are utilized much more effectively than with Mocha etc
     
-
-* <b> Very simple but powerful dependency injection (DI/IoC)</b>
-    *  most useful for injecting values acquired asynchronously, such as successful network connections and database values
-    *  inspired by familiar tools such as Angular and RequireJS
-    *  load any core/"built-in" Node.js module by name 
-    *  DI is used throughout the library, and relieves the burden on the developer to remember order of parameters
-    *  Inject network values, test dependencies and library dependencies
-        * the truth is, once you have more than 3 or 4 dependencies (params to a function), 
-        it's easier to design the API to inject them rather than deal with
-        contingincies, which is why Angular and RequireJS, while having often many more than 5 params use DI, as well as Suman
-       
   
 * <b> Full-blown concurrency</b>
     *  your tests will run much, much faster
@@ -135,6 +127,21 @@ to the Node.js community.
     *  Suman server provides ability to store past test results (backdata) and view test results chronologically with browser to look at trends
     *  SQLite database stores testing back-data and gives you credibility because you can easily share test run results with your team
        
+       
+* <b> Use suman.once.js to run hooks before the test runner starts
+    * these hooks can be used to start the services necessary for any given test file to run successfully
+       
+       
+* <b> Very simple but powerful dependency injection (DI/IoC)</b>
+   *  most useful for injecting values acquired asynchronously, such as successful network connections and database values
+   *  inspired by familiar tools such as Angular and RequireJS
+   *  load any core/"built-in" Node.js module by name 
+   *  DI is used throughout the library, and relieves the burden on the developer to remember order of parameters
+   *  Inject network values, test dependencies and library dependencies
+       * the truth is, once you have more than 3 or 4 dependencies (params to a function), 
+       it's easier to design the API to inject them rather than deal with
+       contingincies, which is why Angular and RequireJS, while having often many more than 5 params use DI, as well as Suman
+      
     
 * <b> Test runner tuning </b>
     *  Add contraints to prevent any given pair of tests from running at the same time

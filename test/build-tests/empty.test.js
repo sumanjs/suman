@@ -19,7 +19,7 @@ function promiseTimeout() {
 }
 
 
-Test.suite('@Test1-EMpty', {parallel: false, bail: true}, function () {
+Test.suite('@Test1-EMpty', {parallel: false, bail: true}, function (assert) {
 
     this.test('passes right away', function () {
 

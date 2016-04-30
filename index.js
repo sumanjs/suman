@@ -1,5 +1,7 @@
 #!/usr/bin/env node --harmony
 
+
+//TODO: need to add option to include stdout when using runner
 //TODO: npm install mocha -g --save-dev
 //TODO: paths issue - suman command may not be issued in a project at all, which means findRoot(cwd) will not yield
 // correct result - need to mitigate
@@ -431,75 +433,76 @@ else {
             const dummyErr = 'dummy error to shortcut next task';
 
             async.series([
-                function A(cb) {
-                    process.nextTick(function () {
-                        //if safe is false or undefined, we skip the following task B, by passing dummy err
-                        cb(global.sumanOpts.safe ? null : dummyErr);
-                    })
-                },
-                function B(cb) {
-                    async.each([], function (item, cb) {
+                    function A(cb) {
+                        process.nextTick(function () {
+                            //if safe is false or undefined, we skip the following task B, by passing dummy err
+                            cb(global.sumanOpts.safe ? null : dummyErr);
+                        })
+                    },
+                    function B(cb) {
+                        async.each([], function (item, cb) {
 
-                    }, cb);
-                }
-            ], function (err, results) {
+                        }, cb);
+                    }
+                ],
+                function (err, results) {
 
-                if (err && err !== dummyErr) {
-                    throw err;
-                }
+                    if (err && err !== dummyErr) {
+                        throw err;
+                    }
 
-                const d = domain.create();
-                const args = opts._args;
+                    const d = domain.create();
+                    const args = opts._args;
 
-                d.once('error', function (err) {
-                    //TODO: add link showing how to set up Babel
-                    console.error(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually' +
-                        ' if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
-                        ' => Suman error => ' + err.stack + '\n'));
-                    process.exit(constants.EXIT_CODES.UNEXPECTED_FATAL_ERROR);
-                });
-
-
-                if (dirs.length < 1) {
-                    console.error('\n\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
-                    return;
-                }
-                else {
-
-                    //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
-                    // and pretend it does not exist.
-
-                    dirs = dirs.map(function (item) {
-                        return path.resolve(item);
+                    d.once('error', function (err) {
+                        //TODO: add link showing how to set up Babel
+                        console.error(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually' +
+                            ' if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
+                            ' => Suman error => ' + err.stack + '\n'));
+                        process.exit(constants.EXIT_CODES.UNEXPECTED_FATAL_ERROR);
                     });
 
-                    if (!useRunner && dirs.length === 1 && fs.statSync(dirs[0]).isFile()) {
-                        //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
-                        d.run(function () {
-                            process.nextTick(function () {
-                                require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
-                            });
-                        });
+
+                    if (dirs.length < 1) {
+                        console.error('\n\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
+                        return;
                     }
                     else {
-                        d.run(function () {
-                            process.nextTick(function () {
-                                suman.Runner({
-                                    grepSuite: grepSuite,
-                                    grepFile: grepFile,
-                                    $node_env: process.env.NODE_ENV,
-                                    fileOrDir: dirs,
-                                    //configPath: configPath || 'suman.conf.js'
-                                }).on('message', function (msg) {
-                                    console.log('msg from suman runner', msg);
-                                    //process.exit(msg);
+
+                        //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
+                        // and pretend it does not exist.
+
+                        dirs = dirs.map(function (item) {
+                            return path.resolve(item);
+                        });
+
+                        if (!useRunner && dirs.length === 1 && fs.statSync(dirs[0]).isFile()) {
+                            //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
+                            d.run(function () {
+                                process.nextTick(function () {
+                                    require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
                                 });
                             });
-                        });
+                        }
+                        else {
+                            d.run(function () {
+                                process.nextTick(function () {
+                                    suman.Runner({
+                                        grepSuite: grepSuite,
+                                        grepFile: grepFile,
+                                        $node_env: process.env.NODE_ENV,
+                                        fileOrDir: dirs,
+                                        //configPath: configPath || 'suman.conf.js'
+                                    }).on('message', function (msg) {
+                                        console.log('msg from suman runner', msg);
+                                        //process.exit(msg);
+                                    });
+                                });
+                            });
+                        }
                     }
-                }
 
-            });
+                });
         }
 
     });
