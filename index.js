@@ -79,8 +79,9 @@
 //TODO  on ms windows error messages do not always give url/link/path of test file with error
 //TODO: https://github.com/nodejs/node/issues/5252#issuecomment-212784934
 //TODO: need to determine how to determine if async/await if such
-//TODO: add skip option for top-level describe
 //TODO: implement Test.on('end') so that we can force exit the test using process.exit()
+//TODO: https://github.com/sindresorhus/ava/blob/master/docs/recipes/when-to-use-plan.md
+//TODO: if this.it.only is declared need to declare other test cases as "skipped"
 
 /////////////////////////////////////////////////////////////////
 
@@ -167,7 +168,6 @@ const opts = require('./lib/parse-cmd-line-opts/parse-opts');
 global.viaSuman = true;
 global.resultBroadcaster = new EE();
 
-
 if (process.env.NODE_ENV === 'dev_local_debug' || opts.vverbose) {
     console.log("# opts:", opts);
     console.log("# args:", opts._args);
@@ -211,7 +211,6 @@ finally {
 
 
 var sumanConfig, pth;
-
 
 //TODO: use harmony destructuring args later on
 const configPath = opts.config;
@@ -359,6 +358,7 @@ else if (init) {
 
     if (dirs.length < 1) {
         console.error('\n   ' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
+        process.exit(constants.RUNNER_EXIT_CODES.NO_TEST_FILE_OR_DIR_SPECIFIED);
         return;
     }
     else {
@@ -426,7 +426,7 @@ else {
 
         if (err) {
             console.error(err.stack);
-            process.exit(constants.EXIT_CODES.ERROR_INVOKING_NETWORK_LOG_IN_RUNNER);
+            process.exit(constants.RUNNER_EXIT_CODES.ERROR_INVOKING_NETWORK_LOG_IN_RUNNER);
         }
         else {
 
@@ -459,13 +459,13 @@ else {
                         console.error(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually' +
                             ' if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
                             ' => Suman error => ' + err.stack + '\n'));
-                        process.exit(constants.EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+                        process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
                     });
 
 
                     if (dirs.length < 1) {
                         console.error('\n\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
-                        return;
+                        process.exit(constants.RUNNER_EXIT_CODES.NO_TEST_FILE_OR_DIR_SPECIFIED);
                     }
                     else {
 
