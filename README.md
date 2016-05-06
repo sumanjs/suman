@@ -17,13 +17,13 @@
 <br>
 <i> => For command line tools:</i>
 ## ```npm install -g suman```
-
-<br>
 <br>
 <i> => For test suites in your project:</i>
-### You should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
+## ```$ suman --init```
 
-=> to convert a Mocha test or whole directory of Mocha tests to Suman tests use <br>
+### Note: you should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
+
+=> to convert a Mocha test or whole directory(s) of Mocha tests to Suman tests use <br>
 ```$ suman --convert <src-file/src-dir> <dest-file/dest-dir>```
 
 => to simply install Suman as dev-dependency in any project you can use ```$ npm install -D suman```, <br>
@@ -43,14 +43,20 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 <i> Suman is a new test runner for Node.js and is focused on high-throughput maximum concurrency asynchronous testing of backend services. 
 
 Suman is feature-rich and very fun to use. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
-and to compete with the new Node.js test runner AVA. Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
+and to compete with the new Node.js test runner AVA; it's aim is to be more sophisticated and featureful than it's predecessors any competition.
+Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
 massive improvements over Mocha, specifically for backend testing. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings 
 that we experienced ourselves over time, and eventually we wanted a test runner that we could use that was more robust and more streamlined than Mocha,
 that was also enterprise-grade. We are experienced Mocha users and know exactly what Mocha is missing (but we will take feature requests from you too!). 
 Suman is designed for powerful and full-featured testing of integrated and asynchronous networked systems,
 and is not currently intended to be used for front-end testing. (Your backend testing framework and front-end testing framework should probably be different if you
 want them both to be powerful and full-featured). This library gives you features for backend testing that are not available in other testing frameworks since this
-library is not constained by the requirement that it must run in the browser.</i>
+library is not constained by the requirement that it must run in the browser. The bottom line is that all the problems with Mocha were fixed by this library.
+If you have a special question, concern or requirement don't hesitate to open an issue to see if Suman has you covered.</i>
+
+---
+
+ Suman was written to support Linux, OSX and Windows
 
 ---
 
@@ -58,24 +64,27 @@ library is not constained by the requirement that it must run in the browser.</i
 
 * In Mocha, Tape and Jasmine suites were not run in separate processes (necessary for isolation, speed and independence of test results)
 * Using Mocha, Tape and Jasmine everything was not only run in a single process but all test cases and hooks were also run in series, which takes unnecessary amounts of time for tests utilizing async I/O
+* Mocha prescribed no solution to the problem of starting up the services necessary to do system/integration testing -using Mocha/Tape/AVA is up to the developer to manually start those services, 
+which makes automated testing basically impossible.
 * Mocha and Jasmine could not move forward with ES6/ES7 features due to certain software patterns used (globals and complex context binding)
-* Furthermore, Mocha and Jasmine could not have certain useful serverside features, because they were also constained by running in the browser.
+* a BIG ONE: clean reporting - at the command line, using Mocha and Jasmine, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
+trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
+* Mocha and Jasmine could not have certain useful serverside features, because they were also constained by running in the browser.
 * Mocha lacked real ability to do true dynamic testing (meaning, registering a dynamic number of it() test cases) => e.g., make a network call, get X values, create a test case for each.
 * Mocha had confusing and obfuscated context values (values for 'this'), which we have greatly simplified, allowing for the usage of arrow functions, etc 
-* Most Node.js test frameworks don't 'feel' robust enough to test mission critical systems => Suman was written to provide a highly robust test framework
-to the Node.js community.
 * Mocha, Jasmine and Tape lack some other nice features that are implemented by Suman. For example, Tape's ability to pre-load modules using the command line 
 before running tests is nowhere near as powerful or easy to use as the dependency injection ability of this library.
 * Using Mocha, Tape, Jasmine you could not easily pass data to tests, to reuse the same test code for different scenarios; Suman allows you to pass dynamic data
 to tests using dependency injection.
-* And lastly, a BIG ONE: clean reporting - at the command line, using Mocha and Jasmine, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
-trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
+
 
 
 ## Suman Philosophy 
 
 * "Just works"
 * Stick to Node core modules
+* You don't need to transpile if you don't want to, as ES6 generators + Promises
+ can give you the same coding patterns as ES7 async/await
 * Use stream APIs when possible and reasonable
 * Provide a full-featured, non-dumbed-down API that's easy to get started with, and
 intuitive to use over the long-run.
@@ -84,6 +93,8 @@ intuitive to use over the long-run.
 * Don't be lazy.
 * As Suman is a command line application, we can utilize a more functional programming style
 * Details matter*
+* Most Node.js test frameworks don't 'feel' robust enough to test mission critical systems => Suman was written to provide a highly robust test framework
+to the Node.js community.
 
 
 # &#9658; Suman features:
@@ -101,17 +112,6 @@ intuitive to use over the long-run.
     * done callback function is now accompanied by other functions that have unique meanings and behavior
     * encapsulation and immutability are utilized much more effectively than with Mocha etc
     
-
-* <b> Very simple but powerful dependency injection (DI/IoC)</b>
-    *  most useful for injecting values acquired asynchronously, such as successful network connections and database values
-    *  inspired by familiar tools such as Angular and RequireJS
-    *  load any core/"built-in" Node.js module by name 
-    *  DI is used throughout the library, and relieves the burden on the developer to remember order of parameters
-    *  Inject network values, test dependencies and library dependencies
-        * the truth is, once you have more than 3 or 4 dependencies (params to a function), 
-        it's easier to design the API to inject them rather than deal with
-        contingincies, which is why Angular and RequireJS, while having often many more than 5 params use DI, as well as Suman
-       
   
 * <b> Full-blown concurrency</b>
     *  your tests will run much, much faster
@@ -125,7 +125,23 @@ intuitive to use over the long-run.
     *  using the Suman test runner, you can prevent any logging output from mixing with test reports
     *  Suman includes a standard web reporter that you can use to share test results with your team, using the Suman server
     *  Suman server provides ability to store past test results (backdata) and view test results chronologically with browser to look at trends
+    *  SQLite database stores testing back-data and gives you credibility because you can easily share test run results with your team
        
+       
+* <b> Use suman.once.js to run hooks before the test runner starts
+    * these hooks can be used to start the services necessary for any given test file to run successfully
+       
+       
+* <b> Very simple but powerful dependency injection (DI/IoC)</b>
+   *  most useful for injecting values acquired asynchronously, such as successful network connections and database values
+   *  inspired by familiar tools such as Angular and RequireJS
+   *  load any core/"built-in" Node.js module by name 
+   *  DI is used throughout the library, and relieves the burden on the developer to remember order of parameters
+   *  Inject network values, test dependencies and library dependencies
+       * the truth is, once you have more than 3 or 4 dependencies (params to a function), 
+       it's easier to design the API to inject them rather than deal with
+       contingincies, which is why Angular and RequireJS, while having often many more than 5 params use DI, as well as Suman
+      
     
 * <b> Test runner tuning </b>
     *  Add contraints to prevent any given pair of tests from running at the same time
@@ -235,7 +251,7 @@ const suman = require('suman');
 const Test = suman.init(module);  
 
 
-Test.describe('ES5 API Example', {mode: parallel}, function(delay, assert){    
+Test.describe('ES5 API Example', {mode: 'parallel'}, function(delay, assert){    
 
     
     

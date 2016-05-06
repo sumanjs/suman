@@ -29,7 +29,7 @@ const sumanUtils = require('../../lib/utils');
 
 
 //config
-var config = require('univ-config')(module, '*suman*', 'server/config/conf');
+var config = require('adore')(module, '*suman*', 'server/config/conf');
 
 
 const root = sumanUtils.findProjectRoot(path.resolve(__dirname + '/../../../../'));
@@ -47,7 +47,8 @@ catch (err) {
     sumanConfig = require(configPath);
 }
 
-console.log('\n', ' => Suman config used: ', configPath);
+global.sumanConfig = sumanConfig;
+console.log(' => Suman config used: ', configPath);
 
 const sumanLogos = require('../../lib/ascii');
 console.log(sumanLogos.suman_alligator);
@@ -64,7 +65,7 @@ async.parallel([
 
     function (cb) {
         //ensure that results directory exists, handle any error that is not EEXISTS error
-        sumanUtils.makeResultsDir(true, sumanConfig, function (err) {
+        sumanUtils.makeResultsDir(true, function (err) {
             cb(err);
         });
     },

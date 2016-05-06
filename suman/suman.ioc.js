@@ -1,9 +1,12 @@
 
 
-module.exports = (suman) => {  //load async deps for any of your suman tests
+module.exports = () => {  //load async deps for any of your suman tests
 
-    suman.configure({
+    return {
 
+        'should': function(){
+            return require('should');
+        },
         'request': function () {
             return require('request');  //this is not very useful, but below we can see useful asynchronous loading of deps
         },
@@ -46,6 +49,6 @@ module.exports = (suman) => {  //load async deps for any of your suman tests
                 });
             }, 100);
         }
-    });
+    };
 
 };

@@ -17,11 +17,6 @@ function async(bool) {
     }
 }
 
-@async(true);
-function makeAsync(){
-
-}
-
 
 
 // here we create the test suite, we can pass in core modules, and any value defined in suman.ioc.js

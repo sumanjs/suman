@@ -13,8 +13,6 @@ module.exports = function (dir) {
 
     try {
 
-        console.log('dir:', dir);
-
         var filtered = fs.readdirSync(dir).filter(function (subdir) {
             return !fs.statSync(path.resolve(dir + '/' + subdir)).isFile() && typeof Number(subdir) === 'number' && !isNaN(Number(subdir));
         });
@@ -23,6 +21,7 @@ module.exports = function (dir) {
             //note: return the first element of array after sorting
             return -1 * parseInt(subdir);
         })[0];
+
     } catch (err) {
         return null;
     }

@@ -19,7 +19,7 @@ Test.describe('B', {}, function (socketio, request, delay, assert, choodles, fs)
         paper.push('2');
         paper.push('3');
         delay();
-    }, 3000);
+    }, 1000);
 
 
 

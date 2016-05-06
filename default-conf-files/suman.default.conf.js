@@ -13,19 +13,12 @@ module.exports = Object.freeze({
 
     sumanServer: {},
 
-    opts: {
+    cmdOpts: {
         //these can be set by the command line
     },
 
-    defaultSumanHomeDir: function () {
-        return (process.env.HOME || process.env.USERPROFILE) + '/suman_data';
-    },
 
-    defaultSumanResultsDir: function () {
-        return path.resolve(this.defaultSumanHomeDir() + '/suman_results');
-    },
-
-
+    timeoutToSearchForAvailServer: 2000,
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
     warningLevel: 3,
@@ -47,15 +40,9 @@ module.exports = Object.freeze({
     resultsCapSize: 7000, // 3 gb's     // oldest test results will be deleted if the results dir expands beyond this size
 
 
-    output: {
-        'standard': {},
-        'basic': {},
-        'web': {
-            servers: ['localhost']
-        }
+    reporters: {
+        'tap': 'suman/reporters/tap'
     },
-
-    reporters: {},
 
     servers: {                           // list of servers to output test result data to, with the os.hostname() as the key
 

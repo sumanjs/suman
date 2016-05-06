@@ -12,12 +12,26 @@ var Test = suman.init(module, {
     writable: suman.Transform()
 });
 
-Test.suite('@Test1', { parallel: false, bail: true }, function (assert, fs, path, stream, extra, writable, delay) {
+Test.suite('@Test1', {
+
+    'async/await': true,
+    parallel: false,
+    bail: true
+
+}, function (assert, fs, delay, path, stream, extra, writable) {
+    var _this = this;
 
     var strm = new stream.Writable({
 
         write: function write(chunk, encoding, cb) {
             console.log('whoooa:', String(chunk));
+
+            _this.test('yolo', function () {
+
+                assert(true === true);
+            });
+
+            cb();
         }
     });
 

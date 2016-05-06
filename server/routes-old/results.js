@@ -5,7 +5,7 @@
 
 
 //#config
-const config = require('univ-config')(module, '*suman*', 'server/config/conf');
+const config = require('adore')(module, '*suman*', 'server/config/conf');
 
 //#core
 const express = require('express');
@@ -23,7 +23,7 @@ const findSumanServer = require('../../lib/find-suman-server');
 
 router.post('/done/:runId', function (req, res, next) {
 
-    var data = body.data;
+    var data = req.body.data;
 
     try {
         var json = JSON.stringify(data.test);

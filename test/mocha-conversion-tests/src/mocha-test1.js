@@ -1,7 +1,6 @@
-/*
-/!**
+/**
  * Created by denmanm1 on 3/20/16.
- *!/
+ */
 
 var assert = require("assert"),
     fs = require('fs');
@@ -67,4 +66,4 @@ describe('a',function(){
 
     });
 
-});*/
+});

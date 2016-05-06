@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.36",
+  "version": "1.1.37",
   "main": "lib/index.js",
   "scripts": {
     "test": "suman",
@@ -13,6 +13,7 @@
   "author": "Olegzandr Denman",
   "license": "ISC",
   "dependencies": {
+    "adore": "^1.4.32",
     "ansi-256-colors": "^1.1.0",
     "ansi-styles": "^2.1.0",
     "ascii-table": "0.0.8",
@@ -51,6 +52,7 @@
     "require-from-string": "^1.1.0",
     "residence": "0.0.1",
     "serve-favicon": "^2.3.0",
+    "siamese": "^2.0.31",
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.3",
     "tap": "^5.7.0",

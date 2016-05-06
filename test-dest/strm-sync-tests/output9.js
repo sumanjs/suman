@@ -18,16 +18,13 @@ var timeout = 1500;
 var readable = new stream.Readable({
 
     read: function read(size) {
-        var _this = this;
 
-        setTimeout(function () {
-            var data;
-            if (data = dataSource[index++]) {
-                _this.push(data);
-            } else {
-                _this.push(null);
-            }
-        }, timeout += 1000);
+        var data;
+        if (data = dataSource[index++]) {
+            this.push(data);
+        } else {
+            this.push(null);
+        }
     }
 
 });
