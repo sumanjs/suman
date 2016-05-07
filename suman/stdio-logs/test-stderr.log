@@ -1,35 +1,5 @@
 
 
->>> Suman start run indiv. @Sat May 07 2016 01:28:52 GMT-0700 (Pacific Daylight Time) >>>
-
-Beginning of run at 1462609732395 = [Sat May 07 2016 01:28:52 GMT-0700 (Pacific Daylight Time)]
-Command = ["C:\\Program Files\\nodejs\\node.exe","c:\\Users\\denman\\WebstormProjects\\suman\\test\\build-tests\\tes-t7.jsx"]
-
-
-Test error: [test] yo 1
-	stack: Error: ENOENT: no such file or directory, open 'c:\dev\null'
-    at Error (native)
-
-Error: ENOENT: no such file or directory, open 'c:\dev\null'
-    at Error (native)
-
-Warning: the following test callback was invoked twice by your code for the following test => [test] yo 1
-
-
-
-Warning: the following test callback was invoked twice by your code for the following test => yo
-
-
-
-Warning: the following test callback was invoked twice by your code for the following test => chubs
-
-
-
-<<< Suman end run <<<
-
-
-
-
 
 
 
