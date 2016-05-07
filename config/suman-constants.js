@@ -64,6 +64,8 @@ module.exports = Object.freeze({
         ERROR_CREATING_RESULTS_DIR: 78,
         COULD_NOT_FIND_CONFIG_FROM_PATH: 79,
         TEST_ERROR_AND_BAIL_IS_TRUE: 80,
+        ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION: 81,
+        DELAY_FUNCTION_TIMED_OUT: 82
     },
     ERROR_MESSAGES: {
         INVALID_FUNCTION_TYPE_USAGE: 'You cannot use an arrow function with describe callbacks; however, you may use arrow functions everywhere else.\n' +

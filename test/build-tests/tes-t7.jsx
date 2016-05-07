@@ -15,7 +15,7 @@ const Test = require('../../lib').init(module, {
 });
 
 
-Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, should) {
+Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert) {
 
 
     console.log('extra:', extra);
@@ -26,21 +26,30 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, should)
         ctn();
     });
 
-    this.beforeEach(t => {
+    this.beforeEach.cb({}, (ctn, t) => {
+        // t.assert(false);
+        ctn();
+    });
 
+    this.it('has one', function () {
 
     });
 
-    this.describe('loop', function () {
+    this.describe('loop', function (delay) {
 
         [1, 2, 3, 4, 5, 6].forEach(val=> {
 
-            this.it('tests ' + val, {parallel: !!val}, function () {
+            this.it.cb('tests ' + val, {parallel: !!val}, function (t) {
 
+                // assert(false);
                 //this.should.have.property('name', 'tj');
 
+                t.pass();
+
             });
-        })
+        });
+
+        //delay
 
     });
 
@@ -55,9 +64,9 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, should)
 
         });
 
-        this.it('[test] yo 1', {parallel: true}, (t, fail, done, pass) => {
+        this.it.cb('[test] yo 1', {parallel: true}, (t) => {
 
-            fs.createReadStream('/dev/null').pipe(fs.createWriteStream('/dev/null')).on('error', fail).on('finish', pass);
+            fs.createReadStream('/dev/null').pipe(fs.createWriteStream('/dev/null')).on('error', t.fail).on('finish', t.pass);
 
         });
 
@@ -110,7 +119,11 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, should)
 
         });
 
-        this.it('chubs', {parallel: false}, (t, done) => {
+        this.it('chubs', {parallel: false, plan: 3}, (t, done) => {
+
+            t.assert(false);
+            t.assert(false);
+            t.assert(false);
 
             setTimeout(function () {
                 done();

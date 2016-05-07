@@ -1,6 +1,10 @@
 #!/usr/bin/env node --harmony
 
-
+//TODO: mocha and ava are concentric circles inside Suman
+//TODO: run tests from current directory when using runner
+//TODO: add exit code for hook timeout besides 1
+//TODO: if t is requested as a param for before/after hooks, notify developer that this is not available
+//TODO: if user wants to collect multiple errors per test, they can use t.assert
 //TODO: need to add option to include stdout when using runner
 //TODO: npm install mocha -g --save-dev
 //TODO: paths issue - suman command may not be issued in a project at all, which means findRoot(cwd) will not yield

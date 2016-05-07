@@ -1,19 +1,31 @@
 
 
 >>> Suman runner start >>>
-Beggining of run at 1461982099375 = [Fri Apr 29 2016 19:08:19 GMT-0700 (Pacific Daylight Time)]
-Command issued from the following directory "C:\Users\denman\WebstormProjects\suman-private"
-Command = ["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\denman\\WebstormProjects\\suman-private\\index","test\\build-tests","--bail"]
+Beggining of run at 1462586480182 = [Fri May 06 2016 19:01:20 GMT-0700 (Pacific Daylight Time)]
+Command issued from the following directory "C:\Users\denman\WebstormProjects\suman"
+Command = ["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\denman\\WebstormProjects\\suman\\index","test\\build-tests","--v"]
 
 
 [empty.test.js] 
 [empty.test.js] 
 [empty.test.js] Test error: fails right away
 [empty.test.js] 	stack: Error: chuck
-[empty.test.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman-private\test\build-tests\empty.test.js:29:15)
-[empty.test.js]     at C:\Users\denman\WebstormProjects\suman-private\lib\test-suite-helpers\handle-test.js:158:56
+[empty.test.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman\test\build-tests\empty.test.js:29:15)
+[empty.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:170:56
 [empty.test.js]     at doNTCallback0 (node.js:419:9)
 [empty.test.js]     at process._tickDomainCallback (node.js:389:13)
+[empty.test.js] 
+[empty.test.js] 
+
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js] Test error: should never run if bail is set to true
+[empty.test.js] 	stack: AssertionError: false == true
+[empty.test.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman\test\build-tests\empty.test.js:34:9)
+[empty.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:170:56
+[empty.test.js]     at doNTCallback0 (node.js:419:9)
+[empty.test.js]     at Immediate._tickDomainCallback [as _onImmediate] (node.js:389:13)
+[empty.test.js]     at processImmediate [as _immediateCallback] (timers.js:383:17)
 [empty.test.js] 
 [empty.test.js] 
 
@@ -24,12 +36,29 @@ Command = ["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\denman\\WebstormPro
 [test6.test.js] 
 [test6.test.js] Test error: makes rain
 [test6.test.js] 	stack: Error: fab
-[test6.test.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman-private\test\build-tests\test6.test.js:47:23)
-[test6.test.js]     at C:\Users\denman\WebstormProjects\suman-private\lib\test-suite-helpers\handle-test.js:158:56
+[test6.test.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman\test\build-tests\test6.test.js:47:23)
+[test6.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:170:56
 [test6.test.js]     at doNTCallback0 (node.js:419:9)
 [test6.test.js]     at process._tickDomainCallback (node.js:389:13)
 [test6.test.js] 
 [test6.test.js] 
+
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] Test error: [test] yo 1
+[tes-t7-start.test.js] 	stack: Error: ENOENT: no such file or directory, open 'C:\dev\null'
+[tes-t7-start.test.js]     at Error (native)
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+
+[tes-t7-start.test.js] Error: ENOENT: no such file or directory, open 'C:\dev\null'
+[tes-t7-start.test.js]     at Error (native)
+
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] Warning: the following test callback was invoked twice by your code for the following test => [test] yo 1
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
 <<<<< Suman runner end <<<<<<
 
 

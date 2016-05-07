@@ -35,7 +35,7 @@ Test.describe('Catches exceptions', {}, function(fs){
         });
     });
 
-    test(t => {
+    this.it(t => {
         return new Promise(function(resolve){
             process.nextTick(function(){
                 throw new Error('789');

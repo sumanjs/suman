@@ -1,38 +1,9 @@
 
 
->>> Suman start run indiv. @Tue May 03 2016 19:19:48 GMT-0700 (Pacific Daylight Time) >>>
+>>> Suman start run indiv. @Sat May 07 2016 01:07:37 GMT-0700 (Pacific Daylight Time) >>>
 
-Beginning of run at 1462328388098 = [Tue May 03 2016 19:19:48 GMT-0700 (Pacific Daylight Time)]
-Command = ["C:\\Program Files\\nodejs\\node.exe","c:\\Users\\denman\\WebstormProjects\\suman-private\\test\\ava-test\\file1.js"]
-
-
-Test error: A
-	stack: Error: 123
-    at c:\Users\denman\WebstormProjects\suman-private\test\ava-test\file1.js:13:23
-    at FSReqWrap.cb [as oncomplete] (fs.js:212:19)
-
-
-
-Test error: B
-	stack: Error: 123
-    at null._onTimeout (c:\Users\denman\WebstormProjects\suman-private\test\ava-test\file1.js:22:23)
-    at Timer.listOnTimeout (timers.js:92:15)
-
-
-
-Test error: C
-	stack: Error: 456
-    at Immediate._onImmediate (c:\Users\denman\WebstormProjects\suman-private\test\ava-test\file1.js:31:23)
-    at processImmediate [as _immediateCallback] (timers.js:383:17)
-
-
-
-Test error: D
-	stack: Error: 789
-    at c:\Users\denman\WebstormProjects\suman-private\test\ava-test\file1.js:40:23
-    at doNTCallback0 (node.js:419:9)
-    at process._tickDomainCallback (node.js:389:13)
-
+Beginning of run at 1462608457617 = [Sat May 07 2016 01:07:37 GMT-0700 (Pacific Daylight Time)]
+Command = ["C:\\Program Files\\nodejs\\node.exe","c:\\Users\\denman\\WebstormProjects\\suman\\test\\build-tests\\tes-t7.jsx"]
 
 
 <<< Suman end run <<<

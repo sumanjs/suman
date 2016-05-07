@@ -17,10 +17,10 @@ module.exports = Object.freeze({
         //these can be set by the command line
     },
 
-
     timeoutToSearchForAvailServer: 2000,
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
+    defaultDelayFunctionTimeout: 8000, 
     warningLevel: 3,
     noFrills: false,
     defaultTestSuiteTimeout: 15000,
@@ -31,14 +31,12 @@ module.exports = Object.freeze({
     fullStackTraces: false,             //allows you to view more than 3 lines for errors in test cases and hooks
     uniqueAppName: 'suman',
     NODE_ENV: 'development',            // NODE_ENV to use if you don't specify one
-    pipeStdOut: 'bunyan',
     browser: 'Firefox',                 // browser to open test results with
     disableAutoOpen: false,             // use true if you never want suman to automatically open the browser to the latest test results
     expireResultsAfter: '10000000',     // test results will be deleted after this amount of time
     resultsCapCount: 100,               // test results will be deleted if they are 101st oldest run
-    suppressRunnerOutput: true,         // forget what this is for LOL
+    suppressRunnerOutput: true,         // this defaults to true, use no-silent or silent to switch value
     resultsCapSize: 7000, // 3 gb's     // oldest test results will be deleted if the results dir expands beyond this size
-
 
     reporters: {
         'tap': 'suman/reporters/tap'
