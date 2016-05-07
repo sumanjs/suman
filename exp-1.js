@@ -18,7 +18,7 @@ Test.describe('root suite description', {}, function () {   // we define the roo
         console.log('2', this === self); //true
     });
 
-    this.it(function () {
+    this.it('A', function () {
         console.log('3', this === self);  //true
     });
 
@@ -39,7 +39,7 @@ Test.describe('root suite description', {}, function () {   // we define the roo
             console.log('7', this === that); //true
         });
 
-        this.it(function () {
+        this.it.only('B', function () {
             console.log('8', this === that); //true
         });
 
@@ -59,7 +59,7 @@ Test.describe('root suite description', {}, function () {   // we define the roo
                 console.log('12', this === ctx); //true
             });
 
-            this.it(function () {
+            this.it.only('C', function () {
                 console.log('13', this === ctx); //true
             });
 
