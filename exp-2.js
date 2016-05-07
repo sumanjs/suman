@@ -3,14 +3,12 @@
  */
 
 
-const timer = setTimeout(function(){
-
+const timer = setTimeout(function () {
     console.log('before');
-},300);
+}, 300);
 
 
-
-setTimeout(function(){
- clearTimeout(timer);
+setTimeout(function () {
+    clearTimeout(timer);
     console.log('cleared');
-},2000);
+}, 2000);

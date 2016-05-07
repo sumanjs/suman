@@ -1,6 +1,7 @@
 #!/usr/bin/env node --harmony
 
 
+//TODO: set CWD for tests to the test path
 //TODO: need to add option to include stdout when using runner
 //TODO: npm install mocha -g --save-dev
 //TODO: paths issue - suman command may not be issued in a project at all, which means findRoot(cwd) will not yield
