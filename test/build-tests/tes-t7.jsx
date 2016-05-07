@@ -49,7 +49,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
             });
         });
 
-        //delay
+        delay();
 
     });
 
