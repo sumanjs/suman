@@ -67,35 +67,28 @@ Test.describe('suite uno', function () {
     //});
 
 
-    this.describe('suite five', {
-
-        parallel: true
-
-    }, function () {
+    this.describe('suite five', {parallel: true}, function () {
 
         this.before(function () {
 
-
         }).after(() => {
-
 
         });
 
         this.it('makes stuff 20', function (t, done) {
 
             setTimeout(function () {
-
                 done();
             }, 10);
-
 
         });
 
         this.it('makes stuff 21', function () {
 
 
-        }).it('makes stuff 22', () => {
+        });
 
+        this.it('makes stuff 22', () => {
 
             //console.log('this:',this);
 
@@ -109,30 +102,20 @@ Test.describe('suite uno', function () {
 
     this.describe('suite two', function () {
 
-
-        this.describe('suite three', {
-
-            parallel: true
-
-        }, function () {
-
+        this.describe('suite three', {parallel: true}, function () {
 
             this.before(function () {
 
-
             }).after(function () {
-
-
+                
             });
-            
+
 
             this.it('makes stuff 16', function () {
-
 
             });
 
             this.it('makes stuff 17', function () {
-
 
             });
 
@@ -142,7 +125,7 @@ Test.describe('suite uno', function () {
         this.describe('suite four', function () {
 
 
-            this.before(done => {
+            this.before.cb((t, done) => {
                 done();
 
             }).beforeEach(() => {

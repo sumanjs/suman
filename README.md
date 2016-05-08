@@ -42,7 +42,16 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 <i> Suman is a new test runner for Node.js and is focused on high-throughput maximum concurrency asynchronous testing of backend services. 
 
-Suman is feature-rich and very fun to use. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
+I started working on Suman about a week before I had heard of AVA. Naturally, as I had already written a couple lines of code,
+I didn't want to stop there - I wanted to give AVA a run for its money and take Mocha to a whole new level. This project
+summarily improves Mocha on every level, but also borrows excellent features from Tape/AVA such as the plan features and
+the use of t as a singular param to both hooks and test cases. It all gels together quite nicely into a library that is much more 
+powerful than both AVA and Mocha. The biggest advantage Mocha has over Tape/AVA is the nested describe/suite blocks. These a huge
+once you start writing non-trivial tests. Suman continues that tradition. Conversion from Mocha to Suman is automated with this
+library. Those using AVA or Tape who want something more powerful will find the answers here.
+
+Suman is feature-rich and very fun to use, because it has the same hooks and patterns as Mocha which are quite fun to use and expose the power
+of asynchronous programming. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
 and to compete with the new Node.js test runner AVA; it's aim is to be more sophisticated and featureful than it's predecessors any competition.
 Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
 massive improvements over Mocha, specifically for backend testing. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings 
@@ -81,7 +90,7 @@ to tests using dependency injection.
 
 ## Suman Philosophy 
 
-* "Just works"
+* "Just works" - no need for addons or plugins, unless you want to write a custom reporter
 * Stick to Node core modules
 * You don't need to transpile if you don't want to, as ES6 generators + Promises
  can give you the same coding patterns as ES7 async/await
@@ -89,7 +98,7 @@ to tests using dependency injection.
 * Provide a full-featured, non-dumbed-down API that's easy to get started with, and
 intuitive to use over the long-run.
 * Listen to what the community wants.
-* Leverage Javascript's strengths.
+* Leverage Javascript's strengths (ahem *closures*)
 * Don't be lazy.
 * As Suman is a command line application, we can utilize a more functional programming style
 * Details matter*

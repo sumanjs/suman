@@ -1,5 +1,9 @@
 #!/usr/bin/env node --harmony
 
+
+
+//TODO: tap: https://github.com/TestAnything/testanything.github.io/pull/36
+//TODO: implement t.plan/t.timeout
 //TODO: mocha and ava are concentric circles inside Suman
 //TODO: run tests from current directory when using runner
 //TODO: add exit code for hook timeout besides 1

@@ -14,10 +14,7 @@ Test.describe('My Suite', function () {
 
         this.it('is meow', function (t) {
 
-
             //throw new Error('jesus christ');
-            //
-            //
             //setTimeout(function(){
             //    throw new Error('jesus');
             //    done();
@@ -25,7 +22,7 @@ Test.describe('My Suite', function () {
 
         });
 
-        this.describe('turtles', {}, function () {
+        this.describe.only('turtles', {}, function () {
 
             this.beforeEach(function(){
 
@@ -37,7 +34,7 @@ Test.describe('My Suite', function () {
             this.describe('sounds', function () {
 
 
-                this.it('is good', function () {
+                this.it.only('is good', function () {
 
 
                 });

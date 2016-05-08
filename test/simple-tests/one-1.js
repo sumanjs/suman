@@ -23,20 +23,20 @@ Test.describe('SimpleTest', function (assert, fs, http, os) {
 
     });
 
-    this.it('Check that Test.file is equiv. to module.filename', {timeout:20},  done => {
+    this.it.cb('Check that Test.file is equiv. to module.filename', {timeout:20},  t => {
         setTimeout(function(){
             assert(module.filename === Test.file);
-            done();
+            t.done();
         },19);
     });
 
 
-    this.it('reads this file, pipes to /dev/null', function (fail, pass) {
+    this.it.cb('reads this file, pipes to /dev/null', function (t) {
 
         const destFile = os.hostname === 'win32' ? process.env.USERPROFILE + '/temp' : '/dev/null';
 
         fs.createReadStream(Test.file).pipe(fs.createWriteStream(destFile))
-            .on('error', fail).on('finish', pass);
+            .on('error', t.fail).on('finish', t.pass);
 
     });
 

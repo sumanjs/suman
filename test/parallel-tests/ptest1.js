@@ -12,7 +12,6 @@ Test.describe('Zulu', {mode: 'series'}, function () {
     });
 
     this.it('val',{});
-
     this.it('foo');
 
     this.describe.skip('A', {parallel: true}, function () {
