@@ -35,7 +35,8 @@ var assert = require("assert"),
 Test.describe('a', function(){
 
 
-	this.after(done => {
+	this.after.cb(t => {
+	var d = t.done;
 
         console.log('before this a:', this.parent);
 
@@ -48,7 +49,8 @@ Test.describe('a', function(){
     });
 
 
-	this.it('a', (t,done) => {
+	this.it.cb('a', t => {
+	var done = t.done;
 
         console.log('it this a:', this.parent);
 
@@ -59,7 +61,7 @@ Test.describe('a', function(){
 
 	this.describe('b', function(){
 
-	this.before(() => {
+	this.before(t => {
 
             console.log('before this b:', this.parent);
 
@@ -68,13 +70,14 @@ Test.describe('a', function(){
 	this.beforeEach(t => {
 
             console.log('beforeEach this b:', this.parent);
-            this.parent.title;
+            (this.parent.title);
 
 
         });
 
 
-	this.it('b', (t,done) => {
+	this.it.cb('b', t => {
+	var done = t.done;
 
             console.log('it this b:', this.parent);
             done();

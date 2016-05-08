@@ -38,11 +38,11 @@ var assert = require("assert"),
 Test.describe('a', function(){
 
 
-	this.before(() => {
+	this.before(t => {
         console.log('before this a:', this.parent);
     });
 
-	this.after(() => {
+	this.after(t => {
 
         console.log('after this a:', this.parent);
 

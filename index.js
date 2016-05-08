@@ -281,7 +281,7 @@ catch (err) {
 
 global.sumanConfig = sumanConfig;
 
-const optCheck = [init, convert, server, tailTest, tailRunner].filter(function (item) {
+const optCheck = [init, convert, s, tailTest, tailRunner].filter(function (item) {
     return item;
 });
 
