@@ -46,7 +46,8 @@ Test.describe('a', function () {
     });
 
 
-    this.it.cb('a', {plan: 3}, function (t) {
+    this.it.cb('a', {plan: 4}, function (t) {
+        t.plan(3);
         t.confirm();
         t.confirm();
         t.confirm();
@@ -54,16 +55,22 @@ Test.describe('a', function () {
         t.pass();
     });
 
+    const me = this;
+
     this.it.cb('a', t => {
 
-        Promise.resolve().then(function () {
+         Promise.resolve().then(()=> {
+
+            // assert(false);
+
             setTimeout(function () {
-                try {
-                    ['a','b','c','a','b','c','a','b','c','a','b','c','a','b','c','a','b','c','a','b','c','a','b','c','a','b','c'].should.have.property('false');
-                }
-                catch (e) {
-                    t.throw(e);
-                }
+
+                t.handleAssertions(function () {
+                    assert.equal(me, this);
+                    ['a', 'a', 'b', 'c'].should.have.property('false');
+                    console.log('');
+                });
+
                 t.done();
 
             }, 100);

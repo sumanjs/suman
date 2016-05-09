@@ -1,0 +1,54 @@
+
+
+>>> Suman runner start >>>
+Beggining of run at 1462784520191 = [Mon May 09 2016 02:02:00 GMT-0700 (PDT)]
+Command issued from the following directory "/Users/Olegzandr/WebstormProjects/suman-private"
+Command = ["/usr/local/Cellar/node/6.1.0/bin/node","/Users/Olegzandr/WebstormProjects/suman-private/index","test/build-tests/"]
+
+
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js] Test error: fails right away
+[empty.test.js] 	stack: Error: chuck
+[empty.test.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman-private/test/build-tests/empty.test.js:29:15)
+[empty.test.js]     at /Users/Olegzandr/WebstormProjects/suman-private/lib/test-suite-helpers/handle-test.js:189:56
+[empty.test.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[empty.test.js]     at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+[empty.test.js] 
+[empty.test.js] 
+
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js] Test error: should never run if bail is set to true
+[empty.test.js] 	stack: AssertionError: false == true
+[empty.test.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman-private/test/build-tests/empty.test.js:34:9)
+[empty.test.js]     at /Users/Olegzandr/WebstormProjects/suman-private/lib/test-suite-helpers/handle-test.js:189:56
+[empty.test.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[empty.test.js]     at Immediate._tickDomainCallback [as _onImmediate] (internal/process/next_tick.js:122:9)
+[empty.test.js]     at tryOnImmediate (timers.js:543:15)
+[empty.test.js]     at processImmediate [as _immediateCallback] (timers.js:523:5)
+[empty.test.js] 
+[empty.test.js] 
+
+[test6.test.js] jimmy
+[test6.test.js] 
+
+[test6.test.js] 
+[test6.test.js] 
+[test6.test.js] Test error: makes rain
+[test6.test.js] 	stack: Error: fab
+[test6.test.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman-private/test/build-tests/test6.test.js:47:23)
+[test6.test.js]     at /Users/Olegzandr/WebstormProjects/suman-private/lib/test-suite-helpers/handle-test.js:189:56
+[test6.test.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[test6.test.js]     at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+[test6.test.js] 
+[test6.test.js] 
+<<<<< Suman runner end <<<<<<
+
+
+
+
+
+
+
+

@@ -1,6 +1,8 @@
 #!/usr/bin/env node --harmony
 
 
+//TODO: need to use check for --runner and not only check for process.send
+//TODO: if a promise or non-undefined value is returned, but cb mode is on, add warning
 //TODO: using t.assert etc can help prevent errors not being assigned to tests
 //TODO: add support for observables
 //TODO: node -c flag to check file for syntax errors

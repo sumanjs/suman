@@ -48,11 +48,14 @@ Test.describe('a', function () {
 
 
     this.it.cb('a', t => {
-        var done = t.done;
+        
+        t.handleAssertions(function () {
+            assert(false);
+        });
 
         console.log('it this a:', this.parent);
 
-        done();
+        t.done();
 
     });
 
@@ -69,7 +72,7 @@ Test.describe('a', function () {
 
             console.log('beforeEach this b:', this.parent);
             (this.parent.title);
-            
+
         });
 
 
