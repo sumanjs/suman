@@ -1,7 +1,13 @@
 #!/usr/bin/env node --harmony
 
 
+
 //TODO: var don = t.done;
+//TODO: need to use check for --runner and not only check for process.send
+//TODO: if a promise or non-undefined value is returned, but cb mode is on, add warning
+//TODO: using t.assert etc can help prevent errors not being assigned to tests
+//TODO: add support for observables
+//TODO: node -c flag to check file for syntax errors
 //TODO: tap: https://github.com/TestAnything/testanything.github.io/pull/36
 //TODO: implement t.plan/t.timeout
 //TODO: mocha and ava are concentric circles inside Suman
@@ -142,21 +148,6 @@ console.log(colors.yellow.italic(' => Suman v' + v + ' running...'));
 
 ////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////
-
-//68 is best
-
-// var pictureTube = require('picture-tube');
-// var tube = pictureTube({
-//     cols:68
-// });
-//
-// tube.pipe(process.stdout);
-//
-// fs.createReadStream('./images/suman-sm.png').pipe(tube);
-
-///////////////////////////////////////////////////////////////////
-
 const cwd = process.cwd();
 
 ////////////////////////////////////////////////////////////////////
@@ -184,7 +175,7 @@ if (process.env.NODE_ENV === 'dev_local_debug' || opts.vverbose) {
 
 /////////////////////////////////////////////////////////////////////
 
-function requireFromString(src, filename) {
+function requireFromString(src, filename) {   //note: this is for piping tests through Suman, if ever necessary
     var Module = module.constructor;
     var m = new Module();
     m.filename = '/Users/denmanm1/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js';
@@ -281,7 +272,7 @@ catch (err) {
 
 global.sumanConfig = sumanConfig;
 
-const optCheck = [init, convert, server, tailTest, tailRunner].filter(function (item) {
+const optCheck = [init, convert, s, tailTest, tailRunner].filter(function (item) {
     return item;
 });
 

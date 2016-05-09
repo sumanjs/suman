@@ -42,7 +42,7 @@ describe('a', function () {
         beforeEach(function () {
 
             console.log('beforeEach this b:', this.parent);
-            this.parent.title;
+            (this.parent.title);
 
 
         });

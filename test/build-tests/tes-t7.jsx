@@ -22,13 +22,13 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
     console.log('choodles:', choodles);
 
 
-    this.before(ctn => {
-        ctn();
+    this.before.cb(t => {
+        t.ctn();
     });
 
-    this.beforeEach.cb({}, (ctn, t) => {
+    this.beforeEach.cb({}, t => {
         // t.assert(false);
-        ctn();
+        t.ctn();
     });
 
     this.it('has one', function () {
@@ -56,22 +56,22 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
 
     this.describe('1', {efa: true}, function () {
 
-        this.before((done) => {
+        this.before.cb(t => {
 
             setTimeout(function () {
-                done();
+                t.done();
             }, 10);
 
         });
 
-        this.it.cb('[test] yo 1', {parallel: true}, (t) => {
+        this.it.cb('[test] yo 1', {parallel: true}, t => {
 
             fs.createReadStream('/dev/null').pipe(fs.createWriteStream('/dev/null')).on('error', t.fail).on('finish', t.pass);
 
         });
 
 
-        this.it('[test] yo 2', {parallel: false}, function (t) {
+        this.it('[test] yo 2', {parallel: false}, t => {
 
             return new Promise(function (resolve, reject) {
 
@@ -100,33 +100,30 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
             });
         }
 
-        this.it('[test] gen', {parallel: false}, function *() {
+        this.it('[test] gen', {parallel: false}, function *(t) {
 
-            var t = yield 3;
             var val = yield p();
             val = yield p(val);
 
         });
 
 
-        this.it('yo', {parallel: false}, (t, done) => {
+        this.it.cb('yo', {parallel: false}, t => {
 
             // throw new Error('PAsta');
             setTimeout(function () {
 
-                done();
+                t.done();
             }, 100);
 
         });
 
-        this.it('chubs', {parallel: false, plan: 3}, (t, done) => {
+        this.it.cb('chubs', {parallel: false, plan: 2}, t => {
 
-            t.assert(false);
-            t.assert(false);
-            t.assert(false);
-
+            t.confirm();
             setTimeout(function () {
-                done();
+                t.confirm();
+                t.done();
             }, 100);
 
         });

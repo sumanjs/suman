@@ -1,0 +1,35 @@
+
+
+>>> Suman start run indiv. @Mon May 09 2016 01:54:29 GMT-0700 (PDT) >>>
+
+Beginning of run at 1462784069351 = [Mon May 09 2016 01:54:29 GMT-0700 (PDT)]
+Command = ["/usr/local/Cellar/node/6.1.0/bin/node","/Users/Olegzandr/WebstormProjects/suman-private/test/build-tests/empty.test.js"]
+
+
+Test error: fails right away
+	stack: Error: chuck
+    at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman-private/test/build-tests/empty.test.js:29:15)
+    at /Users/Olegzandr/WebstormProjects/suman-private/lib/test-suite-helpers/handle-test.js:189:56
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+
+
+
+Test error: should never run if bail is set to true
+	stack: AssertionError: false == true
+    at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman-private/test/build-tests/empty.test.js:34:9)
+    at /Users/Olegzandr/WebstormProjects/suman-private/lib/test-suite-helpers/handle-test.js:189:56
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+
+
+
+<<< Suman end run <<<
+
+
+
+
+
+
+
+

@@ -35,17 +35,20 @@ describe('a',function(){
             (this.test.parent);    // this.test.parent = this
         });
 
-        it('a', function(){
+        it('a', function(_$agea){
 
             (this.test.title);          // t.title
             (this.test.parent.title);   // this.title
 
+            _$agea();
         });
 
-        it('a', function(){
+        it('a', function(x){
 
             (this.test.title);               // t.title
             (this.test.parent.title);        // this.title
+
+            x();
 
         });
 
