@@ -11,13 +11,11 @@ var Test = suman.init(module, {
 
 Test.describe('suite 2', {parallel: true}, function () {
 
-
     this.before.cb('D', function (t, done) {
         done();
     });
 
-
-    var cars = [1, 2, 3];
+    const cars = [1, 2, 3];
 
     this.describe('desc', function () {
 
@@ -54,7 +52,7 @@ Test.describe('suite 2', {parallel: true}, function () {
             });
 
 
-            this.it.cb('does 4', function () {
+            this.it('does 4', function () {
                 //should timeout because no callback is called
             });
 

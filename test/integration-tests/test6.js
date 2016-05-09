@@ -8,11 +8,10 @@
 var suman = require('../../lib');
 var Test = suman.init(module, 'suman.conf.js');
 
-Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, choodles, fs) {
+Test.describe('B1', ['socketio'], function (socketio, request, delay, roodles, choodles, fs) {
 
     // console.log('roodles:', roodles);
     // console.log('choodles:', choodles);
-    //
     // console.log('fs:', fs);
 
     var arr = [1, 2, 3];
@@ -25,7 +24,7 @@ Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, ch
     }, 100);
 
 
-    this.before(function (done) {
+    this.before.cb(function (t, done) {
 
         setTimeout(function () {
             //console.log('BEFORE');
@@ -48,7 +47,7 @@ Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, ch
     //});
 
 
-    this.beforeEach(function (t, done, run) {
+    this.beforeEach.cb(function (t, done) {
         // console.log('TTTTTTT:', t);
         // console.log('DDDDD:', done);
         // console.log('RRRRR:', run);
@@ -61,7 +60,7 @@ Test.describe('B', ['socketio'], function (socketio, request, delay, roodles, ch
     });
 
 
-    this.beforeEach(function (t, done) {
+    this.beforeEach.cb(function (t, done) {
 
         setTimeout(function () {
             //console.log('BEFORE EACH');

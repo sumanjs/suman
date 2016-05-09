@@ -1,7 +1,7 @@
 #!/usr/bin/env node --harmony
 
 
-
+//TODO: var don = t.done;
 //TODO: tap: https://github.com/TestAnything/testanything.github.io/pull/36
 //TODO: implement t.plan/t.timeout
 //TODO: mocha and ava are concentric circles inside Suman
@@ -446,7 +446,7 @@ else {
                         process.nextTick(function () {
                             //if safe is false or undefined, we skip the following task B, by passing dummy err
                             cb(global.sumanOpts.safe ? null : dummyErr);
-                        })
+                        });
                     },
                     function B(cb) {
                         async.each([], function (item, cb) {

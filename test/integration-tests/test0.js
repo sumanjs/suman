@@ -42,7 +42,7 @@ Test.describe('gggg', {parallel: false}, function (http, assert, delay, fs, chil
     });
 
     this.it('makes noise', {}, function () {
-        throw new Error('bahahams');
+        
     });
 
 
@@ -68,7 +68,7 @@ Test.describe('gggg', {parallel: false}, function (http, assert, delay, fs, chil
         });
 
         this.before(function *() {
-            var val = yield new Promise(function (resolve) {
+          yield new Promise(function (resolve) {
                 setTimeout(function () {
                     resolve('dude');
                 });
@@ -108,7 +108,7 @@ Test.describe('gggg', {parallel: false}, function (http, assert, delay, fs, chil
                 t.done();
             }, 50);
 
-        }).it.cb('mmm3', {parallel: false}, (done, t) => {
+        }).it.cb('mmm3', {parallel: false}, ( t, done) => {
             setTimeout(function () {
                 done();
             }, 50);

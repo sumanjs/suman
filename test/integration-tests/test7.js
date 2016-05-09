@@ -9,7 +9,7 @@ var Test = suman.init(module);
 
 
 
-Test.describe('B', {}, function (socketio, request, delay, assert, choodles, fs) {
+Test.describe('B2', {}, function (socketio, request, delay, assert, choodles, fs) {
 
 
     var paper = [];
