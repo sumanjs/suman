@@ -1,3 +1,4 @@
+.gitignore
 nul
 NUL
 .idea/
@@ -7,4 +8,3 @@ coverage
 docs
 jsdoc-out
 mr-docs
-.gitignore

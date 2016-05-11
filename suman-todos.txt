@@ -1,6 +1,5 @@
 
 
-//TODO: only log
 //TODO: if a promise or non-undefined value is returned, but cb mode is on, add warning
 //TODO: using t.assert etc can help prevent errors not being assigned to tests
 //TODO: add support for observables
@@ -25,7 +24,6 @@
 //TODO: https://github.com/nodejs/help
 //TODO: runner needs to show tests in table even if they fail out before sending table data
 //TODO: https://hellocoding.wordpress.com/2015/01/19/delete-all-commit-history-github/
-//TODO: command to kill runner works too well, need to use ctrl+D instead
 //TODO: have to allow users to use bash scripts as hooks to setup process information, this involves
 // having an option to use spawn instead of fork in the runner, see ./lib/bash/a and ./lib/bash/b
 //TODO: https://github.com/JacksonGariety/gulp-nodemon/issues/110#event-628179539
