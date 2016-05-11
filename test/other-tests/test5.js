@@ -6,35 +6,60 @@
 var Test = require('../../lib').init(module, 'suman.conf.js');
 
 
-Test.describe('suite dos', function (suite) {
+Test.describe('suite dos', function (assert) {
 
-    var dog = this;
+    var count = 0;
 
-    this.it('my 888',function(t){
-
-        var mike = dog;
-        t.data.rooogo = 'pooo';
-
+    this.beforeEach(t => {
+        console.log(t.data);
+        count++;
     });
 
-    this.afterEach(function(t, done){
+    this.beforeEach.cb(t => {
+        console.log(t.data);
+        count++;
+        t.ctn();
+    });
 
-        done();
+    this.beforeEach.cb.skip(t => {
+        console.log(t.data);
+        count++;
+    });
+
+    this.beforeEach.skip.cb(t => {
+        console.log(t.data);
+        count++;
+    });
+
+    this.it('my 888', t => {
+        t.data.rooogo = 'bar';
+    });
+
+    this.it('my 888', t => {
+        t.data.rooogo = 'foo';
+    });
+
+    this.afterEach.cb(t => {
+        console.log(t.data);
+        count++;
+        t.done();
     });
 
 
-    this.afterEach(function(t,done){
-
-
-        done();
+    this.afterEach(t => {
+        console.log(t.data);
+        count++;
     });
 
 
-    this.afterEach(function(t, done){
+    this.afterEach.cb(t => {
+        console.log(t.data);
+        count++;
+        t.done();
+    });
 
-
-        done();
-
+    this.after(t => {
+        assert(count === 10);
     });
 
 

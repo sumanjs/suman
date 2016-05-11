@@ -1,35 +1,24 @@
 
 
->>> Suman start run indiv. @Tue May 10 2016 17:14:54 GMT-0700 (Pacific Daylight Time) >>>
+>>> Suman start run indiv. @Tue May 10 2016 23:00:36 GMT-0700 (Pacific Daylight Time) >>>
 
-Beginning of run at 1462925694318 = [Tue May 10 2016 17:14:54 GMT-0700 (Pacific Daylight Time)]
-Command = ["C:\\Program Files\\nodejs\\node.exe","c:\\Users\\denman\\WebstormProjects\\suman\\test\\ava\\f.js"]
-
-
-Test error: (no description)
-	stack: Error: 123
-    at c:\Users\denman\WebstormProjects\suman\test\ava\f.js:14:23
-    at FSReqWrap.cb [as oncomplete] (fs.js:212:19)
+Beginning of run at 1462946436289 = [Tue May 10 2016 23:00:36 GMT-0700 (Pacific Daylight Time)]
+Command = ["node","C:\\Users\\denman\\WebstormProjects\\suman\\test\\build-tests\\empty.test.js"]
 
 
-
-Test error: (no description)
-	stack: Error: 123
-    at null._onTimeout (c:\Users\denman\WebstormProjects\suman\test\ava\f.js:23:23)
-    at Timer.listOnTimeout (timers.js:92:15)
+Test error: fails right away
+	stack: Error: chuck
+    at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman\test\build-tests\empty.test.js:29:15)
+    at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:9:8124
+    at doNTCallback0 (node.js:419:9)
+    at process._tickDomainCallback (node.js:389:13)
 
 
 
-Test error: (no description)
-	stack: Error: 456
-    at Immediate._onImmediate (c:\Users\denman\WebstormProjects\suman\test\ava\f.js:32:23)
-    at processImmediate [as _immediateCallback] (timers.js:383:17)
-
-
-
-Test error: (no description)
-	stack: Error: 789
-    at c:\Users\denman\WebstormProjects\suman\test\ava\f.js:41:23
+Test error: should never run if bail is set to true
+	stack: AssertionError: false == true
+    at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman\test\build-tests\empty.test.js:34:9)
+    at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:9:8124
     at doNTCallback0 (node.js:419:9)
     at Immediate._tickDomainCallback [as _onImmediate] (node.js:389:13)
     at processImmediate [as _immediateCallback] (timers.js:383:17)

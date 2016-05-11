@@ -335,6 +335,7 @@ with the plain old Node executable, as opposed to adding the complexity of trans
 
 ### Important aside - How is Suman better than AVA?
 
+ It should be abundantly clear why Suman is better than Mocha, but how is Suman better than AVA? 
  Suman borrows some excellent features from Mocha that AVA seems to ignore, including the ability
  to use nested describe statements for more control and preventing the sharing of scope within tests. AVA basically
  co-opted Tape and added concurrency. Suman co-opted Mocha, added concurrency, better reporting, dependency injection and 
@@ -347,11 +348,12 @@ with the plain old Node executable, as opposed to adding the complexity of trans
  * AVA does not feature the nested describes of Mocha or Suman, which limits the expressiveness of the library
  tremendously
  
- Alterantively, with Suman:
+ Alternatively, with Suman:
  
  *Babel transpilation is optional - you can even achieve async/await with generators and promises alone
  *Suman uses domains to correctly map errors to test cases and hooks
  *Suman has nested describe blocks which are imperative for non-trivial tests
+ 
  
 ### Extra info
 

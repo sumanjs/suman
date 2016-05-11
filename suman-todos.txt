@@ -1,5 +1,6 @@
 
 
+//TODO: place array of tests in befores/afters so we know which tests pertain to the hook
 //TODO: if a promise or non-undefined value is returned, but cb mode is on, add warning
 //TODO: using t.assert etc can help prevent errors not being assigned to tests
 //TODO: add support for observables
@@ -85,6 +86,7 @@
 //TODO: https://github.com/nodejs/node/issues/5252#issuecomment-212784934
 //TODO: implement Test.on('end') so that we can force exit the test using process.exit()
 //TODO: if this.it.only is declared need to declare other test cases as "skipped"
+//TODO: allow hooks to be skipped
 
 /* advantages of Suman
  *

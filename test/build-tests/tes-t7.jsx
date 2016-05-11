@@ -119,7 +119,6 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
         });
 
         this.it.cb('chubs', {parallel: false, plan: 2}, t => {
-
             t.confirm();
             setTimeout(function () {
                 t.confirm();

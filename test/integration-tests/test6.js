@@ -24,13 +24,11 @@ Test.describe('B1', ['socketio'], function (socketio, request, delay, roodles, c
     }, 100);
 
 
-    this.before.cb(function (t, done) {
-
+    this.before.cb(t => {
         setTimeout(function () {
             //console.log('BEFORE');
-            done();
+            t.done();
         }, 100);
-
     });
 
     function timeout(charlie) {
@@ -47,24 +45,24 @@ Test.describe('B1', ['socketio'], function (socketio, request, delay, roodles, c
     //});
 
 
-    this.beforeEach.cb(function (t, done) {
+    this.beforeEach.cb(t=> {
         // console.log('TTTTTTT:', t);
         // console.log('DDDDD:', done);
         // console.log('RRRRR:', run);
-        done();
+        t.done();
         //t.data.lion = await timeout();
     });
 
-    this.beforeEach(function (t) {
+    this.beforeEach(t => {
         t.data.lion = 'barb';
     });
 
 
-    this.beforeEach.cb(function (t, done) {
+    this.beforeEach.cb(t => {
 
         setTimeout(function () {
             //console.log('BEFORE EACH');
-            done();
+            t.done();
         }, 100);
 
     });
@@ -79,7 +77,6 @@ Test.describe('B1', ['socketio'], function (socketio, request, delay, roodles, c
         this.describe(function () {
 
             arr.forEach((item)=> {
-
                 this.it('[test]' + item, function (t) {
                     console.log('B => ' + t.desc, t.data.lion);
                 });

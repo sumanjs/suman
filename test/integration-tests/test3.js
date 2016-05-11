@@ -12,7 +12,7 @@ Test.describe('My Suite', function () {
     this.describe('bugs', function () {
 
 
-        this.it('is meow', function (t) {
+        this.it.only('is meow', function (t) {
 
             //throw new Error('jesus christ');
             //setTimeout(function(){
@@ -22,7 +22,7 @@ Test.describe('My Suite', function () {
 
         });
 
-        this.describe.only('turtles', {}, function () {
+        this.describe('turtles', {}, function () {
 
             this.beforeEach(function(){
 
@@ -32,12 +32,8 @@ Test.describe('My Suite', function () {
 
 
             this.describe('sounds', function () {
-
-
-                this.it.only('is good', function () {
-
-
-                });
+                
+                this.it.cb.skip('is good');
 
 
             });
