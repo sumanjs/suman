@@ -137,7 +137,7 @@ to the Node.js community.
     *  SQLite database stores testing back-data and gives you credibility because you can easily share test run results with your team
        
        
-* <b> Use suman.once.js to run hooks before the test runner starts
+* <b> Use suman.once.js to run hooks before the test runner starts </b>
     * these hooks can be used to start the services necessary for any given test file to run successfully
        
        
