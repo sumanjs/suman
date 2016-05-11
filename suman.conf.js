@@ -48,6 +48,10 @@ module.exports = Object.freeze({
         'dev85.plaxo.com': {
             host: '172.20.3.31',
             port: 6969,
+        },
+        'Alexanders-MacBook-Pro.local':{
+            host: 'localhost',
+            port: 6969
         }
     }
 

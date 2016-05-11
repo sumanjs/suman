@@ -104,6 +104,8 @@
  *
  * */
 
+
+//TODO: if parent is parallel, it test cases don't seem to run in parallel
 //TODO: if callback is called twice in hook or test, ignore the second, just throw an error
 //TODO: move to lodash, ditch underscore
 //TODO: use fs.createReadStream to check files to see if they are actually Suman tests in safe mode

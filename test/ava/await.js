@@ -1,4 +1,4 @@
-const suman = require('../../lib');
+const suman = require('../../lib/index');
 const Test = suman.init(module, {});
 
 Test.describe('root suite description', {}, function () {   // we define the root suite
