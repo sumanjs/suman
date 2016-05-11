@@ -7,3 +7,9 @@ coverage
 docs
 jsdoc-out
 mr-docs
+makefile
+makefile2
+example-makefile.sh
+exp*.js
+bugs
+jsdoc-notes.txt
