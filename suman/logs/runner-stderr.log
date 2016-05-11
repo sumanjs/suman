@@ -1,17 +1,31 @@
 
 
 >>> Suman runner start >>>
-Beggining of run at 1462785899912 = [Mon May 09 2016 02:24:59 GMT-0700 (Pacific Daylight Time)]
+Beggining of run at 1462925258666 = [Tue May 10 2016 17:07:38 GMT-0700 (Pacific Daylight Time)]
 Command issued from the following directory "C:\Users\denman\WebstormProjects\suman"
 Command = ["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\denman\\WebstormProjects\\suman\\index","test\\build-tests"]
 
+
+[test6.test.js] jimmy
+[test6.test.js] 
+
+[test6.test.js] 
+[test6.test.js] 
+[test6.test.js] Test error: makes rain
+[test6.test.js] 	stack: Error: fab
+[test6.test.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman\test\build-tests\test6.test.js:47:23)
+[test6.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:188:56
+[test6.test.js]     at doNTCallback0 (node.js:419:9)
+[test6.test.js]     at process._tickDomainCallback (node.js:389:13)
+[test6.test.js] 
+[test6.test.js] 
 
 [empty.test.js] 
 [empty.test.js] 
 [empty.test.js] Test error: fails right away
 [empty.test.js] 	stack: Error: chuck
 [empty.test.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman\test\build-tests\empty.test.js:29:15)
-[empty.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:189:56
+[empty.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:188:56
 [empty.test.js]     at doNTCallback0 (node.js:419:9)
 [empty.test.js]     at process._tickDomainCallback (node.js:389:13)
 [empty.test.js] 
@@ -22,26 +36,12 @@ Command = ["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\denman\\WebstormPro
 [empty.test.js] Test error: should never run if bail is set to true
 [empty.test.js] 	stack: AssertionError: false == true
 [empty.test.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman\test\build-tests\empty.test.js:34:9)
-[empty.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:189:56
+[empty.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:188:56
 [empty.test.js]     at doNTCallback0 (node.js:419:9)
 [empty.test.js]     at Immediate._tickDomainCallback [as _onImmediate] (node.js:389:13)
 [empty.test.js]     at processImmediate [as _immediateCallback] (timers.js:383:17)
 [empty.test.js] 
 [empty.test.js] 
-
-[test6.test.js] jimmy
-[test6.test.js] 
-
-[test6.test.js] 
-[test6.test.js] 
-[test6.test.js] Test error: makes rain
-[test6.test.js] 	stack: Error: fab
-[test6.test.js]     at TestSuiteBase.<anonymous> (C:\Users\denman\WebstormProjects\suman\test\build-tests\test6.test.js:47:23)
-[test6.test.js]     at C:\Users\denman\WebstormProjects\suman\lib\test-suite-helpers\handle-test.js:189:56
-[test6.test.js]     at doNTCallback0 (node.js:419:9)
-[test6.test.js]     at process._tickDomainCallback (node.js:389:13)
-[test6.test.js] 
-[test6.test.js] 
 
 [tes-t7-start.test.js] 
 [tes-t7-start.test.js] 

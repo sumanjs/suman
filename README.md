@@ -9,10 +9,10 @@
 >
 > ---
 
-# "Replaces Mocha, rivals AVA" - John Lee Hooker
+# "Suman is designed to supercede Mocha, and rival AVA" 
 
 <br>
-# &#9658; Quick reference
+## &#9658; Installation
 
 <br>
 <i> => For command line tools:</i>

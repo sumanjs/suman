@@ -1,9 +1,7 @@
 #!/usr/bin/env node --harmony
 
 
-
-//TODO: var don = t.done;
-//TODO: need to use check for --runner and not only check for process.send
+//TODO: only log
 //TODO: if a promise or non-undefined value is returned, but cb mode is on, add warning
 //TODO: using t.assert etc can help prevent errors not being assigned to tests
 //TODO: add support for observables
@@ -13,15 +11,10 @@
 //TODO: mocha and ava are concentric circles inside Suman
 //TODO: run tests from current directory when using runner
 //TODO: add exit code for hook timeout besides 1
-//TODO: if t is requested as a param for before/after hooks, notify developer that this is not available
 //TODO: if user wants to collect multiple errors per test, they can use t.assert
-//TODO: set CWD for tests to the test path
 //TODO: need to add option to include stdout when using runner
 //TODO: npm install mocha -g --save-dev
-//TODO: paths issue - suman command may not be issued in a project at all, which means findRoot(cwd) will not yield
-// correct result - need to mitigate
 //TODO: overall consolidated table can have a count of failed test files vs passed test files
-//TODO: t.plan is useful for making sure code gets hit that might not actually run
 //TODO: add max memory value in overall table for runner
 //TODO: change fs.appendFileSync to fs.appendFile? no, causes corruption
 //TODO: need assertions to print out pretty
@@ -93,9 +86,7 @@
 //TODO  need to add a delay option for tests running in a loop (why? => google github issue)
 //TODO  on ms windows error messages do not always give url/link/path of test file with error
 //TODO: https://github.com/nodejs/node/issues/5252#issuecomment-212784934
-//TODO: need to determine how to determine if async/await if such
 //TODO: implement Test.on('end') so that we can force exit the test using process.exit()
-//TODO: https://github.com/sindresorhus/ava/blob/master/docs/recipes/when-to-use-plan.md
 //TODO: if this.it.only is declared need to declare other test cases as "skipped"
 
 /////////////////////////////////////////////////////////////////
@@ -480,6 +471,7 @@ else {
                             //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
                             d.run(function () {
                                 process.nextTick(function () {
+                                    process.chdir(dirs[0]);  //force CWD to test file path
                                     require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
                                 });
                             });
@@ -491,7 +483,7 @@ else {
                                         grepSuite: grepSuite,
                                         grepFile: grepFile,
                                         $node_env: process.env.NODE_ENV,
-                                        fileOrDir: dirs,
+                                        fileOrDir: dirs
                                         //configPath: configPath || 'suman.conf.js'
                                     }).on('message', function (msg) {
                                         console.log('msg from suman runner', msg);
