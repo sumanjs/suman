@@ -13,3 +13,4 @@ example-makefile.sh
 exp*.js
 bugs
 jsdoc-notes.txt
+.DS_Store
