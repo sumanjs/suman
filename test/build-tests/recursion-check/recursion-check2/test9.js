@@ -7,14 +7,15 @@ var Test = require('../../../../lib').init(module, 'suman.conf.js');
 
 Test.describe('A describe', {parallel: true}, function () {
 
-    this.after(function (done) {
-        done();
+
+    this.after.cb(t => {
+        t.done();
     });
 
     this.describe('B describe', function () {
 
-        this.after(function (done) {
-            done();
+        this.after.cb(t => {
+            t.done();
         });
 
         this.it('b1 test', {parallel: false}, (t) => {
@@ -34,17 +35,19 @@ Test.describe('A describe', {parallel: true}, function () {
         });
 
         this.describe('C', function () {
-            this.after(function (done) {
-                done();
+
+            this.after.cb(t => {
+                t.done();
             });
         });
+
     });
 
     this.describe('D describe', function () {
 
 
-        this.after(function (done) {
-            done();
+        this.after.cb(t => {
+            t.done();
         });
 
         this.it('d1 test', function () {
@@ -58,37 +61,37 @@ Test.describe('A describe', {parallel: true}, function () {
 
         this.describe('E', function () {
 
-            this.it('e1 test', function () {
+            this.it('e1 test', t => {
 
             });
 
-            this.it('e2 test', function () {
+            this.it('e2 test', t => {
 
             });
 
-            this.it('e3 test', function () {
+            this.it('e3 test', t => {
 
             });
 
-            this.after(function (done) {
-                done();
+            this.after.cb(t => {
+                t.done();
             });
         });
     });
 
     this.describe('F', function () {
-        this.after(function (done) {
-            done();
+        this.after.cb(t => {
+            t.done();
         });
 
         this.describe('G', function () {
 
-            this.it('mmm2', {parallel: false}, (t, done) => {
-                done();
+            this.it.cb('mmm2', {parallel: false}, t => {
+                t.done();
             });
 
-            this.after(function (done) {
-                done();
+            this.after.cb(t => {
+                t.done();
             });
         });
     });
@@ -96,36 +99,37 @@ Test.describe('A describe', {parallel: true}, function () {
 
     this.describe('moodle', {parallel: false}, function () {
 
-        this.after(function (done) {
-
-            done();
+        this.after.cb(t => {
+            t.done();
         });
 
 
-        this.it('mmm1', {parallel: false}, (t, done) => {
-            done();
+        this.it.cb('mmm1', {parallel: false}, t => {
+            t.done();
         });
 
 
-        this.after(function (done) {
-            done();
+        this.after.cb.skip(t => {
+            console.log('dingy');
+            t.done();
         });
 
+
     });
 
 
-    this.it('a test', {parallel: false}, (t, done) => {
-        done();
+    this.it.cb('a test', {parallel: false}, t => {
+        t.done();
     });
 
-    this.after(function (done) {
-        done();
-    });
-
-    this.after(function (done) {
-        done();
+    this.after.cb(t => {
+        t.done();
     });
 
 
-    
+    this.after.cb(t => {
+        t.done();
+    });
+
+
 });

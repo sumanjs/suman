@@ -24,12 +24,10 @@ Test.describe('A2', ['delay'], function (delay) {
 
     });
 
-    this.before.cb(function (t, done) {
-
+    this.before.cb(t => {
         setTimeout(function () {
-            done();
+            t.done();
         }, 100);
-
     });
 
     this.describe('B', function (delay) {
@@ -41,7 +39,7 @@ Test.describe('A2', ['delay'], function (delay) {
 
         arr.forEach((item)=> {
 
-            this.it('[test]' + item, function (t) {
+            this.it('[test]' + item, t => {
                 console.log('B1 => ' + t.desc);
             });
 
@@ -50,7 +48,7 @@ Test.describe('A2', ['delay'], function (delay) {
         this.describe(function () {
             arr.forEach((item)=> {
 
-                this.it('[test]' + item, function (t) {
+                this.it('[test]' + item, t => {
                     console.log('B2 => ' + t.desc);
                 });
 
@@ -74,7 +72,7 @@ Test.describe('A2', ['delay'], function (delay) {
 
             arr.forEach((item)=> {
 
-                this.it('[test]' + item, function (t) {
+                this.it('[test]' + item, t => {
                     console.log('C => ' + t.desc);
                 });
 
@@ -85,7 +83,7 @@ Test.describe('A2', ['delay'], function (delay) {
 
                 arr.forEach((item)=> {
 
-                    this.it('[test]' + item, function (t) {
+                    this.it('[test]' + item, t => {
                         console.log('D => ' + t.desc);
                     });
 
