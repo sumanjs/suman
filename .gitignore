@@ -7,3 +7,4 @@ coverage
 docs
 jsdoc-out
 mr-docs
+.gitignore
