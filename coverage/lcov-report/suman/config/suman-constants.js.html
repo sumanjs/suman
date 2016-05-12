@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for suman/config/suman-constants.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">suman/config/</a> suman-constants.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>1/1</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/1</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Created by denman on 1/12/16.
+ */
+&nbsp;
+&nbsp;
+//unfortunately using Object.freeze prevents code completion, FOL
+&nbsp;
+module.exports = Object.freeze({
+&nbsp;
+    DEBUGGING_NODE_ENV: 'dev_local_debug',
+    SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
+    SUMAN_HARD_LIST: [
+        'delay',
+        'suite',
+        'before',
+        'after',
+        'beforeEach',
+        'afterEach',
+        'it',
+        'test',
+        'describe',
+        'context',
+        'extra',
+        '$uda',
+        'writable'
+    ],
+    CORE_MODULE_LIST: require('builtin-modules'),
+    RUNNER_EXIT_CODES:{
+        NO_TEST_FILE_OR_DIR_SPECIFIED: 30,
+        ERROR_INVOKING_NETWORK_LOG_IN_RUNNER: 31,
+        UNEXPECTED_FATAL_ERROR: 32,
+        UNCAUGHT_EXCEPTION: 777
+&nbsp;
+    },
+    EXIT_CODES: {
+        SUCCESSFUL_RUN: 0,
+        WHOLE_TEST_SUITE_SKIPPED: 0,
+        GREP_SUITE_DID_NOT_MATCH: 0,
+        BAD_GREP_SUITE_OPTION: 52,
+        SUMAN_UNCAUGHT_EXCEPTION: 53,
+        BAD_CONFIG_OR_PROGRAM_ARGUMENTS: 54,
+        UNEXPECTED_NON_FATAL_ERROR: 55,
+        TEST_CASE_FAIL: 56,
+        INVALID_ARROW_FUNCTION_USAGE: 57,
+        BAD_COMMAND_LINE_OPTION: 58,
+        UNEXPECTED_FATAL_ERROR: 59,
+        FATAL_TEST_ERROR: 60,
+        FATAL_HOOK_ERROR: 61,
+        SUITE_TIMEOUT: 62,
+        SUITE_BAIL: 63,
+        INTEGRANT_VERIFICATION_FAILURE: 64,
+        UNKNOWN_RUNNER_CHILD_PROCESS_STATE: 65,
+        ERROR_IN_ROOT_SUITE: 66,
+        IOC_DEPS_ACQUISITION_ERROR: 67,
+        EXPORT_TEST_BUT_RAN_TEST_FILE_DIRECTLY: 68,
+        DELAY_NOT_REFERENCED: 69,
+        INTEGRANT_VERIFICATION_ERROR: 70,
+        ERROR_CREATED_SUMAN_OBJ: 71,
+        IOC_PASSED_TO_SUMAN_INIT_BAD_FORM: 72,
+        ERROR_ACQUIRING_IOC_DEPS: 73,
+        INVALID_RUNNER_CHILD_PROCESS_STATE: 74,
+        NO_TIMESTAMP_AVAILABLE_IN_TEST: 75,
+        ERROR_CREATED_NETWORK_LOG: 77,
+        ERROR_CREATING_RESULTS_DIR: 78,
+        COULD_NOT_FIND_CONFIG_FROM_PATH: 79,
+        TEST_ERROR_AND_BAIL_IS_TRUE: 80,
+        ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION: 81,
+        DELAY_FUNCTION_TIMED_OUT: 82
+    },
+    ERROR_MESSAGES: {
+        INVALID_FUNCTION_TYPE_USAGE: 'You cannot use an arrow function with describe callbacks; however, you may use arrow functions everywhere else.\n' +
+        'The reason is because every describe call creates a new nested test instance, and "this" is bound to that instance. \nFor every describe call, you ' +
+        'need a regular function as a callback. The remainder of your tests can be arrow function galore. \nIf you dont understand this, read up on how arrow functions bind "this" ' +
+        'to lexical scope, and why they cant just be used everywhere.'
+    },
+    runner_message_type: {
+        FATAL: 'FATAL',
+        TABLE_DATA: 'TABLE_DATA',
+        INTEGRANT_INFO: 'INTEGRANT_INFO',
+        LOG_DATA: 'LOG_DATA',
+        LOG_RESULT: 'LOG_RESULT',
+        FATAL_SOFT: 'FATAL_SOFT',
+        WARNING: 'WARNING',
+        NON_FATAL_ERR: 'NON_FATAL_ERR',
+        CONSOLE_LOG: 'CONSOLE_LOG',
+        MAX_MEMORY: 'MAX_MEMORY'
+    },
+    broadcast_event_type: {
+        TEST_CASE_FAIL: 'test-case-fail',
+        TEST_CASE_PASS: 'test-case-pass',
+        TEST_CASE_STUBBED: 'test-case-stubbed',
+        TEST_CASE_SKIPPED: 'test-case-skipped',
+    }
+&nbsp;
+});</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 11 2016 00:51:12 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
