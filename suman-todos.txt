@@ -1,4 +1,6 @@
 
+
+//TODO: optimize TestSuite/TestSuiteBase prototypes in the case that user creates many of these with looping constructs
 //TODO: add a gitkeep file to suman/logs etc
 //TODO: place array of tests in befores/afters so we know which tests pertain to the hook
 //TODO: if a promise or non-undefined value is returned, but cb mode is on, add warning
@@ -15,7 +17,6 @@
 //TODO: npm install mocha -g --save-dev
 //TODO: overall consolidated table can have a count of failed test files vs passed test files
 //TODO: add max memory value in overall table for runner
-//TODO: change fs.appendFileSync to fs.appendFile? no, causes corruption
 //TODO: need assertions to print out pretty
 //TODO: if using local server and SQLite, then each cp should save data directly to db. however, if remote server, then
 // should only the parent process (runner) make the network connection? Possibly remove network code from suman file

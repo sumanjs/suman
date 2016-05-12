@@ -6,41 +6,41 @@
 
 
 /*var suman = require('../../lib');
-var Test = suman.new(module, 'suman.conf.js');
+ var Test = suman.new(module, 'suman.conf.js');
 
 
-Test.suite('suite tres', function (suite) {*/
+ Test.suite('suite tres', function (suite) {*/
 var Test = require('../../lib').init(module, 'suman.conf.js');
 
 Test.describe('suite tres', function (suite) {
 
 
-    this.before(function (done) {
-
-        return done();
-
-    });
+    this.before.cb(t => {
 
 
-    this.it('my test99999', (a,b) => {
+        // t.done();
 
-        //throw new Error('rrr');
 
-        b();
+        return {};
 
     });
 
 
+    this.it('my test99999', t => {
 
-    this.afterEach(function (t, done) {
-        done();
+
+    });
+
+
+    this.afterEach(t => {
+        t.done();
     });
 
 
     this.describe('tarzan', function () {
 
-        this.before(function (done) {
-            done();
+        this.before(t => {
+
         });
 
         this.it('my tarzan test', function () {
@@ -51,13 +51,13 @@ Test.describe('suite tres', function (suite) {
 
             this.describe('uuuuu3333 test', function () {
 
-                this.before(function (done) {
-                    done();
-                });
-
-                this.it('my 3333 test', function () {
+                this.before.skip(t => {
 
                 });
+
+                // this.it.red('my 3333 test', function () {
+                //
+                // });
 
             });
 

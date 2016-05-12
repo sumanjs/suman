@@ -25,7 +25,7 @@ module.exports = Object.freeze({
         'writable'
     ],
     CORE_MODULE_LIST: require('builtin-modules'),
-    RUNNER_EXIT_CODES:{
+    RUNNER_EXIT_CODES: {
         NO_TEST_FILE_OR_DIR_SPECIFIED: 30,
         ERROR_INVOKING_NETWORK_LOG_IN_RUNNER: 31,
         UNEXPECTED_FATAL_ERROR: 32,
@@ -65,7 +65,9 @@ module.exports = Object.freeze({
         COULD_NOT_FIND_CONFIG_FROM_PATH: 79,
         TEST_ERROR_AND_BAIL_IS_TRUE: 80,
         ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION: 81,
-        DELAY_FUNCTION_TIMED_OUT: 82
+        DELAY_FUNCTION_TIMED_OUT: 82,
+        ERROR_IN_CHILD_SUITE: 83,
+        OPTS_PLAN_NOT_A_NUMBER: 84
     },
     ERROR_MESSAGES: {
         INVALID_FUNCTION_TYPE_USAGE: 'You cannot use an arrow function with describe callbacks; however, you may use arrow functions everywhere else.\n' +
@@ -89,7 +91,14 @@ module.exports = Object.freeze({
         TEST_CASE_FAIL: 'test-case-fail',
         TEST_CASE_PASS: 'test-case-pass',
         TEST_CASE_STUBBED: 'test-case-stubbed',
-        TEST_CASE_SKIPPED: 'test-case-skipped',
+        TEST_CASE_SKIPPED: 'test-case-skipped'
+    },
+    warnings:{
+        NO_DONE_WARNING: 'Warning: no done referenced in callback',
+        RETURNED_VAL_DESPITE_CALLBACK_MODE: 'Warning: callback mode is set, but a non-null value was returned by the hook',
+        TEST_CASE_TIMED_OUT_ERROR: 'Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()?',
+        HOOK_TIMED_OUT_ERROR: 'Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()?',
+        DELAY_TIMED_OUT_ERROR: 'Error: *timed out* - did you forget to call delay()?'
     }
 
 });
