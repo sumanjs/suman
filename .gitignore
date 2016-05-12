@@ -1,13 +1,11 @@
-.gitignore
 nul
 NUL
 .idea/
 node_modules/
-bower_components/
 coverage
 docs
 jsdoc-out
 mr-docs
-suman/logs/*
-
+suman/logs
+.nyc_output
 
