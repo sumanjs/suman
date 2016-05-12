@@ -1,5 +1,7 @@
 
-
+//TODO: add ms count for each test/and each test including hooks
+//TODO: add transpile option, which will put a suman-target folder in root dir
+//TODO: write to .gitignore and put test-suman-target and suman/logs in there
 //TODO: optimize TestSuite/TestSuiteBase prototypes in the case that user creates many of these with looping constructs
 //TODO: add a gitkeep file to suman/logs etc
 //TODO: place array of tests in befores/afters so we know which tests pertain to the hook

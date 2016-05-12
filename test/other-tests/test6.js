@@ -3,26 +3,16 @@
  */
 
 
+var suman = require('../../lib');
+const Test = suman.init(module);
 
 
-/*var suman = require('../../lib');
- var Test = suman.new(module, 'suman.conf.js');
-
-
- Test.suite('suite tres', function (suite) {*/
-var Test = require('../../lib').init(module, 'suman.conf.js');
-
-Test.describe('suite tres', function (suite) {
-
+Test.describe('suite tres', {}, function (assert) {
 
     this.before.cb(t => {
 
-
-        // t.done();
-
-
-        return {};
-
+         t.done();
+         t.log('barf');
     });
 
 
@@ -32,8 +22,14 @@ Test.describe('suite tres', function (suite) {
     });
 
 
-    this.afterEach(t => {
-        t.done();
+    this.afterEach.cb(t => {
+
+        setTimeout(t.wrap(function(){
+
+            assert(false);
+            t.done();
+        }));
+
     });
 
 
@@ -41,9 +37,13 @@ Test.describe('suite tres', function (suite) {
 
         this.before(t => {
 
+            console.log(t);
+
         });
 
-        this.it('my tarzan test', function () {
+        this.it('my tarzan test', t => {
+
+            console.log(t);
 
         });
 
