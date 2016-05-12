@@ -1,5 +1,5 @@
 
-
+//TODO: add a gitkeep file to suman/logs etc
 //TODO: place array of tests in befores/afters so we know which tests pertain to the hook
 //TODO: if a promise or non-undefined value is returned, but cb mode is on, add warning
 //TODO: using t.assert etc can help prevent errors not being assigned to tests
