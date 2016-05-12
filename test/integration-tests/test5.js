@@ -23,12 +23,10 @@ Test.describe('A', {}, function (request, socketio) {
         //delay();
     }, 100);
 
-    this.before(function (a, b, c, done) {
-
+    this.before.cb(t => {
         setTimeout(function () {
-            done();
+            t.done();
         }, 1000);
-
     });
 
     this.describe.SKIP('B', function (delay) {
@@ -40,11 +38,9 @@ Test.describe('A', {}, function (request, socketio) {
 
         this.describe('ruffles',function () {
             arr.forEach((item)=> {
-
-                this.it('[test]' + item, function (t) {
+                this.it('[test]' + item, t => {
                     console.log('B => ' + t.desc);
                 });
-
             });
         });
     });
@@ -64,19 +60,14 @@ Test.describe('A', {}, function (request, socketio) {
             }, 100);
 
             arr.forEach((item)=> {
-
-                this.it('[test]' + item, function (t) {
+                this.it('[test]' + item, t => {
                     console.log('C => ' + t.desc);
                 });
-
             });
 
-
             this.describe('D', function () {
-
                 arr.forEach((item)=> {
-
-                    this.it('[test]' + item, function (t) {
+                    this.it('[test]' + item, t => {
                         console.log('D => ' + t.desc);
                     });
 

@@ -3,47 +3,47 @@
  */
 
 
+var suman = require('../../lib');
+const Test = suman.init(module);
 
 
-/*var suman = require('../../lib');
-var Test = suman.new(module, 'suman.conf.js');
+Test.describe('suite tres', {}, function (assert) {
+
+    this.before.cb(t => {
+
+         t.done();
+         t.log('barf');
+    });
 
 
-Test.suite('suite tres', function (suite) {*/
-var Test = require('../../lib').init(module, 'suman.conf.js');
+    this.it('my test99999', t => {
 
-Test.describe('suite tres', function (suite) {
-
-
-    this.before(function (done) {
-
-        return done();
 
     });
 
 
-    this.it('my test99999', (a,b) => {
+    this.afterEach.cb(t => {
 
-        //throw new Error('rrr');
+        setTimeout(t.wrap(function(){
 
-        b();
+            assert(false);
+            t.done();
+        }));
 
-    });
-
-
-
-    this.afterEach(function (t, done) {
-        done();
     });
 
 
     this.describe('tarzan', function () {
 
-        this.before(function (done) {
-            done();
+        this.before(t => {
+
+            console.log(t);
+
         });
 
-        this.it('my tarzan test', function () {
+        this.it('my tarzan test', t => {
+
+            console.log(t);
 
         });
 
@@ -51,13 +51,13 @@ Test.describe('suite tres', function (suite) {
 
             this.describe('uuuuu3333 test', function () {
 
-                this.before(function (done) {
-                    done();
-                });
-
-                this.it('my 3333 test', function () {
+                this.before.skip(t => {
 
                 });
+
+                // this.it.red('my 3333 test', function () {
+                //
+                // });
 
             });
 

@@ -44,7 +44,7 @@ Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
         return [
 
             test('makes rain', {value: 5}, function (t) {
-                throw new Error('fab');
+                // throw new Error('fab');
             }),
 
             test('makes rain', {})

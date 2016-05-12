@@ -379,7 +379,7 @@ else {
                             //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
                             d.run(function () {
                                 process.nextTick(function () {
-                                    process.chdir(dirs[0]);  //force CWD to test file path // boop boop
+                                    process.chdir(path.dirname(dirs[0]));  //force CWD to test file path // boop boop
                                     require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
                                 });
                             });

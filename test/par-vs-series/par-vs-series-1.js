@@ -3,32 +3,30 @@
  */
 
 
-
 const suman = require('../../lib');
-
 const Test = suman.init(module, {});
 
-Test.describe('1', {parallel:false}, function () {
+Test.describe('1', {mode: 'series'}, function () {
 
 
-    this.it('one', function (done) {
+    this.it.cb('one', t => {
 
         setTimeout(function () {
-            done();
+            t.done();
         }, 2000);
     });
 
-    this.it('two', function (done) {
+    this.it.cb('two', t => {
 
         setTimeout(function () {
-            done();
+            t.done();
         }, 2000);
     });
 
-    this.it('three', function (done) {
+    this.it.cb('three', t => {
 
         setTimeout(function () {
-            done();
+            t.done();
         }, 2000);
 
     });

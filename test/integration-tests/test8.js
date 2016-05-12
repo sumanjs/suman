@@ -21,10 +21,8 @@ Test.describe('B3', {}, function (socketio, request, delay, assert, choodles, fs
     }, 1000);
 
 
-
     this.it('oodles', function(){
         assert(paper[0] === '1');
-
     });
 
     this.it('oodles', function(){

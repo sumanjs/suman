@@ -15,7 +15,9 @@ var Test = suman.init(module, {
 });
 
 
-Test.describe('suite uno', function () {
+Test.describe('suite uno', {}, function () {
+
+    
 
     this.it.skip('foo2', {parallel: true}, t => {
 
