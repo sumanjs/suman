@@ -2,6 +2,9 @@ node_modules
 .idea
 bugs
 suman/logs
-.gitignore
-
+coverage
+docs
+jsdoc-out
+mr-docs
+.nyc_output
 
