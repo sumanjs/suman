@@ -3,12 +3,10 @@
  */
 
 
-
 const suman = require('../../lib');
-
 const Test = suman.init(module, {});
 
-Test.describe('1', {parallel: false}, function () {
+Test.describe('1', {mode: 'series'}, function () {
 
 
     this.it.cb('one', t => {
