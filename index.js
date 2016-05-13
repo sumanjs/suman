@@ -118,6 +118,7 @@ const convert = opts.convert;
 const src = opts.src;
 const dest = opts.dest;
 const init = opts.init;
+const uninstall = opts.uninstall;
 const force = opts.force;
 const fforce = opts.fforce;
 const s = opts.server;
@@ -171,7 +172,7 @@ catch (err) {
 
 global.sumanConfig = sumanConfig;
 
-const optCheck = [init, convert, s, tailTest, tailRunner].filter(function (item) {
+const optCheck = [init, uninstall, convert, s, tailTest, tailRunner].filter(function (item) {
     return item;
 });
 
@@ -253,7 +254,15 @@ else if (init) {
         fforce: fforce
     });
 
-} else if (coverage) {
+}
+else if (uninstall) {
+    require('./lib/uninstall/uninstall-suman')({
+        force: force,
+        fforce: fforce
+    });
+
+}
+else if (coverage) {
 
     if (dirs.length < 1) {
         console.error('\n   ' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
