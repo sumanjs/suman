@@ -312,6 +312,24 @@ but we will primarily focus on making Suman completely bug-free when it comes to
 By the time any ES6/ES7/ES8 feature is available in Node, it will be supported by Suman. We want to emphasize the utility of the option of running things
 with the plain old Node executable, as opposed to adding the complexity of transpilation.
 
+
+### Execution modes for a single test file
+
+You can execute a test file with the plain ```node``` executable, with ```$ suman``` and with ```$ suman --runner```
+
+Here are the differences between the 3 options:
+
+|                         | node file.test.js | suman file.test.js | suman --runner file.test.js |
+|-------------------------|-------------------|--------------------|-----------------------------|
+| command line options    | no                | yes                | yes                         |
+| runs multiple processes | no                | no                 | yes                         |
+| suppress stdout/stderr  | no                | no                 | yes                         |
+
+
+In order to run multiple files, you must use ```$ suman --runner```, so the above table
+only pertains to running a single test file.
+
+
 ### FAQ
 
 * Q: Why does Suman strictly enforce parameter/argument names?
