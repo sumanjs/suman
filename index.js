@@ -129,6 +129,14 @@ const grepSuite = opts.grep_suite;
 const coverage = opts.coverage;
 const tailRunner = opts.tail_runner;
 const tailTest = opts.tail_test;
+const transpile = opts.transpile;
+
+
+var targetTestDir;
+
+if (transpile) {
+    targetTestDir = path.resolve(root + '/test-target');
+}
 
 
 try {
@@ -330,6 +338,7 @@ else {
     const networkLog = global.networkLog = makeNetworkLog(sumanConfig, timestamp);
     const server = global.server = findSumanServer(sumanConfig, null);
 
+
     networkLog.createNewTestRun(sumanConfig, server, function (err) {
 
         if (err) {
@@ -338,24 +347,49 @@ else {
         }
         else {
 
-            const dummyErr = 'dummy error to shortcut next task';
-
             async.series([
-                    function A(cb) {
-                        process.nextTick(function () {
-                            //if safe is false or undefined, we skip the following task B, by passing dummy err
-                            cb(global.sumanOpts.safe ? null : dummyErr);
-                        });
+                    function conductStaticAnalysisOfFilesForSafety(cb) {
+                        if (global.sumanOpts.safe) {
+                            throw new Error('safe option not yet implemented');
+                        }
+                        else {
+                            process.nextTick(cb);
+                        }
                     },
-                    function B(cb) {
+                    function conductSafetyCheckNow(cb) {
                         async.each([], function (item, cb) {
 
                         }, cb);
+                    },
+                    function transpileFiles(cb) {
+                        if (transpile) {
+                            cp.exec('cd ' + root + ' && rm -rf test-target', function (err, stdout, stderr) {
+                                if (err || String(stdout).match(/error/i) || String(stderr).match(/error/i)) {
+                                    cb(err || stdout || stderr);
+                                }
+                                else {
+                                    const g = require('./gulpfile');
+                                    async.each(dirs, function (item, cb) {
+                                        item = path.resolve(root + '/' + item);
+                                        const truncated = sumanUtils.removeSharedRootPath([item, targetTestDir]);
+                                        const file = truncated[0][1];
+                                        const indexOfFirstStart = String(file).indexOf('*');
+                                        const temp = String(file).substring(0, indexOfFirstStart);
+                                        g.transpileTests([item], 'test-target' + temp).on('finish', cb).on('error', cb);
+                                    }, cb);
+
+                                }
+                            });
+                        }
+                        else {
+                            process.nextTick(cb);
+                        }
+
                     }
                 ],
                 function (err, results) {
 
-                    if (err && err !== dummyErr) {
+                    if (err) {
                         throw err;
                     }
 
@@ -370,6 +404,10 @@ else {
                         process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
                     });
 
+                    if (transpile) {
+                        dirs = [path.resolve(root + '/test-target')];
+                    }
+
 
                     if (dirs.length < 1) {
                         console.error('\n\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
@@ -377,12 +415,12 @@ else {
                     }
                     else {
 
-                        //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
-                        // and pretend it does not exist.
-
                         dirs = dirs.map(function (item) {
                             return path.resolve(item);
                         });
+
+                        //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
+                        // and pretend it does not exist.
 
                         if (!useRunner && dirs.length === 1 && fs.statSync(dirs[0]).isFile()) {
                             //TODO: we could read file in (fs.createReadStream) and see if suman is referenced

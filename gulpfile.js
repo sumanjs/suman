@@ -37,12 +37,17 @@ gulp.task('clean-temp', function () {
 });
 
 gulp.task('transpile-test', [/*'clean-temp'*/], function () {
-    return gulp.src(['test/**/*.js'])
+    return transpileTests(['test/**/*.js'],'test-dest');
+});
+
+
+function transpileTests(files, dest) {
+    return gulp.src(files)
         .pipe(babel({
             presets: ['es2016']
         }))
-        .pipe(gulp.dest('test-dest'));
-});
+        .pipe(gulp.dest(dest));
+}
 
 
 gulp.task('transpile-lib', [/*'clean-temp'*/], function () {
@@ -203,5 +208,8 @@ gulp.task('nodemon', ['convert'], function () {
 
 
 
+module.exports = {
+    transpileTests: transpileTests
+};
 
 

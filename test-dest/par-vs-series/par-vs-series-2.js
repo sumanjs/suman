@@ -10,24 +10,24 @@ var Test = suman.init(module, {});
 
 Test.describe('2', { parallel: false }, function () {
 
-    this.it('one', function (done) {
+    this.it.cb('one', function (t) {
 
         setTimeout(function () {
-            done();
+            t.done();
         }, 2000);
     });
 
-    this.it('two', function (done) {
+    this.it.cb('two', function (t) {
 
         setTimeout(function () {
-            done();
+            t.done();
         }, 2000);
     });
 
-    this.it('three', function (done) {
+    this.it.cb('three', function (t) {
 
         setTimeout(function () {
-            done();
+            t.done();
         }, 2000);
     });
 });

@@ -1,5 +1,6 @@
+'use strict';
+
 /*
-/!*
  <suman-message>
  Please read all of this at least once :)
  This file has been converted from a Mocha test to a Suman test using the "$ suman --convert" command.
@@ -19,39 +20,64 @@
 
  What this means is that using Mocha you should *not* reference this.currentTest in a before/after hook, only beforeEach/afterEach/it
  </suman-message>
- *!/
+ */
 
-const suman = require('../lib');
-const Test = suman.init(module);
+var suman = require('../../../lib');
+var Test = suman.init(module);
 
-/!**
+/**
  * Created by denmanm1 on 4/6/16.
- *!/
-/!**
- * Created by denmanm1 on 3/20/16.
- *!/
+ */
 
 var assert = require("assert"),
     fs = require('fs');
 
+var should = require('should');
 
 Test.describe('a', function () {
+    var _this = this;
 
-
-    this.before(() => {
-        console.log('before this a:', this.parent);
+    this.before(function (t) {
+        console.log('before this a:', _this.parent);
     });
 
-    this.after(() => {
-
-        console.log('after this a:', this.parent);
-
+    this.after(function (t) {
+        console.log('after this a:', _this.parent);
     });
 
+    this.it.cb('a', { plan: 4 }, function (t) {
+        t.plan(3);
+        t.confirm();
+        t.confirm();
+        t.confirm();
+        t.confirm();
+        t.pass();
+    });
+
+    var me = this;
+
+    this.it.cb('a', function (t) {
+
+        Promise.resolve().then(function () {
+
+            // assert(false);
+
+            setTimeout(function () {
+
+                t.handleAssertions(function () {
+                    assert.equal(me, this);
+                    ['a', 'a', 'b', 'c'].should.have.property('false');
+                    console.log('');
+                });
+
+                t.done();
+            }, 100);
+
+            // t.throw('bad stuff');
+        });
+    });
 
     this.it('a');
-
-
+    this.it('a');
+    this.it('a');
 });
-*/
-"use strict";

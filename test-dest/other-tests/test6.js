@@ -4,48 +4,65 @@
  * Created by denman on 12/2/2015.
  */
 
-/*var suman = require('../../lib');
-var Test = suman.new(module, 'suman.conf.js');
+var suman = require('../../lib');
+var Test = suman.init(module);
 
+var should = require('should');
 
-Test.suite('suite tres', function (suite) {*/
-var Test = require('../../lib').init(module, 'suman.conf.js');
+Test.describe('suite tres', {}, function (assert) {
 
-Test.describe('suite tres', function (suite) {
+    this.before.cb(function (t) {
 
-    this.before(function (done) {
-
-        return done();
+        t.done();
+        t.log('barf');
     });
 
-    this.it('my test99999', function (a, b) {
+    this.it.cb('my test99999', function (t) {
 
-        //throw new Error('rrr');
-
-        b();
+        setTimeout(function () {
+            t.pass();
+        }, 200);
     });
 
-    this.afterEach(function (t, done) {
-        done();
+    this.afterEach.cb({ fatal: false }, function (t) {
+
+        setTimeout(function () {
+
+            var user = {
+                name: 'tj',
+                pets: ['tobi', 'loki', 'jane', 'bandit']
+            };
+
+            // assert(false);
+
+            t.done();
+        });
+    });
+
+    this.afterEach.cb({ fatal: false }, function (t) {
+
+        setTimeout(t.wrap(function () {
+
+            // assert(false);
+            t.done();
+        }));
     });
 
     this.describe('tarzan', function () {
 
-        this.before(function (done) {
-            done();
-        });
+        this.before(function (t) {});
 
-        this.it('my tarzan test', function () {});
+        this.it('my tarzan test', function (t) {});
 
         this.describe('uuuuu test', function () {
 
             this.describe('uuuuu3333 test', function () {
 
-                this.before(function (done) {
-                    done();
-                });
+                this.before.skip(function (t) {});
 
-                this.it('my 3333 test', function () {});
+                // this.it.red('my 3333 test', function () {
+                //
+                // });
             });
 
             this.before(function () {});

@@ -1,15 +1,5 @@
 'use strict';
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var suman = require('../../lib');
 var Test = suman.init(module, {});
 
@@ -20,14 +10,14 @@ Test.describe('root suite description', {}, function () {
 
     var self = this; // (avoid the self pattern in Suman tests, here for explanation only :)
 
-    this.before(_regenerator2.default.mark(function _callee() {
+    this.before(regeneratorRuntime.mark(function _callee() {
         var bnans;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
                         _context.next = 2;
-                        return new _promise2.default(function (resolve) {
+                        return new Promise(function (resolve) {
                             resolve('bananas');
                         });
 

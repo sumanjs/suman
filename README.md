@@ -31,6 +31,22 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 
 <br>
+# &#9658; Purpose
+<br>
+
+The purpose of the Suman library is to provide the most sophisticated test runner in the Node.js ecosystem, with better
+features and much more streamlined usage than AVA, Mocha, and Tape. Suman is a first-rate library and we hope you
+take the time to compare its capabilities with AVA, Mocha and Tape.
+
+The primary aims are:
+
+* simpler API, whilst adding new powerful features
+* make tests run much faster by leveraging async I/O and separate Node.js processes
+* make debugging your test files much easier
+* provide cleaner output, so that developer logging output is not necessarily mixed with test results
+
+
+<br>
 # &#9658; About
 <br>
 
@@ -40,19 +56,21 @@ however ```$ suman --init``` is the preferred way to initialized suman in a give
 
 ---
 
-<i> Suman is a new test runner for Node.js and is focused on high-throughput maximum concurrency asynchronous testing of backend services. 
+<i>
 
-I started working on Suman about a week before I had heard of AVA. Naturally, as I had already written a couple lines of code,
-I didn't want to stop there - I wanted to give AVA a run for its money and take Mocha to a whole new level. This project
-summarily improves Mocha on every level, and also borrows excellent features from Tape/AVA such as the plan features and
+Suman is a new test runner for Node.js and is focused on high-throughput maximum concurrency asynchronous testing of backend services.
+Suman is not designed to run in the browser - it is designed for maximum performance of backend testing.
+
+This project summarily improves Mocha on every level, and also borrows excellent features from Tape/AVA such as the plan features and
 the use of t as a singular param to both hooks and test cases. It all gels together quite nicely into a library that is much more 
-powerful than both AVA and Mocha. The biggest advantage Mocha has over Tape/AVA is the nested describe/suite blocks. These a huge
-once you start writing non-trivial tests. Conversion from Mocha to Suman is automated with this
-library. Those using AVA or Tape who want something more powerful will find the answers here.
+powerful than both AVA and Mocha. The biggest advantage Mocha has over Tape/AVA is the nested describe/suite blocks. These are huge
+once you start writing non-trivial tests. **Conversion from Mocha to Suman is automated with this library.** The other advantage of Suman
+is that Suman does not require transpilation - AVA does require transpilation - which add a lot of complexity and overhead. We don't need Babel
+to add powerful features. Those using AVA or Tape who want something more powerful will find the answers here.
 
 Suman is feature-rich and very fun to use, because it has the same hooks and patterns as Mocha which are quite fun to use and expose the power
-of asynchronous programming. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, 
-and to compete with the new Node.js test runner AVA; it's aim is to be more sophisticated and featureful than it's predecessors any competition.
+of asynchronous programming. Suman is designed to be a direct successor to Mocha, Tape and Jasmine, and to compete with the new Node.js test runner AVA;
+it's aim is to be more sophisticated and featureful than the competition.
 Suman was designed so that there would be a super simple migration path from Mocha to Suman, but also provide
 massive improvements over Mocha, specifically for backend testing. Mocha is most familiar to us and perhaps to you - Mocha was a great test library, but has many bugs and shortcomings 
 that we experienced ourselves over time, and eventually we wanted a test runner that we could use that was more robust and more streamlined than Mocha,
@@ -69,12 +87,12 @@ If you have a special question, concern or requirement don't hesitate to open an
 
 ---
 
-### The reasons why Mocha and its peers need a replacement are:
+### The reasons why Mocha and its peers need a replacement are clear:
 
-* In Mocha, Tape and Jasmine suites were not run in separate processes (necessary for isolation, speed and independence of test results)
-* Using Mocha, Tape and Jasmine everything was not only run in a single process but all test cases and hooks were also run in series, which takes unnecessary amounts of time for tests utilizing async I/O
-* Mocha prescribed no solution to the problem of starting up the services necessary to do system/integration testing -using Mocha/Tape/AVA is up to the developer to manually start those services, 
-which makes automated testing basically impossible.
+* In Mocha, Tape and Jasmine test files were not run in separate processes (necessary for isolation, speed and independence of test results)
+* Using Mocha, Tape and Jasmine, not only was everything run in a single process, but all test cases and hooks were also run in series, which takes unnecessary amounts of time for tests utilizing async I/O
+* Mocha prescribed no solution to the problem of starting up the services necessary to do system/integration testing - using Mocha/Tape/AVA it is up to the developer to manually start those services,
+which makes automated testing much more difficult.
 * Mocha and Jasmine could not move forward with ES6/ES7 features due to certain software patterns used (globals and complex context binding)
 * a BIG ONE: clean reporting - at the command line, using Mocha and Jasmine, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
 trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 
@@ -92,8 +110,8 @@ to tests using dependency injection.
 
 * "Just works" - no need for addons or plugins, unless you want to write a custom reporter
 * Stick to Node core modules
-* You don't need to transpile if you don't want to, as ES6 generators + Promises
- can give you the same coding patterns as ES7 async/await
+* You don't need to transpile if you don't want to: _as ES6 generators + Promises
+ can give you the same coding patterns as ES7 async/await_
 * Use stream APIs when possible and reasonable
 * Provide a full-featured, non-dumbed-down API that's easy to get started with, and
 intuitive to use over the long-run.
@@ -102,7 +120,7 @@ intuitive to use over the long-run.
 * Don't be lazy.
 * As Suman is a command line application, we can utilize a more functional programming style
 * Details matter*
-* Most Node.js test frameworks don't 'feel' robust enough to test mission critical systems => Suman was written to provide a highly robust test framework
+* Most Node.js test frameworks aren't robust enough to test mission critical systems => Suman was written to provide a highly robust test framework
 to the Node.js community.
 
 
@@ -110,15 +128,16 @@ to the Node.js community.
 
 * basics:
     * => tdd/bdd interfaces
-    * => easy migration from Mocha (it's automated, see below)
+    * => easy migration from Mocha (it's automated using the --convert flag, see below)
     * => extremely powerful, while aiming to be straightforward, clean, concise, consistent and accurate
     * => designed with ES6 and ES7 in mind, including Promises, async/await and generators
 
 
 * <b> Improved mechanics, syntax and semantics </b>
-    * Pass data from test cases to hooks and back to test cases using the value option of a test case, and t.data in the hook
-    (not really possible with Mocha, and very much a missing feature)
-    * done callback function is now accompanied by other functions that have unique meanings and behavior
+    * singular param (t) is used for all hooks and test cases, in the style of AVA
+    * Pass data from test cases to hooks the value option of a test case
+    * Pass data from hooks to test cases using the t.data value
+    (neither are possible with Mocha, and are very much a missing feature)
     * encapsulation and immutability are utilized much more effectively than with Mocha etc
     
   
@@ -155,7 +174,7 @@ to the Node.js community.
 * <b> Test runner tuning </b>
     *  Add contraints to prevent any given pair of tests from running at the same time
     *  Cap the total number of processes running at the same time
-    *  Suman 'once' feature gives developer the option to run checks to see if all necessary network components are live before running any given test
+    *  Suman 'once' feature gives the developer the option to run checks to see if all necessary network components are live before running any given test
     
 * <b> Easy migration from Mocha </b>
     *  Suman includes a command line option to convert whole directories or individual Mocha tests to Suman tests
@@ -172,7 +191,10 @@ to the Node.js community.
 
 * no globals whatsoever, which were avoided due to the problems they caused for Jasmine and Mocha.
 * Suman uses domains to isolate errors in asynchronous tests and hooks, and currently this is the only solution to this problem at the moment. 
-Domains are facing deprecation, and Suman will replace domains with whichever suitable replacement is chosen by the Node.js core technical committee.
+Domains are facing deprecation, and Suman will replace domains with whichever suitable replacement is chosen by the Node.js core team.
+As it stands, Suman is a perfect use case for domains, as untrapped errors are supposed to be thrown in test code (assertions, etc),
+and the developer experience in this library will be better than any other test library because of the use of domains, as they basically
+guarantee that we can pin an error to a particular test case or hook, no matter where the error originated from.
 
 ## *Details matter
 
@@ -319,26 +341,18 @@ You can execute a test file with the plain ```node``` executable, with ```$ suma
 
 Here are the differences between the 3 options:
 
-|                         | node file.test.js | suman file.test.js | suman --runner file.test.js |
+|                         | $ node file.test.js | $ suman file.test.js | $ suman --runner file.test.js |
 |-------------------------|-------------------|--------------------|-----------------------------|
 | command line options    | no                | yes                | yes                         |
 | runs multiple processes | no                | no                 | yes                         |
 | suppress stdout/stderr  | no                | no                 | yes                         |
 
 
-In order to run multiple files, you must use ```$ suman --runner```, so the above table
-only pertains to running a single test file.
+In order to run multiple files, you must use ```$ suman --runner```; the above table
+only pertains to running a single test file (usually when developing a particular test.)
 
 
 ### FAQ
-
-* Q: Why does Suman strictly enforce parameter/argument names?
-
-   * A: Suman does this for three main reasons:
-
-     1. Consistency - someone looks at the tests you wrote and they immediate recognize the variables because the names are given
-     2. Suman can better analyze your code for mistakes if it knows the variable names you use
-     3. Dependency injection - the order of your dependencies doesn't matter as long as you stick to the naming convention, which is pretty nice
 
 * Q: Why dependency injection in Node.js? Isn't it a waste of time?
   
@@ -361,16 +375,18 @@ only pertains to running a single test file.
  and nested describes. Dependency injection ability also makes Suman extremely convenient and fun to use, compared to AVA.
  Suman is simply much more powerful and richer in features than AVA. 
  
- * AVA requires Babel transpilation, which adds unnecessary complexity for test environments
+ * AVA requires Babel transpilation, which adds unnecessary complexity for test environments, and is also much slower
  * AVA does not handle errors thrown in asynchronous code gracefully
  * AVA does not feature the nested describes of Mocha or Suman, which limits the expressiveness of the library
  tremendously
  
  Alternatively, with Suman:
- 
- *Babel transpilation is optional - you can even achieve async/await with generators and promises alone
- *Suman uses domains to correctly map errors to test cases and hooks
- *Suman has nested describe blocks which are imperative for non-trivial tests
+
+ *Suman has nested (describe) blocks which are imperative for non-trivial tests; a simple example is a before hook that you want
+ to run only for a certain set of tests in your test suite. The before hook and tests would go in a nested describe block.
+ *Babel transpilation is optional - you can even achieve the async/await pattern with generators and promises alone
+ *Suman uses domains to correctly map errors to test cases and hooks, which provides a much more reliable piece of software because it can
+ handle any error that gets thrown, not just assertion errors.
  
  
 ### Extra info

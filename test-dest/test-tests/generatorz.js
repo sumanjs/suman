@@ -1,15 +1,5 @@
 'use strict';
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var suman = require('../../lib');
 var Test = suman.init(module, {});
 
@@ -20,14 +10,14 @@ Test.describe('root suite description', {}, function () {
 
     var self = this; // (avoid the self pattern in Suman tests, here for explanation only :)
 
-    this.before(_regenerator2.default.mark(function _callee() {
+    this.before(regeneratorRuntime.mark(function _callee() {
         var bnans;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
                         _context.next = 2;
-                        return new _promise2.default(function (resolve) {
+                        return new Promise(function (resolve) {
                             resolve('bananas');
                         });
 
@@ -45,8 +35,8 @@ Test.describe('root suite description', {}, function () {
         }, _callee, this);
     }));
 
-    this.beforeEach(_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+    this.beforeEach(regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
             while (1) {
                 switch (_context2.prev = _context2.next) {
                     case 0:
@@ -60,8 +50,8 @@ Test.describe('root suite description', {}, function () {
         }, _callee2, this);
     }));
 
-    this.it(_regenerator2.default.mark(function _callee3() {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+    this.it(regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
             while (1) {
                 switch (_context3.prev = _context3.next) {
                     case 0:
@@ -84,8 +74,8 @@ Test.describe('root suite description', {}, function () {
 
         console.log('5', that !== self); // true
 
-        this.before(_regenerator2.default.mark(function _callee4() {
-            return _regenerator2.default.wrap(function _callee4$(_context4) {
+        this.before(regeneratorRuntime.mark(function _callee4() {
+            return regeneratorRuntime.wrap(function _callee4$(_context4) {
                 while (1) {
                     switch (_context4.prev = _context4.next) {
                         case 0:
@@ -99,8 +89,8 @@ Test.describe('root suite description', {}, function () {
             }, _callee4, this);
         }));
 
-        this.beforeEach(_regenerator2.default.mark(function _callee5() {
-            return _regenerator2.default.wrap(function _callee5$(_context5) {
+        this.beforeEach(regeneratorRuntime.mark(function _callee5() {
+            return regeneratorRuntime.wrap(function _callee5$(_context5) {
                 while (1) {
                     switch (_context5.prev = _context5.next) {
                         case 0:
@@ -114,8 +104,8 @@ Test.describe('root suite description', {}, function () {
             }, _callee5, this);
         }));
 
-        this.it(_regenerator2.default.mark(function _callee6() {
-            return _regenerator2.default.wrap(function _callee6$(_context6) {
+        this.it(regeneratorRuntime.mark(function _callee6() {
+            return regeneratorRuntime.wrap(function _callee6$(_context6) {
                 while (1) {
                     switch (_context6.prev = _context6.next) {
                         case 0:
@@ -137,8 +127,8 @@ Test.describe('root suite description', {}, function () {
             console.log('9', this.parent.title === 'child suite A'); // true
             console.log('10', ctx !== that && ctx !== self); // true
 
-            this.before(_regenerator2.default.mark(function _callee7() {
-                return _regenerator2.default.wrap(function _callee7$(_context7) {
+            this.before(regeneratorRuntime.mark(function _callee7() {
+                return regeneratorRuntime.wrap(function _callee7$(_context7) {
                     while (1) {
                         switch (_context7.prev = _context7.next) {
                             case 0:
@@ -152,8 +142,8 @@ Test.describe('root suite description', {}, function () {
                 }, _callee7, this);
             }));
 
-            this.beforeEach(_regenerator2.default.mark(function _callee8() {
-                return _regenerator2.default.wrap(function _callee8$(_context8) {
+            this.beforeEach(regeneratorRuntime.mark(function _callee8() {
+                return regeneratorRuntime.wrap(function _callee8$(_context8) {
                     while (1) {
                         switch (_context8.prev = _context8.next) {
                             case 0:
@@ -167,8 +157,8 @@ Test.describe('root suite description', {}, function () {
                 }, _callee8, this);
             }));
 
-            this.it(_regenerator2.default.mark(function _callee9() {
-                return _regenerator2.default.wrap(function _callee9$(_context9) {
+            this.it(regeneratorRuntime.mark(function _callee9() {
+                return regeneratorRuntime.wrap(function _callee9$(_context9) {
                     while (1) {
                         switch (_context9.prev = _context9.next) {
                             case 0:

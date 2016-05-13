@@ -1,11 +1,5 @@
 'use strict';
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Created by denman on 1/3/2016.
  */
@@ -26,16 +20,6 @@ Test.describe('desc', function () {
 
         this.beforeEach(function (t) {});
 
-        /*    this.describe(function(){
-                  this.loop([1, 2, 3], function (val, index) {
-                      this.it('makes' + val, function (t, done) {
-                          setTimeout(function () {
-                            done();
-                        }, 500);
-                      });
-                  });
-              });*/
-
         this.describe(function () {});
 
         this.describe(function () {
@@ -45,9 +29,9 @@ Test.describe('desc', function () {
 
                 _this.it('makes>' + val, function (t) {
 
-                    return _promise2.default.all([new _promise2.default(function (resolve) {
+                    return Promise.all([new Promise(function (resolve) {
                         resolve('bob');
-                    }), new _promise2.default(function (resolve) {
+                    }), new Promise(function (resolve) {
                         resolve('woody');
                     })]).then(function () {
                         //throw new Error('mike');

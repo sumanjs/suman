@@ -1,7 +1,6 @@
 'use strict';
 
 /*
-
  <suman-message>
  Please read all of this at least once :)
  This file has been converted from a Mocha test to a Suman test using the "$ suman --convert" command.
@@ -21,25 +20,25 @@
 
  What this means is that using Mocha you should *not* reference this.currentTest in a before/after hook, only beforeEach/afterEach/it
  </suman-message>
-
  */
 
-var suman = require('../../lib');
+var suman = require('../../../../lib');
 var Test = suman.init(module);
 
 /**
- * Created by amills001c on 3/20/16.
+ * Created by denmanm1 on 3/20/16.
  */
 
 var assert = require("assert"),
     fs = require('fs');
 
-Test.describe('a', function (assert) {
+Test.describe('a', function () {
     var _this = this;
 
-    this.before(function () {
-
+    this.after.cb(function (t) {
+        var d = t.done;
         console.log('before this a:', _this.parent);
+        d();
     });
 
     this.beforeEach(function (t) {
@@ -47,17 +46,16 @@ Test.describe('a', function (assert) {
         console.log('beforeEach this a:', _this.parent);
     });
 
-    this.it('a', function (t, done) {
-
+    this.it.cb('a', function (t) {
+        var done = t.done;
         console.log('it this a:', _this.parent);
-
         done();
     });
 
     this.describe('b', function () {
         var _this2 = this;
 
-        this.before(function () {
+        this.before(function (t) {
 
             console.log('before this b:', _this2.parent);
         });
@@ -68,7 +66,8 @@ Test.describe('a', function (assert) {
             _this2.parent.title;
         });
 
-        this.it('b', function (t, done) {
+        this.it.cb('b', function (t) {
+            var done = t.done;
 
             console.log('it this b:', _this2.parent);
             done();

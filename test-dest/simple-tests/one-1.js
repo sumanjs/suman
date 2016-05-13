@@ -1,14 +1,6 @@
 'use strict';
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _typeof2 = require('babel-runtime/helpers/typeof');
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 /**
  * Created by denmanm1 on 4/13/16.
@@ -21,7 +13,7 @@ Test.describe('SimpleTest', function (assert, fs, http, os) {
     var _this = this;
 
     this.it('tests-arrays', function () {
-        assert.equal((0, _typeof3.default)([]), 'object');
+        assert.equal(_typeof([]), 'object');
     });
 
     ['describe', 'it', 'before', 'after', 'afterEach'].forEach(function (item) {
@@ -31,23 +23,23 @@ Test.describe('SimpleTest', function (assert, fs, http, os) {
         });
     });
 
-    this.it('Check that Test.file is equiv. to module.filename', { timeout: 20 }, function (done) {
+    this.it.cb('Check that Test.file is equiv. to module.filename', { timeout: 20 }, function (t) {
         setTimeout(function () {
             assert(module.filename === Test.file);
-            done();
+            t.done();
         }, 19);
     });
 
-    this.it('reads this file, pipes to /dev/null', function (fail, pass) {
+    this.it.cb('reads this file, pipes to /dev/null', function (t) {
 
         var destFile = os.hostname === 'win32' ? process.env.USERPROFILE + '/temp' : '/dev/null';
 
-        fs.createReadStream(Test.file).pipe(fs.createWriteStream(destFile)).on('error', fail).on('finish', pass);
+        fs.createReadStream(Test.file).pipe(fs.createWriteStream(destFile)).on('error', t.fail).on('finish', t.pass);
     });
 
     this.it('uses promises to handle http', { timeout: 4000 }, function () {
 
-        return new _promise2.default(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             var req = http.request({
 

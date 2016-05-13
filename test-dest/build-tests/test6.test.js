@@ -1,11 +1,5 @@
 'use strict';
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var suman = require('../../lib');
 var Test = suman.init(module, {
     interface: 'TDD',
@@ -13,7 +7,7 @@ var Test = suman.init(module, {
 });
 
 function promiseTimeout() {
-    return new _promise2.default(function (resolve) {
+    return new Promise(function (resolve) {
         setTimeout(function () {
             resolve(3);
         }, 100);
@@ -34,8 +28,12 @@ Test.suite('@Test1-TDD', { parallel: false, bail: true }, function () {
 
     this.series(function (test) {
 
-        return [test('makes rain', { value: 5 }, function (t) {}), test('makes rain', {})];
+        return [test('makes rain', { value: 5 }, function (t) {
+            // throw new Error('fab');
+        }), test('makes rain', {})];
     });
+
+    this.suite('yolo', {}, function () {});
 
     this.test('one', function (t) {
         return promiseTimeout(t);
@@ -54,7 +52,7 @@ Test.suite('@Test1-TDD', { parallel: false, bail: true }, function () {
         });
 
         this.test('five', function (t) {
-            throw new Error('fools');
+            //throw new Error('fools');
             return promiseTimeout(t);
         });
 

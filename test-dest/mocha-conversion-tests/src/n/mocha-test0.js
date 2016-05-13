@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Created by amills001c on 3/20/16.
+ * Created by denmanm1 on 3/20/16.
  */
 
 var assert = require("assert"),
@@ -9,7 +9,7 @@ var assert = require("assert"),
 
 describe('a', function () {
 
-    before(function () {
+    after(function (d) {
 
         console.log('before this a:', this.parent);
     });

@@ -11,97 +11,95 @@ const Test = require('../../../lib').init(module, {
 
 Test.describe('gggg', {parallel: true}, function () {
 
-    this.beforeEach(function (t, done) {
-        done();
+    this.beforeEach.cb(t => {
+        t.done();
     });
 
-    this.after(function (done) {
-        done();
+    this.after.cb(t => {
+        t.done();
     });
 
-    this.after(function (done) {
-        done();
+    this.after.cb(t => {
+        t.done();
     });
 
     this.describe('sharks', function () {
 
-        this.after(function (done) {
-            done();
+        this.after.cb(t => {
+            t.done();
         });
 
-        this.beforeEach(function (t, done) {
-            done();
+        this.beforeEach.cb(t => {
+            t.done();
         });
 
-        this.describe('pre-moodle',function(){
+        this.describe('pre-moodle', function () {
 
-            this.it('is async', function(done){
+            this.it('is async', t => {
 
-                setTimeout(function(){
-                    done();
-                },1000);
+                setTimeout(function () {
+                    t.done();
+                }, 1000);
             })
 
         });
 
 
-        this.describe('moodle', {
-            parallel: true
-        }, function () {
+        this.describe('moodle', {parallel: true}, function () {
 
-            this.after(function (done) {
-                done();
+            this.after.cb(t => {
+                t.done();
             });
 
-            this.beforeEach(function (t, done) {
-                done();
+            this.beforeEach.cb(t => {
+                t.done();
             });
 
 
-            this.it('mmm1', {parallel: false}, function (t, done) {
+            this.it.cb('mmm1', {parallel: false}, t => {
 
-                done();
+                t.done();
 
-            }).it('mmm2', {parallel: false}, function (t, done) {
-                done();
+            }).it.cb('mmm2', {parallel: false}, t => {
+                t.done();
 
 
-            }).it('mmm3', {parallel: false}, function (t, done) {
+            }).it.cb('mmm3', {parallel: false}, t => {
 
                 // throw new Error('Whoa');  //TODO: fatal error throws off logs
-                done();
+                t.done();
 
             });
 
-            this.beforeEach(function (t, done) {
+            this.beforeEach.cb(t => {
 
-                done();
-
-            });
-
-            this.afterEach(function (t, done) {
-
-                done();
+                t.done();
 
             });
 
+            this.afterEach.cb(t => {
 
-            this.after(function (done) {
-                done();
+                t.done();
+
+            });
+
+
+            this.after.cb(t => {
+                t.done();
             });
 
 
         });
 
-        this.after(function (done) {
-            done();
+        this.after.cb(t => {
+            t.done();
         });
 
 
     });
 
-    this.before(function (done) {
-        done();
+    this.before.cb(t => {
+        t.done();
     });
 
 
@@ -113,7 +111,7 @@ Test.describe('gggg', {parallel: true}, function () {
 
     });
 
-    this.after(function (done) {
-        done();
+    this.after.cb(t => {
+        t.done();
     });
 });

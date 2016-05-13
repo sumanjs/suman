@@ -1,11 +1,5 @@
 'use strict';
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var suman = require('../../lib');
 var Test = suman.init(module, {});
 
@@ -18,13 +12,12 @@ Test.describe('Zulu', { mode: 'series' }, function () {
     });
 
     this.it('val', {});
-
     this.it('foo');
 
     this.describe.skip('A', { parallel: true }, function () {
 
-        this.before(_regenerator2.default.mark(function _callee() {
-            return _regenerator2.default.wrap(function _callee$(_context) {
+        this.before(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
@@ -38,8 +31,8 @@ Test.describe('Zulu', { mode: 'series' }, function () {
             }, _callee, this);
         }));
 
-        this.beforeEach(_regenerator2.default.mark(function _callee2(t) {
-            return _regenerator2.default.wrap(function _callee2$(_context2) {
+        this.beforeEach(regeneratorRuntime.mark(function _callee2(t) {
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
                 while (1) {
                     switch (_context2.prev = _context2.next) {
                         case 0:

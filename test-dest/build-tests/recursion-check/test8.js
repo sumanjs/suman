@@ -1,11 +1,5 @@
 'use strict';
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Created by denman on 1/1/2016.
  */
@@ -98,7 +92,7 @@ Test.describe('gggg', { parallel: true }, function () {
 
     this.it('7779999', { parallel: false, delay: 100 }, function (t) {
 
-        return new _promise2.default(function (resolve) {
+        return new Promise(function (resolve) {
             resolve('0');
         });
     });

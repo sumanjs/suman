@@ -1,4 +1,10 @@
 
+
+//TODO: path to root could be resolved using test paths, if the test paths are absolute?
+//TODO: when maxParallelProcesses set to one some problems with below command
+//TODO:  node index "test/build-tests/**/*.js" "test/integration-tests/**/*.js" --transpile (does not work without transpile option set)
+//TODO: add option of high-resolution time instead of Date.now() etc
+//TODO: add "easy to debug" as category for table
 //TODO: suman --uninstall for a local project
 //TODO: add system lock
 //TODO: add ms count for each test/and each test including hooks

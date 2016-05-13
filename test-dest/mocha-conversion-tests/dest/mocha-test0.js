@@ -1,5 +1,6 @@
+'use strict';
+
 /*
-/!*
  <suman-message>
  Please read all of this at least once :)
  This file has been converted from a Mocha test to a Suman test using the "$ suman --convert" command.
@@ -19,72 +20,60 @@
 
  What this means is that using Mocha you should *not* reference this.currentTest in a before/after hook, only beforeEach/afterEach/it
  </suman-message>
- *!/
+ */
 
-const suman = require('suman');
-const Test = suman.init(module);
+var Test = require('../../../lib').init(module);
 
-/!**
+/**
  * Created by denmanm1 on 3/20/16.
- *!/
+ */
 
 var assert = require("assert"),
     fs = require('fs');
 
-
 Test.describe('a', function () {
+    var _this = this;
 
-
-    this.after(done => {
-
-        console.log('before this a:', this.parent);
-
+    this.after.cb(function (t) {
+        var d = t.done;
+        console.log('before this a:', _this.parent);
+        d();
     });
 
-    this.beforeEach(t => {
+    this.beforeEach(function (t) {
 
-        console.log('beforeEach this a:', this.parent);
-
+        console.log('beforeEach this a:', _this.parent);
     });
 
+    this.it.cb('a', function (t) {
 
-    this.it('a', (t, done) => {
+        t.handleAssertions(function () {
+            assert(false);
+        });
 
-        console.log('it this a:', this.parent);
+        console.log('it this a:', _this.parent);
 
-        done();
-
+        t.done();
     });
-
 
     this.describe('b', function () {
+        var _this2 = this;
 
-        this.before(() => {
+        this.before(function (t) {
 
-            console.log('before this b:', this.parent);
-
+            console.log('before this b:', _this2.parent);
         });
 
-        this.beforeEach(t => {
+        this.beforeEach(function (t) {
 
-            console.log('beforeEach this b:', this.parent);
-            this.parent.title;
-
-
+            console.log('beforeEach this b:', _this2.parent);
+            _this2.parent.title;
         });
 
-
-        this.it('b', (t, done) => {
-
-            console.log('it this b:', this.parent);
+        this.it.cb('b', function (t) {
+            var done = t.done;
+            console.log('it this b:', _this2.parent);
             done();
-
         });
-
-
     });
-
-
 });
-*/
-"use strict";
