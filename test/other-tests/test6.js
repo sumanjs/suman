@@ -6,6 +6,7 @@
 var suman = require('../../lib');
 const Test = suman.init(module);
 
+const should = require('should');
 
 Test.describe('suite tres', {}, function (assert) {
 
@@ -22,7 +23,24 @@ Test.describe('suite tres', {}, function (assert) {
     });
 
 
-    this.afterEach.cb(t => {
+    this.afterEach.cb({fatal: false}, t => {
+
+        setTimeout(function(){
+
+            var user = {
+                name: 'tj',
+                pets: ['tobi', 'loki', 'jane', 'bandit']
+            };
+
+            user.should.have.property('name', 'tjx');
+
+            t.done();
+        });
+
+    });
+
+
+    this.afterEach.cb({fatal: false},t => {
 
         setTimeout(t.wrap(function(){
 

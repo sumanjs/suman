@@ -9,6 +9,10 @@ module.exports = Object.freeze({
 
     DEBUGGING_NODE_ENV: 'dev_local_debug',
     SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
+    GIT_IGNORE: [
+        'suman/logs/',
+        'test-target/'
+    ],
     SUMAN_HARD_LIST: [
         'delay',
         'suite',
