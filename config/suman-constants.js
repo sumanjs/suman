@@ -10,6 +10,7 @@ module.exports = Object.freeze({
     DEBUGGING_NODE_ENV: 'dev_local_debug',
     SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
     GIT_IGNORE: [
+        '\n',
         'suman/logs/',
         'test-target/'
     ],

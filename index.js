@@ -54,9 +54,18 @@ const cwd = process.cwd();
 //#project
 const sumanUtils = require('./lib/utils');
 const suman = require('./lib');
-const root = sumanUtils.findProjectRoot(process.cwd());
+const root = sumanUtils.findProjectRoot(cwd);
 const makeNetworkLog = require('./lib/make-network-log');
 const findSumanServer = require('./lib/find-suman-server');
+
+if(!root){
+    console.log(' => Warning => A Node.js project root could not be found given your current working directory.');
+    console.log(colors.bgRed.white(' => cwd:', cwd));
+}
+else if(cwd !== root){
+    console.log(' => CWD:', cwd);
+    console.log(' => Project root:', root);
+}
 
 ////////////////////////////////////////////////////////////////////
 
@@ -92,27 +101,6 @@ function requireFromString(src, filename) {   //note: this is for piping tests t
 //////////////////////////////////////////////////////////////////////
 
 
-var sumanInstalledLocally = true;
-
-var err;
-
-try {
-    require.resolve(root + '/node_modules/suman');
-} catch (e) {
-    err = e;
-}
-finally {
-    if (err) {
-        sumanInstalledLocally = false;
-        console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
-    }
-    else {
-        if (false) {  //only if user asks for verbose option
-            console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
-        }
-    }
-}
-
 
 var sumanConfig, pth;
 
@@ -137,6 +125,32 @@ const tailTest = opts.tail_test;
 const transpile = opts.transpile;
 
 
+
+var sumanInstalledLocally = null;
+
+if(!init) {
+    var err;
+
+    try {
+        require.resolve(root + '/node_modules/suman');
+        sumanInstalledLocally = true;
+    } catch (e) {
+        err = e;
+    }
+    finally {
+        if (err) {
+            sumanInstalledLocally = false;
+            console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
+        }
+        else {
+            if (false) {  //only if user asks for verbose option
+                console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
+            }
+        }
+    }
+}
+
+
 var targetTestDir;
 
 if (transpile) {
@@ -144,44 +158,51 @@ if (transpile) {
 }
 
 
-try {
-    //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
-
-    pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
-    sumanConfig = require(pth);
-    if (sumanConfig.verbose !== false) {  //default to true
-        console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
-    }
-
+if(init){
+    sumanConfig = require(__dirname + '/default-conf-files/suman.default.conf');
 }
-catch (err) {
-
-    //TODO: try to get suman.conf.js from root of project
-
-    if (!init) {
-        console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
-        console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
-    }
-
+else{
     try {
-        pth = path.resolve(root + '/' + 'suman.conf.js');
+        //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
+
+        pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
         sumanConfig = require(pth);
         if (sumanConfig.verbose !== false) {  //default to true
             console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
         }
+
     }
     catch (err) {
-        console.log(colors.bgCyan.white(' => Suman message => Warning - no configuration found in your project, using default Suman configuration.'));
+
+        //TODO: try to get suman.conf.js from root of project
+
+        if (!init) {
+            console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
+            console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
+        }
+
         try {
-            pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
+            pth = path.resolve(root + '/' + 'suman.conf.js');
             sumanConfig = require(pth);
+            if (sumanConfig.verbose !== false) {  //default to true
+                console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
+            }
         }
         catch (err) {
-            console.error('\n => ' + err + '\n');
-            return;
+            console.log(colors.bgCyan.white(' => Suman message => Warning - no configuration found in your project, using default Suman configuration.'));
+            try {
+                pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
+                sumanConfig = require(pth);
+            }
+            catch (err) {
+                console.error('\n => ' + err + '\n');
+                return;
+            }
         }
     }
 }
+
+
 
 global.sumanConfig = sumanConfig;
 

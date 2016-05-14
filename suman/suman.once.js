@@ -23,7 +23,7 @@ module.exports = () => {  //load async deps for any of your suman tests
             return {};
 
         },
-        'dolce-vida': (cb)=> {
+        'dolce-vida': (cb) => {
 
             setTimeout(function () {
                 cb(null, new Error('rub'));
