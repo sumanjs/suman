@@ -1,16 +1,18 @@
+'use strict';
+
 /**
  * Created by denmanm1 on 3/30/16.
  */
 
-const React = require('react');
+var React = require('react');
 
-const TestFileSuite = require('./TestFileSuite');
+var TestFileSuite = require('./TestFileSuite');
 
 module.exports = React.createClass({
     displayName: 'exports',
 
 
-    render: function () {
+    render: function render() {
 
         return React.createElement(
             'html',

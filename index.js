@@ -340,139 +340,115 @@ else if (convert) {
 else {
 
     const timestamp = global.timestamp = Date.now();
-    const networkLog = global.networkLog = makeNetworkLog(sumanConfig, timestamp);
-    const server = global.server = findSumanServer(sumanConfig, null);
+    const networkLog = global.networkLog = makeNetworkLog(timestamp);
+    const server = global.server = findSumanServer(null);
 
+    async.series([
+        function acquireLock(cb) {
+            networkLog.createNewTestRun(server, cb);
+        },
+        function conductStaticAnalysisOfFilesForSafety(cb) {
+            if (global.sumanOpts.safe) {
+                throw new Error('safe option not yet implemented');
+            }
+            else {
+                process.nextTick(cb);
+            }
+        },
+        function conductSafetyCheckNow(cb) {
+            async.each([], function (item, cb) {
 
-    networkLog.createNewTestRun(sumanConfig, server, function (err) {
+            }, cb);
+        },
+        function transpileFiles(cb) {
+            if (transpile) {
+                cp.exec('cd ' + root + ' && rm -rf test-target', function (err, stdout, stderr) {
+                    if (err || String(stdout).match(/error/i) || String(stderr).match(/error/i)) {
+                        cb(err || stdout || stderr);
+                    }
+                    else {
+                        const g = require('./gulpfile');
+                        async.each(dirs, function (item, cb) {
+                            item = path.resolve(root + '/' + item);
+                            const truncated = sumanUtils.removeSharedRootPath([item, targetTestDir]);
+                            const file = truncated[0][1];
+                            const indexOfFirstStart = String(file).indexOf('*');
+                            const temp = String(file).substring(0, indexOfFirstStart);
+                            g.transpileTests([item], 'test-target' + temp).on('finish', cb).on('error', cb);
+                        }, cb);
+
+                    }
+                });
+            }
+            else {
+                process.nextTick(cb);
+            }
+
+        }
+
+    ], function (err, results) {
 
         if (err) {
-            console.error(err.stack);
-            process.exit(constants.RUNNER_EXIT_CODES.ERROR_INVOKING_NETWORK_LOG_IN_RUNNER);
+            throw err;
+        }
+
+        const d = domain.create();
+        const args = opts._args;
+
+        d.once('error', function (err) {
+            //TODO: add link showing how to set up Babel
+            console.error(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually' +
+                ' if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
+                ' => Suman error => ' + err.stack + '\n'));
+            process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+        });
+
+        if (transpile) {
+            dirs = [path.resolve(root + '/test-target')];
+        }
+
+
+        if (dirs.length < 1) {
+            console.error('\n\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
+            process.exit(constants.RUNNER_EXIT_CODES.NO_TEST_FILE_OR_DIR_SPECIFIED);
         }
         else {
 
-            async.series([
-                    function acquireLock(cb) {
-                        async.series([
-                            function (cb) {
-                                //formerly this was used to create suman dir in home dir
-                                process.nextTick(cb);
-                            },
-                            function (cb) {
-                                if ((opts.runner_lock || (global.sumanConfig.runnerLock && !opts.no_runner_lock)) && !opts.fforce){
-                                    fs.writeFile(path.resolve(userHome + '/suman/lockfile'), {flags: 'wx+'}, cb);
-                                }
-                                else {
-                                    process.nextTick(cb);
-                                }
-                            }
-                        ], cb);
-                    },
-                    function conductStaticAnalysisOfFilesForSafety(cb) {
-                        if (global.sumanOpts.safe) {
-                            throw new Error('safe option not yet implemented');
-                        }
-                        else {
-                            process.nextTick(cb);
-                        }
-                    },
-                    function conductSafetyCheckNow(cb) {
-                        async.each([], function (item, cb) {
+            dirs = dirs.map(function (item) {
+                return path.resolve(item);
+            });
 
-                        }, cb);
-                    },
-                    function transpileFiles(cb) {
-                        if (transpile) {
-                            cp.exec('cd ' + root + ' && rm -rf test-target', function (err, stdout, stderr) {
-                                if (err || String(stdout).match(/error/i) || String(stderr).match(/error/i)) {
-                                    cb(err || stdout || stderr);
-                                }
-                                else {
-                                    const g = require('./gulpfile');
-                                    async.each(dirs, function (item, cb) {
-                                        item = path.resolve(root + '/' + item);
-                                        const truncated = sumanUtils.removeSharedRootPath([item, targetTestDir]);
-                                        const file = truncated[0][1];
-                                        const indexOfFirstStart = String(file).indexOf('*');
-                                        const temp = String(file).substring(0, indexOfFirstStart);
-                                        g.transpileTests([item], 'test-target' + temp).on('finish', cb).on('error', cb);
-                                    }, cb);
+            //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
+            // and pretend it does not exist.
 
-                                }
-                            });
-                        }
-                        else {
-                            process.nextTick(cb);
-                        }
-
-                    }
-                ],
-                function (err, results) {
-
-                    if (err) {
-                        throw err;
-                    }
-
-                    const d = domain.create();
-                    const args = opts._args;
-
-                    d.once('error', function (err) {
-                        //TODO: add link showing how to set up Babel
-                        console.error(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually' +
-                            ' if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
-                            ' => Suman error => ' + err.stack + '\n'));
-                        process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+            if (!useRunner && dirs.length === 1 && fs.statSync(dirs[0]).isFile()) {
+                //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
+                d.run(function () {
+                    process.nextTick(function () {
+                        process.chdir(path.dirname(dirs[0]));  //force CWD to test file path // boop boop
+                        require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
                     });
-
-                    if (transpile) {
-                        dirs = [path.resolve(root + '/test-target')];
-                    }
-
-
-                    if (dirs.length < 1) {
-                        console.error('\n\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
-                        process.exit(constants.RUNNER_EXIT_CODES.NO_TEST_FILE_OR_DIR_SPECIFIED);
-                    }
-                    else {
-
-                        dirs = dirs.map(function (item) {
-                            return path.resolve(item);
-                        });
-
-                        //TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
-                        // and pretend it does not exist.
-
-                        if (!useRunner && dirs.length === 1 && fs.statSync(dirs[0]).isFile()) {
-                            //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
-                            d.run(function () {
-                                process.nextTick(function () {
-                                    process.chdir(path.dirname(dirs[0]));  //force CWD to test file path // boop boop
-                                    require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
-                                });
-                            });
-                        }
-                        else {
-                            d.run(function () {
-                                process.nextTick(function () {
-                                    suman.Runner({
-                                        grepSuite: grepSuite,
-                                        grepFile: grepFile,
-                                        $node_env: process.env.NODE_ENV,
-                                        fileOrDir: dirs
-                                        //configPath: configPath || 'suman.conf.js'
-                                    }).on('message', function (msg) {
-                                        console.log('msg from suman runner', msg);
-                                        //process.exit(msg);
-                                    });
-                                });
-                            });
-                        }
-                    }
-
                 });
+            }
+            else {
+                d.run(function () {
+                    process.nextTick(function () {
+                        suman.Runner({
+                            grepSuite: grepSuite,
+                            grepFile: grepFile,
+                            $node_env: process.env.NODE_ENV,
+                            fileOrDir: dirs
+                            //configPath: configPath || 'suman.conf.js'
+                        }).on('message', function (msg) {
+                            console.log('msg from suman runner', msg);
+                            //process.exit(msg);
+                        });
+                    });
+                });
+            }
         }
 
     });
+
 
 }

@@ -1,10 +1,12 @@
-const React = require('react');
+'use strict';
 
-const Accordion = React.createClass({
+var React = require('react');
+
+var Accordion = React.createClass({
     displayName: 'Accordion',
 
 
-    getInitialState: function () {
+    getInitialState: function getInitialState() {
         // we should also listen for property changes and reset the state
         // but we aren't for this demo
         return {
@@ -13,10 +15,10 @@ const Accordion = React.createClass({
         };
     },
 
-    render: function () {
+    render: function render() {
 
         // enhance the section contents so we can track clicks and show sections
-        const children = React.Children.map(this.props.children, this.enhanceSection);
+        var children = React.Children.map(this.props.children, this.enhanceSection);
 
         return React.createElement(
             'div',
@@ -26,10 +28,10 @@ const Accordion = React.createClass({
     },
 
     // return a cloned Section object with click tracking and 'active' awareness
-    enhanceSection: function (child) {
+    enhanceSection: function enhanceSection(child) {
 
-        const selectedId = this.state.selected;
-        const id = child.props.id;
+        var selectedId = this.state.selected;
+        var id = child.props.id;
 
         return React.cloneElement(child, {
             key: id,
@@ -40,7 +42,7 @@ const Accordion = React.createClass({
     },
 
     // when this section is selected, inform the parent Accordion component
-    onSelect: function (id) {
+    onSelect: function onSelect(id) {
         this.setState({ selected: id });
     }
 });

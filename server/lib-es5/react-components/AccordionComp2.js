@@ -1,12 +1,13 @@
+'use strict';
 
-const React = require('react');
+var React = require('react');
 
-const Section = require('./AccordionSection2');
+var Section = require('./AccordionSection2');
 
 var Accordion = React.createClass({
     displayName: 'Accordion',
 
-    render: function () {
+    render: function render() {
         return React.createElement(
             'div',
             { className: 'main' },
