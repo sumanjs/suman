@@ -1,14 +1,16 @@
-const React = require('react');
+'use strict';
+
+var React = require('react');
 var $ = require('jquery');
-const ReactDOM = require('react-dom');
+var ReactDOM = require('react-dom');
 
-const TestFileSuite = require('./TestFileSuite');
+var TestFileSuite = require('./TestFileSuite');
 
-const AccordionSection = React.createClass({
+var AccordionSection = React.createClass({
     displayName: 'AccordionSection',
 
 
-    getInitialState: function () {
+    getInitialState: function getInitialState() {
 
         return {
             loaded: false,
@@ -16,9 +18,9 @@ const AccordionSection = React.createClass({
         };
     },
 
-    render: function () {
+    render: function render() {
 
-        const className = 'accordion-section' + (this.props._selected ? ' selected' : '');
+        var className = 'accordion-section' + (this.props._selected ? ' selected' : '');
 
         // <div className='body'>
         //     {this.props.children}
@@ -40,7 +42,9 @@ const AccordionSection = React.createClass({
         );
     },
 
-    onSelect: function (e) {
+    onSelect: function onSelect(e) {
+        var _this = this;
+
         console.log('event:', e);
         // tell the parent Accordion component that this section was selected
         this.props._onSelect(this.props.id);
@@ -52,15 +56,15 @@ const AccordionSection = React.createClass({
                 type: 'GET',
                 url: '/results/' + this.props.runId + '/' + this.props.testId
 
-            }).done(resp => {
+            }).done(function (resp) {
 
                 console.log('resp:', resp);
-                this.state.testData = JSON.parse(resp);
-                this.forceUpdate();
-            }).fail(() => {
+                _this.state.testData = JSON.parse(resp);
+                _this.forceUpdate();
+            }).fail(function () {
 
-                this.state.testData = 'Bad server response';
-                this.forceUpdate();
+                _this.state.testData = 'Bad server response';
+                _this.forceUpdate();
             });
         }
     }

@@ -38,7 +38,7 @@ const helpers = require('./helpers/index');
 
 router.get('/', function (req, res, next) {
 
-    var outputDir = config.suman_server_config.outputDir;
+    var outputDir = config.suman_home_dir;
 
     if (!outputDir) {
         console.error('no outputDir defined');
@@ -46,11 +46,10 @@ router.get('/', function (req, res, next) {
     }
 
 
-    var project = [ 'Viper', 'Falcor', 'Brokerify'];
+    const project = ['Rover', 'Viper', 'Falcor', 'Brokerify'];
+    const runBy = ['Mike', 'Alex', 'Jim'];
+    const runAt = [new Date('December 31 1999 23:59:59'), new Date('December 4, 1995 03:24:00'), new Date('December 17, 1995 09:24:00')];
 
-    var runBy = ['userC', 'denmanm1', 'userB'];
-
-    var runAt = [new Date('December 31 1999 23:59:59'), new Date('December 4, 1995 03:24:00'), new Date('December 17, 1995 09:24:00')];
 
     fs.readdir(path.resolve(outputDir), function (err, items) {
 
@@ -149,11 +148,8 @@ router.post('/finalize', function (req, res, next) {
 
     var body = req.body;
     var rendered = body.rendered;
-    //var config = body.config;
     var timestamp = body.timestamp;
-
-
-    var outputDir = config.suman_server_config.outputDir;
+    var outputDir = config.suman_home_dir;
 
     if (!outputDir) {
         console.error('no outputDir defined');
@@ -178,11 +174,10 @@ router.post('/finalize', function (req, res, next) {
 router.post('/make/new', function (req, res, next) {
 
     var body = req.body;
-    //var config = body.config;
     var timestamp = body.timestamp;
 
     try {
-        var outputDir = config.suman_server_config.outputDir;
+        var outputDir = config.suman_home_dir;
 
         if (!outputDir) {
             console.error('no outputDir defined');
@@ -215,8 +210,7 @@ router.get('/latest', function (req, res, next) {
 
     //TODO: this should render git branch and commit
 
-
-    var outputDir = config.suman_server_config.outputDir;
+    var outputDir = config.suman_home_dir;
 
     if (!outputDir) {
         console.error('no outputDir defined');
@@ -396,8 +390,7 @@ function getRunId(req, res, next) {
 
 router.get('/:runId/:testId', function (req, res, next) {
 
-
-    var outputDir = config.suman_server_config.outputDir;
+    var outputDir = config.suman_home_dir;
 
     if (!outputDir) {
         console.error('no outputDir defined');
@@ -434,8 +427,7 @@ router.get('/:runId/:testId', function (req, res, next) {
 
 router.get('/:runId', function (req, res, next) {
 
-
-    var outputDir = config.suman_server_config.outputDir;
+    var outputDir = config.suman_home_dir;
 
     if (!outputDir) {
         console.error('no outputDir defined');

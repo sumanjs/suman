@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Created by denmanm1 on 3/30/16.
  */
@@ -7,7 +9,7 @@ define(['react'], function (React) {
     var Section = React.createClass({
         displayName: 'Section',
 
-        handleClick: function (e) {
+        handleClick: function handleClick(e) {
 
             console.log('event:', e);
 
@@ -23,13 +25,13 @@ define(['react'], function (React) {
                 });
             }
         },
-        getInitialState: function () {
+        getInitialState: function getInitialState() {
             return {
                 open: false,
                 class: "section"
             };
         },
-        render: function () {
+        render: function render() {
             return React.createElement('div', { className: this.state.class }, React.createElement('button', null, 'toggle'), React.createElement('div', { className: 'sectionhead', onClick: this.handleClick }, this.props.title), React.createElement('div', { className: 'articlewrap' }, React.createElement('div', { className: 'article' }, this.props.children)));
         }
     });
@@ -37,7 +39,7 @@ define(['react'], function (React) {
     var Accordion = React.createClass({
         displayName: 'Accordion',
 
-        render: function () {
+        render: function render() {
             return React.createElement('div', { className: 'main' }, React.createElement('div', { className: 'title' }, this.props.title), React.createElement(Section, { title: 'Section Title One' }, ' Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet nemo harum voluptas aliquid rem possimus nostrum excepturi!'), React.createElement(Section, { title: 'Section Title Two' }, ' Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet nemo harum voluptas aliquid rem possimus nostrum excepturi!'), React.createElement(Section, { title: 'Section Title Three' }, ' Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet nemo harum voluptas aliquid rem possimus nostrum excepturi!'));
         }
     });

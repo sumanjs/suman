@@ -2,7 +2,8 @@
  * Created by denman on 12/16/15.
  */
 
-var os = require('os');
+const os = require('os');
+const path = require('path');
 
 
 module.exports = function () {
@@ -33,7 +34,8 @@ module.exports = function () {
 
     return Object.freeze({
         suman_config: sumanConfig,
-        suman_server_config: serverConfig
+        suman_server_config: serverConfig,
+        suman_home_dir: path.resolve((process.env.HOME || process.env.USERPROFILE) + '/suman/test_results')
     });
 
 

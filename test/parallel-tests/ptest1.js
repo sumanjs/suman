@@ -58,13 +58,13 @@ Test.describe('Zulu', {mode: 'series'}, function () {
             console.log('before ', this.desc);
         });
 
-        this.it.SKIP(this.desc + '1', function (t, done) {
+        this.it.skip(this.desc + '1', function (t, done) {
             setTimeout(function () {
                 done();
             }, 500);
         });
 
-        this.it.SKIP(this.desc + '2', function (t, done) {
+        this.it.skip(this.desc + '2', function (t, done) {
             setTimeout(function () {
                 done();
             }, 500);

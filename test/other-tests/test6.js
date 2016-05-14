@@ -12,27 +12,30 @@ Test.describe('suite tres', {}, function (assert) {
 
     this.before.cb(t => {
 
-         t.done();
-         t.log('barf');
+        t.done();
+        t.log('barf');
     });
 
 
-    this.it('my test99999', t => {
+    this.it.cb('my test99999', t => {
 
+        setTimeout(function(){
+            t.pass();
+        },200);
 
     });
 
 
     this.afterEach.cb({fatal: false}, t => {
 
-        setTimeout(function(){
+        setTimeout(function () {
 
             var user = {
                 name: 'tj',
                 pets: ['tobi', 'loki', 'jane', 'bandit']
             };
 
-            user.should.have.property('name', 'tjx');
+            // assert(false);
 
             t.done();
         });
@@ -40,11 +43,11 @@ Test.describe('suite tres', {}, function (assert) {
     });
 
 
-    this.afterEach.cb({fatal: false},t => {
+    this.afterEach.cb({fatal: false}, t => {
 
-        setTimeout(t.wrap(function(){
+        setTimeout(t.wrap(function () {
 
-            assert(false);
+            // assert(false);
             t.done();
         }));
 
@@ -55,13 +58,13 @@ Test.describe('suite tres', {}, function (assert) {
 
         this.before(t => {
 
-            console.log(t);
+
 
         });
 
         this.it('my tarzan test', t => {
 
-            console.log(t);
+
 
         });
 

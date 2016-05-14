@@ -4,7 +4,7 @@
 
 
 
-const suman = require('../../lib/index');
+const suman = require('../../lib');
 
 const Test = suman.init(module, {
     integrants: ['smartconnect', 'dolce-vida'],
@@ -42,33 +42,33 @@ Test.describe('gggg', {parallel: false}, function (http, assert, delay, fs, chil
     });
 
     this.it('makes noise', {}, function () {
-        
+
     });
 
 
     this.context('moodle', {parallel: false}, function () {
 
-        this.before.cb((t, done) => {
+        this.before.cb(t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
 
         });
 
-        this.before.cb((t, done) => {
+        this.before.cb(t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
         });
 
-        this.before.cb((t, done) => {
+        this.before.cb(t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
         });
 
         this.before(function *() {
-          yield new Promise(function (resolve) {
+            yield new Promise(function (resolve) {
                 setTimeout(function () {
                     resolve('dude');
                 });
@@ -80,26 +80,26 @@ Test.describe('gggg', {parallel: false}, function (http, assert, delay, fs, chil
     this.describe('moodle', {parallel: true}, function () {
 
 
-        this.beforeEach.cb((t, done) => {
+        this.beforeEach.cb(t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
         });
 
-        this.beforeEach.cb((t, done) => {
+        this.beforeEach.cb(t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
-        }).beforeEach.cb((t, done) => {
+        }).beforeEach.cb(t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
         });
 
-        this.it.cb('mmm1', {parallel: false}, (t, done) => {
+        this.it.cb('mmm1', {parallel: false}, t => {
 
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
 
         }).it.cb('mmm2', {parallel: false}, (t) => {
@@ -108,29 +108,29 @@ Test.describe('gggg', {parallel: false}, function (http, assert, delay, fs, chil
                 t.done();
             }, 50);
 
-        }).it.cb('mmm3', {parallel: false}, ( t, done) => {
+        }).it.cb('mmm3', {parallel: false}, t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
 
         });
 
-        this.beforeEach.cb(function (t, done) {
+        this.beforeEach.cb(t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
         });
 
-        this.afterEach.cb(function (t, done) {
+        this.afterEach.cb(t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
         });
 
-        this.afterEach.cb(function (t, done) {
+        this.afterEach.cb(t => {
             setTimeout(function () {
 
-                done();
+                t.done();
             }, 50);
         });
 
@@ -147,21 +147,19 @@ Test.describe('gggg', {parallel: false}, function (http, assert, delay, fs, chil
 
 
             this.describe('y', function () {
-                this.it('ddd', {
-                    parallel: false
-                }, function (t, done) {
+
+                this.it('ddd', {parallel: false}, t => {
                     setTimeout(function () {
-                        done();
+                        t.done();
                     }, 50);
                 });
+
             });
 
 
-            this.it('cccc', {
-                parallel: false
-            }, function (t, done) {
+            this.it('cccc', {parallel: false}, t => {
                 setTimeout(function () {
-                    done();
+                    t.done();
                 }, 50);
             });
         });
@@ -169,35 +167,35 @@ Test.describe('gggg', {parallel: false}, function (http, assert, delay, fs, chil
 
         this.it('aaa1', {
             parallel: false
-        }, function (t, done) {
+        }, t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
         });
 
 
         this.it('aaa2', {
             parallel: false
-        }, function (t, done) {
+        }, t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
         });
 
 
         this.it('aaa3', {
             parallel: false
-        }, function (t, done) {
+        }, t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
         });
 
         this.it('aaa4', {
             parallel: false
-        }, function (t, done) {
+        }, t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 50);
 
         });

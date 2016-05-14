@@ -10,6 +10,7 @@ module.exports = Object.freeze({
     DEBUGGING_NODE_ENV: 'dev_local_debug',
     SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
     GIT_IGNORE: [
+        '\n',
         'suman/logs/',
         'test-target/'
     ],
@@ -71,12 +72,14 @@ module.exports = Object.freeze({
         ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION: 81,
         DELAY_FUNCTION_TIMED_OUT: 82,
         ERROR_IN_CHILD_SUITE: 83,
-        OPTS_PLAN_NOT_A_NUMBER: 84
+        OPTS_PLAN_NOT_A_NUMBER: 84,
+        // NO_DATA_RECEIVED_FROM_FILE: 85
     },
     ERROR_MESSAGES: {
-        INVALID_FUNCTION_TYPE_USAGE: 'You cannot use an arrow function with describe callbacks; however, you may use arrow functions everywhere else.\n' +
-        'The reason is because every describe call creates a new nested test instance, and "this" is bound to that instance. \nFor every describe call, you ' +
-        'need a regular function as a callback. The remainder of your tests can be arrow function galore. \nIf you dont understand this, read up on how arrow functions bind "this" ' +
+        INVALID_FUNCTION_TYPE_USAGE: ' => Suman fatal error => You cannot use arrow functions, geneators or async/await with describe callbacks; however, you may these functions everywhere else.\n' +
+        'The reason is because every describe call creates a new nested test instance, and "this" is bound to that instance; \nfurthermore describe function callbacks need to register' +
+        ' all hooks and test cases synchronously, which is why generator functions and async/await are not permitted either. \n\nBottom line: For every describe call, you ' +
+        'need a regular function as a callback. \nIf you dont understand why, read up on how arrow functions bind "this" ' +
         'to lexical scope, and why they cant just be used everywhere.'
     },
     runner_message_type: {

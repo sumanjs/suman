@@ -26,10 +26,117 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
         t.ctn();
     });
 
+    // this.beforeEach.cb({}, t => {
+    //     // t.assert(false);
+    //     setTimeout(function () {
+    //         t.ctn();
+    //     }, 4000);
+    //
+    // });
+    //
+    // this.beforeEach.cb({}, t => {
+    //     // t.assert(false);
+    //     setTimeout(function () {
+    //         t.ctn();
+    //     }, 4000);
+    //
+    // });
+    // this.beforeEach.cb({}, t => {
+    //     // t.assert(false);
+    //     setTimeout(function () {
+    //         t.ctn();
+    //     }, 4000);
+    //
+    // });
+    // this.beforeEach.cb({}, t => {
+    //     // t.assert(false);
+    //     setTimeout(function () {
+    //         t.ctn();
+    //     }, 4000);
+    //
+    // });
+ /*   this.beforeEach.cb({}, t => {
+        // t.assert(false);
+        setTimeout(function () {
+            t.ctn();
+        }, 4000);
+
+    });
     this.beforeEach.cb({}, t => {
         // t.assert(false);
-        t.ctn();
+        setTimeout(function () {
+            t.ctn();
+        }, 4000);
+
     });
+    this.beforeEach.cb({}, t => {
+        // t.assert(false);
+        setTimeout(function () {
+            t.ctn();
+        }, 4000);
+
+    });*/
+
+
+    this.it('blue1', function*(t) {
+        yield 3;
+        yield 4;
+        yield 5;
+    });
+
+    this.it('blue2', function*(t) {
+        yield 3;
+        yield 4;
+        yield 5;
+        yield 3;
+        yield 4;
+        yield 5;
+        yield 3;
+        yield 4;
+        yield 5;
+        yield 3;
+        yield 4;
+        yield 5;
+    });
+
+
+    this.it('yes', {}, function * ageage(t) {
+
+        const five = yield 5;
+        const res = yield new Promise(function (resolve) {
+            resolve(five);
+        });
+
+
+        const val = yield new Promise(function (resolve, reject) {
+
+            setTimeout(function () {
+                resolve();
+            }, 1000);
+
+
+        }).then(function () {
+
+            return new Promise(function (resolve, reject) {
+
+                setTimeout(t.wrap(function () {
+                    resolve(5);
+                }), 1000);
+
+            });
+
+        });
+        assert.equal(val, 5);
+
+    });
+
+
+    this.it.cb('[test] yo 1', {parallel: true}, t => {
+
+        fs.createReadStream('/dev/null').pipe(fs.createWriteStream('/dev/null')).on('error', t.fail).on('finish', t.pass);
+
+    });
+
 
     this.it('has one', function () {
 
@@ -64,18 +171,26 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
 
         });
 
-        this.it.cb('[test] yo 1', {parallel: true}, t => {
-
-            fs.createReadStream('/dev/null').pipe(fs.createWriteStream('/dev/null')).on('error', t.fail).on('finish', t.pass);
-
-        });
-
 
         this.it('[test] yo 2', {parallel: false}, t => {
 
             return new Promise(function (resolve, reject) {
 
-                resolve();
+                setTimeout(function () {
+                    resolve();
+                }, 1000);
+
+
+            }).then(function () {
+
+                return new Promise(function (resolve, reject) {
+
+                    setTimeout(t.wrap(function () {
+                        throw new Error('erage');
+                        resolve();
+                    }), 1000);
+
+                });
 
             });
 

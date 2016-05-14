@@ -8,7 +8,7 @@
 var suman = require('../../lib');
 var Test = suman.init(module, 'suman.conf.js');
 
-Test.describe('B1', ['socketio'], function (socketio, request, delay, roodles, choodles, fs) {
+Test.describe('B1', {}, function (socketio, request, delay, roodles, choodles, fs) {
 
     // console.log('roodles:', roodles);
     // console.log('choodles:', choodles);

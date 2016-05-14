@@ -12,7 +12,7 @@ const path = require('path');
 module.exports = Object.freeze({
 
     defaultTestSuiteTimeout: 15000,
-    maxParallelProcesses: 15,
+    maxParallelProcesses: 20,
     safe: false, //reads files in with fs.createReadStream and makes sure it's a suman test before running
     verbose: true, //handles and logs warnings (using warning level?)
     checkMemoryUsage: false,

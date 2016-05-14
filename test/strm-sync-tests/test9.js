@@ -11,13 +11,7 @@ const Test = suman.init(module, {
 });
 
 
-Test.suite('@Test1', {
-
-    'async/await': true,
-    parallel: false,
-    bail: true
-
-}, function (assert, fs, delay, path, stream, extra, writable) {
+Test.suite('@Test1', {parallel: false, bail: true}, function (assert, fs, path, stream, extra, writable) {
 
 
     const strm = new stream.Writable({
@@ -39,7 +33,7 @@ Test.suite('@Test1', {
 
     // writable.uncork();
 
-    strm.on('finish', delay);
-    strm.on('end', delay);
+    // strm.on('finish', delay);
+    // strm.on('end', delay);
 
 });

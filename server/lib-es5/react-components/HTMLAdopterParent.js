@@ -1,14 +1,16 @@
+"use strict";
+
 /**
  * Created by denmanm1 on 3/30/16.
  */
 
-const React = require('react');
+var React = require('react');
 
 module.exports = function (children) {
 
     return React.createClass({
 
-        renderChildren: function () {
+        renderChildren: function renderChildren() {
 
             return children.map(function (item) {
 
@@ -23,7 +25,7 @@ module.exports = function (children) {
             });
         },
 
-        render: function () {
+        render: function render() {
 
             return React.createElement(
                 "html",

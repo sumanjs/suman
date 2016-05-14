@@ -17,15 +17,14 @@ var Test = suman.init(module, {
 
 Test.describe('suite uno', {}, function () {
 
-    
 
-    this.it.skip('foo2', {parallel: true}, t => {
-
+    this.it.skip.cb('foo2', {parallel: true}, t => {
+        t.done();
     });
 
 
-    this.it.cb('bar2', {parallel: false}, (t, done) => {
-        done();
+    this.it.cb('bar2', {parallel: false}, t => {
+        t.done();
     });
 
 
@@ -42,20 +41,20 @@ Test.describe('suite uno', {}, function () {
 
         });
 
-        this.it.cb('makes stuff 20', function (t, done) {
+        this.it.cb('makes stuff 20', t => {
 
             setTimeout(function () {
-                done();
+                t.done();
             }, 10);
 
         });
 
-        this.it('makes stuff 21', function () {
+        this.it('makes stuff 21', t => {
 
 
         });
 
-        this.it('makes stuff 22', () => {
+        this.it('makes stuff 22', t => {
 
             //console.log('this:',this);
 
@@ -74,7 +73,7 @@ Test.describe('suite uno', {}, function () {
             this.before(function () {
 
             }).after(function () {
-                
+
             });
 
 
@@ -92,8 +91,8 @@ Test.describe('suite uno', {}, function () {
         this.describe('suite four', function () {
 
 
-            this.before.cb((t, done) => {
-                done();
+            this.before.cb(t => {
+                t.done();
 
             }).beforeEach(() => {
 
@@ -101,15 +100,15 @@ Test.describe('suite uno', {}, function () {
             }).after(() => {
 
 
-            }).it.cb('makes stuff 18', (t, done) => {
+            }).it.cb('makes stuff 18', t => {
 
-                done();
+                t.done();
 
             });
 
-            this.it.cb('makes stuff 19', (t, done) => {
+            this.it.cb('makes stuff 19', t => {
 
-                done();
+                t.done();
 
             }).afterEach(() => {
 

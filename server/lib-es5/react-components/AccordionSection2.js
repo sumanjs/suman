@@ -1,12 +1,12 @@
+'use strict';
 
-
-const React = require('react');
+var React = require('react');
 
 var Section = React.createClass({
     displayName: 'Section',
 
 
-    handleClick: function (e) {
+    handleClick: function handleClick(e) {
 
         console.log('event:', e);
 
@@ -22,13 +22,13 @@ var Section = React.createClass({
             });
         }
     },
-    getInitialState: function () {
+    getInitialState: function getInitialState() {
         return {
             open: false,
             class: "section"
         };
     },
-    render: function () {
+    render: function render() {
         return React.createElement(
             'div',
             { className: this.state.class },
