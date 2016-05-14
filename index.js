@@ -4,12 +4,12 @@
 /////////////////////////////////////////////////////////////////
 
 
-if (require.main !== module || process.argv.indexOf('--suman') > -1) {
-    //prevents users from f*king up by accident and getting in some possible infinite process.spawn loop that will lock up their system
-    //most likely protects the very unlikely case that suman runs itself, which would cause mad infinite proces spawns
-    console.log('Warning: attempted to require Suman index.js but this cannot be.');
-    return;
-}
+// if (require.main !== module || process.argv.indexOf('--suman') > -1) {
+//     //prevents users from f*king up by accident and getting in some possible infinite process.spawn loop that will lock up their system
+//     //most likely protects the very unlikely case that suman runs itself, which would cause mad infinite proces spawns
+//     console.log('Warning: attempted to require Suman index.js but this cannot be.');
+//     return;
+// }
 
 
 process.on('SIGINT', () => {
@@ -63,6 +63,11 @@ const findSumanServer = require('./lib/find-suman-server');
 const opts = require('./lib/parse-cmd-line-opts/parse-opts');
 
 ////////////////////////////////////////////////////////////////////
+
+const userHome = (process.env.HOME || process.env.USERPROFILE);
+
+/////////////////////////////////////////////////////////////////////
+
 
 global.viaSuman = true;
 global.resultBroadcaster = new EE();
@@ -348,6 +353,22 @@ else {
         else {
 
             async.series([
+                    function acquireLock(cb) {
+                        async.series([
+                            function (cb) {
+                                //formerly this was used to create suman dir in home dir
+                                process.nextTick(cb);
+                            },
+                            function (cb) {
+                                if ((opts.runner_lock || (global.sumanConfig.runnerLock && !opts.no_runner_lock)) && !opts.fforce){
+                                    fs.writeFile(path.resolve(userHome + '/suman/lockfile'), {flags: 'wx+'}, cb);
+                                }
+                                else {
+                                    process.nextTick(cb);
+                                }
+                            }
+                        ], cb);
+                    },
                     function conductStaticAnalysisOfFilesForSafety(cb) {
                         if (global.sumanOpts.safe) {
                             throw new Error('safe option not yet implemented');

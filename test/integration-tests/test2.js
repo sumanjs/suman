@@ -11,8 +11,8 @@ var Test = suman.init(module, {
 
 Test.describe('suite 2', {parallel: true}, function () {
 
-    this.before.cb('D', function (t, done) {
-        done();
+    this.before.cb('D', t => {
+        t.done();
     });
 
     const cars = [1, 2, 3];
@@ -21,8 +21,8 @@ Test.describe('suite 2', {parallel: true}, function () {
 
         this.describe('desc', function () {
 
-            this.before.cb('C', function (t, done) {
-                done();
+            this.before.cb('C', t => {
+                t.done();
             });
 
             this.it('does 1', function () {
@@ -47,8 +47,8 @@ Test.describe('suite 2', {parallel: true}, function () {
 
         this.describe('desc 4', function () {
 
-            this.before.cb('A', function (t, done) {
-                done();
+            this.before.cb('A', t => {
+                t.done();
             });
 
 

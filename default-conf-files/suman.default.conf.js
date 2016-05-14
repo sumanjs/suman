@@ -17,11 +17,12 @@ module.exports = Object.freeze({
         //these can be set by the command line
     },
 
+    runnerLock: true,
     transpile: false,                    //default, can be overridden with command line
     timeoutToSearchForAvailServer: 2000,
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
-    defaultDelayFunctionTimeout: 8000, 
+    defaultDelayFunctionTimeout: 8000,
     warningLevel: 3,
     noFrills: false,
     defaultTestSuiteTimeout: 15000,
@@ -47,8 +48,7 @@ module.exports = Object.freeze({
 
         '*default': {
             host: '127.0.0.1',
-            port: 6969,
-            outputDir: path.resolve(process.env[(process.platform === 'win32' ? 'USERPROFILE' : 'HOME')] + '/suman_results')
+            port: 6969
         }
     }
 

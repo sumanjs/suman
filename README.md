@@ -103,6 +103,8 @@ trick up its sleeve to allow for 100% clean reporting for any test or group of t
 before running tests is nowhere near as powerful or easy to use as the dependency injection ability of this library.
 * Using Mocha, Tape, Jasmine you could not easily pass data to tests, to reuse the same test code for different scenarios; Suman allows you to pass dynamic data
 to tests using dependency injection.
+* cannot call tests programmatically without wrapping Mocha test suite in a function, Suman allows you to call tests programmiatcally, without having
+to wrap tests in a function.
 
 
 
@@ -135,7 +137,7 @@ to the Node.js community.
 
 * <b> Improved mechanics, syntax and semantics </b>
     * singular param (t) is used for all hooks and test cases, in the style of AVA
-    * Pass data from test cases to hooks the value option of a test case
+    * Pass data from test cases to hooks using the value option of a test case
     * Pass data from hooks to test cases using the t.data value
     (neither are possible with Mocha, and are very much a missing feature)
     * encapsulation and immutability are utilized much more effectively than with Mocha etc
@@ -144,7 +146,7 @@ to the Node.js community.
 * <b> Full-blown concurrency</b>
     *  your tests will run much, much faster
     *  suites are run in separate Node.js processes for speed and isolation
-    *  test cases in any given suite can be run concurrently, using asynchronous I/O
+    *  test cases and hooks in any given suite can be run concurrently, when using asynchronous I/O
     *  capability to control maximum number of processes running at a time
     *  capability to add constaints to prevent any given pair of tests from running at the same time
        

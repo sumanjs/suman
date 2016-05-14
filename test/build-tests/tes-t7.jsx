@@ -26,34 +26,80 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
         t.ctn();
     });
 
+    // this.beforeEach.cb({}, t => {
+    //     // t.assert(false);
+    //     setTimeout(function () {
+    //         t.ctn();
+    //     }, 4000);
+    //
+    // });
+    //
+    // this.beforeEach.cb({}, t => {
+    //     // t.assert(false);
+    //     setTimeout(function () {
+    //         t.ctn();
+    //     }, 4000);
+    //
+    // });
+    // this.beforeEach.cb({}, t => {
+    //     // t.assert(false);
+    //     setTimeout(function () {
+    //         t.ctn();
+    //     }, 4000);
+    //
+    // });
+    // this.beforeEach.cb({}, t => {
+    //     // t.assert(false);
+    //     setTimeout(function () {
+    //         t.ctn();
+    //     }, 4000);
+    //
+    // });
+ /*   this.beforeEach.cb({}, t => {
+        // t.assert(false);
+        setTimeout(function () {
+            t.ctn();
+        }, 4000);
+
+    });
     this.beforeEach.cb({}, t => {
         // t.assert(false);
-        t.ctn();
-    });
+        setTimeout(function () {
+            t.ctn();
+        }, 4000);
 
-    this.it('blue1', function*(t){
-        yield 3;
-        yield 4;
-        yield 5;
     });
+    this.beforeEach.cb({}, t => {
+        // t.assert(false);
+        setTimeout(function () {
+            t.ctn();
+        }, 4000);
 
-    this.it('blue2', function*(t){
-        yield 3;
-        yield 4;
-        yield 5;
-        yield 3;
-        yield 4;
-        yield 5;
-        yield 3;
-        yield 4;
-        yield 5;
+    });*/
+
+
+    this.it('blue1', function*(t) {
         yield 3;
         yield 4;
         yield 5;
     });
 
+    this.it('blue2', function*(t) {
+        yield 3;
+        yield 4;
+        yield 5;
+        yield 3;
+        yield 4;
+        yield 5;
+        yield 3;
+        yield 4;
+        yield 5;
+        yield 3;
+        yield 4;
+        yield 5;
+    });
 
-    
+
     this.it('yes', {}, function * ageage(t) {
 
         const five = yield 5;
@@ -80,7 +126,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
             });
 
         });
-        assert.equal(val,5);
+        assert.equal(val, 5);
 
     });
 

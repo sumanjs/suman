@@ -3,10 +3,13 @@
  */
 
 
-var Test = require('../../lib').init(module, 'suman.conf.js');
+const suman = require('../../lib');
+const Test = suman.init(module, {
+
+});
 
 
-Test.describe('My Suite', function () {
+Test.describe('My Suite', {}, function () {
 
 
     this.describe('bugs', function () {
@@ -24,7 +27,7 @@ Test.describe('My Suite', function () {
 
         this.describe('turtles', {}, function () {
 
-            this.beforeEach(function(){
+            this.beforeEach(function () {
 
                 //throw new Error('michal');
 
@@ -32,8 +35,8 @@ Test.describe('My Suite', function () {
 
 
             this.describe('sounds', function () {
-                
-                this.it.cb.skip('is good');
+
+                this.it.cb('is good');
 
 
             });
@@ -46,48 +49,3 @@ Test.describe('My Suite', function () {
 });
 
 
-/*Test.describe('My Suite 222', function (suite) {
-
-
-    this.describe('bugs 222', function () {
-
-
-        this.it('is meow 222', function () {
-
-
-        });
-
-        this.describe('turtles 222', function () {
-
-            this.beforeEach(function(){
-
-
-            });
-
-            this.loop(['cjage 222','ppage 222'],function(val){
-                this.it('is chao' + val, function () {
-
-                    throw new Error('false');
-
-                });
-            });
-
-
-
-            this.describe('sounds 2222', function () {
-
-
-                this.it('is good 2222', function () {
-
-
-                });
-
-
-            });
-
-        });
-
-    });
-
-
-});*/

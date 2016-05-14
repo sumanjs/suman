@@ -29,7 +29,7 @@ Test.describe('A', {}, function (request, socketio) {
         }, 1000);
     });
 
-    this.describe.SKIP('B', function (delay) {
+    this.describe.skip('B', function (delay) {
 
         setTimeout(function () {
             arr.push(8);

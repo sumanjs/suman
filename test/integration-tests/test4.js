@@ -5,9 +5,11 @@
 
 
 var suman = require('../../lib');
-var Test = suman.init(module, 'suman.conf.js');
+var Test = suman.init(module, {
 
-Test.describe('A2', ['delay'], function (delay) {
+});
+
+Test.describe('A2', {}, function (delay) {
 
     var arr = [1, 2];
 
