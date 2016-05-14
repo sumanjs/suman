@@ -73,6 +73,7 @@ module.exports = Object.freeze({
         DELAY_FUNCTION_TIMED_OUT: 82,
         ERROR_IN_CHILD_SUITE: 83,
         OPTS_PLAN_NOT_A_NUMBER: 84,
+        UNEXPECTED_FATAL_ERROR_DOMAIN_CAUGHT: 85
         // NO_DATA_RECEIVED_FROM_FILE: 85
     },
     ERROR_MESSAGES: {

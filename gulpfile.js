@@ -44,7 +44,8 @@ gulp.task('transpile-test', [/*'clean-temp'*/], function () {
 function transpileTests(files, dest) {
     return gulp.src(files)
         .pipe(babel({
-            presets: ['es2016']
+            presets: ['es2016'],
+            plugins: ['transform-runtime']
         }))
         .pipe(gulp.dest(dest));
 }
