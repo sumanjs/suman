@@ -12,8 +12,14 @@
 // }
 
 
+var sigintCount = 0;
+
 process.on('SIGINT', () => {
     console.log('Suman got your SIGINT => Press Control-C *twice* to exit.');
+    sigintCount++;
+    if(sigintCount > 1){
+        process.exit();
+    }
 });
 
 

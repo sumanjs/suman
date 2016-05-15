@@ -95,6 +95,7 @@ module.exports = Object.freeze({
         NON_FATAL_ERR: 'NON_FATAL_ERR',
         CONSOLE_LOG: 'CONSOLE_LOG',
         MAX_MEMORY: 'MAX_MEMORY',
+        TABLE_DATA_RECEIVED: 'TABLE_DATA_RECEIVED'
     },
     broadcast_event_type: {
         TEST_CASE_FAIL: 'test-case-fail',
@@ -102,7 +103,7 @@ module.exports = Object.freeze({
         TEST_CASE_STUBBED: 'test-case-stubbed',
         TEST_CASE_SKIPPED: 'test-case-skipped'
     },
-    warnings:{
+    warnings: {
         NO_DONE_WARNING: 'Warning: no done referenced in callback',
         RETURNED_VAL_DESPITE_CALLBACK_MODE: 'Warning: callback mode is set, but a non-null value was returned by the hook',
         TEST_CASE_TIMED_OUT_ERROR: 'Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()?',
