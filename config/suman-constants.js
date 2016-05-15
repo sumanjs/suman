@@ -34,6 +34,7 @@ module.exports = Object.freeze({
         NO_TEST_FILE_OR_DIR_SPECIFIED: 30,
         ERROR_INVOKING_NETWORK_LOG_IN_RUNNER: 31,
         UNEXPECTED_FATAL_ERROR: 32,
+        TIMED_OUT_AFTER_ALL_PROCESSES_EMIT_EXIT: 33,
         UNCAUGHT_EXCEPTION: 777
 
     },
@@ -93,7 +94,7 @@ module.exports = Object.freeze({
         WARNING: 'WARNING',
         NON_FATAL_ERR: 'NON_FATAL_ERR',
         CONSOLE_LOG: 'CONSOLE_LOG',
-        MAX_MEMORY: 'MAX_MEMORY'
+        MAX_MEMORY: 'MAX_MEMORY',
     },
     broadcast_event_type: {
         TEST_CASE_FAIL: 'test-case-fail',

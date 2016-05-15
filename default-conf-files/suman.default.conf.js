@@ -17,6 +17,7 @@ module.exports = Object.freeze({
         //these can be set by the command line
     },
 
+    executeRunnerCWDAtTestFile: true,
     runnerLock: true,
     transpile: false,                    //default, can be overridden with command line
     timeoutToSearchForAvailServer: 2000,
