@@ -1,6 +1,4 @@
 
-//TODO: env needs to be inherited from parent process
-//TODO: this.slow() needs to be defined in suites
 //TODO: change Test to _Test in conversion proc
 //TODO: put total test count in runner overall table
 //TODO: this.timeout() needs to be t.timeout();
@@ -14,14 +12,12 @@
 //TODO: stdout should not be inherited by runner?
 //TODO: bash completion with dashdash
 //TODO: store "former mocha project" in suman dir, and then run runner from root directory instead of test file dir
-//TODO: add option to run suman from root of project vs same directory as test file is located at
 //TODO: need to put should at top of test file as mocha uses --require in opts to load should, we could do that too
 //TODO: sudo chmod -R 777 suman in a project
 //TODO: if suman or suman/logs does not exist, need to tell user to install suman (or suman should create if they don't exist)
-//TODO: check if title/desc.lenght of root test suite is > 0
+//TODO: assert title/desc.lenght of root test suite is > 0
 //TODO: fatal error in hook should have hook name if it exists
 //TODO: need to restore .nyc_output, bugs etc
-//TODO: change t into a function
 //TODO: outputDir: path.resolve(process.env[(process.platform === 'win32' ? 'USERPROFILE' : 'HOME')] + '/suman/suman_results')
 //TODO: invert socketio, so that the servers are the clients, and the command line app is the server, and can broacast
 //TODO: need to add chmod to suman_results and/or suman dirs
