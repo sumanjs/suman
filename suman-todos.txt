@@ -1,4 +1,16 @@
 
+//TODO: env needs to be inherited from parent process
+//TODO: this.slow() needs to be defined in suites
+//TODO: change Test to _Test in conversion proc
+//TODO: put total test count in runner overall table
+//TODO: this.timeout() needs to be t.timeout();
+//TODO: make sure describe blocks during conversion don't have a ghost param like an unexpected done param
+//eg: this.describe('port', function (done) {
+//TODO: this.timeout in rootsuite and child suites etc.
+//TODO: check to see if first arg to done can be any non-null value
+//TODO: convert + --debug = put var _d = process.domain() in each hook / test case
+//TODO: don't always want to put suman at the top of every .js file, some .js files are not tests
+//TODO: https://www.npmjs.com/browse/star
 //TODO: stdout should not be inherited by runner?
 //TODO: bash completion with dashdash
 //TODO: store "former mocha project" in suman dir, and then run runner from root directory instead of test file dir

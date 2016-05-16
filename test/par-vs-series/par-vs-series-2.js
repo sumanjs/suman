@@ -8,7 +8,7 @@ const suman = require('../../lib');
 
 const Test = suman.init(module, {});
 
-Test.describe('2', {parallel: false}, function () {
+Test.describe('2', {parallel: true}, function () {
 
 
     this.it.cb('one', t => {
@@ -26,6 +26,22 @@ Test.describe('2', {parallel: false}, function () {
     });
 
     this.it.cb('three', t => {
+
+        setTimeout(function () {
+            t.done();
+        }, 2000);
+
+    });
+
+    this.it.cb('four', t => {
+
+        setTimeout(function () {
+            t.done();
+        }, 2000);
+
+    });
+
+    this.it.cb('five', t => {
 
         setTimeout(function () {
             t.done();

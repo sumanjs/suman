@@ -33,4 +33,20 @@ Test.describe('3', {parallel: true}, function () {
 
     });
 
+    this.it.cb('four', t => {
+
+        setTimeout(function () {
+            t.done();
+        }, 2000);
+
+    });
+
+    this.it.cb('five', t => {
+
+        setTimeout(function () {
+            t.done();
+        }, 2000);
+
+    });
+
 });
