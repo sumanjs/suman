@@ -2,19 +2,15 @@
  * Created by Olegzandr on 5/14/16.
  */
 
-
-setTimeout(function () {
-    console.log('timed out');
-}, 4000);
+var a ={a:'1'};
+var d = Object.assign({},a);
 
 
-process.send('dooodoo', function (err) {
 
-    if (err) {
-        console.log('callback err');
-    }
-    else {
-        console.log('callback')
-    }
+console.log(d);
 
-});
+d.p = 5;
+
+
+console.log(d);
+console.log(a);
