@@ -1,6 +1,18 @@
 
+
+//TODO: general rules - if test suite < 10 files, speed up your slowest test, if not, speed up all tests
+//TODO: suman has to handle assigning things to this in testsuite hooks etc
+//TODO: instead of using gulp to transpile, use babel-cli sudo babel lib --out-dir lib-dest
+//TODO: suman does not come with babel out of the box, to use babel, run suman --use-babel and suman will install babel for you the correct way
+//TODO: babel-core register - http://stackoverflow.com/questions/35040978/babel-unexpected-token-import-when-running-mocha-tests
+//TODO: suman::test gets logged twice when running test-dest/integration/hook.err.js
+//TODO: before/after/beforeEach/afterEach need to be this.x even when the second match is not made
+//TODO: this.suite = this;
+//TODO: t.state = 'passed'/'failed' etc.
+//TODO: in a hook "this" should be converted to 't'
+//TODO: this.suite from Mocha should be defined
+//TODO: babel should be optional to install, takes too long otherwise
 //TODO: change Test to _Test in conversion proc
-//TODO: put total test count in runner overall table
 //TODO: this.timeout() needs to be t.timeout();
 //TODO: make sure describe blocks during conversion don't have a ghost param like an unexpected done param
 //eg: this.describe('port', function (done) {
