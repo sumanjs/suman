@@ -1,13 +1,15 @@
 {
   "name": "suman",
-  "version": "1.1.399",
+  "version": "1.1.39912",
   "main": "lib/index.js",
   "scripts": {
     "test": "suman",
     "build_ES6": "babel test --presets babel-preset-es2015 --out-dir test-dest",
     "view_results": "open -a Google\\ Chrome view/results.html",
     "merge": "git merge -Xignore-all-space",
-    "debug_mocha": "node-debug _mocha --no-timeouts "
+    "debug_mocha": "node-debug _mocha --no-timeouts ",
+    "remove-private-dirs": "git rm --cached .nyc_output private test-target benchmark-tests bugs examples file-examples internal-docs jsdoc-out -r",
+    "remove-private-files": "git rm --cached exp*.js jsdoc-notes.txt suman-todos.txt old-package-json.json"
   },
   "author": "Olegzandr Denman",
   "license": "ISC",
@@ -22,6 +24,8 @@
     "builtin-modules": "^1.1.1",
     "callsite": "^1.0.0",
     "chalk": "^1.1.1",
+    "chmodr": "^1.0.2",
+    "chokidar": "^1.5.1",
     "colors": "^1.1.2",
     "cookie-parser": "^1.4.0",
     "cross-spawn": "^2.2.3",
@@ -46,7 +50,7 @@
     "require-from-string": "^1.1.0",
     "residence": "0.0.1",
     "serve-favicon": "^2.3.0",
-    "siamese": "^2.0.31",
+    "siamese": "^2.0.4",
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.3",
     "tap": "^5.7.0",

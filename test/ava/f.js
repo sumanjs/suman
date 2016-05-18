@@ -3,7 +3,7 @@
  */
 
 
-const suman = require('../../lib/index');
+const suman = require('../../lib');
 const Test = suman.init(module);
 
 Test.describe('Catches exceptions', {}, function(fs){

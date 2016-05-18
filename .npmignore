@@ -9,3 +9,11 @@ docs
 jsdoc-out
 mr-docs
 exp*.js
+suman-todos.txt
+old-package-json.json
+exp*js
+test-target
+benchmark-tests
+.nyc_output
+jsdoc-notes.txt
+

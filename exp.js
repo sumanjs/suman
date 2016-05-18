@@ -2,15 +2,9 @@
  * Created by Olegzandr on 5/14/16.
  */
 
-var a ={a:'1'};
-var d = Object.assign({},a);
+const fs = require('fs');
 
+const strm = fs.createWriteStream('a.log');
 
+process.stdin.pipe(strm);
 
-console.log(d);
-
-d.p = 5;
-
-
-console.log(d);
-console.log(a);

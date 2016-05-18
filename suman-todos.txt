@@ -1,8 +1,15 @@
 
+//TODO: http://krasimirtsonev.com/blog/article/debugging-with-node
+//TODO: http://justjs.com/posts/npm-link-developing-your-own-npm-modules-without-tears
+//Todo: https://nodejs.org/en/blog/npm/npm-1-0-link/
+//TODO: https://github.com/paulmillr/chokidar
+//TODO: init should install istanbul globally? should install suman globally?
+//TODO: https://babeljs.io/docs/usage/options/
+//TODO: coverage should happen after transpilation
+//TODO: https://www.sitepoint.com/solve-global-npm-module-dependency-problem/
+//TODO: CLI-TABLE https://www.npmjs.com/package/cli-table
 //TODO: check to verify that transpilation with babel works
 //TODO: general rules - if test suite < 10 files, speed up your slowest test, if not, speed up all tests
-//TODO: suman has to handle assigning things to this in testsuite hooks etc
-//TODO: instead of using gulp to transpile, use babel-cli sudo babel lib --out-dir lib-dest
 //TODO: suman does not come with babel out of the box, to use babel, run suman --use-babel and suman will install babel for you the correct way
 //TODO: babel-core register - http://stackoverflow.com/questions/35040978/babel-unexpected-token-import-when-running-mocha-tests
 //TODO: suman::test gets logged twice when running test-dest/integration/hook.err.js
@@ -29,7 +36,6 @@
 //TODO: if suman or suman/logs does not exist, need to tell user to install suman (or suman should create if they don't exist)
 //TODO: assert title/desc.lenght of root test suite is > 0
 //TODO: fatal error in hook should have hook name if it exists
-//TODO: need to restore .nyc_output, bugs etc
 //TODO: outputDir: path.resolve(process.env[(process.platform === 'win32' ? 'USERPROFILE' : 'HOME')] + '/suman/suman_results')
 //TODO: invert socketio, so that the servers are the clients, and the command line app is the server, and can broacast
 //TODO: need to add chmod to suman_results and/or suman dirs
@@ -39,8 +45,6 @@
 //TODO: when maxParallelProcesses set to one some problems with below command
 //TODO: node index "test/build-tests/**/*.js" "test/integration-tests/**/*.js" --transpile (does not work without transpile option set)
 //TODO: add option of high-resolution time instead of Date.now() etc
-//TODO: add "easy to debug" as category for table
-//TODO: suman --uninstall for a local project
 //TODO: add system lock
 //TODO: write to .gitignore and put test-suman-target and suman/logs in there
 //TODO: optimize TestSuite/TestSuiteBase prototypes in the case that user creates many of these with looping constructs
@@ -157,6 +161,42 @@
 //TODO: note: https://www.npmjs.com/package/gulp-mocha
 //TODO: use Object.defineProperties for read-only
 
+
+
+/*
+
++test('handle throws with thrown observable', function (t) {
+ +	ava(function (a) {
+ +		a.plan(1);
+ +
+ +		var observable = new Observable(function (observer) {
+ +			observer.error(new Error());
+ +		});
+ +		a.throws(observable);
+ +	}).run().then(function (a) {
+ +		t.false(a.assertError);
+ +		t.end();
+ +	});
+ +});
+ +
+ +test('handle throws with long running thrown observable', function (t) {
+ +	ava(function (a) {
+ +		a.plan(1);
+ +
+ +		var observable = new Observable(function (observer) {
+ +			setTimeout(function () {
+ +				observer.error(new Error('abc'));
+ +			}, 2000);
+ +		});
+ +
+ +		a.throws(observable, /abc/);
+ +	}).run().then(function (a) {
+ +		t.false(a.assertError);
+ +		t.end();
+ +	});
+ +});
+
+ */
 
 /*
 

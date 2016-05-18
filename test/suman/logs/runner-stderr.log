@@ -1,0 +1,251 @@
+
+
+### Suman runner start ###
+
+Beginning of run at 1464544698421 = [Sun May 29 2016 13:58:18 GMT-0400 (EDT)]
+Command issued from the following directory "/Users/Olegzandr/WebstormProjects/suman"
+Command = ["/Users/Olegzandr/.nvm/versions/node/v5.4.1/bin/node","/Users/Olegzandr/WebstormProjects/suman/index","-w","-a","-t"]
+
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js] Error: Cannot find module 'ava'
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js]     at Function.Module._resolveFilename (module.js:325:15)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js]     at Function.Module._load (module.js:276:25)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js]     at Module.require (module.js:353:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js]     at require (internal/module.js:12:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js:7:12)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js]     at Module._compile (module.js:397:26)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js]     at Object.Module._extensions..js (module.js:404:10)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js]     at Module.load (module.js:343:32)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js]     at Function.Module._load (module.js:300:12)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js]     at Module.require (module.js:353:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/ava-ex.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js] Error: Cannot find module '../lib'
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js]     at Function.Module._resolveFilename (module.js:325:15)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js]     at Function.Module._load (module.js:276:25)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js]     at Module.require (module.js:353:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js]     at require (internal/module.js:12:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js:11:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js]     at Module._compile (module.js:397:26)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js]     at Object.Module._extensions..js (module.js:404:10)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js]     at Module.load (module.js:343:32)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js]     at Function.Module._load (module.js:300:12)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js]     at Module.require (module.js:353:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/benchmark-tests/one.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js] Error: Cannot find module './tes-t7.jsx'
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js]     at Function.Module._resolveFilename (module.js:325:15)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js]     at Function.Module._load (module.js:276:25)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js]     at Module.require (module.js:353:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js]     at require (internal/module.js:12:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js:7:19)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js]     at Module._compile (module.js:397:26)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js]     at Object.Module._extensions..js (module.js:404:10)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js]     at Module.load (module.js:343:32)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js]     at Function.Module._load (module.js:300:12)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js]     at Module.require (module.js:353:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/tes-t7-start.test.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] Test error: (no description)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 	stack: Error: 123
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js]     at /Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js:25:23
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js]     at FSReqWrap.cb [as oncomplete] (fs.js:216:19)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] Test error: A
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 	stack: Error: 123
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js]     at /Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js:25:23
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js]     at FSReqWrap.cb [as oncomplete] (fs.js:216:19)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] Test error: fails right away
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] 	stack: Error: chuck
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js:31:15)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/test-suite-helpers/handle-test.js:214:38
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js]     at process._tickDomainCallback (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] Test error: should never run if bail is set to true
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] 	stack: AssertionError: false == true
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js:35:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/test-suite-helpers/handle-test.js:214:38
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js]     at Immediate._tickDomainCallback [as _onImmediate] (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js]     at processImmediate [as _immediateCallback] (timers.js:383:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js] jimmy
+[/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js] Test error: a
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js] 	stack: AssertionError: false == true
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js:51:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js]     at Object.handle [as handleAssertions] (/Users/Olegzandr/WebstormProjects/suman/lib/test-suite-helpers/handle-test.js:116:11)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js:50:11)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/test-suite-helpers/handle-test.js:208:19
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js]     at process._tickDomainCallback (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js]  => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js] TypeError: Cannot assign to read only property 'done' of #<Object>
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js:21:24)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/test-suite-helpers/make-handle-befores-afters.js:132:47
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js]     at process._tickDomainCallback (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js] Test error: does 1
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js] 	stack: Error: blind
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js:26:23)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/test-suite-helpers/handle-test.js:214:38
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js]     at Immediate._tickDomainCallback [as _onImmediate] (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js]     at processImmediate [as _immediateCallback] (timers.js:383:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] Test error: (no description)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 	stack: Error: 123
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js]     at null._onTimeout (/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js:34:23)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js]     at Timer.listOnTimeout (timers.js:92:15)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] Test error: (no description)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 	stack: Error: 456
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js]     at Immediate._onImmediate (/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js:43:23)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js]     at processImmediate [as _immediateCallback] (timers.js:383:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] Test error: (no description)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 	stack: Error: 789
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js]     at /Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js:52:23
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js]     at Immediate._tickDomainCallback [as _onImmediate] (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js]     at processImmediate [as _immediateCallback] (timers.js:383:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] Test error: B
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 	stack: Error: 123
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js]     at null._onTimeout (/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js:34:23)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js]     at Timer.listOnTimeout (timers.js:92:15)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] Test error: C
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 	stack: Error: 456
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js]     at Immediate._onImmediate (/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js:43:23)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js]     at processImmediate [as _immediateCallback] (timers.js:383:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] Test error: D
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 	stack: Error: 789
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js]     at /Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js:52:23
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js]     at Immediate._tickDomainCallback [as _onImmediate] (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js]     at processImmediate [as _immediateCallback] (timers.js:383:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js] ReferenceError: describe is not defined
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js:10:1)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js]     at Module._compile (module.js:397:26)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js]     at Object.Module._extensions..js (module.js:404:10)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js]     at Module.load (module.js:343:32)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js]     at Function.Module._load (module.js:300:12)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js]     at Module.require (module.js:353:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js]     at require (internal/module.js:12:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/run-child.js:65:9
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js]     at process._tickDomainCallback (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test0.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js] ReferenceError: describe is not defined
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js:10:1)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js]     at Module._compile (module.js:397:26)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js]     at Object.Module._extensions..js (module.js:404:10)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js]     at Module.load (module.js:343:32)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js]     at Function.Module._load (module.js:300:12)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js]     at Module.require (module.js:353:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js]     at require (internal/module.js:12:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/run-child.js:65:9
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js]     at process._tickDomainCallback (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test1.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js] ReferenceError: describe is not defined
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js:13:1)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js]     at Module._compile (module.js:397:26)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js]     at Object.Module._extensions..js (module.js:404:10)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js]     at Module.load (module.js:343:32)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js]     at Function.Module._load (module.js:300:12)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js]     at Module.require (module.js:353:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js]     at require (internal/module.js:12:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/run-child.js:65:9
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js]     at process._tickDomainCallback (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/mocha-test3.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js] ReferenceError: describe is not defined
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js:10:1)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js]     at Module._compile (module.js:397:26)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js]     at Object.Module._extensions..js (module.js:404:10)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js]     at Module.load (module.js:343:32)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js]     at Function.Module._load (module.js:300:12)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js]     at Module.require (module.js:353:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js]     at require (internal/module.js:12:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/run-child.js:65:9
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js]     at nextTickCallbackWith0Args (node.js:452:9)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js]     at process._tickDomainCallback (node.js:422:13)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/src/n/mocha-test0.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js] test error plan count:plan count was 3 but actual assertion count was 4
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js] Test error: a
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js] 	stack: AssertionError: expected Array [ 'a', 'a', 'b', 'c' ] to have property false
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js]     at Assertion.fail (/Users/Olegzandr/WebstormProjects/suman/node_modules/should/lib/assertion.js:92:17)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js]     at Assertion.Object.defineProperty.value [as property] (/Users/Olegzandr/WebstormProjects/suman/node_modules/should/lib/assertion.js:164:19)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js:75:54)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js]     at Object.handle [as handleAssertions] (/Users/Olegzandr/WebstormProjects/suman/lib/test-suite-helpers/handle-test.js:116:11)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js]     at null._onTimeout (/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js:73:19)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js]     at Timer.listOnTimeout (timers.js:92:15)
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js] 
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js] 
+
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js] Unhandled Rejection at: Promise  Promise {
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js]   <rejected> [TypeError: Converting circular structure to JSON] }  reason:  [TypeError: Converting circular structure to JSON]
+[/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test3.js] 

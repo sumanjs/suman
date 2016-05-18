@@ -3,10 +3,10 @@
  */
 
 
-var suman = require('../../lib');
+import * as suman from '../../lib';
 var Test = suman.init(module);
 
-
+////mcgee2
 
 Test.describe('B3', {}, function (socketio, request, delay, assert, choodles, fs) {
 

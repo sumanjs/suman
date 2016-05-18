@@ -15,13 +15,21 @@ module.exports = Object.freeze({
 		//these can be set by the command line
 	},
 
+	match: [],                                  //recommended =>  match: ['.test.js'],
+	notMatch: ['fixture'],
+	sumanHelpersDir: 'test/suman',
+	defaultTestDir: 'test-target/src',
+	testDirectory: 'test',
+	testSrcDirectory: 'test/src',
+	testDestDirectory: 'test/target',
+	testDirCopyDir: 'test-target',
 	grepFile: null,
 	grepFileBaseName: null,
 	defaultHookTimeout: 5000,
 	defaultTestCaseTimeout: 5000,
 	executeRunnerCWDAtTestFile: true,
 	runnerLock: true,
-	transpile: false,                    //default, can be overridden with command line
+	transpile: false,                         //default, can be overridden with command line
 	timeoutToSearchForAvailServer: 2000,
 	sendStderrToSumanErrLogOnly: true,
 	useSuiteNameInTestCaseOutput: false,
@@ -29,7 +37,7 @@ module.exports = Object.freeze({
 	warningLevel: 3,
 	noFrills: false,
 	defaultTestSuiteTimeout: 15000,
-	maxParallelProcesses: 25,           //maximum parallel processes running at one time
+	maxParallelProcesses: 25,           //maximum parallel processes running at one time, synonymous with --concurrency cmd line option
 	ultraSafe: false,                   //if true, Suman reads files before executing any supposed test file and makes sure it's a suman test before running
 	verbose: true,                      //handles and logs warnings (using warning level?)
 	checkMemoryUsage: false,            //limits stack traces to just relevant test case or test line

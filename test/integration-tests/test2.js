@@ -1,7 +1,4 @@
-/**
- * Created by denman on 12/3/15.
- */
-
+'use strict';
 
 var suman = require('../../lib');
 var Test = suman.init(module, {
@@ -17,20 +14,31 @@ Test.describe('suite 2', {parallel: true}, function () {
 
     const cars = [1, 2, 3];
 
+
     this.describe('desc', function () {
 
         this.describe('desc', function () {
 
-            this.before.cb('C', t => {
-                t.done();
+            this.before.cb('C', {fatal:false}, t => {
+                t.done = 'fooage';
+                t.done(new Error('dog'));
             });
 
             this.it('does 1', function () {
+                throw new Error('blind');
 
             });
 
             this.it('does 2', function () {
                 
+            });
+
+            this.it('does 2', function () {
+
+            });
+
+            this.it('does 2', function () {
+
             });
 
         });

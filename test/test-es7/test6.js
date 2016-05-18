@@ -6,16 +6,9 @@
 import * as suman from 'suman';  //es6 import syntax
 
 const Test = suman.init(module, {
-    interface: 'BDD'   //BDD interface is default but are explicit
+    interface: 'BDD'   //BDD interface is default but we are explicit
 });
 
-
-function async(bool) {
-    return function (target, key, descriptor) {
-        descriptor.enumerable = value;
-        return descriptor;
-    }
-}
 
 
 
@@ -51,10 +44,10 @@ Test.describe('#Test1', function (assert, fs, http, path) {
         });
 
         //fail and pass are analagous to done('err') and done(null) respectively
-        this.it('[test] 2', (t, fail, pass) => {
+        this.it('[test] 2', t => {
 
             fs.createReadStream(t.data.srcDir)
-                .pipe(fs.createWriteStream('/dev/null')).on('error', fail).on('finish', pass);
+                .pipe(fs.createWriteStream('/dev/null')).on('error', t.fail).on('finish', t.pass);
 
         });
 
@@ -65,7 +58,7 @@ Test.describe('#Test1', function (assert, fs, http, path) {
 
         ['/foo', '/bar', '/bar'].forEach(val => {
 
-            this.it('[test] 3', (t, done) => {
+            this.it('[test] 3', t => {
 
                 return http.get({
                     hostname: 'example.com',
@@ -87,7 +80,7 @@ Test.describe('#Test1', function (assert, fs, http, path) {
                     res.on('end', ()=> {
                         const result = JSON.parse(body);
                         assert(result.x = 'y');
-                        done();
+                        t.done();
                     });
 
                 });

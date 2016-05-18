@@ -1,0 +1,481 @@
+ => Suman Server message => using config at path => /Users/Olegzandr/WebstormProjects/suman/suman.conf.js
+ => Suman config used:  /Users/Olegzandr/WebstormProjects/suman/suman.conf.js
+
+
+		      :::::::: :::    :::  :::   :::      :::    ::::    ::: 
+		    :+:    :+::+:    :+: :+:+: :+:+:   :+: :+:  :+:+:   :+:  
+		   +:+       +:+    +:++:+ +:+:+ +:+ +:+   +:+ :+:+:+  +:+   
+		  +#++:++#+++#+    +:++#+  +:+  +#++#++:++#++:+#+ +:+ +#+    
+		        +#++#+    +#++#+       +#++#+     +#++#+  +#+#+#     
+		#+#    #+##+#    #+##+#       #+##+#     #+##+#   #+#+#      
+		########  ######## ###       ######     ######    ####       
+
+
+Results: [ undefined, undefined ]
+	Server listening on port 6969 , CWD = /Users/Olegzandr/WebstormProjects/suman
+
+
+
+Client connected.
+
+watch has been received by server { paths: [ '/Users/Olegzandr/WebstormProjects/suman/test' ] }
+paths received by server [ '/Users/Olegzandr/WebstormProjects/suman/test' ]
+Watcher initialized.
+Directory /Users/Olegzandr/WebstormProjects/suman/testhas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/avahas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/ava-testhas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/benchmark-testshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/build-testshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/helpershas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/integration-testshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-testshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/other-testshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/par-vs-serieshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/parallel-testshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/simple-testshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-testshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/sumanhas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/test-es7has been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/test-generatorshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/test-testshas been added
+File /Users/Olegzandr/WebstormProjects/suman/test/.readme has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/aaa.b has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/ava/ava-ex.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/ava/await.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/ava/f.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/ava-test/file1.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/benchmark-tests/one.js has been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-checkhas been added
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/empty.test.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7-start.test.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/helpers/test-stream.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test2.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test3.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test4.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test5.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test6.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test7.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test8.js has been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/desthas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/srchas been added
+File /Users/Olegzandr/WebstormProjects/suman/test/other-tests/test3.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/other-tests/test4.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/other-tests/test5.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/other-tests/test6.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/par-vs-series/par-vs-series-1.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/par-vs-series/par-vs-series-2.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/par-vs-series/par-vs-series-3.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/parallel-tests/par-test.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/parallel-tests/ptest1.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/simple-tests/one-1.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/output6.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/output7.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/output8.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/output9.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/test6.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/test7.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/test8.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/test9.js has been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/suman/logshas been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/suman/reportershas been added
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.globals.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.hooks.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc2.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.order.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/test-es7/one.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/test-es7/test6.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/test-es7/two.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/test-tests/generatorz-babel.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/test-tests/generatorz.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/test-tests/many-commands.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/test-tests/one.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/test-tests/two.js has been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check/recursion-check2has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check/test8.js has been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/nhas been added
+File /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/mocha-test0.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/mocha-test1.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/mocha-test3.js has been added
+Directory /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/nhas been added
+File /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/.gitkeep has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/mocha-test0.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/mocha-test1.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/mocha-test3.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/reporters/tap.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/logs/.readme has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check/recursion-check2/test9.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/n/mocha-test0.js has been added
+File /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/n/mocha-test0.js has been added
+Initial scan complete. Ready for changes
+Watched paths: { '/Users/Olegzandr/WebstormProjects/suman': [ 'test' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test': 
+   [ '.readme',
+     'aaa.b',
+     'ava',
+     'ava-test',
+     'benchmark-tests',
+     'build-tests',
+     'helpers',
+     'integration-tests',
+     'mocha-conversion-tests',
+     'other-tests',
+     'par-vs-series',
+     'parallel-tests',
+     'simple-tests',
+     'strm-sync-tests',
+     'suman',
+     'test-es7',
+     'test-generators',
+     'test-tests' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/ava': [ 'ava-ex.js', 'await.js', 'f.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/ava-test': [ 'file1.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/benchmark-tests': [ 'one.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/build-tests': 
+   [ 'empty.test.js',
+     'recursion-check',
+     'tes-t7-start.test.js',
+     'tes-t7.js',
+     'test6.test.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/helpers': [ 'test-stream.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests': 
+   [ 'test0.js',
+     'test1.js',
+     'test2.js',
+     'test3.js',
+     'test4.js',
+     'test5.js',
+     'test6.js',
+     'test7.js',
+     'test8.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests': [ 'dest', 'src' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/other-tests': [ 'test3.js', 'test4.js', 'test5.js', 'test6.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/par-vs-series': 
+   [ 'par-vs-series-1.js',
+     'par-vs-series-2.js',
+     'par-vs-series-3.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/parallel-tests': [ 'par-test.js', 'ptest1.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/simple-tests': [ 'one-1.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests': 
+   [ 'output6.js',
+     'output7.js',
+     'output8.js',
+     'output9.js',
+     'test6.js',
+     'test7.js',
+     'test8.js',
+     'test9.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/suman': 
+   [ 'logs',
+     'reporters',
+     'suman.globals.js',
+     'suman.hooks.js',
+     'suman.ioc.js',
+     'suman.ioc2.js',
+     'suman.once.js',
+     'suman.order.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/test-es7': [ 'one.js', 'test6.js', 'two.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/test-generators': [],
+  '/Users/Olegzandr/WebstormProjects/suman/test/test-tests': 
+   [ 'generatorz-babel.js',
+     'generatorz.js',
+     'many-commands.js',
+     'one.js',
+     'two.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check': [ 'recursion-check2', 'test8.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest': 
+   [ '.gitkeep',
+     'mocha-test0.js',
+     'mocha-test1.js',
+     'mocha-test3.js',
+     'n' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src': [ 'mocha-test0.js', 'mocha-test1.js', 'mocha-test3.js', 'n' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/suman/logs': [ '.readme' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/suman/reporters': [ 'tap.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check/recursion-check2': [ 'test9.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/n': [ 'mocha-test0.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/n': [ 'mocha-test0.js' ] }
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 20,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547708,
+     size: 680,
+     blocks: 0,
+     atime: Sun May 29 2016 15:06:41 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     birthtime: Mon May 09 2016 05:04:06 GMT-0400 (EDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 20,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547708,
+     size: 680,
+     blocks: 0,
+     atime: Sun May 29 2016 15:06:41 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:03:22 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:03:22 GMT-0400 (EDT),
+     birthtime: Mon May 09 2016 05:04:06 GMT-0400 (EDT) } }
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/aaa.b { curr: 
+   { dev: 16777220,
+     mode: 33188,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3498939,
+     size: 47,
+     blocks: 8,
+     atime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     birthtime: Sun May 29 2016 15:07:01 GMT-0400 (EDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33188,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3497000,
+     size: 43,
+     blocks: 8,
+     atime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:03:22 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:03:22 GMT-0400 (EDT),
+     birthtime: Sun May 29 2016 15:03:22 GMT-0400 (EDT) } }
+File /Users/Olegzandr/WebstormProjects/suman/test/aaa.b has been changed
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/aaa.b
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/aaa.b
+pre-resolved: aaa.b
+
+
+	 => Test fixture file will be copied to => /Users/Olegzandr/WebstormProjects/suman/test-target/aaa.b
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/aaa.b' ]
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 20,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547708,
+     size: 680,
+     blocks: 0,
+     atime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     birthtime: Mon May 09 2016 05:04:06 GMT-0400 (EDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 20,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547708,
+     size: 680,
+     blocks: 0,
+     atime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     birthtime: Mon May 09 2016 05:04:06 GMT-0400 (EDT) } }
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/aaa.b { curr: 
+   { dev: 16777220,
+     mode: 33188,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3498957,
+     size: 51,
+     blocks: 8,
+     atime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     birthtime: Sun May 29 2016 15:07:32 GMT-0400 (EDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33188,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3498939,
+     size: 47,
+     blocks: 8,
+     atime: Sun May 29 2016 15:07:31 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:01 GMT-0400 (EDT),
+     birthtime: Sun May 29 2016 15:07:01 GMT-0400 (EDT) } }
+File /Users/Olegzandr/WebstormProjects/suman/test/aaa.b has been changed
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/aaa.b
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/aaa.b
+pre-resolved: aaa.b
+
+
+	 => Test fixture file will be copied to => /Users/Olegzandr/WebstormProjects/suman/test-target/aaa.b
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/aaa.b' ]
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 20,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547708,
+     size: 680,
+     blocks: 0,
+     atime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:48 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:48 GMT-0400 (EDT),
+     birthtime: Mon May 09 2016 05:04:06 GMT-0400 (EDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 20,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547708,
+     size: 680,
+     blocks: 0,
+     atime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     birthtime: Mon May 09 2016 05:04:06 GMT-0400 (EDT) } }
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/aaa.b { curr: 
+   { dev: 16777220,
+     mode: 33188,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3498968,
+     size: 55,
+     blocks: 8,
+     atime: Sun May 29 2016 15:07:48 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:48 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:48 GMT-0400 (EDT),
+     birthtime: Sun May 29 2016 15:07:48 GMT-0400 (EDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33188,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3498957,
+     size: 51,
+     blocks: 8,
+     atime: Sun May 29 2016 15:07:47 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:32 GMT-0400 (EDT),
+     birthtime: Sun May 29 2016 15:07:32 GMT-0400 (EDT) } }
+File /Users/Olegzandr/WebstormProjects/suman/test/aaa.b has been changed
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/aaa.b
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/aaa.b
+pre-resolved: aaa.b
+
+
+	 => Test fixture file will be copied to => /Users/Olegzandr/WebstormProjects/suman/test-target/aaa.b
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/aaa.b' ]
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 20,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547708,
+     size: 680,
+     blocks: 0,
+     atime: Sun May 29 2016 15:07:51 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:53 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:53 GMT-0400 (EDT),
+     birthtime: Mon May 09 2016 05:04:06 GMT-0400 (EDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 20,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547708,
+     size: 680,
+     blocks: 0,
+     atime: Sun May 29 2016 15:07:51 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:48 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:48 GMT-0400 (EDT),
+     birthtime: Mon May 09 2016 05:04:06 GMT-0400 (EDT) } }
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/aaa.b { curr: 
+   { dev: 16777220,
+     mode: 33188,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3498974,
+     size: 56,
+     blocks: 8,
+     atime: Sun May 29 2016 15:07:53 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:53 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:53 GMT-0400 (EDT),
+     birthtime: Sun May 29 2016 15:07:53 GMT-0400 (EDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33188,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3498968,
+     size: 55,
+     blocks: 8,
+     atime: Sun May 29 2016 15:07:52 GMT-0400 (EDT),
+     mtime: Sun May 29 2016 15:07:48 GMT-0400 (EDT),
+     ctime: Sun May 29 2016 15:07:48 GMT-0400 (EDT),
+     birthtime: Sun May 29 2016 15:07:48 GMT-0400 (EDT) } }
+File /Users/Olegzandr/WebstormProjects/suman/test/aaa.b has been changed
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/aaa.b
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/aaa.b
+pre-resolved: aaa.b
+
+
+	 => Test fixture file will be copied to => /Users/Olegzandr/WebstormProjects/suman/test-target/aaa.b
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/aaa.b' ]
+
+Client disconnected.
+

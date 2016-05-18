@@ -34,10 +34,12 @@ const EE = require('events');
 const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
+const _ = require('lodash');
 // const requireFromString = require('require-from-string');
 
 //#project
 const constants = require('./config/suman-constants');
+const runTranspile = require('./lib/transpile/run-transpile');
 
 ////////////////////////////////////////////////////////////////////
 
@@ -60,12 +62,17 @@ const findSumanServer = require('./lib/find-suman-server');
 
 if (!root) {
 	console.log(' => Warning => A Node.js project root could not be found given your current working directory.');
-	console.log(colors.bgRed.white(' => cwd:', cwd));
+	console.log(colors.bgRed.white(' => cwd:', cwd, ' '));
+	console.log(' => Please execute the suman command from within the root of your project.\n\n');
+	return;
 }
-else if (cwd !== root) {
+
+if (cwd !== root) {
 	console.log(' => CWD:', cwd);
 	console.log(' => Project root:', root);
 }
+
+global.projectRoot = root;
 
 ////////////////////////////////////////////////////////////////////
 
@@ -73,17 +80,8 @@ const opts = require('./lib/parse-cmd-line-opts/parse-opts');
 
 ////////////////////////////////////////////////////////////////////
 
-const userHome = (process.env.HOME || process.env.USERPROFILE);
-
-/////////////////////////////////////////////////////////////////////
-
 global.viaSuman = true;
 global.resultBroadcaster = new EE();
-
-if (process.env.NODE_ENV === 'dev_local_debug' || opts.vverbose) {
-	console.log("# opts:", opts);
-	console.log("# args:", opts._args);
-}
 
 /////////////////////////////////////////////////////////////////////
 
@@ -119,8 +117,9 @@ const grepSuite = opts.grep_suite;
 const coverage = opts.coverage;
 const tailRunner = opts.tail_runner;
 const tailTest = opts.tail_test;
-const transpile = opts.transpile;
 const useBabel = opts.use_babel;
+
+var transpile = opts.transpile;
 
 var sumanInstalledLocally = null;
 
@@ -198,6 +197,9 @@ else {
 
 global.sumanConfig = sumanConfig;
 global.maxProcs = global.sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
+global.sumanHelperDirRoot = path.resolve(root + '/' + (sumanConfig.sumanHelpersDir || 'suman'));
+
+//////////////////// abort if too many top-level options /////////////////////////////////////////////
 
 const optCheck = [useBabel, init, uninstall, convert, s, tailTest, tailRunner].filter(function (item) {
 	return item;
@@ -210,6 +212,14 @@ if (optCheck.length > 1) {
 	process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
 	return;
 }
+
+////////////////// merge cmd line options with config file //////////////////////////////////////////
+
+if (!opts.no_transpile && global.sumanConfig.transpile === true) {
+	transpile = opts.transpile = true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 global.sumanReporters = [].concat((opts.reporter_paths || []).map(function (item) {
 	if (!path.isAbsolute(item)) {
@@ -257,13 +267,23 @@ global.sumanReporters.forEach(function (reporter) {
 });
 
 //note: whatever args are remaining are assumed to be file or directory paths to tests
-var dirs = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
+var paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
 	if (String(item).indexOf('-') === 0) {
 		console.log(colors.magenta(' => Suman warning => Probably a bad command line option "' + item + '", Suman is ignoring it.'))
 		return false;
 	}
 	return true;
 });
+
+/////////////////// assign vals from config ////////////////////////////////////////////////
+
+//TODO possibly reconcile these with cmd line options
+const testDir = global._sTestDir = path.resolve(root + '/' + global.sumanConfig.testDir);
+const testSrcDir = global._sTestSrcDir = path.resolve(root + '/' + global.sumanConfig.testSrcDir);
+const testDestDir = global._sTestDestDir = path.resolve(root + '/' + global.sumanConfig.testDestDir);
+const testDirCopyDir = global._sTestDirCopyDir = path.resolve(root + '/' + (global.sumanConfig.testDirCopyDir || 'test-target'));
+
+////////////////////////////////////////////////////////////////////////////////////////////
 
 if (tailRunner) {
 	require('./lib/make-tail/tail-runner');
@@ -273,14 +293,14 @@ else if (tailTest) {
 }
 else if (useBabel) {
 
-	require('./lib/use-babel/use-babel')(null, function(err, stdout, stderr){
-		if(err){
-			console.log('\n','Babel was not installed successfully globally.');
-			console.log('\n',stdout);
+	require('./lib/use-babel/use-babel')(null, function (err, stdout, stderr) {
+		if (err) {
+			console.log('\n', 'Babel was not installed successfully globally.');
+			console.log('\n', stdout);
 			console.log('\n', stderr);
 		}
-		else{
-			console.log('\n','Babel was not installed successfully globally.');
+		else {
+			console.log('\n', 'Babel was not installed successfully globally.');
 		}
 
 	});
@@ -299,27 +319,6 @@ else if (uninstall) {
 		force: force,
 		fforce: fforce
 	});
-
-}
-else if (coverage) {
-
-	if (dirs.length < 1) {
-		console.error('\n   ' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
-		process.exit(constants.RUNNER_EXIT_CODES.NO_TEST_FILE_OR_DIR_SPECIFIED);
-		return;
-	}
-	else {
-
-		//TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
-		// and pretend it does not exist.
-
-		dirs = dirs.map(function (item) {
-			return path.resolve(item);
-		});  //TODO: filter out any non .js files?
-
-		require('./lib/run-coverage/exec-istanbul')(dirs, false);
-
-	}
 
 }
 else if (convert) {
@@ -384,11 +383,39 @@ else {
 	const networkLog = global.networkLog = makeNetworkLog(timestamp);
 	const server = global.server = findSumanServer(null);
 
-	async.series([
-		function acquireLock(cb) {
-			networkLog.createNewTestRun(server, cb);
+	function checkStats(item) {
+		try {
+			return fs.statSync(item).isFile();
+		}
+		catch (err) {
+			if (opts.verbose) {
+				console.error(' => Suman verbose warning => ', err.stack);
+			}
+			return null;
+		}
+	}
+
+	async.series({
+
+		transpileFiles: function (cb) {
+
+			if (transpile) {
+				runTranspile(paths, opts, cb);
+			}
+			else {
+				process.nextTick(cb);
+			}
 		},
-		function conductStaticAnalysisOfFilesForSafety(cb) {
+		watchFiles: function (cb) {
+			if (global.sumanOpts.watch) {
+				require('./lib/watching/add-watcher')(paths, cb);
+			}
+			else {
+				process.nextTick(cb);
+			}
+
+		},
+		conductStaticAnalysisOfFilesForSafety: function (cb) {
 			if (global.sumanOpts.safe) {
 				throw new Error('safe option not yet implemented');
 			}
@@ -396,97 +423,125 @@ else {
 				process.nextTick(cb);
 			}
 		},
-		function conductSafetyCheckNow(cb) {
-			async.each([], function (item, cb) {
-
-			}, cb);
-		},
-		function transpileFiles(cb) {
-			if (transpile) {
-				cp.exec('cd ' + root + ' && rm -rf test-target', function (err, stdout, stderr) {
-					if (err || String(stdout).match(/error/i) || String(stderr).match(/error/i)) {
-						cb(err || stdout || stderr);
-					}
-					else {
-						// const g = require('./gulpfile');
-						// async.each(dirs, function (item, cb) {
-						// 	item = path.resolve(root + '/' + item);
-						// 	const truncated = sumanUtils.removeSharedRootPath([item, targetTestDir]);
-						// 	const file = truncated[0][1];
-						// 	const indexOfFirstStart = String(file).indexOf('*');
-						// 	const temp = String(file).substring(0, indexOfFirstStart);
-						// 	g.transpileTests([item], 'test-target' + temp).on('finish', cb).on('error', cb);
-						// }, cb);
-
-						async.eachSeries(dirs, function (item, cb) {
-							item = path.resolve(root + '/' + item);
-							const truncated = sumanUtils.removeSharedRootPath([item, targetTestDir]);
-							const file = truncated[0][1];
-							const indexOfFirstStart = String(file).indexOf('*');
-							var temp = String(file);
-							if (indexOfFirstStart > -1) {
-								temp = temp.substring(0, indexOfFirstStart);
-							}
-
-							const cmd = 'cd ' + root + ' && babel ' + item + ' --out-dir test-target' + temp + ' --copy-files';
-
-							if (opts.verbose) {
-								console.log('Babel-cli command:', cmd);
-							}
-
-							cp.exec(cmd, cb);
-
-						}, cb);
-
-					}
-				});
-			}
-			else {
-				process.nextTick(cb);
-			}
-
+		acquireLock: function (cb) {
+			networkLog.createNewTestRun(server, cb);
 		}
 
-	], function (err, results) {
+	}, function (err, results) {
 
 		if (err) {
 			throw err;
 		}
 
+		if (opts.no_run) {
+			console.log(' => Suman message => the --no-run option is set, we are done here for now.');
+			console.log(' To view the options and values that will be used to initiate a Suman test run, use the --verbose or --vverbose options\n\n');
+			return;
+		}
+
 		const d = domain.create();
-		const args = opts._args;
 
 		d.once('error', function (err) {
 			//TODO: add link showing how to set up Babel
-			console.error(colors.magenta(' => Suman warning => (note: You will need to transpile your test files manually' +
-				' if you wish to use ES7 features, or use $ suman-babel instead of $ suman.)' + '\n' +
-				' => Suman error => ' + err.stack + '\n'));
+			console.error(colors.magenta(' => Suman error => ' + err.stack + '\n'));
 			process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
 		});
 
+		var originalPaths = null;
+
 		if (transpile) {
-			dirs = [path.resolve(root + '/test-target')];
+
+			originalPaths = _.flatten(paths).map(function (item) {
+				return path.resolve(path.isAbsolute(item) ? item : (root + '/' + item));
+			});
+
+			if (opts.all) {
+				opts.recursive = true;
+				paths = [testDirCopyDir];
+			}
+			else if (opts.sameDir) {
+				opts.recursive = true;
+				paths = [testDestDir];
+			}
+			else {
+				paths = results.transpileFiles;
+			}
+
+		}
+		else {
+
+			if (paths.length < 1) {
+				if (opts.sameDir) {
+					paths = [testSrcDir];
+				}
+				else if (testDir) {
+					paths = [testDir];
+				}
+				else {
+					throw new Error('No testDir prop specified.');
+				}
+			}
 		}
 
-		if (dirs.length < 1) {
+		if (paths.length < 1) {
 			console.error('\n\t' + colors.bgCyan.black(' => Suman error => No test file or dir specified at command line. ') + '\n\n');
+			console.error('\n   ' + colors.bgYellow.black(' => And, importantly, no testDir property is present in your suman.conf.js file. ') + '\n\n');
 			process.exit(constants.RUNNER_EXIT_CODES.NO_TEST_FILE_OR_DIR_SPECIFIED);
 		}
 		else {
 
-			dirs = dirs.map(function (item) {
-				return path.resolve(item);
+			paths = paths.map(function (item) {
+				return path.resolve(path.isAbsolute(item) ? item : (root + '/' + item));
 			});
 
+			if (opts.verbose) {
+				console.log(' ', colors.bgCyan.magenta(' => Suman verbose message => Suman will execute test files from the following locations:'), '\n', paths, '\n');
+			}
+
+			if (coverage) {
+
+				//TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
+				// and pretend it does not exist.
+
+				require('./lib/run-coverage/exec-istanbul')(paths, opts.recursive);
+
+			}
 			//TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
 			// and pretend it does not exist.
+			
+			else if (!useRunner && transpile && opts.all && originalPaths.length === 1 && checkStats(originalPaths[0])) {
 
-			if (!useRunner && dirs.length === 1 && fs.statSync(dirs[0]).isFile()) {
-				//TODO: we could read file in (fs.createReadStream) and see if suman is referenced
+				//TODO: need to learn how many files matched
+
 				d.run(function () {
 					process.nextTick(function () {
-						process.chdir(path.dirname(dirs[0]));  //force CWD to test file path // boop boop
-						require(dirs[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+						process.chdir(path.dirname(paths[0]));  //force CWD to test file path // boop boop
+						//TODO: perhaps we should require run-child.js instead?
+						require(paths[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+					});
+				});
+
+			}
+			else if (!useRunner && transpile && !opts.all && originalPaths.length === 1 && checkStats(originalPaths[0])) {
+
+				d.run(function () {
+					process.nextTick(function () {
+						process.chdir(path.dirname(paths[0]));  //force CWD to test file path // boop boop
+						//TODO: perhaps we should require run-child.js instead?
+						require(paths[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+					});
+				});
+
+			}
+			else if (!useRunner && paths.length === 1 && checkStats(paths[0])) {
+
+				//TODO: we could read file in (fs.createReadStream) and see if suman is referenced
+
+				d.run(function () {
+					process.nextTick(function () {
+						process.chdir(path.dirname(paths[0]));  //force CWD to test file path // boop boop
+						//TODO: perhaps we should require run-child.js instead?
+						require(paths[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
 					});
 				});
 			}
@@ -497,7 +552,7 @@ else {
 							grepSuite: grepSuite,
 							grepFile: grepFile,
 							$node_env: process.env.NODE_ENV,
-							fileOrDir: dirs
+							fileOrDir: paths
 							//configPath: configPath || 'suman.conf.js'
 						}).on('message', function (msg) {
 							console.log('msg from suman runner', msg);

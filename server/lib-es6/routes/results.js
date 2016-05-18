@@ -32,7 +32,7 @@ const Accordion = require('../react-components/AccordionComp');
 const AccordionSection = require('../react-components/AccordionSection');
 
 //#helpers
-const helpers = require('./helpers/index');
+const helpers = require('./helpers');
 // const findSumanServer = require('../../lib/find-suman-server');
 
 

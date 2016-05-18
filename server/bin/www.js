@@ -27,12 +27,30 @@ const colors = require('colors');
 
 const sumanUtils = require('../../lib/utils');
 
+const cwd = process.cwd();
+
+
+const root = global.projectRoot = sumanUtils.findProjectRoot(cwd);
+
+if (!root) {
+    console.log(' => Warning => A Node.js project root could not be found given your current working directory.');
+    console.log(colors.bgRed.white(' => cwd:', cwd, ' '));
+    console.log(' => Please execute the suman command from within the root of your project.\n\n');
+    return;
+}
+
+if (cwd !== root) {
+    console.log(' => CWD:', cwd);
+    console.log(' => Project root:', root);
+}
+
+
+///////////////////////////////////////////////////////////////////////
+
 
 //config
 var config = require('adore')(module, '*suman*', 'server/config/conf');
 
-
-const root = sumanUtils.findProjectRoot(path.resolve(__dirname + '/../../../../'));
 
 var configPath, sumanConfig = null;
 
@@ -53,6 +71,13 @@ console.log(' => Suman config used: ', configPath);
 const sumanLogos = require('../../lib/ascii');
 console.log(sumanLogos.suman_alligator);
 
+////////////////////////////////////////////////////////////////////////
+
+//TODO possibly reconcile these with cmd line options
+const testDir = global._sTestDir = global.sumanConfig.testDir;
+const testSrcDir = global._sTestSrcDir = global.sumanConfig.testSrcDir;
+const testDestDir = global._sTestDestDir = global.sumanConfig.testDestDir;
+const testDirCopyDir = global._sTestDirCopyDir = global.sumanConfig.testDirCopyDir;
 
 /////////////////////////////////////////////////////////////////////////
 

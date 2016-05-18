@@ -1,6 +1,36 @@
-/**
- * Created by Olegzandr on 5/14/16.
- */
 
 
-console.log(String('table data:"SUITES => ":"","Root Suite Name":"app","*total ":2,"*skipped').indexOf('table data:'));
+"use strict";
+
+Object.freezeExistingProps = function(obj, modifyProto){
+
+    Object.keys(obj).forEach(function(key){
+
+        const val = obj[key];
+
+        Object.defineProperty(obj, key , {  //we simply overwrite existing prop
+            value: val,
+            writable: false, // important, I think
+            enumerable: true,
+            configurable: false
+        });
+
+
+    });
+
+    return obj;
+
+};
+
+
+var z = {
+    foo: 'bar'
+};
+
+var k = Object.freezeExistingProps(z);
+
+k.foo = 'mmmm';
+
+console.log(z);
+console.log(k);
+

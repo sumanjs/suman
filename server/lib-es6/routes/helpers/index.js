@@ -11,5 +11,6 @@ module.exports = {
     serveFile: require('./serve-file'),
     getPathOfMostRecentSubdir: require('./get-path-of-most-recent-subdir'),
     getPathOfOldestSubdir: require('./get-path-of-oldest-subdir'),
-    sendBackError: require('./send-back-error')
+    sendBackError: require('./send-back-error'),
+    watcher: require('./watcher')
 };
