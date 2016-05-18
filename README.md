@@ -16,7 +16,7 @@
 
 <br>
 <i> => For command line tools:</i>
-## ```npm install -g suman```
+## ```$ npm install -g suman```
 <br>
 <i> => For test suites in your project:</i>
 ## ```$ suman --init```
@@ -24,7 +24,7 @@
 ### Note: you should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
 
 => to convert a Mocha test or whole directory(s) of Mocha tests to Suman tests use <br>
-```$ suman --convert <src-file/src-dir> <dest-file/dest-dir>```
+```$ suman --convert --src=<src-file/src-dir> --dest=<dest-dir>```
 
 => to simply install Suman as dev-dependency in any project you can use ```$ npm install -D suman```, <br>
 however ```$ suman --init``` is the preferred way to initialized suman in a given project. 
@@ -40,10 +40,12 @@ take the time to compare its capabilities with AVA, Mocha and Tape.
 
 The primary aims are:
 
-* simpler API, whilst adding new powerful features
 * make tests run much faster by leveraging async I/O and separate Node.js processes
-* make debugging your test files much easier
+* isolate tests by running in separate processes
+* make debugging your test files much easier; achieved by allowing for running of tests with plain node executable
 * provide cleaner output, so that developer logging output is not necessarily mixed with test results
+* add a whole bunch of missing features from Mocha, Tape and AVA, while simplifying the Mocha API and doing
+away with implicit globals
 
 
 <br>
@@ -259,14 +261,21 @@ Test.describe('ES6/ES7 API Example', function(baz, assert, path, http){   // thi
      this.it('detects metal', t => {
          assert(t.moo = 'kabab');             
      });
+
      
-     this.it('uses ES7', async t => {
+     this.it('ES7 is not necessary because we can achieve the same thing with generators', async t => {
      
         const val = await baz.doSomethingAsync();  
         assert(path.resolve(val.foo) === '/bar');
          
      });
 
+     this.it('you dont need to transpile, because achieves the same as above', function*(t){
+
+        const val = yield baz.doSomethingAsync();
+        assert(path.resolve(val.foo) === '/bar');
+
+     });
 
 });
 
@@ -286,8 +295,55 @@ const Test = suman.init(module);
 
 Test.describe('ES5 API Example', {mode: 'parallel'}, function(delay, assert){    
 
-    
-    
+   //we have declared the root suite to be parallel, so all direct children will run in parallel with each other
+
+    this.describe('child block 1', function(){     //runs in parallel with child block 2,3
+
+        this.it('red wine', t => {
+             assert(true);
+        });
+
+        this.it('white wine', t => {
+             assert(true);
+        })
+
+    });
+
+
+    this.describe('child block 2', function(){    //runs in parallel with child block 1,3
+
+        this.it('lager', t => {
+             assert(true);
+        });
+
+        this.it('IPA', t => {
+             assert(true);
+        })
+
+    });
+
+
+    this.describe('child block 3', function(){    //runs in parallel with child block 1,2
+
+
+     // child block 3 is not declared to be parallel, and
+     // because series is the default, its direct children will run in series
+
+         this.describe('child block a', function(){    //runs in series with child block a
+
+
+
+
+         });
+
+        this.describe('child block b', function(){    //runs in series with child block a
+
+
+
+
+         });
+
+    });
 
 });
 
