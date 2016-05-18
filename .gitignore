@@ -1,10 +1,5 @@
 node_modules
 .idea
-bugs
 suman/logs
-coverage
-docs
-jsdoc-out
-mr-docs
 .nyc_output
 test-target
