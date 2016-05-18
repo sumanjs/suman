@@ -107,6 +107,7 @@ const convert = opts.convert;
 const src = opts.src;
 const dest = opts.dest;
 const init = opts.init;
+const initBabel = opts.init_babel;
 const uninstall = opts.uninstall;
 const force = opts.force;
 const fforce = opts.fforce;
@@ -119,6 +120,7 @@ const coverage = opts.coverage;
 const tailRunner = opts.tail_runner;
 const tailTest = opts.tail_test;
 const transpile = opts.transpile;
+const useBabel = opts.use_babel;
 
 var sumanInstalledLocally = null;
 
@@ -197,13 +199,14 @@ else {
 global.sumanConfig = sumanConfig;
 global.maxProcs = global.sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 
-const optCheck = [init, uninstall, convert, s, tailTest, tailRunner].filter(function (item) {
+const optCheck = [useBabel, init, uninstall, convert, s, tailTest, tailRunner].filter(function (item) {
 	return item;
 });
 
 if (optCheck.length > 1) {
-	console.error('\tIf you choose one of the following options, you may only pick one option  { --convert, --init, --server }');
+	console.error('\tTwo many options, pick one from  { --convert, --init, --server, --use-babel, --uninstall --tail-test, --tail-runner }');
 	console.error('\tUse --help for more information.\n');
+	console.error('\tUse --examples to see command line examples for using Suman in the intended manner.\n');
 	process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
 	return;
 }
@@ -267,6 +270,21 @@ if (tailRunner) {
 }
 else if (tailTest) {
 	require('./lib/make-tail/tail-test');
+}
+else if (useBabel) {
+
+	require('./lib/use-babel/use-babel')(null, function(err, stdout, stderr){
+		if(err){
+			console.log('\n','Babel was not installed successfully globally.');
+			console.log('\n',stdout);
+			console.log('\n', stderr);
+		}
+		else{
+			console.log('\n','Babel was not installed successfully globally.');
+		}
+
+	});
+
 }
 else if (init) {
 
@@ -390,14 +408,34 @@ else {
 						cb(err || stdout || stderr);
 					}
 					else {
-						const g = require('./gulpfile');
-						async.each(dirs, function (item, cb) {
+						// const g = require('./gulpfile');
+						// async.each(dirs, function (item, cb) {
+						// 	item = path.resolve(root + '/' + item);
+						// 	const truncated = sumanUtils.removeSharedRootPath([item, targetTestDir]);
+						// 	const file = truncated[0][1];
+						// 	const indexOfFirstStart = String(file).indexOf('*');
+						// 	const temp = String(file).substring(0, indexOfFirstStart);
+						// 	g.transpileTests([item], 'test-target' + temp).on('finish', cb).on('error', cb);
+						// }, cb);
+
+						async.eachSeries(dirs, function (item, cb) {
 							item = path.resolve(root + '/' + item);
 							const truncated = sumanUtils.removeSharedRootPath([item, targetTestDir]);
 							const file = truncated[0][1];
 							const indexOfFirstStart = String(file).indexOf('*');
-							const temp = String(file).substring(0, indexOfFirstStart);
-							g.transpileTests([item], 'test-target' + temp).on('finish', cb).on('error', cb);
+							var temp = String(file);
+							if (indexOfFirstStart > -1) {
+								temp = temp.substring(0, indexOfFirstStart);
+							}
+
+							const cmd = 'cd ' + root + ' && babel ' + item + ' --out-dir test-target' + temp + ' --copy-files';
+
+							if (opts.verbose) {
+								console.log('Babel-cli command:', cmd);
+							}
+
+							cp.exec(cmd, cb);
+
 						}, cb);
 
 					}

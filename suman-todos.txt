@@ -1,5 +1,5 @@
 
-
+//TODO: check to verify that transpilation with babel works
 //TODO: general rules - if test suite < 10 files, speed up your slowest test, if not, speed up all tests
 //TODO: suman has to handle assigning things to this in testsuite hooks etc
 //TODO: instead of using gulp to transpile, use babel-cli sudo babel lib --out-dir lib-dest

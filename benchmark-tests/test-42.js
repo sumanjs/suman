@@ -10,6 +10,8 @@ const suman = require('../lib');
 const Test = suman.init(module, {});
 
 
+console.log('num of network calls:',val);
+
 Test.describe('benchmark-test', {mode: 'series'}, function () {
 
 	for (var i = 0; i < val; i++) {

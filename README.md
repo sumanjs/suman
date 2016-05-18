@@ -170,15 +170,12 @@ to the Node.js community.
    *  load any core/"built-in" Node.js module by name 
    *  DI is used throughout the library, and relieves the burden on the developer to remember order of parameters
    *  Inject network values, test dependencies and library dependencies
-       * the truth is, once you have more than 3 or 4 dependencies (params to a function), 
-       it's easier to design the API to inject them rather than deal with
-       contingincies, which is why Angular and RequireJS, while having often many more than 5 params use DI, as well as Suman
-      
     
 * <b> Test runner tuning </b>
     *  Add contraints to prevent any given pair of tests from running at the same time
     *  Cap the total number of processes running at the same time
     *  Suman 'once' feature gives the developer the option to run checks to see if all necessary network components are live before running any given test
+    *  Your suman.once.js file can augment the behavior of container build scripts etc, to help start up services necessary for testing to commence
     
 * <b> Easy migration from Mocha </b>
     *  Suman includes a command line option to convert whole directories or individual Mocha tests to Suman tests
@@ -193,10 +190,10 @@ to the Node.js community.
 
 ## Suman design
 
-* no globals whatsoever, which were avoided due to the problems they caused for Jasmine and Mocha.
+* no implicit globals in test suite files, which were avoided due to the problems they caused for Jasmine and Mocha.
 * Suman uses domains to isolate errors in asynchronous tests and hooks, and currently this is the only solution to this problem at the moment. 
 Domains are facing deprecation, and Suman will replace domains with whichever suitable replacement is chosen by the Node.js core team.
-As it stands, Suman is a perfect use case for domains, as untrapped errors are supposed to be thrown in test code (assertions, etc),
+As it stands, _Suman is a perfect use case for domains, as untrapped errors are supposed to be thrown in test code_ (assertions, etc),
 and the developer experience in this library will be better than any other test library because of the use of domains, as they basically
 guarantee that we can pin an error to a particular test case or hook, no matter where the error originated from.
 
@@ -217,7 +214,7 @@ guarantee that we can pin an error to a particular test case or hook, no matter 
 
 #### example using ES6/ES7 API:  
 
-<i> Suman is as simple as you want it to be; but it's also jam-packed with features that you can use. </i>
+<i> Suman is as simple as you want it to be; but it's also packed with features that you can use. </i>
 
 ```js
 
