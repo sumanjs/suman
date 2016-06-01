@@ -1,0 +1,226 @@
+
+
+//TODO: allow suman.once.js and suman.ioc.js to handle generator fns
+//TODO: turn grep into match
+//TODO: make skip.cb and cb.skip interchangeable
+//TODO: as opposed to arrow fns, generator fns and async fns, is there an accepted term for "traditional" JS functions?
+//TODO: could try "brew install sqlite3" if it's not already installed and running
+//TODO: delete nearly all prior commits on master and dev and push to suman public repo on github
+//TODO: warn if test or hook does not return anything if there is no callback
+//TODO: make sure that generator functions get recognized when transpiling isGenerator() check needs to work correctly
+//TODO: suman --convert should work if you don't use --src/--dest, but you will then need to use -f option after a confirmation message from Suman saying
+which items will be converted to where
+//TODO: http://krasimirtsonev.com/blog/article/debugging-with-node
+//TODO: http://justjs.com/posts/npm-link-developing-your-own-npm-modules-without-tears
+//Todo: https://nodejs.org/en/blog/npm/npm-1-0-link/
+//TODO: https://github.com/paulmillr/chokidar
+//TODO: init should install istanbul globally? should install suman globally?
+//TODO: https://babeljs.io/docs/usage/options/
+//TODO: https://www.sitepoint.com/solve-global-npm-module-dependency-problem/
+//TODO: CLI-TABLE https://www.npmjs.com/package/cli-table
+//TODO: check to verify that transpilation with babel works
+//TODO: general rules - if test suite < 10 files, speed up your slowest test, if not, speed up all tests
+//TODO: suman does not come with babel out of the box, to use babel, run suman --use-babel and suman will install babel for you the correct way
+//TODO: babel-core register - http://stackoverflow.com/questions/35040978/babel-unexpected-token-import-when-running-mocha-tests
+//TODO: suman::test gets logged twice when running test-dest/integration/hook.err.js
+//TODO: before/after/beforeEach/afterEach need to be this.x even when the second match is not made
+//TODO: this.suite = this;
+//TODO: t.state = 'passed'/'failed' etc.
+//TODO: in a hook "this" should be converted to 't'
+//TODO: this.suite from Mocha should be defined
+//TODO: babel should be optional to install, takes too long otherwise
+//TODO: change Test to _Test in conversion proc
+//TODO: this.timeout() needs to be t.timeout();
+//eg: this.describe('port', function (done) {
+//TODO: this.timeout in rootsuite and child suites etc.
+//TODO: check to see if first arg to done can be any non-null value
+//TODO: convert + --debug = put var _d = process.domain() in each hook / test case
+//TODO: don't always want to put suman at the top of every .js file, some .js files are not tests
+//TODO: https://www.npmjs.com/browse/star
+//TODO: stdout should not be inherited by runner?
+//TODO: bash completion with dashdash
+//TODO: store "former mocha project" in suman dir, and then run runner from root directory instead of test file dir
+//TODO: need to put should at top of test file as mocha uses --require in opts to load should, we could do that too
+//TODO: sudo chmod -R 777 suman in a project
+//TODO: if suman or suman/logs does not exist, need to tell user to install suman (or suman should create if they don't exist)
+//TODO: assert title/desc.lenght of root test suite is > 0
+//TODO: fatal error in hook should have hook name if it exists
+//TODO: outputDir: path.resolve(process.env[(process.platform === 'win32' ? 'USERPROFILE' : 'HOME')] + '/suman/suman_results')
+//TODO: invert socketio, so that the servers are the clients, and the command line app is the server, and can broacast
+//TODO: need to add chmod to suman_results and/or suman dirs
+//TODO: need to add "need your help with mocha conversion" to end of slideshow, and babel plugin for that
+//TODO: need to add write to suman server to readme table
+//TODO: path to root could be resolved using test paths, if the test paths are absolute?
+//TODO: when maxParallelProcesses set to one some problems with below command
+//TODO: node index "test/build-tests/**/*.js" "test/integration-tests/**/*.js" --transpile (does not work without transpile option set)
+//TODO: add option of high-resolution time instead of Date.now() etc
+//TODO: add system lock
+//TODO: write to .gitignore and put test-suman-target and suman/logs in there
+//TODO: optimize TestSuite/TestSuiteBase prototypes in the case that user creates many of these with looping constructs
+//TODO: add a gitkeep file to suman/logs etc
+//TODO: place array of tests in befores/afters so we know which tests pertain to the hook
+//TODO: if a promise or non-undefined value is returned, but cb mode is on, add warning
+//TODO: using t.assert etc can help prevent errors not being assigned to tests
+//TODO: add support for observables
+//TODO: node -c flag to check file for syntax errors
+//TODO: tap: https://github.com/TestAnything/testanything.github.io/pull/36
+//TODO: implement t.plan/t.timeout
+//TODO: mocha and ava are concentric circles inside Suman
+//TODO: run tests from current directory when using runner
+//TODO: add exit code for hook timeout besides 1
+//TODO: if user wants to collect multiple errors per test, they can use t.assert
+//TODO: need to add option to include stdout when using runner
+//TODO: npm install mocha -g --save-dev
+//TODO: overall consolidated table can have a count of failed test files vs passed test files, and percentage
+//TODO: add max memory value in overall table for runner
+//TODO: need assertions to print out pretty
+//TODO: if using local server and SQLite, then each cp should save data directly to db. however, if remote server, then
+// should only the parent process (runner) make the network connection? Possibly remove network code from suman file
+//TODO: running with bare node executable should make no network connections and only save to local db if it exists
+//TODO: fork() is just a wrapper around spawn(). You can open the file with fs.open(), then pass the file descriptor in the options as { stdio: ['inherit', fd, fd] }
+//TODO: need to put std reporter in suman.conf.js
+//TODO: https://github.com/nodejs/help
+//TODO: runner needs to show tests in table even if they fail out before sending table data
+//TODO: https://hellocoding.wordpress.com/2015/01/19/delete-all-commit-history-github/
+//TODO: have to allow users to use bash scripts as hooks to setup process information, this involves
+// having an option to use spawn instead of fork in the runner, see ./lib/bash/a and ./lib/bash/b
+//TODO: https://github.com/JacksonGariety/gulp-nodemon/issues/110#event-628179539
+//TODO: did you forget to call done? should become "did you forget to call fail/pass?" etc under right conditions
+//TODO: implement Test.on('end') or Test.on('completed');
+//TODO: if you can get tired of using this.it, you have two options, chain them, or put them in a series/parallel block
+//TODO: need glob support for source //https://github.com/isaacs/node-glob
+//TODO: http://altamodatech.com/blogs/?p=452  //How To Use Mocha for Node Testing in Windows
+//TODO: TESTS=$(shell find test/ -name "*.test.js")
+//TODO: makefiles vs. gulp vs. plain js
+//TODO: need glob support for source
+//TODO: to be compliant with Babel transpilation, need to put context for functions in extra param
+//TODO: https://github.com/gotwarlost/istanbul/issues/596#issuecomment-208688593
+//TODO: http://blog.yld.io/2016/01/13/using-streams/#.VwyjZZMrKXk
+//TODO: freeze module.exports inside the init fn, iff module.exports.keys.lenght ===0
+//TODO: http://stackoverflow.com/questions/10753288/how-to-specify-test-directory-for-mocha
+//TODO: https://github.com/substack/picture-tube
+//TODO: need to test skip and only thoroughly
+//TODO: hooks after suman runs (opposite of suman.once.js) could be for collecting code/test coverage
+//TODO: whatever is returned in a beforeEach hook should be assigned to each test (?) NO, multiple hooks would overwrite ret
+//TODO: suman postinstall script
+//TODO: add hyperlinks to terminal window for table output
+//TODO: give ability to users to provide shell scripts to launch individual mocha tests, that way they can provide environment
+// settings for child_process, shell scripts should be in a directory called sh in the same directory as the test
+//  see ./bash/a and ./bash/b
+//TODO: bail needs to be implemented for runner as well as individual tests
+//TODO: bail + hooks https://github.com/mochajs/mocha/issues/690
+//TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense
+//TODO: conversion, this.title needs to work for a describe block (same as this.desc)
+//TODO: add support question to gulp github to see if we can use special key combo with gulp for below item
+//TODO: add suman.gulp.js => watches with special key combo will transpile tests
+//TODO: need to add ability to kill test runner after it's started - https://gist.github.com/tedmiston/5935757
+//TODO: nice docs => https://cdnjs.com/libraries/backbone.js/tutorials/organizing-backbone-using-modules
+//TODO: https://github.com/mochajs/mocha/issues/492
+//TODO: https://www.npmjs.com/package/tap-mocha-reporter
+//TODO: need to make sure to make suman_results readable/writable (move to sqlite3)
+//TODO: need to figure out way to grep suite name without having to run the test
+//TODO: need to implement  -b, --bail   => bail after first test failure
+//TODO: suman command line input should allow for a file and directory combination
+//TODO: readme needs to have examples by ES5, ES6, ES7
+//TODO: default configuration should provide default values using lodash defaults / underscore defaults
+//TODO: switch from underscore to lodash
+//TODO: get it to work with Istanbul/NYC
+//TODO: special key combo (ctrl+save+r) will run tests after a change, using gulp file watchers?
+//TODO: https://nodejs.org/en/blog/uncategorized/profiling-node-js/
+//TODO: npm i babel -g, then babel-node --stage 0 myapp.js
+//TODO: https://github.com/nodejs/node/issues/5252
+//TODO: need a suman server stop command at the command line
+//TODO, along with options {plan:3}, {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an (async) error...
+//TODO: if error is thrown after test is completed (in a setTimeout, for example) do we handle that?
+//TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
+//TODO: randomize test runs as per https://github.com/sindresorhus/ava/issues/595
+//TODO: steal unicode chars from existing projects
+//TODO: does babel-node work with child_processes?
+//TODO: create suman --diagnostics option at command line to check for common problems with both project and test suites
+//TODO: write metadata file out along with txt files
+//TODO  need to add a delay option for tests running in a loop (why? => google github issue)
+//TODO  on ms windows error messages do not always give url/link/path of test file with error
+//TODO: https://github.com/nodejs/node/issues/5252#issuecomment-212784934
+//TODO: implement Test.on('end') so that we can force exit the test using process.exit()
+//TODO: if this.it.only is declared need to declare other test cases as "skipped"
+//TODO: allow hooks to be skipped
+
+/* advantages of Suman
+ *
+ * better than mocha, cleaner than vows
+ * no globals - no global NPM module - no global variables
+ * test suites each run in separate process for speed and correctness
+ * each test suite can have parallel components, allowing the developer to run tests serially, in parallel or in combination, as the developer sees fit
+ * code inside any test will not run for any test not intended to run when using grep features
+ * organize your tests depending on NODE_ENV or command line flags using config files, instead of putting tests in different top-level folders in your project
+ *  asynchronous reporting capablities - write test results to DB
+ *  3 reasons to use nested describes?
+ *  (1) to control parallel flow - nesting in describe can force to run in series
+ *  (2) skip/only - allow you to skip whole sections of a test suite
+ *  (3) labelling of output - nesting in describes allows you to label and organize the output from your tests
+ *
+ * */
+
+
+//TODO: if parent is parallel, it test cases don't seem to run in parallel
+//TODO: if callback is called twice in hook or test, ignore the second, just throw an error
+//TODO: move to lodash, ditch underscore
+//TODO: use fs.createReadStream to check files to see if they are actually Suman tests in safe mode
+//TODO: need to check to make sure the tests have different names, before running (namespace can have filepath in front to prevent clashing)
+//TODO: note: https://www.npmjs.com/package/gulp-mocha
+//TODO: use Object.defineProperties for read-only
+
+
+// Future development - suman.groups.js / observable support
+
+
+/*
+
++test('handle throws with thrown observable', function (t) {
+ +	ava(function (a) {
+ +		a.plan(1);
+ +
+ +		var observable = new Observable(function (observer) {
+ +			observer.error(new Error());
+ +		});
+ +		a.throws(observable);
+ +	}).run().then(function (a) {
+ +		t.false(a.assertError);
+ +		t.end();
+ +	});
+ +});
+ +
+ +test('handle throws with long running thrown observable', function (t) {
+ +	ava(function (a) {
+ +		a.plan(1);
+ +
+ +		var observable = new Observable(function (observer) {
+ +			setTimeout(function () {
+ +				observer.error(new Error('abc'));
+ +			}, 2000);
+ +		});
+ +
+ +		a.throws(observable, /abc/);
+ +	}).run().then(function (a) {
+ +		t.false(a.assertError);
+ +		t.end();
+ +	});
+ +});
+
+ */
+
+/*
+
+ //TODO: support this style:
+
+ this.it('[test] yo 2', {parallel: false}, new Promise(function (resolve, reject) {
+
+ Promise.delay(1000).then(function () {
+ resolve();
+ });
+
+ }).then(function(){
+
+ }));
+
+ */

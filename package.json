@@ -8,7 +8,7 @@
     "view_results": "open -a Google\\ Chrome view/results.html",
     "merge": "git merge -Xignore-all-space",
     "debug_mocha": "node-debug _mocha --no-timeouts ",
-    "remove-private-dirs": "git rm --cached .nyc_output private test-target benchmark-tests bugs examples file-examples internal-docs jsdoc-out -r",
+    "remove-private-dirs": "git rm --cached .nyc_output private benchmark-tests bugs examples file-examples internal-docs jsdoc-out -r",
     "remove-private-files": "git rm --cached exp*.js jsdoc-notes.txt suman-todos.txt old-package-json.json"
   },
   "author": "Olegzandr Denman",
