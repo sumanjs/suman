@@ -12,10 +12,7 @@ Test.describe('2', {parallel: true}, function () {
 
 
     this.it.cb('one', t => {
-
-        setTimeout(function () {
-            t.done();
-        }, 2000);
+        setTimeout(t.done, 2000);
     });
 
     this.it.cb('two', t => {

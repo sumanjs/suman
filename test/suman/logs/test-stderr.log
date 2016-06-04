@@ -2,12 +2,23 @@
 
  //// 
 
- ### Suman start run indiv. @Sat May 28 2016 23:13:10 GMT-0400 (EDT) ### 
+ ### Suman start run indiv. @Fri Jun 03 2016 19:09:04 GMT-0700 (PDT) ### 
 
- ### Filename: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
- ### Beginning of run at 1464491590102 = [Sat May 28 2016 23:13:10 GMT-0400 (EDT)]
- ### Command = ["/usr/local/Cellar/node/6.1.0/bin/node","/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js"]
+ ### Filename: /Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js
+ ### Beginning of run at 1465006144524 = [Fri Jun 03 2016 19:09:04 GMT-0700 (PDT)]
+ ### Command = ["/usr/local/Cellar/node/6.2.0/bin/node","/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js"]
 
+
+
+
+Test error: tests-t
+	stack: 	Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()?
+	    at TestSuiteBase.TestSuite.it (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:260:33)
+	    at Function.it.cb (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:437:27)
+	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js:22:13)
+	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/exec-suite.js:316:11
+	    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+	    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
 
 
 
@@ -20,60 +31,3 @@
 
 
 
-startstartstartstartstartstartstartstartstartstartstartstartstartstartstartstartstartstartstart
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/ava/await.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/ava/await.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js
-start
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test1.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/empty.test.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test1.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/ava/f.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test3.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/recursion-check/test8.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/ava-test/file1.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/mocha-test0.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/recursion-check/test8.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test3.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test1.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test1.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/recursion-check/recursion-check2/test9.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/recursion-check/recursion-check2/test9.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
-
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test4.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test4.js
-start
- about to send real table results/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/n/mocha-test0.js
-
- RECEIVED real table results/Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/n/mocha-test0.js
-startstart

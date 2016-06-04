@@ -1,550 +1,75 @@
 
 
-[build-tests/recursion-check/recursion-check2/test9.js]  => Suman v1.1.39912 running individual test suite...
-[build-tests/recursion-check/recursion-check2/test9.js] 
-
-[build-tests/recursion-check/recursion-check2/test9.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/recursion-check/recursion-check2
-[build-tests/recursion-check/recursion-check2/test9.js] 
-
-[build-tests/recursion-check/recursion-check2/test9.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[build-tests/recursion-check/recursion-check2/test9.js] 
-[build-tests/recursion-check/recursion-check2/test9.js] 
-
-[build-tests/recursion-check/recursion-check2/test9.js] 
-[build-tests/recursion-check/recursion-check2/test9.js] 
-[build-tests/recursion-check/recursion-check2/test9.js] 	  _   _ _  _  _   .. _/__   __/_
-[build-tests/recursion-check/recursion-check2/test9.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[build-tests/recursion-check/recursion-check2/test9.js] 
-[build-tests/recursion-check/recursion-check2/test9.js] 
-[build-tests/recursion-check/recursion-check2/test9.js] 
-
-[build-tests/recursion-check/recursion-check2/test9.js] 
-[build-tests/recursion-check/recursion-check2/test9.js] 
-
-[integration-tests/test2.js]  => Suman v1.1.39912 running individual test suite...
-[integration-tests/test2.js] 
-
-[integration-tests/test2.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests
-[integration-tests/test2.js] 
-
-[integration-tests/test2.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[integration-tests/test2.js] 
-[integration-tests/test2.js] 
-
-[integration-tests/test5.js]  => Suman v1.1.39912 running individual test suite...
-[integration-tests/test5.js] 
-
-[ava/f.js]  => Suman v1.1.39912 running individual test suite...
-[ava/f.js] 
-
-[ava/f.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/ava
-[ava/f.js] 
-
-[ava/f.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[ava/f.js] 
-[ava/f.js] 
-
-[ava/f.js] 
-[ava/f.js] 
-[ava/f.js] 	  _   _ _  _  _   .. _/__   __/_
-[ava/f.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[ava/f.js] 
-[ava/f.js] 
-[ava/f.js] 
-
-[ava/f.js] 
-[ava/f.js] 
-
-[integration-tests/test4.js]  => Suman v1.1.39912 running individual test suite...
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[integration-tests/test4.js] 
-[integration-tests/test4.js] 
-
-[integration-tests/test7.js]  => Suman v1.1.39912 running individual test suite...
-[integration-tests/test7.js] 
-
-[integration-tests/test7.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests
-[integration-tests/test7.js] 
-
-[integration-tests/test7.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[integration-tests/test7.js] 
-[integration-tests/test7.js] 
-
-[build-tests/empty.test.js]  => Suman v1.1.39912 running individual test suite...
-[build-tests/empty.test.js] 
-
-[build-tests/empty.test.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests
-[build-tests/empty.test.js] 
-
-[build-tests/empty.test.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[build-tests/empty.test.js] 
-[build-tests/empty.test.js] 
-
-[integration-tests/test5.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests
-[integration-tests/test5.js] 
-
-[integration-tests/test5.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[integration-tests/test5.js] 
-[integration-tests/test5.js] 
-
-[ava-test/file1.js]  => Suman v1.1.39912 running individual test suite...
-[ava-test/file1.js] 
-
-[ava-test/file1.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/ava-test
-[ava-test/file1.js] 
-
-[ava-test/file1.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[ava-test/file1.js] 
-[ava-test/file1.js] 
-
-[build-tests/recursion-check/test8.js]  => Suman v1.1.39912 running individual test suite...
-[build-tests/recursion-check/test8.js] 
-
-[integration-tests/test1.js]  => Suman v1.1.39912 running individual test suite...
-[integration-tests/test1.js] 
-
-[build-tests/recursion-check/test8.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/recursion-check
-[build-tests/recursion-check/test8.js] 
-
-[build-tests/recursion-check/test8.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[build-tests/recursion-check/test8.js] 
-[build-tests/recursion-check/test8.js] 
-
-[integration-tests/test3.js]  => Suman v1.1.39912 running individual test suite...
-[integration-tests/test3.js] 
-
-[integration-tests/test3.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests
-[integration-tests/test3.js] 
-
-[integration-tests/test3.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[integration-tests/test3.js] 
-[integration-tests/test3.js] 
-
-[integration-tests/test1.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests
-[integration-tests/test1.js] 
-
-[integration-tests/test1.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[integration-tests/test1.js] 
-[integration-tests/test1.js] 
-
-[ava/await.js]  => Suman v1.1.39912 running individual test suite...
-[ava/await.js] 
-
-[ava/await.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/ava
-[ava/await.js] 
-
-[ava/await.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[ava/await.js] 
-[ava/await.js] 
-
-[mocha-conversion-tests/dest/mocha-test0.js]  => Suman v1.1.39912 running individual test suite...
-[mocha-conversion-tests/dest/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/mocha-test0.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest
-[mocha-conversion-tests/dest/mocha-test0.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[mocha-conversion-tests/dest/mocha-test0.js] 
-[mocha-conversion-tests/dest/mocha-test0.js] 
-
-[integration-tests/test5.js] 
-[integration-tests/test5.js] 
-[integration-tests/test5.js] 	  _   _ _  _  _   .. _/__   __/_
-[integration-tests/test5.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[integration-tests/test5.js] 
-[integration-tests/test5.js] 
-[integration-tests/test5.js] 
-[integration-tests/test5.js] 
-
-[integration-tests/test2.js] 
-[integration-tests/test2.js] 
-[integration-tests/test2.js] 	  _   _ _  _  _   .. _/__   __/_
-[integration-tests/test2.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[integration-tests/test2.js] 
-[integration-tests/test2.js] 
-[integration-tests/test2.js] 
-[integration-tests/test2.js] 
-
-[integration-tests/test4.js] 
-[integration-tests/test4.js] 
-[integration-tests/test4.js] 	  _   _ _  _  _   .. _/__   __/_
-[integration-tests/test4.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[integration-tests/test4.js] 
-[integration-tests/test4.js] 
-[integration-tests/test4.js] 
-[integration-tests/test4.js] 
-
-[build-tests/recursion-check/test8.js] 
-[build-tests/recursion-check/test8.js] 
-[build-tests/recursion-check/test8.js] 	  _   _ _  _  _   .. _/__   __/_
-[build-tests/recursion-check/test8.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[build-tests/recursion-check/test8.js] 
-[build-tests/recursion-check/test8.js] 
-[build-tests/recursion-check/test8.js] 
-[build-tests/recursion-check/test8.js] 
-
-[build-tests/empty.test.js] 
-[build-tests/empty.test.js] 
-[build-tests/empty.test.js] 	  _   _ _  _  _   .. _/__   __/_
-[build-tests/empty.test.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[build-tests/empty.test.js] 
-[build-tests/empty.test.js] 
-[build-tests/empty.test.js] 
-[build-tests/empty.test.js] 
-
-[integration-tests/test3.js] 
-[integration-tests/test3.js] 
-[integration-tests/test3.js] 	  _   _ _  _  _   .. _/__   __/_
-[integration-tests/test3.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[integration-tests/test3.js] 
-[integration-tests/test3.js] 
-[integration-tests/test3.js] 
-[integration-tests/test3.js] 
-
-[ava-test/file1.js] 
-[ava-test/file1.js] 
-[ava-test/file1.js] 	  _   _ _  _  _   .. _/__   __/_
-[ava-test/file1.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[ava-test/file1.js] 
-[ava-test/file1.js] 
-[ava-test/file1.js] 
-[ava-test/file1.js] 
-
-[integration-tests/test7.js] 
-[integration-tests/test7.js] 
-[integration-tests/test7.js] 	  _   _ _  _  _   .. _/__   __/_
-[integration-tests/test7.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[integration-tests/test7.js] 
-[integration-tests/test7.js] 
-[integration-tests/test7.js] 
-[integration-tests/test7.js] 
-
-[integration-tests/test1.js] 
-[integration-tests/test1.js] 
-[integration-tests/test1.js] 	  _   _ _  _  _   .. _/__   __/_
-[integration-tests/test1.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[integration-tests/test1.js] 
-[integration-tests/test1.js] 
-[integration-tests/test1.js] 
-[integration-tests/test1.js] 
-
-[ava/await.js] 
-[ava/await.js] 
-[ava/await.js] 	  _   _ _  _  _   .. _/__   __/_
-[ava/await.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[ava/await.js] 
-[ava/await.js] 
-[ava/await.js] 
-[ava/await.js] 
-
-[mocha-conversion-tests/dest/mocha-test0.js] 
-[mocha-conversion-tests/dest/mocha-test0.js] 
-[mocha-conversion-tests/dest/mocha-test0.js] 	  _   _ _  _  _   .. _/__   __/_
-[mocha-conversion-tests/dest/mocha-test0.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[mocha-conversion-tests/dest/mocha-test0.js] 
-[mocha-conversion-tests/dest/mocha-test0.js] 
-[mocha-conversion-tests/dest/mocha-test0.js] 
-[mocha-conversion-tests/dest/mocha-test0.js] 
-
-[build-tests/test6.test.js]  => Suman v1.1.39912 running individual test suite...
-[build-tests/test6.test.js] 
-
-[build-tests/test6.test.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests
-[build-tests/test6.test.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[build-tests/test6.test.js] 
-[build-tests/test6.test.js] 
-
-[integration-tests/test8.js]  => Suman v1.1.39912 running individual test suite...
-[integration-tests/test8.js] 
-
-[integration-tests/test8.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests
-[integration-tests/test8.js] 
-
-[integration-tests/test8.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[integration-tests/test8.js] 
-[integration-tests/test8.js] 
-
-[build-tests/tes-t7.js]  => Suman v1.1.39912 running individual test suite...
-[build-tests/tes-t7.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests
-[build-tests/tes-t7.js] 
-
-[build-tests/tes-t7.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[build-tests/tes-t7.js] 
-[build-tests/tes-t7.js] 
-
-[integration-tests/test8.js] 
-[integration-tests/test8.js] 
-[integration-tests/test8.js] 	  _   _ _  _  _   .. _/__   __/_
-[integration-tests/test8.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[integration-tests/test8.js] 
-[integration-tests/test8.js] 
-[integration-tests/test8.js] 
-[integration-tests/test8.js] 
-
-[build-tests/test6.test.js] 
-[build-tests/test6.test.js] 
-[build-tests/test6.test.js] 	  _   _ _  _  _   .. _/__   __/_
-[build-tests/test6.test.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[build-tests/test6.test.js] 
-[build-tests/test6.test.js] 
-[build-tests/test6.test.js] 
-
-[build-tests/test6.test.js] 
-[build-tests/test6.test.js] 
-
-[build-tests/tes-t7.js] 
-[build-tests/tes-t7.js] 
-[build-tests/tes-t7.js] 	  _   _ _  _  _   .. _/__   __/_
-[build-tests/tes-t7.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[build-tests/tes-t7.js] 
-[build-tests/tes-t7.js] 
-[build-tests/tes-t7.js] 
-
-[build-tests/tes-t7.js] 
-[build-tests/tes-t7.js] 
-
-[mocha-conversion-tests/dest/mocha-test1.js]  => Suman v1.1.39912 running individual test suite...
-[mocha-conversion-tests/dest/mocha-test1.js] 
-
-[mocha-conversion-tests/dest/mocha-test1.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest
-[mocha-conversion-tests/dest/mocha-test1.js] 
-
-[mocha-conversion-tests/dest/mocha-test1.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[mocha-conversion-tests/dest/mocha-test1.js] 
-[mocha-conversion-tests/dest/mocha-test1.js] 
-
-[mocha-conversion-tests/dest/mocha-test1.js] 
-[mocha-conversion-tests/dest/mocha-test1.js] 
-[mocha-conversion-tests/dest/mocha-test1.js] 	  _   _ _  _  _   .. _/__   __/_
-[mocha-conversion-tests/dest/mocha-test1.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[mocha-conversion-tests/dest/mocha-test1.js] 
-[mocha-conversion-tests/dest/mocha-test1.js] 
-[mocha-conversion-tests/dest/mocha-test1.js] 
-[mocha-conversion-tests/dest/mocha-test1.js] 
-
-[integration-tests/test6.js]  => Suman v1.1.39912 running individual test suite...
-[integration-tests/test6.js] 
-
-[integration-tests/test6.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests
-[integration-tests/test6.js] 
-
-[integration-tests/test6.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[integration-tests/test6.js] 
-[integration-tests/test6.js] 
-
-[build-tests/recursion-check/recursion-check2/test9.js] 
-[build-tests/recursion-check/recursion-check2/test9.js]  => Suman warning => parent describe ("A describe") is parallel, so child describe ("moodle") will be run in parallel with other sibling suites.
-[build-tests/recursion-check/recursion-check2/test9.js]  => Suman warning => To see more info on this, visit: oresoftware.github.io/suman
-[build-tests/recursion-check/recursion-check2/test9.js] 
-[build-tests/recursion-check/recursion-check2/test9.js] 
-
-[integration-tests/test0.js]  => Suman v1.1.39912 running individual test suite...
-[integration-tests/test0.js] 
-
-[integration-tests/test0.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests
-[integration-tests/test0.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[integration-tests/test0.js] 
-[integration-tests/test0.js] 
-
-[ava/await.js] bananas: bananas
-[ava/await.js] 1 true
-[ava/await.js] 
-
-[integration-tests/test6.js] 
-[integration-tests/test6.js] 
-[integration-tests/test6.js] 	  _   _ _  _  _   .. _/__   __/_
-[integration-tests/test6.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[integration-tests/test6.js] 
-[integration-tests/test6.js] 
-[integration-tests/test6.js] 
-[integration-tests/test6.js] 
-
-[integration-tests/test0.js] 
-[integration-tests/test0.js] 
-[integration-tests/test0.js] 	  _   _ _  _  _   .. _/__   __/_
-[integration-tests/test0.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[integration-tests/test0.js] 
-[integration-tests/test0.js] 
-[integration-tests/test0.js] 
-[integration-tests/test0.js] 
-
-[mocha-conversion-tests/dest/mocha-test3.js]  => Suman v1.1.39912 running individual test suite...
-[mocha-conversion-tests/dest/mocha-test3.js] 
-
-[mocha-conversion-tests/dest/mocha-test0.js] beforeEach this a: undefined
-[mocha-conversion-tests/dest/mocha-test0.js] it this a: undefined
-[mocha-conversion-tests/dest/mocha-test0.js] before this b: { testId: 0, desc: 'a', title: 'a', parallel: false }
-[mocha-conversion-tests/dest/mocha-test0.js] beforeEach this a: undefined
-[mocha-conversion-tests/dest/mocha-test0.js] beforeEach this b: { testId: 0, desc: 'a', title: 'a', parallel: false }
-[mocha-conversion-tests/dest/mocha-test0.js] it this b: { testId: 0, desc: 'a', title: 'a', parallel: false }
-[mocha-conversion-tests/dest/mocha-test0.js] before this a: undefined
-[mocha-conversion-tests/dest/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/mocha-test3.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest
-[mocha-conversion-tests/dest/mocha-test3.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[mocha-conversion-tests/dest/mocha-test3.js] 
-[mocha-conversion-tests/dest/mocha-test3.js] 
-[mocha-conversion-tests/dest/mocha-test3.js] 
-[mocha-conversion-tests/dest/mocha-test3.js] 	  _   _ _  _  _   .. _/__   __/_
-[mocha-conversion-tests/dest/mocha-test3.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[mocha-conversion-tests/dest/mocha-test3.js] 
-[mocha-conversion-tests/dest/mocha-test3.js] 
-[mocha-conversion-tests/dest/mocha-test3.js] 
-[mocha-conversion-tests/dest/mocha-test3.js] 
-
-[integration-tests/test2.js] 
-[integration-tests/test2.js] 
-[integration-tests/test2.js] 	  => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
-[integration-tests/test2.js] TypeError: Cannot assign to read only property 'done' of #<Object>
-[integration-tests/test2.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test2.js:21:24)
-[integration-tests/test2.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/test-suite-helpers/make-handle-befores-afters.js:132:47
-[integration-tests/test2.js]     at nextTickCallbackWith0Args (node.js:452:9)
-[integration-tests/test2.js]     at process._tickDomainCallback (node.js:422:13) 
-[integration-tests/test2.js] 
-[integration-tests/test2.js] 
-[integration-tests/test2.js] 
-
-[build-tests/tes-t7.js] extra: []
-[build-tests/tes-t7.js] choodles: { choodles: true }
-[build-tests/tes-t7.js] 
-
-[integration-tests/test4.js] A => [test]1
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] A => [test]2
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] B1 => [test]1
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] B1 => [test]2
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] B1 => [test]4
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] B2 => [test]1
-[integration-tests/test4.js] B2 => [test]2
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] B2 => [test]4
-[integration-tests/test4.js] B2 => [test]8
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] C => [test]1
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] C => [test]2
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] C => [test]4
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] C => [test]8
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] C => [test]9
-[integration-tests/test4.js] 
-
-[mocha-conversion-tests/dest/mocha-test3.js] before this a: undefined
-[mocha-conversion-tests/dest/mocha-test3.js] 
-
-[integration-tests/test4.js] D => [test]1
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] D => [test]2
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] D => [test]4
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] D => [test]8
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] D => [test]9
-[integration-tests/test4.js] 
-
-[integration-tests/test4.js] D => [test]13
-[integration-tests/test4.js] 
-
-[mocha-conversion-tests/dest/mocha-test3.js] after this a: undefined
-[mocha-conversion-tests/dest/mocha-test3.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js]  => Suman v1.1.39912 running individual test suite...
-[mocha-conversion-tests/dest/n/mocha-test0.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/mocha-conversion-tests/dest/n
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-[mocha-conversion-tests/dest/n/mocha-test0.js] 	  _   _ _  _  _   .. _/__   __/_
-[mocha-conversion-tests/dest/n/mocha-test0.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js] beforeEach this a: undefined
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js] it this a: undefined
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js] before this b: { testId: 0, desc: 'a', title: 'a', parallel: false }
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js] beforeEach this a: undefined
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js] beforeEach this b: { testId: 0, desc: 'a', title: 'a', parallel: false }
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js] it this b: { testId: 0, desc: 'a', title: 'a', parallel: false }
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[mocha-conversion-tests/dest/n/mocha-test0.js] before this a: undefined
-[mocha-conversion-tests/dest/n/mocha-test0.js] 
-
-[other-tests/test3.js]  => Suman v1.1.39912 running individual test suite...
-[other-tests/test3.js] 
-
-[other-tests/test3.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/other-tests
-[other-tests/test3.js] 
-
-[other-tests/test3.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[other-tests/test3.js] 
-[other-tests/test3.js] 
-
-[other-tests/test3.js] 
-[other-tests/test3.js] 
-[other-tests/test3.js] 	  _   _ _  _  _   .. _/__   __/_
-[other-tests/test3.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[other-tests/test3.js] 
-[other-tests/test3.js] 
-[other-tests/test3.js] 
-[other-tests/test3.js] 
-
-[other-tests/test5.js]  => Suman v1.1.39912 running individual test suite...
-[other-tests/test5.js] 
-
-[other-tests/test5.js]  => cwd: /Users/Olegzandr/WebstormProjects/suman/test-target/other-tests
-[other-tests/test5.js]  => Suman config used: /Users/Olegzandr/WebstormProjects/suman/suman.conf.js 
-[other-tests/test5.js] 
-[other-tests/test5.js] 
-
-[other-tests/test5.js] 
-[other-tests/test5.js] 
-[other-tests/test5.js] 	  _   _ _  _  _   .. _/__   __/_
-[other-tests/test5.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
-[other-tests/test5.js] 
-[other-tests/test5.js] 
-[other-tests/test5.js] 
-[other-tests/test5.js] 
+[empty.test.js]  => Suman v1.1.39912 running individual test suite...
+[empty.test.js] 
+
+[empty.test.js]  => cwd: /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests
+[empty.test.js]  => Suman config used: /Users/amills/WebstormProjects/oresoftware/suman/suman.conf.js 
+[empty.test.js] 
+[empty.test.js] 
+
+[tes-t7-start.test.js]  => Suman v1.1.39912 running individual test suite...
+[tes-t7-start.test.js]  => cwd: /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests
+[tes-t7-start.test.js]  => Suman config used: /Users/amills/WebstormProjects/oresoftware/suman/suman.conf.js 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+
+[tes-t7.js]  => Suman v1.1.39912 running individual test suite...
+[tes-t7.js] 
+
+[tes-t7.js]  => cwd: /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests
+[tes-t7.js] 
+
+[tes-t7.js]  => Suman config used: /Users/amills/WebstormProjects/oresoftware/suman/suman.conf.js 
+[tes-t7.js] 
+[tes-t7.js] 
+
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js] 	  _   _ _  _  _   .. _/__   __/_
+[empty.test.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js] 
+
+[empty.test.js] 
+[empty.test.js] 
+
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 	  _   _ _  _  _   .. _/__   __/_
+[tes-t7-start.test.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+
+[tes-t7.js] 
+[tes-t7.js] 
+[tes-t7.js] 	  _   _ _  _  _   .. _/__   __/_
+[tes-t7.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
+[tes-t7.js] 
+[tes-t7.js] 
+[tes-t7.js] 
+[tes-t7.js] 
+
+[test6.test.js]  => Suman v1.1.39912 running individual test suite...
+[test6.test.js] 
+
+[test6.test.js]  => cwd: /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests
+[test6.test.js] 
+
+[test6.test.js]  => Suman config used: /Users/amills/WebstormProjects/oresoftware/suman/suman.conf.js 
+[test6.test.js] 
+[test6.test.js] 
+
+[test6.test.js] 
+[test6.test.js] 
+[test6.test.js] 	  _   _ _  _  _   .. _/__   __/_
+[test6.test.js] 	_\/_// / //_|/ / ..  / /_'_\ /  
+[test6.test.js] 
+[test6.test.js] 
+[test6.test.js] 
+
+[test6.test.js] 
+[test6.test.js] 

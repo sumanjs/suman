@@ -7,11 +7,20 @@ const suman = require('../../lib');
 const Test = suman.init(module);
 
 
-Test.describe('SimpleTest', function (assert, fs, http, os) {
+Test.describe('SimpleTest', {parallel:true}, function (assert, fs, http, os) {
 
 
     this.it('tests-arrays', function () {
         assert.equal(typeof [], 'object');
+    });
+
+
+    this.it('tests-t', t => {
+       assert(typeof t === 'function');
+    });
+
+    this.it.cb('tests-t', t => {
+
     });
 
 
@@ -23,7 +32,7 @@ Test.describe('SimpleTest', function (assert, fs, http, os) {
 
     });
 
-    this.it.cb('Check that Test.file is equiv. to module.filename', {timeout:20},  t => {
+    this.it.cb('Check that Test.file is equiv. to module.filename', {timeout:25},  t => {
         setTimeout(function(){
             assert(module.filename === Test.file);
             t.done();

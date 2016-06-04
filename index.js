@@ -397,6 +397,10 @@ else {
 
 	async.series({
 
+		npmList: function (cb) {
+			cp.exec('npm list -g', cb);
+		},
+
 		transpileFiles: function (cb) {
 
 			if (transpile) {
@@ -417,7 +421,7 @@ else {
 		},
 		conductStaticAnalysisOfFilesForSafety: function (cb) {
 			if (global.sumanOpts.safe) {
-				throw new Error('safe option not yet implemented');
+				cb(new Error('safe option not yet implemented'));
 			}
 			else {
 				process.nextTick(cb);
@@ -438,6 +442,11 @@ else {
 			console.log(' To view the options and values that will be used to initiate a Suman test run, use the --verbose or --vverbose options\n\n');
 			return;
 		}
+
+		if(opts.vverbose){
+			console.log('=> Suman vverbose message => "$ npm list -g" results: ', results.npmList);
+		}
+
 
 		const d = domain.create();
 
@@ -498,16 +507,32 @@ else {
 				console.log(' ', colors.bgCyan.magenta(' => Suman verbose message => Suman will execute test files from the following locations:'), '\n', paths, '\n');
 			}
 
-			if (coverage) {
-
-				//TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
-				// and pretend it does not exist.
-
-				require('./lib/run-coverage/exec-istanbul')(paths, opts.recursive);
-
-			}
 			//TODO: if only one file is used with the runner, then there is no possible blocking, so we can ignore the suman.order.js file,
 			// and pretend it does not exist.
+
+			if (coverage) {
+
+				var istanbulInstallPath;
+				try{
+					istanbulInstallPath = require.resolve('istanbul');
+					if(opts.verbose){
+						console.log(' => Suman verbose message => install path of instabul => ', istanbulInstallPath);
+					}
+
+				}
+				catch(e){
+					if(!opts.force){
+						console.log('\n',' => Suman message => Looks like istanbul is not installed globally, you can run "$ suman --use-istanbul", to acquire the right deps.');
+						console.log('\n',' => Suman message => If installing "istanbul" manually, you may install locally or globally, Suman will pick it up either way.');
+						console.log('\t => To override this, use --force.','\n');
+						return;
+					}
+				}
+
+				require('./lib/run-coverage/exec-istanbul')(istanbulInstallPath, paths, opts.recursive);
+
+			}
+
 			
 			else if (!useRunner && transpile && opts.all && originalPaths.length === 1 && checkStats(originalPaths[0])) {
 

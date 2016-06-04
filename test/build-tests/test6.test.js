@@ -18,8 +18,7 @@ function promiseTimeout() {
 
 Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
 
-
-    console.error('jimmy');
+    
 
     this.setupTest(function (t) {
         

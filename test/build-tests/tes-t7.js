@@ -26,57 +26,6 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
         t.ctn();
     });
 
-    // this.beforeEach.cb({}, t => {
-    //     // t.assert(false);
-    //     setTimeout(function () {
-    //         t.ctn();
-    //     }, 4000);
-    //
-    // });
-    //
-    // this.beforeEach.cb({}, t => {
-    //     // t.assert(false);
-    //     setTimeout(function () {
-    //         t.ctn();
-    //     }, 4000);
-    //
-    // });
-    // this.beforeEach.cb({}, t => {
-    //     // t.assert(false);
-    //     setTimeout(function () {
-    //         t.ctn();
-    //     }, 4000);
-    //
-    // });
-    // this.beforeEach.cb({}, t => {
-    //     // t.assert(false);
-    //     setTimeout(function () {
-    //         t.ctn();
-    //     }, 4000);
-    //
-    // });
- /*   this.beforeEach.cb({}, t => {
-        // t.assert(false);
-        setTimeout(function () {
-            t.ctn();
-        }, 4000);
-
-    });
-    this.beforeEach.cb({}, t => {
-        // t.assert(false);
-        setTimeout(function () {
-            t.ctn();
-        }, 4000);
-
-    });
-    this.beforeEach.cb({}, t => {
-        // t.assert(false);
-        setTimeout(function () {
-            t.ctn();
-        }, 4000);
-
-    });*/
-
 
     this.it('blue1', function*(t) {
         yield 3;
@@ -112,7 +61,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
 
             setTimeout(function () {
                 resolve();
-            }, 1000);
+            }, 100);
 
 
         }).then(function () {
@@ -121,7 +70,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
 
                 setTimeout(t.wrap(function () {
                     resolve(5);
-                }), 1000);
+                }), 100);
 
             });
 
@@ -178,7 +127,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
 
                 setTimeout(function () {
                     resolve();
-                }, 1000);
+                }, 100);
 
 
             }).then(function () {
@@ -186,9 +135,8 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
                 return new Promise(function (resolve, reject) {
 
                     setTimeout(t.wrap(function () {
-                        throw new Error('erage');
                         resolve();
-                    }), 1000);
+                    }), 100);
 
                 });
 

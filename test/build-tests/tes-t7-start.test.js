@@ -3,7 +3,7 @@
  */
 
 
-var sumanEvents = require('./tes-t7.jsx');
+var sumanEvents = require('./tes-t7.js');
 
 sumanEvents.on('test', function (test) {
 
