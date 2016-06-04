@@ -444,10 +444,9 @@ else {
 			return;
 		}
 
-		if(opts.vverbose){
+		if (opts.vverbose) {
 			console.log('=> Suman vverbose message => "$ npm list -g" results: ', results.npmList);
 		}
-
 
 		const d = domain.create();
 
@@ -514,18 +513,18 @@ else {
 			if (coverage) {
 
 				var istanbulInstallPath;
-				try{
+				try {
 					istanbulInstallPath = require.resolve('istanbul');
-					if(opts.verbose){
+					if (opts.verbose) {
 						console.log(' => Suman verbose message => install path of instabul => ', istanbulInstallPath);
 					}
 
 				}
-				catch(e){
-					if(!opts.force){
-						console.log('\n',' => Suman message => Looks like istanbul is not installed globally, you can run "$ suman --use-istanbul", to acquire the right deps.');
-						console.log('\n',' => Suman message => If installing "istanbul" manually, you may install locally or globally, Suman will pick it up either way.');
-						console.log('\t => To override this, use --force.','\n');
+				catch (e) {
+					if (!opts.force) {
+						console.log('\n', ' => Suman message => Looks like istanbul is not installed globally, you can run "$ suman --use-istanbul", to acquire the right deps.');
+						console.log('\n', ' => Suman message => If installing "istanbul" manually, you may install locally or globally, Suman will pick it up either way.');
+						console.log('\t => To override this, use --force.', '\n');
 						return;
 					}
 				}
@@ -534,7 +533,6 @@ else {
 
 			}
 
-			
 			else if (!useRunner && transpile && opts.all && originalPaths.length === 1 && checkStats(originalPaths[0])) {
 
 				//TODO: need to learn how many files matched
@@ -566,8 +564,8 @@ else {
 				d.run(function () {
 					process.nextTick(function () {
 						process.chdir(path.dirname(paths[0]));  //force CWD to test file path // boop boop
-						//TODO: perhaps we should require run-child.js instead?
-						require(paths[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+						//note: if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+						require('./lib/run-child-not-runner')(paths[0]);
 					});
 				});
 			}
