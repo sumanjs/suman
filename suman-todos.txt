@@ -10,6 +10,7 @@
 //TODO: make sure that generator functions get recognized when transpiling isGenerator() check needs to work correctly
 //TODO: suman --convert should work if you don't use --src/--dest, but you will then need to use -f option after a confirmation message from Suman saying
 which items will be converted to where
+//TODO: hook into stdout with node to write to test-stdout.log - https://gist.github.com/pguillory/729616
 //TODO: http://krasimirtsonev.com/blog/article/debugging-with-node
 //TODO: http://justjs.com/posts/npm-link-developing-your-own-npm-modules-without-tears
 //Todo: https://nodejs.org/en/blog/npm/npm-1-0-link/
