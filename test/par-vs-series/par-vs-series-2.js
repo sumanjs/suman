@@ -16,34 +16,19 @@ Test.describe('2', {parallel: true}, function () {
     });
 
     this.it.cb('two', t => {
-
-        setTimeout(function () {
-            t.done();
-        }, 2000);
+        setTimeout(t.done, 2000);
     });
 
     this.it.cb('three', t => {
-
-        setTimeout(function () {
-            t.done();
-        }, 2000);
-
+        setTimeout(t.done, 2000);
     });
 
     this.it.cb('four', t => {
-
-        setTimeout(function () {
-            t.done();
-        }, 2000);
-
+        setTimeout(t.done, 2000);
     });
 
     this.it.cb('five', t => {
-
-        setTimeout(function () {
-            t.done();
-        }, 2000);
-
+        setTimeout(t.done, 2000);
     });
 
 

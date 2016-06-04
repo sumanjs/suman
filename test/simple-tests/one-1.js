@@ -6,82 +6,76 @@
 const suman = require('../../lib');
 const Test = suman.init(module);
 
+Test.describe('SimpleTest', {parallel: true}, function (assert, fs, http, os) {
 
-Test.describe('SimpleTest', {parallel:true}, function (assert, fs, http, os) {
+	this.it('tests-arrays', function () {
+		assert.equal(typeof [], 'object');
+	});
 
+	this.it('tests-t', t => {
+		assert(typeof t === 'function');
+	});
 
-    this.it('tests-arrays', function () {
-        assert.equal(typeof [], 'object');
-    });
+	this.it.cb('tests-t', t => {
+		t.apply(null);
+	});
 
+	['describe', 'it', 'before', 'after', 'afterEach'].forEach(item => {
 
-    this.it('tests-t', t => {
-       assert(typeof t === 'function');
-    });
+		this.it('tests-suman suite block for: ' + item, function () {
+			assert(this.hasOwnProperty(item));
+		});
 
-    this.it.cb('tests-t', t => {
+	});
 
-    });
+	this.it.cb('Check that Test.file is equiv. to module.filename', {timeout: 45}, t => {
+		setTimeout(function () {
+			assert(module.filename === Test.file);
+			t.done();
+		}, 19);
+	});
 
+	this.it.cb('reads this file, pipes to /dev/null', function (t) {
 
-    ['describe', 'it', 'before', 'after', 'afterEach'].forEach(item => {
+		const destFile = os.hostname === 'win32' ? process.env.USERPROFILE + '/temp' : '/dev/null';
 
-        this.it('tests-suman suite block for: ' + item, function () {
-            assert(this.hasOwnProperty(item));
-        });
+		fs.createReadStream(Test.file).pipe(fs.createWriteStream(destFile))
+			.on('error', t.fail).on('finish', t.pass);
 
-    });
+	});
 
-    this.it.cb('Check that Test.file is equiv. to module.filename', {timeout:25},  t => {
-        setTimeout(function(){
-            assert(module.filename === Test.file);
-            t.done();
-        },19);
-    });
+	this.it('uses promises to handle http', {timeout: 4000}, function () {
 
+		return new Promise(function (resolve, reject) {
 
-    this.it.cb('reads this file, pipes to /dev/null', function (t) {
+			const req = http.request({
 
-        const destFile = os.hostname === 'win32' ? process.env.USERPROFILE + '/temp' : '/dev/null';
+				method: 'GET',
+				hostname: 'example.com'
 
-        fs.createReadStream(Test.file).pipe(fs.createWriteStream(destFile))
-            .on('error', t.fail).on('finish', t.pass);
+			}, res => {
 
-    });
+				var data = '';
 
+				res.on('data', function (d) {
+					data += d;
+				});
 
-    this.it('uses promises to handle http', {timeout: 4000}, function () {
+				res.on('end', function () {
 
-        return new Promise(function (resolve, reject) {
+					assert(typeof data === 'string');
+					resolve();
 
-            const req = http.request({
+				});
 
-                method: 'GET',
-                hostname: 'example.com'
+			});
 
-            }, res => {
+			req.end();
+			req.on('error', reject);
+		});
 
-                var data = '';
+	});
 
-                res.on('data', function (d) {
-                    data += d;
-                });
-
-                res.on('end', function () {
-
-                    assert(typeof data === 'string');
-                    resolve();
-
-                });
-
-            });
-
-            req.end();
-            req.on('error', reject);
-        });
-
-    });
-    
 });
 
 
