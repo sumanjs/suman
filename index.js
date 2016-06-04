@@ -398,7 +398,8 @@ else {
 	async.series({
 
 		npmList: function (cb) {
-			cp.exec('npm list -g', cb);
+			// cp.exec('npm list -g', cb);
+			process.nextTick(cb);
 		},
 
 		transpileFiles: function (cb) {
