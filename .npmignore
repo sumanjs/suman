@@ -1,8 +1,8 @@
 /.idea/
-/results/
 /node_modules/
-compendium_of_mocha_problems
 /bower_components/
+/internal-docs/
+/file-examples/
 bugs
 coverage
 docs
@@ -16,4 +16,5 @@ test-target
 benchmark-tests
 .nyc_output
 jsdoc-notes.txt
+/suman_old/
 
