@@ -132,12 +132,332 @@ Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1
     at emitOne (events.js:96:13)
     at Socket.emit (events.js:188:7)
     at Pipe._handle.close [as _onclose] (net.js:492:12)
-y exists, mkdir '/Users/Olegzandr/suman/test_results/1465102162041'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110858897'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.696 ms - 128[0m
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110864804'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110867635'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110869676'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110872412'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110875639'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110883239'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111321924'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111325050'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111340775'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111348784'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111424182'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111428864'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111446280'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111458616'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111465489'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111472885'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'transpile' of undefined
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:41:21
+    at Array.filter (native)
+    at initiateTranspileAction (/Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:40:40)
+    at FSWatcher.watcher.on.p (/Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:124:6)
+    at emitOne (events.js:96:13)
+    at FSWatcher.emit (events.js:188:7)
+    at FSWatcher.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/node_modules/chokidar/index.js:176:15)
+    at FSWatcher._emit (/Users/Olegzandr/WebstormProjects/suman/node_modules/chokidar/index.js:217:5)
+    at FSWatcher.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/node_modules/chokidar/lib/fsevents-handler.js:204:14)
+    at addOrChange (/Users/Olegzandr/WebstormProjects/suman/node_modules/chokidar/lib/fsevents-handler.js:209:7)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111553865'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111666173'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111668912'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111681047'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111728193'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111737790'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111738300'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111757173'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111759938'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111804670'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111825937'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111843391'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111860284'
+    at Error (native)
+=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
+    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
+    at ChildProcess.exithandler (child_process.js:198:7)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+  flags: 83968 } 
 
-Client disconnected.
 
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110867635'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.883 ms - 128[0m
 
 Client disconnected.
 
@@ -178,9 +498,9 @@ running!!
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102255070'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110869676'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.874 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m2.009 ms - 128[0m
 
 Client disconnected.
 
@@ -221,9 +541,9 @@ running!!
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102258048'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110872412'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.343 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m0.784 ms - 128[0m
 
 Client disconnected.
 
@@ -264,9 +584,9 @@ running!!
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102270461'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110875639'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m2.386 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m0.709 ms - 128[0m
 
 Client disconnected.
 
@@ -307,9 +627,9 @@ running!!
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102272528'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110883239'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.661 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m0.837 ms - 128[0m
 
 Client disconnected.
 
@@ -350,9 +670,9 @@ running!!
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102275363'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111321924'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.769 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m0.736 ms - 128[0m
 
 Client disconnected.
 
@@ -393,9 +713,9 @@ running!!
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102278630'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111325050'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.820 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m0.741 ms - 128[0m
 
 Client disconnected.
 
@@ -436,9 +756,9 @@ running!!
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102284050'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111340775'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m5.203 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m1.900 ms - 128[0m
 
 Client disconnected.
 
@@ -479,9 +799,9 @@ running!!
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102292920'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111348784'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.474 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m1.102 ms - 128[0m
 
 Client disconnected.
 
@@ -522,9 +842,783 @@ running!!
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102295424'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111424182'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.222 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m0.725 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111428864'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.757 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111446280'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m4.144 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111458616'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.997 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111465489'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.689 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111472885'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.757 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: modified /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___',
+  event: 'modified',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 69888 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ has been added
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ has been removed
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111553865'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.784 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111666173'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.727 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111668912'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.862 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111681047'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m1.292 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111728193'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.742 ms - 128[0m
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111737790'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.773 ms - 128[0m
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111738300'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.832 ms - 128[0m
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111757173'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.914 ms - 128[0m
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111759938'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m2.193 ms - 128[0m
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111804670'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.866 ms - 128[0m
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111825937'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.727 ms - 128[0m
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 84480 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js has been removed
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111843391'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.695 ms - 128[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js has been changed
+undefined
+running!!
+
+
+ => Test will now be run with command:
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111860284'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.795 ms - 128[0m
 
 Client disconnected.
 

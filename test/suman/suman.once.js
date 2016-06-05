@@ -11,26 +11,27 @@
 // tests will run in separate processes, but you can use code sharing (not memory sharing) to share setup between tests, which is actually pretty cool
 // ****************************************************************************************************************************************
 
-
 module.exports = () => {  //load async deps for any of your suman tests
 
-    return {
+	return {
 
-        'charlie': function () {
-            return 'charlie';
-        },
-        'smartconnect': function () {
-            return {};
+		'charlie': function () {
+			return 'charlie';
+		},
+		'smartconnect': function () {
+			return Promise.resolve({
+				formica: 'not metal'
+			});
 
-        },
-        'dolce-vida': (cb) => {
+		},
+		'dolce-vida': (cb) => {
 
-            setTimeout(function () {
-                cb(null, new Error('rub'));
-            }, 100);
+			setTimeout(function () {
+				cb(null, new Error('rub'));
+			}, 10);
 
-        }
+		}
 
-    }
+	}
 
 };

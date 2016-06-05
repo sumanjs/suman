@@ -5,13 +5,32 @@
 
 
 
-	 ✔  'makes rain' (< 1ms)
-	 ✔  'one' (102ms)
-	 ✔  'three' (101ms)
-	 ✔  'four' (105ms)
-	 ✔  'five' (102ms)
-	 ✔  'four' (105ms)
-	 ✔  'five' (105ms)
+extra: []
+choodles: { choodles: true }
+request: function request(uri, options, callback) {
+  if (typeof uri === 'undefined') {
+    throw new Error('undefined is not a valid uri or options object.')
+  }
+
+  var params = initParams(uri, options, callback)
+
+  if (params.method === 'HEAD' && paramsHaveRequestBody(params)) {
+    throw new Error('HTTP HEAD requests MUST NOT include a request body.')
+  }
+
+  return new request.Request(params)
+}
+	[32m ✔ [39m 'has one' (1ms)
+	[32m ✔ [39m 'blue1' (7ms)
+	[32m ✔ [39m 'blue2' (6ms)
+	[32m ✔ [39m '[test] yo 1' (8ms)
+	[32m ✔ [39m 'yes' (209ms)
+	[32m ✔ [39m 'tests 1' (< 1ms)
+	[32m ✔ [39m 'tests 2' (< 1ms)
+	[32m ✔ [39m 'tests 3' (< 1ms)
+	[32m ✔ [39m 'tests 4' (< 1ms)
+	[32m ✔ [39m 'tests 5' (< 1ms)
+	[32m ✔ [39m 'tests 6' (< 1ms)
 
 
 
@@ -20,17 +39,17 @@
 	|----------------------------------------------------------|
 	|           Metric           |     Value    |     Notes    |
 	|----------------------------|--------------|--------------|
-	| Root Suite Title           |   @Test1-TDD |              |
-	| Total Num. of Suites       |            4 |              |
-	| Suites skipped             |            0 |              |
-	| Tests skipped              |            0 |              |
-	| Tests stubbed              |            2 |              |
-	| Tests passed               |            7 |              |
+	| Root Suite Title           |       Suite7 |              |
+	| Total Num. of Suites       |            3 |              |
+	| Suites skipped             |            1 |        ["1"] |
+	| Tests skipped              |            4 |              |
+	| Tests stubbed              |            0 |              |
+	| Tests passed               |           11 |              |
 	| Tests failed               |            0 |              |
-	| Tests total                |            9 |              |
-	| Passing rate               |       77.78% |              |
-	| Total time millis (delta)  |          671 |              |
-	| Total time minutes (delta) |       0.0112 |              |
+	| Tests total                |           15 |              |
+	| Passing rate               |       73.33% |              |
+	| Total time millis (delta)  |          374 |              |
+	| Total time minutes (delta) |       0.0062 |              |
 	'----------------------------------------------------------'
 
 
