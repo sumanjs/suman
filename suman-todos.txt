@@ -1,5 +1,8 @@
 
 
+//TODO: for chokidar watcher, need to worry about nested directories using **/* etc, see build-tests
+//TODO: when running the runner against the entire test-target dir, the runner hangs, so we need a list of cps that have not exited yet after 30 seconds or whatever
+//...special keystrokes should kill all currently running cps and then just collect the best results possible
 //TODO: allow suman.once.js and suman.ioc.js to handle generator fns
 //TODO: turn grep into match
 //TODO: make skip.cb and cb.skip interchangeable

@@ -3,6 +3,7 @@
  */
 
 
+console.log('sassy:',global.sassy);
 
 const suman = require('../../lib');
 var Test = suman.init(module, {

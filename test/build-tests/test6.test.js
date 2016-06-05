@@ -14,11 +14,10 @@ function promiseTimeout() {
     });
 }
 
-//foolish charlie
+//foolish charlie//
 
 Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
 
-    
 
     this.setupTest(function (t) {
         

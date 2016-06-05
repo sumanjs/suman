@@ -1,0 +1,36 @@
+
+
+	  _   _ _  _  _   .. _/__   __/_
+	_\/_// / //_|/ / ..  / /_'_\ /  
+
+
+
+	 ✔  'makes rain' (< 1ms)
+	 ✔  'one' (102ms)
+	 ✔  'three' (101ms)
+	 ✔  'four' (105ms)
+	 ✔  'five' (102ms)
+	 ✔  'four' (105ms)
+	 ✔  'five' (105ms)
+
+
+
+	.----------------------------------------------------------.
+	|                    Suman Test Results                    |
+	|----------------------------------------------------------|
+	|           Metric           |     Value    |     Notes    |
+	|----------------------------|--------------|--------------|
+	| Root Suite Title           |   @Test1-TDD |              |
+	| Total Num. of Suites       |            4 |              |
+	| Suites skipped             |            0 |              |
+	| Tests skipped              |            0 |              |
+	| Tests stubbed              |            2 |              |
+	| Tests passed               |            7 |              |
+	| Tests failed               |            0 |              |
+	| Tests total                |            9 |              |
+	| Passing rate               |       77.78% |              |
+	| Total time millis (delta)  |          671 |              |
+	| Total time minutes (delta) |       0.0112 |              |
+	'----------------------------------------------------------'
+
+

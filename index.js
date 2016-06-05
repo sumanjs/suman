@@ -439,9 +439,12 @@ else {
 		}
 
 		if (opts.no_run) {
-			console.log(' => Suman message => the --no-run option is set, we are done here for now.');
-			console.log(' To view the options and values that will be used to initiate a Suman test run, use the --verbose or --vverbose options\n\n');
-			return;
+			console.log('\n\n\t => Suman message => the ' + colors.magenta('--no-run') + ' option is set, we are done here for now.');
+			console.log('\t To view the options and values that will be used to initiate a Suman test run, use the --verbose or --vverbose options\n\n');
+			// if(opts.watch){
+			// 	console.log(' => Warning: --watch option is enabled so please close process manually.');
+			// }
+			return process.exit(0);
 		}
 
 		if (opts.vverbose) {

@@ -2,31 +2,12 @@
 
  //// 
 
- ### Suman start run indiv. @Sat Jun 04 2016 14:56:57 GMT-0700 (PDT) ### 
+ ### Suman start run indiv. @Sat Jun 04 2016 21:51:35 GMT-0700 (PDT) ### 
 
- ### Filename: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/empty.test.js
- ### Beginning of run at 1465077417285 = [Sat Jun 04 2016 14:56:57 GMT-0700 (PDT)]
- ### Command = ["/Users/Olegzandr/.nvm/versions/node/v5.4.1/bin/node","/Users/Olegzandr/WebstormProjects/suman/index","test/build-tests/empty.test.js"]
+ ### Filename: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ ### Beginning of run at 1465102295500 = [Sat Jun 04 2016 21:51:35 GMT-0700 (PDT)]
+ ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.1/bin/node","/Users/Olegzandr/WebstormProjects/suman/index.js","/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js"]
 
-
-
-
-Test error: fails right away
-	stack: Error: chuck
-    at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test/build-tests/empty.test.js:29:15)
-    at /Users/Olegzandr/WebstormProjects/suman/lib/test-suite-helpers/handle-test.js:186:38
-    at nextTickCallbackWith0Args (node.js:452:9)
-    at process._tickDomainCallback (node.js:422:13)
-
-
-
-Test error: should never run if bail is set to true
-	stack: AssertionError: false == true
-    at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test/build-tests/empty.test.js:34:9)
-    at /Users/Olegzandr/WebstormProjects/suman/lib/test-suite-helpers/handle-test.js:186:38
-    at nextTickCallbackWith0Args (node.js:452:9)
-    at Immediate._tickDomainCallback [as _onImmediate] (node.js:422:13)
-    at processImmediate [as _immediateCallback] (timers.js:383:17)
 
 
 
