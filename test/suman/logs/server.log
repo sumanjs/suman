@@ -1,1624 +1,1233 @@
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102094222'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190077536'
     at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102107162'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190098183'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102162041'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190111220'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102255070'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190156612'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102258048'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190159503'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102270461'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190168773'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102272528'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190185399'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102275363'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190210811'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102278630'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190218071'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102284050'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190224257'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102292920'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190568173'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465102295424'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190579606'
     at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110858897'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110864804'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110867635'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110869676'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110872412'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110875639'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110883239'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111321924'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111325050'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111340775'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111348784'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111424182'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111428864'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111446280'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111458616'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111465489'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111472885'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'transpile' of undefined
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:41:21
-    at Array.filter (native)
-    at initiateTranspileAction (/Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:40:40)
-    at FSWatcher.watcher.on.p (/Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:124:6)
-    at emitOne (events.js:96:13)
-    at FSWatcher.emit (events.js:188:7)
-    at FSWatcher.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/node_modules/chokidar/index.js:176:15)
-    at FSWatcher._emit (/Users/Olegzandr/WebstormProjects/suman/node_modules/chokidar/index.js:217:5)
-    at FSWatcher.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/node_modules/chokidar/lib/fsevents-handler.js:204:14)
-    at addOrChange (/Users/Olegzandr/WebstormProjects/suman/node_modules/chokidar/lib/fsevents-handler.js:209:7)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111553865'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111666173'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111668912'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111681047'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111728193'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111737790'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111738300'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111757173'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111759938'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111804670'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111825937'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111843391'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111860284'
-    at Error (native)
-=> Suman Server => Uncaught Exception => TypeError: Cannot read property 'stack' of null
-    at /Users/Olegzandr/WebstormProjects/suman/server/bin/socket-server.js:70:21
-    at ChildProcess.exithandler (child_process.js:198:7)
-    at emitTwo (events.js:106:13)
-    at ChildProcess.emit (events.js:191:7)
-    at maybeClose (internal/child_process.js:852:16)
-    at Socket.<anonymous> (internal/child_process.js:323:11)
-    at emitOne (events.js:96:13)
-    at Socket.emit (events.js:188:7)
-    at Pipe._handle.close [as _onclose] (net.js:492:12)
-  flags: 83968 } 
+k-tests',
+     'build-tests',
+     'helpers',
+     'integration-tests',
+     'mocha-conversion-tests',
+     'other-tests',
+     'par-vs-series',
+     'parallel-tests',
+     'simple-tests',
+     'strm-sync-tests',
+     'suman',
+     'test-es7',
+     'test-generators',
+     'test-tests' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/ava': [ 'ava-ex.js', 'await.js', 'f.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/ava-test': [ 'file1.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/benchmark-tests': [ 'one.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/build-tests': 
+   [ 'empty.test.js',
+     'recursion-check',
+     'tes-t7-start.test.js',
+     'tes-t7.js',
+     'test6.test.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/helpers': [ 'test-stream.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests': 
+   [ 'test0.js',
+     'test1.js',
+     'test2.js',
+     'test3.js',
+     'test4.js',
+     'test5.js',
+     'test6.js',
+     'test7.js',
+     'test8.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests': [ 'dest', 'src' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/other-tests': [ 'test3.js', 'test4.js', 'test5.js', 'test6.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/par-vs-series': 
+   [ 'par-vs-series-1.js',
+     'par-vs-series-2.js',
+     'par-vs-series-3.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/parallel-tests': [ 'par-test.js', 'ptest1.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/simple-tests': [ 'one-1.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests': 
+   [ 'output6.js',
+     'output7.js',
+     'output8.js',
+     'output9.js',
+     'test6.js',
+     'test7.js',
+     'test8.js',
+     'test9.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/suman': 
+   [ 'logs',
+     'reporters',
+     'suman.globals.js',
+     'suman.hooks.js',
+     'suman.ioc.js',
+     'suman.ioc2.js',
+     'suman.once.js',
+     'suman.order.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/test-es7': [ 'one.js', 'test6.js', 'two.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/test-generators': [],
+  '/Users/Olegzandr/WebstormProjects/suman/test/test-tests': 
+   [ 'generatorz-babel.js',
+     'generatorz.js',
+     'many-commands.js',
+     'one.js',
+     'two.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check': [ 'recursion-check2', 'test8.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest': 
+   [ '.gitkeep',
+     'mocha-test0.js',
+     'mocha-test1.js',
+     'mocha-test3.js',
+     'n' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src': [ 'mocha-test0.js', 'mocha-test1.js', 'mocha-test3.js', 'n' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/suman/logs': [ '.readme' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/suman/reporters': [ 'tap.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check/recursion-check2': [ 'test9.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/n': [ 'mocha-test0.js' ],
+  '/Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/n': [ 'mocha-test0.js' ] }
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/.readme
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/aaa.b
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/ava
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/ava-test
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/benchmark-tests
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/build-tests
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/helpers
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/integration-tests
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/other-tests
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/par-vs-series
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/parallel-tests
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/simple-tests
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-es7
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-generators
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-tests
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/ava/ava-ex.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/ava/await.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/ava/f.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/ava-test/file1.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/benchmark-tests/one.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/build-tests/empty.test.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7-start.test.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/helpers/test-stream.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test2.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test3.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test4.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test5.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test6.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test7.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test8.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/other-tests/test3.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/other-tests/test4.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/other-tests/test5.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/other-tests/test6.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/par-vs-series/par-vs-series-1.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/par-vs-series/par-vs-series-2.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/par-vs-series/par-vs-series-3.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/parallel-tests/par-test.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/parallel-tests/ptest1.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/simple-tests/one-1.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/output6.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/output7.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/output8.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/output9.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/test6.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/test7.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/test8.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/strm-sync-tests/test9.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman/logs
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman/reporters
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.globals.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.hooks.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc2.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.order.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-es7/one.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-es7/test6.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-es7/two.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-tests/generatorz-babel.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-tests/generatorz.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-tests/many-commands.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-tests/one.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/test-tests/two.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check/recursion-check2
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check/test8.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/.gitkeep
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/mocha-test0.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/mocha-test1.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/mocha-test3.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/n
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/mocha-test0.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/mocha-test1.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/mocha-test3.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/n
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman/logs/.readme
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/suman/reporters/tap.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/build-tests/recursion-check/recursion-check2/test9.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/src/n/mocha-test0.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/suman/test/mocha-conversion-tests/dest/n/mocha-test0.js
 
 
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759348,
+     size: 1596,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759241,
+     size: 1597,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:14:40 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:14:25 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:14:25 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:14:25 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:14:55 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:14:55 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:14:25 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:14:25 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110867635'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190098183'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.883 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m2.804 ms - 128[0m
 
 Client disconnected.
 
 
 
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759357,
+     size: 1567,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759348,
+     size: 1596,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:14:57 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:14:56 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110869676'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190111220'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m2.009 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m1.395 ms - 128[0m
 
 Client disconnected.
 
 
 
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759365,
+     size: 1564,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759357,
+     size: 1567,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:15:10 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:09 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110872412'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190156612'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.784 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m1.098 ms - 128[0m
 
 Client disconnected.
 
 
 
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759371,
+     size: 1563,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759365,
+     size: 1564,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:15:56 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:55 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110875639'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190159503'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.709 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m1.025 ms - 128[0m
 
 Client disconnected.
 
 
 
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759382,
+     size: 1560,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759371,
+     size: 1563,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:15:59 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:16:02 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:16:02 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:15:57 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+
+Client disconnected.
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465110883239'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190168773'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.837 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m1.239 ms - 128[0m
 
 Client disconnected.
 
 
 
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759392,
+     size: 1552,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759382,
+     size: 1560,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:16:08 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:07 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111321924'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190185399'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.736 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m1.311 ms - 128[0m
 
 Client disconnected.
 
 
 
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759402,
+     size: 1554,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759392,
+     size: 1552,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:16:25 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:16:43 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:16:43 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:23 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111325050'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190210811'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.741 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m1.080 ms - 128[0m
 
 Client disconnected.
 
 
 
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759411,
+     size: 1517,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759402,
+     size: 1554,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:16:50 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:16:55 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:16:55 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:49 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111340775'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190218071'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.900 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m0.806 ms - 128[0m
 
 Client disconnected.
 
 
 
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759417,
+     size: 1548,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759411,
+     size: 1517,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:16:57 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:16:56 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111348784'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190224257'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.102 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m0.971 ms - 128[0m
 
 Client disconnected.
 
 
 
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759484,
+     size: 1551,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759417,
+     size: 1548,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:17:03 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:22:43 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:22:43 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:17:02 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111424182'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190568173'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.725 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m1.063 ms - 128[0m
 
 Client disconnected.
 
 
 
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js { curr: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759503,
+     size: 1550,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:22:57 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:22:57 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:22:57 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:22:57 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 33261,
+     nlink: 1,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 3759484,
+     size: 1551,
+     blocks: 8,
+     atime: Sun Jun 05 2016 22:22:47 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT),
+     birthtime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT) } } 
 
 
 File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js has been changed
-undefined
-running!!
+{ transpile: true }
+transpiling!
+Item to be transpiled: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+Root of project: /Users/Olegzandr/WebstormProjects/suman
+temp path: /test/build-tests/test6.test.js
+pre-resolved: build-tests/test6.test.js
+targetDir: /Users/Olegzandr/WebstormProjects/suman/test-target
+fsItem: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+
+
+Raw event info: change /Users/Olegzandr/WebstormProjects/suman/test/build-tests { curr: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:22:55 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:22:57 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:22:57 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) },
+  prev: 
+   { dev: 16777220,
+     mode: 16895,
+     nlink: 8,
+     uid: 501,
+     gid: 20,
+     rdev: 0,
+     blksize: 4096,
+     ino: 1547714,
+     size: 272,
+     blocks: 0,
+     atime: Sun Jun 05 2016 22:22:55 GMT-0700 (PDT),
+     mtime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT),
+     ctime: Sun Jun 05 2016 22:22:46 GMT-0700 (PDT),
+     birthtime: Mon May 09 2016 02:04:06 GMT-0700 (PDT) } } 
+
+
+transpile results: [ '/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js' ]
 
 
  => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js
+ node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111428864'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465190579606'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.757 ms - 128[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111446280'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m4.144 ms - 128[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111458616'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.997 ms - 128[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111465489'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.689 ms - 128[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111472885'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.757 ms - 128[0m
-
-Client disconnected.
-
-
-
-Raw event info: modified /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___',
-  event: 'modified',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 69888 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ has been added
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ has been removed
-File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111553865'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.784 ms - 128[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111666173'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.727 ms - 128[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111668912'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.862 ms - 128[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test1.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111681047'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.292 ms - 128[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111728193'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.742 ms - 128[0m
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111737790'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.773 ms - 128[0m
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111738300'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.832 ms - 128[0m
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111757173'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.914 ms - 128[0m
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.once.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111759938'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m2.193 ms - 128[0m
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/suman/suman.ioc.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111804670'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.866 ms - 128[0m
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111825937'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.727 ms - 128[0m
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 84480 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/molo.js has been removed
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111843391'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.695 ms - 128[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_tmp___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_old___ { path: '/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js has been changed
-undefined
-running!!
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465111860284'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.795 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m0.889 ms - 128[0m
 
 Client disconnected.
 

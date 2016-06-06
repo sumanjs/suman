@@ -1,4 +1,7 @@
 
+
+//TODO: need exit code in overall stats table
+//TODO: user could say $ suman -w [dirs] --then "suman "
 //TODO: Suman server needs to handle multiple projects, or one server per project? Lame
 //TODO: rename test-stderr.log to test-debug.log and runner-debug.log, along with server.log
 //TODO: suman test results table for individual file should have date started as metric

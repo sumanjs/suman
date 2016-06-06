@@ -43,6 +43,7 @@
     "morgan": "^1.6.1",
     "net-ping": "^1.1.12",
     "picture-tube": "^1.0.0",
+    "poolio": "^0.1.86",
     "react": "^0.14.8",
     "react-css": "0.0.2",
     "react-dom": "^0.14.8",

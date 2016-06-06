@@ -2,18 +2,17 @@
 
 
 
- ### Suman start run indiv. @Sun Jun 05 2016 00:31:01 GMT-0700 (PDT) ### 
 
- ### Filename: /Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js
- ### Beginning of run at 1465111861181 = [Sun Jun 05 2016 00:31:01 GMT-0700 (PDT)]
- ### Command = ["/usr/local/Cellar/node/6.1.0/bin/node","/Users/Olegzandr/WebstormProjects/suman/test/build-tests/tes-t7.js"]
+ ### Suman start run indiv. @Sun Jun 05 2016 22:22:59 GMT-0700 (PDT) ### 
+
+ ### Filename: /Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js
+ ### Beginning of run at 1465190579723 = [Sun Jun 05 2016 22:22:59 GMT-0700 (PDT)]
+ ### Command = ["/Users/Olegzandr/.nvm/versions/node/v5.4.1/bin/node","/Users/Olegzandr/WebstormProjects/suman/lib/poolio-worker.js","/Users/Olegzandr/WebstormProjects/suman/test-target/build-tests/test6.test.js"]
 
 
 
 
  ### Suman end run ### 
-
-
 
 
 

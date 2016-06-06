@@ -1,6 +1,10 @@
 
+
+// throw new Error('fail this test');
+
+
 const suman = require('../../lib');
-var Test = suman.init(module, {
+const Test = suman.init(module, {
     interface: 'TDD',
     integrants: ['dolce-vida']
 });
@@ -14,14 +18,11 @@ function promiseTimeout() {
     });
 }
 
-//foolish charlie//////
-
 
 Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
 
 
     this.setupTest(function (t) {
-        
 
     });
 
