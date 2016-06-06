@@ -7,22 +7,23 @@ const suman = require('../../lib');
 const Test = suman.init(module);
 
 
-Test.describe('SimpleTest', {parallel: true}, function (assert, fs, http, os) {
-
+Test.describe('SimpleTest', {parallel: false}, function (assert, fs, http, os) {
 
     this.it('tests-arrays', function () {
         assert.equal(typeof [], 'object');
     });
-
 
     this.it('tests-t', t => {
         assert(typeof t === 'function');
     });
 
     this.it.cb('tests-t', t => {
-        t();
+        t.apply(null);
     });
 
+    this.it.cb('tests-t', t => {
+        t();
+    });
 
     ['describe', 'it', 'before', 'after', 'afterEach'].forEach(item => {
 
@@ -32,7 +33,7 @@ Test.describe('SimpleTest', {parallel: true}, function (assert, fs, http, os) {
 
     });
 
-    this.it.cb('Check that Test.file is equiv. to module.filename', {timeout: 25}, t => {
+    this.it.cb('Check that Test.file is equiv. to module.filename', {timeout: 45}, t => {
         setTimeout(function () {
             assert(module.filename === Test.file);
             t.done();
@@ -49,6 +50,13 @@ Test.describe('SimpleTest', {parallel: true}, function (assert, fs, http, os) {
 
     });
 
+
+    this.it.cb('Check that Test.file is equiv. to module.filename', {timeout: 25}, t => {
+        setTimeout(function () {
+            assert(module.filename === Test.file);
+            t.done();
+        }, 19);
+    });
 
     this.it('uses promises to handle http', {timeout: 4000}, function () {
 
@@ -83,6 +91,7 @@ Test.describe('SimpleTest', {parallel: true}, function (assert, fs, http, os) {
     });
 
 });
+
 
 
 

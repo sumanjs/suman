@@ -3,7 +3,7 @@
 ```js
 
 const suman = require('suman');
-var Test = suman.init(module);
+const Test = suman.init(module);
 
 
 Test.describe('@Test1', {parallel: true}, function () {

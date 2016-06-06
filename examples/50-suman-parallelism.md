@@ -1,7 +1,7 @@
 This is an area where Suman really shines and has a lot of advantages over AVA etc.
 
 I want to start with a super awesome example of how Suman rocks the party; personally I like to start with
-a concrete example before speaking on generic terms, I learn better that way.
+a concrete example before speaking on generic or abstract terms, I learn better that way.
 
 
 So here is the skeleton of our example test suite (copy it and run it).
@@ -52,20 +52,20 @@ So now, let's flesh it out:
 const suman = require('suman');
 const Test = suman.init(module, {});
 
-Test.describe('Zulu', {parallel: false}, function () {  //parent is series (parallel:false)
 
+Test.describe('Zulu', {parallel: false}, function () {  //parent is series (parallel:false)
 
     this.describe('A', {parallel: true}, function () {
 
-        this.it(this.desc + '1', function (t, done) {
+        this.it(this.desc + '1', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 800);
         });
 
-        this.it(this.desc + '2', function (t, done) {
+        this.it(this.desc + '2', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 800);
         });
 
@@ -74,15 +74,15 @@ Test.describe('Zulu', {parallel: false}, function () {  //parent is series (para
 
     this.describe('B', {parallel: true}, function () {
 
-        this.it(this.desc + '1', function (t, done) {
+        this.it(this.desc + '1', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 500);
         });
 
-        this.it(this.desc + '2', function (t, done) {
+        this.it(this.desc + '2', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 500);
         });
 
@@ -92,15 +92,15 @@ Test.describe('Zulu', {parallel: false}, function () {  //parent is series (para
     this.describe('C', {parallel: true}, function () {
 
 
-        this.it(this.desc + '1', function (t, done) {
+        this.it(this.desc + '1', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 300);
         });
 
-        this.it(this.desc + '2', function (t, done) {
+        this.it(this.desc + '2', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 300);
         });
 
@@ -110,15 +110,15 @@ Test.describe('Zulu', {parallel: false}, function () {  //parent is series (para
     this.describe('D', {parallel: true}, function () {
 
 
-        this.it(this.desc + '1', function (t, done) {
+        this.it(this.desc + '1', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 100);
         });
 
-        this.it(this.desc + '2', function (t, done) {
+        this.it(this.desc + '2', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 100);
         });
 
@@ -142,15 +142,15 @@ Test.describe('Zulu', {parallel: true}, function () {   //now we make the parent
 
     this.describe('A', {parallel: true}, function () {
 
-        this.it(this.desc + '1', function (t, done) {
+        this.it(this.desc + '1', t => {
             setTimeout(function () {
-                done();
+               t.done();
             }, 800);
         });
 
-        this.it(this.desc + '2', function (t, done) {
+        this.it(this.desc + '2', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 800);
         });
 
@@ -159,15 +159,15 @@ Test.describe('Zulu', {parallel: true}, function () {   //now we make the parent
 
     this.describe('B', {parallel: true}, function () {
 
-        this.it(this.desc + '1', function (t, done) {
+        this.it(this.desc + '1', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 500);
         });
 
-        this.it(this.desc + '2', function (t, done) {
+        this.it(this.desc + '2', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 500);
         });
 
@@ -177,15 +177,15 @@ Test.describe('Zulu', {parallel: true}, function () {   //now we make the parent
     this.describe('C', {parallel: true}, function () {
 
 
-        this.it(this.desc + '1', function (t, done) {
+        this.it(this.desc + '1', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 300);
         });
 
-        this.it(this.desc + '2', function (t, done) {
+        this.it(this.desc + '2', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 300);
         });
 
@@ -195,15 +195,15 @@ Test.describe('Zulu', {parallel: true}, function () {   //now we make the parent
     this.describe('D', {parallel: true}, function () {
 
 
-        this.it(this.desc + '1', function (t, done) {
+        this.it(this.desc + '1', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 100);
         });
 
-        this.it(this.desc + '2', function (t, done) {
+        this.it(this.desc + '2', t => {
             setTimeout(function () {
-                done();
+                t.done();
             }, 100);
         });
 
@@ -227,6 +227,8 @@ Those two places are:
 
 2. ```this.it('foo', {parallel:true}, function(){});```
 
+
+(What about hooks? beforeEach/afterEach hooks run in series for a single test case, but in parallel across test cases; before/after hooks always run in series.) 
 
 Here are the rules above how these operate. 
 Let's start with case 2. For "it" test case functions, if "it" is declared as parallel, it will run in parallel with any other test case that is also declared parallel. 
@@ -288,4 +290,4 @@ Test.describe('A', function(){
 });
 ```
 
-Now, let's get really nasty, let's do some more nesting to see what happens.
+Now, let's get really nasty, let's do some more nesting to see what happens. To be continued.

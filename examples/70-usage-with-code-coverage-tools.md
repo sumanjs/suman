@@ -6,11 +6,10 @@ To see coverage for *one* file, you can simply run:
 
 or for coverage of multiple files and a conglomerated report you can run
 
-```suman cover <file/dir> <file/dir>```
+```suman --coverage <file/dir> <file/dir>```
 
-suman will run Istanbul, and create a bash script to execute
-
-using this technique
+suman will invoke Istanbul, and will cover each test in series, since Istanbul instrumentation is quite CPU instensive.
+Suman will generate a consolidated report that represents the total coverage of your tests against your project.
 
 //https://github.com/gotwarlost/istanbul/issues/97
 

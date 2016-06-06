@@ -3,9 +3,6 @@
  *
  * */
 
-//context
-//gwt
-
 
 var suman = require('../../lib');
 
@@ -19,7 +16,7 @@ Test.describe('suite uno', {}, function () {
 
 
     this.it.skip.cb('foo2', {parallel: true}, t => {
-        t.done();
+        t();
     });
 
 

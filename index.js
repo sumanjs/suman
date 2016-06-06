@@ -21,6 +21,11 @@
 
 /////////////////////////////////////////////////////////////////
 
+process.on('uncaughtException', function (err) {
+	console.error('\n\n => Suman uncaught exception =>\n', err.stack, '\n\n');
+	process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+});
+
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -160,8 +165,8 @@ else {
 
 		pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
 		sumanConfig = require(pth);
-		if (sumanConfig.verbose !== false) {  //default to true
-			console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
+		if (opts.verbose) {  //default to true
+			console.log('\t => Suman config used: ' + pth);
 		}
 
 	}
@@ -177,8 +182,8 @@ else {
 		try {
 			pth = path.resolve(root + '/' + 'suman.conf.js');
 			sumanConfig = require(pth);
-			if (sumanConfig.verbose !== false) {  //default to true
-				console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
+			if (!opts.sparse) {  //default to true
+				console.log(colors.cyan(' => Suman XY config used: ' + pth + '\n'));
 			}
 		}
 		catch (err) {
@@ -274,6 +279,10 @@ var paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
 	}
 	return true;
 });
+
+if (opts.verbose) {
+	console.log(' => Suman verbose message => arguments assumed to be file paths to run:', paths);
+}
 
 /////////////////// assign vals from config ////////////////////////////////////////////////
 
@@ -383,7 +392,7 @@ else {
 	const networkLog = global.networkLog = makeNetworkLog(timestamp);
 	const server = global.server = findSumanServer(null);
 
-	function checkStats(item) {
+	function checkStatsIsFile(item) {
 		try {
 			return fs.statSync(item).isFile();
 		}
@@ -398,7 +407,8 @@ else {
 	async.series({
 
 		npmList: function (cb) {
-			cp.exec('npm list -g', cb);
+			// cp.exec('npm list -g', cb);
+			process.nextTick(cb);
 		},
 
 		transpileFiles: function (cb) {
@@ -434,19 +444,22 @@ else {
 	}, function (err, results) {
 
 		if (err) {
+			console.log('\t => Suman unexpected fatal error => ' + err.stack);
 			throw err;
 		}
 
 		if (opts.no_run) {
-			console.log(' => Suman message => the --no-run option is set, we are done here for now.');
-			console.log(' To view the options and values that will be used to initiate a Suman test run, use the --verbose or --vverbose options\n\n');
-			return;
+			console.log('\n\n\t => Suman message => the ' + colors.magenta('--no-run') + ' option is set, we are done here for now.');
+			console.log('\t To view the options and values that will be used to initiate a Suman test run, use the --verbose or --vverbose options\n\n');
+			// if(opts.watch){
+			// 	console.log(' => Warning: --watch option is enabled so please close process manually.');
+			// }
+			return process.exit(0);
 		}
 
-		if(opts.vverbose){
+		if (opts.vverbose) {
 			console.log('=> Suman vverbose message => "$ npm list -g" results: ', results.npmList);
 		}
-
 
 		const d = domain.create();
 
@@ -513,18 +526,18 @@ else {
 			if (coverage) {
 
 				var istanbulInstallPath;
-				try{
+				try {
 					istanbulInstallPath = require.resolve('istanbul');
-					if(opts.verbose){
+					if (opts.verbose) {
 						console.log(' => Suman verbose message => install path of instabul => ', istanbulInstallPath);
 					}
 
 				}
-				catch(e){
-					if(!opts.force){
-						console.log('\n',' => Suman message => Looks like istanbul is not installed globally, you can run "$ suman --use-istanbul", to acquire the right deps.');
-						console.log('\n',' => Suman message => If installing "istanbul" manually, you may install locally or globally, Suman will pick it up either way.');
-						console.log('\t => To override this, use --force.','\n');
+				catch (e) {
+					if (!opts.force) {
+						console.log('\n', ' => Suman message => Looks like istanbul is not installed globally, you can run "$ suman --use-istanbul", to acquire the right deps.');
+						console.log('\n', ' => Suman message => If installing "istanbul" manually, you may install locally or globally, Suman will pick it up either way.');
+						console.log('\t => To override this, use --force.', '\n');
 						return;
 					}
 				}
@@ -533,40 +546,37 @@ else {
 
 			}
 
-			
-			else if (!useRunner && transpile && opts.all && originalPaths.length === 1 && checkStats(originalPaths[0])) {
+			else if (!useRunner && transpile && opts.all && originalPaths.length === 1 && checkStatsIsFile(originalPaths[0])) {
 
 				//TODO: need to learn how many files matched
 
 				d.run(function () {
 					process.nextTick(function () {
 						process.chdir(path.dirname(paths[0]));  //force CWD to test file path // boop boop
-						//TODO: perhaps we should require run-child.js instead?
-						require(paths[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+						require('./lib/run-child-not-runner')(paths[0]);
 					});
 				});
 
 			}
-			else if (!useRunner && transpile && !opts.all && originalPaths.length === 1 && checkStats(originalPaths[0])) {
+			else if (!useRunner && transpile && !opts.all && originalPaths.length === 1 && checkStatsIsFile(originalPaths[0])) {
 
 				d.run(function () {
 					process.nextTick(function () {
 						process.chdir(path.dirname(paths[0]));  //force CWD to test file path // boop boop
-						//TODO: perhaps we should require run-child.js instead?
-						require(paths[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+						require('./lib/run-child-not-runner')(paths[0]);
 					});
 				});
 
 			}
-			else if (!useRunner && paths.length === 1 && checkStats(paths[0])) {
+			else if (!useRunner && paths.length === 1 && checkStatsIsFile(paths[0])) {
 
 				//TODO: we could read file in (fs.createReadStream) and see if suman is referenced
 
 				d.run(function () {
 					process.nextTick(function () {
 						process.chdir(path.dirname(paths[0]));  //force CWD to test file path // boop boop
-						//TODO: perhaps we should require run-child.js instead?
-						require(paths[0]);  //if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+						//note: if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+						require('./lib/run-child-not-runner')(paths[0]);
 					});
 				});
 			}

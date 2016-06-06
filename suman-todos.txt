@@ -1,5 +1,23 @@
 
 
+//TODO: need exit code in overall stats table
+//TODO: user could say $ suman -w [dirs] --then "suman "
+//TODO: Suman server needs to handle multiple projects, or one server per project? Lame
+//TODO: rename test-stderr.log to test-debug.log and runner-debug.log, along with server.log
+//TODO: suman test results table for individual file should have date started as metric
+//TODO: for chokidar watcher, need to worry about nested directories using **/* etc, see build-tests
+//TODO: when running the runner against the entire test-target dir, the runner hangs, so we need a list of cps that have not exited yet after 30 seconds or whatever
+//...special keystrokes should kill all currently running cps and then just collect the best results possible
+//TODO: allow suman.once.js and suman.ioc.js to handle generator fns
+//TODO: turn grep into match
+//TODO: make skip.cb and cb.skip interchangeable
+//TODO: as opposed to arrow fns, generator fns and async fns, is there an accepted term for "traditional" JS functions?
+//TODO: could try "brew install sqlite3" if it's not already installed and running
+//TODO: delete nearly all prior commits on master and dev and push to suman public repo on github
+//TODO: warn if test or hook does not return anything if there is no callback
+//TODO: make sure that generator functions get recognized when transpiling isGenerator() check needs to work correctly
+//TODO: suman --convert should work if you don't use --src/--dest, but you will then need to use -f option after a confirmation message from Suman saying
+which items will be converted to where
 //TODO: hook into stdout with node to write to test-stdout.log - https://gist.github.com/pguillory/729616
 //TODO: http://krasimirtsonev.com/blog/article/debugging-with-node
 //TODO: http://justjs.com/posts/npm-link-developing-your-own-npm-modules-without-tears
@@ -7,7 +25,6 @@
 //TODO: https://github.com/paulmillr/chokidar
 //TODO: init should install istanbul globally? should install suman globally?
 //TODO: https://babeljs.io/docs/usage/options/
-//TODO: coverage should happen after transpilation
 //TODO: https://www.sitepoint.com/solve-global-npm-module-dependency-problem/
 //TODO: CLI-TABLE https://www.npmjs.com/package/cli-table
 //TODO: check to verify that transpilation with babel works
@@ -23,7 +40,6 @@
 //TODO: babel should be optional to install, takes too long otherwise
 //TODO: change Test to _Test in conversion proc
 //TODO: this.timeout() needs to be t.timeout();
-//TODO: make sure describe blocks during conversion don't have a ghost param like an unexpected done param
 //eg: this.describe('port', function (done) {
 //TODO: this.timeout in rootsuite and child suites etc.
 //TODO: check to see if first arg to done can be any non-null value
@@ -64,7 +80,7 @@
 //TODO: if user wants to collect multiple errors per test, they can use t.assert
 //TODO: need to add option to include stdout when using runner
 //TODO: npm install mocha -g --save-dev
-//TODO: overall consolidated table can have a count of failed test files vs passed test files
+//TODO: overall consolidated table can have a count of failed test files vs passed test files, and percentage
 //TODO: add max memory value in overall table for runner
 //TODO: need assertions to print out pretty
 //TODO: if using local server and SQLite, then each cp should save data directly to db. however, if remote server, then
@@ -163,6 +179,8 @@
 //TODO: note: https://www.npmjs.com/package/gulp-mocha
 //TODO: use Object.defineProperties for read-only
 
+
+// Future development - suman.groups.js / observable support
 
 
 /*

@@ -15,11 +15,12 @@ const Test = require('../../lib').init(module, {
 });
 
 
-Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert) {
+Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, request, assert) {
 
 
     console.log('extra:', extra);
     console.log('choodles:', choodles);
+    console.log('request:', request);
 
 
     this.before.cb(t => {
@@ -110,7 +111,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, assert)
     });
 
 
-    this.describe('1', {efa: true}, function () {
+    this.describe.skip('1', {efa: true}, function () {
 
         this.before.cb(t => {
 

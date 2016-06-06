@@ -14,6 +14,7 @@ const Test = suman.init(module, {
 
 
 // here we create the test suite, we can inject core modules, and any value defined in suman.ioc.js
+
 Test.describe('Example#1', function (assert, fs, http, path) {
 
 

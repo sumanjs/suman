@@ -4,93 +4,238 @@ const fs = require('fs');
 //npm
 const socketio = require('socket.io');
 const chokidar = require('chokidar');
+const _ = require('lodash');
+const cp = require('child_process');
+const path = require('path');
+const Poolio = require('/Users/Olegzandr/WebstormProjects/poolio');
 
 //project
 const constants = require('../../config/suman-constants');
 const runTranspile = require('../../lib/transpile/run-transpile');
 
-//////////////////////////
+//////////////////////////////////////////////////
+
+// const strm = fs.createWriteStream('/Users/Olegzandr/WebstormProjects/suman/test/suman/logs/test-stdout.log','a');
+
+///////////////////////////////////////////////////
+
+const pool = new Poolio({
+	size: 3,
+	filePath: 'lib/poolio-worker.js'
+});
+
+///////////////////////////////////////////////////
 
 const opts = {
-	// ignored: ['*.txt','*.log'],
-	ignored: /(\.txt|\.log)$/
+	ignored: ['**/*.txt', '**/*.log'],
+	ignoreInitial: true
+	// ignored: /(\.txt|\.log)$/
 };
 
+var sumanExec;
+
+try {
+	sumanExec = require.resolve('suman');
+	const temp = String(sumanExec).split(path.sep);
+	temp.pop();
+	temp.pop();
+	temp.push('index.js');
+	sumanExec = 'node ' + path.resolve(temp.join(path.sep));
+}
+catch (err) {
+	console.log('\n\n => Warning Suman exec could not be located, attempting $suman...');
+	sumanExec = 'suman ';
+}
+
+function initiateTranspileAction(p, opts, executeTest) {
+
+	const transpileThese = _.flatten([p]).filter(function (p) {
+		return pathHash[p].transpile;
+	});
+
+	if (transpileThese.length < 1) {
+		return;
+	}
+
+	fs.writeFileSync('/Users/Olegzandr/WebstormProjects/suman/test/suman/logs/test-stdout.log',
+		'\n\n => test will first be transpiled.', {
+			flag: 'a'
+		});
+
+	runTranspile(transpileThese, (opts || {}), function (err, results) {
+		if (err) {
+			console.log('transpile error:', err);
+
+			fs.writeFileSync('/Users/Olegzandr/WebstormProjects/suman/test/suman/logs/test-stdout.log',
+				'\n\n => test transpilation error => \n' + err.stack, {
+					flag: 'a'
+				});
+		}
+		else {
+			console.log('transpile results:', results);
+
+			fs.writeFileSync('/Users/Olegzandr/WebstormProjects/suman/test/suman/logs/test-stdout.log',
+				'\n => test transpiled successfully.', {
+					flag: 'a'
+				});
+
+			//TODO: check that changed file is a .js file etc
+			if (executeTest) {
+				runTestWithSuman(results);
+			}
+		}
+	});
+}
+
+function runTestWithSuman(tests) {
+
+	const cmd = sumanExec + ' ' + tests.join(' ');
+
+	console.log('\n\n => Test will now be run with command:\n', cmd);
+
+	fs.writeFileSync('/Users/Olegzandr/WebstormProjects/suman/test/suman/logs/test-stdout.log',
+		'\n => test will now execute.\n', {
+			flag: 'a'
+		});
+
+	const promises = tests.map(function (t) {
+		return pool.any({testPath: t});
+	});
+
+	Promise.all(promises).then(function (val) {
+		console.log('Poolio response:', val);
+	}, function (e) {
+		console.error(e.stack || e);
+	});
+
+	// cp.exec(cmd, function (err, stdout, stderr) {
+	// 	if (true || err || String(stdout).match(/error/i) || String(stderr).match(/error/i)) {
+	// 		console.error(err.stack || err || stdout || stderr);
+	// 	}
+	// });
+
+}
+
+const pathHash = {};
 var watcher;
 
 module.exports = function (server) {
 	
 	const io = socketio(server);
 
-//io.on('connection', function(socket){
-//    console.log('a user connected');
-//});
-	
 	io.sockets.on('connection', function (socket) {
 		
-		console.log('\nClient connected.\n');
+		console.log('\n', 'Client connected.', '\n');
 		
 		socket.emit('message', 'listening');
-		
-		socket.emit('charlie1', 'a');
-		
-		// Disconnect listener
+
 		socket.on('disconnect', function () {
 			console.log('\nClient disconnected.\n');
 		});
-		
-		socket.on('watch', function (msg) {
+
+		//TODO: need to add hash, that shows whether files need to be transpiled or not
+
+		socket.on('watch', function ($msg) {
 			
-			msg = JSON.parse(msg);
+			const msg = JSON.parse($msg);
+
+			const paths = msg.paths;
+			const transpile = msg.transpile || false;
 			
-			console.log('watch has been received by server', msg);
-			console.log('paths received by server', msg.paths);
+			console.log(' => Suman server event => socketio watch event has been received by server:\n', msg);
 			
 			if (watcher) {
-				console.log('Watched paths before:', watcher.getWatched());
-				watcher.add(msg.paths);
+				console.log('\n\n => Watched paths before:', watcher.getWatched());
+				watcher.add(paths);
+				console.log('\n\n => Watched paths after:', watcher.getWatched());
 			}
 			else {
-				console.log('Watcher initialized.');
-				watcher = chokidar.watch(msg.paths, opts);
+				console.log(' => chokidar watcher initialized.');
+				watcher = chokidar.watch(paths, opts);
 				
 				var log = console.log.bind(console);
 
-// Add event listeners.
-				
 				watcher.on('add', p => {
 					log(`File ${p} has been added`);
+					initiateTranspileAction(p);
 				});
 				
 				watcher.on('change', p => {
-					log(`File ${p} has been changed`);
-					runTranspile([p], {}, function (err, results) {
-						if (err) {
-							console.log('transpile error:', err);
-						}
-						else {
-							console.log('transpile results:', results);
-						}
-					});
 
+					log(`File ${p} has been changed`);
+
+					fs.writeFileSync('/Users/Olegzandr/WebstormProjects/suman/test/suman/logs/test-stdout.log',
+						'\n\n', {
+							flag: 'w'
+						});
+
+					console.log(pathHash[String(p)]);
+
+					if (!pathHash[p]) {
+						console.log(' => Suman server warning => the following file path was not already stored in the pathHash:', p);
+					}
+
+					fs.writeFileSync('/Users/Olegzandr/WebstormProjects/suman/test/suman/logs/test-stdout.log',
+						'\n\n => Suman watcher => test file changed:\n' + p, {
+							flag: 'a'
+						});
+
+					if (pathHash[p] && pathHash[p].transpile) {
+						console.log('transpiling!');
+						initiateTranspileAction(p, null, true);
+					}
+					else {
+						console.log('running!!');
+						runTestWithSuman([p]);
+					}
 				});
 				
 				watcher.on('unlink', p => {
-					log(`File ${p}has been removed`)
+					log(`File ${p} has been removed`);
+					initiateTranspileAction([], {all: true});
 				});
 
-// More possible events.
-				watcher
-					.on('addDir', p => log(`Directory ${p}has been added`))
-					.on('unlinkDir', p => log(`Directory ${p}has been removed`))
-					.on('error', error => log(`Watcher error: ${error}`))
-					.on('ready', () => {
-						log('Initial scan complete. Ready for changes');
-						console.log('Watched paths:', watcher.getWatched());
-					})
-					.on('raw', (event, path, details) => {
-						log('Raw event info:', event, path, details);
-					});
+				watcher.on('addDir', p => {
+					log(`Directory ${p} has been added.`);
+					initiateTranspileAction(p);
+				});
+
+				watcher.on('unlinkDir', p => {
+					log(`Directory ${p} has been removed`);
+					initiateTranspileAction([], {all: true});
+				});
+
+				watcher.on('error', error => {
+					log(`chokidar watcher error: ${error}`)
+				});
+
+				watcher.on('ready', () => {
+					log('Initial scan complete. Ready for changes');
+					const watched = watcher.getWatched();
+					console.log('Watched paths:', watched);
+
+					(function (w) {
+						Object.keys(w).forEach(function (key) {
+							const array = w[key];
+							array.forEach(function (p) {
+								const temp = path.resolve(key + '/' + p);
+								console.log(' => The following file path is being saved as { transpile:', transpile, '} =>', temp);
+								pathHash[temp] = {
+									transpile: transpile
+								}
+							});
+
+						});
+					})(watched);
+
+				});
+
+				watcher.on('raw', (event, p, details) => {
+					if (['.log', '.txt'].indexOf(path.extname(p)) < 0) {
+						log('\n\nRaw event info:', event, p, details, '\n\n');
+					}
+
+				});
 			}
 			
 		});
