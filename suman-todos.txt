@@ -1,4 +1,9 @@
 
+
+//TODO: if top-level directory contains no tests, then we need to report that, and advise usage of --recursive option
+
+
+//TODO: for a given test, should be able to force all things parallel with --parallel flag
 //TODO: testing => http://open.blogs.nytimes.com/2015/01/15/how-to-unit-test-a-requirejs-application/?_r=0
 //TODO: need to fix suman server so that user can see server errors
 

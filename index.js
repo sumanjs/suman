@@ -65,6 +65,7 @@ const root = sumanUtils.findProjectRoot(cwd);
 const makeNetworkLog = require('./lib/make-network-log');
 const findSumanServer = require('./lib/find-suman-server');
 
+
 if (!root) {
 	console.log(' => Warning => A Node.js project root could not be found given your current working directory.');
 	console.log(colors.bgRed.white(' => cwd:', cwd, ' '));
