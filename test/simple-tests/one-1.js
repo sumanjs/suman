@@ -1,11 +1,7 @@
-/**
- * Created by denmanm1 on 4/13/16.
- */
 
 
-const suman = require('../../lib');
+const suman = require('../../lib');/////
 const Test = suman.init(module);
-
 
 Test.describe('SimpleTest', {parallel: false}, function (assert, fs, http, os) {
 
@@ -22,6 +18,7 @@ Test.describe('SimpleTest', {parallel: false}, function (assert, fs, http, os) {
     });
 
     this.it.cb('tests-t', t => {
+        throw new Error('barf'); ///
         t();
     });
 

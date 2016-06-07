@@ -2,20 +2,37 @@
 
 ### Suman runner start ###
 
-Beginning of run at 1465189084069 = [Sun Jun 05 2016 21:58:04 GMT-0700 (PDT)]
-Command issued from the following directory "/Users/Olegzandr/WebstormProjects/suman"
-Command = ["/Users/Olegzandr/.nvm/versions/node/v5.4.1/bin/node","/Users/Olegzandr/WebstormProjects/suman/lib/poolio-worker.js","--runner","/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js"]
+Beginning of run at 1465258433715 = [Mon Jun 06 2016 17:13:53 GMT-0700 (PDT)]
+Command issued from the following directory "/Users/amills/WebstormProjects/oresoftware/suman"
+Command = ["/usr/local/Cellar/node/6.2.0/bin/node","/Users/amills/WebstormProjects/oresoftware/suman/lib/poolio-worker.js","--runner","/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js"]
 
 
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js] Error: fail this test
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js:23:7)
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js]     at Module._compile (module.js:397:26)
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js]     at Object.Module._extensions..js (module.js:404:10)
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js]     at Module.load (module.js:343:32)
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js]     at Function.Module._load (module.js:300:12)
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js]     at Module.require (module.js:353:17)
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js]     at require (internal/module.js:12:17)
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js]     at /Users/Olegzandr/WebstormProjects/suman/lib/run-child.js:71:3
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js]     at nextTickCallbackWith0Args (node.js:452:9)
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js]     at process._tickDomainCallback (node.js:422:13)
-[/Users/Olegzandr/WebstormProjects/suman/test/build-tests/test6.test.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js]  about to send real table results/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js]  RECEIVED real table results/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js]  ### Suman end run ### 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+[/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js] 
+
+
+### Suman runner end ###
+
+
+
+
+
+
+
+

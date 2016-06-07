@@ -1,4 +1,20 @@
 
+//TODO: testing => http://open.blogs.nytimes.com/2015/01/15/how-to-unit-test-a-requirejs-application/?_r=0
+//TODO: need to fix suman server so that user can see server errors
+
+ => Suman uncaught exception =>
+ Error: Bad server name, does not match any items in your config => "cse-1s-dhcp--98-213.eng.vmware.com"
+    at badServerName (/Users/amills/WebstormProjects/oresoftware/suman/lib/find-suman-server.js:22:19)
+    at findSumanServer (/Users/amills/WebstormProjects/oresoftware/suman/lib/find-suman-server.js:23:11)
+    at Object.Server (/Users/amills/WebstormProjects/oresoftware/suman/lib/index.js:256:15)
+    at Object.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/index.js:364:8)
+    at Module._compile (module.js:541:32)
+    at Object.Module._extensions..js (module.js:550:10)
+    at Module.load (module.js:458:32)
+    at tryModuleLoad (module.js:417:12)
+    at Function.Module._load (module.js:409:3)
+    at Function.Module.runMain (module.js:575:10)
+
 
 //TODO: need exit code in overall stats table
 //TODO: user could say $ suman -w [dirs] --then "suman "

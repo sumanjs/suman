@@ -388,6 +388,8 @@ else if (convert) {
 }
 else {
 
+	console.log('\n');
+
 	const timestamp = global.timestamp = Date.now();
 	const networkLog = global.networkLog = makeNetworkLog(timestamp);
 	const server = global.server = findSumanServer(null);
@@ -444,8 +446,8 @@ else {
 	}, function (err, results) {
 
 		if (err) {
-			console.log('\t => Suman unexpected fatal error => ' + err.stack);
-			throw err;
+			console.log('\n\n => Suman fatal problem => ' + (err.stack || err),'\n\n');
+			return;
 		}
 
 		if (opts.no_run) {
@@ -465,7 +467,7 @@ else {
 
 		d.once('error', function (err) {
 			//TODO: add link showing how to set up Babel
-			console.error(colors.magenta(' => Suman error => ' + err.stack + '\n'));
+			console.error(colors.magenta(' => Suman fatal error => ' + err.stack + '\n'));
 			process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
 		});
 

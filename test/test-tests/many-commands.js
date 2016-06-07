@@ -29,8 +29,7 @@ Test.describe('Run many different options with Suman', {}, function (child_proce
 
 
         this.it.cb({mode: 'parallel'}, t => {
-
-
+            
             child_process.exec('node index --tail-test', {
                 cwd: '/Users/Olegzandr/WebstormProjects/suman'
 

@@ -1,8 +1,3 @@
-
-
-// throw new Error('fail this test');
-
-
 const suman = require('../../lib');
 const Test = suman.init(module, {
     interface: 'TDD',
@@ -18,12 +13,13 @@ function promiseTimeout() {
     });
 }
 
+//
 
 Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
 
 
-    this.setupTest(function (t) {
-
+    this.setupTest({fatal: false}, function (t) {
+        throw new Error('fail this test thing');/////
     });
 
     this.teardownTest(function () {
@@ -55,7 +51,7 @@ Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
 
     });
 
-    this.suite('yolo', {}, function(){
+    this.suite('yolo', {}, function () {
 
     });
 

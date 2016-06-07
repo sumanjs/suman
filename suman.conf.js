@@ -28,6 +28,10 @@ module.exports = Object.freeze({
     },
 
     servers: {
+        'cse-1s-dhcp--98-213.eng.vmware.com':{
+            host: '127.0.0.1',
+            port: 6969,
+        },
         'CACSVML-16845': {
             host: '127.0.0.1',
             port: 6969,

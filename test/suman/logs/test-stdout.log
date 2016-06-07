@@ -1,0 +1,122 @@
+
+
+ => Suman watcher => test file changed:
+/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js
+ => test will now execute.
+
+ => Suman v1.1.39914 running...
+ => Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"
+
+
+
+
+	  _   _ _  _  _   .. _/__   __/_
+	_\/_// / //_|/ / ..  / /_'_\ /  
+
+
+
+
+
+ 	 => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
+	Error: fail this test thing
+	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js:22:15)
+	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/make-handle-each.js:154:52
+	    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+	    at process._tickDomainCallback (internal/process/next_tick.js:122:9) 
+
+
+	 ✔  'makes rain' (< 1ms)
+
+
+ 	 => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
+	Error: fail this test thing
+	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js:22:15)
+	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/make-handle-each.js:154:52
+	    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+	    at process._tickDomainCallback (internal/process/next_tick.js:122:9) 
+
+
+	 ✔  'one' (105ms)
+
+
+ 	 => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
+	Error: fail this test thing
+	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js:22:15)
+	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/make-handle-each.js:154:52
+	    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+	    at process._tickDomainCallback (internal/process/next_tick.js:122:9) 
+
+
+	 ✔  'three' (104ms)
+
+
+ 	 => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
+	Error: fail this test thing
+	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js:22:15)
+	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/make-handle-each.js:154:52
+	    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+	    at process._tickDomainCallback (internal/process/next_tick.js:122:9) 
+
+
+	 ✔  'four' (102ms)
+
+
+ 	 => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
+	Error: fail this test thing
+	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js:22:15)
+	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/make-handle-each.js:154:52
+	    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+	    at process._tickDomainCallback (internal/process/next_tick.js:122:9) 
+
+
+	 ✔  'five' (101ms)
+
+
+ 	 => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
+	Error: fail this test thing
+	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js:22:15)
+	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/make-handle-each.js:154:52
+	    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+	    at process._tickDomainCallback (internal/process/next_tick.js:122:9) 
+
+
+	 ✔  'four' (101ms)
+
+
+ 	 => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
+	Error: fail this test thing
+	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js:22:15)
+	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/make-handle-each.js:154:52
+	    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+	    at process._tickDomainCallback (internal/process/next_tick.js:122:9) 
+
+
+	 ✔  'five' (100ms)
+
+
+
+	.----------------------------------------------------------.
+	|                    Suman Test Results                    |
+	|----------------------------------------------------------|
+	|           Metric           |     Value    |     Notes    |
+	|----------------------------|--------------|--------------|
+	| Root Suite Title           |   @Test1-TDD |              |
+	| Total Num. of Suites       |            4 |              |
+	| Suites skipped             |            0 |              |
+	| Tests skipped              |            0 |              |
+	| Tests stubbed              |            2 |              |
+	| Tests passed               |            7 |              |
+	| Tests failed               |            0 |              |
+	| Tests total                |            9 |              |
+	| Passing rate               |       77.78% |              |
+	| Total time millis (delta)  |          760 |              |
+	| Total time minutes (delta) |       0.0127 |              |
+	'----------------------------------------------------------'
+
+
+
+ => You have some extraneous errors/warnings - check test error log (test-debug.log) for more information.
+
+
+ => Suman is exiting with code 0   
+
