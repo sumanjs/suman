@@ -1,8 +1,25 @@
 
+//TODO: to convert files, cp from test to test-temp, rename all test files to a.test.js, then run --convert
+//TODO: use .profile instead of .bash_profile?
+//TODO: if suman is not installed in a project, and the user tries to run $ suman on a test file, suman could install the default files before
+// proceeding
+
+//TODO: if suman is not installed yet, we get this error (its looking for the suman folder in the root of the project):
+
+ => Suman fatal error => Error: ENOENT: no such file or directory, stat '/Users/amills/WebstormProjects/vmware/wem_server2/undefined'
+    at Error (native)
+    at Object.fs.statSync (fs.js:844:18)
+    at getAllFiles (/Users/amills/WebstormProjects/oresoftware/suman/lib/runner.js:587:48)
+    at /Users/amills/WebstormProjects/oresoftware/suman/lib/runner.js:676:11
+
+
+
+//TODO:
+	 ⚑  => Suman fatal error  => making a graceful exit =>
+	[object Object]
 
 //TODO: if top-level directory contains no tests, then we need to report that, and advise usage of --recursive option
-
-
+//TODO: describe(__filename, function() {
 //TODO: for a given test, should be able to force all things parallel with --parallel flag
 //TODO: testing => http://open.blogs.nytimes.com/2015/01/15/how-to-unit-test-a-requirejs-application/?_r=0
 //TODO: need to fix suman server so that user can see server errors
@@ -21,6 +38,8 @@
     at Function.Module.runMain (module.js:575:10)
 
 
+
+//--concurrency option should just be "--processes"
 //TODO: need exit code in overall stats table
 //TODO: user could say $ suman -w [dirs] --then "suman "
 //TODO: Suman server needs to handle multiple projects, or one server per project? Lame
@@ -204,6 +223,54 @@ which items will be converted to where
 // Future development - suman.groups.js / observable support
 
 
+// handle NVM global installations
+npm ERR! extraneous: adore@1.4.32 /usr/local/lib/node_modules/poolio/node_modules/adore
+npm ERR! extraneous: ansi-256-colors@1.1.0 /usr/local/lib/node_modules/poolio/node_modules/ansi-256-colors
+npm ERR! extraneous: ascii-table@0.0.8 /usr/local/lib/node_modules/poolio/node_modules/ascii-table
+npm ERR! extraneous: body-parser@1.15.1 /usr/local/lib/node_modules/poolio/node_modules/body-parser
+npm ERR! extraneous: chmodr@1.0.2 /usr/local/lib/node_modules/poolio/node_modules/chmodr
+npm ERR! extraneous: cookie-parser@1.4.3 /usr/local/lib/node_modules/poolio/node_modules/cookie-parser
+npm ERR! extraneous: cross-spawn@2.2.3 /usr/local/lib/node_modules/poolio/node_modules/cross-spawn
+npm ERR! extraneous: du@0.1.0 /usr/local/lib/node_modules/poolio/node_modules/du
+npm ERR! extraneous: ejs@2.4.2 /usr/local/lib/node_modules/poolio/node_modules/ejs
+npm ERR! extraneous: express@4.13.4 /usr/local/lib/node_modules/poolio/node_modules/express
+npm ERR! extraneous: function-arguments@1.0.4 /usr/local/lib/node_modules/poolio/node_modules/function-arguments
+npm ERR! extraneous: gulp-nodemon@2.0.7 /usr/local/lib/node_modules/poolio/node_modules/gulp-nodemon
+npm ERR! extraneous: immutable@3.8.1 /usr/local/lib/node_modules/poolio/node_modules/immutable
+npm ERR! extraneous: jquery@2.2.4 /usr/local/lib/node_modules/poolio/node_modules/jquery
+npm ERR! extraneous: morgan@1.7.0 /usr/local/lib/node_modules/poolio/node_modules/morgan
+npm ERR! extraneous: net-ping@1.2.0 /usr/local/lib/node_modules/poolio/node_modules/net-ping
+npm ERR! extraneous: picture-tube@1.0.0 /usr/local/lib/node_modules/poolio/node_modules/picture-tube
+npm ERR! extraneous: react@0.14.8 /usr/local/lib/node_modules/poolio/node_modules/react
+npm ERR! extraneous: react-css@0.0.2 /usr/local/lib/node_modules/poolio/node_modules/react-css
+npm ERR! extraneous: react-dom@0.14.8 /usr/local/lib/node_modules/poolio/node_modules/react-dom
+npm ERR! extraneous: request@2.72.0 /usr/local/lib/node_modules/poolio/node_modules/request
+npm ERR! extraneous: require-from-string@1.2.0 /usr/local/lib/node_modules/poolio/node_modules/require-from-string
+npm ERR! extraneous: serve-favicon@2.3.0 /usr/local/lib/node_modules/poolio/node_modules/serve-favicon
+npm ERR! extraneous: siamese@2.0.4 /usr/local/lib/node_modules/poolio/node_modules/siamese
+npm ERR! extraneous: socket.io@1.4.6 /usr/local/lib/node_modules/poolio/node_modules/socket.io
+npm ERR! extraneous: suman@1.1.39914 /usr/local/lib/node_modules/poolio/node_modules/suman
+npm ERR! extraneous: tap@5.7.2 /usr/local/lib/node_modules/poolio/node_modules/tap
+npm ERR! extraneous: tcp-ping@0.1.1 /usr/local/lib/node_modules/poolio/node_modules/tcp-ping
+npm ERR! extraneous: istanbul@0.4.3 /usr/local/lib/node_modules/suman/node_modules/istanbul
+=> You currently have modules installed globally with `npm`. These will no
+=> longer be linked to the active version of Node when you install a new node
+=> with `nvm`; and they may (depending on how you construct your `$PATH`)
+=> override the binaries of modules installed with `nvm`:
+
+/usr/local/lib
++-- poolio@0.1.86 -> /Users/amills/WebstormProjects/oresoftware/poolio
+`-- suman@1.1.39914 -> /Users/amills/WebstormProjects/oresoftware/suman
+
+=> If you wish to uninstall them at a later point (or re-install them under your
+=> `nvm` Nodes), you can remove them from the system Node as follows:
+
+     $ nvm use system
+     $ npm uninstall -g a_module
+
+=> Close and reopen your terminal to start using nvm
+
+
 /*
 
 +test('handle throws with thrown observable', function (t) {
@@ -237,20 +304,3 @@ which items will be converted to where
  +	});
  +});
 
- */
-
-/*
-
- //TODO: support this style:
-
- this.it('[test] yo 2', {parallel: false}, new Promise(function (resolve, reject) {
-
- Promise.delay(1000).then(function () {
- resolve();
- });
-
- }).then(function(){
-
- }));
-
- */

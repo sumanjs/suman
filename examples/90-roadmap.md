@@ -27,3 +27,10 @@ The following features are currently in the works:
 
     * suman.groups.js will allow the user to define groups of tests that are to run
     together; this will basically override any behavior given by suman.order.js.
+    
+    
+5. Optimize suman.order.js => Optimize the order in which tests run, according to
+suman.order.js; also, allow for randomization of test order.
+
+
+6. Allow for the user to make hooks (before/afterEach, etc) run completely in parallel as well.

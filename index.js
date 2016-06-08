@@ -158,6 +158,7 @@ if (transpile) {
 }
 
 if (init) {
+	global.usingDefaultConfig = true;
 	sumanConfig = require(__dirname + '/default-conf-files/suman.default.conf');
 }
 else {
@@ -192,6 +193,7 @@ else {
 			try {
 				pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
 				sumanConfig = require(pth);
+				global.usingDefaultConfig = true;
 			}
 			catch (err) {
 				console.error('\n => ' + err + '\n');
@@ -548,7 +550,6 @@ else {
 				require('./lib/run-coverage/exec-istanbul')(istanbulInstallPath, paths, opts.recursive);
 
 			}
-
 			else if (!useRunner && transpile && opts.all && originalPaths.length === 1 && checkStatsIsFile(originalPaths[0])) {
 
 				//TODO: need to learn how many files matched

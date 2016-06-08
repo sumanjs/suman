@@ -17,9 +17,9 @@ module.exports = Object.freeze({
 
 	match: [],                                  //recommended =>  match: ['.test.js'],
 	notMatch: ['fixture'],
-	sumanHelpersDir: 'test/suman',
+	sumanHelpersDir: 'suman',
 	defaultTestDir: 'test-target/src',
-	testDirectory: 'test',
+	testDir: 'test',
 	testSrcDirectory: 'test/src',
 	testDestDirectory: 'test/target',
 	testDirCopyDir: 'test-target',
@@ -60,7 +60,13 @@ module.exports = Object.freeze({
 		'*default': {
 			host: '127.0.0.1',
 			port: 6969
-		}
+		},
+
+		'###': {   /// replace this with user's local machines os.hostname()
+			host: '127.0.0.1',
+			port: 6969
+		},
+
 	}
 
 });
