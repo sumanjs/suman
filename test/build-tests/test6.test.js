@@ -1,4 +1,8 @@
+
+
+
 const suman = require('../../lib');
+
 const Test = suman.init(module, {
     interface: 'TDD',
     integrants: ['dolce-vida']
@@ -19,7 +23,7 @@ Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
 
 
     this.setupTest({fatal: false}, function (t) {
-        throw new Error('fail this test thing');/////
+        // throw new Error('fail this test thing');/////
     });
 
     this.teardownTest(function () {

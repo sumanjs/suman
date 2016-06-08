@@ -225,6 +225,9 @@ if (optCheck.length > 1) {
 
 if (!opts.no_transpile && global.sumanConfig.transpile === true) {
 	transpile = opts.transpile = true;
+	if(!opts.sparse){
+		console.log('\n',colors.cyan('=> Suman message => transpilation is the default due to your configuration option => transpile:true'),'\n');
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -290,7 +293,7 @@ if (opts.verbose) {
 /////////////////// assign vals from config ////////////////////////////////////////////////
 
 //TODO possibly reconcile these with cmd line options
-const testDir = global._sTestDir = path.resolve(root + '/' + global.sumanConfig.testDir);
+const testDir = global._sTestDir = path.resolve(root + '/' + (global.sumanConfig.testDir || 'test'));
 const testSrcDir = global._sTestSrcDir = path.resolve(root + '/' + global.sumanConfig.testSrcDir);
 const testDestDir = global._sTestDestDir = path.resolve(root + '/' + global.sumanConfig.testDestDir);
 const testDirCopyDir = global._sTestDirCopyDir = path.resolve(root + '/' + (global.sumanConfig.testDirCopyDir || 'test-target'));
@@ -391,7 +394,7 @@ else if (convert) {
 }
 else {
 
-	console.log('\n');
+	console.log('\n => Tests will execute via the Suman runner or in the same process with Suman plain.','\n');
 
 	const timestamp = global.timestamp = Date.now();
 	const networkLog = global.networkLog = makeNetworkLog(timestamp);
@@ -407,6 +410,11 @@ else {
 			}
 			return null;
 		}
+	}
+
+
+	if(paths.length < 1){
+		paths = [testDir];
 	}
 
 	async.series({

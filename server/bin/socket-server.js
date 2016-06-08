@@ -27,10 +27,10 @@ const runTranspile = require('../../lib/transpile/run-transpile');
 //////////////////////////////////////////////////
 
 
-const testStdoutPath = path.resolve(global.sumanHelperDirRoot + '/logs/test-stdout.log');
+const watcherOutputLogPath = path.resolve(global.sumanHelperDirRoot + '/logs/watcher-output.log');
 
 function getStream() {
-    return fs.createWriteStream(testStdoutPath, {
+    return fs.createWriteStream(watcherOutputLogPath, {
         flags: 'a',
         flag: 'a'
     });
@@ -82,7 +82,7 @@ function initiateTranspileAction(p, opts, executeTest) {
         return;
     }
 
-    fs.writeFileSync(testStdoutPath,
+    fs.writeFileSync(watcherOutputLogPath,
         '\n\n => test will first be transpiled.', {
             flags: 'a',
             flag: 'a'
@@ -92,7 +92,7 @@ function initiateTranspileAction(p, opts, executeTest) {
         if (err) {
             console.log('transpile error:', err);
 
-            fs.writeFileSync(testStdoutPath,
+            fs.writeFileSync(watcherOutputLogPath,
                 '\n\n => test transpilation error => \n' + err.stack, {
                     flags: 'a',
                     flag: 'a'
@@ -101,7 +101,7 @@ function initiateTranspileAction(p, opts, executeTest) {
         else {
             console.log('transpile results:', results);
 
-            fs.writeFileSync(testStdoutPath,
+            fs.writeFileSync(watcherOutputLogPath,
                 '\n => test transpiled successfully.', {
                     flags: 'a',
                     flag: 'a'
@@ -121,7 +121,7 @@ function runTestWithSuman(tests) {
 
     console.log('\n\n => Test will now be run with command:\n', cmd);
 
-    fs.writeFileSync(testStdoutPath,
+    fs.writeFileSync(watcherOutputLogPath,
         '\n => test will now execute.\n\n', {
             flags: 'a',
             flag: 'a'
@@ -201,7 +201,7 @@ module.exports = function (server) {
                         console.log(' => Suman server warning => the following file path was not already stored in the pathHash:', p);
                     }
 
-                    fs.writeFileSync(testStdoutPath,  //'w' flag truncates the file, the only time the file is truncated
+                    fs.writeFileSync(watcherOutputLogPath,  //'w' flag truncates the file, the only time the file is truncated
                         '\n\n => Suman watcher => test file changed:\n' + p, {
                             flags: 'w',
                             flag: 'w'

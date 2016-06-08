@@ -18,7 +18,6 @@ When developing Suman tests, we recommend tailing these log files:
 
 
 
-
 ## Debugging via debugging tools
 
 
