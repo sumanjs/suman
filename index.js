@@ -54,7 +54,6 @@ if(process.env.SUMAN_DEBUG === 'yes' || true){
 	console.log(' => Suman started with the following command:','\n', process.argv);
 }
 
-
 /*
 
 TODO
@@ -183,6 +182,16 @@ if (!init) {
 			}
 		}
 	}
+}
+
+if(opts.version){
+	console.log('...And we\'re done here.','\n');
+	return;
+}
+
+if(opts.testing){
+	require('./lib/testing');
+	return;
 }
 
 var targetTestDir;

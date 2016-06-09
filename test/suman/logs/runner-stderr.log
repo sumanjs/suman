@@ -1,7 +1,0 @@
-
-
-### Suman runner start ###
-
-Beginning of run at 1465335399062 = [Tue Jun 07 2016 14:36:39 GMT-0700 (PDT)]
-Command issued from the following directory "/Users/amills/WebstormProjects/oresoftware/suman"
-Command = ["/usr/local/Cellar/node/6.2.0/bin/node","/usr/local/bin/suman","-v"]

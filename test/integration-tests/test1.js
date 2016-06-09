@@ -25,8 +25,8 @@ Test.describe('suite uno', {}, function () {
     });
 
 
-    this.it('baz2', {parallel: true}, t => {
-
+    this.it.cb('baz2', {parallel: true}, t => {
+          t.apply();
     });
 
 

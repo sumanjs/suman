@@ -1,8 +1,3 @@
-/**
- * Created by denman on 1/1/2016.
- */
-
-//milo
 
 const suman = require('../../lib');
 
@@ -30,7 +25,8 @@ function createIOCArgs() {
 }
 
 
-Test.describe('gggg', {parallel: false}, function (http, assert, delay, fs, child_process, socketio, suite, whoa, cherry, https) {
+Test.describe('gggg', {parallel: false},
+    function (http, assert, delay, fs, child_process, socketio, suite, whoa, cherry, https) {
 
 
     setTimeout(function () {

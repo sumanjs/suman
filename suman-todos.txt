@@ -1,11 +1,18 @@
 
+
+//TODO: put all the unit tests for xmp into one suman file and see how fast it is, before we make some sort of choice to run
+//more than one test in a single process
+
+//in child-run.js, we can loop for all test files to be run in one process and use async.each to require each file and wait for all to finish before
+//exiting
+
 //TODO: test suite timeout (this.timeout()) needs to work
 //TODO:  node $(which suman) can be used to start suman
 //TODO: optimize suman by removing any ability to create multiple sumans, make transpile etc run in parallel
 //TODO: 'use strict'; is useful when user attemps to overwrite frozen vars
 //TODO: to convert files, cp from test to test-temp, rename all test files to a.test.js, then run --convert
 //TODO: use .profile instead of .bash_profile?
-//TODO: if suman is not installed in a project, and the user tries to run $ suman on a test file, suman could install the default files before
+//TODO: if suman is not installed in a project, and the user tries to run "$ suman" on a test file, suman could choose to install the default files before
 // proceeding
 
 //TODO: if suman is not installed yet, we get this error (its looking for the suman folder in the root of the project):
@@ -22,7 +29,7 @@
 	 ⚑  => Suman fatal error  => making a graceful exit =>
 	[object Object]
 
-//TODO: if top-level directory contains no tests, then we need to report that, and advise usage of --recursive option
+
 //TODO: describe(__filename, function() {
 //TODO: for a given test, should be able to force all things parallel with --parallel flag
 //TODO: testing => http://open.blogs.nytimes.com/2015/01/15/how-to-unit-test-a-requirejs-application/?_r=0
