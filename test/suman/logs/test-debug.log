@@ -3,12 +3,31 @@
 
 
 
- ### Suman start run indiv. @Wed Jun 08 2016 21:53:39 GMT-0700 (PDT) ### 
+ ### Suman start run indiv. @Thu Jun 09 2016 15:53:58 GMT-0700 (PDT) ### 
 
- ### Filename: /Users/Olegzandr/WebstormProjects/suman/test-target/par-vs-series/par-vs-series-1.js
- ### Beginning of run at 1465448019229 = [Wed Jun 08 2016 21:53:39 GMT-0700 (PDT)]
- ### Command = ["/usr/local/Cellar/node/6.1.0/bin/node","/Users/Olegzandr/WebstormProjects/suman/test-target/par-vs-series/par-vs-series-1.js"]
+ ### Filename: /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js
+ ### Beginning of run at 1465512838324 = [Thu Jun 09 2016 15:53:58 GMT-0700 (PDT)]
+ ### Command = ["/Users/amills/.nvm/versions/node/v4.4.5/bin/node","/Users/amills/WebstormProjects/oresoftware/suman/lib/poolio-worker.js","/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js"]
 
+
+
+
+Test error: fails right away
+	stack: Error: chuck
+    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js:32:15)
+    at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:185:38
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickDomainCallback (node.js:390:13)
+
+
+
+Test error: should never run if bail is set to true
+	stack: AssertionError: false == true
+    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js:37:9)
+    at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:185:38
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at Immediate._tickDomainCallback [as _onImmediate] (node.js:390:13)
+    at processImmediate [as _immediateCallback] (timers.js:383:17)
 
 
 

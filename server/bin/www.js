@@ -3,7 +3,7 @@ var globalErr;
 
 process.on('exit', function (code) {
     if(globalErr){
-        console.error('\n\n => Suman Server => Uncaught Exception => ' + globalErr.stack);
+        console.error('\n\n => Suman Server => Uncaught Exception => ' + globalErr.stack + '\n\n');
     }
     console.log('\n => Suman server exiting with code => ', code, '\n');
 });

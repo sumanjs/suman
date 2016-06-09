@@ -1,5 +1,9 @@
 
-
+//TODO: /bin/sh: babel: command not found
+//TODO: delay is not defined error - add suman-constant for this
+//TODO: inject IOC args for any describe block?
+//TODO: using suman --tail x, x should be created if it does not exist for some reason
+//TODO: --all option should be the default
 //TODO: put all the unit tests for xmp into one suman file and see how fast it is, before we make some sort of choice to run
 //more than one test in a single process
 

@@ -1,8 +1,8 @@
 
 
- Server started on Mon Jun 06 2016 17:56:10 GMT-0700 (PDT) => Suman Server message => using config at path => /Users/amills/WebstormProjects/oresoftware/suman/suman.conf.js
+ Server started on Thu Jun 09 2016 16:11:17 GMT-0700 (PDT)[36m => Suman Server message => using config at path => /Users/amills/WebstormProjects/oresoftware/suman/suman.conf.js[39m
  => Suman config used:  /Users/amills/WebstormProjects/oresoftware/suman/suman.conf.js
-
+[36m
 
 		      :::::::: :::    :::  :::   :::      :::    ::::    ::: 
 		    :+:    :+::+:    :+: :+:+: :+:+:   :+: :+:  :+:+:   :+:  
@@ -12,11 +12,8 @@
 		#+#    #+##+#    #+##+#       #+##+#     #+##+#   #+#+#      
 		########  ######## ###       ######     ######    ####       
 
-
+[39m
  => Poolio message => the following option property is not a valid Poolio constructor option: env
-
-
-	 => Warning Suman main executable file could not be located, attempting "$ suman"...
 	Server listening on port 6969 , CWD = /Users/amills/WebstormProjects/oresoftware/suman
 
 
@@ -24,16 +21,20 @@
  Client connected. 
 
  => Suman server event => socketio watch event has been received by server:
- { paths: [ '/Users/amills/WebstormProjects/oresoftware/suman/test' ] }
+ { paths: [ '/Users/amills/WebstormProjects/oresoftware/suman/test' ],
+  transpile: true }
  => chokidar watcher initialized.
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465260970833'
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465513874299'
     at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465260970833'
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465513874299'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m30.343 ms - 125[0m
+[0mPOST /results/make/new [31m500 [0m28.447 ms - 125[0m
+
+Client disconnected.
+
 Initial scan complete. Ready for changes
 Watched paths: { '/Users/amills/WebstormProjects/oresoftware/suman': [ 'test' ],
   '/Users/amills/WebstormProjects/oresoftware/suman/test': 
@@ -120,189 +121,96 @@ Watched paths: { '/Users/amills/WebstormProjects/oresoftware/suman': [ 'test' ],
   '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/recursion-check/recursion-check2': [ 'test9.js' ],
   '/Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/n': [ 'mocha-test0.js' ],
   '/Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/n': [ 'mocha-test0.js' ] }
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/.readme
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/aaa.b
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava-test
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/benchmark-tests
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/helpers
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/other-tests
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/par-vs-series
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/parallel-tests
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-es7
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava/ava-ex.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava/await.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava/f.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava-test/file1.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/benchmark-tests/one.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/recursion-check
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/tes-t7-start.test.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/tes-t7.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/helpers/test-stream.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/other-tests/test3.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/other-tests/test4.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/other-tests/test5.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/other-tests/test6.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/par-vs-series/par-vs-series-1.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/par-vs-series/par-vs-series-2.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/par-vs-series/par-vs-series-3.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/parallel-tests/par-test.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/parallel-tests/ptest1.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/output6.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/output7.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/output8.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/output9.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/test6.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/test7.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/test8.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/test9.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/logs
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/reporters
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.globals.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.hooks.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.ioc.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.ioc2.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.once.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.order.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-es7/one.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-es7/test6.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-es7/two.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests/generatorz-babel.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests/generatorz.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests/many-commands.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests/one.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests/two.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/recursion-check/recursion-check2
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/recursion-check/test8.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/.gitkeep
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/mocha-test0.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/mocha-test1.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/mocha-test3.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/n
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/mocha-test0.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/mocha-test1.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/mocha-test3.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/n
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/logs/.readme
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/reporters/tap.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/recursion-check/recursion-check2/test9.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/n/mocha-test0.js
- => The following file path is being saved as { transpile: false } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/n/mocha-test0.js
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js has been changed
-{ transpile: false }
-running!!
-
-
- => Test will now be run with command:
- suman  /Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465260985333'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465260985333'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m2.639 ms - 125[0m
-
-Client disconnected.
-
-
-Client disconnected.
-
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js has been changed
-{ transpile: false }
-running!!
-
-
- => Test will now be run with command:
- suman  /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465261086956'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465261086956'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m2.663 ms - 125[0m
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/.readme
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/aaa.b
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava-test
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/benchmark-tests
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/helpers
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/other-tests
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/par-vs-series
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/parallel-tests
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-es7
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava/ava-ex.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava/await.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava/f.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/ava-test/file1.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/benchmark-tests/one.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/recursion-check
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/tes-t7-start.test.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/tes-t7.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/helpers/test-stream.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/other-tests/test3.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/other-tests/test4.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/other-tests/test5.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/other-tests/test6.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/par-vs-series/par-vs-series-1.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/par-vs-series/par-vs-series-2.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/par-vs-series/par-vs-series-3.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/parallel-tests/par-test.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/parallel-tests/ptest1.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/simple-tests/one-1.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/output6.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/output7.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/output8.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/output9.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/test6.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/test7.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/test8.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/strm-sync-tests/test9.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/logs
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/reporters
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.globals.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.hooks.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.ioc.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.ioc2.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.once.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/suman.order.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-es7/one.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-es7/test6.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-es7/two.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests/generatorz-babel.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests/generatorz.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests/many-commands.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests/one.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/test-tests/two.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/recursion-check/recursion-check2
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/recursion-check/test8.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/.gitkeep
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/mocha-test0.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/mocha-test1.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/mocha-test3.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/n
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/mocha-test0.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/mocha-test1.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/mocha-test3.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/n
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/logs/.readme
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/suman/reporters/tap.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/recursion-check/recursion-check2/test9.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/n/mocha-test0.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/n/mocha-test0.js
 
 Client disconnected.
 

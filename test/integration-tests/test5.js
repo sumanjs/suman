@@ -1,18 +1,13 @@
-/**
- * Created by denman on 2/7/2016.
- */
-
-
 
 var suman = require('../../lib');
 var Test = suman.init(module, 'suman.conf.js');
 
-Test.describe('A', {}, function (request, socketio) {
+Test.describe('A', {parallel:true}, function (request, socketio) {
 
-    //console.log('request:', request.toString());
-    //console.log('socketio:', socketio.toString());
+    // console.log('request:', request.toString());
+    // console.log('socketio:', socketio.toString());
 
-    // throw new Error('shit');
+    // throw new Error('shit');/////
 
     var arr = [1, 2, 3];
 
@@ -20,16 +15,14 @@ Test.describe('A', {}, function (request, socketio) {
         arr.push(4);
         arr.push(5);
         arr.push(6);
-        //delay();
+        delay();
     }, 100);
 
     this.before.cb(t => {
-        setTimeout(function () {
-            t.done();
-        }, 1000);
+        setTimeout(t.done, 100);
     });
 
-    this.describe.skip('B', function (delay) {
+    this.describe('B', function (delay) {
 
         setTimeout(function () {
             arr.push(8);

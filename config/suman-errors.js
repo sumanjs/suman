@@ -59,7 +59,7 @@ function filter(suman, isFatal, err) {
         });
     }
     else {
-        process.stdout.write(stack);
+        process.stdout.write('\n' + stack + '\n');
     }
 
     if (isFatal) {
