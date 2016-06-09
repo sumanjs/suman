@@ -1,4 +1,8 @@
 
+//TODO: test suite timeout (this.timeout()) needs to work
+//TODO:  node $(which suman) can be used to start suman
+//TODO: optimize suman by removing any ability to create multiple sumans, make transpile etc run in parallel
+//TODO: 'use strict'; is useful when user attemps to overwrite frozen vars
 //TODO: to convert files, cp from test to test-temp, rename all test files to a.test.js, then run --convert
 //TODO: use .profile instead of .bash_profile?
 //TODO: if suman is not installed in a project, and the user tries to run $ suman on a test file, suman could install the default files before

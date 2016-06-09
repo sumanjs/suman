@@ -19,6 +19,7 @@
 // 	}
 // });
 
+
 /////////////////////////////////////////////////////////////////
 
 process.on('uncaughtException', function (err) {
@@ -45,6 +46,36 @@ const _ = require('lodash');
 //#project
 const constants = require('./config/suman-constants');
 const runTranspile = require('./lib/transpile/run-transpile');
+
+
+////////////////////////////////////////////////////////////////////
+
+if(process.env.SUMAN_DEBUG === 'yes' || true){
+	console.log(' => Suman started with the following command:','\n', process.argv);
+}
+
+
+/*
+
+TODO
+
+may cause problems:
+
+ => Suman started with the following command:
+ [ '/Users/amills/.nvm/versions/node/v4.4.5/bin/node',
+ '/Users/amills/.nvm/versions/node/v4.4.5/bin/suman',
+ 'service_proxifier_test.js' ]
+
+ whereas this is ok:
+
+ => Suman started with the following command:
+ [ '/Users/amills/.nvm/versions/node/v4.4.5/bin/node',
+ '/Users/amills/.nvm/versions/node/v4.4.5/bin/suman',
+ '/Users/amills/WebstormProjects/vmware/wem_server2/test-suman/mocha/wem/actors/registry_loader_test.js' ]
+
+
+ */
+
 
 ////////////////////////////////////////////////////////////////////
 
@@ -74,8 +105,11 @@ if (!root) {
 }
 
 if (cwd !== root) {
-	console.log(' => CWD:', cwd);
+	console.log(' => CWD is not equal to project root:', cwd);
 	console.log(' => Project root:', root);
+}
+else{
+	console.log(' => cwd:', cwd);
 }
 
 global.projectRoot = root;
@@ -185,7 +219,7 @@ else {
 			pth = path.resolve(root + '/' + 'suman.conf.js');
 			sumanConfig = require(pth);
 			if (!opts.sparse) {  //default to true
-				console.log(colors.cyan(' => Suman XY config used: ' + pth + '\n'));
+				console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
 			}
 		}
 		catch (err) {
@@ -394,8 +428,6 @@ else if (convert) {
 }
 else {
 
-	console.log('\n => Tests will execute via the Suman runner or in the same process with Suman plain.','\n');
-
 	const timestamp = global.timestamp = Date.now();
 	const networkLog = global.networkLog = makeNetworkLog(timestamp);
 	const server = global.server = findSumanServer(null);
@@ -454,7 +486,7 @@ else {
 			networkLog.createNewTestRun(server, cb);
 		}
 
-	}, function (err, results) {
+	}, function complete(err, results) {
 
 		if (err) {
 			console.log('\n\n => Suman fatal problem => ' + (err.stack || err),'\n\n');
@@ -472,6 +504,15 @@ else {
 
 		if (opts.vverbose) {
 			console.log('=> Suman vverbose message => "$ npm list -g" results: ', results.npmList);
+		}
+
+		function changeCWDToRootOrTestDir(p){
+			if(opts.cwd_is_root){
+				process.chdir(root);
+			}
+			else{
+				process.chdir(path.dirname(p));  //force CWD to test file path // boop boop
+			}
 		}
 
 		const d = domain.create();
@@ -529,6 +570,11 @@ else {
 				return path.resolve(path.isAbsolute(item) ? item : (root + '/' + item));
 			});
 
+			if(!opts.sparse){
+				console.log('\n => Suman will attempt to execute test files within the following paths:','\n\n',
+					paths.map((p,i) => '\t ' + (i + 1) + ' => ' + colors.blue('"' + p + '"')).join('\n') + '\n');
+			}
+
 			if (opts.verbose) {
 				console.log(' ', colors.bgCyan.magenta(' => Suman verbose message => Suman will execute test files from the following locations:'), '\n', paths, '\n');
 			}
@@ -564,7 +610,7 @@ else {
 
 				d.run(function () {
 					process.nextTick(function () {
-						process.chdir(path.dirname(paths[0]));  //force CWD to test file path // boop boop
+						changeCWDToRootOrTestDir(paths[0]);
 						require('./lib/run-child-not-runner')(paths[0]);
 					});
 				});
@@ -574,7 +620,7 @@ else {
 
 				d.run(function () {
 					process.nextTick(function () {
-						process.chdir(path.dirname(paths[0]));  //force CWD to test file path // boop boop
+						changeCWDToRootOrTestDir(paths[0]);
 						require('./lib/run-child-not-runner')(paths[0]);
 					});
 				});
@@ -586,8 +632,7 @@ else {
 
 				d.run(function () {
 					process.nextTick(function () {
-						process.chdir(path.dirname(paths[0]));  //force CWD to test file path // boop boop
-						//note: if only 1 item and the one item is a file, we don't use the runner, we just run that file straight up
+						changeCWDToRootOrTestDir(paths[0]);
 						require('./lib/run-child-not-runner')(paths[0]);
 					});
 				});

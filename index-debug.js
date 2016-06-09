@@ -1,2 +1,2 @@
 #!/usr/bin/env node debug --harmony
-require('.');  //require index
+require('./index');  //require index
