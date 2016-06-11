@@ -1,7 +1,7 @@
 
 
  => Suman watcher => test file changed:
-/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
+/Users/Olegzandr/WebstormProjects/suman/test/par-vs-series/par-vs-series-1.js
 
  => test will first be transpiled.
  => test transpiled successfully.
@@ -10,4 +10,4 @@
 
  => pool size => 
 
-{"available":3,"all":3}
+{"available":0,"all":3}
