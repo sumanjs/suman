@@ -41,7 +41,7 @@ const pool = new Pool({
     size: 3,
     addWorkerOnExit: true,
     silent: true,
-    filePath: 'lib/poolio-worker.js',
+    filePath: path.resolve(__dirname,'..','..','lib/poolio-worker.js'),
     stdout: getStream,
     stderr: getStream,
     env: _.extend(process.env, {
