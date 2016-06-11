@@ -1,4 +1,6 @@
 
+
+//TODO: poolio worker can pre-load as many modules as possible
 //TODO: /bin/sh: babel: command not found
 //TODO: delay is not defined error - add suman-constant for this
 //TODO: inject IOC args for any describe block?
