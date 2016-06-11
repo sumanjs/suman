@@ -4,6 +4,14 @@ module.exports = () => {  //load async deps for any of your suman tests
 
     return {
 
+        'william': function(data, cb){
+
+            setTimeout(function(){
+                 cb(null, 10);
+            }, 3000);
+
+        },
+
         'should': function(){
             return Promise.resolve(require('should'));
         },

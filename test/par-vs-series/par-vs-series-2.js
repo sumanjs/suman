@@ -4,11 +4,12 @@
 
 
 
-const suman = require('../../lib');
-
+const suman = require('suman');
 const Test = suman.init(module, {});
 
-Test.describe('2', {parallel: true}, function () {
+
+
+Test.describe('2', {parallel: false}, function () {
 
 
     this.it.cb('one', t => {

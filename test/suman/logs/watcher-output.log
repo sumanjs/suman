@@ -2,5 +2,58 @@
 
  => Suman watcher => test file changed:
 /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js
+
+ => test will first be transpiled.
+ => test transpiled successfully.
  => test will now execute.
+
+ => Suman started with the following command: 
+ [ '/usr/local/Cellar/node/6.2.0/bin/node',
+  '/Users/amills/WebstormProjects/oresoftware/suman/lib/poolio-worker.js',
+  '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+[33m[3m => Suman v1.1.39914 running...[23m[39m
+ => cwd: /Users/amills/WebstormProjects/oresoftware/suman
+ [33m=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"[39m
+
+ => Suman will attempt to execute test files within the following paths: 
+
+ 	 1 => [34m"/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js"[39m
+
+[90m[3m
+
+	  _   _ _  _  _   .. _/__   __/_
+	_\/_// / //_|/ / ..  / /_'_\ /  
+
+[23m[39m
+
+	 ✔  'passes right away' (212ms)
+	 ✔  'fails right away' (< 1ms)
+	 ✔  'should never run if bail is set to true' (< 1ms)
+
+
+
+	.----------------------------------------------------------.
+	|                    Suman Test Results                    |
+	|----------------------------------------------------------|
+	|           Metric           |     Value    |     Notes    |
+	|----------------------------|--------------|--------------|
+	| Root Suite Title           | @Test1-EMpty |              |
+	| Total Num. of Suites       |            1 |              |
+	| Suites skipped             |            0 |              |
+	| Tests skipped              |            0 |              |
+	| Tests stubbed              |            0 |              |
+	| Tests passed               |            3 |              |
+	| Tests failed               |            0 |              |
+	| Tests total                |            3 |              |
+	| Passing rate               |      100.00% |              |
+	| Total time millis (delta)  |          254 |              |
+	| Total time minutes (delta) |       0.0042 |              |
+	'----------------------------------------------------------'
+
+
+[33m
+ => You have some extraneous errors/warnings - check test error log (test-debug.log) for more information.[39m
+
+
+ => Suman is exiting with code 0   
 

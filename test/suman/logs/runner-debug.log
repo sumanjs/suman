@@ -2,111 +2,34 @@
 
 ### Suman runner start ###
 
-Beginning of run at 1465495929237 = [Thu Jun 09 2016 11:12:09 GMT-0700 (PDT)]
+Beginning of run at 1465588219851 = [Fri Jun 10 2016 12:50:19 GMT-0700 (PDT)]
 Command issued from the following directory "/Users/amills/WebstormProjects/oresoftware/suman"
-Command = ["/Users/amills/.nvm/versions/node/v4.4.5/bin/node","/Users/amills/.nvm/versions/node/v4.4.5/bin/suman","test/integration-tests/"]
+Command = ["/Users/amills/.nvm/versions/node/v4.4.5/bin/node","/Users/amills/.nvm/versions/node/v4.4.5/bin/suman","test/par-vs-series/","--concurrency=3"]
 
 
-[test7.js] SyntaxError: Unexpected reserved word
-[test7.js]     at exports.runInThisContext (vm.js:53:16)
-[test7.js]     at Module._compile (module.js:373:25)
-[test7.js]     at Object.Module._extensions..js (module.js:416:10)
-[test7.js]     at Module.load (module.js:343:32)
-[test7.js]     at Function.Module._load (module.js:300:12)
-[test7.js]     at Module.require (module.js:353:17)
-[test7.js]     at require (internal/module.js:12:17)
-[test7.js]     at /Users/amills/WebstormProjects/oresoftware/suman/lib/run-child.js:71:3
-[test7.js]     at nextTickCallbackWith0Args (node.js:420:9)
-[test7.js]     at process._tickDomainCallback (node.js:390:13)
-[test7.js] 
+[par-vs-series-1.js] 
+[par-vs-series-1.js] 
+[par-vs-series-1.js]  ### Suman end run ### 
+[par-vs-series-1.js] 
+[par-vs-series-1.js] 
+[par-vs-series-1.js] 
+[par-vs-series-1.js] 
 
-[test8.js] SyntaxError: Unexpected reserved word
-[test8.js]     at exports.runInThisContext (vm.js:53:16)
-[test8.js]     at Module._compile (module.js:373:25)
-[test8.js]     at Object.Module._extensions..js (module.js:416:10)
-[test8.js]     at Module.load (module.js:343:32)
-[test8.js]     at Function.Module._load (module.js:300:12)
-[test8.js]     at Module.require (module.js:353:17)
-[test8.js]     at require (internal/module.js:12:17)
-[test8.js]     at /Users/amills/WebstormProjects/oresoftware/suman/lib/run-child.js:71:3
-[test8.js]     at nextTickCallbackWith0Args (node.js:420:9)
-[test8.js]     at process._tickDomainCallback (node.js:390:13)
-[test8.js] 
+[par-vs-series-3.js] 
+[par-vs-series-3.js] 
+[par-vs-series-3.js]  ### Suman end run ### 
+[par-vs-series-3.js] 
+[par-vs-series-3.js] 
+[par-vs-series-3.js] 
+[par-vs-series-3.js] 
 
-[test3.js] 
-[test3.js] 
-[test3.js]  ### Suman end run ### 
-[test3.js] 
-[test3.js] 
-[test3.js] 
-[test3.js] 
-
-[test2.js] 	 => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
-[test2.js] 	TypeError: t.done is not a function
-[test2.js] 	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js:24:19)
-[test2.js] 	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/make-handle-befores-afters.js:133:43
-[test2.js] 	    at nextTickCallbackWith0Args (node.js:420:9)
-[test2.js] 	    at process._tickDomainCallback (node.js:390:13)
-
-[test2.js] 
-[test2.js] 
-[test2.js] Test error: does 1
-[test2.js] 	stack: Error: blind
-[test2.js]     at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js:28:23)
-[test2.js]     at /Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:185:38
-[test2.js]     at nextTickCallbackWith0Args (node.js:420:9)
-[test2.js]     at Immediate._tickDomainCallback [as _onImmediate] (node.js:390:13)
-[test2.js]     at processImmediate [as _immediateCallback] (timers.js:383:17)
-[test2.js] 
-[test2.js] 
-
-[test2.js] 
-[test2.js] 
-[test2.js]  ### Suman end run ### 
-[test2.js] 
-[test2.js] 
-[test2.js] 
-[test2.js] 
-
-[test1.js] 
-[test1.js] 
-[test1.js]  ### Suman end run ### 
-[test1.js] 
-[test1.js] 
-[test1.js] 
-[test1.js] 
-
-[test4.js] 
-[test4.js] 
-[test4.js]  ### Suman end run ### 
-[test4.js] 
-[test4.js] 
-[test4.js] 
-[test4.js] 
-
-[test0.js] 
-[test0.js] 
-[test0.js]  ### Suman end run ### 
-[test0.js] 
-[test0.js] 
-[test0.js] 
-[test0.js] 
-
-[test5.js] 
-[test5.js] 
-[test5.js]  ### Suman end run ### 
-[test5.js] 
-[test5.js] 
-[test5.js] 
-[test5.js] 
-
-[test6.js] 
-[test6.js] 
-[test6.js]  ### Suman end run ### 
-[test6.js] 
-[test6.js] 
-[test6.js] 
-[test6.js] 
+[par-vs-series-2.js] 
+[par-vs-series-2.js] 
+[par-vs-series-2.js]  ### Suman end run ### 
+[par-vs-series-2.js] 
+[par-vs-series-2.js] 
+[par-vs-series-2.js] 
+[par-vs-series-2.js] 
 
 
 ### Suman runner end ###

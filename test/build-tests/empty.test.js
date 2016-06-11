@@ -1,38 +1,37 @@
-/**
- * Created by denmanm1 on 4/9/16.
- */
 
+const suman = require('suman');  //using npm link
 
-console.log('sassy:',global.sassy);
-
-const suman = require('../../lib');
 var Test = suman.init(module, {
     interface: 'TDD'
 });
 
 
-function promiseTimeout() {
+console.log('developer debugging output');
+
+function promiseTimeout(val) {
     return new Promise(function (resolve) {
-        setTimeout(function () {
-            resolve(3);
-        }, 100);
+        setTimeout(resolve.bind(null, val * 3), 100);
     });
 }
 
-////
 
-Test.suite('@Test1-EMpty', {parallel: false, bail: true}, function (assert) {
 
-    this.test('passes right away', function () {
+Test.suite('@Test1-EMpty', {parallel: false, bail: true}, function (assert, william) {
 
+    console.log('william:', william);
+
+    this.test('passes right away', function *() {
+        // var val = yield promiseTimeout(yield promiseTimeout(4));
+        // console.log('val:',val);
+        assert.equal(36, yield promiseTimeout(yield promiseTimeout(4)));
     });
 
     this.test('fails right away', function () {
-        throw new Error('chuck');
+        // throw new Error('chuck');
     });
 
 
     this.test('should never run if bail is set to true', function () {
-        assert(false);
+        assert(true);
     });
 });

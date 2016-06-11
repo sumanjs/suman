@@ -214,3 +214,1209 @@ Watched paths: { '/Users/amills/WebstormProjects/oresoftware/suman': [ 'test' ],
 
 Client disconnected.
 
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465582908020'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465582908020'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m5.421 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465582941103'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465582941103'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m2.056 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465583000071'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465583000071'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m4.332 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465583011268'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465583011268'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m1.959 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584036204'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584036204'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m2.940 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584063611'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584063611'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m1.178 ms - 125[0m
+
+Client disconnected.
+
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584064892'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584064892'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m4.420 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584086062'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584086062'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m1.035 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584093499'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584093499'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.980 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584097804'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584097804'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m8.160 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584135514'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584135514'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.836 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584171493'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584171493'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.883 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584217861'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584217861'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m1.305 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584254104'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584254104'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.826 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584258082'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584258082'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m1.982 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584277272'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465584277272'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.978 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile error: { Error: Command failed: cd /Users/amills/WebstormProjects/oresoftware/suman && babel /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js --out-file /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+SyntaxError: /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js: Unexpected token (17:24)
+  15 | 
+  16 |     this.test('passes right away', function *() {
+> 17 |         assert.equal(9, );
+     |                         ^
+  18 |     });
+  19 | 
+  20 |     this.test('fails right away', function () {
+
+    at ChildProcess.exithandler (child_process.js:202:12)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:850:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+  killed: false,
+  code: 1,
+  signal: null,
+  cmd: 'cd /Users/amills/WebstormProjects/oresoftware/suman && babel /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js --out-file /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' }
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile error: { Error: Command failed: cd /Users/amills/WebstormProjects/oresoftware/suman && babel /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js --out-file /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+SyntaxError: /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js: Unexpected token (18:24)
+  16 |     this.test('passes right away', function *() {
+  17 |         var val = yield promiseTimeout(yield promiseTimeout(4));
+> 18 |         assert.equal(9, );
+     |                         ^
+  19 |     });
+  20 | 
+  21 |     this.test('fails right away', function () {
+
+    at ChildProcess.exithandler (child_process.js:202:12)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:850:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+  killed: false,
+  code: 1,
+  signal: null,
+  cmd: 'cd /Users/amills/WebstormProjects/oresoftware/suman && babel /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js --out-file /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' }
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585004931'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585004931'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m2.441 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585051305'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585051305'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.761 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585131831'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585131831'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.929 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585134213'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585134213'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.837 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585860150'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585860150'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m0.881 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js[22m[39m[49m
+transpile results: [ '/Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js' ]
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/suman/test-target/build-tests/empty.test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585885837'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465585885837'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m1.829 ms - 125[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js___jb_tmp___ has been added
+
+
+ => Suman Server => Uncaught Exception => TypeError: Cannot read property 'transpile' of undefined
+    at /Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:78:27
+    at Array.filter (native)
+    at initiateTranspileAction (/Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:77:43)
+    at FSWatcher.watcher.on.p (/Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:189:21)
+    at emitOne (events.js:96:13)
+    at FSWatcher.emit (events.js:188:7)
+    at FSWatcher.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/index.js:176:15)
+    at FSWatcher._emit (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/index.js:217:5)
+    at FSWatcher.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/lib/fsevents-handler.js:204:14)
+    at addOrChange (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/lib/fsevents-handler.js:209:7) 
+
+
+
+ => Suman Server => Uncaught Exception => TypeError: Cannot read property 'transpile' of undefined
+    at /Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:78:27
+    at Array.filter (native)
+    at initiateTranspileAction (/Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:77:43)
+    at FSWatcher.watcher.on.p (/Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:189:21)
+    at emitOne (events.js:96:13)
+    at FSWatcher.emit (events.js:188:7)
+    at FSWatcher.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/index.js:176:15)
+    at FSWatcher._emit (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/index.js:217:5)
+    at FSWatcher.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/lib/fsevents-handler.js:204:14)
+    at addOrChange (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/lib/fsevents-handler.js:209:7)
+
+
+
+ => Suman server exiting with code =>  1 
+
