@@ -13,6 +13,7 @@ function asyncFn(cb) {
     });
 }
 
+
 test.cb(t => {
     asyncFn((err, res) => {
         t.is(res.bar, 'ok');

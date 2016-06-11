@@ -1,6 +1,13 @@
 
 
  => Suman watcher => test file changed:
-/Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js
+/Users/Olegzandr/WebstormProjects/suman/test/integration-tests/test0.js
+
+ => test will first be transpiled.
+ => test transpiled successfully.
  => test will now execute.
 
+
+ => pool size => 
+
+{"available":3,"all":3}

@@ -127,6 +127,12 @@ function runTestWithSuman(tests) {
             flag: 'a'
         });
 
+    fs.writeFileSync(watcherOutputLogPath,
+        '\n => pool size => \n\n' + JSON.stringify(pool.getCurrentSize()), {
+            flags: 'a',
+            flag: 'a'
+        });
+
     const promises = tests.map(function (t) {
         return pool.any({testPath: t});
     });

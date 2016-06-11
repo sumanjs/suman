@@ -1,6 +1,6 @@
 
 
-const suman = require('../../lib');/////
+const suman = require('suman');
 const Test = suman.init(module);
 
 Test.describe('SimpleTest', {parallel: false}, function (assert, fs, http, os) {
@@ -18,7 +18,7 @@ Test.describe('SimpleTest', {parallel: false}, function (assert, fs, http, os) {
     });
 
     this.it.cb('tests-t', t => {
-        throw new Error('barf'); ///
+        // throw new Error('barf'); ///
         t();
     });
 

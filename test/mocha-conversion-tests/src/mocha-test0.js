@@ -1,62 +1,24 @@
-/**
- * Created by denmanm1 on 3/20/16.
- */
-
-var assert = require("assert"),
-    fs = require('fs');
-
+const assert = require('assert');
+const fs = require('fs');
 
 describe('a', function () {
 
+	it('a', function (done) {
+		
+		process.nextTick(function () {
+			throw new Error('whoops');
+		});
 
-    after(function (d) {
+		done();
 
-        console.log('before this a:', this.parent);
+	});
 
-    });
+	it('b', function (done) {
 
-    beforeEach(function () {
+		setTimeout(function () {
+			done();
+		}, 2000);
 
-        console.log('beforeEach this a:', this.parent);
-
-    });
-
-
-    it('a', function (done) {
-
-        console.log('it this a:', this.parent);
-
-        done();
-
-    });
-
-
-    describe('b', function () {
-
-        before(function () {
-
-            console.log('before this b:', this.parent);
-
-        });
-
-        beforeEach(function () {
-
-            console.log('beforeEach this b:', this.parent);
-            (this.parent.title);
-
-
-        });
-
-
-        it('b', function (done) {
-
-            console.log('it this b:', this.parent);
-            done();
-
-        });
-
-
-    });
-
+	});
 
 });
