@@ -2,7 +2,9 @@
  * Created by Olegzandr on 5/14/16.
  */
 
-const os = require('os');
+process.on('uncaughtException', function(e){
+	console.log(' => Uncaught Exception caught globally =>', e.stack || e);
+});
 
 
-console.log(os.cpus().length);
+require('foo-does-not-exist')

@@ -1,5 +1,13 @@
 
+// matches
+    1. run as test matches
+    2. convert as suman test matches
+    3. transpile matches, vs "copy only" matches
 
+
+
+//TODO: https://github.com/avajs/ava/blob/47f08e09558e808ddfc017b7fe10405f1a8372c4/docs/recipes/babelrc.md#transpiling-sources
+//TODO: https://babeljs.io/docs/usage/require/
 //TODO: poolio worker can pre-load as many modules as possible
 //TODO: /bin/sh: babel: command not found
 //TODO: delay is not defined error - add suman-constant for this

@@ -35,9 +35,7 @@ const colors = require('colors');
 //////////////////////////////////////////////////////////////
 
 const sumanUtils = require('../../lib/utils');
-
 const cwd = process.cwd();
-
 const root = global.projectRoot = sumanUtils.findProjectRoot(cwd);
 
 if (!root) {
@@ -76,8 +74,16 @@ console.log(' => Suman config used: ', configPath);
 const sumanLogos = require('../../lib/ascii');
 console.log(sumanLogos.suman_alligator);
 
-global.sumanHelperDirRoot =
-    path.resolve(projectRoot + '/' + (global.sumanConfig.sumanHelpersDir || 'suman'));
+const index = process.argv.indexOf('--suman-combined-opts');
+const sumanCombinedOpts = global.sumanCombinedOpts = index > -1 ? JSON.parse(process.argv[index + 1]) : {};
+Object.keys(sumanCombinedOpts).forEach(opt => {
+    global[opt] = sumanCombinedOpts[opt];
+});
+
+const opts = global.sumanOpts = global.sumanOpts || {};
+opts.verbose = sumanCombinedOpts.verbose;
+opts.vverbose = sumanCombinedOpts.vverbose;
+
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -86,6 +92,7 @@ const testDir = global._sTestDir = global.sumanConfig.testDir;
 const testSrcDir = global._sTestSrcDir = global.sumanConfig.testSrcDir;
 const testDestDir = global._sTestDestDir = global.sumanConfig.testDestDir;
 const testDirCopyDir = global._sTestDirCopyDir = global.sumanConfig.testDirCopyDir;
+
 
 /////////////////////////////////////////////////////////////////////////
 

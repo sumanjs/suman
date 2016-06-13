@@ -37,9 +37,7 @@ function getStream() {
 
 //note: if stdout and stderr share the same writable stream maybe their output will be in the right order?
 
-const workerPath = path.resolve(__dirname, '..', '..', 'lib/poolio-worker.js');
-
-console.log('worker path = ', workerPath);
+const workerPath = path.resolve(__dirname, '..', '..', 'lib/suman-watch-worker.js');
 
 const pool = new Pool({
 	size: 3,
@@ -87,7 +85,7 @@ function initiateTranspileAction(p, opts, executeTest) {
 	}
 
 	fs.writeFileSync(watcherOutputLogPath,
-		'\n\n => test will first be transpiled.', {
+		'\n\n => file will first be transpiled/copied.', {
 			flags: 'a',
 			flag: 'a'
 		});
@@ -97,16 +95,16 @@ function initiateTranspileAction(p, opts, executeTest) {
 			console.log('transpile error:', err);
 
 			fs.writeFileSync(watcherOutputLogPath,
-				'\n\n => test transpilation error => \n' + err.stack, {
+				'\n\n => file transpilation error => \n' + err.stack, {
 					flags: 'a',
 					flag: 'a'
 				});
 		}
 		else {
-			console.log('transpile results:', results);
+			console.log(' => transpile results:', results);
 
 			fs.writeFileSync(watcherOutputLogPath,
-				'\n => test transpiled successfully.', {
+				'\n => file transpiled successfully.', {
 					flags: 'a',
 					flag: 'a'
 				});
@@ -119,7 +117,72 @@ function initiateTranspileAction(p, opts, executeTest) {
 	});
 }
 
-function runTestWithSuman(tests) {
+const match = global.sumanMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
+const notMatch = global.sumanNotMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
+
+console.log('sumanMatches:', match);
+console.log('sumanNotMatches:', notMatch);
+
+function matchesInput(filename) {
+	return match.every(function (regex) {
+		return !String(filename).match(regex);
+	});
+}
+
+function doesNotMatchNegativeMatchInput(filename) {
+	return notMatch.every(function (regex) {
+		return !String(filename).match(regex);
+	});
+}
+
+function runTestWithSuman($tests) {
+
+	var logExtraMsg = false;
+
+	const tests = $tests.filter(function (item) {
+		const _matchesInput = matchesInput(item);
+		const _doesNotMatch = doesNotMatchNegativeMatchInput(item);
+		console.log('item:', item);
+		console.log('_matchesInput:', _matchesInput);
+		console.log('_doesNotMatch:', _doesNotMatch);
+		const condition = _matchesInput && _doesNotMatch;
+		if (!condition) {
+			logExtraMsg = true;
+			const msg = ' => Suman server message => the following file changed and may have been transpiled,\n' +
+				'\t but it did not match the regular expressions necessary to run the test =>\n\t => ' + item;
+
+			console.log(msg);
+			fs.writeFileSync(watcherOutputLogPath,
+				'\n' + msg, {
+					flags: 'a',
+					flag: 'a'
+				});
+		}
+		return condition;
+	});
+
+	if (logExtraMsg) {
+		const msg1 = ' => Regexes that effect the execution of a test:\n' +
+			'positive matches: ' + global.sumanMatches + '\n' +
+			'negative matches: ' + global.sumanNotMatches;
+		console.log(msg1);
+		fs.writeFileSync(watcherOutputLogPath,
+			'\n' + msg1, {
+				flags: 'a',
+				flag: 'a'
+			});
+	}
+	
+	if (tests.length < 1) {
+		const msg2 = ' Not test files matched regexes, nothing to run. We are done here.';
+		console.log(msg2);
+		fs.writeFileSync(watcherOutputLogPath,
+			'\n' + msg2, {
+				flags: 'a',
+				flag: 'a'
+			});
+		return;
+	}
 
 	const cmd = sumanExec + ' ' + tests.join(' ');
 
@@ -131,14 +194,18 @@ function runTestWithSuman(tests) {
 			flag: 'a'
 		});
 
-	fs.writeFileSync(watcherOutputLogPath,
-		'\n => pool size => \n\n' + JSON.stringify(pool.getCurrentSize()), {
-			flags: 'a',
-			flag: 'a'
-		});
+	if(process.env.SUMAN_DEBUG === 'yes'){
+		fs.writeFileSync(watcherOutputLogPath,
+			'\n => pool size => ' + JSON.stringify(pool.getCurrentSize()) + '\n', {
+				flags: 'a',
+				flag: 'a'
+			});
+	}
 
-	pool.killAllOnlyWorking();
-	console.log(' => We have killed workers forcibly.');
+
+	//note: we want to kill all suman workers that are
+	//currently running tests and writing to the watcher-output.log file
+	pool.killAllActiveWorkers();
 
 	const promises = tests.map(function (t) {
 		return pool.any({testPath: t});
@@ -150,17 +217,12 @@ function runTestWithSuman(tests) {
 		console.error(e.stack || e);
 	});
 
-	// cp.exec(cmd, function (err, stdout, stderr) {
-	// 	if (true || err || String(stdout).match(/error/i) || String(stderr).match(/error/i)) {
-	// 		console.error(err.stack || err || stdout || stderr);
-	// 	}
-	// });
-
 }
 
 const pathHash = {};
 var watcher;
 
+//TODO: look out for for memory leaks here
 module.exports = function (server) {
 
 	const io = socketio(server);
@@ -181,7 +243,9 @@ module.exports = function (server) {
 
 			const msg = JSON.parse($msg);
 
-			const paths = msg.paths;
+			const paths = msg.paths.map(function (p) {
+				return String(p).replace('___jb_tmp___', '').replace('___jb_old___', ''); //JetBrains support
+			});
 			const transpile = msg.transpile || false;
 
 			console.log(' => Suman server event => socketio watch event has been received by server:\n', msg);
@@ -195,16 +259,15 @@ module.exports = function (server) {
 				console.log(' => chokidar watcher initialized.');
 				watcher = chokidar.watch(paths, opts);
 
-				var log = console.log.bind(console);
-
 				watcher.on('add', p => {
-					log(`File ${p} has been added`);
+					p = String(p).replace('___jb_tmp___', '').replace('___jb_old___', ''); //JetBrains support
+					console.log(`File ${p} has been added`);
 					initiateTranspileAction(p);
 				});
 
 				watcher.on('change', p => {
 
-					log(`File ${p} has been changed`);
+					console.log(`File ${p} has been changed`);
 
 					p = String(p).replace('___jb_tmp___', '').replace('___jb_old___', ''); //for Webstorm support
 
@@ -215,7 +278,7 @@ module.exports = function (server) {
 					}
 
 					fs.writeFileSync(watcherOutputLogPath,  //'w' flag truncates the file, the only time the file is truncated
-						'\n\n => Suman watcher => test file changed:\n' + p, {
+						'\n\n => Suman watcher => file changed:\n' + p, {
 							flags: 'w',
 							flag: 'w'
 						});
@@ -231,26 +294,26 @@ module.exports = function (server) {
 				});
 
 				watcher.on('unlink', p => {
-					log(`File ${p} has been removed`);
+					console.log(`File ${p} has been removed`);
 					initiateTranspileAction([], {all: true});
 				});
 
 				watcher.on('addDir', p => {
-					log(`Directory ${p} has been added.`);
+					console.log(`Directory ${p} has been added.`);
 					initiateTranspileAction(p);
 				});
 
 				watcher.on('unlinkDir', p => {
-					log(`Directory ${p} has been removed`);
+					console.log(`Directory ${p} has been removed`);
 					initiateTranspileAction([], {all: true});
 				});
 
 				watcher.on('error', error => {
-					log(`chokidar watcher error: ${error}`)
+					console.log(`chokidar watcher error: ${error}`)
 				});
 
 				watcher.on('ready', () => {
-					log('Initial scan complete. Ready for changes');
+					console.log('Initial scan complete. Ready for changes');
 					const watched = watcher.getWatched();
 					console.log('Watched paths:', watched);
 
@@ -272,7 +335,7 @@ module.exports = function (server) {
 
 				watcher.on('raw', (event, p, details) => {
 					if (['.log', '.txt'].indexOf(path.extname(p)) < 0) {
-						log('\n\nRaw event info:', event, p, details, '\n\n');
+						console.log('\n\nRaw event info:', event, p, details, '\n\n');
 					}
 
 				});
