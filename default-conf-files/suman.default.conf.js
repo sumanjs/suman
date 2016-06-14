@@ -7,16 +7,14 @@ const path = require('path');
 
 module.exports = Object.freeze({
 
-	match: [],                              //recommended =>  match: ['.test.js'],
-	notMatch: ['fixture'],
+	match: [],                              //recommended =>  match: [/.test.js$/],
+	notMatch: ['fixture'],                  //matches any, matchesNoneOf
 	sumanHelpersDir: 'suman',
 	defaultTestDir: 'test-target/src',
 	testDir: 'test',
 	testSrcDirectory: 'test/src',
 	testDestDirectory: 'test/target',
 	testDirCopyDir: 'test-target',
-	grepFile: null,
-	grepFileBaseName: null,
 	defaultHookTimeout: 5000,
 	defaultTestCaseTimeout: 5000,
 	executeRunnerCWDAtTestFile: true,

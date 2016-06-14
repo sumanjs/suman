@@ -35,8 +35,7 @@ function getStream() {
 	});
 }
 
-//note: if stdout and stderr share the same writable stream maybe their output will be in the right order?
-
+//TODO: if stdout and stderr share the same writable stream maybe their output will be in the right order?
 const workerPath = path.resolve(__dirname, '..', '..', 'lib/suman-watch-worker.js');
 
 const pool = new Pool({
@@ -45,10 +44,10 @@ const pool = new Pool({
 	silent: true,
 	filePath: workerPath,
 	stdout: getStream,
-	stderr: getStream,
-	env: _.extend(process.env, {
-		SUMAN_WATCH: 'yes'
-	})
+	stderr: getStream
+	// env: _.extend(process.env, {
+	// 	SUMAN_WATCH: 'yes'
+	// })
 });
 
 ///////////////////////////////////////////////////

@@ -34,3 +34,5 @@ suman.order.js; also, allow for randomization of test order.
 
 
 6. Allow for the user to make hooks (before/afterEach, etc) run completely in parallel as well.
+
+7. Instead of tailing logs, use a web app hosted on localhost to view test output
