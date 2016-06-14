@@ -1,0 +1,51 @@
+
+
+### Suman runner start ###
+
+Beginning of run at 1465795913819 = [Sun Jun 12 2016 22:31:53 GMT-0700 (PDT)]
+Command issued from the following directory "/Users/Olegzandr/WebstormProjects/suman"
+Command = ["/Users/Olegzandr/.nvm/versions/node/v5.4.1/bin/node","/Users/Olegzandr/.nvm/versions/node/v5.4.1/bin/suman","test/build-tests/","-t"]
+
+
+[tes-t7.js] 
+[tes-t7.js] 
+[tes-t7.js]  ### Suman end run ### 
+[tes-t7.js] 
+[tes-t7.js] 
+[tes-t7.js] 
+[tes-t7.js] 
+
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js]  ### Suman end run ### 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+
+[test6.test.js] 
+[test6.test.js] 
+[test6.test.js]  ### Suman end run ### 
+[test6.test.js] 
+[test6.test.js] 
+[test6.test.js] 
+[test6.test.js] 
+
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js]  ### Suman end run ### 
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js] 
+
+
+### Suman runner end ###
+
+
+
+
+
+
+
+
