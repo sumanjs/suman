@@ -3,14 +3,17 @@
 
 ![alt text](https://raw.githubusercontent.com/ORESoftware/suman/master/images/suman.png "Suman Primary Logo")
 
-> ---
->
->    /////  Suman library documentation => [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")  /////
->
-> ---
+ ---
+
+    Suman library documentation => [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")  
+
+ ---
 
 #  Suman is a superior next-gen test runner and test reporter for Node.js 
+
+## > Suman = AVA + Mocha + lab <sup>*</sup>
 ## > It is designed to supercede Mocha, and rival AVA
+
 
 <br>
 ## &#9658; Installation
@@ -36,14 +39,15 @@ however ```$ suman --init``` is the much preferred way to initialized suman in a
 <br>
 
 The purpose of the Suman library is to provide the most sophisticated test runner in the Node.js ecosystem, with better
-features, higher performance and more expressiveness than AVA, Mocha, and Tape. Suman is a first-rate library and we hope you
+features, higher performance, better debugability, and more expressiveness than AVA, Mocha, and Tape. Suman is a first-rate library and we hope you
 take the time to compare its capabilities with AVA, Mocha and Tape.
 
 The primary aims are:
 
 * make tests run faster by leveraging async I/O and separate Node.js processes
-* isolate tests by running in separate processes
-* make debugging your test files easier; this is achieved by allowing for running of tests with the plain old node executable
+* isolate tests by running them in separate processes
+* make debugging your test files easier; this is achieved by allowing for running of tests with the plain old node executable,
+this makes Suman tests "node-able"
 * provide cleaner output, so that developer logging output is not necessarily mixed with test results; achieved by using child processes.
 * add a whole bunch of missing features from Mocha, Tape and AVA, while simplifying portions of the Mocha API and doing
 away with implicit globals
@@ -63,7 +67,8 @@ away with implicit globals
 
 Suman is a new test runner for Node.js and is focused on high-throughput maximum concurrency asynchronous testing of backend services.
 High concurrency testing is not just good for performance, it encourages/forces you to write "threadsafe" application code and test code.
-As Node.js developers, it's easy to be complacent about thread safety since your code is running on a single thread, but that doesn't meant concurrent access to external resources won't happen.
+As Node.js developers, it's easy to be complacent about thread safety since your code is running on a single thread, 
+but that doesn't meant concurrent access to external resources won't happen.
 
 This project summarily improves Mocha on every level, and also borrows excellent features from Tape/AVA such as the plan features and
 the use of t as a singular param to both hooks and test cases. It all gels together quite nicely into a library that is much more 
