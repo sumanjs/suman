@@ -159,6 +159,7 @@ const coverage = opts.coverage;
 const tailRunner = opts.tail_runner;
 const tailTest = opts.tail_test;
 const useBabel = opts.use_babel;
+const tail = opts.tail;
 
 //re-assignable
 var register = opts.register;
@@ -387,11 +388,8 @@ const testDirCopyDir = global._sTestDirCopyDir = path.resolve(root + '/' + (glob
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-if (tailRunner) {
-	require('./lib/make-tail/tail-runner');
-}
-else if (tailTest) {
-	require('./lib/make-tail/tail-test');
+if (tail) {
+	require('./lib/make-tail/tail-any')(paths);
 }
 else if (useBabel) {
 

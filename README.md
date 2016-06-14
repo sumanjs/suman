@@ -9,7 +9,8 @@
 >
 > ---
 
-# Suman is designed to supercede Mocha, and rival AVA
+#  Suman is a superior next-gen test runner and test reporter for Node.js 
+## > It is designed to supercede Mocha, and rival AVA
 
 <br>
 ## &#9658; Installation
@@ -21,13 +22,13 @@
 <i> => For test suites in your project:</i>
 ## ```$ suman --init```
 
-### Note: you should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
+### You should run  ```$ suman --init```  in your <i>project root</i> after installing suman as a global module
 
 => to convert a Mocha test or whole directory(s) of Mocha tests to Suman tests use <br>
 ```$ suman --convert --src=<src-file/src-dir> --dest=<dest-dir>```
 
 => to simply install Suman as dev-dependency in any project you can use ```$ npm install -D suman```, <br>
-however ```$ suman --init``` is the preferred way to initialized suman in a given project. 
+however ```$ suman --init``` is the much preferred way to initialized suman in a given project. 
 
 
 <br>

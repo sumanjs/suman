@@ -1,6 +1,8 @@
-[36m => Suman Server message => using config at path => /Users/amills/WebstormProjects/oresoftware/suman/suman.conf.js[39m
- => Suman config used:  /Users/amills/WebstormProjects/oresoftware/suman/suman.conf.js
-[36m
+
+
+ Suman server started on Mon Jun 13 2016 23:51:18 GMT-0700 (PDT) => Suman Server message => using config at path => /Users/Olegzandr/WebstormProjects/suman/suman.conf.js
+ => Suman config used:  /Users/Olegzandr/WebstormProjects/suman/suman.conf.js
+
 
 		      :::::::: :::    :::  :::   :::      :::    ::::    ::: 
 		    :+:    :+::+:    :+: :+:+: :+:+:   :+: :+:  :+:+:   :+:  
@@ -10,28 +12,9 @@
 		#+#    #+##+#    #+##+#       #+##+#     #+##+#   #+#+#      
 		########  ######## ###       ######     ######    ####       
 
-[39m
+
 sumanMatches: []
 sumanNotMatches: [ /fixture/ ]
-	Server listening on port 6969 , CWD = /Users/amills/WebstormProjects/oresoftware/suman
-
-
-...SIGINT caught, code => undefined , exiting ...
-
- => Suman server exiting with code =>  0 
-afeage
-
-ageag
-age
-
-
-
- => Suman server exiting with code =>  0
-afeage
-
-ageag
-age
-
-
+	Server listening on port 6969 , CWD = /Users/Olegzandr/WebstormProjects/suman
 
 
