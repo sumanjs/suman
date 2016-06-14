@@ -7,8 +7,7 @@ Test.describe('root suite description', {}, function () {   // we define the roo
     //note: we are in the context of the "root suite"
 
     const self = this;    // (avoid the self pattern in Suman tests, here for explanation only :)
-
-
+    
     this.before(async function() {
         const bnans = await new Promise(function(resolve){
             resolve('bananas')
@@ -16,6 +15,8 @@ Test.describe('root suite description', {}, function () {   // we define the roo
         console.log('bananas:', bnans);
         console.log('1', this === self); //true
     });
+
+
 
 
 

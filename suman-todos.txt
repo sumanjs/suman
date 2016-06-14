@@ -5,6 +5,9 @@
     3. transpile matches, vs "copy only" matches
 
 
+//TODO: in before/after hooks, we should be able to access t.data and pass that to all tests?
+//TODO: when re-initting suman and potentially overwriting existing suman files, mv the current suman folder to root and
+//rename suman-tmp or what not
 //TODO: draw data => picture showing ioc injecting data into multiple tests
 //TODO: draw data => picture showing data being passed directly to beforeEach and back
 //TODO: chsh -s /bin/bash

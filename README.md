@@ -11,8 +11,8 @@
 
 #  Suman is a superior next-gen test runner and test reporter for Node.js 
 
-## > Suman = AVA + Mocha + lab <sup>*</sup>
-## > It is designed to supercede Mocha, and rival AVA
+### > Suman = AVA + Mocha + lab <sup>*</sup>
+### > It is designed to supercede Mocha, and rival AVA
 
 
 <br>

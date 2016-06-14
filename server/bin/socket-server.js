@@ -334,9 +334,10 @@ module.exports = function (server) {
 
 				watcher.on('raw', (event, p, details) => {
 					if (['.log', '.txt'].indexOf(path.extname(p)) < 0) {
-						console.log('\n\nRaw event info:', event, p, details, '\n\n');
+						if(process.env.SUMAN_DEBUG === 'yes'){
+							console.log('\n\nRaw event info:', event, p, details, '\n\n');
+						}
 					}
-
 				});
 			}
 
