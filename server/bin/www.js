@@ -75,7 +75,16 @@ const sumanLogos = require('../../lib/ascii');
 console.log(sumanLogos.suman_alligator);
 
 const index = process.argv.indexOf('--suman-combined-opts');
-const sumanCombinedOpts = global.sumanCombinedOpts = index > -1 ? JSON.parse(process.argv[index + 1]) : {};
+const sumanCombinedOpts = global.sumanCombinedOpts = index > -1 ? JSON.parse(process.argv[index + 1]) : {
+
+    sumanMatches: sumanConfig.match,
+    sumanNotMatches: sumanConfig.notMatch,
+    sumanHelperDirRoot: sumanConfig.sumanHelpersDir,
+    verbose: true,
+    vverbose: true
+
+};
+
 Object.keys(sumanCombinedOpts).forEach(opt => {
     global[opt] = sumanCombinedOpts[opt];
 });

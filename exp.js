@@ -1,10 +1,10 @@
-/**
- * Created by Olegzandr on 5/14/16.
- */
+const Threads = require('webworker-threads');
 
-process.on('uncaughtException', function(e){
-	console.log(' => Uncaught Exception caught globally =>', e.stack || e);
+var thread = Threads.create();
+
+const roodles = 3;
+
+thread.eval(function () {
+
+    console.log('roodles:', roodles);
 });
-
-
-require('foo-does-not-exist')

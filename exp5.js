@@ -3,23 +3,14 @@
  */
 
 
-const a = {
+const cp = require('child_process');
 
-	b: {
-		c: 'g'
+
+const n = cp.spawn('sh',['/Users/amills/WebstormProjects/oresoftware/suman/lib/make-tail/tail-2.sh'],{
+	env: {
+		FILE_TO_TAIL:'/Users/amills/WebstormProjects/oresoftware/suman/test/suman/logs/server.log'
 	}
-};
+});
 
-
-const B = Object.assign({},a.b);
-
-console.log(B);
-
-a.b.x = 'm';
-
-
-console.log(a.b.x);
-
-console.log(B);
 
 
