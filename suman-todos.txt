@@ -5,7 +5,8 @@
     3. transpile matches, vs "copy only" matches
 
 
-
+//TODO: draw data => picture showing ioc injecting data into multiple tests
+//TODO: draw data => picture showing data being passed directly to beforeEach and back
 //TODO: chsh -s /bin/bash
 //TODO: http://unix.stackexchange.com/questions/289573/tailing-file-in-new-terminal-window
 //TODO: vi /etc/shells
