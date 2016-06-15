@@ -5,6 +5,9 @@
     3. transpile matches, vs "copy only" matches
 
 
+//TODO: module.exports = function
+//TODO: before/after.always
+//TODO: verify t.plan/t.confirm
 //TODO: monkey patch process.exit
 //TODO: in before/after hooks, we should be able to access t.data and pass that to all tests?
 //TODO: when re-initting suman and potentially overwriting existing suman files, mv the current suman folder to root and

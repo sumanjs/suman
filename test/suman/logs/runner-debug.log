@@ -2,50 +2,31 @@
 
 ### Suman runner start ###
 
-Beginning of run at 1465954556469 = [Tue Jun 14 2016 18:35:56 GMT-0700 (PDT)]
-Command issued from the following directory "/Users/amills/WebstormProjects/oresoftware/suman"
-Command = ["/Users/amills/.nvm/versions/node/v4.4.5/bin/node","/Users/amills/.nvm/versions/node/v4.4.5/bin/suman","test/build-tests/"]
+Beginning of run at 1465976837448 = [Wed Jun 15 2016 00:47:17 GMT-0700 (PDT)]
+Command issued from the following directory "/Users/Olegzandr/WebstormProjects/suman"
+Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.1/bin/node","/Users/Olegzandr/.nvm/versions/node/v6.2.1/bin/suman","test/build-tests/","--runner"]
 
 
-[empty.test.js] 
-[empty.test.js] 
-[empty.test.js]  ### Suman end run ### 
-[empty.test.js] 
-[empty.test.js] 
-[empty.test.js] 
-[empty.test.js] 
-
-[tes-t7-start.test.js] 
-[tes-t7-start.test.js] 
-[tes-t7-start.test.js]  ### Suman end run ### 
-[tes-t7-start.test.js] 
-[tes-t7-start.test.js] 
-[tes-t7-start.test.js] 
-[tes-t7-start.test.js] 
-
-[tes-t7.js] 
-[tes-t7.js] 
-[tes-t7.js]  ### Suman end run ### 
-[tes-t7.js] 
-[tes-t7.js] 
-[tes-t7.js] 
-[tes-t7.js] 
-
-[test6.test.js] 
-[test6.test.js] 
-[test6.test.js]  ### Suman end run ### 
-[test6.test.js] 
-[test6.test.js] 
-[test6.test.js] 
-[test6.test.js] 
-
-
-### Suman runner end ###
-
-
-
-
-
-
-
-
+[???] Unhandled Rejection at: Promise  Promise {
+[???]   <rejected> TypeError: require(...).on is not a function
+[???]     at /Users/Olegzandr/WebstormProjects/suman/lib/handle-single-proc.js:18:14
+[???]     at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:181:20
+[???]     at iterate (/Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:262:13)
+[???]     at BufferStream.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:274:29)
+[???]     at BufferStream.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:44:16)
+[???]     at emitNone (events.js:86:13)
+[???]     at BufferStream.emit (events.js:185:7)
+[???]     at complete (/Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:380:27)
+[???]     at /Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:357:8
+[???]     at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:52:16 }  reason:  TypeError: require(...).on is not a function
+[???]     at /Users/Olegzandr/WebstormProjects/suman/lib/handle-single-proc.js:18:14
+[???]     at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:181:20
+[???]     at iterate (/Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:262:13)
+[???]     at BufferStream.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:274:29)
+[???]     at BufferStream.<anonymous> (/Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:44:16)
+[???]     at emitNone (events.js:86:13)
+[???]     at BufferStream.emit (events.js:185:7)
+[???]     at complete (/Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:380:27)
+[???]     at /Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:357:8
+[???]     at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:52:16
+[???] 
