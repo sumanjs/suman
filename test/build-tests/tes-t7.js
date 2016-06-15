@@ -18,10 +18,6 @@ const Test = require('../../lib').init(module, {
 Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, request, assert) {
 
 
-    console.log('extra:', extra);
-    console.log('choodles:', choodles);
-    console.log('request:', request);
-
 
     this.before.cb(t => {
         t.ctn();

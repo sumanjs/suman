@@ -1,0 +1,51 @@
+
+
+### Suman runner start ###
+
+Beginning of run at 1465954556469 = [Tue Jun 14 2016 18:35:56 GMT-0700 (PDT)]
+Command issued from the following directory "/Users/amills/WebstormProjects/oresoftware/suman"
+Command = ["/Users/amills/.nvm/versions/node/v4.4.5/bin/node","/Users/amills/.nvm/versions/node/v4.4.5/bin/suman","test/build-tests/"]
+
+
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js]  ### Suman end run ### 
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js] 
+[empty.test.js] 
+
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js]  ### Suman end run ### 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+[tes-t7-start.test.js] 
+
+[tes-t7.js] 
+[tes-t7.js] 
+[tes-t7.js]  ### Suman end run ### 
+[tes-t7.js] 
+[tes-t7.js] 
+[tes-t7.js] 
+[tes-t7.js] 
+
+[test6.test.js] 
+[test6.test.js] 
+[test6.test.js]  ### Suman end run ### 
+[test6.test.js] 
+[test6.test.js] 
+[test6.test.js] 
+[test6.test.js] 
+
+
+### Suman runner end ###
+
+
+
+
+
+
+
+

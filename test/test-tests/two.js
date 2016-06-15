@@ -2,7 +2,7 @@
 const suman = require('../../lib');
 const Test = suman.init(module, {});
 
-Test.describe('root suite description', {}, function () {   // we define the root suite
+Test.describe('root suite description', {}, function (assert) {   // we define the root suite
 
     //note: we are in the context of the "root suite"
 

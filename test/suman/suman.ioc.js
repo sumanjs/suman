@@ -8,7 +8,7 @@ module.exports = () => {  //load async deps for any of your suman tests
 
             setTimeout(function(){
                  cb(null, 10);
-            }, 3000);
+            }, 100);
 
         },
 
