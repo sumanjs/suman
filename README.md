@@ -472,7 +472,7 @@ only pertains to running a single test file (usually when developing a particula
  * AVA test are not "node-able" - you *cannot* run them with node directly; Suman tests are node-able, which makes 
  debugging so much easier!
  
- ![alt text](https://raw.githubusercontent.com/ORESoftware/suman-private/dev/images/ava-prob.png "AVA problems")
+ ![alt text](https://github.com/ORESoftware/suman-private/blob/dev/images/ava-prob.png)
  
  * AVA requires Babel transpilation, which adds unnecessary complexity for test environments, and is also much slower
  * AVA does not handle errors thrown in asynchronous code gracefully, Suman is much better in this regard.
