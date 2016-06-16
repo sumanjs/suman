@@ -3,6 +3,8 @@
 
 ![alt text](https://raw.githubusercontent.com/ORESoftware/suman/master/images/suman.png "Suman Primary Logo")
 
+
+
 > ---
 >
 >    Suman documentation => [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")  
@@ -467,14 +469,20 @@ only pertains to running a single test file (usually when developing a particula
  and nested describes. Dependency injection also makes Suman extremely convenient and fun to use, compared to AVA.
  Suman is simply more powerful and richer in features than AVA. 
  
+ * AVA test are not "node-able" - you *cannot* run them with node directly; Suman tests are node-able, which makes 
+ debugging so much easier!
+ 
+ ![alt text](https://www.dropbox.com/s/6xc3etrv01dcvcp/Screenshot%202016-06-15%2023.24.32.png?dl=0 "AVA problems")
+ 
+ 
  * AVA requires Babel transpilation, which adds unnecessary complexity for test environments, and is also much slower
- * AVA does not handle errors thrown in asynchronous code gracefully
+ * AVA does not handle errors thrown in asynchronous code gracefully, Suman is much better in this regard.
  * AVA does not feature the nested describes of Mocha or Suman, which limits the expressiveness of the library
  tremendously
  * AVA expects you to use its assertion library, whereas Suman will accept usage of any assertion library
  * Furthermore, AVA does not prescribe solutions to common test problems -
  
-        * registering dynamic test cases
+        * registering dynamic test cases (given a dynamic value acquired asynchronously)
         * starting up necessary services, using pre-test asynchronous (not bash) hooks
         * injecting different dependencies into test files
         
