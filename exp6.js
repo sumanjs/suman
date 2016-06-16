@@ -4,24 +4,7 @@
 
 
 
-const util = require('util');
+const os = require('os');
+const path = require('path');
 
-Promise.resolve().then(function () {
-
-    return 'foo';
-
-}).then(function () {
-
-    return console.log('we were here');
-
-}).then(function () {
-
-    return Promise.reject({type: 'canceled'})
-
-}).then(function () {
-
-    return console.log('never visited');
-
-}).catch(function (e) {
-    console.log(e);
-});
+console.log(os.cpus());

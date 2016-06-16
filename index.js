@@ -703,6 +703,7 @@ else {
 						const match = global.sumanMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 						const notMatch = global.sumanNotMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 						const files = require('./lib/runner-helpers/get-file-paths')(paths, match, notMatch);
+						global.sumanSingleProcessStartTime = Date.now();
 						require('./lib/run-child-not-runner')(files);
 					});
 				});

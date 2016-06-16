@@ -4,7 +4,13 @@
     2. convert as suman test matches
     3. transpile matches, vs "copy only" matches
 
-
+//TODO: "$ suman --convert" with the "--omit-comments"
+//TODO: https://github.com/creationix/nvm/issues/668
+//TODO: if export is set to true, then we need to exit if we are using the runner
+//TODO: interactive shell with suman?
+//TODO: may need to use request/reply to send error messages to runner parent process before exiting, otherwise
+//some processes seem to fail to send messages back to parent, even if they exit.
+//TODO: use util.format =>    error: util.format('The specified application package "%s" does not exist', params.id)
 //TODO: module.exports = function
 //TODO: before/after.always
 //TODO: verify t.plan/t.confirm

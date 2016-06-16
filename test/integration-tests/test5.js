@@ -2,7 +2,7 @@
 var suman = require('../../lib');
 var Test = suman.init(module, 'suman.conf.js');
 
-Test.describe('A', {parallel:true}, function (request, socketio) {
+Test.describe('A', {parallel:true}, function (request, socketio, delay) {
 
     // console.log('request:', request.toString());
     // console.log('socketio:', socketio.toString());
