@@ -432,7 +432,7 @@ You can execute a test file with the plain ```node``` executable, with ```$ suma
 
 Here are the differences between the 3 options:
 
-|                         | $ node file.test.js | $ suman file.test.js | $ suman --runner file.test.js |
+|                         | $ node a.test.js  | $ suman a.test.js  | $ suman --runner a.test.js  |
 |-------------------------|-------------------|--------------------|-----------------------------|
 | command line options    | no                | yes                | yes                         |
 | runs multiple processes | no                | no                 | yes                         |
