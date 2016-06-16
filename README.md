@@ -5,14 +5,14 @@
 
 > ---
 >
->    Suman library documentation => [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")  
+>    Suman documentation => [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")  
 >
 > ---
 
 #  Suman is a superior next-gen test runner and test reporter for Node.js 
 
-### > Suman = AVA + Mocha + lab <sup>*</sup>
-### > It is designed to supercede Mocha, and rival AVA
+### _> Suman = AVA + Mocha + lab <sup>*</sup>_
+### _> It is designed to supercede Mocha, and rival AVA_
 
 
 <br>
@@ -39,7 +39,7 @@ however ```$ suman --init``` is the much preferred way to initialized suman in a
 <br>
 
 The purpose of the Suman library is to provide the most sophisticated test runner in the Node.js ecosystem, with better
-features, higher performance, better debugability, and more expressiveness than AVA, Mocha, and Tape. Suman is a first-rate library and we hope you
+features, higher performance, improved debuggability, and more expressiveness than AVA, Mocha, and Tape. Suman is a first-rate library and we hope you
 take the time to compare its capabilities with AVA, Mocha and Tape.
 
 The primary aims are:
@@ -48,7 +48,7 @@ The primary aims are:
 * isolate tests by running them in separate processes
 * make debugging your test files easier; this is achieved by allowing for running of tests with the plain old node executable,
 this makes Suman tests "node-able"
-* provide cleaner output, so that developer logging output is not necessarily mixed with test results; achieved by using child processes.
+* provide cleaner output, so that developer logging output is not necessarily mixed with test results; achieved by using child processes and ignoring stdout.
 * add a whole bunch of missing features from Mocha, Tape and AVA, while simplifying portions of the Mocha API and doing
 away with implicit globals
 
@@ -209,6 +209,14 @@ intuitive to use over the long-run.
     * Suman allows you to use "babel-register" to transpile your sources on the fly
     * However, the recommended way to incorporate Babel in your testing is to simply transpile your entire "test" directory to "test-target"
     * Using a "test-target" directory instead of "babel-register" allows for better debugging, performance and transparency in your testing system
+
+* <b> Log files help you debug </b>
+
+    * Using Suman tests, you have 3 options as to how you execute a test file: ```1. node x.js, 2. suman x.js and 3. suman --runner x.js```
+    * Using the Suman runner, your test file(s) all run in child processes. This can make debugging harder, but Suman sends all stderr from the child processes
+    to a single log file to help you debug.
+    * Normally, to debug a test, you would run the test with node or using suman without using the runner, but if you see a problem with a particular test that only
+    occurs when using the runner, then the log files will help.
 
 * <b> Freedom: Suman is not highly opinionated, but gives you powerful features</b>
     *  Suman prefers the standard core assert Node module (Suman has unopinionated assertions), but like Mocha you can use any assertion lib that throws errors
