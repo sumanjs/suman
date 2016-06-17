@@ -4,7 +4,8 @@
 
 
 
-const os = require('os');
-const path = require('path');
 
-console.log(os.cpus());
+
+const v = process.version;
+
+console.log(typeof v,v);

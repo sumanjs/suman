@@ -4,6 +4,42 @@
     2. convert as suman test matches
     3. transpile matches, vs "copy only" matches
 
+
+ global.breakpoint = function() {
+    if ($config.diagnostics.enable_breakpoints) {
+      /*jshint -W087 */
+      debugger;
+    }
+  };
+
+//////////////////////////
+  No usable default provider could be found for your system.
+
+  Vagrant relies on interactions with 3rd party systems, known as
+  "providers", to provide Vagrant with resources to run development
+  environments. Examples are VirtualBox, VMware, Hyper-V.
+
+  The easiest solution to this message is to install VirtualBox, which
+  is available for free on all major platforms.
+
+  If you believe you already have a provider available, make sure it
+  is properly installed and configured. You can see more details about
+  why a particular provider isn't working by forcing usage with
+  `vagrant up --provider=PROVIDER`, which should give you a more specific
+  error message for that particular provider.
+  ///////////////////////////////
+
+//TODO: https://www.vagrantup.com/
+//TODO: https://blog.codeship.com/cross-platform-docker-development-environment/
+//TODO: http://nathanleclaire.com/blog/2014/07/12/10-docker-tips-and-tricks-that-will-make-you-sing-a-whale-song-of-joy/
+//TODO: http://stackoverflow.com/questions/8173232/make-exe-files-from-node-js-app
+//TODO: create binary of suman project for speed?
+//TODO: assert that rootDir is the same as cd'ing two directories higher than suman/index.js
+//TODO: for node version < 4.0, add warning, using process.version
+// Warning => Suman is not well-tested against Node versions prior to 4.0, your version: 3.x
+//TODO:  (!/not find/i.test(e.message))
+//TODO: "$ suman --stop-watching"
+//TODO: write test for installing suman, using containers to spin up some virtual filesystem?
 //TODO: "$ suman --convert" with the "--omit-comments"
 //TODO: https://github.com/creationix/nvm/issues/668
 //TODO: if export is set to true, then we need to exit if we are using the runner

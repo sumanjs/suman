@@ -5,11 +5,11 @@
 
 
 
- ### Suman start run indiv. @Wed Jun 15 2016 18:11:10 GMT-0700 (PDT) ###
+ ### Suman start run indiv. @Thu Jun 16 2016 18:28:28 GMT-0700 (PDT) ###
 
- ### Filename: /Users/amills/WebstormProjects/oresoftware/suman/test-target/integration-tests/test8.js
+ ### Filename: /Users/amills/WebstormProjects/oresoftware/suman/test/build-tests/tes-t7.js
 
- ### Command = ["/Users/amills/.nvm/versions/node/v4.4.5/bin/node","/Users/amills/.nvm/versions/node/v4.4.5/bin/suman","test-target/integration-tests/"]
+ ### Command = ["/usr/local/Cellar/node/6.2.0/bin/node","/Users/amills/WebstormProjects/oresoftware/suman/index.js","test/build-tests/empty.test.js","test/build-tests/tes-t7.js"]
 
 
 

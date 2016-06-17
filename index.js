@@ -40,6 +40,7 @@ const assert = require('assert');
 const EE = require('events');
 
 //#npm
+const semver = require('semver');
 const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
@@ -76,6 +77,16 @@ if (process.env.SUMAN_DEBUG === 'yes') {
  
  */
 
+////////////////////////////////////////////////////////////////////
+
+const nodeVersion = process.version;
+const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
+
+if(semver.lt(nodeVersion,oldestSupported)){
+	console.log(colors.red(' => Suman warning => Suman is not well-tested against Node versions prior to ' +
+		 oldestSupported +', your version: ' + nodeVersion));
+}
+
 
 ////////////////////////////////////////////////////////////////////
 
@@ -103,13 +114,6 @@ if (!root) {
 	return;
 }
 
-if (cwd !== root) {
-	console.log(' => CWD is not equal to project root:', cwd);
-	console.log(' => Project root:', root);
-}
-else {
-	console.log(colors.cyan(' => cwd:', cwd));
-}
 
 ////////////////////////////////////////////////////////////////////
 
@@ -166,6 +170,19 @@ var register = opts.register;
 var transpile = opts.transpile;
 var sumanInstalledLocally = null;
 
+if (cwd !== root) {
+	if(!opts.vsparse){
+		console.log(' => CWD is not equal to project root:', cwd);
+		console.log(' => Project root:', root);
+	}
+}
+else {
+	if(!opts.sparse){
+		console.log(colors.cyan(' => cwd:', cwd));
+	}
+}
+
+
 if (!init) {
 	var err;
 	
@@ -178,7 +195,9 @@ if (!init) {
 	finally {
 		if (err) {
 			sumanInstalledLocally = false;
-			console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
+			if(!opts.sparse){
+				console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
+			}
 		}
 		else {
 			if (false) {  //only if user asks for verbose option

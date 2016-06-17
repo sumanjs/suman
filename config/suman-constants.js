@@ -5,6 +5,7 @@
 
 module.exports = Object.freeze({
 
+    OLDEST_SUPPORTED_NODE_VERSION: 'v4.0.0',
     DEBUGGING_ENV: {
         name: 'SUMAN_DEBUG',
         value: 'on'
