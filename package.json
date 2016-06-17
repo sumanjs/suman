@@ -9,7 +9,8 @@
     "merge": "git merge -Xignore-all-space",
     "debug_mocha": "node-debug _mocha --no-timeouts ",
     "remove-private-dirs": "git rm -r private bugs examples file-examples internal-docs jsdoc-out",
-    "remove-private-files": "git rm exp*.js jsdoc-notes.txt suman-todos.txt old-package-json.json"
+    "remove-private-files": "git rm exp*.js jsdoc-notes.txt suman-todos.txt old-package-json.json",
+    "publish":""
   },
   "author": "Olegzandr Denman",
   "license": "ISC",
