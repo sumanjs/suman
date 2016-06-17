@@ -12,6 +12,14 @@
     }
   };
 
+
+  ////////////////
+
+
+  the runner fails to finish for poolio and for burro, not sure why, perhaps add a timeout for each test
+SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integration_test.js
+
+
 //////////////////////////
   No usable default provider could be found for your system.
 
@@ -29,14 +37,36 @@
   error message for that particular provider.
   ///////////////////////////////
 
+
+//TODO: provide a way to not install suman globally
+
+
+//TODO: need to account for non-existence of .bash_profile
+=> Suman fatal installation error => Error: ENOENT: no such file or directory, open '/Users/duchess/.bash_profile'
+    at Error (native)
+
+
+//TODO:
+
+TypeError: Converting circular structure to JSON
+    at Object.stringify (native)
+    at Suman.logData (/Users/Olegzandr/WebstormProjects/suman/lib/suman.js:511:29)
+    at /Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:341:13
+    at allDone (/Users/Olegzandr/WebstormProjects/suman/lib/TestSuite.js:680:6)
+    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:726:13
+    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:52:16
+    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:269:32
+    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:44:16
+    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:723:17
+    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:167:37
+
+
 //TODO: https://www.vagrantup.com/
 //TODO: https://blog.codeship.com/cross-platform-docker-development-environment/
 //TODO: http://nathanleclaire.com/blog/2014/07/12/10-docker-tips-and-tricks-that-will-make-you-sing-a-whale-song-of-joy/
 //TODO: http://stackoverflow.com/questions/8173232/make-exe-files-from-node-js-app
 //TODO: create binary of suman project for speed?
 //TODO: assert that rootDir is the same as cd'ing two directories higher than suman/index.js
-//TODO: for node version < 4.0, add warning, using process.version
-// Warning => Suman is not well-tested against Node versions prior to 4.0, your version: 3.x
 //TODO:  (!/not find/i.test(e.message))
 //TODO: "$ suman --stop-watching"
 //TODO: write test for installing suman, using containers to spin up some virtual filesystem?

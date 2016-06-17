@@ -26,6 +26,10 @@ const runTranspile = require('../../lib/transpile/run-transpile');
 
 //////////////////////////////////////////////////
 
+var watching = false;
+
+/////////////////////////////////////////////////
+
 const watcherOutputLogPath = path.resolve(global.sumanHelperDirRoot + '/logs/watcher-output.log');
 
 function getStream() {
@@ -38,17 +42,20 @@ function getStream() {
 //TODO: if stdout and stderr share the same writable stream maybe their output will be in the right order?
 const workerPath = path.resolve(__dirname, '..', '..', 'lib/suman-watch-worker.js');
 
-const pool = new Pool({
-	size: 3,
-	addWorkerOnExit: true,
-	silent: true,
-	filePath: workerPath,
-	stdout: getStream,
-	stderr: getStream
-	// env: _.extend(process.env, {
-	// 	SUMAN_WATCH: 'yes'
-	// })
-});
+var pool;
+function createPool() {
+	pool = pool || new Pool({
+			size: 3,
+			addWorkerOnExit: true,
+			silent: true,
+			filePath: workerPath,
+			stdout: getStream,
+			stderr: getStream
+			// env: _.extend(process.env, {
+			// 	SUMAN_WATCH: 'yes'
+			// })
+		});
+}
 
 ///////////////////////////////////////////////////
 
@@ -75,42 +82,30 @@ catch (err) {
 
 function initiateTranspileAction(p, opts, executeTest) {
 
-	const transpileThese = _.flatten([p]).filter(function (p) {
+	const items = _.flatten([p]);
+
+	const transpileThese = items.filter(function (p) {
 		return pathHash[p].transpile;
 	});
 
 	if (transpileThese.length < 1) {
-		return;
+		return runTestWithSuman(items);
 	}
 
-	fs.writeFileSync(watcherOutputLogPath,
-		'\n\n => file will first be transpiled/copied.', {
-			flags: 'a',
-			flag: 'a'
-		});
+	logMessageToWatcherLog('\n\n => file will first be transpiled/copied.');
 
 	runTranspile(transpileThese, (opts || {}), function (err, results) {
 		if (err) {
 			console.log('transpile error:', err);
-
-			fs.writeFileSync(watcherOutputLogPath,
-				'\n\n => file transpilation error => \n' + err.stack, {
-					flags: 'a',
-					flag: 'a'
-				});
+			logMessageToWatcherLog('\n\n => Suman server => file transpilation error => \n' + err.stack);
 		}
 		else {
 			console.log(' => transpile results:', results);
+			logMessageToWatcherLog('\n => file transpiled successfully.');
 
-			fs.writeFileSync(watcherOutputLogPath,
-				'\n => file transpiled successfully.', {
-					flags: 'a',
-					flag: 'a'
-				});
-
-			//TODO: check that changed file is a .js file etc
 			if (executeTest) {
-				runTestWithSuman(results);
+				//TODO: not all of these should be executed
+				runTestWithSuman(results.map(item => item.originalPath));
 			}
 		}
 	});
@@ -119,8 +114,10 @@ function initiateTranspileAction(p, opts, executeTest) {
 const match = global.sumanMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 const notMatch = global.sumanNotMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
-console.log('sumanMatches:', match);
-console.log('sumanNotMatches:', notMatch);
+if (process.env.SUMAN_DEBUG === 'yes') {
+	console.log('sumanMatches:', match);
+	console.log('sumanNotMatches:', notMatch);
+}
 
 function matchesInput(filename) {
 	return match.every(function (regex) {
@@ -134,28 +131,50 @@ function doesNotMatchNegativeMatchInput(filename) {
 	});
 }
 
+function logMessageToWatcherLog(msg) {
+	console.log(msg);
+	fs.writeFileSync(watcherOutputLogPath,
+		'\n' + msg, {
+			flags: 'a',
+			flag: 'a'
+		});
+}
+
 function runTestWithSuman($tests) {
 
 	var logExtraMsg = false;
 
-	const tests = $tests.filter(function (item) {
-		const _matchesInput = matchesInput(item);
-		const _doesNotMatch = doesNotMatchNegativeMatchInput(item);
-		console.log('item:', item);
-		console.log('_matchesInput:', _matchesInput);
-		console.log('_doesNotMatch:', _doesNotMatch);
+	const tests = _.flatten([$tests]).filter(function (originalTestPath) {
+
+		console.log('originalTestPath:', originalTestPath);
+		console.log('pathHash:', JSON.stringify(pathHash));
+
+		const valFromHash = pathHash[originalTestPath];
+
+		if(!valFromHash){
+			console.log(' => Suman server warning => no valFromHash for given originalTestPath.');
+			return false;
+		}
+
+		if (!valFromHash.execute) {
+			return false;
+		}
+		const _matchesInput = matchesInput(originalTestPath);
+		const _doesNotMatch = doesNotMatchNegativeMatchInput(originalTestPath);
+
+		if (process.env.SUMAN_DEBUG === 'yes') {
+			console.log('item:', originalTestPath);
+			console.log('_matchesInput:', _matchesInput);
+			console.log('_doesNotMatch:', _doesNotMatch);
+		}
+
 		const condition = _matchesInput && _doesNotMatch;
+
 		if (!condition) {
 			logExtraMsg = true;
 			const msg = ' => Suman server message => the following file changed and may have been transpiled,\n' +
-				'\t but it did not match the regular expressions necessary to run the test =>\n\t => ' + item;
+				'\t but it did not match the regular expressions necessary to run the test =>\n\t => ' + originalTestPath;
 
-			console.log(msg);
-			fs.writeFileSync(watcherOutputLogPath,
-				'\n' + msg, {
-					flags: 'a',
-					flag: 'a'
-				});
 		}
 		return condition;
 	});
@@ -164,50 +183,32 @@ function runTestWithSuman($tests) {
 		const msg1 = ' => Regexes that effect the execution of a test:\n' +
 			'positive matches: ' + global.sumanMatches + '\n' +
 			'negative matches: ' + global.sumanNotMatches;
-		console.log(msg1);
-		fs.writeFileSync(watcherOutputLogPath,
-			'\n' + msg1, {
-				flags: 'a',
-				flag: 'a'
-			});
+		logMessageToWatcherLog(msg1);
 	}
 	
 	if (tests.length < 1) {
-		const msg2 = ' Not test files matched regexes, nothing to run. We are done here.';
+		const msg2 = ' => Suman watcher => No test files matched regexes, nothing to run. We are done here.';
 		console.log(msg2);
-		fs.writeFileSync(watcherOutputLogPath,
-			'\n' + msg2, {
-				flags: 'a',
-				flag: 'a'
-			});
+		logMessageToWatcherLog(msg2);
 		return;
 	}
 
-	const cmd = sumanExec + ' ' + tests.join(' ');
+	// const cmd = sumanExec + ' ' + tests.join(' ');
+	//
+	// console.log('\n\n => Suman watcher => test will now be run with command:\n', cmd);
 
-	console.log('\n\n => Test will now be run with command:\n', cmd);
+	logMessageToWatcherLog('\n => Suman watcher => test will now execute.\n\n');
 
-	fs.writeFileSync(watcherOutputLogPath,
-		'\n => test will now execute.\n\n', {
-			flags: 'a',
-			flag: 'a'
-		});
-
-	if(process.env.SUMAN_DEBUG === 'yes'){
-		fs.writeFileSync(watcherOutputLogPath,
-			'\n => pool size => ' + JSON.stringify(pool.getCurrentSize()) + '\n', {
-				flags: 'a',
-				flag: 'a'
-			});
+	if (process.env.SUMAN_DEBUG === 'yes') {
+		logMessageToWatcherLog('\n => pool size => ' + JSON.stringify(pool.getCurrentSize()) + '\n');
 	}
-
 
 	//note: we want to kill all suman workers that are
 	//currently running tests and writing to the watcher-output.log file
 	pool.killAllActiveWorkers();
 
 	const promises = tests.map(function (t) {
-		return pool.any({testPath: t});
+		return pool.any(pathHash[t]);
 	});
 
 	Promise.all(promises).then(function (val) {
@@ -238,16 +239,38 @@ module.exports = function (server) {
 
 		//TODO: need to add hash, that shows whether files need to be transpiled or not
 
+		socket.on('stop-watching', function () {
+
+			console.log(' => Suman server => "stop-watching" request received via socket.io.');
+
+			if (watcher) {
+				// Stop watching.
+				// watcher.close();
+				console.log('\n\n => Watched paths before "unwatch":', watcher.getWatched());
+				watcher.unwatch('**/*.js');
+				console.log('\n\n => Watched paths after "unwatch":', watcher.getWatched());
+			}
+			else{
+				console.log(' => Suman server => no watch to call "stop watching" on.');
+			}
+
+		});
+
 		socket.on('watch', function ($msg) {
+
+			console.log(' => Suman server => "watch" request received via socket.io.');
+
+			createPool();
 
 			const msg = JSON.parse($msg);
 
 			const paths = msg.paths.map(function (p) {
 				return String(p).replace('___jb_tmp___', '').replace('___jb_old___', ''); //JetBrains support
 			});
+
 			const transpile = msg.transpile || false;
 
-			console.log(' => Suman server event => socketio watch event has been received by server:\n', msg);
+			console.log(' => Suman server event => socket.io watch event has been received by server:\n', msg);
 
 			if (watcher) {
 				console.log('\n\n => Watched paths before:', watcher.getWatched());
@@ -255,7 +278,7 @@ module.exports = function (server) {
 				console.log('\n\n => Watched paths after:', watcher.getWatched());
 			}
 			else {
-				console.log(' => chokidar watcher initialized.');
+				console.log(' => Suman server => chokidar watcher initialized.');
 				watcher = chokidar.watch(paths, opts);
 
 				watcher.on('add', p => {
@@ -287,8 +310,8 @@ module.exports = function (server) {
 						initiateTranspileAction(p, null, true);
 					}
 					else {
-						console.log('running!!');
-						runTestWithSuman([p]);
+						console.log('running (without transpile)!!');
+						runTestWithSuman(p);
 					}
 				});
 
@@ -312,18 +335,20 @@ module.exports = function (server) {
 				});
 
 				watcher.on('ready', () => {
-					console.log('Initial scan complete. Ready for changes');
+					console.log(' => Suman server => Suman watch process => Initial scan complete. Ready for changes');
 					const watched = watcher.getWatched();
-					console.log('Watched paths:', watched);
+					console.log(' => Suman server => watched paths:', watched);
 
 					(function (w) {
 						Object.keys(w).forEach(function (key) {
 							const array = w[key];
 							array.forEach(function (p) {
-								const temp = path.resolve(key + '/' + p);
+								const temp = String(path.resolve(key + '/' + p)).replace('___jb_tmp___', '').replace('___jb_old___', '');
 								console.log(' => The following file path is being saved as { transpile:', transpile, '} =>', temp);
 								pathHash[temp] = {
-									transpile: transpile
+									transpile: transpile,
+									testPath: temp,
+									execute: true
 								}
 							});
 
@@ -334,7 +359,7 @@ module.exports = function (server) {
 
 				watcher.on('raw', (event, p, details) => {
 					if (['.log', '.txt'].indexOf(path.extname(p)) < 0) {
-						if(process.env.SUMAN_DEBUG === 'yes'){
+						if (process.env.SUMAN_DEBUG === 'yes') {
 							console.log('\n\nRaw event info:', event, p, details, '\n\n');
 						}
 					}

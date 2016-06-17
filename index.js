@@ -82,11 +82,10 @@ if (process.env.SUMAN_DEBUG === 'yes') {
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
 
-if(semver.lt(nodeVersion,oldestSupported)){
+if (semver.lt(nodeVersion, oldestSupported)) {
 	console.log(colors.red(' => Suman warning => Suman is not well-tested against Node versions prior to ' +
-		 oldestSupported +', your version: ' + nodeVersion));
+		oldestSupported + ', your version: ' + nodeVersion));
 }
-
 
 ////////////////////////////////////////////////////////////////////
 
@@ -113,7 +112,6 @@ if (!root) {
 	console.log(' => Please execute the suman command from within the root of your project.\n\n');
 	return;
 }
-
 
 ////////////////////////////////////////////////////////////////////
 
@@ -171,17 +169,16 @@ var transpile = opts.transpile;
 var sumanInstalledLocally = null;
 
 if (cwd !== root) {
-	if(!opts.vsparse){
+	if (!opts.vsparse) {
 		console.log(' => CWD is not equal to project root:', cwd);
 		console.log(' => Project root:', root);
 	}
 }
 else {
-	if(!opts.sparse){
+	if (!opts.sparse) {
 		console.log(colors.cyan(' => cwd:', cwd));
 	}
 }
-
 
 if (!init) {
 	var err;
@@ -195,7 +192,7 @@ if (!init) {
 	finally {
 		if (err) {
 			sumanInstalledLocally = false;
-			if(!opts.sparse){
+			if (!opts.sparse) {
 				console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
 			}
 		}
@@ -216,6 +213,20 @@ if (opts.testing) {
 	require('./lib/testing');
 	return;
 }
+
+//////////////// check for cmd line contradictions ///////////////////////////////////
+
+if (opts.transpile && opts.no_transpile) {
+	console.log('\n', ' => Suman fatal problem => --transpile and --no-transpile options with both set, please choose one only.');
+	return;
+}
+
+if (opts.watch && opts.stop_watching) {
+	console.log('\n', ' => Suman fatal problem => --watch and --stop-watching options with both set, please choose one only.');
+	return;
+}
+
+////////////////////////////////////////////////////////////////////////////////////
 
 var targetTestDir;
 
@@ -292,35 +303,41 @@ global.sumanNotMatches = _.uniqBy((opts.not_match || []).concat(sumanConfig.notM
 
 const overridingTranspile = opts.register || (!opts.no_register && global.sumanConfig.useBabelRegister);
 
-if (!opts.no_transpile && global.sumanConfig.transpile === true) {
-	transpile = opts.transpile = true;
-	if (!opts.sparse && !overridingTranspile) {
-		console.log('\n', colors.bgCyan.black.bold('=> Suman message => transpilation is the default due to ' +
-			'your configuration option => transpile:true'), '\n');
-	}
+if (opts.no_transpile) {
+	opts.transpile = false;
 }
+else {
 
-if (overridingTranspile) {
-	if (!opts.vsparse) {
-		if (global.sumanConfig.transpile === true) {
-			console.log('\n ', colors.bgCyan.black.bold(' => Suman message => although transpilation is the default (due to ') + '\n  ' +
-				colors.bgCyan.black.bold(' your configuration option => {transpile:true}), the ' + colors.magenta('--register') + ' flag was passed and takes precedence,') + '\n  ' +
-				colors.bgCyan.black.bold(' so we will transpile on the fly with "babel-register", no transpiled files will be written out.'), '\n');
-		}
-		else {
-			if (opts.register && opts.verbose) {
-				console.log('\n', colors.bgCyan.black.bold('=> Suman message => --register flag passed, so we will transpile your sources on the fly,') + '\n' +
-					colors.bgCyan.black.bold('no transpiled files will be written out.'), '\n');
-			}
-			else if (opts.verbose) {
-				console.log('\n', colors.bgCyan.black.bold(' => Suman message => "useBabelRegister" property set to true in your config,' +
-						' so we will transpile your sources on the fly.') + '\n ' +
-					colors.bgCyan.black.bold(' No transpiled files will be written out. '), '\n');
-			}
+	if (!opts.no_transpile && global.sumanConfig.transpile === true) {
+		transpile = opts.transpile = true;
+		if (!opts.sparse && !overridingTranspile) {
+			console.log('\n', colors.bgCyan.black.bold('=> Suman message => transpilation is the default due to ' +
+				'your configuration option => transpile:true'), '\n');
 		}
 	}
-	register = global.usingBabelRegister = opts.register = true;
-	transpile = opts.transpile = false;  //when using register, we don't transpile manually
+
+	if (overridingTranspile) {
+		if (!opts.vsparse) {
+			if (global.sumanConfig.transpile === true) {
+				console.log('\n ', colors.bgCyan.black.bold(' => Suman message => although transpilation is the default (due to ') + '\n  ' +
+					colors.bgCyan.black.bold(' your configuration option => {transpile:true}), the ' + colors.magenta('--register') + ' flag was passed and takes precedence,') + '\n  ' +
+					colors.bgCyan.black.bold(' so we will transpile on the fly with "babel-register", no transpiled files will be written out.'), '\n');
+			}
+			else {
+				if (opts.register && opts.verbose) {
+					console.log('\n', colors.bgCyan.black.bold('=> Suman message => --register flag passed, so we will transpile your sources on the fly,') + '\n' +
+						colors.bgCyan.black.bold('no transpiled files will be written out.'), '\n');
+				}
+				else if (opts.verbose) {
+					console.log('\n', colors.bgCyan.black.bold(' => Suman message => "useBabelRegister" property set to true in your config,' +
+							' so we will transpile your sources on the fly.') + '\n ' +
+						colors.bgCyan.black.bold(' No transpiled files will be written out. '), '\n');
+				}
+			}
+		}
+		register = global.usingBabelRegister = opts.register = true;
+		transpile = opts.transpile = false;  //when using register, we don't transpile manually
+	}
 }
 
 //////////////////// abort if too many top-level options /////////////////////////////////////////////
@@ -501,17 +518,17 @@ else if (convert) {
 	
 }
 else {
-	
+
 	const timestamp = global.timestamp = Date.now();
 	const networkLog = global.networkLog = makeNetworkLog(timestamp);
 	const server = global.server = findSumanServer(null);
-	
+
 	function checkStatsIsFile(item) {
-		
+
 		if (process.env.SUMAN_DEBUG === 'yes') {
 			console.log(' => SUMAN_DEBUG => checking if ', item, 'is a file.');
 		}
-		
+
 		try {
 			return fs.statSync(item).isFile();
 		}
@@ -522,37 +539,39 @@ else {
 			return null;
 		}
 	}
-	
+
 	if (paths.length < 1) {
 		paths = [testDir];
 	}
-	
-	async.series({
-		
+
+	async.series({  //used to be async.series
+
 		npmList: function (cb) {
 			// cp.exec('npm list -g', cb);
 			process.nextTick(cb);
 		},
-		
+
 		transpileFiles: function (cb) {
-			
-			const runTranspile = require('./lib/transpile/run-transpile');
-			
+
 			if (transpile) {
-				runTranspile(paths, opts, cb);
+				require('./lib/transpile/run-transpile')(paths, opts, cb);
 			}
 			else {
 				process.nextTick(cb);
 			}
 		},
+
 		watchFiles: function (cb) {
 			if (global.sumanOpts.watch) {
 				require('./lib/watching/add-watcher')(paths, cb);
 			}
+			else if (global.sumanOpts.stop_watching) {
+				require('./lib/watching/stop-watching')(paths, cb);
+			}
 			else {
 				process.nextTick(cb);
 			}
-			
+
 		},
 		conductStaticAnalysisOfFilesForSafety: function (cb) {
 			if (global.sumanOpts.safe) {
@@ -564,7 +583,7 @@ else {
 		},
 		acquireLock: function (cb) {
 			networkLog.createNewTestRun(server, cb);
-		}
+		},
 		
 	}, function complete(err, results) {
 		
@@ -579,7 +598,7 @@ else {
 			return process.exit(0);
 		}
 		
-		if (opts.watch && opts.no_run) {
+		if (opts.stop_watching) {
 			console.log('\n\n\t => Suman message => the ' + colors.magenta('--no-run') + ' option is set, we are done here for now.');
 			console.log('\t To view the options and values that will be used to initiate a Suman test run, use the --verbose or --vverbose options\n\n');
 			return process.exit(0);
@@ -624,7 +643,7 @@ else {
 				paths = [testDestDir];
 			}
 			else {
-				paths = results.transpileFiles;
+				paths = results.transpileFiles.map(item => item.targetPath);
 			}
 			
 		}
