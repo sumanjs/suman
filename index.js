@@ -431,18 +431,14 @@ else if (useBabel) {
 	
 	require('./lib/use-babel/use-babel')(null, function (err, stdout, stderr) {
 		if (err || String(stdout).match(/error/i) || String(stderr).match(/error/i)) {
-			console.log('\n', 'Babel was *not* installed successfully globally.');
+			console.log('\n', colors.bgYellow(' => Error => Babel was *not* installed successfully globally.'));
 			console.log('\n', stdout);
 			console.log('\n', stderr);
 		}
 		else {
-			console.log('\n', 'Babel was installed successfully, globally :)');
-			console.log('\n', 'The following line was added to your .bash_profile file:');
-			console.log(' => "export NODE_PATH=$(npm root -g):$NODE_PATH" ');
-			console.log('This line allows your node.js projects to require dependencies from the global installation location,\n' +
-				'which may be variable if you are using tools like NVM.');
+			console.log('\n', colors.bgGreen.blue('Babel was installed successfully into your local project.'),'\n');
+			console.log('\n', colors.bgGreen.blue(' => To learn about how to use Babel with Suman, visit *.'),'\n');
 		}
-		
 	});
 	
 }
@@ -583,7 +579,7 @@ else {
 		},
 		acquireLock: function (cb) {
 			networkLog.createNewTestRun(server, cb);
-		},
+		}
 		
 	}, function complete(err, results) {
 		
