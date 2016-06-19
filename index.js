@@ -296,6 +296,11 @@ if (sumanConfig.transpile === true && sumanConfig.useBabelRegister === true) {
 
 ///////////////////// HERE WE RECONCILE / MERGE COMMAND LINE OPTS WITH CONFIG ///////////////////////////
 
+
+if('concurrency' in global.sumanOpts){
+	assert(Number(global.sumanOpts.concurrency) > 0, ' => Suman error => --concurrency value should be an integer greater than 0.');
+}
+
 global.maxProcs = global.sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 global.sumanHelperDirRoot = path.resolve(root + '/' + (sumanConfig.sumanHelpersDir || 'suman'));
 global.sumanMatches = _.uniqBy((opts.match || []).concat(sumanConfig.match || []), item => item);
