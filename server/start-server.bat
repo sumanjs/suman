@@ -1,1 +1,0 @@
-start cmd.exe /k "node %~dp0\bin\www.js"

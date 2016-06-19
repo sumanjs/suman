@@ -5,21 +5,11 @@
 
 
 
- ### Suman start run indiv. @Sat Jun 18 2016 21:05:34 GMT-0700 (PDT) ###
+ ### Suman start run indiv. @Sat Jun 18 2016 23:52:31 GMT-0700 (PDT) ###
 
- ### Filename: /Users/Olegzandr/WebstormProjects/burro/test-suman/integration_test.js
+ ### Filename: /Users/Olegzandr/WebstormProjects/suman/test-target/integration-tests/test8.js
 
- ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.1/bin/node","/Users/Olegzandr/.nvm/versions/node/v6.2.1/bin/suman","/Users/Olegzandr/WebstormProjects/burro/test-suman/integration_test.js"]
-
-Error:  => Suman error => Error acquiring IOC deps => 
-Error: The following desired dependency is not in your suman.ioc.js file: "burro"
- => ...your available dependencies are: [ "william" , "should" , "request" , "socketio" , "choodles" , "roodles" , "whoa" , "cherry" ]
-    at deps.forEach.dep (/Users/Olegzandr/WebstormProjects/suman/lib/suman.js:95:23)
-    at Array.forEach (native)
-    at Suman.acquire (/Users/Olegzandr/WebstormProjects/suman/lib/suman.js:66:15)
-    at /Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:184:13
-    at _combinedTickCallback (internal/process/next_tick.js:67:7)
-
+ ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.1/bin/node","/Users/Olegzandr/.nvm/versions/node/v6.2.1/bin/suman","-t","test-target/integration-tests/"]
 
 
 

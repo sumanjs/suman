@@ -13,6 +13,13 @@
   };
 
 
+//////////////////////
+
+On linux you can use taskset to run node with a given CPU affinity.
+See this post for information on using the start command in Windows to do the same.
+
+http://stackoverflow.com/questions/10829974/taskset-equivalent-in-windows
+
 //////////////////
 
 if you run suman in the wrong project, the cwd and the test file argument will be for different projects
