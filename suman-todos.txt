@@ -12,18 +12,40 @@
     }
   };
 
+
+//////////////////
+
+if you run suman in the wrong project, the cwd and the test file argument will be for different projects
+
+cwd /Users/Olegzandr/WebstormProjects/a && suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integration_test.js
+
+ ⚑  => Suman fatal error  => making a graceful exit =>
+        Error:  => Suman error => Error acquiring IOC deps =>
+        Error: The following desired dependency is not in your suman.ioc.js file: "burro"
+         => ...your available dependencies are: [ "william" , "should" , "request" , "socketio" , "choodles" , "roodles" , "whoa" , "cherry" ]
+            at deps.forEach.dep (/Users/Olegzandr/WebstormProjects/suman/lib/suman.js:95:23)
+            at Array.forEach (native)
+            at Suman.acquire (/Users/Olegzandr/WebstormProjects/suman/lib/suman.js:66:15)
+            at /Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:184:13
+            at _combinedTickCallback (internal/process/next_tick.js:67:7)
+
+
+
 /////////////////
 
-use immutable.js
+bump package.json version
+git checkout -b master
+git push origin master
+npm publish
 
-  ////////////////
+///////////////
 
   3 diagrams, 1 for node a.test.js, 1 for suman a.test.js, 1 for suman --runner a.test.js
 
   draw a node green arrow through a test script
 
 
-  ///////////////////
+///////////////////
 
 
   the runner fails to finish for poolio and for burro, not sure why, perhaps add a timeout for each test

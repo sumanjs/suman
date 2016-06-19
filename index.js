@@ -49,6 +49,7 @@ const _ = require('lodash');
 
 //#project
 const constants = require('./config/suman-constants');
+const sumanUtils = require('./lib/utils');
 
 ////////////////////////////////////////////////////////////////////
 
@@ -100,7 +101,6 @@ const cwd = process.cwd();
 ////////////////////////////////////////////////////////////////////
 
 //#project
-const sumanUtils = require('./lib/utils');
 const suman = require('./lib');
 const root = global.projectRoot = sumanUtils.findProjectRoot(cwd);
 const makeNetworkLog = require('./lib/make-network-log');
@@ -166,6 +166,7 @@ const tail = opts.tail;
 //re-assignable
 var register = opts.register;
 var transpile = opts.transpile;
+var originalTranspileOption = opts.transpile;
 var sumanInstalledLocally = null;
 
 if (cwd !== root) {
@@ -296,8 +297,7 @@ if (sumanConfig.transpile === true && sumanConfig.useBabelRegister === true) {
 
 ///////////////////// HERE WE RECONCILE / MERGE COMMAND LINE OPTS WITH CONFIG ///////////////////////////
 
-
-if('concurrency' in global.sumanOpts){
+if ('concurrency' in global.sumanOpts) {
 	assert(Number(global.sumanOpts.concurrency) > 0, ' => Suman error => --concurrency value should be an integer greater than 0.');
 }
 
@@ -315,7 +315,7 @@ else {
 
 	if (!opts.no_transpile && global.sumanConfig.transpile === true) {
 		transpile = opts.transpile = true;
-		if (!opts.sparse && !overridingTranspile) {
+		if (!opts.sparse && !overridingTranspile && !opts.watch) {
 			console.log('\n', colors.bgCyan.black.bold('=> Suman message => transpilation is the default due to ' +
 				'your configuration option => transpile:true'), '\n');
 		}
@@ -441,8 +441,8 @@ else if (useBabel) {
 			console.log('\n', stderr);
 		}
 		else {
-			console.log('\n', colors.bgGreen.blue('Babel was installed successfully into your local project.'),'\n');
-			console.log('\n', colors.bgGreen.blue(' => To learn about how to use Babel with Suman, visit *.'),'\n');
+			console.log('\n', colors.bgGreen.blue('Babel was installed successfully into your local project.'), '\n');
+			console.log('\n', colors.bgGreen.blue(' => To learn about how to use Babel with Suman, visit *.'), '\n');
 		}
 	});
 	
@@ -547,21 +547,6 @@ else {
 
 	async.series({  //used to be async.series
 
-		npmList: function (cb) {
-			// cp.exec('npm list -g', cb);
-			process.nextTick(cb);
-		},
-
-		transpileFiles: function (cb) {
-
-			if (transpile) {
-				require('./lib/transpile/run-transpile')(paths, opts, cb);
-			}
-			else {
-				process.nextTick(cb);
-			}
-		},
-
 		watchFiles: function (cb) {
 			if (global.sumanOpts.watch) {
 				require('./lib/watching/add-watcher')(paths, cb);
@@ -574,18 +559,52 @@ else {
 			}
 
 		},
-		conductStaticAnalysisOfFilesForSafety: function (cb) {
-			if (global.sumanOpts.safe) {
-				cb(new Error('safe option not yet implemented'));
-			}
-			else {
-				process.nextTick(cb);
-			}
-		},
-		acquireLock: function (cb) {
-			networkLog.createNewTestRun(server, cb);
+
+		parallelTasks: function (cb) {
+
+			async.parallel({
+				npmList: function (cb) {
+					cp.exec('npm view suman version', function (err, stdout, stderr) {
+						if (err || String(stdout).match(/error/i) || String(stderr).match(/error/)) {
+							cb(err || stdout || stderr);
+						}
+						else {
+							console.log(' => Newest Suman version in the NPM registry:', stdout);
+							// if (pkgDotJSON) {
+							// 	console.log(' => Locally installed Suman version:', pkgDotJSON.version);
+							// }
+							cb(null);
+						}
+					});
+				},
+
+				transpileFiles: function (cb) {
+
+					if (originalTranspileOption || (!opts.watch && transpile)) {
+						require('./lib/transpile/run-transpile')(paths, opts, cb);
+					}
+					else {
+						process.nextTick(function () {
+							cb(null, []);
+						});
+					}
+				},
+
+				conductStaticAnalysisOfFilesForSafety: function (cb) {
+					if (global.sumanOpts.safe) {
+						cb(new Error('safe option not yet implemented'));
+					}
+					else {
+						process.nextTick(cb);
+					}
+				},
+				acquireLock: function (cb) {
+					networkLog.createNewTestRun(server, cb);
+				}
+
+			}, cb);
 		}
-		
+
 	}, function complete(err, results) {
 		
 		if (err) {
@@ -594,14 +613,20 @@ else {
 		}
 		
 		if (opts.watch) {
-			console.log('\n\n\t => Suman message => the ' + colors.magenta('--watch') + ' option is set, we are done here for now.');
-			console.log('\t To view the options and values that will be used to initiate a Suman test run, use the --verbose or --vverbose options\n\n');
+			console.log('\n\n\t => Suman server running locally now listening for files changes ' +
+				'and will run and/or transpile tests for you as they change.');
+			console.log('\n\n\t => Suman message => the ' + colors.magenta('--watch') + ' option is set, ' +
+				'we are done here for now.');
+			console.log('\t To view the options and values that will be used to initiate a Suman test run, ' +
+				'use the --verbose or --vverbose options\n\n');
 			return process.exit(0);
 		}
 		
 		if (opts.stop_watching) {
-			console.log('\n\n\t => Suman message => the ' + colors.magenta('--no-run') + ' option is set, we are done here for now.');
-			console.log('\t To view the options and values that will be used to initiate a Suman test run, use the --verbose or --vverbose options\n\n');
+			console.log('\n\n\t => Suman message => the ' + colors.magenta('--no-run') + ' option is set, ' +
+				'we are done here for now.');
+			console.log('\t To view the options and values that will be used to initiate a Suman test run, ' +
+				'use the --verbose or --vverbose options\n\n');
 			return process.exit(0);
 		}
 		
@@ -644,7 +669,7 @@ else {
 				paths = [testDestDir];
 			}
 			else {
-				paths = results.transpileFiles.map(item => item.targetPath);
+				paths = results.parallelTasks.transpileFiles.map(item => item.targetPath);
 			}
 			
 		}
@@ -743,7 +768,7 @@ else {
 						const notMatch = global.sumanNotMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 						const files = require('./lib/runner-helpers/get-file-paths')(paths, match, notMatch);
 						global.sumanSingleProcessStartTime = Date.now();
-						require('./lib/run-child-not-runner')(files);
+						require('./lib/run-child-not-runner')(sumanUtils.removeSharedRootPath(files));
 					});
 				});
 			}
@@ -754,7 +779,7 @@ else {
 				d.run(function () {
 					process.nextTick(function () {
 						changeCWDToRootOrTestDir(paths[0]);
-						require('./lib/run-child-not-runner')(paths[0]);
+						require('./lib/run-child-not-runner')(paths);
 					});
 				});
 			}
