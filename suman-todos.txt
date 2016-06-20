@@ -12,6 +12,17 @@
     }
   };
 
+////////////
+
+suman --init: if suman is already installed locally, and version is not too old, don't reinstall
+
+/////////
+
+suman-server should be a separate install
+
+///////////
+
+https://github.com/avajs/ava/pull/402
 /////////////////
 
 use immutable.js
