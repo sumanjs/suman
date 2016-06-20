@@ -26,7 +26,7 @@ const requirejs = require('gulp-requirejs');
 
 
 //args & env
-const argv = process.env.argv;
+const argv = JSON.parse(JSON.stringify(process.argv));
 const $node_env = process.env.NODE_ENV;
 
 //you should be able to run your tests with gulp, instead of npm run blah
@@ -207,10 +207,5 @@ gulp.task('nodemon', ['convert'], function () {
 
 });
 
-
-
-module.exports = {
-    transpileTests: transpileTests
-};
 
 
