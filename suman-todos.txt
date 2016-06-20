@@ -13,6 +13,11 @@
   };
 
 
+//////////
+
+sqlite = https://www.youtube.com/watch?v=P3C0iO1yqhk
+
+
 ////////////
 
 suman --init: if suman is already installed locally, and version is not too old, don't reinstall
@@ -32,6 +37,8 @@ On linux you can use taskset to run node with a given CPU affinity.
 See this post for information on using the start command in Windows to do the same.
 
 http://stackoverflow.com/questions/10829974/taskset-equivalent-in-windows
+
+http://superuser.com/questions/149312/how-to-set-processor-affinity-on-os-x
 
 //////////////////
 
