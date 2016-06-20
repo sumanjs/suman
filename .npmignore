@@ -1,8 +1,8 @@
-/.idea/
-/node_modules/
-/bower_components/
-/internal-docs/
-/file-examples/
+.idea
+node_modules
+bower_components
+internal-docs
+file-examples
 bugs
 coverage
 docs
@@ -16,5 +16,5 @@ test-target
 benchmark-tests
 .nyc_output
 jsdoc-notes.txt
-/suman_old/
+suman_old
 

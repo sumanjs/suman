@@ -12,6 +12,7 @@
     }
   };
 
+
 ////////////
 
 suman --init: if suman is already installed locally, and version is not too old, don't reinstall
@@ -23,18 +24,48 @@ suman-server should be a separate install
 ///////////
 
 https://github.com/avajs/ava/pull/402
+=======
+
+//////////////////////
+
+On linux you can use taskset to run node with a given CPU affinity.
+See this post for information on using the start command in Windows to do the same.
+
+http://stackoverflow.com/questions/10829974/taskset-equivalent-in-windows
+
+//////////////////
+
+if you run suman in the wrong project, the cwd and the test file argument will be for different projects
+
+cwd /Users/Olegzandr/WebstormProjects/a && suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integration_test.js
+
+ ⚑  => Suman fatal error  => making a graceful exit =>
+        Error:  => Suman error => Error acquiring IOC deps =>
+        Error: The following desired dependency is not in your suman.ioc.js file: "burro"
+         => ...your available dependencies are: [ "william" , "should" , "request" , "socketio" , "choodles" , "roodles" , "whoa" , "cherry" ]
+            at deps.forEach.dep (/Users/Olegzandr/WebstormProjects/suman/lib/suman.js:95:23)
+            at Array.forEach (native)
+            at Suman.acquire (/Users/Olegzandr/WebstormProjects/suman/lib/suman.js:66:15)
+            at /Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:184:13
+            at _combinedTickCallback (internal/process/next_tick.js:67:7)
+
+
 /////////////////
 
-use immutable.js
+bump package.json version
+git checkout -b master
+git push origin master
+npm publish
 
-////////////////
+///////////////
+
 
   3 diagrams, 1 for node a.test.js, 1 for suman a.test.js, 1 for suman --runner a.test.js
 
   draw a node green arrow through a test script
 
 
-  ///////////////////
+///////////////////
 
 
   the runner fails to finish for poolio and for burro, not sure why, perhaps add a timeout for each test
@@ -57,6 +88,19 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
   `vagrant up --provider=PROVIDER`, which should give you a more specific
   error message for that particular provider.
   ///////////////////////////////
+
+
+//passed in a number into desc
+Error: desc is not a string
+    at handleExtraOpts (/Users/Olegzandr/WebstormProjects/suman/lib/handle-extra-opts.js:67:54)
+    at Function.it.cb (/Users/Olegzandr/WebstormProjects/suman/lib/TestSuite.js:432:57)
+    at data.forEach (/Users/Olegzandr/WebstormProjects/poolio/test-target/test-hook-params.js:55:17)
+    at Array.forEach (native)
+    at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/poolio/test-target/test-hook-params.js:54:10)
+    at /Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:292:11
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+
 
 
 //TODO: provide a way to not install suman globally

@@ -1,7 +1,3 @@
-/*
- * created by Olegzandr Denman
- *
- * */
 
 
 var suman = require('../../lib');
