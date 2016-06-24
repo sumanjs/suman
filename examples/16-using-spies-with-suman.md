@@ -1,0 +1,1 @@
+Using spies with Suman, like Sinon, etc.
