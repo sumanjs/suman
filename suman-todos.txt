@@ -12,6 +12,12 @@
     }
   };
 
+////////////////////
+
+// when running "$ gulp x" in the wrong directory
+[12:47:13] Local gulp not found in ~/WebstormProjects/moover
+[12:47:13] Try running: npm install gulp
+
 
 //////////////////////
 
