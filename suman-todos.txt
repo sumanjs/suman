@@ -19,12 +19,32 @@
 [12:47:13] Try running: npm install gulp
 
 
+//////////
+
+sqlite = https://www.youtube.com/watch?v=P3C0iO1yqhk
+
+
+////////////
+
+suman --init: if suman is already installed locally, and version is not too old, don't reinstall
+
+/////////
+
+suman-server should be a separate install
+
+///////////
+
+https://github.com/avajs/ava/pull/402
+=======
+
 //////////////////////
 
 On linux you can use taskset to run node with a given CPU affinity.
 See this post for information on using the start command in Windows to do the same.
 
 http://stackoverflow.com/questions/10829974/taskset-equivalent-in-windows
+
+http://superuser.com/questions/149312/how-to-set-processor-affinity-on-os-x
 
 //////////////////
 
@@ -43,7 +63,6 @@ cwd /Users/Olegzandr/WebstormProjects/a && suman /Users/Olegzandr/WebstormProjec
             at _combinedTickCallback (internal/process/next_tick.js:67:7)
 
 
-
 /////////////////
 
 bump package.json version
@@ -52,6 +71,7 @@ git push origin master
 npm publish
 
 ///////////////
+
 
   3 diagrams, 1 for node a.test.js, 1 for suman a.test.js, 1 for suman --runner a.test.js
 
