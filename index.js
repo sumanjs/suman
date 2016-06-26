@@ -38,6 +38,7 @@ const cp = require('child_process');
 const vm = require('vm');
 const assert = require('assert');
 const EE = require('events');
+const util = require('util');
 
 //#npm
 const semver = require('semver');
@@ -102,7 +103,7 @@ const cwd = process.cwd();
 
 //#project
 const suman = require('./lib');
-const root = global.projectRoot = sumanUtils.findProjectRoot(cwd);
+const root = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = sumanUtils.findProjectRoot(cwd);
 const makeNetworkLog = require('./lib/make-network-log');
 const findSumanServer = require('./lib/find-suman-server');
 
@@ -168,6 +169,9 @@ var register = opts.register;
 var transpile = opts.transpile;
 var originalTranspileOption = opts.transpile;
 var sumanInstalledLocally = null;
+var sumanInstalledAtAll = null;
+var sumanServerInstalled = null;
+var err3;
 
 if (cwd !== root) {
 	if (!opts.vsparse) {
@@ -182,16 +186,16 @@ else {
 }
 
 if (!init) {
-	var err;
+	var err1, err2;
 	
 	try {
 		require.resolve(root + '/node_modules/suman');
 		sumanInstalledLocally = true;
 	} catch (e) {
-		err = e;
+		err1 = e;
 	}
 	finally {
-		if (err) {
+		if (err1) {
 			sumanInstalledLocally = false;
 			if (!opts.sparse) {
 				console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
@@ -203,6 +207,39 @@ if (!init) {
 			}
 		}
 	}
+
+	try {
+		require.resolve('suman');
+		sumanInstalledAtAll = true;
+	} catch (e) {
+		err1 = e;
+	}
+	finally {
+		if (err1) {
+			sumanInstalledAtAll = false;
+			if (!opts.sparse || true) {
+				console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed at all, you may wish to run "$ suman --init"'));
+			}
+		}
+		else {
+			if (opts.verbose) {  //only if user asks for verbose option
+				console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
+			}
+		}
+	}
+
+	try {
+		require.resolve('suman-server');
+		sumanServerInstalled = true;
+	}
+	catch (err) {
+		err3 = err;
+		sumanServerInstalled = false;
+		if (!opts.sparse) {
+			console.log(' ' + colors.yellow('=> Suman message => note that Suman server is not installed.'));
+		}
+	}
+
 }
 
 if (opts.version) {
@@ -422,10 +459,14 @@ if (opts.verbose) {
 /////////////////// assign vals from config ////////////////////////////////////////////////
 
 //TODO possibly reconcile these with cmd line options
-const testDir = global._sTestDir = path.resolve(root + '/' + (global.sumanConfig.testDir || 'test'));
-const testSrcDir = global._sTestSrcDir = path.resolve(root + '/' + global.sumanConfig.testSrcDir);
-const testDestDir = global._sTestDestDir = path.resolve(root + '/' + global.sumanConfig.testDestDir);
-const testDirCopyDir = global._sTestDirCopyDir = path.resolve(root + '/' + (global.sumanConfig.testDirCopyDir || 'test-target'));
+const testDir = process.env.TEST_DIR = path.resolve(root + '/' + (global.sumanConfig.testDir || 'test'));
+const testSrcDir = process.env.TEST_SRC_DIR = path.resolve(root + '/' + global.sumanConfig.testSrcDir);
+const testDestDir = process.env.TEST_DEST_DIR = path.resolve(root + '/' + global.sumanConfig.testDestDir);
+const testDirCopyDir = process.env.TEST_DIR_COPY_DIR = path.resolve(root + '/' + (global.sumanConfig.testDirCopyDir || 'test-target'));
+
+if(process.env.SUMAN_DEBUG === 'yes'){
+	// console.log(' SUMAN_DEBUG message => process.env =', util.inspect(process.env));
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -492,7 +533,11 @@ else if (convert) {
 	});
 	
 } else if (s) {
-	
+
+	if (!sumanServerInstalled) {
+		throw new Error(' => Suman server is not installed yet => Please use "$ suman --use-server" in your local project ' + err3.stack);
+	}
+
 	suman.Server({
 		//configPath: 'suman.conf.js',
 		config: sumanConfig,
@@ -527,7 +572,7 @@ else {
 	function checkStatsIsFile(item) {
 
 		if (process.env.SUMAN_DEBUG === 'yes') {
-			console.log(' => SUMAN_DEBUG => checking if ', item, 'is a file.');
+			console.log(' => SUMAN_DEBUG => checking if "' + item + '" is a file.');
 		}
 
 		try {
@@ -547,8 +592,29 @@ else {
 
 	async.series({  //used to be async.series
 
+		installSumanServer: function (cb) {
+			if (opts.use_server) {
+				cp.exec('npm install --save suman-server', function (err) {
+					if (err) {
+						err.stack = ' => To fix this error, please run "$ npm install --save suman-server" in your local project ' +
+							'with the correct permissions\n' + err.stack;
+					}
+					cb(err);
+				});
+			}
+			else {
+				process.nextTick(cb);
+			}
+		},
+
 		watchFiles: function (cb) {
-			if (global.sumanOpts.watch) {
+
+			if (!sumanServerInstalled) {
+				process.nextTick(function () {
+					cb(new Error(' => Suman server is not installed yet => Please use "$ suman --use-server" in your local project ' + err3.stack));
+				});
+			}
+			else if (global.sumanOpts.watch) {
 				require('./lib/watching/add-watcher')(paths, cb);
 			}
 			else if (global.sumanOpts.stop_watching) {

@@ -26,7 +26,7 @@ function createIOCArgs() {
 
 
 Test.describe('gggg', {parallel: false},
-    function (http, assert, delay, fs, child_process, socketio, suite, whoa, cherry, https) {
+    function (http, assert, delay, fs, child_process, socket_io_client, suite, whoa, cherry, https) {
 
 
     setTimeout(function () {

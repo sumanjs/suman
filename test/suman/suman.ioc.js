@@ -18,8 +18,8 @@ module.exports = () => {  //load async deps for any of your suman tests
         'request': function () {
             return require('request');  //this is not very useful, but below we can see useful asynchronous loading of deps
         },
-        'socketio': function () {
-            return require('socket.io');
+        'socket_io_client': function () {
+            return require('socket.io-client');
         },
         'choodles': function (data, cb) {
 
