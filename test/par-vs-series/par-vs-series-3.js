@@ -1,10 +1,12 @@
 
 
 const suman = require('suman');
-const Test = suman.init(module, {});
+const Test = suman.init(module, {
+
+});
 
 
-Test.describe('3', {parallel: false}, function () {
+Test.describe('3', {parallel: true}, function () {
 
 
     this.it.cb('one', t => {

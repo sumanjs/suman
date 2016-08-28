@@ -1,0 +1,773 @@
+
+
+### Suman runner start ###
+
+Beginning of run at 1472339505777 = [Sat Aug 27 2016 16:11:45 GMT-0700 (PDT)]
+Command issued from the following directory "/Users/Olegzandr/WebstormProjects/oresoftware/suman"
+Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node","/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/suman","-r"]
+
+
+[ava/ava-ex.js] Error: Cannot find module 'ava'
+[ava/ava-ex.js]     at Function.Module._resolveFilename (module.js:440:15)
+[ava/ava-ex.js]     at Function.Module._load (module.js:388:25)
+[ava/ava-ex.js]     at Module.require (module.js:468:17)
+[ava/ava-ex.js]     at require (internal/module.js:20:19)
+[ava/ava-ex.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava/ava-ex.js:6:14)
+[ava/ava-ex.js]     at Module._compile (module.js:541:32)
+[ava/ava-ex.js]     at Object.Module._extensions..js (module.js:550:10)
+[ava/ava-ex.js]     at Module.load (module.js:458:32)
+[ava/ava-ex.js]     at tryModuleLoad (module.js:417:12)
+[ava/ava-ex.js]     at Function.Module._load (module.js:409:3)
+[ava/ava-ex.js] 
+
+[ava/ava-probs.js] Error: Cannot find module 'ava'
+[ava/ava-probs.js]     at Function.Module._resolveFilename (module.js:440:15)
+[ava/ava-probs.js]     at Function.Module._load (module.js:388:25)
+[ava/ava-probs.js]     at Module.require (module.js:468:17)
+[ava/ava-probs.js]     at require (internal/module.js:20:19)
+[ava/ava-probs.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava/ava-probs.js:3:14)
+[ava/ava-probs.js]     at Module._compile (module.js:541:32)
+[ava/ava-probs.js]     at Object.Module._extensions..js (module.js:550:10)
+[ava/ava-probs.js]     at Module.load (module.js:458:32)
+[ava/ava-probs.js]     at tryModuleLoad (module.js:417:12)
+[ava/ava-probs.js]     at Function.Module._load (module.js:409:3)
+[ava/ava-probs.js] 
+
+[ava/await.js] /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava/await.js:11
+[ava/await.js]     this.before(async function() {
+[ava/await.js]                 ^^^^^
+[ava/await.js] SyntaxError: missing ) after argument list
+[ava/await.js]     at Object.exports.runInThisContext (vm.js:53:16)
+[ava/await.js]     at Module._compile (module.js:513:28)
+[ava/await.js]     at Object.Module._extensions..js (module.js:550:10)
+[ava/await.js]     at Module.load (module.js:458:32)
+[ava/await.js]     at tryModuleLoad (module.js:417:12)
+[ava/await.js]     at Function.Module._load (module.js:409:3)
+[ava/await.js]     at Module.require (module.js:468:17)
+[ava/await.js]     at require (internal/module.js:20:19)
+[ava/await.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/run-child.js:94:13
+[ava/await.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[ava/await.js] 
+
+[benchmark-tests/one.js] Error: Cannot find module '../lib'
+[benchmark-tests/one.js]     at Function.Module._resolveFilename (module.js:440:15)
+[benchmark-tests/one.js]     at Function.Module._load (module.js:388:25)
+[benchmark-tests/one.js]     at Module.require (module.js:468:17)
+[benchmark-tests/one.js]     at require (internal/module.js:20:19)
+[benchmark-tests/one.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/benchmark-tests/one.js:9:15)
+[benchmark-tests/one.js]     at Module._compile (module.js:541:32)
+[benchmark-tests/one.js]     at Object.Module._extensions..js (module.js:550:10)
+[benchmark-tests/one.js]     at Module.load (module.js:458:32)
+[benchmark-tests/one.js]     at tryModuleLoad (module.js:417:12)
+[benchmark-tests/one.js]     at Function.Module._load (module.js:409:3)
+[benchmark-tests/one.js] 
+
+[integration-tests/test7.js] /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js:6
+[integration-tests/test7.js] import * as suman from '../../lib';
+[integration-tests/test7.js] ^^^^^^
+[integration-tests/test7.js] SyntaxError: Unexpected token import
+[integration-tests/test7.js]     at Object.exports.runInThisContext (vm.js:53:16)
+[integration-tests/test7.js]     at Module._compile (module.js:513:28)
+[integration-tests/test7.js]     at Object.Module._extensions..js (module.js:550:10)
+[integration-tests/test7.js]     at Module.load (module.js:458:32)
+[integration-tests/test7.js]     at tryModuleLoad (module.js:417:12)
+[integration-tests/test7.js]     at Function.Module._load (module.js:409:3)
+[integration-tests/test7.js]     at Module.require (module.js:468:17)
+[integration-tests/test7.js]     at require (internal/module.js:20:19)
+[integration-tests/test7.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/run-child.js:94:13
+[integration-tests/test7.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[integration-tests/test7.js] 
+
+[integration-tests/test8.js] /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js:6
+[integration-tests/test8.js] import * as suman from '../../lib';
+[integration-tests/test8.js] ^^^^^^
+[integration-tests/test8.js] SyntaxError: Unexpected token import
+[integration-tests/test8.js]     at Object.exports.runInThisContext (vm.js:53:16)
+[integration-tests/test8.js]     at Module._compile (module.js:513:28)
+[integration-tests/test8.js]     at Object.Module._extensions..js (module.js:550:10)
+[integration-tests/test8.js]     at Module.load (module.js:458:32)
+[integration-tests/test8.js]     at tryModuleLoad (module.js:417:12)
+[integration-tests/test8.js]     at Function.Module._load (module.js:409:3)
+[integration-tests/test8.js]     at Module.require (module.js:468:17)
+[integration-tests/test8.js]     at require (internal/module.js:20:19)
+[integration-tests/test8.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/run-child.js:94:13
+[integration-tests/test8.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[integration-tests/test8.js] 
+
+[mocha-conversion-tests/src/mocha-test0.js] ReferenceError: describe is not defined
+[mocha-conversion-tests/src/mocha-test0.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/mocha-test0.js:4:1)
+[mocha-conversion-tests/src/mocha-test0.js]     at Module._compile (module.js:541:32)
+[mocha-conversion-tests/src/mocha-test0.js]     at Object.Module._extensions..js (module.js:550:10)
+[mocha-conversion-tests/src/mocha-test0.js]     at Module.load (module.js:458:32)
+[mocha-conversion-tests/src/mocha-test0.js]     at tryModuleLoad (module.js:417:12)
+[mocha-conversion-tests/src/mocha-test0.js]     at Function.Module._load (module.js:409:3)
+[mocha-conversion-tests/src/mocha-test0.js]     at Module.require (module.js:468:17)
+[mocha-conversion-tests/src/mocha-test0.js]     at require (internal/module.js:20:19)
+[mocha-conversion-tests/src/mocha-test0.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/run-child.js:94:13
+[mocha-conversion-tests/src/mocha-test0.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[mocha-conversion-tests/src/mocha-test0.js] 
+
+[integration-tests/test2.js]  => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
+[integration-tests/test2.js] 	TypeError: Cannot assign to read only property 'done' of function 'function done(err) {
+[integration-tests/test2.js] 	                    if (!t.callbackMode) {
+[integration-tests/test2.js] 	                        handleNonCallbackMode(e...<omitted>... }'
+[integration-tests/test2.js] 	    at TestSuiteBase.before.cb.t (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js:23:24)
+[integration-tests/test2.js] 	    at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/make-handle-befores-afters.js:154:43
+[integration-tests/test2.js] 	    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[integration-tests/test2.js] 	    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+
+[integration-tests/test2.js] 
+[integration-tests/test2.js] 
+[integration-tests/test2.js] Test error: does 1
+[integration-tests/test2.js] 	stack: Error: blind
+[integration-tests/test2.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js:28:23)
+[integration-tests/test2.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:198:56
+[integration-tests/test2.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[integration-tests/test2.js]     at Immediate._tickDomainCallback [as _onImmediate] (internal/process/next_tick.js:122:9)
+[integration-tests/test2.js]     at tryOnImmediate (timers.js:543:15)
+[integration-tests/test2.js]     at processImmediate [as _immediateCallback] (timers.js:523:5)
+[integration-tests/test2.js] 
+[integration-tests/test2.js] 
+
+[integration-tests/test5.js] Error:  => Suman error => Error acquiring IOC deps => 
+[integration-tests/test5.js] Error: The following desired dependency is not in your suman.ioc.js file: "socketio"
+[integration-tests/test5.js]  => ...your available dependencies are: [ "william" , "should" , "request" , "socket_io_client" , "choodles" , "roodles" , "whoa" , "cherry" ]
+[integration-tests/test5.js]     at deps.forEach.dep (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/suman.js:95:23)
+[integration-tests/test5.js]     at Array.forEach (native)
+[integration-tests/test5.js]     at Suman.acquire (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/suman.js:66:15)
+[integration-tests/test5.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/exec-suite.js:184:13
+[integration-tests/test5.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[integration-tests/test5.js] Error:  => Suman error => Error acquiring IOC deps => 
+[integration-tests/test5.js] Error: The following desired dependency is not in your suman.ioc.js file: "socketio"
+[integration-tests/test5.js]  => ...your available dependencies are: [ "william" , "should" , "request" , "socket_io_client" , "choodles" , "roodles" , "whoa" , "cherry" ]
+[integration-tests/test5.js]     at deps.forEach.dep (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/suman.js:95:23)
+[integration-tests/test5.js]     at Array.forEach (native)
+[integration-tests/test5.js]     at Suman.acquire (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/suman.js:66:15)
+[integration-tests/test5.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/exec-suite.js:184:13
+[integration-tests/test5.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[integration-tests/test5.js] 
+[integration-tests/test5.js] 
+[integration-tests/test5.js]  ### Suman end run ### 
+[integration-tests/test5.js] 
+[integration-tests/test5.js] 
+[integration-tests/test5.js] 
+[integration-tests/test5.js] 
+
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+[ava-test/file1.js] Test error: A
+[ava-test/file1.js] 	stack: Error: 123
+[ava-test/file1.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava-test/file1.js:13:23
+[ava-test/file1.js]     at FSReqWrap.cb [as oncomplete] (fs.js:251:19)
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+
+[ava/f.js] 
+[ava/f.js] 
+[ava/f.js] Test error: a
+[ava/f.js] 	stack: AssertionError: false == true
+[ava/f.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava/f.js:14:4
+[ava/f.js]     at FSReqWrap.cb [as oncomplete] (fs.js:251:19)
+[ava/f.js] 
+[ava/f.js] 
+
+[build-tests/recursion-check/test8.js] 
+[build-tests/recursion-check/test8.js] 
+[build-tests/recursion-check/test8.js]  ### Suman end run ### 
+[build-tests/recursion-check/test8.js] 
+[build-tests/recursion-check/test8.js] 
+[build-tests/recursion-check/test8.js] 
+[build-tests/recursion-check/test8.js] 
+
+[integration-tests/test6.js] Error:  => Suman error => Error acquiring IOC deps => 
+[integration-tests/test6.js] Error: The following desired dependency is not in your suman.ioc.js file: "socketio"
+[integration-tests/test6.js]  => ...your available dependencies are: [ "william" , "should" , "request" , "socket_io_client" , "choodles" , "roodles" , "whoa" , "cherry" ]
+[integration-tests/test6.js]     at deps.forEach.dep (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/suman.js:95:23)
+[integration-tests/test6.js]     at Array.forEach (native)
+[integration-tests/test6.js]     at Suman.acquire (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/suman.js:66:15)
+[integration-tests/test6.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/exec-suite.js:184:13
+[integration-tests/test6.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[integration-tests/test6.js] Error:  => Suman error => Error acquiring IOC deps => 
+[integration-tests/test6.js] Error: The following desired dependency is not in your suman.ioc.js file: "socketio"
+[integration-tests/test6.js]  => ...your available dependencies are: [ "william" , "should" , "request" , "socket_io_client" , "choodles" , "roodles" , "whoa" , "cherry" ]
+[integration-tests/test6.js]     at deps.forEach.dep (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/suman.js:95:23)
+[integration-tests/test6.js]     at Array.forEach (native)
+[integration-tests/test6.js]     at Suman.acquire (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/suman.js:66:15)
+[integration-tests/test6.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/exec-suite.js:184:13
+[integration-tests/test6.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[integration-tests/test6.js] 
+[integration-tests/test6.js] 
+[integration-tests/test6.js]  ### Suman end run ### 
+[integration-tests/test6.js] 
+[integration-tests/test6.js] 
+[integration-tests/test6.js] 
+[integration-tests/test6.js] 
+
+[integration-tests/test2.js] 
+[integration-tests/test2.js] 
+[integration-tests/test2.js]  ### Suman end run ### 
+[integration-tests/test2.js] 
+[integration-tests/test2.js] 
+[integration-tests/test2.js] 
+[integration-tests/test2.js] 
+
+[integration-tests/test3.js] 
+[integration-tests/test3.js] 
+[integration-tests/test3.js]  ### Suman end run ### 
+[integration-tests/test3.js] 
+[integration-tests/test3.js] 
+[integration-tests/test3.js] 
+[integration-tests/test3.js] 
+
+[build-tests/recursion-check/recursion-check2/test9.js] 
+[build-tests/recursion-check/recursion-check2/test9.js] 
+[build-tests/recursion-check/recursion-check2/test9.js]  ### Suman end run ### 
+[build-tests/recursion-check/recursion-check2/test9.js] 
+[build-tests/recursion-check/recursion-check2/test9.js] 
+[build-tests/recursion-check/recursion-check2/test9.js] 
+[build-tests/recursion-check/recursion-check2/test9.js] 
+
+[integration-tests/test1.js] 
+[integration-tests/test1.js] 
+[integration-tests/test1.js]  ### Suman end run ### 
+[integration-tests/test1.js] 
+[integration-tests/test1.js] 
+[integration-tests/test1.js] 
+[integration-tests/test1.js] 
+
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+[ava-test/file1.js] Test error: B
+[ava-test/file1.js] 	stack: Error: 123
+[ava-test/file1.js]     at Timeout._onTimeout (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava-test/file1.js:22:23)
+[ava-test/file1.js]     at tryOnTimeout (timers.js:224:11)
+[ava-test/file1.js]     at Timer.listOnTimeout (timers.js:198:5)
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+[ava-test/file1.js] Test error: C
+[ava-test/file1.js] 	stack: Error: 456
+[ava-test/file1.js]     at Immediate._onImmediate (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava-test/file1.js:31:23)
+[ava-test/file1.js]     at tryOnImmediate (timers.js:543:15)
+[ava-test/file1.js]     at processImmediate [as _immediateCallback] (timers.js:523:5)
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+[ava-test/file1.js] Test error: D
+[ava-test/file1.js] 	stack: Error: 789
+[ava-test/file1.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava-test/file1.js:40:23
+[ava-test/file1.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[ava-test/file1.js]     at Immediate._tickDomainCallback [as _onImmediate] (internal/process/next_tick.js:122:9)
+[ava-test/file1.js]     at tryOnImmediate (timers.js:543:15)
+[ava-test/file1.js]     at processImmediate [as _immediateCallback] (timers.js:523:5)
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+
+[ava/f.js] 
+[ava/f.js] 
+[ava/f.js] Test error: b
+[ava/f.js] 	stack: AssertionError: false == true
+[ava/f.js]     at Timeout._onTimeout (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava/f.js:23:5)
+[ava/f.js]     at tryOnTimeout (timers.js:224:11)
+[ava/f.js]     at Timer.listOnTimeout (timers.js:198:5)
+[ava/f.js] 
+[ava/f.js] 
+[ava/f.js] 
+[ava/f.js] Test error: c
+[ava/f.js] 	stack: AssertionError: false == true
+[ava/f.js]     at Immediate._onImmediate (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava/f.js:32:5)
+[ava/f.js]     at tryOnImmediate (timers.js:543:15)
+[ava/f.js]     at processImmediate [as _immediateCallback] (timers.js:523:5)
+[ava/f.js] 
+[ava/f.js] 
+[ava/f.js] 
+[ava/f.js] Test error: d
+[ava/f.js] 	stack: AssertionError: false == true
+[ava/f.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/ava/f.js:41:5
+[ava/f.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[ava/f.js]     at Immediate._tickDomainCallback [as _onImmediate] (internal/process/next_tick.js:122:9)
+[ava/f.js]     at tryOnImmediate (timers.js:543:15)
+[ava/f.js]     at processImmediate [as _immediateCallback] (timers.js:523:5)
+[ava/f.js] 
+[ava/f.js] 
+
+[mocha-conversion-tests/src/mocha-test1.js] ReferenceError: describe is not defined
+[mocha-conversion-tests/src/mocha-test1.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/mocha-test1.js:9:1)
+[mocha-conversion-tests/src/mocha-test1.js]     at Module._compile (module.js:541:32)
+[mocha-conversion-tests/src/mocha-test1.js]     at Object.Module._extensions..js (module.js:550:10)
+[mocha-conversion-tests/src/mocha-test1.js]     at Module.load (module.js:458:32)
+[mocha-conversion-tests/src/mocha-test1.js]     at tryModuleLoad (module.js:417:12)
+[mocha-conversion-tests/src/mocha-test1.js]     at Function.Module._load (module.js:409:3)
+[mocha-conversion-tests/src/mocha-test1.js]     at Module.require (module.js:468:17)
+[mocha-conversion-tests/src/mocha-test1.js]     at require (internal/module.js:20:19)
+[mocha-conversion-tests/src/mocha-test1.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/run-child.js:94:13
+[mocha-conversion-tests/src/mocha-test1.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[mocha-conversion-tests/src/mocha-test1.js] 
+
+[mocha-conversion-tests/dest/mocha-test0.js] 
+[mocha-conversion-tests/dest/mocha-test0.js] 
+[mocha-conversion-tests/dest/mocha-test0.js] Test error: a
+[mocha-conversion-tests/dest/mocha-test0.js] 	stack: AssertionError: false == true
+[mocha-conversion-tests/dest/mocha-test0.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/mocha-test0.js:53:13)
+[mocha-conversion-tests/dest/mocha-test0.js]     at Function.handle [as handleAssertions] (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:99:32)
+[mocha-conversion-tests/dest/mocha-test0.js]     at TestSuiteBase.it.cb.t (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/mocha-test0.js:52:11)
+[mocha-conversion-tests/dest/mocha-test0.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:192:37
+[mocha-conversion-tests/dest/mocha-test0.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[mocha-conversion-tests/dest/mocha-test0.js]     at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+[mocha-conversion-tests/dest/mocha-test0.js] 
+[mocha-conversion-tests/dest/mocha-test0.js] Warning: the following test callback was invoked twice by your code for the following test/hook => a
+
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+[ava-test/file1.js]  ### Suman end run ### 
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+[ava-test/file1.js] 
+
+[ava/f.js] 
+[ava/f.js] 
+[ava/f.js]  ### Suman end run ### 
+[ava/f.js] 
+[ava/f.js] 
+[ava/f.js] 
+[ava/f.js] 
+
+[mocha-conversion-tests/dest/mocha-test0.js] 
+[mocha-conversion-tests/dest/mocha-test0.js] 
+[mocha-conversion-tests/dest/mocha-test0.js]  ### Suman end run ### 
+[mocha-conversion-tests/dest/mocha-test0.js] 
+[mocha-conversion-tests/dest/mocha-test0.js] 
+[mocha-conversion-tests/dest/mocha-test0.js] 
+[mocha-conversion-tests/dest/mocha-test0.js] 
+
+[mocha-conversion-tests/src/mocha-test3.js] ReferenceError: describe is not defined
+[mocha-conversion-tests/src/mocha-test3.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/mocha-test3.js:12:1)
+[mocha-conversion-tests/src/mocha-test3.js]     at Module._compile (module.js:541:32)
+[mocha-conversion-tests/src/mocha-test3.js]     at Object.Module._extensions..js (module.js:550:10)
+[mocha-conversion-tests/src/mocha-test3.js]     at Module.load (module.js:458:32)
+[mocha-conversion-tests/src/mocha-test3.js]     at tryModuleLoad (module.js:417:12)
+[mocha-conversion-tests/src/mocha-test3.js]     at Function.Module._load (module.js:409:3)
+[mocha-conversion-tests/src/mocha-test3.js]     at Module.require (module.js:468:17)
+[mocha-conversion-tests/src/mocha-test3.js]     at require (internal/module.js:20:19)
+[mocha-conversion-tests/src/mocha-test3.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/run-child.js:94:13
+[mocha-conversion-tests/src/mocha-test3.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[mocha-conversion-tests/src/mocha-test3.js] 
+
+[mocha-conversion-tests/src/n/mocha-test0.js] ReferenceError: describe is not defined
+[mocha-conversion-tests/src/n/mocha-test0.js]     at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/n/mocha-test0.js:9:1)
+[mocha-conversion-tests/src/n/mocha-test0.js]     at Module._compile (module.js:541:32)
+[mocha-conversion-tests/src/n/mocha-test0.js]     at Object.Module._extensions..js (module.js:550:10)
+[mocha-conversion-tests/src/n/mocha-test0.js]     at Module.load (module.js:458:32)
+[mocha-conversion-tests/src/n/mocha-test0.js]     at tryModuleLoad (module.js:417:12)
+[mocha-conversion-tests/src/n/mocha-test0.js]     at Function.Module._load (module.js:409:3)
+[mocha-conversion-tests/src/n/mocha-test0.js]     at Module.require (module.js:468:17)
+[mocha-conversion-tests/src/n/mocha-test0.js]     at require (internal/module.js:20:19)
+[mocha-conversion-tests/src/n/mocha-test0.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/run-child.js:94:13
+[mocha-conversion-tests/src/n/mocha-test0.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[mocha-conversion-tests/src/n/mocha-test0.js] 
+
+[build-tests/test6.test.js] 
+[build-tests/test6.test.js] 
+[build-tests/test6.test.js]  ### Suman end run ### 
+[build-tests/test6.test.js] 
+[build-tests/test6.test.js] 
+[build-tests/test6.test.js] 
+[build-tests/test6.test.js] 
+
+[build-tests/tes-t7-start.test.js] 
+[build-tests/tes-t7-start.test.js] 
+[build-tests/tes-t7-start.test.js]  ### Suman end run ### 
+[build-tests/tes-t7-start.test.js] 
+[build-tests/tes-t7-start.test.js] 
+[build-tests/tes-t7-start.test.js] 
+[build-tests/tes-t7-start.test.js] 
+
+[build-tests/tes-t7.js] 
+[build-tests/tes-t7.js] 
+[build-tests/tes-t7.js]  ### Suman end run ### 
+[build-tests/tes-t7.js] 
+[build-tests/tes-t7.js] 
+[build-tests/tes-t7.js] 
+[build-tests/tes-t7.js] 
+
+[build-tests/empty.test.js] 
+[build-tests/empty.test.js] 
+[build-tests/empty.test.js]  ### Suman end run ### 
+[build-tests/empty.test.js] 
+[build-tests/empty.test.js] 
+[build-tests/empty.test.js] 
+[build-tests/empty.test.js] 
+
+[mocha-conversion-tests/dest/mocha-test1.js] 
+[mocha-conversion-tests/dest/mocha-test1.js] 
+[mocha-conversion-tests/dest/mocha-test1.js]  ### Suman end run ### 
+[mocha-conversion-tests/dest/mocha-test1.js] 
+[mocha-conversion-tests/dest/mocha-test1.js] 
+[mocha-conversion-tests/dest/mocha-test1.js] 
+[mocha-conversion-tests/dest/mocha-test1.js] 
+
+[integration-tests/test4.js] 
+[integration-tests/test4.js] 
+[integration-tests/test4.js]  ### Suman end run ### 
+[integration-tests/test4.js] 
+[integration-tests/test4.js] 
+[integration-tests/test4.js] 
+[integration-tests/test4.js] 
+
+[mocha-conversion-tests/dest/mocha-test3.js] test error plan count:plan count was 3 but actual assertion count was 4
+[mocha-conversion-tests/dest/mocha-test3.js] 
+[mocha-conversion-tests/dest/mocha-test3.js] 
+[mocha-conversion-tests/dest/mocha-test3.js] Test error: a
+[mocha-conversion-tests/dest/mocha-test3.js] 	stack: AssertionError: expected Array [ 'a', 'a', 'b', 'c' ] to have property false
+[mocha-conversion-tests/dest/mocha-test3.js]     at Assertion.fail (/Users/Olegzandr/WebstormProjects/oresoftware/suman/node_modules/should/lib/assertion.js:92:17)
+[mocha-conversion-tests/dest/mocha-test3.js]     at Assertion.value [as property] (/Users/Olegzandr/WebstormProjects/oresoftware/suman/node_modules/should/lib/assertion.js:164:19)
+[mocha-conversion-tests/dest/mocha-test3.js]     at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/mocha-test3.js:70:54)
+[mocha-conversion-tests/dest/mocha-test3.js]     at Function.handle [as handleAssertions] (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:99:32)
+[mocha-conversion-tests/dest/mocha-test3.js]     at Timeout._onTimeout (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/dest/mocha-test3.js:68:19)
+[mocha-conversion-tests/dest/mocha-test3.js]     at tryOnTimeout (timers.js:224:11)
+[mocha-conversion-tests/dest/mocha-test3.js]     at Timer.listOnTimeout (timers.js:198:5)
+[mocha-conversion-tests/dest/mocha-test3.js] 
+[mocha-conversion-tests/dest/mocha-test3.js] Warning: the following test callback was invoked twice by your code for the following test/hook => aTypeError: Converting circular structure to JSON
+[mocha-conversion-tests/dest/mocha-test3.js]     at Object.stringify (native)
+[mocha-conversion-tests/dest/mocha-test3.js]     at Suman.logData (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/suman.js:494:29)
+[mocha-conversion-tests/dest/mocha-test3.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/exec-suite.js:340:13
+[mocha-conversion-tests/dest/mocha-test3.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[mocha-conversion-tests/dest/mocha-test3.js]     at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+[mocha-conversion-tests/dest/mocha-test3.js] 
+
+[integration-tests/test0.js] Error: Callback mode for this test-case/hook is not enabled, use .cb to enabled it.
+[integration-tests/test0.js] 
+[integration-tests/test0.js]     at handleNonCallbackMode (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:108:37)
+[integration-tests/test0.js]     at Function.done (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:121:29)
+[integration-tests/test0.js]     at Timeout._onTimeout (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:169:19)
+[integration-tests/test0.js]     at tryOnTimeout (timers.js:224:11)
+[integration-tests/test0.js]     at Timer.listOnTimeout (timers.js:198:5)Warning: the following test callback was invoked twice by your code for the following test/hook => aaa1Error: Callback mode for this test-case/hook is not enabled, use .cb to enabled it.
+[integration-tests/test0.js] 
+[integration-tests/test0.js]     at handleNonCallbackMode (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:108:37)
+[integration-tests/test0.js]     at Function.done (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:121:29)
+[integration-tests/test0.js]     at Timeout._onTimeout (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:178:19)
+[integration-tests/test0.js]     at tryOnTimeout (timers.js:224:11)
+[integration-tests/test0.js]     at Timer.listOnTimeout (timers.js:198:5)Warning: the following test callback was invoked twice by your code for the following test/hook => aaa2Error: Callback mode for this test-case/hook is not enabled, use .cb to enabled it.
+[integration-tests/test0.js] 
+[integration-tests/test0.js]     at handleNonCallbackMode (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:108:37)
+[integration-tests/test0.js]     at Function.done (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:121:29)
+[integration-tests/test0.js]     at Timeout._onTimeout (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:187:19)
+[integration-tests/test0.js]     at tryOnTimeout (timers.js:224:11)
+[integration-tests/test0.js]     at Timer.listOnTimeout (timers.js:198:5)Warning: the following test callback was invoked twice by your code for the following test/hook => aaa3Error: Callback mode for this test-case/hook is not enabled, use .cb to enabled it.
+[integration-tests/test0.js] 
+[integration-tests/test0.js]     at handleNonCallbackMode (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:108:37)
+[integration-tests/test0.js]     at Function.done (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:121:29)
+[integration-tests/test0.js]     at Timeout._onTimeout (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:195:19)
+[integration-tests/test0.js]     at tryOnTimeout (timers.js:224:11)
+[integration-tests/test0.js]     at Timer.listOnTimeout (timers.js:198:5)Warning: the following test callback was invoked twice by your code for the following test/hook => aaa4Error: Callback mode for this test-case/hook is not enabled, use .cb to enabled it.
+[integration-tests/test0.js] 
+[integration-tests/test0.js]     at handleNonCallbackMode (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:108:37)
+[integration-tests/test0.js]     at Function.done (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:121:29)
+[integration-tests/test0.js]     at Timeout._onTimeout (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:159:23)
+[integration-tests/test0.js]     at tryOnTimeout (timers.js:224:11)
+[integration-tests/test0.js]     at Timer.listOnTimeout (timers.js:198:5)Warning: the following test callback was invoked twice by your code for the following test/hook => ccccError: Callback mode for this test-case/hook is not enabled, use .cb to enabled it.
+[integration-tests/test0.js] 
+[integration-tests/test0.js]     at handleNonCallbackMode (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:108:37)
+[integration-tests/test0.js]     at Function.done (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:121:29)
+[integration-tests/test0.js]     at Timeout._onTimeout (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:150:27)
+[integration-tests/test0.js]     at tryOnTimeout (timers.js:224:11)
+[integration-tests/test0.js]     at Timer.listOnTimeout (timers.js:198:5)Warning: the following test callback was invoked twice by your code for the following test/hook => ddd
+
+[mocha-conversion-tests/dest/n/mocha-test0.js] 
+[mocha-conversion-tests/dest/n/mocha-test0.js] 
+[mocha-conversion-tests/dest/n/mocha-test0.js]  ### Suman end run ### 
+[mocha-conversion-tests/dest/n/mocha-test0.js] 
+[mocha-conversion-tests/dest/n/mocha-test0.js] 
+[mocha-conversion-tests/dest/n/mocha-test0.js] 
+[mocha-conversion-tests/dest/n/mocha-test0.js] 
+
+[integration-tests/test0.js] 
+[integration-tests/test0.js] 
+[integration-tests/test0.js]  ### Suman end run ### 
+[integration-tests/test0.js] 
+[integration-tests/test0.js] 
+[integration-tests/test0.js] 
+[integration-tests/test0.js] 
+
+[mocha-conversion-tests/dest/mocha-test3.js] 
+[mocha-conversion-tests/dest/mocha-test3.js] 
+[mocha-conversion-tests/dest/mocha-test3.js]  ### Suman end run ### 
+[mocha-conversion-tests/dest/mocha-test3.js] 
+[mocha-conversion-tests/dest/mocha-test3.js] 
+[mocha-conversion-tests/dest/mocha-test3.js] 
+[mocha-conversion-tests/dest/mocha-test3.js] 
+
+[mocha-conversion-tests/src/suman-help.js] Error: whoops
+[mocha-conversion-tests/src/suman-help.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/mocha-conversion-tests/src/suman-help.js:9:10
+[mocha-conversion-tests/src/suman-help.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[mocha-conversion-tests/src/suman-help.js]     at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+
+[mocha-conversion-tests/src/suman-help.js] Warning: the following test callback was invoked twice by your code for the following test/hook => a
+
+[other-tests/test4.js] 
+[other-tests/test4.js] 
+[other-tests/test4.js]  ### Suman end run ### 
+[other-tests/test4.js] 
+[other-tests/test4.js] 
+[other-tests/test4.js] 
+[other-tests/test4.js] 
+
+[other-tests/test5.js] 
+[other-tests/test5.js] 
+[other-tests/test5.js]  ### Suman end run ### 
+[other-tests/test5.js] 
+[other-tests/test5.js] 
+[other-tests/test5.js] 
+[other-tests/test5.js] 
+
+[parallel-tests/ptest1.js] 
+[parallel-tests/ptest1.js] 
+[parallel-tests/ptest1.js]  ### Suman end run ### 
+[parallel-tests/ptest1.js] 
+[parallel-tests/ptest1.js] 
+[parallel-tests/ptest1.js] 
+[parallel-tests/ptest1.js] 
+
+[other-tests/test6.js] 
+[other-tests/test6.js] 
+[other-tests/test6.js]  ### Suman end run ### 
+[other-tests/test6.js] 
+[other-tests/test6.js] 
+[other-tests/test6.js] 
+[other-tests/test6.js] 
+
+[simple-tests/one-1.js] 
+[simple-tests/one-1.js] 
+[simple-tests/one-1.js]  ### Suman end run ### 
+[simple-tests/one-1.js] 
+[simple-tests/one-1.js] 
+[simple-tests/one-1.js] 
+[simple-tests/one-1.js] 
+
+[strm-sync-tests/test6.js]  => Suman error => You have declared export:true in your suman.init call, but ran the test directly.
+[strm-sync-tests/test6.js] 
+
+[strm-sync-tests/output8.js] 
+[strm-sync-tests/output8.js] 
+[strm-sync-tests/output8.js]  ### Suman end run ### 
+[strm-sync-tests/output8.js] 
+[strm-sync-tests/output8.js] 
+[strm-sync-tests/output8.js] 
+[strm-sync-tests/output8.js] 
+
+[strm-sync-tests/output7.js] 
+[strm-sync-tests/output7.js] 
+[strm-sync-tests/output7.js]  ### Suman end run ### 
+[strm-sync-tests/output7.js] 
+[strm-sync-tests/output7.js] 
+[strm-sync-tests/output7.js] 
+[strm-sync-tests/output7.js] 
+
+[strm-sync-tests/test7.js]  => Suman error => You have declared export:true in your suman.init call, but ran the test directly.
+[strm-sync-tests/test7.js] 
+
+[strm-sync-tests/output9.js] 
+[strm-sync-tests/output9.js] 
+[strm-sync-tests/output9.js]  ### Suman end run ### 
+[strm-sync-tests/output9.js] 
+[strm-sync-tests/output9.js] 
+[strm-sync-tests/output9.js] 
+[strm-sync-tests/output9.js] 
+
+[strm-sync-tests/test8.js]  => Suman error => You have declared export:true in your suman.init call, but ran the test directly.
+[strm-sync-tests/test8.js] 
+
+[strm-sync-tests/test9.js]  => Suman error => You have declared export:true in your suman.init call, but ran the test directly.
+[strm-sync-tests/test9.js] 
+
+[test-es7/one.js] /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/test-es7/one.js:1
+[test-es7/one.js] (function (exports, require, module, __filename, __dirname) { import * as suman from '../../lib';
+[test-es7/one.js]                                                               ^^^^^^
+[test-es7/one.js] SyntaxError: Unexpected token import
+[test-es7/one.js]     at Object.exports.runInThisContext (vm.js:53:16)
+[test-es7/one.js]     at Module._compile (module.js:513:28)
+[test-es7/one.js]     at Object.Module._extensions..js (module.js:550:10)
+[test-es7/one.js]     at Module.load (module.js:458:32)
+[test-es7/one.js]     at tryModuleLoad (module.js:417:12)
+[test-es7/one.js]     at Function.Module._load (module.js:409:3)
+[test-es7/one.js]     at Module.require (module.js:468:17)
+[test-es7/one.js]     at require (internal/module.js:20:19)
+[test-es7/one.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/run-child.js:94:13
+[test-es7/one.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[test-es7/one.js] 
+
+[test-es7/test6.js] /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/test-es7/test6.js:6
+[test-es7/test6.js] import * as suman from 'suman';  //es6 import syntax
+[test-es7/test6.js] ^^^^^^
+[test-es7/test6.js] SyntaxError: Unexpected token import
+[test-es7/test6.js]     at Object.exports.runInThisContext (vm.js:53:16)
+[test-es7/test6.js]     at Module._compile (module.js:513:28)
+[test-es7/test6.js]     at Object.Module._extensions..js (module.js:550:10)
+[test-es7/test6.js]     at Module.load (module.js:458:32)
+[test-es7/test6.js]     at tryModuleLoad (module.js:417:12)
+[test-es7/test6.js]     at Function.Module._load (module.js:409:3)
+[test-es7/test6.js]     at Module.require (module.js:468:17)
+[test-es7/test6.js]     at require (internal/module.js:20:19)
+[test-es7/test6.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/run-child.js:94:13
+[test-es7/test6.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[test-es7/test6.js] 
+
+[test-es7/two.js] /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/test-es7/two.js:1
+[test-es7/two.js] (function (exports, require, module, __filename, __dirname) { import * as suman from 'suman';  //es6 import syntax
+[test-es7/two.js]                                                               ^^^^^^
+[test-es7/two.js] SyntaxError: Unexpected token import
+[test-es7/two.js]     at Object.exports.runInThisContext (vm.js:53:16)
+[test-es7/two.js]     at Module._compile (module.js:513:28)
+[test-es7/two.js]     at Object.Module._extensions..js (module.js:550:10)
+[test-es7/two.js]     at Module.load (module.js:458:32)
+[test-es7/two.js]     at tryModuleLoad (module.js:417:12)
+[test-es7/two.js]     at Function.Module._load (module.js:409:3)
+[test-es7/two.js]     at Module.require (module.js:468:17)
+[test-es7/two.js]     at require (internal/module.js:20:19)
+[test-es7/two.js]     at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/run-child.js:94:13
+[test-es7/two.js]     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+[test-es7/two.js] 
+
+[test-tests/generatorz.js] 
+[test-tests/generatorz.js] 
+[test-tests/generatorz.js]  ### Suman end run ### 
+[test-tests/generatorz.js] 
+[test-tests/generatorz.js] 
+[test-tests/generatorz.js] 
+[test-tests/generatorz.js] 
+
+[test-tests/one.js] 
+[test-tests/one.js] 
+[test-tests/one.js]  ### Suman end run ### 
+[test-tests/one.js] 
+[test-tests/one.js] 
+[test-tests/one.js] 
+[test-tests/one.js] 
+
+[test-tests/two.js] 
+[test-tests/two.js] 
+[test-tests/two.js]  ### Suman end run ### 
+[test-tests/two.js] 
+[test-tests/two.js] 
+[test-tests/two.js] 
+[test-tests/two.js] 
+
+[test-tests/generatorz-babel.js] 
+[test-tests/generatorz-babel.js] 
+[test-tests/generatorz-babel.js]  ### Suman end run ### 
+[test-tests/generatorz-babel.js] 
+[test-tests/generatorz-babel.js] 
+[test-tests/generatorz-babel.js] 
+[test-tests/generatorz-babel.js] 
+
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] Test error: (no description)
+[test-tests/many-commands.js] 	stack: Error: spawn /bin/sh ENOENT
+[test-tests/many-commands.js]     at exports._errnoException (util.js:1007:11)
+[test-tests/many-commands.js]     at Process.ChildProcess._handle.onexit (internal/child_process.js:182:32)
+[test-tests/many-commands.js]     at onErrorNT (internal/child_process.js:348:16)
+[test-tests/many-commands.js]     at _combinedTickCallback (internal/process/next_tick.js:74:11)
+[test-tests/many-commands.js]     at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] 
+
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] Test error: (no description)
+[test-tests/many-commands.js] 	stack: Error: spawn /bin/sh ENOENT
+[test-tests/many-commands.js]     at exports._errnoException (util.js:1007:11)
+[test-tests/many-commands.js]     at Process.ChildProcess._handle.onexit (internal/child_process.js:182:32)
+[test-tests/many-commands.js]     at onErrorNT (internal/child_process.js:348:16)
+[test-tests/many-commands.js]     at _combinedTickCallback (internal/process/next_tick.js:74:11)
+[test-tests/many-commands.js]     at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] 
+
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] Test error: (no description)
+[test-tests/many-commands.js] 	stack: Error: spawn /bin/sh ENOENT
+[test-tests/many-commands.js]     at exports._errnoException (util.js:1007:11)
+[test-tests/many-commands.js]     at Process.ChildProcess._handle.onexit (internal/child_process.js:182:32)
+[test-tests/many-commands.js]     at onErrorNT (internal/child_process.js:348:16)
+[test-tests/many-commands.js]     at _combinedTickCallback (internal/process/next_tick.js:74:11)
+[test-tests/many-commands.js]     at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] 
+
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js]  ### Suman end run ### 
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] 
+[test-tests/many-commands.js] 
+
+[mocha-conversion-tests/src/suman-help.js] 
+[mocha-conversion-tests/src/suman-help.js] 
+[mocha-conversion-tests/src/suman-help.js]  ### Suman end run ### 
+[mocha-conversion-tests/src/suman-help.js] 
+[mocha-conversion-tests/src/suman-help.js] 
+[mocha-conversion-tests/src/suman-help.js] 
+[mocha-conversion-tests/src/suman-help.js] 
+
+[other-tests/test3.js] 
+[other-tests/test3.js] 
+[other-tests/test3.js]  ### Suman end run ### 
+[other-tests/test3.js] 
+[other-tests/test3.js] 
+[other-tests/test3.js] 
+[other-tests/test3.js] 
+
+[par-vs-series/par-vs-series-1.js] 
+[par-vs-series/par-vs-series-1.js] 
+[par-vs-series/par-vs-series-1.js]  ### Suman end run ### 
+[par-vs-series/par-vs-series-1.js] 
+[par-vs-series/par-vs-series-1.js] 
+[par-vs-series/par-vs-series-1.js] 
+[par-vs-series/par-vs-series-1.js] 
+
+[par-vs-series/par-vs-series-3.js] 
+[par-vs-series/par-vs-series-3.js] 
+[par-vs-series/par-vs-series-3.js]  ### Suman end run ### 
+[par-vs-series/par-vs-series-3.js] 
+[par-vs-series/par-vs-series-3.js] 
+[par-vs-series/par-vs-series-3.js] 
+[par-vs-series/par-vs-series-3.js] 
+
+[parallel-tests/par-test.js] 
+[parallel-tests/par-test.js] 
+[parallel-tests/par-test.js]  ### Suman end run ### 
+[parallel-tests/par-test.js] 
+[parallel-tests/par-test.js] 
+[parallel-tests/par-test.js] 
+[parallel-tests/par-test.js] 
+
+[par-vs-series/par-vs-series-2.js] 
+[par-vs-series/par-vs-series-2.js] 
+[par-vs-series/par-vs-series-2.js]  ### Suman end run ### 
+[par-vs-series/par-vs-series-2.js] 
+[par-vs-series/par-vs-series-2.js] 
+[par-vs-series/par-vs-series-2.js] 
+[par-vs-series/par-vs-series-2.js] 
+
+[strm-sync-tests/output6.js] 
+[strm-sync-tests/output6.js] 
+[strm-sync-tests/output6.js]  ### Suman end run ### 
+[strm-sync-tests/output6.js] 
+[strm-sync-tests/output6.js] 
+[strm-sync-tests/output6.js] 
+[strm-sync-tests/output6.js] 
+
+
+### Suman runner end ###
+
+
+
+
+
+
+
+
