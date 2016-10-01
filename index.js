@@ -46,7 +46,6 @@ const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
 const _ = require('lodash');
-// const requireFromString = require('require-from-string');
 
 //#project
 const constants = require('./config/suman-constants');
@@ -162,6 +161,7 @@ const coverage = opts.coverage;
 const tailRunner = opts.tail_runner;
 const tailTest = opts.tail_test;
 const useBabel = opts.use_babel;
+const useServer = opts.use_server;
 const tail = opts.tail;
 const removeBabel = opts.remove_babel;
 
@@ -385,7 +385,7 @@ else {
 
 //////////////////// abort if too many top-level options /////////////////////////////////////////////
 
-const optCheck = [ useBabel, init, uninstall, convert, s, tailTest, tailRunner ].filter(function (item) {
+const optCheck = [ useServer, useBabel, init, uninstall, convert, s, tailTest, tailRunner ].filter(function (item) {
   return item;
 });
 
@@ -474,17 +474,36 @@ if (process.env.SUMAN_DEBUG === 'yes') {
 if (tail) {
   require('./lib/make-tail/tail-any')(paths);
 }
+else if (useServer) {
+
+  require('./lib/use-server/use-server')(null, function (err, stdout, stderr) {
+    if (err || String(stdout).match(/error/i) || String(stderr).match(/error/i)) {
+      console.log('\n', colors.bgRed.white(' => Error => "suman-server" was *not* installed successfully =>'), '\n', err.stack || err);
+      console.log('\n', stdout);
+      console.log('\n', stderr);
+      process.exit(1);
+    }
+    else {
+      console.log('\n\n', colors.bgBlue.green(' => Suman message => "suman-server" was installed successfully into your local project.'));
+      console.log('\n', colors.bgBlue.green(' => To learn about how to use "suman-server" with Suman, visit *.'), '\n');
+      process.exit(0);
+    }
+  });
+
+}
 else if (useBabel) {
 
   require('./lib/use-babel/use-babel')(null, function (err, stdout, stderr) {
     if (err || String(stdout).match(/error/i) || String(stderr).match(/error/i)) {
-      console.log('\n', colors.bgYellow(' => Error => Babel was *not* installed successfully globally.'));
+      console.log('\n', colors.bgRed.white(' => Error => Babel was *not* installed successfully =>'), '\n', err.stack || err);
       console.log('\n', stdout);
       console.log('\n', stderr);
+      process.exit(1);
     }
     else {
       console.log('\n', colors.bgGreen.blue('Babel was installed successfully into your local project.'), '\n');
       console.log('\n', colors.bgGreen.blue(' => To learn about how to use Babel with Suman, visit *.'), '\n');
+      process.exit(0);
     }
   });
 
@@ -544,24 +563,38 @@ else if (convert) {
     //configPath: 'suman.conf.js',
     config: sumanConfig,
     serverName: serverName || os.hostname()
-  }).on('msg', function (msg) {
-    switch (msg) {
-      case 'listening':
-        console.log('Suman server is listening on localhost:6969');
-        // process.exit();
-        break;
-      default:
-        console.log(msg);
+  }, function (err, val) {
+
+    if (err) {
+      console.error(err.stack || err);
     }
-  }).on('SUMAN_SERVER_MSG', function (msg) {
-    switch (msg) {
-      case 'listening':
-        console.log('Suman server is listening on localhost:6969');
-        // process.exit();
-        break;
-      default:
-        console.log(msg);
+    else {
+      console.log('Suman server should be live at =>', util.inspect(val));
     }
+
+    process.nextTick(process.exit);
+
+    // socketio('http://' + server.host + ':' + server.port)
+    // .on('msg', function (msg) {
+    //   switch (msg) {
+    //     case 'listening':
+    //       console.log('Suman server is listening on localhost:6969');
+    //       // process.exit();
+    //       break;
+    //     default:
+    //       console.log(msg);
+    //   }
+    // }).on('SUMAN_SERVER_MSG', function (msg) {
+    //   switch (msg) {
+    //     case 'listening':
+    //       console.log('Suman server is listening on localhost:6969');
+    //       // process.exit();
+    //       break;
+    //     default:
+    //       console.log(msg);
+    //   }
+    // });
+
   });
 
 }
@@ -868,7 +901,6 @@ else {
         });
       }
     }
-
   });
 
 }

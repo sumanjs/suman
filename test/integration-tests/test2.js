@@ -13,8 +13,7 @@ Test.describe('suite 2', {parallel: true}, function () {
     });
 
     const cars = [1, 2, 3];
-
-
+    
     this.describe('desc', function () {
 
         this.describe('desc', function () {

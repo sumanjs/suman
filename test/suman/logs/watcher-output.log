@@ -1,5 +1,35 @@
 
 
  => Suman watcher => file changed:
-/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/parallel-tests/ptest1.js
- => Suman watcher => No test files matched regexes, nothing to run. We are done here.
+/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js
+
+
+ => file will first be transpiled/copied.
+
+ => file transpiled successfully.
+
+ => Suman watcher => test will now execute.
+
+ => Suman v1.1.40 running...
+ => cwd: /Users/Olegzandr/WebstormProjects/oresoftware/suman
+ => Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"
+ => Suman message => note that Suman is not installed at all, you may wish to run "$ suman --init"
+ => Newest Suman version in the NPM registry: 1.1.40
+
+
+  Suman will attempt to execute test files with/within the following paths:  
+
+ 	 1 => "/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js"
+
+ => Suman fatal error => Error: Cannot find module 'suman'
+    at Function.Module._resolveFilename (module.js:440:15)
+    at Function.Module._load (module.js:388:25)
+    at Module.require (module.js:468:17)
+    at require (internal/module.js:20:19)
+    at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:1:77)
+    at Module._compile (module.js:541:32)
+    at Object.Module._extensions..js (module.js:550:10)
+    at Module.load (module.js:458:32)
+    at tryModuleLoad (module.js:417:12)
+    at Function.Module._load (module.js:409:3)
+

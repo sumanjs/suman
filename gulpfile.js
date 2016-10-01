@@ -162,13 +162,19 @@ gulp.task('run_all_tests', ['suman_server'], function (cb) {
 
 gulp.task('suman_server', [], function (cb) {
 
+    // suman.Server({
+    //     configPath: './suman.conf.js'
+    // }).on('msg', function (msg) {
+    //     console.log('msg', msg);
+    //     cb();
+    // }).on('msg-2', function (msg) {
+    //     console.log('msg-2', msg);
+    // });
+
     suman.Server({
         configPath: './suman.conf.js'
-    }).on('msg', function (msg) {
-        console.log('msg', msg);
-        cb();
-    }).on('msg-2', function (msg) {
-        console.log('msg-2', msg);
+    }, function(err, val){
+        console.log(err.stack || err || '', val || '');
     });
 
 });

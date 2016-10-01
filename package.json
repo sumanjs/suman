@@ -38,6 +38,8 @@
     "semver": "^5.1.0",
     "siamese": "^2.0.4",
     "socket.io-client": "^1.4.3",
+    "suman-server": "0.0.11",
+    "suman-utils": "0.0.1",
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
     "v8flags": "^2.0.10"

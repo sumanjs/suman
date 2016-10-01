@@ -6,7 +6,7 @@
 import * as suman from '../../lib';
 var Test = suman.init(module);
 
-//mcgee1
+////
 
 Test.describe('B2', {}, function (socketio, request, delay, assert, choodles, fs) {
 
@@ -19,8 +19,7 @@ Test.describe('B2', {}, function (socketio, request, delay, assert, choodles, fs
         paper.push('3');
         delay();
     }, 1000);
-
-
+    ///
 
     this.it('oodles', function(){
         assert(paper[0] === '1');

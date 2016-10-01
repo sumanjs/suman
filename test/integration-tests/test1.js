@@ -7,11 +7,17 @@ var Test = suman.init(module, {
     integrants: ['smartconnect', 'dolce-vida']
 });
 
+///////
 
 Test.describe('suite uno', {}, function () {
 
 
-    this.it.skip.cb('foo2', {parallel: true}, t => {
+    this.it.cb('foo2', {parallel: true}, t => {
+
+        var z = function farout(){
+
+        };
+        
         t();
     });
 
