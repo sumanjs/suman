@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.40",
+  "version": "1.1.41",
   "main": "lib/index.js",
   "scripts": {
     "test": "suman",
@@ -9,7 +9,7 @@
     "merge": "git merge -Xignore-all-space",
     "debug_mocha": "node-debug _mocha --no-timeouts ",
     "remove-private-dirs": "git rm -r --ignore-unmatch private bugs examples file-examples internal-docs jsdoc-out node_modules",
-    "remove-private-files": "git rm --ignore-unmatch exp*.js jsdoc-notes.txt suman-todos.txt old-package-json.json"
+    "remove-private-files": "git rm --ignore-unmatch publish-suman.sh exp*.js jsdoc-notes.txt suman-todos.txt old-package-json.json"
   },
   "author": "Olegzandr Denman",
   "license": "ISC",
@@ -38,8 +38,8 @@
     "semver": "^5.1.0",
     "siamese": "^2.0.4",
     "socket.io-client": "^1.4.3",
-    "suman-server": "0.0.11",
-    "suman-utils": "0.0.1",
+    "suman-server": "0.0.15",
+    "suman-utils": "0.0.2",
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
     "v8flags": "^2.0.10"
