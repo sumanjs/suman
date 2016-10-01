@@ -1,4 +1,4 @@
-const suman = require('suman');
+const suman = require('../..');
 
 const Test = suman.init(module, {
   integrants: [ 'smartconnect', 'dolce-vida' ],
@@ -6,7 +6,7 @@ const Test = suman.init(module, {
   iocData: createIOCArgs()
 });
 
-///////////////
+////////////////////
 
 function createIOCArgs () {
 

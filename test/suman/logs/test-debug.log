@@ -5,11 +5,11 @@
 
 
 
- ### Suman start run indiv. @Fri Sep 30 2016 20:44:16 GMT-0700 (PDT) ###
+ ### Suman start run indiv. @Sat Oct 01 2016 12:54:55 GMT-0700 (PDT) ###
 
- ### Filename: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js
+ ### Filename: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js
 
- ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node","/Users/Olegzandr/WebstormProjects/oresoftware/suman-server/server/lib-es5/lib/suman-watch-worker.js","--no-transpile","/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js"]
+ ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node","/Users/Olegzandr/WebstormProjects/oresoftware/suman-server/server/lib-es5/lib/suman-watch-worker.js","/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js"]
 
 
 

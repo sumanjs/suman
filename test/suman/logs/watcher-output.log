@@ -1,7 +1,7 @@
 
 
  => Suman watcher => file changed:
-/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js
+/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js
 
 
  => file will first be transpiled/copied.
@@ -14,22 +14,50 @@
  => cwd: /Users/Olegzandr/WebstormProjects/oresoftware/suman
  => Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"
  => Suman message => note that Suman is not installed at all, you may wish to run "$ suman --init"
+
+ => Suman message => transpilation is the default due to your configuration option => transpile:true 
+
+
+  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js
  => Newest Suman version in the NPM registry: 1.1.40
 
 
   Suman will attempt to execute test files with/within the following paths:  
 
- 	 1 => "/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js"
+ 	 1 => "/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js"
 
- => Suman fatal error => Error: Cannot find module 'suman'
-    at Function.Module._resolveFilename (module.js:440:15)
-    at Function.Module._load (module.js:388:25)
-    at Module.require (module.js:468:17)
-    at require (internal/module.js:20:19)
-    at Object.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:1:77)
-    at Module._compile (module.js:541:32)
-    at Object.Module._extensions..js (module.js:550:10)
-    at Module.load (module.js:458:32)
-    at tryModuleLoad (module.js:417:12)
-    at Function.Module._load (module.js:409:3)
+
+
+	  _   _ _  _  _   .. _/__   __/_
+	_\/_// / //_|/ / ..  / /_'_\ /  
+
+ 
+
+	 ✔  'oodles' (< 1ms)
+	 ✔  'oodles' (1ms)
+
+
+
+	.----------------------------------------------------------.
+	|                    Suman Test Results                    |
+	|----------------------------------------------------------|
+	|           Metric           |     Value    |     Notes    |
+	|----------------------------|--------------|--------------|
+	| Root Suite Title           |           B2 |              |
+	| Total Num. of Suites       |            1 |              |
+	| Suites skipped             |            0 |              |
+	| Tests skipped              |            0 |              |
+	| Tests stubbed              |            0 |              |
+	| Tests passed               |            2 |              |
+	| Tests failed               |            0 |              |
+	| Tests total                |            2 |              |
+	| Passing rate               |      100.00% |              |
+	| Total time millis (delta)  |         1145 |              |
+	| Total time minutes (delta) |       0.0191 |              |
+	'----------------------------------------------------------'
+
+
+
+
+ => Suman is exiting with code 0   
 

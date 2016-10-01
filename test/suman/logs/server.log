@@ -1,3 +1,256 @@
 
 
- Suman server started on Sat Oct 01 2016 00:45:00 GMT-0700 (PDT)
+ Suman server started on Sat Oct 01 2016 12:51:42 GMT-0700 (PDT)
+
+		      :::::::: :::    :::  :::   :::      :::    ::::    ::: 
+		    :+:    :+::+:    :+: :+:+: :+:+:   :+: :+:  :+:+:   :+:  
+		   +:+       +:+    +:++:+ +:+:+ +:+ +:+   +:+ :+:+:+  +:+   
+		  +#++:++#+++#+    +:++#+  +:+  +#++#++:++#++:+#+ +:+ +#+    
+		        +#++#+    +#++#+       +#++#+     +#++#+  +#+#+#     
+		#+#    #+##+#    #+##+#       #+##+#     #+##+#   #+#+#      
+		########  ######## ###       ######     ######    ####       
+
+
+Suman server starting up...
+global.sumanHelperDirRoot: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/suman
+watcherOutputLogPath: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/suman/logs/watcher-output.log
+
+
+	 => Warning Suman main executable file could not be located, attempting "$ suman"...
+	Server listening on port 6969 , CWD = /Users/Olegzandr/WebstormProjects/oresoftware/suman
+
+
+
+ Client connected. 
+
+ => Suman server => "watch" request received via socket.io.
+ => Suman server event => socket.io watch event has been received by server:
+ { paths: [ '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests' ],
+  transpile: true,
+  executeTests: false }
+ => Suman server => chokidar watcher initialized.
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351502051'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351502051'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m30.319 ms - 128[0m
+ => Suman server => Suman watch process => Initial scan complete. Ready for changes
+ => Suman server => watched paths: { '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test': [ 'integration-tests' ],
+  '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests': 
+   [ 'test0.js',
+     'test1.js',
+     'test2.js',
+     'test3.js',
+     'test4.js',
+     'test5.js',
+     'test6.js',
+     'test7.js',
+     'test8.js' ] }
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js
+
+Client disconnected.
+
+
+Client disconnected.
+
+File /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js has been changed
+{ transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js',
+  execute: true }
+transpiling!
+
+
+ => file will first be transpiled/copied.
+
+  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test0.js
+ => transpile results: [ { originalPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js',
+    targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test0.js' } ]
+
+ => file transpiled successfully.
+ => Suman server item to be run after transpilation: { originalPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js',
+  targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test0.js' }
+ => Suman server going to add testTarget property to the following item: { transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js',
+  execute: true }
+originalTestPath: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test0.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js","execute":true}}
+
+ => Suman watcher => test will now execute.
+
+
+All active poolio workers killed.
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351509505'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351509505'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m4.690 ms - 128[0m
+
+Client disconnected.
+
+File /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js has been changed
+{ transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js',
+  execute: true }
+transpiling!
+
+
+ => file will first be transpiled/copied.
+
+  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js
+ => transpile results: [ { originalPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js',
+    targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js' } ]
+
+ => file transpiled successfully.
+ => Suman server item to be run after transpilation: { originalPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js',
+  targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js' }
+ => Suman server going to add testTarget property to the following item: { transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js',
+  execute: true }
+originalTestPath: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test0.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js","execute":true}}
+
+ => Suman watcher => test will now execute.
+
+
+All active poolio workers killed.
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351599289'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351599289'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m1.754 ms - 128[0m
+
+Client disconnected.
+
+File /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js has been changed
+{ transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js',
+  execute: true,
+  targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js' }
+transpiling!
+
+
+ => file will first be transpiled/copied.
+
+  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js
+ => transpile results: [ { originalPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js',
+    targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js' } ]
+
+ => file transpiled successfully.
+ => Suman server item to be run after transpilation: { originalPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js',
+  targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js' }
+ => Suman server going to add testTarget property to the following item: { transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js',
+  execute: true,
+  targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js' }
+originalTestPath: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test0.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js","execute":true}}
+
+ => Suman watcher => test will now execute.
+
+
+All active poolio workers killed.
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351608360'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351608360'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m1.429 ms - 128[0m
+
+Client disconnected.
+
+File /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js has been changed
+{ transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js',
+  execute: true }
+transpiling!
+
+
+ => file will first be transpiled/copied.
+
+  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js
+ => transpile results: [ { originalPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js',
+    targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js' } ]
+
+ => file transpiled successfully.
+ => Suman server item to be run after transpilation: { originalPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js',
+  targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js' }
+ => Suman server going to add testTarget property to the following item: { transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js',
+  execute: true }
+originalTestPath: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test0.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js","execute":true}}
+
+ => Suman watcher => test will now execute.
+
+
+All active poolio workers killed.
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351624806'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351624806'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m2.075 ms - 128[0m
+
+Client disconnected.
+
+File /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js has been changed
+{ transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js',
+  execute: true,
+  targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js' }
+transpiling!
+
+
+ => file will first be transpiled/copied.
+
+  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js
+ => transpile results: [ { originalPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js',
+    targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js' } ]
+
+ => file transpiled successfully.
+ => Suman server item to be run after transpilation: { originalPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js',
+  targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js' }
+ => Suman server going to add testTarget property to the following item: { transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js',
+  execute: true,
+  targetPath: '/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js' }
+originalTestPath: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test0.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test1.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test3.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test4.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test6.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test7.js","execute":true,"targetPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test-target/integration-tests/test7.js"},"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/integration-tests/test8.js","execute":true}}
+
+ => Suman watcher => test will now execute.
+
+
+All active poolio workers killed.
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351694077'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1475351694077'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m2.526 ms - 128[0m
+
+Client disconnected.
+

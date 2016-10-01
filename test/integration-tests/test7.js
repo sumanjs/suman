@@ -6,7 +6,7 @@
 import * as suman from '../../lib';
 var Test = suman.init(module);
 
-////
+////////
 
 Test.describe('B2', {}, function (socketio, request, delay, assert, choodles, fs) {
 

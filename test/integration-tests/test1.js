@@ -7,7 +7,7 @@ var Test = suman.init(module, {
     integrants: ['smartconnect', 'dolce-vida']
 });
 
-///////
+///////////
 
 Test.describe('suite uno', {}, function () {
 

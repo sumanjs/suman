@@ -12,6 +12,12 @@ module.exports = () => {  //load async deps for any of your suman tests
 
         },
 
+        'socketio': function(){
+             return {
+                 'dummy':'dummy socketio'
+             }
+        },
+
         'should': function(){
             return Promise.resolve(require('should'));
         },
