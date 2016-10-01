@@ -1,54 +1,5 @@
 
 
  => Suman watcher => file changed:
-/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js
-
- => Suman watcher => test will now execute.
-
- => Suman v1.1.39915 running...
- => cwd: /Users/Olegzandr/WebstormProjects/oresoftware/suman
- => Newest Suman version in the NPM registry: 1.1.39916
-
-
-  Suman will attempt to execute test files with/within the following paths:  
-
- 	 1 => "/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/build-tests/empty.test.js"
-
-
-
-	  _   _ _  _  _   .. _/__   __/_
-	_\/_// / //_|/ / ..  / /_'_\ /  
-
- 
-
-developer debugging output
-william: 10
-	 ✔  'passes right away' (208ms)
-	 ✔  'fails right away' (1ms)
-	 ✔  'should never run if bail is set to true' (< 1ms)
-
-
-
-	.----------------------------------------------------------.
-	|                    Suman Test Results                    |
-	|----------------------------------------------------------|
-	|           Metric           |     Value    |     Notes    |
-	|----------------------------|--------------|--------------|
-	| Root Suite Title           | @Test1-EMpty |              |
-	| Total Num. of Suites       |            1 |              |
-	| Suites skipped             |            0 |              |
-	| Tests skipped              |            0 |              |
-	| Tests stubbed              |            0 |              |
-	| Tests passed               |            3 |              |
-	| Tests failed               |            0 |              |
-	| Tests total                |            3 |              |
-	| Passing rate               |      100.00% |              |
-	| Total time millis (delta)  |          346 |              |
-	| Total time minutes (delta) |       0.0058 |              |
-	'----------------------------------------------------------'
-
-
-
-
- => Suman is exiting with code 0   
-
+/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/parallel-tests/ptest1.js
+ => Suman watcher => No test files matched regexes, nothing to run. We are done here.

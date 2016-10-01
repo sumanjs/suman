@@ -14,7 +14,7 @@ Test.describe('Zulu', {mode: 'series'}, function () {
     this.it('val',{});
     this.it('foo');
 
-    this.describe.skip('A', {parallel: true}, function () {
+    this.describe('A', {parallel: true}, function () {
 
         this.before(function* () {
             console.log('before ', this.desc);
@@ -92,7 +92,7 @@ Test.describe('Zulu', {mode: 'series'}, function () {
             }, 300);
         });
 
-        this.describe.skip('M', {parallel: true}, function () {
+        this.describe('M', {parallel: true}, function () {
 
             this.before(function () {
                 console.log('before ', this.desc);
@@ -110,7 +110,7 @@ Test.describe('Zulu', {mode: 'series'}, function () {
                 }, 500);
             });
 
-            this.describe.skip('O', {parallel: true}, function () {
+            this.describe('O', {parallel: true}, function () {
 
                 this.before(function () {
                     console.log('before ', this.desc);
@@ -128,7 +128,7 @@ Test.describe('Zulu', {mode: 'series'}, function () {
                     }, 500);
                 });
 
-                this.describe.skip('P', {parallel: true}, function () {
+                this.describe('P', {parallel: true}, function () {
 
                     this.before(function () {
                         console.log('before ', this.desc);

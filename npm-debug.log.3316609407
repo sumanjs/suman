@@ -1,0 +1,67 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node',
+1 verbose cli   '/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/npm',
+1 verbose cli   'view',
+1 verbose cli   'suman',
+1 verbose cli   'version' ]
+2 info using npm@3.9.5
+3 info using node@v6.2.2
+4 silly mapToRegistry name suman
+5 silly mapToRegistry using default registry
+6 silly mapToRegistry registry https://registry.npmjs.org/
+7 silly mapToRegistry data Result {
+7 silly mapToRegistry   raw: 'suman',
+7 silly mapToRegistry   scope: null,
+7 silly mapToRegistry   name: 'suman',
+7 silly mapToRegistry   rawSpec: '',
+7 silly mapToRegistry   spec: 'latest',
+7 silly mapToRegistry   type: 'tag' }
+8 silly mapToRegistry uri https://registry.npmjs.org/suman
+9 verbose request uri https://registry.npmjs.org/suman
+10 verbose request no auth needed
+11 info attempt registry request try #1 at 10:44:36 PM
+12 verbose request using bearer token for auth
+13 verbose request id 34d238ebe282737f
+14 verbose etag "2GSTS7FUALWG0HM69ALHVP7O7"
+15 http request GET https://registry.npmjs.org/suman
+16 http 304 https://registry.npmjs.org/suman
+17 verbose headers { 'cache-control': 'max-age=300',
+17 verbose headers   'accept-ranges': 'bytes',
+17 verbose headers   date: 'Mon, 05 Sep 2016 05:42:47 GMT',
+17 verbose headers   via: '1.1 varnish',
+17 verbose headers   connection: 'keep-alive',
+17 verbose headers   'x-served-by': 'cache-sjc3639-SJC',
+17 verbose headers   'x-cache': 'MISS',
+17 verbose headers   'x-cache-hits': '0',
+17 verbose headers   'x-timer': 'S1473054167.457907,VS0,VE325',
+17 verbose headers   vary: 'Accept-Encoding' }
+18 silly get cb [ 304,
+18 silly get   { 'cache-control': 'max-age=300',
+18 silly get     'accept-ranges': 'bytes',
+18 silly get     date: 'Mon, 05 Sep 2016 05:42:47 GMT',
+18 silly get     via: '1.1 varnish',
+18 silly get     connection: 'keep-alive',
+18 silly get     'x-served-by': 'cache-sjc3639-SJC',
+18 silly get     'x-cache': 'MISS',
+18 silly get     'x-cache-hits': '0',
+18 silly get     'x-timer': 'S1473054167.457907,VS0,VE325',
+18 silly get     vary: 'Accept-Encoding' } ]
+19 verbose etag https://registry.npmjs.org/suman from cache
+20 verbose get saving suman to /Users/Olegzandr/.npm/registry.npmjs.org/suman/.cache.json
+21 verbose correctMkdir /Users/Olegzandr/.npm correctMkdir not in flight; initializing
+22 verbose exit [ 0, true ]
+23 verbose stack Error: write EPIPE
+23 verbose stack     at exports._errnoException (util.js:1007:11)
+23 verbose stack     at WriteWrap.afterWrite (net.js:793:14)
+24 verbose cwd /Users/Olegzandr/WebstormProjects/oresoftware/suman
+25 error Darwin 15.5.0
+26 error argv "/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node" "/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/npm" "view" "suman" "version"
+27 error node v6.2.2
+28 error npm  v3.9.5
+29 error code EPIPE
+30 error errno EPIPE
+31 error syscall write
+32 error write EPIPE
+33 error If you need help, you may report this error at:
+33 error     <https://github.com/npm/npm/issues>
+34 verbose exit [ 1, true ]
