@@ -21,6 +21,11 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
     }
   };
 
+
+  ////////
+
+  pass root path to suman helpers
+
 ////////////////////
 
 // when running "$ gulp x" in the wrong directory
