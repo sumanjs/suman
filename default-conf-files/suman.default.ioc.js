@@ -1,4 +1,3 @@
-
 //******************************************************************************************************************
 // this is for dependency injection, y'all
 // the purpose is to inject dependencies / values that are acquired *asynchronously*
@@ -9,36 +8,52 @@
 // ******************************************************************************************************************
 
 
-module.exports = () => {  //load async deps for any of your suman tests
+const http = require('http');
 
+
+module.exports = () => {  //load async deps for any of your suman tests
 
     return {
 
         //the following are examples
-        
+
+        //synchronous dependency acquisition
         'request': function () {
             return require('request');  //this is not very useful, but below we can see useful asynchronous loading of deps
         },
 
-        'socketClient': function (cb) {
+        //asynchronous dependency acquisition, pass data back to test files using error-first callback
+        'example_dot_com': function (data, cb) {
 
-            const client = require('socket.io-client')('http://localhost:3000');
-            client.on('connect', cb);
-            client.on('error', cb);
+            http.get({
 
+                host: 'example.com',
+                port: 80,
+                path: '/',
+                agent: false
+
+            }, res => {
+
+
+                res.setEncoding('utf8');
+                var data = '';
+
+                res.on('data', d => {
+                    data += d;
+                });
+
+                res.on('end', () => {
+                    cb(null, data);
+                });
+            })
         },
 
-        'dbQueryAllUsers': (cb) => {
+        //asynchronous dependency acquisition, return a Promise
 
-            var db = require('./db/postgres');
+        'google_search' : function(data,cb){
 
-            db.sync().then(function () {
-                return db.users.find();
-            }).then(function (users) {
-                cb(null, users);          //send 'users' as a value to any test that wants the value
-            }).catch(function (err) {
-                cb(err);
-            });
+            const searchTerms = data || 'dogs';
+
 
         }
 
