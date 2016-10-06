@@ -164,6 +164,7 @@ const useBabel = opts.use_babel;
 const useServer = opts.use_server;
 const tail = opts.tail;
 const removeBabel = opts.remove_babel;
+const create = opts.create;
 
 //re-assignable
 var register = opts.register;
@@ -386,7 +387,7 @@ else {
 
 //////////////////// abort if too many top-level options /////////////////////////////////////////////
 
-const optCheck = [useServer, useBabel, init, uninstall, convert, s, tailTest, tailRunner].filter(function (item) {
+const optCheck = [create, useServer, useBabel, init, uninstall, convert, s, tailTest, tailRunner].filter(function (item) {
     return item;
 });
 
@@ -474,6 +475,9 @@ if (process.env.SUMAN_DEBUG === 'yes') {
 
 if (tail) {
     require('./lib/make-tail/tail-any')(paths);
+}
+else if(create){
+    require('./lib/create-opt/create')(create);
 }
 else if (useServer) {
 

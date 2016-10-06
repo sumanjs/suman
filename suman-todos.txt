@@ -8,6 +8,16 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 (look at the debugging output)
 
 
+
+/////////////////
+
+
+suman --create /path/to/your/test-file.js
+
+will create a test skeleton with before/after and test case
+
+///////////////
+
 // matches
     1. run as test matches
     2. convert as suman test matches
@@ -42,11 +52,7 @@ sqlite = https://www.youtube.com/watch?v=P3C0iO1yqhk
 
 suman --init: if suman is already installed locally, and version is not too old, don't reinstall
 
-/////////
-
-suman-server should be a separate install
-
-///////////
+///////
 
 https://github.com/avajs/ava/pull/402
 =======
@@ -77,14 +83,7 @@ cwd /Users/Olegzandr/WebstormProjects/a && suman /Users/Olegzandr/WebstormProjec
             at _combinedTickCallback (internal/process/next_tick.js:67:7)
 
 
-/////////////////
-
-bump package.json version
-git checkout -b master
-git push origin master
-npm publish
-
-///////////////
+  /////////////////
 
 
   3 diagrams, 1 for node a.test.js, 1 for suman a.test.js, 1 for suman --runner a.test.js
@@ -92,14 +91,16 @@ npm publish
   draw a node green arrow through a test script
 
 
-///////////////////
+  ///////////////////
 
 
   the runner fails to finish for poolio and for burro, not sure why, perhaps add a timeout for each test
 SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integration_test.js
 
 
-//////////////////////////
+  //////////////////////////
+
+
   No usable default provider could be found for your system.
 
   Vagrant relies on interactions with 3rd party systems, known as
@@ -114,6 +115,8 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
   why a particular provider isn't working by forcing usage with
   `vagrant up --provider=PROVIDER`, which should give you a more specific
   error message for that particular provider.
+
+
   ///////////////////////////////
 
 
