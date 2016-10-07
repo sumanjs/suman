@@ -3,6 +3,8 @@
  */
 
 
-const v = process.version;
+const str = 'foo  bar    baz';
 
-console.log(typeof v,v);
+const split = str.split(/\s+/);
+
+console.log(split);

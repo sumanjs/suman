@@ -606,13 +606,29 @@ else if (convert) {
 }
 else if (watchProject) {
 
-    console.log('watchproject is ON baby');
+    console.log(' => Suman will watch files in your project, and your tests on changes.');
 
     if (!sumanServerInstalled) {
         throw new Error(' => Suman server is not installed yet => Please use "$ suman --use-server" in your local project ' + err3.stack);
     }
     else {
-        require('./lib/watching/watch-project')(paths, function (err) {
+
+        if(paths.length > 1){
+            throw new Error(' => Suman usage error => Suman does not currently support calling --watch-process with more than one argument.')
+        }
+        else if(paths.length < 1){
+            throw new Error(' => Suman usage error => Please pass one argument for --watch-process which should match a' +
+                ' given property on your watchProcess property in your suman.conf.js file.');
+        }
+
+
+        assert(typeof sumanConfig.watchProject === 'object','suman.conf.js needs a watchProject object property.');
+
+        const obj = sumanConfig['watchProject'][paths[0]];
+
+        assert(typeof obj === 'object','watchProject["' + paths[0] + '"] needs to be an object with include/exclude/script properties.');
+
+        require('./lib/watching/watch-project')(obj, function (err) {
             if (err) {
                 console.error(err.stack || err);
                 process.exit(1);

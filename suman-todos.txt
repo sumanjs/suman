@@ -22,13 +22,6 @@ that way test code can continue and you can print out results/http responses any
 
 ///////////////
 
-
-suman --create /path/to/your/test-file.js
-
-will create a test skeleton with before/after and test case
-
-///////////////
-
 // matches
     1. run as test matches
     2. convert as suman test matches
@@ -43,11 +36,12 @@ will create a test skeleton with before/after and test case
   };
 
 
-  ////////
+////////////////////
 
   pass root path to suman helpers
 
 ////////////////////
+
 
 // when running "$ gulp x" in the wrong directory
 [12:47:13] Local gulp not found in ~/WebstormProjects/moover

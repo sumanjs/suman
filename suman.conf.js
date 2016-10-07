@@ -26,9 +26,10 @@ module.exports = Object.freeze({
     resultsCapSize: 7000, // 3 gb's,
 
     watchProject: {
-        'all':{
-            script:'npm test',
-            ignore: ['^test.*']
+        '*all':{
+            script:'./node_modules/.bin/suman',
+            include: [],
+            exclude: ['^test.*']
         }
 
     },
