@@ -57,6 +57,8 @@ if (process.env.SUMAN_DEBUG === 'yes') {
     console.log(' => Suman started with the following command:', '\n', process.argv);
 }
 
+console.log(' => Node.js version:', process.version);
+
 /*
 
  TODO
@@ -165,6 +167,7 @@ const useServer = opts.use_server;
 const tail = opts.tail;
 const removeBabel = opts.remove_babel;
 const create = opts.create;
+const watchProject = opts.watch_project;
 
 //re-assignable
 var register = opts.register;
@@ -387,9 +390,23 @@ else {
 
 //////////////////// abort if too many top-level options /////////////////////////////////////////////
 
-const optCheck = [create, useServer, useBabel, init, uninstall, convert, s, tailTest, tailRunner].filter(function (item) {
+const optCheck = [
+
+    watchProject,
+    create,
+    useServer,
+    useBabel,
+    init,
+    uninstall,
+    convert,
+    s,
+    tailTest,
+    tailRunner
+
+].filter(function (item) {
     return item;
 });
+
 
 if (optCheck.length > 1) {
     console.error('\t => Too many options, pick one from  { --convert, --init, --server, --use-babel, --uninstall --tail-test, --tail-runner }');
@@ -476,7 +493,7 @@ if (process.env.SUMAN_DEBUG === 'yes') {
 if (tail) {
     require('./lib/make-tail/tail-any')(paths);
 }
-else if(create){
+else if (create) {
     require('./lib/create-opt/create')(create);
 }
 else if (useServer) {
@@ -572,35 +589,45 @@ else if (convert) {
 
         if (err) {
             console.error(err.stack || err);
+            process.nextTick(function () {
+                process.exit(1);
+            });
         }
         else {
             console.log('Suman server should be live at =>', util.inspect(val));
+            process.nextTick(function () {
+                process.exit(0);
+            });
+
         }
 
-        process.nextTick(process.exit);
-
-        // socketio('http://' + server.host + ':' + server.port)
-        // .on('msg', function (msg) {
-        //   switch (msg) {
-        //     case 'listening':
-        //       console.log('Suman server is listening on localhost:6969');
-        //       // process.exit();
-        //       break;
-        //     default:
-        //       console.log(msg);
-        //   }
-        // }).on('SUMAN_SERVER_MSG', function (msg) {
-        //   switch (msg) {
-        //     case 'listening':
-        //       console.log('Suman server is listening on localhost:6969');
-        //       // process.exit();
-        //       break;
-        //     default:
-        //       console.log(msg);
-        //   }
-        // });
-
     });
+
+}
+else if (watchProject) {
+
+    console.log('watchproject is ON baby');
+
+    if (!sumanServerInstalled) {
+        throw new Error(' => Suman server is not installed yet => Please use "$ suman --use-server" in your local project ' + err3.stack);
+    }
+    else {
+        require('./lib/watching/watch-project')(paths, function (err) {
+            if (err) {
+                console.error(err.stack || err);
+                process.exit(1);
+            }
+            else{
+                console.log('\n\n\t => Suman server running locally now listening for files changes ' +
+                    'and will run and/or transpile tests for you as they change.');
+                console.log('\n\n\t => Suman message => the ' + colors.magenta('--watch') + ' option is set, ' +
+                    'we are done here for now.');
+                console.log('\t To view the options and values that will be used to initiate a Suman test run, ' +
+                    'use the --verbose or --vverbose options\n\n');
+                process.exit(0);
+            }
+        });
+    }
 
 }
 else {
@@ -634,7 +661,7 @@ else {
 
         installSumanServer: function (cb) {
             if (opts.use_server) {
-                cp.exec('npm install --save suman-server', function (err) {
+                cp.exec('npm install --save-dev suman-server', function (err) {
                     if (err) {
                         err.stack = ' => To fix this error, please run "$ npm install --save suman-server" in your local project ' +
                             'with the correct permissions\n' + err.stack;
@@ -648,6 +675,8 @@ else {
         },
 
         watchFiles: function (cb) {
+
+            //TODO: why is watch files serially in line here?
 
             if (global.sumanOpts.watch) {
 

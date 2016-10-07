@@ -3,9 +3,6 @@
  */
 
 
-
-
-
 const v = process.version;
 
 console.log(typeof v,v);

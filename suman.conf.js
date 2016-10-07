@@ -23,7 +23,15 @@ module.exports = Object.freeze({
     expireResultsAfter: '10000000',
     resultsCapCount: 100,
     suppressRunnerOutput: true,
-    resultsCapSize: 7000, // 3 gb's
+    resultsCapSize: 7000, // 3 gb's,
+
+    watchProject: {
+        'all':{
+            script:'npm test',
+            ignore: ['^test.*']
+        }
+
+    },
 
     reporters: {
         'tap': 'suman/reporters/tap',

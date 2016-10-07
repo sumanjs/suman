@@ -8,8 +8,19 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 (look at the debugging output)
 
 
+/////////////
+
+
+if transpile:true, and the user points suman to test-target/xyz, then we should just run the tests, not transpile first
+
 
 /////////////////
+
+
+all for a boolean t.failed = true;
+that way test code can continue and you can print out results/http responses anyway
+
+///////////////
 
 
 suman --create /path/to/your/test-file.js
