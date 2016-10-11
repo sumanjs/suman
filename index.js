@@ -242,7 +242,7 @@ if (!init) {
         err3 = err;
         sumanServerInstalled = false;
         if (!opts.sparse) {
-            console.log(' ' + colors.yellow('=> Suman message => note that Suman server is not installed.'));
+            console.log(' ' + colors.yellow('=> Suman message => note that "suman-server" package is not yet installed.'));
         }
     }
 
@@ -455,7 +455,7 @@ const reporterKV = sumanConfig.reporters || {};
 
 if (global.sumanReporters.length < 1) {
     const fn = require(path.resolve(__dirname + '/lib/reporters/std-reporter'));
-    assert(typeof fn === 'function', 'Native reporter fail.');
+    assert(typeof fn === 'function', 'Suman native reporter fail.');
     global.sumanReporters.push(fn);
 }
 
@@ -802,7 +802,7 @@ else {
 
         d.once('error', function (err) {
             //TODO: add link showing how to set up Babel
-            console.error(colors.magenta(' => Suman fatal error => ' + err.stack + '\n'));
+            console.error(colors.magenta(' => Suman fatal error => ' + (err.stack || err) + '\n'));
             process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
         });
 

@@ -2,6 +2,7 @@ const suman = require('../..');
 
 const Test = suman.init(module, {
   integrants: [ 'smartconnect', 'dolce-vida' ],
+  post: ['ugly'],
   interface: 'BDD',
   iocData: createIOCArgs()
 });

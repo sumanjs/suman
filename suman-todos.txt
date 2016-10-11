@@ -10,12 +10,18 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 
 /////////////
 
-
 if transpile:true, and the user points suman to test-target/xyz, then we should just run the tests, not transpile first
-
 
 /////////////////
 
+
+in suman runner => test errors need to show which test file they are for
+
+/////////////////
+
+add suman.once.pre.js and suman.once.post.js
+
+/////////////////
 
 all for a boolean t.failed = true;
 that way test code can continue and you can print out results/http responses anyway
@@ -104,25 +110,6 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 
 
   //////////////////////////
-
-
-  No usable default provider could be found for your system.
-
-  Vagrant relies on interactions with 3rd party systems, known as
-  "providers", to provide Vagrant with resources to run development
-  environments. Examples are VirtualBox, VMware, Hyper-V.
-
-  The easiest solution to this message is to install VirtualBox, which
-  is available for free on all major platforms.
-
-  If you believe you already have a provider available, make sure it
-  is properly installed and configured. You can see more details about
-  why a particular provider isn't working by forcing usage with
-  `vagrant up --provider=PROVIDER`, which should give you a more specific
-  error message for that particular provider.
-
-
-  ///////////////////////////////
 
 
 //passed in a number into desc

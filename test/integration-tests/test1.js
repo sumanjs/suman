@@ -1,9 +1,8 @@
 
-
-var suman = require('../../lib');
-
-var Test = suman.init(module, {
+const suman = require('suman');
+const Test = suman.init(module, {
     interface: 'BDD',
+    post: ['judas'],
     integrants: ['smartconnect', 'dolce-vida']
 });
 

@@ -3,14 +3,14 @@
 const path = require('path');
 
 module.exports = Object.freeze({
-    
+
     match: [],                              //recommended =>  match: ['.test.js'],
     notMatch: ['fixture'],
     testDir: 'test',
     testDestDir: 'test/target',
-    sumanHelpersDir: 'test/suman',
+    sumanHelpersDir: 'test/_suman',
     defaultTestSuiteTimeout: 150000,
-    transpile: true,
+    transpile: false,
     maxParallelProcesses: 20,
     safe: false, //reads files in with fs.createReadStream and makes sure it's a suman test before running
     verbose: true, //handles and logs warnings (using warning level?)
@@ -25,9 +25,20 @@ module.exports = Object.freeze({
     suppressRunnerOutput: true,
     resultsCapSize: 7000, // 3 gb's,
 
+
+    watchTest: {
+        'default': {  // (re) execute the test file that changed
+            script: function(p){
+                return `./node_modules/.bin/suman ${p}`
+            },
+            include: [],
+            exclude: ['^test.*']
+        }
+    },
+
     watchProject: {
-        '*all':{
-            script:'./node_modules/.bin/suman',
+        'default': {  //run all tests when a file changes in project
+            script: './node_modules/.bin/suman',
             include: [],
             exclude: ['^test.*']
         }
@@ -40,7 +51,7 @@ module.exports = Object.freeze({
     },
 
     servers: {
-        'cse-1s-dhcp--98-213.eng.vmware.com':{
+        'cse-1s-dhcp--98-213.eng.vmware.com': {
             host: '127.0.0.1',
             port: 6969,
         },
@@ -64,7 +75,7 @@ module.exports = Object.freeze({
             host: '172.20.3.31',
             port: 6969,
         },
-        'Alexanders-MacBook-Pro.local':{
+        'Alexanders-MacBook-Pro.local': {
             host: 'localhost',
             port: 6969
         }
