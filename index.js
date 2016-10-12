@@ -916,6 +916,7 @@ else {
             //
             // }
             else if (process.env.SUMAN_SINGLE_PROCESS === 'yes' && !useRunner) {
+                //TODO: note that
                 d.run(function () {
                     process.nextTick(function () {
                         changeCWDToRootOrTestDir(root);

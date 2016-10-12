@@ -1,12 +1,31 @@
 
-
-//TODO: frontail => https://github.com/mthenw/frontail
-
 // this command fails in poolio
 
 SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 (look at the debugging output)
 
+
+/////////////
+
+add env as an option in watchProject/watchTests
+
+todo: suman.once.post.js has to run if not using the runner
+
+////////////
+
+error should be thrown for any key/values passed to suman.init(module,{
+   x: 'y'
+})
+
+throw new Error('"x" is not an available option, available options are: a b c, etc');
+
+/////////////
+
+create setTimeout and call n.kill if child_process does not exit after X number of seconds
+
+////////////
+
+use NODE_PATH
 
 /////////////
 
