@@ -33,6 +33,10 @@ if transpile:true, and the user points suman to test-target/xyz, then we should 
 
 /////////////////
 
+suman.hook.js => suman.shared-hooks.js
+
+///////////////
+
 
 in suman runner => test errors need to show which test file they are for
 

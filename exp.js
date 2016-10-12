@@ -1,11 +1,36 @@
-const Threads = require('webworker-threads');
+// const Threads = require('webworker-threads');
+//
+// var thread = Threads.create();
+//
+// const roodles = 3;
+//
+// thread.eval(function () {
+//
+//     console.log('roodles:', roodles);
+// });
+//
 
-var thread = Threads.create();
 
-const roodles = 3;
+// console.log(Object.map);
 
-thread.eval(function () {
 
-    console.log('roodles:', roodles);
+Object.map = function(obj, fn){
+
+    const ret = {};
+
+    Object.keys(obj).forEach(function(key){
+        ret[key] = fn.apply(null,[key]);
+    });
+
+    return ret;
+};
+
+
+const obj = {"a":5,"b":6};
+
+const newObject = Object.map(obj, key => {
+    return obj[key] + 5;
 });
 
+console.log(obj); // {"a":5,"b":6}
+console.log(newObject); // {"a":10,"b":11}

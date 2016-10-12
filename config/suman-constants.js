@@ -17,6 +17,7 @@ module.exports = Object.freeze({
         'test-target/'
     ],
     SUMAN_HARD_LIST: [
+        'userData',
         'delay',
         'suite',
         'before',

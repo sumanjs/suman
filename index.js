@@ -109,7 +109,7 @@ const makeNetworkLog = require('./lib/make-network-log');
 const findSumanServer = require('./lib/find-suman-server');
 
 if (!root) {
-    console.log(' => Warning => A Node.js project root could not be found given your current working directory.');
+    console.log(' => Warning => A NPM/Node.js project root could not be found given your current working directory.');
     console.log(colors.bgRed.white.bold(' => cwd:', cwd, ' '));
     console.log(' => Please execute the suman command from within the root of your project.\n\n');
     return;
