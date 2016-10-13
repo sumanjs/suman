@@ -922,7 +922,11 @@ else {
                         changeCWDToRootOrTestDir(root);
                         const match = global.sumanMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
                         const notMatch = global.sumanNotMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
-                        const files = require('./lib/runner-helpers/get-file-paths')(paths, match, notMatch);
+                        var files = require('./lib/runner-helpers/get-file-paths')(paths, match, notMatch);
+
+                        if(opts.rand){
+                            files = _.shuffle(files);
+                        }
                         global.sumanSingleProcessStartTime = Date.now();
                         require('./lib/run-child-not-runner')(sumanUtils.removeSharedRootPath(files));
                     });

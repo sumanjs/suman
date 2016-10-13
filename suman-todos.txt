@@ -19,6 +19,10 @@ error should be thrown for any key/values passed to suman.init(module,{
 
 throw new Error('"x" is not an available option, available options are: a b c, etc');
 
+/////////////////
+
+  create functionality for timeout option in suman.init(module)
+
 /////////////
 
 create setTimeout and call n.kill if child_process does not exit after X number of seconds
@@ -26,6 +30,13 @@ create setTimeout and call n.kill if child_process does not exit after X number 
 ////////////
 
 use NODE_PATH
+
+////////////
+
+ SUMAN_SINGLE_PROCESS=yes suman  //hangs when run in the poolio project
+
+  [hook-params.test.js] seems to be the culprit
+
 
 /////////////
 
@@ -89,7 +100,6 @@ suman --init: if suman is already installed locally, and version is not too old,
 ///////
 
 https://github.com/avajs/ava/pull/402
-=======
 
 //////////////////////
 
@@ -100,9 +110,11 @@ http://stackoverflow.com/questions/10829974/taskset-equivalent-in-windows
 
 http://superuser.com/questions/149312/how-to-set-processor-affinity-on-os-x
 
-//////////////////
+//////////////////////////////
 
 if you run suman in the wrong project, the cwd and the test file argument will be for different projects
+
+///////////////////////////////
 
 cwd /Users/Olegzandr/WebstormProjects/a && suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integration_test.js
 
@@ -119,18 +131,18 @@ cwd /Users/Olegzandr/WebstormProjects/a && suman /Users/Olegzandr/WebstormProjec
 
   /////////////////
 
+  //TODO: interactive shell with suman?  suman --interactive
+
+  ///////////////
 
   3 diagrams, 1 for node a.test.js, 1 for suman a.test.js, 1 for suman --runner a.test.js
 
   draw a node green arrow through a test script
 
-
   ///////////////////
-
 
   the runner fails to finish for poolio and for burro, not sure why, perhaps add a timeout for each test
 SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integration_test.js
-
 
   //////////////////////////
 
@@ -147,48 +159,37 @@ Error: desc is not a string
     at process._tickDomainCallback (internal/process/next_tick.js:122:9)
 
 
-
 //TODO: provide a way to not install suman globally
-
 
 //TODO: need to account for non-existence of .bash_profile
 => Suman fatal installation error => Error: ENOENT: no such file or directory, open '/Users/duchess/.bash_profile'
     at Error (native)
 
 
-//TODO:
-
-TypeError: Converting circular structure to JSON
-    at Object.stringify (native)
-    at Suman.logData (/Users/Olegzandr/WebstormProjects/suman/lib/suman.js:511:29)
-    at /Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:341:13
-    at allDone (/Users/Olegzandr/WebstormProjects/suman/lib/TestSuite.js:680:6)
-    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:726:13
-    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:52:16
-    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:269:32
-    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:44:16
-    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:723:17
-    at /Users/Olegzandr/WebstormProjects/suman/node_modules/async/lib/async.js:167:37
-
-
 //TODO: https://www.vagrantup.com/
 //TODO: https://blog.codeship.com/cross-platform-docker-development-environment/
 //TODO: http://nathanleclaire.com/blog/2014/07/12/10-docker-tips-and-tricks-that-will-make-you-sing-a-whale-song-of-joy/
+
 //TODO: http://stackoverflow.com/questions/8173232/make-exe-files-from-node-js-app
 //TODO: create binary of suman project for speed?
+
+
 //TODO: assert that rootDir is the same as cd'ing two directories higher than suman/index.js
-//TODO:  (!/not find/i.test(e.message))
+
+
 //TODO: "$ suman --stop-watching"
 //TODO: write test for installing suman, using containers to spin up some virtual filesystem?
 //TODO: "$ suman --convert" with the "--omit-comments"
 //TODO: https://github.com/creationix/nvm/issues/668
 //TODO: if export is set to true, then we need to exit if we are using the runner
-//TODO: interactive shell with suman?
-//TODO: may need to use request/reply to send error messages to runner parent process before exiting, otherwise
-//some processes seem to fail to send messages back to parent, even if they exit.
+
+
 //TODO: use util.format =>    error: util.format('The specified application package "%s" does not exist', params.id)
-//TODO: module.exports = function
+
+
 //TODO: before/after.always
+
+
 //TODO: verify t.plan/t.confirm
 //TODO: monkey patch process.exit
 //TODO: in before/after hooks, we should be able to access t.data and pass that to all tests?
@@ -215,10 +216,7 @@ TypeError: Converting circular structure to JSON
 //TODO: using suman --tail x, x should be created if it does not exist for some reason
 //TODO: --all option should be the default
 //TODO: put all the unit tests for xmp into one suman file and see how fast it is, before we make some sort of choice to run
-//more than one test in a single process
 
-//in child-run.js, we can loop for all test files to be run in one process and use async.each to require each file and wait for all to finish before
-//exiting
 
 //TODO: test suite timeout (this.timeout()) needs to work
 //TODO:  node $(which suman) can be used to start suman
@@ -261,8 +259,6 @@ TypeError: Converting circular structure to JSON
     at tryModuleLoad (module.js:417:12)
     at Function.Module._load (module.js:409:3)
     at Function.Module.runMain (module.js:575:10)
-
-
 
 
 // t.plan/t.confirm for hooks?
@@ -445,57 +441,7 @@ which items will be converted to where
 //TODO: need to check to make sure the tests have different names, before running (namespace can have filepath in front to prevent clashing)
 //TODO: note: https://www.npmjs.com/package/gulp-mocha
 //TODO: use Object.defineProperties for read-only
-
-
-// Future development - suman.groups.js / observable support
-
-
-// handle NVM global installations
-npm ERR! extraneous: adore@1.4.32 /usr/local/lib/node_modules/poolio/node_modules/adore
-npm ERR! extraneous: ansi-256-colors@1.1.0 /usr/local/lib/node_modules/poolio/node_modules/ansi-256-colors
-npm ERR! extraneous: ascii-table@0.0.8 /usr/local/lib/node_modules/poolio/node_modules/ascii-table
-npm ERR! extraneous: body-parser@1.15.1 /usr/local/lib/node_modules/poolio/node_modules/body-parser
-npm ERR! extraneous: chmodr@1.0.2 /usr/local/lib/node_modules/poolio/node_modules/chmodr
-npm ERR! extraneous: cookie-parser@1.4.3 /usr/local/lib/node_modules/poolio/node_modules/cookie-parser
-npm ERR! extraneous: cross-spawn@2.2.3 /usr/local/lib/node_modules/poolio/node_modules/cross-spawn
-npm ERR! extraneous: du@0.1.0 /usr/local/lib/node_modules/poolio/node_modules/du
-npm ERR! extraneous: ejs@2.4.2 /usr/local/lib/node_modules/poolio/node_modules/ejs
-npm ERR! extraneous: express@4.13.4 /usr/local/lib/node_modules/poolio/node_modules/express
-npm ERR! extraneous: function-arguments@1.0.4 /usr/local/lib/node_modules/poolio/node_modules/function-arguments
-npm ERR! extraneous: gulp-nodemon@2.0.7 /usr/local/lib/node_modules/poolio/node_modules/gulp-nodemon
-npm ERR! extraneous: immutable@3.8.1 /usr/local/lib/node_modules/poolio/node_modules/immutable
-npm ERR! extraneous: jquery@2.2.4 /usr/local/lib/node_modules/poolio/node_modules/jquery
-npm ERR! extraneous: morgan@1.7.0 /usr/local/lib/node_modules/poolio/node_modules/morgan
-npm ERR! extraneous: net-ping@1.2.0 /usr/local/lib/node_modules/poolio/node_modules/net-ping
-npm ERR! extraneous: picture-tube@1.0.0 /usr/local/lib/node_modules/poolio/node_modules/picture-tube
-npm ERR! extraneous: react@0.14.8 /usr/local/lib/node_modules/poolio/node_modules/react
-npm ERR! extraneous: react-css@0.0.2 /usr/local/lib/node_modules/poolio/node_modules/react-css
-npm ERR! extraneous: react-dom@0.14.8 /usr/local/lib/node_modules/poolio/node_modules/react-dom
-npm ERR! extraneous: request@2.72.0 /usr/local/lib/node_modules/poolio/node_modules/request
-npm ERR! extraneous: require-from-string@1.2.0 /usr/local/lib/node_modules/poolio/node_modules/require-from-string
-npm ERR! extraneous: serve-favicon@2.3.0 /usr/local/lib/node_modules/poolio/node_modules/serve-favicon
-npm ERR! extraneous: siamese@2.0.4 /usr/local/lib/node_modules/poolio/node_modules/siamese
-npm ERR! extraneous: socket.io@1.4.6 /usr/local/lib/node_modules/poolio/node_modules/socket.io
-npm ERR! extraneous: suman@1.1.39914 /usr/local/lib/node_modules/poolio/node_modules/suman
-npm ERR! extraneous: tap@5.7.2 /usr/local/lib/node_modules/poolio/node_modules/tap
-npm ERR! extraneous: tcp-ping@0.1.1 /usr/local/lib/node_modules/poolio/node_modules/tcp-ping
-npm ERR! extraneous: istanbul@0.4.3 /usr/local/lib/node_modules/suman/node_modules/istanbul
-=> You currently have modules installed globally with `npm`. These will no
-=> longer be linked to the active version of Node when you install a new node
-=> with `nvm`; and they may (depending on how you construct your `$PATH`)
-=> override the binaries of modules installed with `nvm`:
-
-/usr/local/lib
-+-- poolio@0.1.86 -> /Users/amills/WebstormProjects/oresoftware/poolio
-`-- suman@1.1.39914 -> /Users/amills/WebstormProjects/oresoftware/suman
-
-=> If you wish to uninstall them at a later point (or re-install them under your
-=> `nvm` Nodes), you can remove them from the system Node as follows:
-
-     $ nvm use system
-     $ npm uninstall -g a_module
-
-=> Close and reopen your terminal to start using nvm
+//TODO:  Future development - suman.groups.js / observable support
 
 
 /*

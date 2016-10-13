@@ -10,18 +10,23 @@
 // console.log(split);
 
 
+// process.on('beforeexit', function () {
+//     console.log('in before exit now');
+//     // setTimeout(cb, 3000);
+// });
+//
+// process.on('exit', function (err, code, signal) {
+//     // if 'beforeExit' handler is in place, then this will only be called when the callback fires
+//     // in the beforeExit handler
+//
+//     console.log('exiting...with code = ' + code);
+// });
+//
+// process.exit();
+
+//see => require('async-listener');
+
+process.addAsyncListener({
 
 
-process.on('beforeexit', function () {
-    console.log('in before exit now');
-    // setTimeout(cb, 3000);
 });
-
-process.on('exit', function (err, code, signal) {
-    // if 'beforeExit' handler is in place, then this will only be called when the callback fires
-    // in the beforeExit handler
-
-    console.log('exiting...with code = ' + code);
-});
-
-process.exit();
