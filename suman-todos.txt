@@ -7,6 +7,10 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 
 /////////////
 
+need to give user appropriate place to put process.on('exit') handlers
+
+///////////
+
 add env as an option in watchProject/watchTests
 
 todo: suman.once.post.js has to run if not using the runner
@@ -21,7 +25,7 @@ throw new Error('"x" is not an available option, available options are: a b c, e
 
 /////////////////
 
-  create functionality for timeout option in suman.init(module)
+ create functionality for timeout option in suman.init(module)
 
 /////////////
 
@@ -48,14 +52,18 @@ suman.hook.js => suman.shared-hooks.js
 
 ///////////////
 
+inject data into suman.once.pre.js, because there is data being injected into suman.once.post.js
+
+///////////////
 
 in suman runner => test errors need to show which test file they are for
 
 /////////////////
 
-add suman.once.pre.js and suman.once.post.js
+if uncaughtException is thrown/called, add a global flag, which will be checked by all hooks/test cases
+if the --ignore-uncaught-exceptions flag is not set then exit early from hooks/test cases
 
-/////////////////
+////////////////
 
 all for a boolean t.failed = true;
 that way test code can continue and you can print out results/http responses anyway
@@ -147,6 +155,8 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
   //////////////////////////
 
 
+String(util.inspect(desc)).slice(0,50);
+
 //passed in a number into desc
 Error: desc is not a string
     at handleExtraOpts (/Users/Olegzandr/WebstormProjects/suman/lib/handle-extra-opts.js:67:54)
@@ -183,12 +193,9 @@ Error: desc is not a string
 //TODO: https://github.com/creationix/nvm/issues/668
 //TODO: if export is set to true, then we need to exit if we are using the runner
 
-
 //TODO: use util.format =>    error: util.format('The specified application package "%s" does not exist', params.id)
 
-
 //TODO: before/after.always
-
 
 //TODO: verify t.plan/t.confirm
 //TODO: monkey patch process.exit

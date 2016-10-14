@@ -41,6 +41,17 @@
 however ```$ suman --init``` is the much preferred way to initialized suman in a given project. 
 
 
+### Local installations only => 
+
+If you wish to avoid global installations, you can use 
+
+```npm install --save suman```
+
+and the suman command line is available with  ```./node_modules/.bin/suman```
+
+in order to install properly, please then use ```./node_modules/.bin/suman --init```
+
+
 <br>
 # &#9658; Purpose
 <br>

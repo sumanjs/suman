@@ -22,12 +22,16 @@
 /////////////////////////////////////////////////////////////////
 
 process.on('uncaughtException', function (err) {
-    console.error('\n\n => Suman uncaught exception =>\n', err.stack, '\n\n');
+
+    if(process.listenerCount('uncaughtException') < 2){
+        console.error('\n\n => Suman uncaught exception =>\n', err.stack, '\n\n');
+    }
+
     if (String(err.stack || err).match(/Cannot find module/i) && global.sumanOpts && global.sumanOpts.transpile) {
         console.log(' => If transpiling, you may need to transpile your entire test directory to the destination directory using the ' +
             '--transpile and --all options together.')
     }
-    process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+    // process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
 });
 
 const fs = require('fs');
