@@ -10,7 +10,7 @@
 // }
 
 // var sigintCount = 0;
-//
+// TODO: add shutdown hooks for runner too
 // process.on('SIGINT', () => {
 // 	console.log('Suman got your SIGINT => Press Control-C *twice* to exit.');
 // 	sigintCount++;
@@ -33,6 +33,14 @@ process.on('uncaughtException', function (err) {
     }
     // process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
 });
+
+process.on('unhandledRejection', function (err) {
+
+    if(process.listenerCount('unhandledRejection') < 2){
+        console.error('\n\n => Suman unhandled rejection =>\n', (err.stack || err), '\n\n');
+    }
+});
+
 
 const fs = require('fs');
 const path = require('path');

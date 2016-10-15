@@ -5,6 +5,10 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 (look at the debugging output)
 
 
+/////////////////
+
+ => beep when a watch-project test fails => https://www.npmjs.com/browse/keyword/beep
+
 /////////////
 
 need to give user appropriate place to put process.on('exit') handlers
