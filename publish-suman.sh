@@ -19,7 +19,9 @@ npm run remove-private-files
 git add .
 git add -A
 git commit -am "publish/release:${GIT_COMMIT_MSG}"
-git push origin master -f
+git remote add publish git@github.com:ORESoftware/suman.git
+git push publish master -f
+git remote rm publish
 npm publish .
 git checkout dev
 git branch -D master
