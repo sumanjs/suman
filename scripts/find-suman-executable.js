@@ -7,7 +7,6 @@ var found = false;
 
 var p;
 
-
 function stat(p) {
     try {
         return fs.statSync(p).isFile();
