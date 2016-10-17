@@ -3,7 +3,7 @@ Suman provides powerful features that are not available in any other Node.js tes
 folder in your project allow you to really boost the power of your testing system.
 
 
-1. **suman.once.js** 
+1. **```suman.once.js```** 
 
 User defined hooks, which will only run once when they are listed as 
 "integrants" in any suman suite. The best use case for these hooks is to check that certain network
@@ -11,7 +11,7 @@ components are live before running a test. If the service is not available, suma
 early, allowing you better information about which component(s) might not be live.
 
 
-2. **suman.ioc.js** 
+2. **```suman.ioc.js```** 
 
 Dependency injection in the root suite of any test is controlled by you, when you edit the suman.ioc.js file. In the suman.ioc.js file you see some examples,
 showing you how to inject values into a test suite. There are several advantages to this. One, you save some ink in each
@@ -39,10 +39,9 @@ we recommend using suman.ioc.js to inject the values you wish to use instead of 
 
 
 
-
-
-
-
+ <div>
+        <img src="images/suman_run_with_runner.svg" width="100%">
+    </div>
 
 
 

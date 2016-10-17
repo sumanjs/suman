@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: parallel-example</title>
+    <title>JSDoc: Tutorial: About Suman server and built-in web reporter</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,59 +17,18 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: parallel-example</h1>
+    <h1 class="page-title">Tutorial: About Suman server and built-in web reporter</h1>
 
     <section>
 
 <header>
     
 
-    <h2>parallel-example</h2>
+    <h2>About Suman server and built-in web reporter</h2>
 </header>
 
 <article>
-    <pre class="prettyprint source lang-js"><code>
-const suman = require('suman');
-const Test = suman.init(module);
-
-
-Test.describe('@Test1', {parallel: true}, function () {
-
-
-    this.it('one', t => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('two', t => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('three', t => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('four', (t) => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('five', t => {
-        return promiseTimeout(t);
-    })
-
-    .it('four', (t) => {
-          return promiseTimeout(t);
-      });
-
-     .it('five', t => {
-           return promiseTimeout(t);
-      });
-
-
-});</code></pre>
+    
 </article>
 
 </section>

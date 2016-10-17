@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: parallel-example</title>
+    <title>JSDoc: Tutorial: Advanced installation of Suman</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,59 +17,23 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: parallel-example</h1>
+    <h1 class="page-title">Tutorial: Advanced installation of Suman</h1>
 
     <section>
 
 <header>
     
 
-    <h2>parallel-example</h2>
+    <h2>Advanced installation of Suman</h2>
 </header>
 
 <article>
-    <pre class="prettyprint source lang-js"><code>
-const suman = require('suman');
-const Test = suman.init(module);
-
-
-Test.describe('@Test1', {parallel: true}, function () {
-
-
-    this.it('one', t => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('two', t => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('three', t => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('four', (t) => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('five', t => {
-        return promiseTimeout(t);
-    })
-
-    .it('four', (t) => {
-          return promiseTimeout(t);
-      });
-
-     .it('five', t => {
-           return promiseTimeout(t);
-      });
-
-
-});</code></pre>
+    <h1>Advanced installation</h1><p>As many experienced Node.js and NPM users may know, global modules present several problems to developers.</p>
+<p>One of the biggest problems is that the global module version may differ from the local one.</p>
+<p>Furthermore, when using NVM and switching between Node.js versions, we may lose sight of globally installed packages which we may depend on.</p>
+<p>One solution to this problem is to avoid installing packages globally altogether, and Suman is designed to handle this.</p>
+<p>Simply add this line to your .bash_profile or .bashrc file</p>
+<p><code>alias suman = &quot;TBD&quot;</code></p>
 </article>
 
 </section>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: parallel-example</title>
+    <title>JSDoc: Tutorial: Best practices with Suman</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,59 +17,27 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: parallel-example</h1>
+    <h1 class="page-title">Tutorial: Best practices with Suman</h1>
 
     <section>
 
 <header>
     
 
-    <h2>parallel-example</h2>
+    <h2>Best practices with Suman</h2>
 </header>
 
 <article>
-    <pre class="prettyprint source lang-js"><code>
-const suman = require('suman');
-const Test = suman.init(module);
-
-
-Test.describe('@Test1', {parallel: true}, function () {
-
-
-    this.it('one', t => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('two', t => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('three', t => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('four', (t) => {
-        return promiseTimeout(t);
-    });
-
-
-    this.it('five', t => {
-        return promiseTimeout(t);
-    })
-
-    .it('four', (t) => {
-          return promiseTimeout(t);
-      });
-
-     .it('five', t => {
-           return promiseTimeout(t);
-      });
-
-
-});</code></pre>
+    <h2>Transpilation</h2><p>If you are running an individual test file, and you in the process of developing or debuggng the test, you can and should use
+babel-node, which is available with the suman-babel command.</p>
+<p>If you are running a group of tests and want to transpile first, then you should turn this into a 
+gulp task or makefile task.</p>
+<h2>Organization</h2><p>We highly recommend having all your tests stick to a naming convention</p>
+<p>for example, a suman test should always end with <code>&quot;.test.js&quot;</code>.</p>
+<p>that way, when use Make or Gulp etc, you can use</p>
+<p><code>TESTS=$(shell find test/ -name &quot;*.test.js&quot;)</code></p>
+<p>in this way, you can distinguish which files to run, and the Suman
+runner will never run a non-Suman test file.</p>
 </article>
 
 </section>

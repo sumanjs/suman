@@ -12,14 +12,11 @@
       "simple-example1"
     ]
   },
-  "example-a": {
-    "title": "Example A"
-  },
-  "example-es6": {
-    "title": "Example ES6"
-  },
-  "011-high-level-overview": {
+  "03-high-level-overview": {
     "title": "Higher Level Overview"
+  },
+  "04-command-line-options": {
+    "title": "Command line options"
   },
   "05-advanced-use": {
     "title": "Advanced Use"
@@ -30,8 +27,40 @@
   "08-suman-anti-patterns": {
     "title": "Suman Anti-Patterns"
   },
+  "09-suman-reporters": {
+    "title": "Suman reporters and creating custom reporters"
+  },
+  "11-advanced-installation": {
+    "title": "Advanced installation of Suman"
+  },
+  "17-suman-server-and-web-reporter": {
+    "title": "About Suman server and built-in web reporter"
+  },
+  "41-suman-exit-codes": {
+    "title": "List of Suman exit codes"
+  },
+  "50-suman-parallelism": {
+    "title": "Complete explanation of Suman parallelism"
+  },
+  "example-a": {
+    "title": "Example A"
+  },
+  "example-es6": {
+    "title": "Example ES6"
+  },
+
+  "60-usage-with-gulp": {
+    "title": "Usage with Gulp.js"
+  },
+  "70-usage-with-code-coverage-tools": {
+    "title": "Usage with code coverage tools (namely Istanbul)"
+  },
+
   "19-converting-from-mocha": {
     "title": "Converting from Mocha to Suman"
+  },
+  "90-roadmap": {
+    "title": "Suman roadmap and upcoming efforts"
   },
   "12-using-suman-with-babel": {
     "title": "Using Suman with Babel"
@@ -39,8 +68,17 @@
   "30-anatomy-of-suman-suite": {
     "title": "Anatomy of Suman Test Suites"
   },
-  "40-integrating-with-ci-cd":{
+  "31-workflows-with-suman": {
+    "title": "Workflows with Suman => Watchers and transpilation"
+  },
+  "32-using-spies-with-suman": {
+    "title": "Using test spies with Suman"
+  },
+  "40-integrating-with-ci-cd": {
     "title": "Integrating with CI/CD"
+  },
+  "27-suman-best-practices": {
+    "title": "Best practices with Suman"
   },
   "99-faq": {
     "title": "FAQ"

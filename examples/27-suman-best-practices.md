@@ -11,7 +11,7 @@ gulp task or makefile task.
 
 We highly recommend having all your tests stick to a naming convention
 
-for example, a suman test should always end with .test.js.
+for example, a suman test should always end with ```".test.js"```.
 
 that way, when use Make or Gulp etc, you can use
 
