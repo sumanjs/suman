@@ -8,7 +8,7 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
-npm version patch --force -m "Upgrade for several reasons"
+npm version patch --force -m "Upgrade for several reasons" # bump version
 git add .
 git add -A
 git commit -am "publish/release:${GIT_COMMIT_MSG}"
@@ -22,7 +22,8 @@ git commit -am "publish/release:${GIT_COMMIT_MSG}"
 git remote add publish git@github.com:ORESoftware/suman.git
 git push publish master -f
 git remote rm publish
-npm publish .
 git checkout dev
 git branch -D master
+npm publish .
+
 
