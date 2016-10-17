@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: Example A</title>
+    <title>JSDoc: Tutorial: Advanced Use</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,67 +17,51 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: Example A</h1>
+    <h1 class="page-title">Tutorial: Advanced Use</h1>
 
     <section>
 
 <header>
     
 
-    <h2>Example A</h2>
+    <h2>Advanced Use</h2>
 </header>
 
 <article>
-    <h2>usage examples</h2><p>simple example:</p>
-<pre class="prettyprint source lang-js"><code>
-const suman = require('suman');
-const Test = suman.init(module);
-
-Test.describe('FirstExample', function(assert, path, http){     //  this is our test suite, and we inject some core modules
-
-
-     this.beforeEach('runs before every it()', t => {
-         t.data.foo = 'bar';
-     });
-
-
-     this.it('uno', t => {     // a test case
-
-        assert(t.data,'This will pass because t.data is predefined by Suman for each test');  
-
-     }).it('dos', t => {       // a test case, (you can chain test cases and hooks if you want to) 
-
-        assert(false,'not good');  
-
-     }).it('tres', t => {       // a test case 
-         return new Promise(function(resolve,reject){               
-                 resolve(null);  
-           });
-     });
-
-
-     this.describe('all tests herein will run in parallel', {parallel:true}, function(){
-
-          [1,2,3].forEach(item => {
-               this.it('item is a number', () => {
-                    assert.equal(typeof item,'number');
-               });
-          });
-
-
-          ['a','b','c'].forEach(item => {
-
-               this.it('now we use asynchrony', (t,done) => {
-                    setTimeout(function(){
-                        done(new Error('Test failed'));
-                    }, 2000);
-                });
-
-           });
-
-     });
-
-});</code></pre>
+    <p>Suman provides powerful features that are not available in any other Node.js test runner including AVA. The files in the suman
+folder in your project allow you to really boost the power of your testing system.</p>
+<ol>
+<li><strong>suman.once.js</strong> </li>
+</ol>
+<p>User defined hooks, which will only run once when they are listed as 
+&quot;integrants&quot; in any suman suite. The best use case for these hooks is to check that certain network
+components are live before running a test. If the service is not available, suman will report this and abort the tests
+early, allowing you better information about which component(s) might not be live.</p>
+<ol>
+<li><strong>suman.ioc.js</strong> </li>
+</ol>
+<p>Dependency injection in the root suite of any test is controlled by you, when you edit the suman.ioc.js file. In the suman.ioc.js file you see some examples,
+showing you how to inject values into a test suite. There are several advantages to this. One, you save some ink in each
+test suite. If several tests in your project need the same resource, this resource can be initialized and procured in
+suman.ioc.js, instead of initializing repetively in multiple tests, or using globals (which won't work for asynchronously sourced dependencies either). This is especially useful for resources that need to be
+initialized/loaded asynchronously. The simplest example is database values that you might use in multiple tests.</p>
+<ol>
+<li><strong>suman.order.js</strong></li>
+</ol>
+<p>This file provides constraints for the test runner. Unbridled, the test runner may run 1000+ tests in separate processes at the same time. You should use suman.order.js to control which processes block each other.
+The simplest way to cap the number of tests running at the same time is to use the --concurrency option at the command line or the maxParallelProcesses option in the config. They
+do the same thing, despite the different names. The reason is because <strong>maxParallelProcesses</strong> is more descriptive, but simply too long for a command line option.</p>
+<ol>
+<li><strong>suman.hooks.js</strong></li>
+</ol>
+<p>Write standard code in this file that will add suites and hooks to every test</p>
+<ol>
+<li><strong>suman.globals.js</strong></li>
+</ol>
+<p>If you would like to use any global variables in any or all your tests, you should initialize them here. However, this is not recommended.
+Suman will load these globals before running any test, as would be expected; however, when using the plain node executable, you will then need to use
+the --require node option to load the suman.globals.js file, so that this loads before you test runs. This may make things more difficult then it's worth, and instead of using suman.globals.js, 
+we recommend using suman.ioc.js to inject the values you wish to use instead of making the values global, for the above reason.</p>
 </article>
 
 </section>

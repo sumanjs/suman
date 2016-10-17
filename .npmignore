@@ -6,8 +6,8 @@ file-examples
 bugs
 coverage
 docs
-jsdoc-out
-mr-docs
+public/jsdoc-out
+public/jsdoc-out/mr-docs
 exp*.js
 suman-todos.txt
 old-package-json.json
