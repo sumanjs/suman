@@ -46,3 +46,14 @@ and it turns out that t is simply an error-first callback!
 ## Did you know, you can run all your tests in a single Node.js process <i> if you want </i>.
 
 use ```export SUMAN_SINGLE_PROCESS=yes```
+
+
+## Did you know, you can force Suman to make everything run in parallel or series with these environment variables?
+
+```
+export SUMAN_FORCE_SERIES=yes
+export SUMAN_FORCE_PARALLEL=yes
+```
+
+what these do is make all hooks and test cases run in series, or parallel, without you having to change your code. If your
+code runs cleanly in parallel, that is a good sign.

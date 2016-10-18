@@ -137,21 +137,11 @@ if (global.sumanOpts.verbose) {
 
 ////////////////////////////////////////////////////////////////////
 
-global.viaSuman = true;
-global.resultBroadcaster = new EE();
+const viaSuman = global.viaSuman = true;
+const resultBroadcaster = global.resultBroadcaster = new EE();
 
 /////////////////////////////////////////////////////////////////////
 
-function requireFromString(src, filename) {   //note: this is for piping tests through Suman, if ever necessary
-    var Module = module.constructor;
-    var m = new Module();
-    m.filename = '/Users/denmanm1/WebstormProjects/oresoftware/suman/test/build-tests/test6.test.js';
-    m.paths = ['/Users/denmanm1/WebstormProjects/oresoftware/suman/test/build-tests'];
-    m._compile(src, filename);
-    return m.exports;
-}
-
-//////////////////////////////////////////////////////////////////////
 
 var sumanConfig, pth;
 
@@ -181,6 +171,7 @@ const removeBabel = opts.remove_babel;
 const create = opts.create;
 const watchProject = opts.watch_project;
 const useIstanbul = opts.use_istanbul;
+const interactive = opts.interactive;
 
 //re-assignable
 var register = opts.register;
@@ -415,10 +406,11 @@ const optCheck = [
     convert,
     s,
     tailTest,
-    tailRunner
+    tailRunner,
+    interactive
 
 ].filter(function (item) {
-    return item;
+    return item; //TODO what if item is falsy?
 });
 
 
