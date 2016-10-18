@@ -1,7 +1,7 @@
 
 
 
-## ES6 syntax with annotations
+## ES6/ES7 syntax
 
 
 ```js

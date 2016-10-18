@@ -180,6 +180,7 @@ const tail = opts.tail;
 const removeBabel = opts.remove_babel;
 const create = opts.create;
 const watchProject = opts.watch_project;
+const useIstanbul = opts.use_istanbul;
 
 //re-assignable
 var register = opts.register;
@@ -408,6 +409,7 @@ const optCheck = [
     create,
     useServer,
     useBabel,
+    useIstanbul,
     init,
     uninstall,
     convert,
@@ -502,7 +504,10 @@ if (process.env.SUMAN_DEBUG === 'yes') {
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-if (tail) {
+if(useIstanbul){
+    require('./lib/make-tail/tail-any')();
+}
+else if (tail) {
     require('./lib/make-tail/tail-any')(paths);
 }
 else if (create) {

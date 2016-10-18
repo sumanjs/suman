@@ -190,23 +190,3 @@ this.it.cb('test case', t => {
 
 
 
-Here's a quiz to get your mind jogging:
-
-(match each function on the left, to the according functionality on the right.
-
-
-done
-
-
-fatal
-
-
-fail
-
-
-ctn
-
-
-pass
-
-

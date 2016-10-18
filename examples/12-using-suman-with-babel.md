@@ -2,15 +2,16 @@
 # Using Suman with Babel
 
 Using Babel may be very cool, but first I want to temper/curb your enthusiam for using Babel
-in any serious/mission critical development environment. In effect, we wish to dissuade you from transpiling tests before you run them,
+in any serious/mission critical development environment. 
+
+In effect, we wish to dissuade you from transpiling tests before you run them,
 because this adds a big layer of complexity, which makes debugging even harder and sets yourself up 
 for some weird transpilation related problems, no doubt.
 
 Let's say that again - it's probably a bad idea to use Babel to transpile tests. Here are our reasons:
 
 
-1. Babel slows down development of tests, because running an individual test through Babel takes time. 
-You thought starting up the JVM was slow?
+1. Babel slows down development of tests, because running an individual test through Babel takes a lot more time. 
 2. If you need to transpile a Suman test file, you obviously can't just run it with the node executable,
 which is inconvenient at best. You will have to transpile it first, then run it with node, (again, if you wish to use plain node to execute a test, which makes debugging super easy).
 3. Intriguingly, the ES7 async/await construct can be achieved directly via ES6 generators + Promises, so we recommend just using "plain-old" generator functions until ES7 is finalized and part of Node itself.*
@@ -18,12 +19,12 @@ which is inconvenient at best. You will have to transpile it first, then run it 
 5. As library authors, maintaining Suman to be compatible with future versions of node (aka, Babel features), 
 is difficult and we simply cannot guarantee smooth sailing, in the same way we can with current versions of Node.
 6. Let's face it, how many times have you accidentally edited the transpiled file instead of the src file, 
-or tried to run the src file instead of the transpiled file? Yeah, me too. (Webstorm does have a nice feature to help prevent this, see "Webstorm: mark as excluded")
+or tried to run the src file instead of the transpiled file? Yeah, me too.
+(Webstorm does have a nice feature to help prevent this, see "Webstorm: mark as excluded")
 
 
 *Here is a description of how async/await can be achieved via generators:
-
-
+<a href="https://www.promisejs.org/generators/"> (Promises + Generators) = async/await </a>
 
 ## Now, if you really want to run your Suman tests through Babel, even if it's just for experimentation, Suman supports this as a primary feature:
 

@@ -1,6 +1,15 @@
 
 
+The best patterns to use with Suman to get the most out of the framework.
 
+
+1. Inject dependencies with suman.ioc.js
+
+
+
+2. Use the delay functionality to source dependencies asynchronously before registering any given test cases.
+
+```js
 
 Test.describe('A', {}, function(fs, delay){
   
@@ -26,3 +35,5 @@ Test.describe('A', {}, function(fs, delay){
 
 
 });
+
+```
