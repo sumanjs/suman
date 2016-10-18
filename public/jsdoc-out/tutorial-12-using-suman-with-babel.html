@@ -29,13 +29,13 @@
 
 <article>
     <h1>Using Suman with Babel</h1><p>Using Babel may be very cool, but first I want to temper/curb your enthusiam for using Babel
-in any serious/mission critical development environment. In effect, we wish to dissuade you from transpiling tests before you run them,
+in any serious/mission critical development environment. </p>
+<p>In effect, we wish to dissuade you from transpiling tests before you run them,
 because this adds a big layer of complexity, which makes debugging even harder and sets yourself up 
 for some weird transpilation related problems, no doubt.</p>
 <p>Let's say that again - it's probably a bad idea to use Babel to transpile tests. Here are our reasons:</p>
 <ol>
-<li>Babel slows down development of tests, because running an individual test through Babel takes time. 
-You thought starting up the JVM was slow?</li>
+<li>Babel slows down development of tests, because running an individual test through Babel takes a lot more time. </li>
 <li>If you need to transpile a Suman test file, you obviously can't just run it with the node executable,
 which is inconvenient at best. You will have to transpile it first, then run it with node, (again, if you wish to use plain node to execute a test, which makes debugging super easy).</li>
 <li>Intriguingly, the ES7 async/await construct can be achieved directly via ES6 generators + Promises, so we recommend just using &quot;plain-old&quot; generator functions until ES7 is finalized and part of Node itself.*</li>
@@ -43,9 +43,11 @@ which is inconvenient at best. You will have to transpile it first, then run it 
 <li>As library authors, maintaining Suman to be compatible with future versions of node (aka, Babel features), 
 is difficult and we simply cannot guarantee smooth sailing, in the same way we can with current versions of Node.</li>
 <li>Let's face it, how many times have you accidentally edited the transpiled file instead of the src file, 
-or tried to run the src file instead of the transpiled file? Yeah, me too. (Webstorm does have a nice feature to help prevent this, see &quot;Webstorm: mark as excluded&quot;)</li>
+or tried to run the src file instead of the transpiled file? Yeah, me too.
+(Webstorm does have a nice feature to help prevent this, see &quot;Webstorm: mark as excluded&quot;)</li>
 </ol>
-<p>*Here is a description of how async/await can be achieved via generators:</p>
+<p>*Here is a description of how async/await can be achieved via generators:
+<a href="https://www.promisejs.org/generators/"> (Promises + Generators) = async/await </a></p>
 <h2>Now, if you really want to run your Suman tests through Babel, even if it's just for experimentation, Suman supports this as a primary feature:</h2><h3>The simpler and recommended way:</h3><p>   Use this methodology if you want to:</p>
 <pre class="prettyprint source"><code>* transpile any or every .js file in your test directory
 * run tests upon a change to a test fixture</code></pre><ol>
@@ -114,13 +116,13 @@ the project)</code></pre><ol>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-01-getting-started.html">Getting Started with Suman</a></li><li><a href="tutorial-02-simple-examples.html">Simple Examples</a></li><li><a href="tutorial-03-high-level-overview.html">Higher Level Overview</a></li><li><a href="tutorial-04-command-line-options.html">Command line options</a></li><li><a href="tutorial-05-advanced-use.html">Advanced Use</a></li><li><a href="tutorial-07-suman-patterns-and-recipes.html">Suman Patterns and Recipes</a></li><li><a href="tutorial-08-suman-anti-patterns.html">Suman Anti-Patterns</a></li><li><a href="tutorial-09-suman-reporters.html">Suman reporters and creating custom reporters</a></li><li><a href="tutorial-11-advanced-installation.html">Advanced installation of Suman</a></li><li><a href="tutorial-12-using-suman-with-babel.html">Using Suman with Babel</a></li><li><a href="tutorial-13-test-dir-organization.html">13-test-dir-organization</a></li><li><a href="tutorial-14-debugging-suman.html">14-debugging-suman</a></li><li><a href="tutorial-15-testing-child-processes-with-suman.html">15-testing-child-processes-with-suman</a></li><li><a href="tutorial-16-using-spies-with-suman.html">16-using-spies-with-suman</a></li><li><a href="tutorial-17-suman-server-and-web-reporter.html">About Suman server and built-in web reporter</a></li><li><a href="tutorial-19-converting-from-mocha.html">Converting from Mocha to Suman</a></li><li><a href="tutorial-27-suman-best-practices.html">Best practices with Suman</a></li><li><a href="tutorial-30-anatomy-of-suman-suite.html">Anatomy of Suman Test Suites</a></li><li><a href="tutorial-31-workflows-with-suman.html">Workflows with Suman => Watchers and transpilation</a></li><li><a href="tutorial-40-integrating-with-ci-cd.html">Integrating with CI/CD</a></li><li><a href="tutorial-41-suman-exit-codes.html">List of Suman exit codes</a></li><li><a href="tutorial-50-suman-parallelism.html">Complete explanation of Suman parallelism</a></li><li><a href="tutorial-60-usage-with-gulp.html">Usage with Gulp.js</a></li><li><a href="tutorial-70-usage-with-code-coverage-tools.html">Usage with code coverage tools (namely Istanbul)</a></li><li><a href="tutorial-90-roadmap.html">Suman roadmap and upcoming efforts</a></li><li><a href="tutorial-99-faq.html">FAQ</a></li><li><a href="tutorial-advanced-parallelization-2.html">advanced-parallelization-2</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-00-about.html">About Suman</a></li><li><a href="tutorial-01-getting-started.html">Getting Started with Suman</a></li><li><a href="tutorial-02-simple-examples.html">Simple Examples</a></li><li><a href="tutorial-03-high-level-overview.html">Higher Level Overview</a></li><li><a href="tutorial-04-command-line-options.html">Command line options</a></li><li><a href="tutorial-05-advanced-use.html">Advanced Use</a></li><li><a href="tutorial-07-suman-patterns-and-recipes.html">Suman Patterns and Recipes</a></li><li><a href="tutorial-08-suman-anti-patterns.html">Suman Anti-Patterns</a></li><li><a href="tutorial-09-suman-reporters.html">Suman reporters and creating custom reporters</a></li><li><a href="tutorial-11-advanced-installation.html">Advanced installation of Suman</a></li><li><a href="tutorial-12-using-suman-with-babel.html">Using Suman with Babel</a></li><li><a href="tutorial-13-test-dir-organization.html">How to organize your test directory</a></li><li><a href="tutorial-14-debugging-suman.html">How to debug Suman tests</a></li><li><a href="tutorial-15-testing-child-processes-with-suman.html">Testing and debugging processes that spawn child processes</a></li><li><a href="tutorial-16-using-spies-with-suman.html">Using test spies with Suman</a></li><li><a href="tutorial-17-suman-server-and-web-reporter.html">About Suman server and built-in web reporter</a></li><li><a href="tutorial-18-tips-and-tricks.html">Tips and tricks</a></li><li><a href="tutorial-19-converting-from-mocha.html">Converting from Mocha to Suman</a></li><li><a href="tutorial-27-suman-best-practices.html">Best practices with Suman</a></li><li><a href="tutorial-30-anatomy-of-suman-suite.html">Anatomy of Suman Test Suites</a></li><li><a href="tutorial-31-workflows-with-suman.html">Workflows with Suman => Watchers and transpilation</a></li><li><a href="tutorial-40-integrating-with-ci-cd.html">Integrating with CI/CD</a></li><li><a href="tutorial-41-suman-exit-codes.html">List of Suman exit codes</a></li><li><a href="tutorial-42-hidden-secret-features.html">Some secret / hidden features of Suman</a></li><li><a href="tutorial-50-suman-parallelism.html">Complete explanation of Suman parallelism</a></li><li><a href="tutorial-60-usage-with-gulp.html">Usage with Gulp.js</a></li><li><a href="tutorial-70-usage-with-code-coverage-tools.html">Usage with code coverage tools (namely Istanbul)</a></li><li><a href="tutorial-90-roadmap.html">Suman roadmap and upcoming efforts</a></li><li><a href="tutorial-99-faq.html">FAQ</a></li><li><a href="tutorial-advanced-parallelization-2.html">advanced-parallelization-2</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Mon Oct 17 2016 00:06:03 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Mon Oct 17 2016 23:50:46 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: advanced-parallelization-2</title>
+    <title>JSDoc: Tutorial: About Suman</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,25 +17,31 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: advanced-parallelization-2</h1>
+    <h1 class="page-title">Tutorial: About Suman</h1>
 
     <section>
 
 <header>
     
 
-    <h2>advanced-parallelization-2</h2>
+    <h2>About Suman</h2>
 </header>
 
 <article>
-    <p>Here we demonstrate why some new features of Suman are needed.</p>
-<p>We need to use the value option of a test case, and the t.data object to pass data between test cases and hooks.</p>
-<p>If we used shared scope to store data, it may get shared between different test cases which will result in</p>
-<p>a test failure.</p>
-<p>We don't want to share data when running test cases / hooks in parallel, because this absolutely introduces race
-conditions.</p>
-<p>We don't necessarily need to create more copies of data, we simply need to attach the right data to the right place.</p>
-<p>Similar to how we attach data to req in Express.</p>
+    <p>Suman is a test <i>framework</i>, not a library. It gives you strong guidance on how to organization your tests, including naming conventions, test directory organization,
+and preventing the use of global variables across tests. However Suman is unopinionated and agnostic when it comes to:</p>
+<ol>
+<li>assertions</li>
+<li>spies</li>
+<li>reporters</li>
+<li>mocking libraries</li>
+</ol>
+<p>Suman provides an extremely powerful and versatile framework designed for maximum code reuse, test isolation,
+parallelism with multiple Node.js processes and the best possible developer experience. Suman is designed to make 
+tests &quot;nodeable&quot; by allowing any given test to be run with node itself, which frankly is amazing, 
+as well as being highly debuggable with excellent error reporting and useful logging files. </p>
+<p>Suman also has built-in code coverage tooling (using Istanbul), as well as watchers that can run your test suite every-time you 
+make a change to the codebase, or watchers which run a test file everytime you make a change to the test file.</p>
 </article>
 
 </section>

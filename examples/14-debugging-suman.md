@@ -25,7 +25,7 @@ When developing Suman tests, we recommend tailing these log files:
 
 node debug is the "native" node way of debugging node applications
 
-```$ node debug a.test.js```
+<span style="background-color:#FF8C00">&nbsp;```$ node debug a.test.js```</span>
 
 
 
@@ -34,12 +34,12 @@ node debug is the "native" node way of debugging node applications
 
 first make sure you have node-inspector installed for command line use (installed globally):
 
-```$ npm install -g node-inspector```
+<span style="background-color:#FF8C00">&nbsp;```$ npm install -g node-inspector```</span>
 
  
  if we want to debug a test directly
  
-```$ node-debug a.test.js```
+<span style="background-color:#FF8C00">&nbsp;```$ node-debug a.test.js```</span>
  
  
  or using the suman executable and the command line options that come with it:
@@ -52,20 +52,23 @@ first make sure you have node-inspector installed for command line use (installe
 
 3. With Webstorm
 
-Webstorm has a fantastic IDE debugging tool called "xxx"
+Webstorm has a fantastic in-IDE debugging tool.
 
 
 # Debugging the Suman runner
 
 If a test is failing using the runner, here are the steps you should take to debug:
 
-1. Try running that test file isolated, using node test.js or suman test.js
+1. Try running that test file in isolation, using ```node x.test.js``` or ```suman x.test.js```
 
-2. If the error doesn't show up in Step 1, then try running this suman test.js --runner, this will tell Suman to use the runner even
+2. If the error doesn't show up in Step 1, then try running this: ```suman test.js --runner```, this will tell Suman to use the runner even
 though you are only running one test file. Suman is designed to make debugging easier, so the runner is not used by default when
-you are only running one test file, which means you can avoid debugging child processes.
+you are only running one test file, which means you can avoid debugging child processes. During this step, check the runner logs at
+```<suman-helper-dir-root>/logs/runner-debug.log```. The value for ```<suman-helper-dir-root>``` is defined by the ```sumanHelpersDir``` property in your 
+ suman.conf.js file.
 
 3. If the original error still doesn't show up, then perhaps there is some interaction in your tests happening - perhaps they are both accessing
-the same external resource. What you shoudl do is run Suman with the --concurrency=1 option, so that only 1 test runs at a time with the runner.
+the same external resource. What you should do is run Suman with the ```--concurrency=1``` option, 
+so that only 1 test runs at a time with the runner.
 
 4. TBD

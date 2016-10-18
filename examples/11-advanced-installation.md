@@ -1,4 +1,3 @@
-# Advanced installation
 
 As many experienced Node.js and NPM users may know, global modules present several problems to developers.
 
@@ -11,4 +10,4 @@ One solution to this problem is to avoid installing packages globally altogether
 
 Simply add this line to your .bash_profile or .bashrc file (if you use zsh or something else, do something similar).
 
-``` alias suman = "TBD" ```
+<span style="background-color:#FF8C00">&nbsp;``` alias suman = "TBD" ```</span>

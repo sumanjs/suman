@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: advanced-parallelization-2</title>
+    <title>JSDoc: Tutorial: Another simple 100% synchronous test example with beforeEach/afterEach</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,25 +17,101 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: advanced-parallelization-2</h1>
+    <h1 class="page-title">Tutorial: Another simple 100% synchronous test example with beforeEach/afterEach</h1>
 
     <section>
 
 <header>
     
 
-    <h2>advanced-parallelization-2</h2>
+    <h2>Another simple 100% synchronous test example with beforeEach/afterEach</h2>
 </header>
 
 <article>
-    <p>Here we demonstrate why some new features of Suman are needed.</p>
-<p>We need to use the value option of a test case, and the t.data object to pass data between test cases and hooks.</p>
-<p>If we used shared scope to store data, it may get shared between different test cases which will result in</p>
-<p>a test failure.</p>
-<p>We don't want to share data when running test cases / hooks in parallel, because this absolutely introduces race
-conditions.</p>
-<p>We don't necessarily need to create more copies of data, we simply need to attach the right data to the right place.</p>
-<p>Similar to how we attach data to req in Express.</p>
+    <h2>ES6/ES7 syntax</h2><pre class="prettyprint source lang-js"><code>
+
+import * as suman from 'suman';  // es6 import syntax
+const Test = suman.init(module, {
+    interface: 'BDD'   //BDD interface is default but we are explicit
+});
+
+
+// here we create the test suite, we can inject core modules, and any value defined in suman.ioc.js
+
+Test.describe('Example#1', function (assert, fs, http, path) {
+
+
+    this.describe('tests multiplication', function () {
+
+        this.beforeEach(t => {   //this runs before any test case within the 'tests multiplication' describe block
+            t.data.foo = 3;
+        });
+
+        this.it('[test] 1', async t => {  // t represents this test case, t.data properties can be set prior in hooks
+
+            const bar = await new Promise(function (resolve) {
+                resolve('7');
+            });
+            const baz = bar * t.data.foo;
+            assert.equal(baz, 21);
+
+
+        });
+
+    });
+
+
+    this.describe('tests streams', function () {
+
+        this.beforeEach(t => {  //this runs before any test case inside the 'tests streams' describe block
+            t.data.srcDir = path.resolve(process.env.HOME + '/test_data');
+        });
+
+        //fail and pass are analagous to done(err) and done(null) respectively
+        this.it('[test] 2', (t, fail, pass) => {
+
+            fs.createReadStream(t.data.srcDir)
+                .pipe(fs.createWriteStream('/dev/null')).on('error', fail).on('finish', pass);
+
+        });
+
+    });
+
+
+    this.describe('tests http request', function(){
+
+        ['/foo','/bar','/bar'].forEach(val => {
+
+            this.it('[test] 3',  (t, done) =>{
+
+                return http.get({
+                    hostname: 'example.com',
+                    path: val
+                }, res => {
+
+                    res.setEncoding('utf8');
+
+                    var body = '';
+
+                    res.on('data', (data) => {
+                        body += data;
+                    });
+
+                    res.on('end', ()=> {
+                        const result = JSON.parse(body);
+                        assert(result.x = 'y');
+                        done();
+                    });
+
+                });
+
+            });
+
+        });
+
+    });
+
+});</code></pre>
 </article>
 
 </section>

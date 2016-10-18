@@ -1,4 +1,8 @@
 {
+  "00-about": {
+    "title": "About Suman",
+    "children": []
+  },
   "01-getting-started": {
     "title": "Getting Started with Suman",
     "children": []
@@ -7,9 +11,9 @@
     "title": "Simple Examples",
     "children": [
       "simple-example-a",
-      "example-es6",
-      "parallel-example",
-      "simple-example1"
+      "simple-example-b",
+      "simple-example-es6",
+      "simple-parallel-example"
     ]
   },
   "simple-example-a":{
@@ -57,15 +61,23 @@
   "15-testing-child-processes-with-suman": {
     "title": "Testing and debugging processes that spawn child processes"
   },
+  "16-using-spies-with-suman": {
+    "title": "Using test spies with Suman"
+  },
   "17-suman-server-and-web-reporter": {
     "title": "About Suman server and built-in web reporter"
   },
-
+  "18-tips-and-tricks": {
+    "title": "Tips and tricks"
+  },
   "19-converting-from-mocha": {
     "title": "Converting from Mocha to Suman"
   },
   "41-suman-exit-codes": {
     "title": "List of Suman exit codes"
+  },
+  "42-hidden-secret-features": {
+    "title": "Some secret / hidden features of Suman"
   },
   "50-suman-parallelism": {
     "title": "Complete explanation of Suman parallelism"

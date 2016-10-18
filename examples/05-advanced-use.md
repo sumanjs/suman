@@ -25,12 +25,12 @@ This file provides constraints for the test runner. Unbridled, the test runner m
 The simplest way to cap the number of tests running at the same time is to use the --concurrency option at the command line or the maxParallelProcesses option in the config. They
 do the same thing, despite the different names. The reason is because **maxParallelProcesses** is more descriptive, but simply too long for a command line option.
 
-4. **```suman.hooks.js```**
+[4.] **```suman.hooks.js```**
 
 Write standard code in this file that will add suites and/or hooks to every test
 
 
-5. **```suman.globals.js```**
+[5.] **```suman.globals.js```**
 
 If you would like to use any global variables in any or all your tests, you should initialize them here. However, this is not recommended.
 Suman will load these globals before running any test, as would be expected; however, when using the plain node executable, you will then need to use

@@ -5,11 +5,18 @@
 
 
 
- ### Suman start run indiv. @Tue Oct 11 2016 01:53:27 GMT-0700 (PDT) ###
+ ### Suman start run indiv. @Mon Oct 17 2016 23:39:31 GMT-0700 (PDT) ###
 
- ### Filename: /Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js
+ ### Filename: /Users/t_millal/WebstormProjects/oresoftware/suman/file-examples/example-1.js
 
- ### Command = ["/Users/t_millal/.nvm/versions/node/v6.7.0/bin/node","/Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test1.js"]
+ ### Command = ["/Users/t_millal/.nvm/versions/node/v6.7.0/bin/node","/Users/t_millal/WebstormProjects/oresoftware/suman/file-examples/example-1.js"]
+
+TypeError: t.done is not a function
+    at Timeout._onTimeout (/Users/t_millal/WebstormProjects/oresoftware/suman/file-examples/example-1.js:25:15)
+    at tryOnTimeout (timers.js:232:11)
+    at Timer.listOnTimeout (timers.js:202:5)
+
+Warning: the following test callback was invoked twice by your code for the following test/hook => Check that Test.file is equiv. to module.filename
 
 
 
