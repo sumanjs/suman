@@ -18,7 +18,10 @@
 
 ---
 
-(disclaimer: Suman is in beta, despite the current version number; Suman supports Node versions >= 4.0)
+### disclaimers: 
+Suman is in beta, despite the current version number.
+Suman supports Node versions >= 4.0.
+Windows support is on the roadmap, but is not ready yet.
 
 ---
 
@@ -43,13 +46,17 @@ however ```$ suman --init``` is the much preferred way to initialized suman in a
 
 ### Local installations only => 
 
-If you wish to avoid global installations, you can use 
+If you wish to avoid global module installations, you can use 
 
-```npm install --save suman```
+```npm install -D suman```
 
 and the suman command line is available with  ```./node_modules/.bin/suman```
 
 in order to install properly, please then use ```./node_modules/.bin/suman --init```
+
+if you want to get fancy, put the following line in your .bash_profile or .bashrc
+
+```alias suman="TBD"```
 
 
 <br>
@@ -62,6 +69,7 @@ take the time to compare its capabilities with AVA, Mocha and Tape.
 
 The primary aims are:
 
+* Dev experience and test debuggability are above all else
 * make tests run faster by leveraging async I/O and separate Node.js processes
 * isolate tests by running them in separate processes
 * make debugging your test files easier; this is achieved by allowing for running of tests with the plain old node executable,

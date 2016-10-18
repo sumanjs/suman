@@ -1,30 +1,61 @@
-There are several anti-patterns when using Suman
+There are several anti-patterns when using Suman:
 
 
-1. self/that. I am personally a fan of self/that usage. However, when using Suman, it is indeed an anti-pattern. If you notice that you
+1. Anti-pattern number 1. self/that. I am personally a fan of self/that usage. However, when using Suman, it is indeed an anti-pattern. If you notice that you
 have used "self" or "that" instead of "this" to call something from the Suman API, then you should write your code to avoid the self pattern when using Suman. With arrow functions, you can
 avoid the self/that pattern, when using functional loops for example. The reason to avoid self/that is that a reference to self/that might show up in a nested describe block and then
-you may start registering test cases and hooks to the wrong block. You should always use "this" when calling this.describe/this.before/this.after etc, and you will be all good.
+you may start registering test cases and hooks to the wrong block. 
 
-2. Putting code outside of and above ```Test.describe``` (the call that creates the root suite). As much code of your test code as possible should be inside the Test.describe callback.
-There are several reasons for this. It makes it a bit easier to see the title of your suite. It also minimizes the 
-amount of code loaded before a test suite is actually run. If you have a lot of code above your Test.describe call, it probably means you aren't using the 
+You should always endeavor to use "this" when calling this.describe/this.before/this.after etc, and you will be all good.
+
+2. Anti-pattern number 2. Putting code outside of and above ```Test.describe``` (the call that creates the root suite). As much code of your test code as possible should be inside the Test.describe callback.
+There are several reasons to do this. It makes it a bit easier to see the title of your suite. More importantly, the more setup code before 
+a Test.describe/Test.suite call, the less code sharing you have => If you have a lot of code above your Test.describe call, it probably means you aren't using the 
 Suman helper files effectively or correctly, (suman.ioc.js, suman.order.js, suman.hooks.js, etc).
 
-3. Arrow functions, generator functions, or async/await for describe blocks. Arrow functions are useful for Suman, and they can be used everywhere except 
-for describe blocks. This has to do with arrow functions binding the context for the callback to the wrong value. Describe blocks are designed to bind the callback to a new value (not the context of the current lexical scope), and to register
+3. Anti-pattern number 3. Using arrow functions, generator functions, or async/await for describe/suite blocks. Describe blocks are only designed to register callbacks synchronously.
+Arrow functions are useful for Suman, and they can be used everywhere except for describe blocks. This has to do with arrow functions binding the context for the callback to the wrong value. Describe blocks are designed to bind the callback to a new value (not the context of the current lexical scope), and to register
 all API calls synchronously. Suman is designed to throw an exception if any library call is made after a describe block function has returned.
 
-4. Nesting hooks and test cases. Describe blocks (aka child suites) are supposed to be nested! But hooks and test cases are not designed to be nested.
+4. Anti-pattern number 4. Nesting hooks and test cases. Describe blocks (aka child suites) are supposed to be nested! But hooks and test cases are not designed to be nested.
 Suman will throw an error if you try to do it, whereas Mocha would let you errantly do it; see this issue:
 https://github.com/mochajs/mocha/issues/1975, LOL, sorry Tom, wasn't me.
 
+in other words, don't do this:
 
-5. Using process.nextTick or setImmediate in hook / test callbacks
+```
+ this.it('outer', t => {
+  
+     this.it('inner', t => {  // Suman will throw an error if you try to do this
+     
+      });
+ 
+ });
+ ```
+ 
+ or this:
+ 
+ ```
+ this.before('outer', t => {
+  
+    this.beforeEach('outer', t => {   // Suman will throw an error if you try to do this
+  
+  
+     });
+   
+    this.it('inner', t => {     // Suman will throw an error if you try to do this
+      
+    });
+  
+  });
+  ```
+
+
+5. Anti-pattern number 5. Using process.nextTick or setImmediate in hook / test callbacks
 
 ```js
 
-// not necessary to do this
+// it is not necessary to do this
 this.it('not necesary', function(done){
 
        var c;
@@ -48,8 +79,13 @@ this.it('not necesary', function(done){
                });
            }
       else{
-        done();   // callign done in the same tick is just fine
+        done();   // calling done in the same tick is just fine, because Suman will ensure it is async behind the scenes
       }
 
 });
 ```
+
+
+6. Anti-pattern number 6. Perhaps the most important anti-pattern.
+
+You must use t.data and t.value to pass data between beforeEach and afterEach hooks and test cases!

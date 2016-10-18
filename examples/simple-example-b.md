@@ -6,7 +6,7 @@ const suman = require('suman');
 const Test = suman.init(module);
 
 
-Test.describe('@Test1', function () {
+Test.describe('@Test1', function (assert) {
 
     var config = null;
 

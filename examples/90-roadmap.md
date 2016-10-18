@@ -14,7 +14,7 @@ The following features are currently in the works:
 2. Including more than one Test.describe per file.
 
     * this is probably completely unnecessary but may prove useful
-    in some weird edge cases.
+    in some weird edge cases. Especially useful for easy conversion from Mocha.
     
 
 3. Support observables. 

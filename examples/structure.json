@@ -6,11 +6,23 @@
   "02-simple-examples": {
     "title": "Simple Examples",
     "children": [
-      "example-a",
+      "simple-example-a",
       "example-es6",
       "parallel-example",
       "simple-example1"
     ]
+  },
+  "simple-example-a":{
+    "title": "Simple 100% synchronous test example"
+  },
+  "simple-example-b":{
+    "title": "Another simple 100% synchronous test example with beforeEach/afterEach"
+  },
+  "simple-example-es6":{
+    "title": "Another simple 100% synchronous test example with beforeEach/afterEach"
+  },
+  "simple-parallel-example":{
+    "title": "Simple example"
   },
   "03-high-level-overview": {
     "title": "Higher Level Overview"
@@ -33,8 +45,24 @@
   "11-advanced-installation": {
     "title": "Advanced installation of Suman"
   },
+  "12-using-suman-with-babel": {
+    "title": "Using Suman with Babel"
+  },
+  "13-test-dir-organization": {
+    "title": "How to organize your test directory"
+  },
+  "14-debugging-suman": {
+    "title": "How to debug Suman tests"
+  },
+  "15-testing-child-processes-with-suman": {
+    "title": "Testing and debugging processes that spawn child processes"
+  },
   "17-suman-server-and-web-reporter": {
     "title": "About Suman server and built-in web reporter"
+  },
+
+  "19-converting-from-mocha": {
+    "title": "Converting from Mocha to Suman"
   },
   "41-suman-exit-codes": {
     "title": "List of Suman exit codes"
@@ -55,16 +83,10 @@
   "70-usage-with-code-coverage-tools": {
     "title": "Usage with code coverage tools (namely Istanbul)"
   },
-
-  "19-converting-from-mocha": {
-    "title": "Converting from Mocha to Suman"
-  },
   "90-roadmap": {
     "title": "Suman roadmap and upcoming efforts"
   },
-  "12-using-suman-with-babel": {
-    "title": "Using Suman with Babel"
-  },
+
   "30-anatomy-of-suman-suite": {
     "title": "Anatomy of Suman Test Suites"
   },

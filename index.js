@@ -23,7 +23,7 @@
 
 process.on('uncaughtException', function (err) {
 
-    if(process.listenerCount('uncaughtException') < 2){
+    if (process.listenerCount('uncaughtException') < 2) {
         console.error('\n\n => Suman uncaught exception =>\n', err.stack, '\n\n');
     }
 
@@ -36,7 +36,7 @@ process.on('uncaughtException', function (err) {
 
 process.on('unhandledRejection', function (err) {
 
-    if(process.listenerCount('unhandledRejection') < 2){
+    if (process.listenerCount('unhandledRejection') < 2) {
         console.error('\n\n => Suman unhandled rejection =>\n', (err.stack || err), '\n\n');
     }
 });
@@ -66,10 +66,10 @@ const sumanUtils = require('./lib/utils');
 ////////////////////////////////////////////////////////////////////
 
 if (process.env.SUMAN_DEBUG === 'yes') {
-    console.log(' => Suman started with the following command:', '\n', process.argv);
+    console.log('\n\n', ' => Suman started with the following command:', '\n', process.argv, '\n');
 }
 
-console.log(' => Node.js version:', process.version);
+console.log('\n', '=> Node.js version:', process.version);
 
 /*
 
@@ -180,6 +180,7 @@ const tail = opts.tail;
 const removeBabel = opts.remove_babel;
 const create = opts.create;
 const watchProject = opts.watch_project;
+const useIstanbul = opts.use_istanbul;
 
 //re-assignable
 var register = opts.register;
@@ -408,6 +409,7 @@ const optCheck = [
     create,
     useServer,
     useBabel,
+    useIstanbul,
     init,
     uninstall,
     convert,
@@ -502,7 +504,10 @@ if (process.env.SUMAN_DEBUG === 'yes') {
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-if (tail) {
+if(useIstanbul){
+    require('./lib/make-tail/tail-any')();
+}
+else if (tail) {
     require('./lib/make-tail/tail-any')(paths);
 }
 else if (create) {
@@ -625,27 +630,27 @@ else if (watchProject) {
     }
     else {
 
-        if(paths.length > 1){
+        if (paths.length > 1) {
             throw new Error(' => Suman usage error => Suman does not currently support calling --watch-process with more than one argument.')
         }
-        else if(paths.length < 1){
+        else if (paths.length < 1) {
             throw new Error(' => Suman usage error => Please pass one argument for --watch-process which should match a' +
                 ' given property on your watchProcess property in your suman.conf.js file.');
         }
 
 
-        assert(typeof sumanConfig.watchProject === 'object','suman.conf.js needs a watchProject object property.');
+        assert(typeof sumanConfig.watchProject === 'object', 'suman.conf.js needs a watchProject object property.');
 
         const obj = sumanConfig['watchProject'][paths[0]];
 
-        assert(typeof obj === 'object','watchProject["' + paths[0] + '"] needs to be an object with include/exclude/script properties.');
+        assert(typeof obj === 'object', 'watchProject["' + paths[0] + '"] needs to be an object with include/exclude/script properties.');
 
         require('./lib/watching/watch-project')(obj, function (err) {
             if (err) {
                 console.error(err.stack || err);
                 process.exit(1);
             }
-            else{
+            else {
                 console.log('\n\n\t => Suman server running locally now listening for files changes ' +
                     'and will run and/or transpile tests for you as they change.');
                 console.log('\n\n\t => Suman message => the ' + colors.magenta('--watch') + ' option is set, ' +
@@ -731,16 +736,29 @@ else {
 
             async.parallel({
                 npmList: function (cb) {
+
+                    var callable = true;
+
+                    const to = setTimeout(first, 600);
+
+                    function first() {
+                        if (callable) {
+                            clearTimeout(to);
+                            callable = false;
+                            cb(null);
+                        }
+                    }
+
                     cp.exec('npm view suman version', function (err, stdout, stderr) {
                         if (err || String(stdout).match(/error/i) || String(stderr).match(/error/)) {
-                            cb(err || stdout || stderr);
+                            first(err || stdout || stderr);
                         }
                         else {
-                            console.log(' => Newest Suman version in the NPM registry:', stdout);
-                            // if (pkgDotJSON) {
-                            // 	console.log(' => Locally installed Suman version:', pkgDotJSON.version);
-                            // }
-                            cb(null);
+                            if (callable && String(stdout) !== String(v)) {
+                                console.log(' => Newest Suman version in the NPM registry:', stdout, ', current version =>', v);
+                            }
+
+                            first(null);
                         }
                     });
                 },
@@ -903,30 +921,6 @@ else {
                 require('./lib/run-coverage/exec-istanbul')(istanbulInstallPath, paths, opts.recursive);
 
             }
-            // else if (!useRunner && transpile && originalPaths.length === 1 && checkStatsIsFile(originalPaths[0])) {
-            //
-            // 	//TODO: need to learn how many files matched
-            //
-            // 	d.run(function () {
-            // 		process.nextTick(function () {
-            // 			changeCWDToRootOrTestDir(originalPaths[0]);
-            // 			require('./lib/run-child-not-runner')(originalPaths[0]);
-            // 		});
-            // 	});
-            //
-            // }
-            // else if (!useRunner && transpile && paths.length === 1 && checkStatsIsFile(paths[0])) {
-            //
-            // 	//TODO: need to learn how many files matched
-            //
-            // 	d.run(function () {
-            // 		process.nextTick(function () {
-            // 			changeCWDToRootOrTestDir(paths[0]);
-            // 			require('./lib/run-child-not-runner')(paths[0]);
-            // 		});
-            // 	});
-            //
-            // }
             else if (process.env.SUMAN_SINGLE_PROCESS === 'yes' && !useRunner) {
                 //TODO: note that
                 d.run(function () {
@@ -936,7 +930,7 @@ else {
                         const notMatch = global.sumanNotMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
                         var files = require('./lib/runner-helpers/get-file-paths')(paths, match, notMatch);
 
-                        if(opts.rand){
+                        if (opts.rand) {
                             files = _.shuffle(files);
                         }
                         global.sumanSingleProcessStartTime = Date.now();
