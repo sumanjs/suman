@@ -66,10 +66,10 @@ const sumanUtils = require('./lib/utils');
 ////////////////////////////////////////////////////////////////////
 
 if (process.env.SUMAN_DEBUG === 'yes') {
-    console.log(' => Suman started with the following command:', '\n', process.argv);
+    console.log('\n\n',' => Suman started with the following command:', '\n', process.argv,'\n');
 }
 
-console.log(' => Node.js version:', process.version);
+console.log('\n',' => Node.js version:', process.version,'\n');
 
 /*
 
@@ -903,30 +903,6 @@ else {
                 require('./lib/run-coverage/exec-istanbul')(istanbulInstallPath, paths, opts.recursive);
 
             }
-            // else if (!useRunner && transpile && originalPaths.length === 1 && checkStatsIsFile(originalPaths[0])) {
-            //
-            // 	//TODO: need to learn how many files matched
-            //
-            // 	d.run(function () {
-            // 		process.nextTick(function () {
-            // 			changeCWDToRootOrTestDir(originalPaths[0]);
-            // 			require('./lib/run-child-not-runner')(originalPaths[0]);
-            // 		});
-            // 	});
-            //
-            // }
-            // else if (!useRunner && transpile && paths.length === 1 && checkStatsIsFile(paths[0])) {
-            //
-            // 	//TODO: need to learn how many files matched
-            //
-            // 	d.run(function () {
-            // 		process.nextTick(function () {
-            // 			changeCWDToRootOrTestDir(paths[0]);
-            // 			require('./lib/run-child-not-runner')(paths[0]);
-            // 		});
-            // 	});
-            //
-            // }
             else if (process.env.SUMAN_SINGLE_PROCESS === 'yes' && !useRunner) {
                 //TODO: note that
                 d.run(function () {
