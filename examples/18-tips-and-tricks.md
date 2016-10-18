@@ -1,4 +1,4 @@
-If an error is thrown from a test or hook and is not captured correctly, use t.wrap() on the innermost function/callback.
+If an error is thrown from a test or hook and is not captured correctly, use ```t.wrap()``` on the innermost function/callback.
 
 
 ```
@@ -15,7 +15,7 @@ this.it('throws error', t => {
 ```
 
 
-if the above error fails to get pinned to the right test case, you can do this:
+if the above error fails to get pinned to the right test case or hook, you can do this:
 
 
 ```

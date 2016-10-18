@@ -1,11 +1,11 @@
 
 ### :: Installation ::
 
-1. => <span style="background-color:#FF8C00">&nbsp;```$ npm install -g suman```</span>
+1. => <span style="background-color:#ffdb99">&nbsp;```$ npm install -g suman```</span>
 
 2. => cd into the project where you want to use Suman to power your tests
 
-3. => Run <span style="background-color:#FF8C00">&nbsp;```$ suman --init```</span>
+3. => Run <span style="background-color:#ffdb99">&nbsp;```$ suman --init```</span>
 
 * note: advanced users who wish to avoid global installations or those who use NVM, please see here.
 

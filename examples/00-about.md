@@ -13,3 +13,11 @@ as well as being highly debuggable with excellent error reporting and useful log
 
 Suman also has built-in code coverage tooling (using Istanbul), as well as watchers that can run your test suite every-time you 
 make a change to the codebase, or watchers which run a test file everytime you make a change to the test file.
+
+Usage with Babel:
+
+Suman has first-class support for transpilation with Babel but recommends you avoid transpilation, 
+so that your tests remain node-able and are more debuggable. If you like async/await functionaliy, the Suman docs
+will demonstrate how you can achieve the same thing with ES6 generators + Promises. Indeed, async/await is simply
+syntactic sugar over those constructs. Instead of using ```babel-register```, Suman recommends transpilation your
+source to a target directory and then running that, so that your test tranpilation process is transparent.

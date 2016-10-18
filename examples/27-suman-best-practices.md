@@ -1,6 +1,56 @@
+## Concurrency within a single test suite
+
+Please learn about the purposes of t.data and t.value
+
+
+```
+ // this is very bad!!
+
+var value = 3;
+
+this.beforeEach(t => {
+    value++;
+});
+
+
+this.it('is 4', t => {
+    assert.equal(value,4);
+
+});
+
+this.it('is 5', t => {
+    assert.equal(value,5);
+});
+
+```
+
+instead your should do this:
+
+
+```
+ // this is very bad!!
+
+var val = 3;
+
+this.beforeEach(t => {
+    value++;
+});
+
+
+this.it('is 4', {value: val}, t => {
+    assert.equal(value,4);
+});
+
+this.it('is 5', t => {
+    assert.equal(value,5);
+});
+
+```
+
+
 ## Transpilation
 
-If you are running an individual test file, and you in the process of developing or debuggng the test, you can and should use
+If you are running an individual test file, and you are in the process of developing or debugging the test, you can and should use
 babel-node, which is available with the suman-babel command.
 
 If you are running a group of tests and want to transpile first, then you should turn this into a 
