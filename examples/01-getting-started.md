@@ -29,16 +29,38 @@ suman will use the runner, as Suman always uses the Suman runner with multiple f
 if you point Suman at an individual test file, you the developer have the choice about whether to use the runner or not, using the <span style="background-color:#9ACD32">```--rnr```</span> flag.
 The Suman runner is designed to manage and orchestrate the execution of all your tests in separate processes, and basically do central control.
 
-    Advantages of runner
+    
+    
+    Advantages of runner for a single test
 
-    * The biggest advantage of using the runner with a *single test file* is that the runner can suppress your
+    + The biggest advantage of using the runner with a *single test file* is that the runner can suppress your
     console.log/debugging output, making it easier to see the actual results of the test.
 
-    Disadvantages of runner
+    Disadvantages of runner for a single test
     
-    * 50-100ms slower to finish for a single test
-    * Harder to debug
+    + 50-300ms slower to finish for a single test
+    + Harder to debug
     
+
+Suman doesn't make any assumptions about your project structure. Most NPM projects have a test directory, which is very standard practice.
+After installing Suman, you will have a directory called```"suman"``` at the root of your project. We highly recommend you move that directory into your
+test directory (or whatever your have called your test directory), like so: 
+
+In bash that would be:
+
+``` $ mv suman test/_suman``` 
+
+After doing that you will have to edit your ```suman.conf.js``` file, like so:
+ 
+```    
+{
+
+ // sumanHelpersDir: 'suman',     change this line to the below line
+ sumanHelpersDir: 'test/_suman'
+  
+}   
+
+```
 
 Here is a simple test file you can use to try Suman out, put the code in any .js file and run it with one of the above commands.
 
