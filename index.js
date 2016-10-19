@@ -472,7 +472,7 @@ global.sumanReporters.forEach(function (reporter) {
 //note: whatever args are remaining are assumed to be file or directory paths to tests
 var paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
     if (String(item).indexOf('-') === 0) {
-        console.log(colors.magenta(' => Suman warning => Probably a bad command line option "' + item + '", Suman is ignoring it.'))
+        console.log(colors.magenta(' => Suman warning => Extra command line option "' + item + '", Suman is ignoring it.'))
         return false;
     }
     return true;
