@@ -29,7 +29,7 @@ throw new Error('"x" is not an available option, available options are: a b c, e
 
 /////////////////
 
- create functionality for timeout option in suman.init(module)
+create functionality for timeout option in suman.init(module)
 
 /////////////
 
@@ -381,7 +381,6 @@ which items will be converted to where
 //TODO: http://blog.yld.io/2016/01/13/using-streams/#.VwyjZZMrKXk
 //TODO: freeze module.exports inside the init fn, iff module.exports.keys.lenght ===0
 //TODO: http://stackoverflow.com/questions/10753288/how-to-specify-test-directory-for-mocha
-//TODO: https://github.com/substack/picture-tube
 //TODO: need to test skip and only thoroughly
 //TODO: hooks after suman runs (opposite of suman.once.js) could be for collecting code/test coverage
 //TODO: whatever is returned in a beforeEach hook should be assigned to each test (?) NO, multiple hooks would overwrite ret

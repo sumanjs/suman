@@ -49,6 +49,11 @@ first make sure you have node-inspector installed for command line use (installe
 
 ```$ node-debug suman a.test.js --timeout=500000 --runner```  /// we want a challenge, will debug via the runner
 
+``` 
+/usr/local/bin/node --debug-brk=63823 --expose_debug_as=v8debug 
+/Users/t_millal/WebstormProjects/oresoftware/poolio/test/test-src/poolio-w-suman.test.js
+```
+
 
 3. With Webstorm
 

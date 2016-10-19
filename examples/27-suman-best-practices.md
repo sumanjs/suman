@@ -28,25 +28,44 @@ instead your should do this:
 
 
 ```
- // this is very bad!!
+    // this is much better
 
-var val = 3;
-
-this.beforeEach(t => {
-    value++;
-});
+    this.beforeEach(t => {
+        t.data.num = ++t.value;
+    });
 
 
-this.it('is 4', {value: val}, t => {
-    assert.equal(value,4);
-});
+    this.it('is 4', {value: 5}, t => {
+        assert.equal(t.data.num, 6);
+    });
 
-this.it('is 5', t => {
-    assert.equal(value,5);
-});
+
+    this.it('is 5', {value: 8}, t => {
+        assert.equal(t.data.num, 9);
+    });
 
 ```
 
+and even better is this, if you can follow:
+
+```
+    // this is even better
+
+    this.beforeEach(t => {
+        t.data.num = ++t.value;
+    });
+
+
+    this.it('is six', {value: 5}, t => {
+        assert.equal(t.data.num, t.value + 1);
+    });
+
+
+    this.it('is nine', {value: 8}, t => {
+        assert.equal(t.data.num, t.value + 1);
+    });
+    
+```
 
 ## Transpilation
 

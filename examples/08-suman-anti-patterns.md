@@ -50,6 +50,7 @@ in other words, don't do this:
   });
   ```
 
+note that anti-pattern number 4 relates directly to anti-pattern number 7
 
 [5.] **Anti-pattern number 5.** Unnessarily using process.nextTick or setImmediate in hook / test callbacks
 
@@ -86,6 +87,46 @@ this.it('not necesary', function(done){
 ```
 
 
-[6.] **Anti-pattern number 6.** Perhaps the most important anti-pattern.
+[6.] **Anti-pattern number 6.** Perhaps the most important anti-pattern to grok.
 
 You must use t.data and t.value to pass data between beforeEach and afterEach hooks and test cases!
+
+
+[7.] **Anti-pattern number 7.**  Don't register Test.describe() / Test.suite callbacks asynchronous.
+
+For example, this will throww an error and Suman will exit prematurely =>
+
+```
+
+const suman = require('suman');
+const Test = suman.init(module, {
+    pre: ['make-a-bet'],
+    post: ['destroyAllPools']
+});
+
+
+Test.describe('@TestsPoolio1', {parallel: true}, function (suite, path, async, assert) {
+
+
+    this.it.cb(t => {
+        setTimeout(t, 1000);
+    });
+
+});
+
+process.nextTick(function(){
+    
+    //we register this block asynchronously
+    
+    Test.describe('@TestsPoolio2', {parallel: true}, function (suite, path, async, assert) {
+
+        this.it.cb(t => {
+            setTimeout(t, 1000);
+        });
+
+
+    });
+
+});
+
+```

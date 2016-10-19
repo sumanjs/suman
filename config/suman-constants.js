@@ -80,8 +80,8 @@ module.exports = Object.freeze({
         HOOK_ERROR_AND_BAIL_IS_TRUE: 86,
         HOOK_TIMED_OUT_ERROR: 87,
         UNCAUGHT_EXCEPTION_BEFORE_ONCE_POST_INVOKED: 88,
-        UNCAUGHT_EXCEPTION_AFTER_ONCE_POST_INVOKED: 89
-        // NO_DATA_RECEIVED_FROM_FILE: 85
+        UNCAUGHT_EXCEPTION_AFTER_ONCE_POST_INVOKED: 89,
+        ASYNCHRONOUS_CALL_OF_TEST_DOT_DESCRIBE: 90
     },
     ERROR_MESSAGES: {
         INVALID_FUNCTION_TYPE_USAGE: ' => Suman fatal error => You cannot use arrow functions, geneators or async/await with describe callbacks; however, you may these functions everywhere else.\n' +
