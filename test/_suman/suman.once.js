@@ -19,15 +19,15 @@ module.exports = () => {  //load async deps for any of your suman tests
 			return 'charlie';
 		},
 		'smartconnect': function () {
-			return Promise.resolve({
+			return Promise.resolve(JSON.stringify({
 				formica: 'not metal'
-			});
+			}));
 
 		},
 		'dolce-vida': (cb) => {
 
 			setTimeout(function () {
-				cb(null, new Error('rub'));
+				cb(null, "new Error('rub')");
 			}, 10);
 
 		}
