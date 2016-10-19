@@ -17,6 +17,40 @@ Suman helper files effectively or correctly, (suman.ioc.js, suman.order.js, suma
 Arrow functions are useful for Suman, and they can be used everywhere except for describe blocks. This has to do with arrow functions binding the context for the callback to the wrong value. Describe blocks are designed to bind the callback to a new value (not the context of the current lexical scope), and to register
 all API calls synchronously. Suman is designed to throw an exception if any library call is made after a describe block function has returned.
 
+> in other words don't do this:
+
+```
+
+    Test.describe('root test suite', => {
+    
+    
+     });
+     
+    
+```
+
+> or this:
+
+
+```
+
+    Test.describe('root test suite', => {
+    
+        this.describe('uses generator function inappropriately', function *{
+        
+        
+        });
+    
+    
+     });
+     
+    
+```
+
+The reason why arrow functions are not permitted is because we need to bind to a new context in the callback. 
+Generator functions simply make no sense because the callback is supposed to run synchronously, even though it may be originally
+fired asynchronously. 
+
 [4.] **Anti-pattern number 4.** Nesting hooks and test cases. Describe blocks (aka child suites) are supposed to be nested! But hooks and test cases are not designed to be nested.
 Suman will throw an error if you try to do it, whereas Mocha would let you errantly do it; see this issue:
 https://github.com/mochajs/mocha/issues/1975, LOL, sorry Tom, wasn't me.

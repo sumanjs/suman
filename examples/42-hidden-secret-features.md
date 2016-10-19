@@ -16,6 +16,29 @@ this.it('whoa', t => {
 
 the reason for this is to support direct/automatic conversion from Mocha, so that you can still do things like:
 
+```
+
+function helper(cb){
+    
+      if(!condition){
+        cb(new Error('data is not defined');
+      }
+      else{
+      ... do something else
+      }
+
+});
+
+
+
+this.it('whoa', helper);
+
+
+
+```
+
+or more complexly:
+
 
 ```js
 
@@ -32,7 +55,32 @@ function helper(data, cb){
 
 
 
-this.it('whoa', helper.bind(null, 'some data'));
+this.it('whoa', helper.bind(this, 'some data'));
+
+
+```
+
+or if you think .bind() is ugly and inexplicit like me, do it like so:
+
+```js
+
+function makeHelper(data){
+
+ return function helper(cb){
+    
+      if(!data){
+        cb(new Error('data is not defined');
+      }
+      else{
+      ... do something with data
+      }
+
+   });
+
+}
+
+
+this.it('whoa', makeHelper(data));
 
 
 ```

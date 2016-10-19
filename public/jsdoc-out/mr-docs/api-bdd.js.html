@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta name="viewport" content="width=device-width" charset="utf-8">
     <title>BDD interface</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -9,152 +9,150 @@
     <link rel="stylesheet" href="css/index.min.css">
     <link rel="stylesheet" href="css/docs.min.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
-</head>
-<body data-spy="scroll" data-target=".scrollspy">
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
         <div class="container"><a class="brand">Mr. Doc</a>
-            <div class="nav-collapse collapse">
-                <ul class="nav pull-right sponsored"></ul>
-            </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<header id="overview" class="jumbotron subhead">
-    <div class="container">
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
         <h1>BDD interface</h1>
         <p class="lead"></p>
-    </div>
-</header>
-<div class="container">
-    <div class="row">
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
         <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li class="active"><a href="api-bdd.js.html">api-bdd.js</a></li>
+          </ul>
+          <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
-                <li><a href="/suman/index.html">Home</a></li>
-                <li class="active"><a href="api-bdd.js.html">api-bdd.js</a></li>
+              <li><a href="#suman"><i class="alert alert-success"></i><span>suman</span></a>
+              </li>
+              <li><a href="#init"><i class="alert alert-info"></i><span>init</span></a>
+              </li>
+              <li><a href="#describe"><i class="alert alert-info"></i><span>describe</span></a>
+              </li>
+              <li><a href="#TestSuite"><i class="alert alert-success"></i><span>TestSuite</span></a>
+              </li>
+              <li><a href="#describe"><i class="alert alert-info"></i><span>describe</span></a>
+              </li>
+              <li><a href="#before"><i class="alert alert-info"></i><span>before</span></a>
+              </li>
+              <li><a href="#before"><i class="alert alert-success"></i><span>before</span></a>
+              </li>
+              <li><a href="#before"><i class="alert alert-success"></i><span>before</span></a>
+              </li>
+              <li><a href="#before"><i class="alert alert-success"></i><span>before</span></a>
+              </li>
+              <li><a href="#before"><i class="alert alert-success"></i><span>before</span></a>
+              </li>
+              <li><a href="#before"><i class="alert alert-success"></i><span>before</span></a>
+              </li>
+              <li><a href="#after"><i class="alert alert-info"></i><span>after</span></a>
+              </li>
+              <li><a href="#after"><i class="alert alert-success"></i><span>after</span></a>
+              </li>
+              <li><a href="#after"><i class="alert alert-success"></i><span>after</span></a>
+              </li>
+              <li><a href="#after"><i class="alert alert-success"></i><span>after</span></a>
+              </li>
+              <li><a href="#after"><i class="alert alert-success"></i><span>after</span></a>
+              </li>
+              <li><a href="#after"><i class="alert alert-success"></i><span>after</span></a>
+              </li>
+              <li><a href="#beforeEach"><i class="alert alert-info"></i><span>beforeEach</span></a>
+              </li>
+              <li><a href="#beforeEach"><i class="alert alert-success"></i><span>beforeEach</span></a>
+              </li>
+              <li><a href="#beforeEach"><i class="alert alert-success"></i><span>beforeEach</span></a>
+              </li>
+              <li><a href="#beforeEach"><i class="alert alert-success"></i><span>beforeEach</span></a>
+              </li>
+              <li><a href="#beforeEach"><i class="alert alert-success"></i><span>beforeEach</span></a>
+              </li>
+              <li><a href="#afterEach"><i class="alert alert-info"></i><span>afterEach</span></a>
+              </li>
+              <li><a href="#afterEach"><i class="alert alert-success"></i><span>afterEach</span></a>
+              </li>
+              <li><a href="#afterEach"><i class="alert alert-success"></i><span>afterEach</span></a>
+              </li>
+              <li><a href="#afterEach"><i class="alert alert-success"></i><span>afterEach</span></a>
+              </li>
+              <li><a href="#afterEach"><i class="alert alert-success"></i><span>afterEach</span></a>
+              </li>
+              <li><a href="#afterEach"><i class="alert alert-success"></i><span>afterEach</span></a>
+              </li>
+              <li><a href="#it"><i class="alert alert-info"></i><span>it</span></a>
+              </li>
+              <li><a href="#it"><i class="alert alert-success"></i><span>it</span></a>
+              </li>
+              <li><a href="#it"><i class="alert alert-success"></i><span>it</span></a>
+              </li>
+              <li><a href="#it"><i class="alert alert-success"></i><span>it</span></a>
+              </li>
+              <li><a href="#it"><i class="alert alert-success"></i><span>it</span></a>
+              </li>
+              <li><a href="#it"><i class="alert alert-success"></i><span>it</span></a>
+              </li>
             </ul>
-            <div class="scrollspy">
-                <ul class="nav nav-list bs-docs-sidenav affix-top">
-                    <li><a href="#suman"><i class="alert alert-success"></i><span>suman</span></a>
-                    </li>
-                    <li><a href="#init"><i class="alert alert-info"></i><span>init</span></a>
-                    </li>
-                    <li><a href="#describe"><i class="alert alert-info"></i><span>describe</span></a>
-                    </li>
-                    <li><a href="#TestSuite"><i class="alert alert-success"></i><span>TestSuite</span></a>
-                    </li>
-                    <li><a href="#describe"><i class="alert alert-info"></i><span>describe</span></a>
-                    </li>
-                    <li><a href="#before"><i class="alert alert-info"></i><span>before</span></a>
-                    </li>
-                    <li><a href="#before"><i class="alert alert-success"></i><span>before</span></a>
-                    </li>
-                    <li><a href="#before"><i class="alert alert-success"></i><span>before</span></a>
-                    </li>
-                    <li><a href="#before"><i class="alert alert-success"></i><span>before</span></a>
-                    </li>
-                    <li><a href="#before"><i class="alert alert-success"></i><span>before</span></a>
-                    </li>
-                    <li><a href="#before"><i class="alert alert-success"></i><span>before</span></a>
-                    </li>
-                    <li><a href="#after"><i class="alert alert-info"></i><span>after</span></a>
-                    </li>
-                    <li><a href="#after"><i class="alert alert-success"></i><span>after</span></a>
-                    </li>
-                    <li><a href="#after"><i class="alert alert-success"></i><span>after</span></a>
-                    </li>
-                    <li><a href="#after"><i class="alert alert-success"></i><span>after</span></a>
-                    </li>
-                    <li><a href="#after"><i class="alert alert-success"></i><span>after</span></a>
-                    </li>
-                    <li><a href="#after"><i class="alert alert-success"></i><span>after</span></a>
-                    </li>
-                    <li><a href="#beforeEach"><i class="alert alert-info"></i><span>beforeEach</span></a>
-                    </li>
-                    <li><a href="#beforeEach"><i class="alert alert-success"></i><span>beforeEach</span></a>
-                    </li>
-                    <li><a href="#beforeEach"><i class="alert alert-success"></i><span>beforeEach</span></a>
-                    </li>
-                    <li><a href="#beforeEach"><i class="alert alert-success"></i><span>beforeEach</span></a>
-                    </li>
-                    <li><a href="#beforeEach"><i class="alert alert-success"></i><span>beforeEach</span></a>
-                    </li>
-                    <li><a href="#afterEach"><i class="alert alert-info"></i><span>afterEach</span></a>
-                    </li>
-                    <li><a href="#afterEach"><i class="alert alert-success"></i><span>afterEach</span></a>
-                    </li>
-                    <li><a href="#afterEach"><i class="alert alert-success"></i><span>afterEach</span></a>
-                    </li>
-                    <li><a href="#afterEach"><i class="alert alert-success"></i><span>afterEach</span></a>
-                    </li>
-                    <li><a href="#afterEach"><i class="alert alert-success"></i><span>afterEach</span></a>
-                    </li>
-                    <li><a href="#afterEach"><i class="alert alert-success"></i><span>afterEach</span></a>
-                    </li>
-                    <li><a href="#it"><i class="alert alert-info"></i><span>it</span></a>
-                    </li>
-                    <li><a href="#it"><i class="alert alert-success"></i><span>it</span></a>
-                    </li>
-                    <li><a href="#it"><i class="alert alert-success"></i><span>it</span></a>
-                    </li>
-                    <li><a href="#it"><i class="alert alert-success"></i><span>it</span></a>
-                    </li>
-                    <li><a href="#it"><i class="alert alert-success"></i><span>it</span></a>
-                    </li>
-                    <li><a href="#it"><i class="alert alert-success"></i><span>it</span></a>
-                    </li>
-                </ul>
-            </div>
+          </div>
         </div>
         <div class="span9">
-            <section id="suman">
-                <h1>suman</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">declaration</div>
-                <span>&nbsp;</span><span>suman</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <div class="description"><p>CommonJS require syntax</p></div>
-            <pre><code class="language-javascript">const suman = require('suman');</code></pre>
-            <div class="description"><p>equivalent ES6 module syntax</p></div>
-            <pre><code class="language-javascript">import * as suman from 'suman';</code></pre>
-            <section id="init">
-                <h1>init</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-info radius ctx-type">method</div>
-                <span>&nbsp;</span><span>suman.init()</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>module</td>
-                    <td>Object</td>
-                    <td><p>local CommonJS module</p></td>
-                </tr>
-                <tr>
-                    <td>options</td>
-                    <td>Object</td>
-                    <td><p>Available options are [integrants {Array}, interface {String}, export {Boolean}]</p></td>
-                </tr>
-                <tr>
-                    <td>return</td>
-                    <td>Object</td>
-                    <td><p>Test singleton containing describe factory fn</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Create an array of all the right files in the source dir</p></div>
-            <pre><code class="language-javascript">suman.init = function init(module, options) {
+          <section id="suman">
+            <h1>suman</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>suman</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>CommonJS require syntax</p></div>
+          <pre><code class="language-javascript">const suman = require('suman');</code></pre>
+          <div class="description"><p>equivalent ES6 module syntax</p></div>
+          <pre><code class="language-javascript">import * as suman from 'suman';</code></pre>
+          <section id="init">
+            <h1>init</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>suman.init()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>module</td>
+                <td>Object</td>
+                <td><p>local CommonJS module</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td><p>Available options are [integrants {Array}, interface {String}, export {Boolean}]</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td><p>Test singleton containing describe factory fn</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Create an array of all the right files in the source dir</p></div>
+          <pre><code class="language-javascript">suman.init = function init(module, options) {
 	
 	return {
 		describe: function (description, options, callback) {
@@ -171,42 +169,41 @@
 
 const Test = suman.init(module, {}); // We initialize suman in a test suite file
 // (Test is a singleton on which describe is a factory function, as you can see above)</code></pre>
-            <section id="describe">
-                <h1>describe</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-info radius ctx-type">method</div>
-                <span>&nbsp;</span><span>Test.describe()</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Description of Suite</p></td>
-                </tr>
-                <tr>
-                    <td>options</td>
-                    <td>Object</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates our test suite, should be called once per file</p></div>
-            <pre><code class="language-javascript">Test.describe = function describe(description, options, callback) {
+          <section id="describe">
+            <h1>describe</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Test.describe()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Description of Suite</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates our test suite, should be called once per file</p></div>
+          <pre><code class="language-javascript">Test.describe = function describe(description, options, callback) {
 	
 	//Test.describe fits the factory pattern and creates test suites
 	//bound context of callback is a new TestSuite instance
@@ -231,71 +228,68 @@ Test.describe('Our Suite', {parallel: true, timeout: 25000}, function (assert, f
 	//this callback can request core modules as well as any value listed in your suman.ioc.js file
 	
 });</code></pre>
-            <section id="TestSuite">
-                <h1>TestSuite</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">constructor</div>
-                <span>&nbsp;</span><span>TestSuite()</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>opts</td>
-                    <td>Object</td>
-                    <td><p>Options.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an instance of TestSuite. Constructor not exposed to user.</p></div>
-            <pre><code class="language-javascript">function TestSuite(options) {
+          <section id="TestSuite">
+            <h1>TestSuite</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>&nbsp;</span><span>TestSuite()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>opts</td>
+                <td>Object</td>
+                <td><p>Options.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an instance of TestSuite. Constructor not exposed to user.</p></div>
+          <pre><code class="language-javascript">function TestSuite(options) {
 	// this constructor is internal to Suman and you don't need to call it, but it's here for context
 }</code></pre>
-            <section id="describe">
-                <h1>describe</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-info radius ctx-type">method</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.describe()</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>The desired diameter of the circle.</p></td>
-                </tr>
-                <tr>
-                    <td>options</td>
-                    <td>Object</td>
-                    <td><p>The desired diameter of the circle.</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The desired diameter of the circle.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a new instance of TestSuite as a child and binds new TestSuite to
-                callback.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.describe = function describe(description, options, callback) {
+          <section id="describe">
+            <h1>describe</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.describe()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>The desired diameter of the circle.</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td><p>The desired diameter of the circle.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The desired diameter of the circle.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a new instance of TestSuite as a child and binds new TestSuite to callback.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.describe = function describe(description, options, callback) {
 	
 	//context of callback is a new TestSuite instance
 	//one important thing to note is that the callback must be a traditional JavaScript function,
@@ -309,38 +303,36 @@ Test.describe('Our Suite', {parallel: true, timeout: 25000}, function (assert, f
 this.describe('test all network calls to smartconnect', {parallel: false}, function () {
 	
 });</code></pre>
-            <section id="before">
-                <h1>before</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-info radius ctx-type">method</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.before()</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.before = function before(description, callback) {
+          <section id="before">
+            <h1>before</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.before()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.before = function before(description, callback) {
 
 // This is a description of the before function inside
 	
@@ -349,220 +341,208 @@ this.describe('test all network calls to smartconnect', {parallel: false}, funct
 //Usage example
 
 this.before(t =&gt; {
-	assert.equal({}, 'object');
+	assert.equal(typeof {}, 'object');
 });</code></pre>
-            <section id="before">
-                <h1>before</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.before</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.before.cb = function (description, callback) {
+          <section id="before">
+            <h1>before</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.before</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.before.cb = function (description, callback) {
 
 // This is a description of the before function inside
 	
 };</code></pre>
-            <section id="before">
-                <h1>before</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.before</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.before.skip = function (description, callback) {
+          <section id="before">
+            <h1>before</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.before</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.before.skip = function (description, callback) {
 
 // This is a description of the before function inside
 	
 };</code></pre>
-            <section id="before">
-                <h1>before</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.before</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.before.only = function (description, callback) {
+          <section id="before">
+            <h1>before</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.before</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.before.only = function (description, callback) {
 
 // This is a description of the before function inside
 	
 };</code></pre>
-            <section id="before">
-                <h1>before</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.before</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.before.skip.cb = function (description, callback) {
+          <section id="before">
+            <h1>before</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.before</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.before.skip.cb = function (description, callback) {
 
 // This is a description of the before function inside
 	
 };</code></pre>
-            <section id="before">
-                <h1>before</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.before</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.before.only.cb = function (description, callback) {
+          <section id="before">
+            <h1>before</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.before</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a before hook which runs once before any test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.before.only.cb = function (description, callback) {
 
 // This is a description of the before function inside
 	
 };</code></pre>
-            <section id="after">
-                <h1>after</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-info radius ctx-type">method</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.after()</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.after = function after(description, callback) {
+          <section id="after">
+            <h1>after</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.after()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.after = function after(description, callback) {
 	
 };
 
@@ -571,208 +551,196 @@ this.before(t =&gt; {
 this.after(t =&gt; {
 	assert.equal(t.foo, undefined);
 });</code></pre>
-            <section id="after">
-                <h1>after</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.after</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.after.cb = function after(description, callback) {
+          <section id="after">
+            <h1>after</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.after</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.after.cb = function after(description, callback) {
 	
 };</code></pre>
-            <section id="after">
-                <h1>after</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.after</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.after.skip = function after(description, callback) {
+          <section id="after">
+            <h1>after</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.after</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.after.skip = function after(description, callback) {
 	
 };</code></pre>
-            <section id="after">
-                <h1>after</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.after</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.after.only = function after(description, callback) {
+          <section id="after">
+            <h1>after</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.after</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.after.only = function after(description, callback) {
 	
 };</code></pre>
-            <section id="after">
-                <h1>after</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.after</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.after.skip.cb = function after(description, callback) {
+          <section id="after">
+            <h1>after</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.after</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.after.skip.cb = function after(description, callback) {
 	
 };</code></pre>
-            <section id="after">
-                <h1>after</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.after</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are
-                run.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.after.only.cb = function after(description, callback) {
+          <section id="after">
+            <h1>after</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.after</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.after.only.cb = function after(description, callback) {
 	
 };</code></pre>
-            <section id="beforeEach">
-                <h1>beforeEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-info radius ctx-type">method</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.beforeEach()</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a beforeEach hook which runs immediately before each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.beforeEach = function beforeEach(description, callback) {
+          <section id="beforeEach">
+            <h1>beforeEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.beforeEach()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a beforeEach hook which runs immediately before each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.beforeEach = function beforeEach(description, callback) {
 	
 };
 
@@ -781,382 +749,361 @@ this.after(t =&gt; {
 this.beforeEach('hook title', t =&gt; {
 	assert.equal(t.value.foo, 'bar');
 });</code></pre>
-            <section id="beforeEach">
-                <h1>beforeEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.beforeEach</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a beforeEach hook which runs immediately before each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.beforeEach.skip = function beforeEach(description, callback) {
+          <section id="beforeEach">
+            <h1>beforeEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.beforeEach</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a beforeEach hook which runs immediately before each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.beforeEach.skip = function beforeEach(description, callback) {
 	
 };</code></pre>
-            <section id="beforeEach">
-                <h1>beforeEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.beforeEach</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a beforeEach hook which runs immediately before each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.beforeEach.only = function beforeEach([description, options], callback) {
+          <section id="beforeEach">
+            <h1>beforeEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.beforeEach</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a beforeEach hook which runs immediately before each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.beforeEach.only = function beforeEach([description, options], callback) {
 	
 };</code></pre>
-            <section id="beforeEach">
-                <h1>beforeEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.beforeEach</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a beforeEach hook which runs immediately before each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.beforeEach.skip.cb = function beforeEach([description, options], callback) {
+          <section id="beforeEach">
+            <h1>beforeEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.beforeEach</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a beforeEach hook which runs immediately before each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.beforeEach.skip.cb = function beforeEach([description, options], callback) {
 	
 };</code></pre>
-            <section id="beforeEach">
-                <h1>beforeEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.beforeEach</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a beforeEach hook which runs immediately before each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.beforeEach.only.cb = function beforeEach([description, options], callback) {
+          <section id="beforeEach">
+            <h1>beforeEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.beforeEach</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a beforeEach hook which runs immediately before each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.beforeEach.only.cb = function beforeEach([description, options], callback) {
 	
 };</code></pre>
-            <section id="afterEach">
-                <h1>afterEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-info radius ctx-type">method</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.afterEach()</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.afterEach = function afterEach([description, options], callback) {
+          <section id="afterEach">
+            <h1>afterEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.afterEach()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.afterEach = function afterEach([description, options], callback) {
 	
 };</code></pre>
-            <section id="afterEach">
-                <h1>afterEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.afterEach</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.afterEach.skip = function afterEach([description, options], callback) {
+          <section id="afterEach">
+            <h1>afterEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.afterEach</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.afterEach.skip = function afterEach([description, options], callback) {
 	
 };</code></pre>
-            <section id="afterEach">
-                <h1>afterEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.afterEach</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.afterEach.only = function afterEach([description, options], callback) {
+          <section id="afterEach">
+            <h1>afterEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.afterEach</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.afterEach.only = function afterEach([description, options], callback) {
 	
 };</code></pre>
-            <section id="afterEach">
-                <h1>afterEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.afterEach</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.afterEach.cb = function afterEach([description, options], callback) {
+          <section id="afterEach">
+            <h1>afterEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.afterEach</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.afterEach.cb = function afterEach([description, options], callback) {
 	
 };</code></pre>
-            <section id="afterEach">
-                <h1>afterEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.afterEach</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.afterEach.skip.cb = function afterEach([description, options], callback) {
+          <section id="afterEach">
+            <h1>afterEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.afterEach</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.afterEach.skip.cb = function afterEach([description, options], callback) {
 	
 };</code></pre>
-            <section id="afterEach">
-                <h1>afterEach</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.afterEach</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Optional description of hook (for debugging).</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that
-                exists beneath the call.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.afterEach.only.cb = function afterEach([description, options], callback) {
+          <section id="afterEach">
+            <h1>afterEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.afterEach</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an afterEach hook which runs immediately after each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.afterEach.only.cb = function afterEach([description, options], callback) {
 	
 };</code></pre>
-            <section id="it">
-                <h1>it</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-info radius ctx-type">method</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.it()</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Required description of test case</p></td>
-                </tr>
-                <tr>
-                    <td>opts</td>
-                    <td>Object</td>
-                    <td><p>Optional options object.</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a test case.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.it = function it(description, [options], callback) {
+          <section id="it">
+            <h1>it</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.it()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Required description of test case</p></td>
+              </tr>
+              <tr>
+                <td>opts</td>
+                <td>Object</td>
+                <td><p>Optional options object.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a test case.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.it = function it(description, [options], callback) {
 	
 };
 
@@ -1169,219 +1116,209 @@ this.it('test case title', t =&gt; {
 this.it('test case title', {mode: 'series'}, t =&gt; {
 	assert.equal(t.value.foo, 'bar');
 });</code></pre>
-            <section id="it">
-                <h1>it</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.it</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Required description of test case</p></td>
-                </tr>
-                <tr>
-                    <td>opts</td>
-                    <td>Object</td>
-                    <td><p>Optional options object.</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a test case.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.it.cb = function it(description, [options], callback) {
+          <section id="it">
+            <h1>it</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.it</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Required description of test case</p></td>
+              </tr>
+              <tr>
+                <td>opts</td>
+                <td>Object</td>
+                <td><p>Optional options object.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a test case.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.it.cb = function it(description, [options], callback) {
 	
 };</code></pre>
-            <section id="it">
-                <h1>it</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.it</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Required description of test case</p></td>
-                </tr>
-                <tr>
-                    <td>opts</td>
-                    <td>Object</td>
-                    <td><p>Optional options object.</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a test case.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.it.skip = function it(description, [options], callback) {
+          <section id="it">
+            <h1>it</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.it</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Required description of test case</p></td>
+              </tr>
+              <tr>
+                <td>opts</td>
+                <td>Object</td>
+                <td><p>Optional options object.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a test case.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.it.skip = function it(description, [options], callback) {
 	
 };</code></pre>
-            <section id="it">
-                <h1>it</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.it</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Required description of test case</p></td>
-                </tr>
-                <tr>
-                    <td>opts</td>
-                    <td>Object</td>
-                    <td><p>Optional options object.</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a test case.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.it.only = function it(description, [options], callback) {
+          <section id="it">
+            <h1>it</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.it</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Required description of test case</p></td>
+              </tr>
+              <tr>
+                <td>opts</td>
+                <td>Object</td>
+                <td><p>Optional options object.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a test case.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.it.only = function it(description, [options], callback) {
 	
 };</code></pre>
-            <section id="it">
-                <h1>it</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.it</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Required description of test case</p></td>
-                </tr>
-                <tr>
-                    <td>opts</td>
-                    <td>Object</td>
-                    <td><p>Optional options object.</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a test case.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.it.skip.cb = function it(description, [options], callback) {
+          <section id="it">
+            <h1>it</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.it</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Required description of test case</p></td>
+              </tr>
+              <tr>
+                <td>opts</td>
+                <td>Object</td>
+                <td><p>Optional options object.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a test case.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.it.skip.cb = function it(description, [options], callback) {
 	
 };</code></pre>
-            <section id="it">
-                <h1>it</h1>
-                <h5 class="subheader"></h5>
-                <p>
-                <div class="label label-success radius ctx-type">property</div>
-                <span>&nbsp;</span><span>TestSuite.prototype.it</span><span>&nbsp;</span>
-                </p>
-            </section>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th style="width:20%">Option name</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>description</td>
-                    <td>String</td>
-                    <td><p>Required description of test case</p></td>
-                </tr>
-                <tr>
-                    <td>opts</td>
-                    <td>Object</td>
-                    <td><p>Optional options object.</p></td>
-                </tr>
-                <tr>
-                    <td>callback</td>
-                    <td>Function</td>
-                    <td><p>The function which acts as the hook.</p></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="description"><p>Creates a test case.</p></div>
-            <pre><code class="language-javascript">TestSuite.prototype.it.only.cb = function it(description, [options], callback) {
+          <section id="it">
+            <h1>it</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>TestSuite.prototype.it</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Required description of test case</p></td>
+              </tr>
+              <tr>
+                <td>opts</td>
+                <td>Object</td>
+                <td><p>Optional options object.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a test case.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.it.only.cb = function it(description, [options], callback) {
 	
 };</code></pre>
         </div>
+      </div>
     </div>
-</div>
-<footer class="footer">
-    <div class="container">
-        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a
-                href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume
-            Ribreau </a></p>
-        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux"
-                                      class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt"
-                                                                        title="Full Redis GUI"
-                                                                        class="redsmin">Redsmin</a></p>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
         <p>Theme borrowed from Twitter Bootstrap</p>
-    </div>
-</footer>
-<script src="js/twitter-widget.min.js"></script>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap-transition.min.js"></script>
-<script src="js/bootstrap-scrollspy.min.js"></script>
-<script src="js/bootstrap-dropdown.min.js"></script>
-<script src="js/bootstrap-collapse.min.js"></script>
-<script src="js/bootstrap-affix.min.js"></script>
-<script src="js/prism.min.js"></script>
-<script src="js/index.min.js"></script>
-</body>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
 </html>
