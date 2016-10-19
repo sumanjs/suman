@@ -4,9 +4,9 @@ If an error is thrown from a test or hook and is not captured correctly, use ```
 ```
 this.it('throws error', t => {
     
-    asyncFn().then(function(){
+    return asyncFn().then(function(){
     
-        throw new Error('uncaught error');
+        throw new Error('this is an uncaught error');
     
     });
 
@@ -21,7 +21,7 @@ if the above error fails to get pinned to the right test case or hook, you can d
 ```
 this.it('throws error', t => {
     
-    asyncFn().then(t.wrap(function(){
+    return asyncFn().then(t.wrap(function(){   // <<< use t.wrap(fn)
     
         throw new Error('now this error gets trapped correctly');
     

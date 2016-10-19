@@ -116,7 +116,7 @@ TestSuite.prototype.before = function before(description, callback) {
 //Usage example
 
 this.before(t => {
-	assert.equal({}, 'object');
+	assert.equal(typeof {}, 'object');
 });
 
 /**

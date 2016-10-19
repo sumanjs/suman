@@ -8,7 +8,7 @@ Did you know that t is a function?
 ```js
 this.it('whoa', t => {
 
-     assert(typeof t === 'function');
+     assert(typeof t === 'function'); // false => TODO
 
 });
 

@@ -8,13 +8,14 @@ and preventing the use of global variables across tests. However Suman is unopin
 
 Suman provides an extremely powerful and versatile framework designed for maximum code reuse, test isolation,
 parallelism with multiple Node.js processes and the best possible developer experience. Suman is designed to make 
-tests "nodeable" by allowing any given test to be run with node itself, which frankly is amazing, 
+tests "nodeable" by allowing any given test to be run with ```node``` itself, which frankly is amazing, 
 as well as being highly debuggable with excellent error reporting and useful logging files. 
 
-Suman also has built-in code coverage tooling (using Istanbul), as well as watchers that can run your test suite every-time you 
-make a change to the codebase, or watchers which run a test file everytime you make a change to the test file.
+Suman also has built-in code coverage tooling (using Istanbul), as well as filesystem watchers that can run your test suites every-time you 
+make a change to the codebase, or watchers which run a test file everytime you make a change to the test file. Suman provides a simple Express
+server which runs in the background and collects/reports test data and watches for filesystem changes.
 
-Usage with Babel:
+Transpilation and usage with Babel:
 
 Suman has first-class support for transpilation with Babel but recommends you avoid transpilation, 
 so that your tests remain node-able and are more debuggable. If you like async/await functionaliy, the Suman docs

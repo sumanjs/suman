@@ -1,6 +1,11 @@
 ## Concurrency within a single test suite
 
-Please learn about the purposes of t.data and t.value
+For the purposes of speed, ideally your test cases can run in parallel/interleave.
+However, if they are interleaving, they can both modify data in the shared scope and cause race conditions.
+To avoid these types of race conditions, Suman provides features to pass data (hopefully immutable) directly
+between test cases and beforeEach/afterEach hooks (in both directions)
+
+Please learn about the purposes of t.data and t.value, the below is an illustration:
 
 
 ```

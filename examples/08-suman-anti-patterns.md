@@ -130,3 +130,132 @@ process.nextTick(function(){
 });
 
 ```
+
+[8.]  Failing to return a Promise-returning asynchronous function. When not using callback mode, 
+the test/hook callback function can act as a Promise provider. If nothing is returned, the test will finish without
+being able to properly process any asynchronous behavior.
+
+
+This following is simply incorrect, the test case will finish in the same tick and we won't be able to capture the Promise
+
+```
+
+this.it('throws error', t => {
+    
+     asyncFn().then(function(){
+    
+        throw new Error('now this error gets captured correctly');
+    
+    });
+
+
+});
+
+```
+
+This is correct, you must return the Promise in the test case or hook callback
+
+```
+
+this.it('throws error', t => {
+    
+     return asyncFn().then(function(){    // return the Promise
+    
+        throw new Error('now this error gets captured correctly');
+    
+    });
+
+});
+
+```
+
+
+[9.] Suman anti-pattern number 9.  Putting delay functions inside before hooks.
+
+It makes sense at first, but you must remember that the delay/resume functionality is completely different than the before/after hook functionality.
+before/after hook are related to running before and after test cases.
+
+On the other hand, delay/resume have to do with describe blocks, and delaying the running of their respective callback functions.
+
+
+As an example, if you only call the delay function from inside the before hook, the delay function will never ever get called,
+and a timeout will occur:
+
+
+```
+const suman = require('suman');
+const Test = suman.init(module, {});
+
+
+Test.describe('@TestsPoolio1', {parallel: true}, function (suite, path, async, assert, delay) {
+
+
+    this.before(t => {
+        console.log('before');   // we will never get here
+        delay();                 // this will never get called
+    });
+
+    this.it(t => {
+        console.log('test case that will never be invoked, 
+        because all describe blocks have to run first before hooks and test cases run')
+    });
+
+
+    this.describe('this block will never be invoked',function () {
+
+        // this block will never be invoked, because delay is not called because it is inside the before hook
+        // which will never get called until we register all describe blocks
+
+        console.log('describe');
+
+        this.it.cb(t => {
+            console.log('in test case');
+            setTimeout(t, 1000);
+        });
+
+    });
+
+});
+```
+
+instead, this is the right thing to do:
+
+
+```
+const suman = require('suman');
+const Test = suman.init(module, {});
+
+
+Test.describe('@TestsPoolio1', {parallel: true}, function (suite, path, async, assert, delay) {
+
+
+    //delay will be invoked after 3 seconds, then the nested describe block callback will be fired
+    setTimeout(delay,3000); 
+
+
+
+    this.before(t => {
+        console.log('before');                  
+    });
+
+    this.it('one',t => {
+      
+    });
+
+
+    this.describe('this block will now be invoked',function () {
+    
+      // by delaying this callback from firing, we can register a dynamic number of test cases, 
+      // and even a dynamic number of hooks
+
+        console.log('describe');
+
+        this.it.cb('two', t => {
+            setTimeout(t, 1000);
+        });
+
+    });
+
+});
+
+```

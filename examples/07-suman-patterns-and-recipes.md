@@ -2,6 +2,17 @@
 
 The best patterns to use with Suman to get the most out of the framework.
 
+See the following example projects which will show you how to get the most out the Suman test framework.
+Benefits will be maximum code-reuse, speed and isolation from multiple Node.js processes, 
+and clean-coding patterns and expressiveness.
+
+>  Project 1
+>
+>  Project 2
+>
+>  Project 3
+
+
 
 1. Inject dependencies with suman.ioc.js
 

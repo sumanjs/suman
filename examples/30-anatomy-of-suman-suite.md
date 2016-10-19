@@ -1,12 +1,11 @@
 
 
-This article goes into intricate detail about the contexts in different scopes of a Suman test 
+This article goes into intricate detail about the "hidden" contexts in different scopes of a Suman test 
 
 
 ```js
 
 //we have our root suite, followed by a nested child suite A, that in turn has a nested child suite B
-
 //if you run this example, and look at the logs, you will get a feel for how a Suman test is executed
 
 
@@ -22,7 +21,7 @@ Test.describe('root suite description', {}, function () {   // we define the roo
 
 
     this.before(t => {
-        console.log('1', this === self); //true
+        console.log('1', this === self); //true (has to be, due to arrow functions)
     });
 
     this.beforeEach(function (t) {

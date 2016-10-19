@@ -3,31 +3,26 @@ Here is the simple examples page.
 ```
 
 const suman = require('suman');
-const Test = suman.init(module,{});
+const Test = suman.init(module, {});
 
 
-Test.describe(__filename, function(assert){
+Test.describe(__filename, function (assert) {
 
     this.before(t => {
-    
-       console.log('before');
-    
+        console.log('before');
     });
 
     this.it(t => {
-    
-       assert(true);
-    
+        assert(true);
     });
-    
-    
-     this.after(t => {
-        
-           console.log('after');
-        
-     });
+
+
+    this.after(t => {
+        console.log('after');
+    });
 
 });
+
 
 ```
 
@@ -47,48 +42,46 @@ Now let's try:
 
 
 ```
-
 const suman = require('suman');
-const Test = suman.init(module,{});
+const Test = suman.init(module, {});
 
 
-Test.describe(__filename, function(assert, child_process){
+Test.describe(__filename, function (assert, child_process) {
 
     this.before(t => {
-       console.log('before');
+        console.log('before');
     });
-    
-     this.it(t => {
-           assert(true);
-     });
-        
-        
-     this.it(t => {
-            assert(true);
-     });
+
+    this.it(t => {
+        assert(true);
+    });
 
 
-    this.describe('nested describe block',function(){
-    
-    
-         this.beforeEach(t => {
-             console.log('beforeEach hook should only run once');
-         });
-    
-    
-         this.it(t => {
-           assert(true);
+    this.it(t => {
+        assert(true);
+    });
+
+
+    this.describe('nested describe block', function () {
+
+
+        this.beforeEach(t => {
+            console.log('beforeEach hook should only run once');
         });
-    
+
+
+        this.it(t => {
+            assert(true);
+        });
+
     });
-    
-    
-    
-     this.after(t => {
-        
-         console.log('after');
-        
-     });
+
+
+    this.after(t => {
+
+        console.log('after');
+
+    });
 
 });
 

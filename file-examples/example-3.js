@@ -1,6 +1,20 @@
-/**
- * Created by Olegzandr on 5/13/16.
- */
+const suman = require('suman');
+const Test = suman.init(module, {});
 
 
-//bop
+Test.describe(__filename, function (assert) {
+
+    this.before(t => {
+        console.log('before');
+    });
+
+    this.it(t => {
+        assert(true);
+    });
+
+
+    this.after(t => {
+        console.log('after');
+    });
+
+});

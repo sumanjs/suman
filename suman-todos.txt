@@ -5,7 +5,7 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 (look at the debugging output)
 
 
-/////////////////
+/////////////
 
  => beep when a watch-project test fails => https://www.npmjs.com/browse/keyword/beep
 
@@ -272,6 +272,7 @@ Error: desc is not a string
     at Function.Module.runMain (module.js:575:10)
 
 
+//this.describe.delay  // this.resume();
 // t.plan/t.confirm for hooks?
 //--concurrency option should just be "--processes"
 //TODO: need exit code in overall stats table

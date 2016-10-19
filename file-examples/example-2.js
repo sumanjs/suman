@@ -6,7 +6,6 @@ Test.describe('SimpleTest', function (assert, fs, http, os) {
 
 
     // this is much better
-
     this.beforeEach(t => {
         t.data.num = ++t.value;
     });
