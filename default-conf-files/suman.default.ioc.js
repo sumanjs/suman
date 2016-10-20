@@ -11,19 +11,19 @@
 const http = require('http');
 
 
-module.exports = () => {  //load async deps for any of your suman tests
+module.exports = data => {  //load async deps for any of your suman tests
 
     return {
 
         //the following are examples
 
         //synchronous dependency acquisition
-        'request': function () {
-            return require('request');  //this is not very useful, but below we can see useful asynchronous loading of deps
+        'example': function () {
+            return {'just':'an example'};
         },
 
         //asynchronous dependency acquisition, pass data back to test files using error-first callback
-        'example_dot_com': function (data, cb) {
+        'example_dot_com': cb => {
 
             http.get({
 
@@ -50,11 +50,12 @@ module.exports = () => {  //load async deps for any of your suman tests
 
         //asynchronous dependency acquisition, return a Promise
 
-        'google_search' : function(data,cb){
-
-            const searchTerms = data || 'dogs';
-
-
+        'fs_search' : () => {
+            return new Promise(function(resolve, reject){
+                  setTimeout(function(){
+                      resolve('some filesystem values')
+                  },1000);
+            });
         }
 
 
