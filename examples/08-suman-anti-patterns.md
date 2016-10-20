@@ -293,3 +293,68 @@ Test.describe('@TestsPoolio1', {parallel: true}, function (suite, path, async, a
 });
 
 ```
+
+[10.] adding unnessary custom timeouts => use the internal timeout val!
+
+
+// this is unnecessary:
+
+```
+    this.beforeEach.cb('create crucible server', t => {
+    
+      setTimeout(t.fatal, 6000);   // you don't need this, the library has this built-in
+
+      const nodeEnv = t.value.NODE_ENV;
+
+      const port = t.data.port = nextPort();
+
+      const server = t.data.server = child_process.spawn('node', [projectRoot], {
+        env: Object.assign({}, process.env, {
+          NODE_ENV: nodeEnv,
+          port: port
+        })
+      });
+
+      server.stdout.on('data', function onData(d) {
+        if (String(d).match(/listening/)) {
+          server.stdout.removeListener('data', onData);
+          cb(null);
+        }
+      });
+
+      server.once('error', t.fatal);
+
+    });
+    
+```
+
+instead, do this:
+
+```
+
+    this.beforeEach.cb('create crucible server', {timeout: 6000}, t => {
+
+      const nodeEnv = t.value.NODE_ENV;
+
+      const port = t.data.port = nextPort();
+
+      const server = t.data.server = child_process.spawn('node', [projectRoot], {
+        env: Object.assign({}, process.env, {
+          NODE_ENV: nodeEnv,
+          port: port
+        })
+      });
+
+      server.stdout.on('data', function onData(d) {
+        if (String(d).match(/listening/)) {
+          server.stdout.removeListener('data', onData);
+          cb(null);
+        }
+      });
+
+      server.once('error', t.fatal);
+
+    });
+    
+```
+    
