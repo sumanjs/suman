@@ -1,24 +1,22 @@
-
-
-module.exports = () => {  //load async deps for any of your suman tests
+module.exports = data => {  //load async deps for any of your suman tests
 
     return {
 
-        'william': function(data, cb){
+        'william': function (cb) {
 
-            setTimeout(function(){
-                 cb(null, 10);
+            setTimeout(function () {
+                cb(null, 10);
             }, 100);
 
         },
 
-        'socketio': function(){
-             return {
-                 'dummy':'dummy socketio'
-             }
+        'socketio': function () {
+            return {
+                'dummy': 'dummy socketio'
+            }
         },
 
-        'should': function(){
+        'should': function () {
             return Promise.resolve(require('should'));
         },
         'request': function () {
@@ -27,7 +25,7 @@ module.exports = () => {  //load async deps for any of your suman tests
         'socket_io_client': function () {
             return require('socket.io-client');
         },
-        'choodles': function (data, cb) {
+        'choodles': function (cb) {
 
             setTimeout(function () {
                 cb(null, {
@@ -35,7 +33,7 @@ module.exports = () => {  //load async deps for any of your suman tests
                 });
             }, 100);
         },
-        'roodles': function (data, cb) {
+        'roodles': function (cb) {
 
             setTimeout(function () {
                 cb(null, {
@@ -43,7 +41,7 @@ module.exports = () => {  //load async deps for any of your suman tests
                 });
             }, 100);
         },
-        'whoa': function (data, cb) {
+        'whoa': function ( cb) {
 
             setTimeout(function () {
                 cb(null, {
@@ -53,7 +51,7 @@ module.exports = () => {  //load async deps for any of your suman tests
                 });
             }, 100);
         },
-        'cherry': function (data, cb) {
+        'cherry': function (cb) {
 
             setTimeout(function () {
                 cb(null, {

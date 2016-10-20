@@ -35,7 +35,7 @@ module.exports = () => {  //load async deps for any of your suman tests
         'judas': function () {
 
             return new Promise(function (resolve, reject) {
-                setTimeout(resolve, 3000);
+                setTimeout(resolve, 100);
             })
 
         },
@@ -43,7 +43,7 @@ module.exports = () => {  //load async deps for any of your suman tests
         'ugly': function () {
 
             return new Promise(function (resolve, reject) {
-                setTimeout(resolve, 3000);
+                setTimeout(resolve, 100);
             })
 
         }
