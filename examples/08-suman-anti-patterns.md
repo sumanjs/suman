@@ -91,30 +91,30 @@ note that anti-pattern number 4 relates directly to anti-pattern number 7
 ```js
 
 // it is not necessary to do this
-this.it('not necesary', function(done){
+this.it('not necesary', t => {
 
        var c;
       if(c = condition()){
           c.doSomethingAsync().then(function(val){
-               done(null,val)
+               t.done(null,val)
           });
       }
       else{
-        process.nextTick(done);   // no need to wrap in nextTick call
+        process.nextTick(t);   // no need to wrap in nextTick call
       }
 
 });
 
 // this is better
-this.it('not necesary', function(done){
+this.it('not necesary', t => {
       var c;
            if(c = condition()){
                c.doSomethingAsync().then(function(val){
-                    done(null,val)
+                    t.done(null,val)
                });
            }
       else{
-        done();   // calling done in the same tick is just fine, because Suman will ensure it is async behind the scenes
+        t.done();   // calling t.done in the same tick is just fine, because Suman will ensure it is async behind the scenes
       }
 
 });
