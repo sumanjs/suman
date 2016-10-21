@@ -920,7 +920,6 @@ else {
             else if (!useRunner && paths.length === 1 && checkStatsIsFile(paths[0])) {
 
                 //TODO: we could read file in (fs.createReadStream) and see if suman is referenced
-
                 d.run(function () {
                     process.nextTick(function () {
                         changeCWDToRootOrTestDir(paths[0]);
