@@ -8,19 +8,23 @@ In effect, we wish to dissuade you from transpiling tests before you run them,
 because this adds a big layer of complexity, which makes debugging even harder and sets yourself up 
 for some weird transpilation related problems, no doubt.
 
-Let's say that again - it's probably a bad idea to use Babel to transpile tests. Here are our reasons:
+Let's say that again - it's probably a bad idea to use Babel to transpile your tests. Here are our reasons:
 
 
-1. Babel slows down development of tests, because running an individual test through Babel takes a lot more time. 
+1. Babel slows down development of tests, because running an individual test through Babel takes a lot more time, whether we transpile
+ to a ```test-target``` directory first or use ```babel-register```, either way it's slower.
 2. If you need to transpile a Suman test file, you obviously can't just run it with the node executable,
-which is inconvenient at best. You will have to transpile it first, then run it with node, (again, if you wish to use plain node to execute a test, which makes debugging super easy).
-3. Intriguingly, the ES7 async/await construct can be achieved directly via ES6 generators + Promises, so we recommend just using "plain-old" generator functions until ES7 is finalized and part of Node itself.*
+which is inconvenient at best. You will have to transpile it first, then run it with node.
+This makes debugging harder, and it will make it much harder to run test coverage with Istanbul or the like.
+3. Intriguingly, the ES7 async/await construct can be achieved directly via ES6 generators + Promises, 
+so we recommend just using "plain-old" generator functions until ES7 is finalized and part of Node itself.*
 4. Not all Babel features will make it into official ECMAScript versions, so there is some risk there.
 5. As library authors, maintaining Suman to be compatible with future versions of node (aka, Babel features), 
 is difficult and we simply cannot guarantee smooth sailing, in the same way we can with current versions of Node.
 6. Let's face it, how many times have you accidentally edited the transpiled file instead of the src file, 
 or tried to run the src file instead of the transpiled file? Yeah, me too.
-(Webstorm does have a nice feature to help prevent this, see "Webstorm: mark as excluded")
+(Webstorm does have a nice feature to help prevent this, see "Webstorm: mark as excluded"). Babel-register solves this problem,
+but then there is very little transparency in your tests (because you can't easily see the actual source code), if you hit a bug or snafu.
 
 
 *Here is a description of how async/await can be achieved via generators:
@@ -38,15 +42,16 @@ or tried to run the src file instead of the transpiled file? Yeah, me too.
    
 
 1. run ```$ suman --use-babel``` in your project root, this will install the correct Babel dependencies, as they are not included with the basic Suman installation, to save disk space.
-2. either set ```transpile:true``` in your suman.conf.js file, or use the ```--transpile``` option at the command line, we will assume latter for now
-3. ensure that the value for testDir in your suman.conf.js file, matches the top level directory that contains all of your test data, fixtures and test.js files.
-4. run ```$ suman --transpile --all``` or ```suman -t -a``` 
+2. either set ```transpile:true``` in your suman.conf.js file, or use the ```--transpile / -t``` option at the command line, we will assume latter for now
+3. ensure that your directory structure is suitable for transpilation, see: 
+4. run ```$ suman -t``` => this will transpile your test-src dir to test-target and then run all the files in test-target.
 
 This will transpile/copy all the files in your test directory (specified by the testDir property in your suman.conf.js file, the default is "test") and move them to the testDirCopyDir value, by default this is "test-target", a top-level directory
 in your project. After transpiling, it will execute all the test files in the test-target dir! 
+
 In order to transpile only, and not execute the tests, you would use the --no-run flag, like so:
 
-```suman -t -a --no-run``` 
+```suman -t --no-run``` 
 
 Now you may be asking, ok, so that allows me to transpile once, but what if I want to transpile everytime I change a test file, or any file for that matter,
 in the test directory?
@@ -54,16 +59,13 @@ in the test directory?
 You would issue this command:
 
 
-```suman -t -a --watch --no-run``` or ```suman -t -a -w --no-run``` 
+```suman -t --watch --no-run``` or ```suman -t -w --no-run``` 
 
 
-The --watch option incorporates the Suman server which will watch for changes to your files and transpile them on demand.
-Transpilation of one file is quick, so if you manually run the test file after using the -w and --no-run option, it should be transpiled,
-however this does represent a race condition between human and computer; not sure how to mitigate this, but something to be aware of.
-
+The ```--watch / -w``` option incorporates the Suman server which will watch for changes to your files and transpile them on demand.
 If you wish to run a test each time you save a change, then forgo the --no-run option, and use Suman like so:
 
-```suman -t -a -w``` 
+```suman -t -w``` 
 
 
 

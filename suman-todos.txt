@@ -5,6 +5,10 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 (look at the debugging output)
 
 
+////////////
+
+make sure that .babelrc does not get overwritten when using suman --use-babel
+
 /////////////
 
  => beep when a watch-project test fails => https://www.npmjs.com/browse/keyword/beep

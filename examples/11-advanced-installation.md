@@ -1,9 +1,9 @@
 
 As many experienced Node.js and NPM users may know, global modules present several problems to developers.
 
-<i>One of the biggest problems is that the global module version may differ from the local one.</i>
+<i> => One of the biggest problems is that the global module version may differ from the local one.</i>
 
-Furthermore, when using NVM and switching between Node.js versions, 
+Furthermore, when using ```NVM``` and switching between ```Node.js``` versions, 
 we may lose sight of globally installed packages which we may depend on.
 
 One solution to this problem is to avoid installing packages globally altogether, and Suman is designed to handle this.

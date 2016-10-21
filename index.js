@@ -276,11 +276,6 @@ if (opts.watch && opts.stop_watching) {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-var targetTestDir;
-
-if (transpile) {
-    targetTestDir = path.resolve(root + '/test-target');
-}
 
 if (init) {
     global.usingDefaultConfig = true;
@@ -486,17 +481,12 @@ if (opts.verbose) {
 
 //TODO possibly reconcile these with cmd line options
 const testDir = process.env.TEST_DIR = path.resolve(root + '/' + (global.sumanConfig.testDir || 'test'));
-const testSrcDir = process.env.TEST_SRC_DIR = path.resolve(root + '/' + global.sumanConfig.testSrcDir);
-const testDestDir = process.env.TEST_DEST_DIR = path.resolve(root + '/' + global.sumanConfig.testDestDir);
-const testDirCopyDir = process.env.TEST_DIR_COPY_DIR = path.resolve(root + '/' + (global.sumanConfig.testDirCopyDir || 'test-target'));
-
-if (process.env.SUMAN_DEBUG === 'yes') {
-    // console.log(' SUMAN_DEBUG message => process.env =', util.inspect(process.env));
-}
+const testSrcDir = process.env.TEST_SRC_DIR = path.resolve(root + '/' + (global.sumanConfig.testSrcDir || 'test/test-src'));
+const testTargetDir = process.env.TEST_TARGET_DIR = path.resolve(root + '/' + (global.sumanConfig.testTargetDir || 'test/test-target'));
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-if(useIstanbul){
+if (useIstanbul) {
     require('./lib/make-tail/tail-any')();
 }
 else if (tail) {
@@ -679,7 +669,7 @@ else {
     }
 
     if (paths.length < 1) {
-        paths = [testDir];
+        paths = [testSrcDir];
     }
 
     async.series({  //used to be async.series
@@ -839,11 +829,7 @@ else {
 
             if (opts.all && paths.length < 1) {
                 opts.recursive = true;
-                paths = [testDirCopyDir];
-            }
-            else if (opts.sameDir) {
-                opts.recursive = true;
-                paths = [testDestDir];
+                paths = [testTargetDir];
             }
             else {
                 paths = results.parallelTasks.transpileFiles.map(item => item.targetPath);
@@ -853,14 +839,11 @@ else {
         else {
 
             if (paths.length < 1) {
-                if (opts.sameDir) {
+                if (testSrcDir) {
                     paths = [testSrcDir];
                 }
-                else if (testDir) {
-                    paths = [testDir];
-                }
                 else {
-                    throw new Error('No testDir prop specified.');
+                    throw new Error(' => Suman usage error => No "testSrcDir" prop specified in config or by command line.');
                 }
             }
         }

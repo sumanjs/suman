@@ -7,7 +7,8 @@
 
 3. Run <span style="background-color:#ffdb99">&nbsp;```$ suman --init```</span>
 
-** note: advanced users who wish to avoid global installations, or those who use NVM, please see here.**
+** <i> note: advanced users who wish to avoid global installations, 
+or those who use NVM, please see <a href="http://oresoftware.github.io/suman/11-advanced-installation.html">here</a>.</i>**
 
 You have installed Suman, and now you will see that you have some new files in your project. 
 You have a <span style="background-color:#DCDCDC">```suman.conf.js```</span> file at the root of your project. This file must remain at the root of your project.

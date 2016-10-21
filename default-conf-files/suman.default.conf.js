@@ -15,16 +15,14 @@ module.exports = Object.freeze({
     match: [],                              //recommended =>  match: [/.test.js$/],
     notMatch: ['fixture'],                  //matches any, matchesNoneOf
     sumanHelpersDir: 'suman',
-    defaultTestDir: 'test-target/src',
+    transpile: false,                       //default, can be overridden with command line
     testDir: 'test',
-    testSrcDirectory: 'test/src',
-    testDestDirectory: 'test/target',
-    testDirCopyDir: 'test-target',
+    testSrcDir: 'test/test-src',
+    testTargetDir: 'test/test-target',
     defaultHookTimeout: 5000,
     defaultTestCaseTimeout: 5000,
     executeRunnerCWDAtTestFile: true,
     runnerLock: true,
-    transpile: false,                         //default, can be overridden with command line
     timeoutToSearchForAvailServer: 2000,
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,

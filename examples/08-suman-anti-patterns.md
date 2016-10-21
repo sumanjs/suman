@@ -60,7 +60,7 @@ in other words, don't do this:
 ```
  this.it('outer', t => {
   
-     this.it('inner', t => {  // Suman will throw an error if you try to do this (nesting this.it() inside this.it())
+     this.it('inner', t => {  // Suman will throw an error if you try to nest a test case within a test case
      
       });
  
@@ -72,12 +72,12 @@ in other words, don't do this:
  ```
  this.before('outer', t => {
   
-    this.beforeEach('outer', t => {   // Suman will throw an error if you try to do this
+    this.beforeEach('outer', t => {   // Suman will throw an error if you try to nest a hook within a hook
   
   
      });
    
-    this.it('inner', t => {     // Suman will throw an error if you try to do this
+    this.it('inner', t => {     // Suman will throw an error if you try to nest a test case in a hook, or a hook in a test case
       
     });
   
