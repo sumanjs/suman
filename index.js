@@ -172,6 +172,9 @@ const create = opts.create;
 const watchProject = opts.watch_project;
 const useIstanbul = opts.use_istanbul;
 const interactive = opts.interactive;
+const matchAny = opts.match_any;
+const matchAll = opts.match_all;
+const matchNone = opts.match_none;
 
 //re-assignable
 var register = opts.register;
@@ -325,7 +328,7 @@ else {
 
 global.sumanConfig = sumanConfig;
 
-if(process.env.SUMAN_DEBUG === 'yes'){
+if (process.env.SUMAN_DEBUG === 'yes') {
     console.log(' => Suman configuration (suman.conf.js) => ', util.inspect(sumanConfig));
 }
 
@@ -349,10 +352,19 @@ if ('concurrency' in global.sumanOpts) {
 
 global.maxProcs = global.sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 global.sumanHelperDirRoot = path.resolve(root + '/' + (sumanConfig.sumanHelpersDir || 'suman'));
-global.sumanMatches = _.uniqBy((opts.match || []).concat(sumanConfig.match || []), item => item);
-global.sumanNotMatches = _.uniqBy((opts.not_match || []).concat(sumanConfig.notMatch || []), item => item);
 
+////////////// matching ///////////
+global.sumanMatchesAny = _.uniqBy((opts.matchAny || []).concat(sumanConfig.matchAny || [])
+    .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
+global.sumanMatchesNone = _.uniqBy((opts.matchNone || []).concat(sumanConfig.matchNone || [])
+    .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
+global.sumanMatchesAll = _.uniqBy((opts.matchAll || []).concat(sumanConfig.matchAll || [])
+    .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
+
+
+/////////// override transpile ///////////
 const overridingTranspile = opts.register || (!opts.no_register && global.sumanConfig.useBabelRegister);
+
 
 if (opts.no_transpile) {
     opts.transpile = false;
@@ -361,7 +373,7 @@ else {
 
     if (!opts.no_transpile && global.sumanConfig.transpile === true) {
         transpile = opts.transpile = true;
-        if (!opts.sparse && !overridingTranspile && !opts.watch) {
+        if (opts.verbose && !overridingTranspile && !opts.watch) {
             console.log('\n', colors.bgCyan.black.bold('=> Suman message => transpilation is the default due to ' +
                 'your configuration option => transpile:true'), '\n');
         }
@@ -864,9 +876,9 @@ else {
             });
 
             if (!opts.sparse) {
-                console.log('\n', colors.bgBlue.white.bold(' Suman will attempt to execute test ' +
+                console.log('\n', colors.bgBlack.white.bold(' Suman will attempt to execute test ' +
                         'files with/within the following paths: '), '\n\n',
-                    paths.map((p, i) => '\t ' + (i + 1) + ' => ' + colors.blue('"' + p + '"')).join('\n') + '\n');
+                    paths.map((p, i) => '\t ' + (i + 1) + ' => ' + colors.cyan('"' + p + '"')).join('\n') + '\n');
             }
 
             if (opts.vverbose) {
@@ -905,9 +917,7 @@ else {
                 d.run(function () {
                     process.nextTick(function () {
                         changeCWDToRootOrTestDir(root);
-                        const match = global.sumanMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
-                        const notMatch = global.sumanNotMatches.map(item => (item instanceof RegExp) ? item : new RegExp(item));
-                        var files = require('./lib/runner-helpers/get-file-paths')(paths, match, notMatch);
+                        var files = require('./lib/runner-helpers/get-file-paths')(paths);
 
                         if (opts.rand) {
                             files = _.shuffle(files);

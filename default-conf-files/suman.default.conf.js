@@ -12,10 +12,11 @@ const numOfCPUs = os.cpus().length || 1;
 
 module.exports = Object.freeze({
 
-    match: [],                              //recommended =>  match: [/.test.js$/],
-    notMatch: ['fixture'],                  //matches any, matchesNoneOf
+    matchAny: [],                              //recommended =>  match: [/.test.js$/],
+    matchNone: [/fixture/],                    //matches any, matchesNoneOf
+    matchAll:[/\.test\.js$/],
     sumanHelpersDir: 'suman',
-    transpile: false,                       //default, can be overridden with command line
+    transpile: false,                          //default, can be overridden with command line
     testDir: 'test',
     testSrcDir: 'test/test-src',
     testTargetDir: 'test/test-target',
