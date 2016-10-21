@@ -325,6 +325,10 @@ else {
 
 global.sumanConfig = sumanConfig;
 
+if(process.env.SUMAN_DEBUG === 'yes'){
+    console.log(' => Suman configuration (suman.conf.js) => ', util.inspect(sumanConfig));
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if (sumanConfig.transpile === true && sumanConfig.useBabelRegister === true) {
@@ -827,8 +831,8 @@ else {
                 return path.resolve(path.isAbsolute(item) ? item : (root + '/' + item));
             });
 
-            if (opts.all && paths.length < 1) {
-                opts.recursive = true;
+            if (paths.length < 1) {
+                // opts.recursive = true;
                 paths = [testTargetDir];
             }
             else {

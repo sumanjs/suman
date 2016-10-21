@@ -19,6 +19,7 @@ module.exports = Object.freeze({
     testDir: 'test',
     testSrcDir: 'test/test-src',
     testTargetDir: 'test/test-target',
+    verbosity: 5,
     defaultHookTimeout: 5000,
     defaultTestCaseTimeout: 5000,
     executeRunnerCWDAtTestFile: true,
