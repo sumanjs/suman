@@ -69,7 +69,7 @@ if (process.env.SUMAN_DEBUG === 'yes') {
     console.log('\n\n', ' => Suman started with the following command:', '\n', process.argv, '\n');
 }
 
-console.log('\n', '=> Node.js version:', process.version);
+console.log(' => Node.js version:', process.version);
 
 /*
 
