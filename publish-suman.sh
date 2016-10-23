@@ -24,7 +24,7 @@ git remote add public git@github.com:ORESoftware/suman.git
 git fetch public &&
 # git checkout -b master
 git checkout -b temp public/master &&
-git merge --squash -m "squashed with devtemp" devtemp
+git merge -Xtheirs --squash -m "squashed with devtemp" devtemp
 npm run remove-private-dirs &&
 npm run remove-private-files &&
 git add . &&
