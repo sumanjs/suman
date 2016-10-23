@@ -8,29 +8,29 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
-npm version patch --force -m "Upgrade for several reasons" # bump version
-git add .
-git add -A
-git commit -am "publish/release:${GIT_COMMIT_MSG}"
-git push
-git remote add public git@github.com:ORESoftware/suman.git
-git fetch public
+npm version patch --force -m "Upgrade for several reasons" && # bump version
+git add . &&
+git add -A &&
+git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
+git push &&
+git remote add public git@github.com:ORESoftware/suman.git &&
+git fetch public &&
 # git checkout -b master
-git checkout -b temp public/master
-git merge --squash -m "squashed with dev" dev
-git add .
-git add -A
-git commit -am "publish/release:${GIT_COMMIT_MSG}"
-npm run remove-private-dirs
-npm run remove-private-files
-git add .
-git add -A
-git commit -am "publish/release:${GIT_COMMIT_MSG}"
+git checkout -b temp public/master &&
+git merge --ours --squash -m "squashed with dev" dev &&
+git add . &&
+git add -A &&
+git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
+npm run remove-private-dirs &&
+npm run remove-private-files &&
+git add . &&
+git add -A &&
+git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
 # git remote add publish git@github.com:ORESoftware/suman.git
 # git push publish master -f
-git remote rm public
-git checkout dev
-git branch -D temp
+git remote rm public &&
+git checkout dev &&
+git branch -D temp &&
 npm publish .
 
 
