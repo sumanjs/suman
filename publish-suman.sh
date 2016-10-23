@@ -14,11 +14,17 @@ git add . &&
 git add -A &&
 git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
 git push &&
+git checkout -b dev_temp
+npm run remove-private-dirs &&
+npm run remove-private-files &&
+git add . &&
+git add -A &&
+git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
 git remote add public git@github.com:ORESoftware/suman.git
 git fetch public &&
 # git checkout -b master
 git checkout -b temp public/master &&
-git merge -Xtheirs --squash -m "squashed with dev" dev
+git merge -Xtheirs --squash -m "squashed with dev" dev_temp
 npm run remove-private-dirs &&
 npm run remove-private-files &&
 git add . &&
@@ -27,6 +33,7 @@ git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
 git push public temp:master &&
 git remote rm public &&
 git checkout dev &&
+git branch -D dev_temp &&
 git branch -D temp &&
 npm publish .
 
