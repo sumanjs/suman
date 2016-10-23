@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.5105",
+  "version": "1.1.5106",
   "main": "lib/index.js",
   "scripts": {
     "test": "suman",
@@ -10,7 +10,7 @@
     "merge": "git merge -Xignore-all-space",
     "debug_mocha": "node-debug _mocha --no-timeouts ",
     "remove-private-dirs": "git rm -r --ignore-unmatch private bugs examples file-examples internal-docs jsdoc-out node_modules",
-    "remove-private-files": "git rm --ignore-unmatch publish-suman.sh exp*.js jsdoc-notes.txt suman-todos.txt old-package-json.json"
+    "remove-private-files": "git rm --ignore-unmatch publish-gh-pages.sh pre-publish-gh-pages.sh publish-suman.sh exp*.js jsdoc-notes.txt suman-todos.txt"
   },
   "author": "Olegzandr Denman",
   "license": "ISC",
