@@ -18,6 +18,9 @@ git fetch public
 # git checkout -b master
 git checkout -b temp public/master
 git merge --squash -m "squashed with dev" dev
+git add .
+git add -A
+git commit -am "publish/release:${GIT_COMMIT_MSG}"
 npm run remove-private-dirs
 npm run remove-private-files
 git add .
