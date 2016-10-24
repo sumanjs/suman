@@ -27,24 +27,22 @@ module.exports = Object.freeze({
     resultsCapSize: 7000, // 3 gb's,
 
 
-    watchTest: {
-        'default': {  // (re) execute the test file that changed
-            script: function(p){
+    watch: {
+        '//tests': {
+            script: function (p) {
                 return `./node_modules/.bin/suman ${p}`
             },
             include: [],
             exclude: ['^test.*']
-        }
-    },
+        },
 
-    watchProject: {
-        'default': {  //run all tests when a file changes in project
+        '//project': {
             script: './node_modules/.bin/suman',
             include: [],
             exclude: ['^test.*']
-        }
-
+        },
     },
+
 
     reporters: {
         'tap': 'suman/reporters/tap',

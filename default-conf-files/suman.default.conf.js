@@ -46,6 +46,29 @@ module.exports = Object.freeze({
     suppressRunnerOutput: true,         // this defaults to true, use no-silent or silent to switch value
     resultsCapSize: 7000, // 3 gb's     // oldest test results will be deleted if the results dir expands beyond this size
 
+
+    watch: {
+
+        '//tests': {
+            'default': {  // (re) execute the test file that changed
+                script: function(p){
+                    return `./node_modules/.bin/suman ${p}`
+                },
+                include: [],
+                exclude: ['^test.*']
+            }
+        },
+
+        '//project': {
+            'default': {  //run all tests when a file changes in project
+                script: './node_modules/.bin/suman',
+                include: [],
+                exclude: ['^test.*']
+            }
+
+        },
+    },
+
     reporters: {
         'tap': 'suman/reporters/tap'
     },

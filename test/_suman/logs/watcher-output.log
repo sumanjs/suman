@@ -1,5 +1,4 @@
 
 
- => Suman watcher => file changed:
-/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js
- => Suman watcher => No test files matched regexes, nothing to run. We are done here.
+ => Suman server will write to this log file when any of your test files change.
+

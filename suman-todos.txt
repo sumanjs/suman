@@ -6,6 +6,8 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 
 ////////////
 
+use // for unique key in watch
+
 when running with {transpile:true} in suman.conf.js, simply "$ suman" (without -r)
 will still transpile *all* of test-src to test-target, (but still only run one file)
 

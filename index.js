@@ -23,7 +23,7 @@
 
 process.on('uncaughtException', function (err) {
 
-    if (process.listenerCount('uncaughtException') < 2) {
+    if (process.listenerCount('uncaughtException') < 2 || true) {
         console.error('\n\n => Suman uncaught exception =>\n', err.stack, '\n\n');
     }
 
@@ -621,7 +621,7 @@ else if (convert) {
 }
 else if (watchProject) {
 
-    console.log(' => Suman will watch files in your project, and your tests on changes.');
+    console.log(' => Suman message => --watch option selected => Suman will watch files in your project, and your tests on changes.');
 
     if (!sumanServerInstalled) {
         throw new Error(' => Suman server is not installed yet => Please use "$ suman --use-server" in your local project ' + err3.stack);
@@ -637,9 +637,28 @@ else if (watchProject) {
         }
 
 
-        assert(typeof sumanConfig.watchProject === 'object', 'suman.conf.js needs a watchProject object property.');
+        assert(typeof sumanConfig.watch === 'object', 'suman.conf.js needs a "watch" property that is an object.');
 
-        const obj = sumanConfig['watchProject'][paths[0]];
+
+        var obj;
+
+        if (String(paths[0]).indexOf('//') > -1) {
+            obj = sumanConfig['watch'][paths[0]];
+            assert(obj.script && obj.include && obj.exclude, 'Please define "script", "include", "exclude"');
+        }
+        else {
+
+            assert(fs.statSync(paths[0]), ' => Path given by => ', paths[0], ' does not seem to be a file or directory, if you intended ' +
+                'to match a property on the "watch" object in your suman.conf.js file, that property needs to have a "//" character sequence.');
+            obj = {
+                script: './node_modules/.bin/suman ' + paths[0],
+                exclude: [],
+                include: []
+            };
+        }
+
+
+        console.log('paths =>', paths, 'obj =>', obj);
 
         assert(typeof obj === 'object', 'watchProject["' + paths[0] + '"] needs to be an object with include/exclude/script properties.');
 
