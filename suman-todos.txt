@@ -4,6 +4,10 @@
 SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 (look at the debugging output)
 
+//////////
+
+need to consolidate multiple Test.describes into one report to send back to runner
+
 ////////////
 
 use // for unique key in watch

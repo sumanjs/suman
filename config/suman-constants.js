@@ -10,6 +10,25 @@ module.exports = Object.freeze({
         name: 'SUMAN_DEBUG',
         value: 'on'
     },
+    AVAILABLE_SUMAN_INIT_OPTIONS: {
+        'pre': {
+            types: [],
+            errorMessage: ''
+        },
+        'post': {
+            types: [],
+            errorMessage: ''
+        },
+        'ioc':{
+            types: [],
+            errorMessage: ''
+        },
+        'timeout':{
+
+        }
+
+
+    },
     SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
     GIT_IGNORE: [
         '\n',

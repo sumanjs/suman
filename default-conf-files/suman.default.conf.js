@@ -31,6 +31,7 @@ module.exports = Object.freeze({
     defaultDelayFunctionTimeout: 8000,
     warningLevel: 3,
     noFrills: false,
+    defaultChildProcessTimeout: 8000000,    //used with Suman runner, to kill child process if it has not exited beforehand
     defaultTestSuiteTimeout: 15000,
     maxParallelProcesses: Math.max(6, numOfCPUs),           //maximum parallel processes running at one time, synonymous with --concurrency cmd line option
     ultraSafe: false,                   //if true, Suman reads files before executing any supposed test file and makes sure it's a suman test before running

@@ -26,3 +26,582 @@ watch-project request received!! => data =>  { script: './node_modules/.bin/suma
 
 Client disconnected.
 
+
+ Client connected. 
+
+watch-project request received!! => data =>  { script: './node_modules/.bin/suman wholeProject',
+  include: [],
+  exclude: [] }
+
+Client disconnected.
+
+
+ Client connected. 
+
+ => Suman server => "watch" request received via socket.io.
+
+  => Suman server event => socket.io watch event has been received by server:
+ { paths: [ '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/whole-project' ],
+  executeTests: false } 
+
+
+  => Suman server => chokidar watcher initialized. 
+
+
+
+  => Suman server => Suman watch process => Initial scan complete. Ready for changes
+
+
+  => Suman server => watched paths: {} 
+
+
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/t_millal/suman/test_results/1477343882189'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/t_millal/suman/test_results/1477343882189'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m54.850 ms - 127[0m
+
+Client disconnected.
+
+
+Client disconnected.
+
+
+ Client connected. 
+
+ => Suman server => "watch" request received via socket.io.
+
+  => Suman server event => socket.io watch event has been received by server:
+ { paths: [ '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/whole-project' ],
+  executeTests: false } 
+
+
+
+ => Watcher exists => Watched paths before: {}
+ => Suman server => watcher is adding path => /Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/whole-project
+
+ Client connected. 
+
+created dir at /Users/t_millal/suman/test_results/1477343905007
+[0mPOST /results/make/new [32m200 [0m1.458 ms - 85[0m
+
+Client disconnected.
+
+
+Client disconnected.
+
+
+
+  => Suman server => watched paths: {} 
+
+
+
+
+  => Suman server => pathHash: {} 
+
+
+
+
+  => Suman server => watched paths: {} 
+
+
+
+
+  => Suman server => pathHash: {} 
+
+
+
+
+  => Suman server => watched paths: {} 
+
+
+
+
+  => Suman server => pathHash: {} 
+
+
+
+
+  => Suman server => watched paths: {} 
+
+
+
+
+  => Suman server => pathHash: {} 
+
+
+
+ Client connected. 
+
+ => Suman server => "watch" request received via socket.io.
+
+  => Suman server event => socket.io watch event has been received by server:
+ { paths: [ '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/whole-project' ],
+  executeTests: false } 
+
+
+
+ => Watcher exists => Watched paths before: {}
+ => Suman server => watcher is adding path => /Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/whole-project
+
+ Client connected. 
+
+created dir at /Users/t_millal/suman/test_results/1477343993697
+[0mPOST /results/make/new [32m200 [0m1.319 ms - 85[0m
+
+Client disconnected.
+
+
+Client disconnected.
+
+
+
+  => Suman server => watched paths: {} 
+
+
+
+
+  => Suman server => pathHash: {} 
+
+
+
+
+  => Suman server => watched paths: {} 
+
+
+
+
+  => Suman server => pathHash: {} 
+
+
+
+
+  => Suman server => watched paths: {} 
+
+
+
+
+  => Suman server => pathHash: {} 
+
+
+
+
+  => Suman server => watched paths: {} 
+
+
+
+
+  => Suman server => pathHash: {} 
+
+
+
+ Client connected. 
+
+watch-project request received!! => data =>  { script: 'npm test',
+  include: [ '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery' ],
+  exclude: [ '**/test/**' ] }
+
+Client disconnected.
+
+
+
+  => Suman server => Suman watch process => Initial scan complete. Ready for changes
+ => Suman server => watched paths: { '/Users/t_millal/WebstormProjects/autodesk': [ 'crucible-poc-discovery' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery': 
+   [ '.apiconnect',
+     '.editorconfig',
+     '.eslintignore',
+     '.eslintrc',
+     '.git',
+     '.gitignore',
+     '.idea',
+     '.yo-rc.yaml',
+     'Dockerfile',
+     'Dockerfile.nodejs',
+     'Dockerfile.osx',
+     'Dockerfile.psql',
+     'Dockerrun.aws.json',
+     'Jenkinsfile',
+     'PULL_REQUEST_TEMPLATE.md',
+     'README.md',
+     'common',
+     'connect-crucible-to-postgres-container.sh',
+     'coverage',
+     'coverage-crucible',
+     'definitions',
+     'get-branch.sh',
+     'kill-server.sh',
+     'node_modules',
+     'npm-debug.log.2786275529',
+     'npm-debug.log.2927495042',
+     'npm-debug.log.3665067656',
+     'package.json',
+     'scripts',
+     'server',
+     'start-postgres-container.sh',
+     'start.sh',
+     'start_crucible.sh',
+     'suman.conf.js',
+     'test',
+     'utils' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/.apiconnect': [ 'config' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/.git': [],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/.idea': [],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage': 
+   [ 'accounts.api.test',
+     'assets.api.test',
+     'contacts.api.test',
+     'example.test',
+     'lcov-report',
+     'lcov.info',
+     'service-contracts.api.test',
+     'test-node-env' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/common': [ 'models' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible': 
+   [ 'accounts.api.test',
+     'assets.api.test',
+     'contacts.api.test',
+     'coverage.json',
+     'example.test',
+     'lcov-report',
+     'lcov.info',
+     'service-contracts.api.test',
+     'test-node-env' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/definitions': 
+   [ 'crucible-poc-discovery-product.yaml',
+     'crucible-poc-discovery.yaml' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/node_modules': [],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/scripts': 
+   [ 'auto-discover-models.js',
+     'create-api-docs.js',
+     'create-tables.js',
+     'discover-table-relations.js',
+     'populate-tables.js',
+     'psql-data' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server': 
+   [ 'boot',
+     'component-config.json',
+     'config.dev.js',
+     'config.json',
+     'config.prod.js',
+     'config.test.js',
+     'data-sources',
+     'datasources.dev.js',
+     'datasources.json',
+     'datasources.prod.js',
+     'datasources.test.js',
+     'get-development-datasources.js',
+     'lib',
+     'middleware.dev.json',
+     'middleware.json',
+     'middleware.prod.json',
+     'middleware.test.json',
+     'model-config-original.json',
+     'model-config.json',
+     'models',
+     'server.js',
+     'views' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/test': [],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/utils': [ 'get-beanstalk-env.rb', 'get-beanstalk.sh' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/accounts.api.test': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/assets.api.test': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/contacts.api.test': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/example.test': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/lcov-report': 
+   [ 'base.css',
+     'common',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'server',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/service-contracts.api.test': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/test-node-env': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/common/models': [ 'note.js', 'note.json' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/accounts.api.test': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/assets.api.test': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/contacts.api.test': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/example.test': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/lcov-report': 
+   [ 'base.css',
+     'common',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'server',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/service-contracts.api.test': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/test-node-env': [ 'coverage.json', 'lcov-report', 'lcov.info' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/scripts/psql-data': [ 'create-account.sql' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/boot': 
+   [ 'asset.js',
+     'authentication.js',
+     'basic-assertions.js',
+     'contact.js',
+     'root.js',
+     'routes.js',
+     'service-contract.js',
+     'setup-env.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/data-sources': [ 'apigee.js', 'sfdc-connect.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/lib': [ 'logger.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/models': 
+   [ 'account.js',
+     'account.json',
+     'account_view.js',
+     'account_view.json',
+     'asset.js',
+     'asset.json',
+     'asset_view.js',
+     'asset_view.json',
+     'contact.js',
+     'contact.json',
+     'contact_view.js',
+     'contact_view.json',
+     'disallowed-view-methods.js',
+     'service_contract.js',
+     'service_contract.json',
+     'service_contract_view.js',
+     'service_contract_view.json' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/views': 
+   [ 'css',
+     'dist',
+     'fonts',
+     'images',
+     'index.html',
+     'lang',
+     'lib',
+     'o2c.html',
+     'swagger-ui.js',
+     'swagger-ui.min.js',
+     'swagger.json' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/accounts.api.test/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/assets.api.test/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/service-contracts.api.test/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/example.test/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/lcov-report/common': [ 'models' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/lcov-report/server': 
+   [ 'boot',
+     'config.prod.js.html',
+     'data-sources',
+     'datasources.prod.js.html',
+     'index.html',
+     'models',
+     'server.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/contacts.api.test/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/test-node-env/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/accounts.api.test/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/assets.api.test/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/example.test/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/contacts.api.test/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/service-contracts.api.test/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/test-node-env/lcov-report': 
+   [ 'base.css',
+     'crucible-poc-discovery',
+     'index.html',
+     'prettify.css',
+     'prettify.js',
+     'sort-arrow-sprite.png',
+     'sorter.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/lcov-report/common': [ 'models' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/lcov-report/server': 
+   [ 'boot',
+     'config.dev.js.html',
+     'config.prod.js.html',
+     'config.test.js.html',
+     'data-sources',
+     'datasources.dev.js.html',
+     'datasources.prod.js.html',
+     'datasources.test.js.html',
+     'get-development-datasources.js.html',
+     'index.html',
+     'models',
+     'server.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/views/css': 
+   [ 'print.css',
+     'reset.css',
+     'screen.css',
+     'style.css',
+     'typography.css' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/views/dist': [ '.DS_Store' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/views/fonts': [ 'DroidSans-Bold.ttf', 'DroidSans.ttf' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/views/images': 
+   [ 'collapse.gif',
+     'expand.gif',
+     'explorer_icons.png',
+     'favicon-16x16.png',
+     'favicon-32x32.png',
+     'favicon.ico',
+     'logo_small.png',
+     'pet_store_api.png',
+     'throbber.gif',
+     'wordnik_api.png' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/views/lang': 
+   [ 'ca.js',
+     'en.js',
+     'es.js',
+     'fr.js',
+     'geo.js',
+     'it.js',
+     'ja.js',
+     'ko-kr.js',
+     'pl.js',
+     'pt.js',
+     'ru.js',
+     'tr.js',
+     'translator.js',
+     'zh-cn.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/server/views/lib': 
+   [ 'backbone-min.js',
+     'es5-shim.js',
+     'handlebars-4.0.5.js',
+     'highlight.9.1.0.pack.js',
+     'highlight.9.1.0.pack_extended.js',
+     'jquery-1.8.0.min.js',
+     'jquery.ba-bbq.min.js',
+     'jquery.slideto.min.js',
+     'jquery.wiggle.min.js',
+     'js-yaml.min.js',
+     'jsoneditor.min.js',
+     'lodash.min.js',
+     'marked.js',
+     'object-assign-pollyfill.js',
+     'sanitize-html.min.js',
+     'swagger-oauth.js' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/accounts.api.test/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/assets.api.test/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/service-contracts.api.test/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/example.test/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/lcov-report/common/models': [ 'index.html', 'note.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/lcov-report/server/boot': 
+   [ 'authentication.js.html',
+     'basic-assertions.js.html',
+     'contact.js.html',
+     'index.html',
+     'root.js.html',
+     'routes.js.html',
+     'setup-env.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/lcov-report/server/data-sources': [ 'apigee.js.html', 'index.html', 'sfdc-connect.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/lcov-report/server/models': 
+   [ 'account.js.html',
+     'account_view.js.html',
+     'asset__c.js.html',
+     'asset_view.js.html',
+     'contact.js.html',
+     'contact_view.js.html',
+     'disallowed-view-methods.js.html',
+     'index.html',
+     'service_contract.js.html',
+     'service_contract_view.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/contacts.api.test/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/accounts.api.test/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage/test-node-env/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/assets.api.test/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/example.test/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/contacts.api.test/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/test-node-env/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/service-contracts.api.test/lcov-report/crucible-poc-discovery': [ 'index.html', 'suman.conf.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/lcov-report/common/models': [ 'index.html', 'note.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/lcov-report/server/boot': 
+   [ 'authentication.js.html',
+     'basic-assertions.js.html',
+     'contact.js.html',
+     'index.html',
+     'root.js.html',
+     'routes.js.html',
+     'setup-env.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/lcov-report/server/data-sources': [ 'apigee.js.html', 'index.html', 'sfdc-connect.js.html' ],
+  '/Users/t_millal/WebstormProjects/autodesk/crucible-poc-discovery/coverage-crucible/lcov-report/server/models': 
+   [ 'account.js.html',
+     'account_view.js.html',
+     'asset__c.js.html',
+     'asset_view.js.html',
+     'contact.js.html',
+     'contact_view.js.html',
+     'disallowed-view-methods.js.html',
+     'index.html',
+     'service_contract.js.html',
+     'service_contract_view.js.html' ] }

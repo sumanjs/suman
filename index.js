@@ -169,7 +169,7 @@ const useServer = opts.use_server;
 const tail = opts.tail;
 const removeBabel = opts.remove_babel;
 const create = opts.create;
-const watchProject = opts.watch_project;
+const watch = opts.watch;
 const useIstanbul = opts.use_istanbul;
 const interactive = opts.interactive;
 const matchAny = opts.match_any;
@@ -407,7 +407,7 @@ else {
 
 const optCheck = [
 
-    watchProject,
+    watch,
     create,
     useServer,
     useBabel,
@@ -619,7 +619,7 @@ else if (convert) {
     });
 
 }
-else if (watchProject) {
+else if (watch) {
 
     console.log(' => Suman message => --watch option selected => Suman will watch files in your project, and your tests on changes.');
 
@@ -629,13 +629,12 @@ else if (watchProject) {
     else {
 
         if (paths.length > 1) {
-            throw new Error(' => Suman usage error => Suman does not currently support calling --watch-process with more than one argument.')
+            throw new Error(' => Suman usage error => Suman does not currently support using --watch for more than one path.')
         }
         else if (paths.length < 1) {
-            throw new Error(' => Suman usage error => Please pass one argument for --watch-process which should match a' +
-                ' given property on your watchProcess property in your suman.conf.js file.');
+            throw new Error(' => Suman usage error => Please pass one argument for --watch which should match a' +
+                ' given property on your "watch" object property in your suman.conf.js file, or a watchable path on your filesystem.');
         }
-
 
         assert(typeof sumanConfig.watch === 'object', 'suman.conf.js needs a "watch" property that is an object.');
 
@@ -643,15 +642,25 @@ else if (watchProject) {
         var obj;
 
         if (String(paths[0]).indexOf('//') > -1) {
+            console.log(' => Looking for property on "watch" named: ', paths[0]);
             obj = sumanConfig['watch'][paths[0]];
             assert(obj.script && obj.include && obj.exclude, 'Please define "script", "include", "exclude"');
         }
         else {
 
-            assert(fs.statSync(paths[0]), ' => Path given by => ', paths[0], ' does not seem to be a file or directory, if you intended ' +
-                'to match a property on the "watch" object in your suman.conf.js file, that property needs to have a "//" character sequence.');
+            var pathToWatch = path.isAbsolute(paths[0]) ? paths[0] : path.resolve(root + '/' + paths[0]);
+
+            console.log(' => Looking for file or dir on filesystem with path =', pathToWatch);
+            try {
+                fs.statSync(pathToWatch);
+            }
+            catch (e) {
+                throw new Error(' => Path given by => "' + pathToWatch + '" does not seem to be a file or directory, if you intended ' +
+                    'to match a property on the "watch" object in your suman.conf.js file,' +
+                    ' that property needs to have at least one "//" character sequence');
+            }
             obj = {
-                script: './node_modules/.bin/suman ' + paths[0],
+                script: './node_modules/.bin/suman ' + pathToWatch,
                 exclude: [],
                 include: []
             };
@@ -660,7 +669,7 @@ else if (watchProject) {
 
         console.log('paths =>', paths, 'obj =>', obj);
 
-        assert(typeof obj === 'object', 'watchProject["' + paths[0] + '"] needs to be an object with include/exclude/script properties.');
+        assert(typeof obj === 'object', 'watch["' + paths[0] + '"] needs to be an object with include/exclude/script properties.');
 
         require('./lib/watching/watch-project')(obj, function (err) {
             if (err) {
