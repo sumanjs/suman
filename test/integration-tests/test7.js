@@ -8,18 +8,18 @@ var Test = suman.init(module);
 
 ////////
 
-Test.describe('B2', {}, function (socketio, request, delay, assert, choodles, fs) {
+Test.describe('B2', {}, function (socketio, request, assert, choodles, fs) {
 
 
     var paper = [];
 
-    setTimeout(function(){
+    setTimeout(() => {
         paper.push('1');
         paper.push('2');
         paper.push('3');
-        delay();
+        this.resume();
     }, 1000);
-    ///
+
 
     this.it('oodles', function(){
         assert(paper[0] === '1');

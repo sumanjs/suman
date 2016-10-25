@@ -40,7 +40,7 @@
     "semver": "^5.3.0",
     "siamese": "^2.0.4",
     "socket.io-client": "^1.4.3",
-    "suman-utils": "0.0.73",
+    "suman-utils": "0.0.7303",
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
     "v8flags": "^2.0.10"
@@ -49,13 +49,22 @@
     "test": "test"
   },
   "devDependencies": {
-    "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-rename": "^1.2.2",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.0",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-es2016": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-preset-stage-1": "^6.16.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "babel-preset-stage-3": "^6.17.0",
+    "babel-register": "^6.18.0",
+    "babel-runtime": "^6.18.0",
     "keypress": "^0.2.1",
-    "nodejs-dep-check": "^1.2.61",
-    "should": "^8.3.1",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "should": "^8.3.1"
   },
   "repository": {
     "type": "git",

@@ -2,22 +2,114 @@
 
 ### Suman runner start ###
 
-Beginning of run at 1476177551637 = [Tue Oct 11 2016 02:19:11 GMT-0700 (PDT)]
+Beginning of run at 1477417960680 = [Tue Oct 25 2016 10:52:40 GMT-0700 (PDT)]
 Command issued from the following directory "/Users/t_millal/WebstormProjects/oresoftware/suman"
-Command = ["/Users/t_millal/.nvm/versions/node/v6.7.0/bin/node","/Users/t_millal/.nvm/versions/node/v6.7.0/bin/suman","test/integration-tests/test0.js","test/integration-tests/test1.js"]
+Command = ["/Users/t_millal/.nvm/versions/node/v6.7.0/bin/node","/Users/t_millal/.nvm/versions/node/v6.7.0/bin/suman","test/integration-tests/"]
 
 
-[test0.js] postOnlyReady ready and integrantsReady=true
+[test4.js] Error: Cannot find module '../../lib'
+[test4.js]     at Function.Module._resolveFilename (module.js:455:15)
+[test4.js]     at Function.Module._load (module.js:403:25)
+[test4.js]     at require (internal/module.js:20:19)
+[test4.js]     at Object.<anonymous> (/Users/t_millal/WebstormProjects/oresoftware/suman/test-target/test4.js:7:13)
+[test4.js]     at Module._compile (module.js:556:32)
+[test4.js]     at Object.Module._extensions..js (module.js:565:10)
+[test4.js]     at Module.load (module.js:473:32)
+[test4.js]     at tryModuleLoad (module.js:432:12)
+[test4.js]     at Function.Module._load (module.js:424:3)
+[test4.js]     at require (internal/module.js:20:19)
+[test4.js] 
+
+[test7.js] Error: Cannot find module '../../lib'
+[test7.js]     at Function.Module._resolveFilename (module.js:455:15)
+[test7.js]     at Function.Module._load (module.js:403:25)
+[test7.js]     at require (internal/module.js:20:19)
+[test7.js]     at Object.<anonymous> (/Users/t_millal/WebstormProjects/oresoftware/suman/test-target/test7.js:3:12)
+[test7.js]     at Module._compile (module.js:556:32)
+[test7.js]     at Object.Module._extensions..js (module.js:565:10)
+[test7.js]     at Module.load (module.js:473:32)
+[test7.js]     at tryModuleLoad (module.js:432:12)
+[test7.js]     at Function.Module._load (module.js:424:3)
+[test7.js]     at require (internal/module.js:20:19)
+[test7.js] 
+
+[test3.js] Error: Cannot find module '../../lib'
+[test3.js]     at Function.Module._resolveFilename (module.js:455:15)
+[test3.js]     at Function.Module._load (module.js:403:25)
+[test3.js]     at require (internal/module.js:20:19)
+[test3.js]     at Object.<anonymous> (/Users/t_millal/WebstormProjects/oresoftware/suman/test-target/test3.js:7:13)
+[test3.js]     at Module._compile (module.js:556:32)
+[test3.js]     at Object.Module._extensions..js (module.js:565:10)
+[test3.js]     at Module.load (module.js:473:32)
+[test3.js]     at tryModuleLoad (module.js:432:12)
+[test3.js]     at Function.Module._load (module.js:424:3)
+[test3.js]     at require (internal/module.js:20:19)
+[test3.js] 
+
+[test5.js] Error: Cannot find module '../../lib'
+[test5.js]     at Function.Module._resolveFilename (module.js:455:15)
+[test5.js]     at Function.Module._load (module.js:403:25)
+[test5.js]     at require (internal/module.js:20:19)
+[test5.js]     at Object.<anonymous> (/Users/t_millal/WebstormProjects/oresoftware/suman/test-target/test5.js:3:13)
+[test5.js]     at Module._compile (module.js:556:32)
+[test5.js]     at Object.Module._extensions..js (module.js:565:10)
+[test5.js]     at Module.load (module.js:473:32)
+[test5.js]     at tryModuleLoad (module.js:432:12)
+[test5.js]     at Function.Module._load (module.js:424:3)
+[test5.js]     at require (internal/module.js:20:19)
+[test5.js] 
+
+[test2.js] Error: Cannot find module '../../lib'
+[test2.js]     at Function.Module._resolveFilename (module.js:455:15)
+[test2.js]     at Function.Module._load (module.js:403:25)
+[test2.js]     at require (internal/module.js:20:19)
+[test2.js]     at Object.<anonymous> (/Users/t_millal/WebstormProjects/oresoftware/suman/test-target/test2.js:3:13)
+[test2.js]     at Module._compile (module.js:556:32)
+[test2.js]     at Object.Module._extensions..js (module.js:565:10)
+[test2.js]     at Module.load (module.js:473:32)
+[test2.js]     at tryModuleLoad (module.js:432:12)
+[test2.js]     at Function.Module._load (module.js:424:3)
+[test2.js]     at require (internal/module.js:20:19)
+[test2.js] 
+
+[test8.js] Error: Cannot find module '../../lib'
+[test8.js]     at Function.Module._resolveFilename (module.js:455:15)
+[test8.js]     at Function.Module._load (module.js:403:25)
+[test8.js]     at require (internal/module.js:20:19)
+[test8.js]     at Object.<anonymous> (/Users/t_millal/WebstormProjects/oresoftware/suman/test-target/test8.js:3:12)
+[test8.js]     at Module._compile (module.js:556:32)
+[test8.js]     at Object.Module._extensions..js (module.js:565:10)
+[test8.js]     at Module.load (module.js:473:32)
+[test8.js]     at tryModuleLoad (module.js:432:12)
+[test8.js]     at Function.Module._load (module.js:424:3)
+[test8.js]     at require (internal/module.js:20:19)
+[test8.js] 
+
+[test0.js] Error: Cannot find module '../..'
+[test0.js]     at Function.Module._resolveFilename (module.js:455:15)
+[test0.js]     at Function.Module._load (module.js:403:25)
+[test0.js]     at require (internal/module.js:20:19)
+[test0.js]     at Object.<anonymous> (/Users/t_millal/WebstormProjects/oresoftware/suman/test-target/test0.js:13:13)
+[test0.js]     at Module._compile (module.js:556:32)
+[test0.js]     at Object.Module._extensions..js (module.js:565:10)
+[test0.js]     at Module.load (module.js:473:32)
+[test0.js]     at tryModuleLoad (module.js:432:12)
+[test0.js]     at Function.Module._load (module.js:424:3)
+[test0.js]     at require (internal/module.js:20:19)
 [test0.js] 
 
-[test1.js] postOnlyReady ready and integrantsReady=true
-[test1.js] 
-
-[test0.js] integrants ready and postOnlyReady=true
-[test0.js] 
-
-[test1.js] integrants ready and postOnlyReady=true
-[test1.js] 
+[test6.js] Error: Cannot find module '../../lib'
+[test6.js]     at Function.Module._resolveFilename (module.js:455:15)
+[test6.js]     at Function.Module._load (module.js:403:25)
+[test6.js]     at require (internal/module.js:20:19)
+[test6.js]     at Object.<anonymous> (/Users/t_millal/WebstormProjects/oresoftware/suman/test-target/test6.js:13:13)
+[test6.js]     at Module._compile (module.js:556:32)
+[test6.js]     at Object.Module._extensions..js (module.js:565:10)
+[test6.js]     at Module.load (module.js:473:32)
+[test6.js]     at tryModuleLoad (module.js:432:12)
+[test6.js]     at Function.Module._load (module.js:424:3)
+[test6.js]     at require (internal/module.js:20:19)
+[test6.js] 
 
 [test1.js] 
 [test1.js] 
@@ -26,14 +118,6 @@ Command = ["/Users/t_millal/.nvm/versions/node/v6.7.0/bin/node","/Users/t_millal
 [test1.js] 
 [test1.js] 
 [test1.js] 
-
-[test0.js] 
-[test0.js] 
-[test0.js]  ### Suman end run ### 
-[test0.js] 
-[test0.js] 
-[test0.js] 
-[test0.js] 
 
 
 ### Suman runner end ###

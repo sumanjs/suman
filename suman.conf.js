@@ -4,14 +4,15 @@ const path = require('path');
 
 module.exports = Object.freeze({
 
-    match: [],                              //recommended =>  match: ['.test.js'],
-    notMatch: ['fixture'],
+    matchAny: [/.js$/],              //recommended =>  match: ['.test.js'],
+    matchNone: [/fixture/],
+    matchAll: [],
     testDir: 'test',
-    testSrcDir: 'test/test-src',
-    testTargetDir: 'test/test-target',
+    testSrcDir: 'test',
+    testTargetDir: 'test-target',
     sumanHelpersDir: 'test/_suman',
     defaultTestSuiteTimeout: 150000,
-    transpile: false,
+    transpile: true,
     maxParallelProcesses: 20,
     safe: false, //reads files in with fs.createReadStream and makes sure it's a suman test before running
     verbose: true, //handles and logs warnings (using warning level?)

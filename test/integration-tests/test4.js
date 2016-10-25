@@ -5,17 +5,17 @@
 
 
 var suman = require('../../lib');
-var Test = suman.init(module, {
+var Test = suman.init(module, {});
 
-});
-
-Test.describe('A2', {}, function (delay) {
+Test.describe.delay('A2', {}, function () {
 
     var arr = [1, 2];
 
+    const suite = this;
+
     setTimeout(function () {
         arr.push(4);
-        delay();
+        suite.resume();
     }, 100);
 
     arr.forEach((item)=> {
@@ -32,11 +32,13 @@ Test.describe('A2', {}, function (delay) {
         }, 100);
     });
 
-    this.describe('B', function (delay) {
+    this.describe.delay('B', function () {
+
+        const suite = this;
 
         setTimeout(function () {
             arr.push(8);
-            delay();
+            suite.resume();
         }, 100);
 
         arr.forEach((item)=> {
@@ -58,18 +60,18 @@ Test.describe('A2', {}, function (delay) {
         });
     });
 
-    this.describe('C', function (delay) {
+    this.describe.delay('C', function () {
 
-        setTimeout(function () {
+        setTimeout(() => {
             arr.push(9);
-            delay();
+            this.resume();
         }, 100);
 
-        this.describe('j', function (delay) {
+        this.describe.delay('j', function () {
 
-            setTimeout(function () {
+            setTimeout(() => {
                 arr.push(13);
-                delay();
+                this.resume();
             }, 100);
 
             arr.forEach((item)=> {

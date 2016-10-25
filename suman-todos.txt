@@ -51,6 +51,22 @@ create setTimeout and call n.kill if child_process does not exit after X number 
 
 ////////////
 
+use AVA to test Suman
+
+////////////
+
+
+  => Suman message => No test files were found in the directories provided
+  => dirs =>  ["/Users/t_millal/WebstormProjects/oresoftware/suman/test/build-tests"]
+
+
+  => perhaps you should use the --recursive option?
+
+  need to warn user that regex might not match
+
+
+/////////////
+
 use NODE_PATH
 
 ////////////
