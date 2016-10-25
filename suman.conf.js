@@ -4,8 +4,9 @@ const path = require('path');
 
 module.exports = Object.freeze({
 
-    match: [],                              //recommended =>  match: ['.test.js'],
-    notMatch: ['fixture'],
+    matchAny: [/.js$/],              //recommended =>  match: ['.test.js'],
+    matchNone: [/fixture/],
+    matchAll: [],
     testDir: 'test',
     testSrcDir: 'test',
     testTargetDir: 'test-target',
