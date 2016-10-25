@@ -1,35 +1,29 @@
-
 var suman = require('../../lib');
 var Test = suman.init(module, 'suman.conf.js');
 
-Test.describe('A', {parallel:true}, function (request, socketio, delay) {
+Test.describe.delay('A', {parallel: true}, function (request, socketio) {
 
-    // console.log('request:', request.toString());
-    // console.log('socketio:', socketio.toString());
+    const arr = [1, 2, 3];
 
-    // throw new Error('shit');/////
-
-    var arr = [1, 2, 3];
-
-    setTimeout(function () {
+    setTimeout(() => {
         arr.push(4);
         arr.push(5);
         arr.push(6);
-        delay();
+        this.resume();
     }, 100);
 
     this.before.cb(t => {
         setTimeout(t.done, 100);
     });
 
-    this.describe('B', function (delay) {
+    this.describe.delay('B', function () {
 
-        setTimeout(function () {
+        setTimeout(() => {
             arr.push(8);
-            delay();
+            this.resume();
         }, 100);
 
-        this.describe('ruffles',function () {
+        this.describe('ruffles', function () {
             arr.forEach((item)=> {
                 this.it('[test]' + item, t => {
                     console.log('B => ' + t.desc);
@@ -38,18 +32,20 @@ Test.describe('A', {parallel:true}, function (request, socketio, delay) {
         });
     });
 
-    this.describe('C', function (delay) {
+    this.describe.delay('C', function () {
 
-        setTimeout(function () {
+        setTimeout(() => {
             arr.push(9);
-            delay();
+            this.resume();
         }, 100);
 
-        this.describe('j', function (delay) {
+        this.describe.delay('j', function () {
+
+            const suite = this;
 
             setTimeout(function () {
                 arr.push(13);
-                delay();
+                suite.resume();
             }, 100);
 
             arr.forEach((item)=> {
