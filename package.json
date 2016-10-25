@@ -49,13 +49,8 @@
     "test": "test"
   },
   "devDependencies": {
-    "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-rename": "^1.2.2",
     "keypress": "^0.2.1",
-    "nodejs-dep-check": "^1.2.61",
-    "should": "^8.3.1",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "should": "^8.3.1"
   },
   "repository": {
     "type": "git",

@@ -175,6 +175,7 @@ const interactive = opts.interactive;
 const matchAny = opts.match_any;
 const matchAll = opts.match_all;
 const matchNone = opts.match_none;
+const uninstallBabel = opts.uninstall_babel;
 
 //re-assignable
 var register = opts.register;
@@ -418,7 +419,8 @@ const optCheck = [
     s,
     tailTest,
     tailRunner,
-    interactive
+    interactive,
+    uninstallBabel   //TODO: should mix this with uninstall-suman
 
 ].filter(function (item) {
     return item; //TODO what if item is falsy?
@@ -502,7 +504,17 @@ const testTargetDir = process.env.TEST_TARGET_DIR = path.resolve(root + '/' + (g
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-if (useIstanbul) {
+if (uninstallBabel) {
+    require('./lib/use-babel/uninstall-babel')(null, function (err) {
+        if (err) {
+            console.error(err.stack || err);
+        }
+        else{
+            console.log(' => Babel successfully uninstalled from your local project.');
+        }
+    });
+}
+else if (useIstanbul) {
     require('./lib/make-tail/tail-any')();
 }
 else if (tail) {
