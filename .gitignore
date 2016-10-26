@@ -7,4 +7,5 @@ coverage
 benchmark-tests
 .DS_Store/
 *.log
+npm-debug.log*
 
