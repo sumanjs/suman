@@ -5,53 +5,11 @@
 
 
 
- ### Suman start run indiv. @Wed Oct 19 2016 18:35:34 GMT-0700 (PDT) ###
+ ### Suman start run indiv. @Wed Oct 26 2016 09:28:39 GMT-0700 (PDT) ###
 
- ### Filename: /Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js
+ ### Filename: /Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js
 
- ### Command = ["/Users/t_millal/.nvm/versions/node/v6.7.0/bin/node","/Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js"]
-
-TypeError: "callback" argument must be a function
-    at exports.setTimeout (timers.js:322:11)
-    at TestSuiteBase.it.cb.t (/Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:160:17)
-    at /Users/t_millal/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:189:37
-    at _combinedTickCallback (internal/process/next_tick.js:67:7)
-    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
-
-Warning: the following test callback was invoked twice by your code for the following test/hook => aaa1
-
-TypeError: "callback" argument must be a function
-    at exports.setTimeout (timers.js:322:11)
-    at TestSuiteBase.it.cb.t (/Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:166:17)
-    at /Users/t_millal/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:189:37
-    at _combinedTickCallback (internal/process/next_tick.js:67:7)
-    at Immediate._tickDomainCallback (internal/process/next_tick.js:122:9)
-    at runCallback (timers.js:574:20)
-    at tryOnImmediate (timers.js:554:5)
-    at processImmediate [as _immediateCallback] (timers.js:533:5)
-
-Warning: the following test callback was invoked twice by your code for the following test/hook => aaa2
-
-TypeError: "callback" argument must be a function
-    at exports.setTimeout (timers.js:322:11)
-    at TestSuiteBase.it.cb.t (/Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:172:17)
-    at /Users/t_millal/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:189:37
-    at _combinedTickCallback (internal/process/next_tick.js:67:7)
-    at Immediate._tickDomainCallback (internal/process/next_tick.js:122:9)
-    at runCallback (timers.js:574:20)
-    at tryOnImmediate (timers.js:554:5)
-    at processImmediate [as _immediateCallback] (timers.js:533:5)
-
-Warning: the following test callback was invoked twice by your code for the following test/hook => aaa3
-
-TypeError: "callback" argument must be a function
-    at exports.setTimeout (timers.js:322:11)
-    at TestSuiteBase.it.cb.t (/Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:147:25)
-    at /Users/t_millal/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:189:37
-    at _combinedTickCallback (internal/process/next_tick.js:67:7)
-    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
-
-Warning: the following test callback was invoked twice by your code for the following test/hook => ddd
+ ### Command = ["/Users/t_millal/.nvm/versions/node/v6.7.0/bin/node","/Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test5.js"]
 
 
 
