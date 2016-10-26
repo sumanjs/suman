@@ -25,6 +25,7 @@ is difficult and we simply cannot guarantee smooth sailing, in the same way we c
 or tried to run the src file instead of the transpiled file? Yeah, me too.
 (Webstorm does have a nice feature to help prevent this, see "Webstorm: mark as excluded"). Babel-register solves this problem,
 but then there is very little transparency in your tests (because you can't easily see the actual source code), if you hit a bug or snafu.
+8. In most production environments, the risk of adding the complexity of 
 
 
 *Here is a description of how async/await can be achieved via generators:
@@ -59,7 +60,7 @@ in the test directory?
 You would issue this command:
 
 
-```suman -t --watch --no-run``` or ```suman -t -w --no-run``` 
+```suman -t --no-run``` or ```suman -t --no-run``` 
 
 
 The ```--watch / -w``` option incorporates the Suman server which will watch for changes to your files and transpile them on demand.

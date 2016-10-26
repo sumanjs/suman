@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-GIT_COMMIT_MSG = $1 # first argument to script
+# GIT_COMMIT_MSG = $1 # first argument to script
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$BRANCH" != "dev" ]]; then
@@ -12,13 +12,13 @@ fi
 npm version patch --force -m "Upgrade for several reasons" && # bump version
 git add . &&
 git add -A &&
-git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
+git commit -am "publish/release:$1" &&
 git push &&
 git checkout -b devtemp &&
 ./delete-internal-paths.sh &&
 git add . &&
 git add -A &&
-git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
+git commit -am "publish/release:$1" &&
 git remote add public git@github.com:ORESoftware/suman.git # might already exist which is bad but OK
 git fetch public &&
 git checkout -b temp public/master &&
@@ -26,7 +26,7 @@ git merge -Xtheirs --squash -m "squashed with devtemp" devtemp &&
 git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&
-git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
+git commit -am "publish/release:$1" &&
 git push public temp:master &&
 git remote rm public &&
 git checkout dev &&
