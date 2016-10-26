@@ -22,7 +22,7 @@ git remote add public git@github.com:ORESoftware/suman.git &&
 git fetch public &&
 git checkout -b temp public/master &&
 git merge -Xtheirs --squash -m "squashed with devtemp" devtemp &&
-git rm delete-internal-paths.sh &&
+git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&
 git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
