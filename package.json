@@ -77,5 +77,5 @@
     "suman-inspect": "index-inspect.js"
   },
   "homepage": "https://github.com/ORESoftware/suman#readme",
-  "description": ""
+  "description": "Suman is a next-generation Node.js test runner designed to supercede Mocha and rival AVA"
 }
