@@ -5,3 +5,6 @@ node_modules
 test-target
 coverage
 benchmark-tests
+.DS_Store/
+*.log
+

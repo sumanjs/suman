@@ -5,11 +5,19 @@
 
 
 
+<<<<<<< HEAD
  ### Suman start run indiv. @Tue Oct 25 2016 11:05:39 GMT-0700 (PDT) ###
+=======
+ ### Suman start run indiv. @Wed Oct 26 2016 10:36:33 GMT-0700 (PDT) ###
+>>>>>>> dev
 
  ### Filename: /Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js
 
+<<<<<<< HEAD
  ### Command = ["/Users/t_millal/.nvm/versions/node/v6.7.0/bin/node","/Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test2.js"]
+=======
+ ### Command = ["/Users/t_millal/.nvm/versions/node/v6.7.0/bin/node","/Users/t_millal/.nvm/versions/node/v6.7.0/bin/suman-inspect","test/integration-tests/test0.js"]
+>>>>>>> dev
 
  => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
 	TypeError: Cannot assign to read only property 'done' of function 'function done(err) {
@@ -21,6 +29,19 @@
 	    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
 
 
+<<<<<<< HEAD
+=======
+TypeError: "callback" argument must be a function
+    at exports.setTimeout (timers.js:322:11)
+    at TestSuiteBase.it.cb.t (/Users/t_millal/WebstormProjects/oresoftware/suman/test/integration-tests/test0.js:166:17)
+    at /Users/t_millal/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:189:37
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at Immediate._tickDomainCallback (internal/process/next_tick.js:122:9)
+    at tryOnImmediate (timers.js:554:5)
+    at processImmediate [as _immediateCallback] (timers.js:533:5)
+
+Warning: the following test callback was invoked twice by your code for the following test/hook => aaa2
+>>>>>>> dev
 
 Test error: does 1
 	stack: Error: blind
@@ -28,7 +49,6 @@ Test error: does 1
     at /Users/t_millal/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:197:56
     at _combinedTickCallback (internal/process/next_tick.js:67:7)
     at Immediate._tickDomainCallback (internal/process/next_tick.js:122:9)
-    at runCallback (timers.js:574:20)
     at tryOnImmediate (timers.js:554:5)
     at processImmediate [as _immediateCallback] (timers.js:533:5)
 

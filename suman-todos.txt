@@ -4,13 +4,13 @@
 SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 (look at the debugging output)
 
-//////////
+///////
 
 need to consolidate multiple Test.describes into one report to send back to runner
 
 ////////////
 
-use // for unique key in watch
+use // for unique key in suman.conf.js "watch"
 
 when running with {transpile:true} in suman.conf.js, simply "$ suman" (without -r)
 will still transpile *all* of test-src to test-target, (but still only run one file)
@@ -27,7 +27,16 @@ make sure that .babelrc does not get overwritten when using suman --use-babel
 
 need to give user appropriate place to put process.on('exit') handlers
 
+
+////////
+
+need to add SIGINT handler to runner (there is one in lib/index);
+
 ///////////
+
+high priority - in runner for "test fail", need to print path of test file also
+
+//////////
 
 add env as an option in watchProject/watchTests
 

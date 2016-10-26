@@ -1,6 +1,6 @@
-//**************************************************************************************************
-//  Suman config file, should always remain at the root of your project
-// *************************************************************************************************
+// => The Suman config file, should always remain at the root of your project
+// => For more info, see =>  oresoftware.github.io/suman/suman-config.html
+
 
 
 const os = require('os');

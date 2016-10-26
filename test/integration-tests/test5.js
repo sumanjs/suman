@@ -1,5 +1,6 @@
 var suman = require('../../lib');
-var Test = suman.init(module, 'suman.conf.js');
+var Test = suman.init(module);
+
 
 Test.describe.delay('A', {parallel: true}, function (request, socketio) {
 
