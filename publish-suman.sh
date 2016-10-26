@@ -22,7 +22,7 @@ git commit -am "publish/release:$1" &&
 git remote add public git@github.com:ORESoftware/suman.git # might already exist which is bad but OK
 git fetch public &&
 git checkout -b temp public/master &&
-git merge -f -Xtheirs --squash -m "squashed with devtemp" devtemp &&
+git merge -X theirs --squash -m "squashed with devtemp" devtemp &&
 git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&
