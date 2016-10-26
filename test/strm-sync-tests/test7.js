@@ -1,7 +1,7 @@
 /*
  * */
 
-const suman = require('../../lib');
+const suman = require('suman');
 const stream = require('stream');
 
 var tests = [];

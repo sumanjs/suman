@@ -1,4 +1,4 @@
-const suman = require('../../lib');
+const suman = require('suman');
 const Test = suman.init(module, {});
 
 

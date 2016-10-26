@@ -2,7 +2,7 @@
  * Created by denman on 5/3/2016.
  */
 
-const suman = require('../../lib/index');
+const suman = require('suman');
 const Test = suman.init(module);
 
 Test.describe('Catches exceptions', {}, function(fs){

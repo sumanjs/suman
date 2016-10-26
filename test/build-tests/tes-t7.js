@@ -4,7 +4,7 @@
 
 
 
-const Test = require('../../lib').init(module, {
+const Test = require('suman').init(module, {
     export: false,
     integrants: ['smartconnect', 'dolce-vida'],
     iocData: {  //we pass this data to ioc file

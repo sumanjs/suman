@@ -3,7 +3,7 @@
  */
 
 
-import * as suman from '../../lib';
+import * as suman from 'suman';
 var Test = suman.init(module);
 
 ////////

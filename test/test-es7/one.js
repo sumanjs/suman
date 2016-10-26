@@ -1,4 +1,4 @@
-import * as suman from '../../lib';
+import * as suman from 'suman';
 const Test = suman.init(module);
 
 

@@ -3,7 +3,7 @@
  */
 
 
-var suman = require('../../lib');
+var suman = require('suman');
 const Test = suman.init(module);
 
 const should = require('should');
