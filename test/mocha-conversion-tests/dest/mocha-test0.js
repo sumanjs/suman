@@ -20,7 +20,7 @@
  </suman-message>
  */
 
-const Test = require('../../../lib').init(module);
+const Test = require('suman').init(module);
 
 /**
  * Created by denmanm1 on 3/20/16.

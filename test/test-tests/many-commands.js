@@ -1,4 +1,4 @@
-const suman = require('../../lib');
+const suman = require('suman');
 const Test = suman.init(module, {});
 
 Test.describe('Run many different options with Suman', {}, function (child_process) {   // we define the root suite

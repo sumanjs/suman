@@ -3,7 +3,7 @@
 
 //http://blog.yld.io/2016/01/13/using-streams/#.VwyjZZMrKXk
 
-const suman = require('../../lib');
+const suman = require('suman');
 const Test = suman.init(module, {
     export: true,
     interface: 'TDD',

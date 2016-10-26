@@ -6,6 +6,17 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 
 ///////
 
+suman --interactive
+
+/////////
+
+suman --diagnostics
+
+1. check to see if testSrcDir and testTargetDir have the same directory depth, if not, that's a problem
+2. ?
+
+////////
+
 need to consolidate multiple Test.describes into one report to send back to runner
 
 ////////////
