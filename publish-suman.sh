@@ -8,6 +8,7 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
+#start of the end
 npm version patch --force -m "Upgrade for several reasons" && # bump version
 git add . &&
 git add -A &&
