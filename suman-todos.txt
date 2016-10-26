@@ -27,7 +27,16 @@ make sure that .babelrc does not get overwritten when using suman --use-babel
 
 need to give user appropriate place to put process.on('exit') handlers
 
+
+////////
+
+need to add SIGINT handler to runner (there is one in lib/index);
+
 ///////////
+
+high priority - in runner for "test fail", need to print path of test file also
+
+//////////
 
 add env as an option in watchProject/watchTests
 
