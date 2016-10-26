@@ -2,12 +2,16 @@
 
 /////////////////////////////////////////////////////////////////
 
-// if (require.main !== module || process.argv.indexOf('--suman') > -1) {
-//     //prevents users from f*king up by accident and getting in some possible infinite process.spawn loop that will lock up their system
-//     //most likely protects the very unlikely case that suman runs itself, which would cause mad infinite proces spawns
-//     console.log('Warning: attempted to require Suman index.js but this cannot be.');
-//     return;
-// }
+debugger;  //leave here forever so users can debug with "node --inspect" or "node debug"
+
+/////////////////////////////////////////////////////////////////
+
+if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes') {
+    //prevents users from f*king up by accident and getting in some possible infinite process-spawn
+    //loop that will lock up their system
+    console.log('Warning: attempted to require Suman index.js but this cannot be.');
+    return;
+}
 
 // var sigintCount = 0;
 // TODO: add shutdown hooks for runner too
