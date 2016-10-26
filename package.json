@@ -1,13 +1,13 @@
 {
   "name": "suman",
-  "version": "1.1.512108",
+  "version": "1.1.512109",
   "main": "lib/index.js",
   "scripts": {
     "test": "suman",
     "postinstallX": "node scripts/create-suman-dir.js && node scripts/create-suman-alias.js && source ~/.bash_profile",
     "merge": "git merge -Xignore-all-space",
     "debug_mocha": "node-debug _mocha --no-timeouts "
-   },
+  },
   "author": "Olegzandr Denman",
   "license": "ISC",
   "dependencies": {
