@@ -8,6 +8,33 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 
 suman --interactive
 
+///////////
+
+
+ suman --touch   // will touch package.json, which should fire chokidar change events
+
+
+///////////
+
+https://github.com/mochajs/mocha/issues/1925
+
+Is it at all possible to pass an array of error objects to done()
+
+some of my tests naturally generate multiple errors
+
+I know it's a little crazy, but could we handle
+
+var errArray = [];
+done(errArray);
+?
+
+
+
+///////////
+
+
+assert that typeof second arg is 'object' suman.init(module,{})
+
 /////////
 
 suman --diagnostics
@@ -109,10 +136,6 @@ suman.hook.js => suman.shared-hooks.js
 inject data into suman.once.pre.js, because there is data being injected into suman.once.post.js
 
 ///////////////
-
-in suman runner => test errors need to show which test file they are for
-
-/////////////////
 
 if uncaughtException is thrown/called, add a global flag, which will be checked by all hooks/test cases
 if the --ignore-uncaught-exceptions flag is not set then exit early from hooks/test cases

@@ -198,7 +198,12 @@ if (cwd !== root) {
 }
 else {
     if (!opts.sparse) {
-        console.log(colors.cyan(' => cwd:', cwd));
+        if(cwd === root){
+            console.log(colors.gray(' => cwd:', cwd));
+        }
+    }
+    if(cwd !== root){
+        console.log(colors.magenta(' => cwd:', cwd));
     }
 }
 
@@ -253,8 +258,8 @@ if (!init) {
     catch (err) {
         err3 = err;
         sumanServerInstalled = false;
-        if (!opts.sparse) {
-            console.log(' ' + colors.yellow('=> Suman message => note that "suman-server" package is not yet installed.'));
+        if (opts.verbose) {
+            console.log(' ' + colors.yellow('=> Suman verbose message => note that "suman-server" package is not yet installed.'));
         }
     }
 

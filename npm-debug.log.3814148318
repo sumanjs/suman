@@ -20,32 +20,32 @@
 8 silly mapToRegistry uri https://registry.npmjs.org/suman
 9 verbose request uri https://registry.npmjs.org/suman
 10 verbose request no auth needed
-11 info attempt registry request try #1 at 1:48:14 PM
+11 info attempt registry request try #1 at 10:32:49 PM
 12 verbose request using bearer token for auth
-13 verbose request id d7738e9edf30be80
+13 verbose request id 295362bf97fb1313
 14 verbose etag "441I8MG2B9Y8YLN2DACFJOYVR"
 15 http request GET https://registry.npmjs.org/suman
 16 http 304 https://registry.npmjs.org/suman
 17 verbose headers { 'cache-control': 'max-age=300',
 17 verbose headers   'accept-ranges': 'bytes',
-17 verbose headers   date: 'Wed, 26 Oct 2016 20:48:14 GMT',
+17 verbose headers   date: 'Thu, 27 Oct 2016 05:32:50 GMT',
 17 verbose headers   via: '1.1 varnish',
 17 verbose headers   connection: 'keep-alive',
-17 verbose headers   'x-served-by': 'cache-sjc3147-SJC',
+17 verbose headers   'x-served-by': 'cache-sjc3125-SJC',
 17 verbose headers   'x-cache': 'MISS',
 17 verbose headers   'x-cache-hits': '0',
-17 verbose headers   'x-timer': 'S1477514894.683731,VS0,VE33',
+17 verbose headers   'x-timer': 'S1477546370.170449,VS0,VE343',
 17 verbose headers   vary: 'Accept-Encoding' }
 18 silly get cb [ 304,
 18 silly get   { 'cache-control': 'max-age=300',
 18 silly get     'accept-ranges': 'bytes',
-18 silly get     date: 'Wed, 26 Oct 2016 20:48:14 GMT',
+18 silly get     date: 'Thu, 27 Oct 2016 05:32:50 GMT',
 18 silly get     via: '1.1 varnish',
 18 silly get     connection: 'keep-alive',
-18 silly get     'x-served-by': 'cache-sjc3147-SJC',
+18 silly get     'x-served-by': 'cache-sjc3125-SJC',
 18 silly get     'x-cache': 'MISS',
 18 silly get     'x-cache-hits': '0',
-18 silly get     'x-timer': 'S1477514894.683731,VS0,VE33',
+18 silly get     'x-timer': 'S1477546370.170449,VS0,VE343',
 18 silly get     vary: 'Accept-Encoding' } ]
 19 verbose etag https://registry.npmjs.org/suman from cache
 20 verbose get saving suman to /Users/t_millal/.npm/registry.npmjs.org/suman/.cache.json

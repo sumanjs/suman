@@ -1,4 +1,3 @@
-
 const suman = require('suman');
 const Test = suman.init(module, {});
 
@@ -6,19 +5,19 @@ const Test = suman.init(module, {});
 Test.describe(__filename, {}, function (assert) {
 
     this.before(t => {
-         console.log('before a');
+        console.log('before a');
     });
 
     this.beforeEach.cb(t => {
         console.log('before each starting...');
-        setTimeout(function(){
+        setTimeout(function () {
             console.log('before each hook finished.');
             t.ctn();
-        },2000);
+        }, 100);
     });
 
     this.it('a', t => {
-        assert(true);
+        assert(false);
     });
 
 

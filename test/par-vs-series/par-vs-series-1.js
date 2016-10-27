@@ -24,20 +24,20 @@ Test.describe('1', {mode: 'parallel'}, function () {
     });
 
     this.it.cb('two', {value: 4}, t => {
-        setTimeout(t.done, 2000);
+        setTimeout(t.done, 100);
         console.log('developer debugging logs');
     });
 
     this.it.cb('three', t => {
-        setTimeout(t.done, 2000);
+        setTimeout(t.done, 100);
     });
 
     this.it.cb('four', t => {
-        setTimeout(t.done, 2000);
+        setTimeout(t.done, 100);
     });
 
     this.it.cb('five', t => {
-        setTimeout(t.done, 2000);
+        setTimeout(t.done, 100);
     });
 
 });
