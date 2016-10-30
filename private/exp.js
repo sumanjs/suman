@@ -1,10 +1,17 @@
 
 
-var str = /\.test\.js$/.toString();
+// var str = /\.test\.js$/.toString();
+//
+// str = str.slice(1,-1);
+//
+// console.log(str);
+//
+// console.log(new RegExp(str));
 
-str = str.slice(1,-1);
+const assert = require('assert');
 
-console.log(str);
+var a = JSON.parse(JSON.stringify({foo:'bar'}));
 
-console.log(new RegExp(str));
+var b = JSON.parse(JSON.stringify({foo:'bar'}));
 
+assert.deepEqual(a,b, 'not equal');

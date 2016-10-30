@@ -364,8 +364,16 @@ global.maxProcs = global.sumanOpts.concurrency || sumanConfig.maxParallelProcess
 global.sumanHelperDirRoot = path.resolve(root + '/' + (sumanConfig.sumanHelpersDir || 'suman'));
 
 ////////////// matching ///////////
-global.sumanMatchesAny = _.uniqBy((opts.matchAny || []).concat(sumanConfig.matchAny || [])
-    .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
+
+const sumanMatchesAny = (opts.matchAny || []).concat(sumanConfig.matchAny || [])
+    .map(item => (item instanceof RegExp) ? item : new RegExp(item));
+
+if(sumanMatchesAny.length < 1){
+    // if the user does not provide anything, we default to this
+    sumanMatchesAny.push(/\.js$/);
+}
+
+global.sumanMatchesAny = _.uniqBy(sumanMatchesAny, item => item);
 global.sumanMatchesNone = _.uniqBy((opts.matchNone || []).concat(sumanConfig.matchNone || [])
     .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
 global.sumanMatchesAll = _.uniqBy((opts.matchAll || []).concat(sumanConfig.matchAll || [])
@@ -502,6 +510,10 @@ var paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
 
 if (opts.verbose) {
     console.log(' => Suman verbose message => arguments assumed to be file paths to run:', paths);
+    if(paths.length < 1){
+        console.log(' => Suman verbose message => Since no paths were passed at the command line, if you wish to run tests they will \n' +
+            'by default originate from the "testSrc" directory (defined in your suman.conf.js file).')
+    }
 }
 
 /////////////////// assign vals from config ////////////////////////////////////////////////
@@ -783,6 +795,10 @@ else {
 
             async.parallel({
                 npmList: function (cb) {
+
+                    return process.nextTick(cb);
+
+                    //TODO: this was causing problems, skip for now
 
                     var callable = true;
 

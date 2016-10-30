@@ -19,13 +19,11 @@ module.exports = Object.freeze({
             types: [],
             errorMessage: ''
         },
-        'ioc':{
+        'ioc': {
             types: [],
             errorMessage: ''
         },
-        'timeout':{
-
-        }
+        'timeout': {}
 
 
     },
@@ -57,6 +55,7 @@ module.exports = Object.freeze({
         ERROR_INVOKING_NETWORK_LOG_IN_RUNNER: 31,
         UNEXPECTED_FATAL_ERROR: 32,
         TIMED_OUT_AFTER_ALL_PROCESSES_EMIT_EXIT: 33,
+        NO_TEST_FILES_MATCHED_OR_FOUND: 34,
         UNCAUGHT_EXCEPTION: 777
     },
     EXIT_CODES: {
@@ -100,7 +99,9 @@ module.exports = Object.freeze({
         HOOK_TIMED_OUT_ERROR: 87,
         UNCAUGHT_EXCEPTION_BEFORE_ONCE_POST_INVOKED: 88,
         UNCAUGHT_EXCEPTION_AFTER_ONCE_POST_INVOKED: 89,
-        ASYNCHRONOUS_CALL_OF_TEST_DOT_DESCRIBE: 90
+        ASYNCHRONOUS_CALL_OF_TEST_DOT_DESCRIBE: 90,
+        COULD_NOT_CREATE_LOG_DIR: 91,
+        COULD_NOT_LOCATE_SUMAN_HELPERS_DIR: 92
     },
     ERROR_MESSAGES: {
         INVALID_FUNCTION_TYPE_USAGE: ' => Suman fatal error => You cannot use arrow functions, geneators or async/await with describe callbacks; however, you may these functions everywhere else.\n' +

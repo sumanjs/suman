@@ -10,28 +10,50 @@ suman --interactive
 
 ///////////
 
+suman.once
+
+//////////
+
+image:
+
+testgroup
+testfile
+testsuite
+testblock
+
+
+//////////
+
+change Suites skipped : 1, to Suites skipped  (at least 1)
+
+
+////////////
+
+if suman.conf.js does not reflect where the _suman/.suman directory is, you get this:
+
+ => Suman uncaught exception =>  Error: ENOENT: no such file or directory, open '/Users/t_millal/WebstormProjects/oresoftware/pragmatik/suman/logs/test-debug.log'
+    at Error (native)
+    at Object.fs.openSync (fs.js:640:18)
+    at Object.fs.writeFileSync (fs.js:1333:33)
+
+
+//////////////
+
+ => Suman is exiting with code 56   > see http://oresoftware.github.io/suman/exit-codes.html
+
+
+ => Suman test process experienced a fatal error during the run, most likely the majority of tests, if not all tests, were not run.
+
+^^^^ the above is not appropriate after only failing with a 56 error
+
+
+//////////////////
+
 
  suman --touch   // will touch package.json, which should fire chokidar change events
 
 
 ///////////
-
-https://github.com/mochajs/mocha/issues/1925
-
-Is it at all possible to pass an array of error objects to done()
-
-some of my tests naturally generate multiple errors
-
-I know it's a little crazy, but could we handle
-
-var errArray = [];
-done(errArray);
-?
-
-
-
-///////////
-
 
 assert that typeof second arg is 'object' suman.init(module,{})
 
