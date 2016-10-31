@@ -39,6 +39,11 @@ if suman.conf.js does not reflect where the _suman/.suman directory is, you get 
 
 //////////////
 
+TODO: SUMAN_SINGLE_PROCESS => for runner, have it either pass data back to runner table, or don't print table at all,
+probably latter is better.
+
+////////////////
+
  => Suman is exiting with code 56   > see http://oresoftware.github.io/suman/exit-codes.html
 
 

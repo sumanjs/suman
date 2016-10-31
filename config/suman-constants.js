@@ -62,6 +62,8 @@ module.exports = Object.freeze({
         SUCCESSFUL_RUN: 0,
         WHOLE_TEST_SUITE_SKIPPED: 0,
         GREP_SUITE_DID_NOT_MATCH: 0,
+        SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT: 50,
+        SUMAN_PRE_DOES_NOT_EXPORT_FUNCTION: 51,
         BAD_GREP_SUITE_OPTION: 52,
         SUMAN_UNCAUGHT_EXCEPTION: 53,
         BAD_CONFIG_OR_PROGRAM_ARGUMENTS: 54,
@@ -101,7 +103,8 @@ module.exports = Object.freeze({
         UNCAUGHT_EXCEPTION_AFTER_ONCE_POST_INVOKED: 89,
         ASYNCHRONOUS_CALL_OF_TEST_DOT_DESCRIBE: 90,
         COULD_NOT_CREATE_LOG_DIR: 91,
-        COULD_NOT_LOCATE_SUMAN_HELPERS_DIR: 92
+        COULD_NOT_LOCATE_SUMAN_HELPERS_DIR: 92,
+        INTEGRANT_ACQUISITION_TIMEOUT: 93
     },
     ERROR_MESSAGES: {
         INVALID_FUNCTION_TYPE_USAGE: ' => Suman fatal error => You cannot use arrow functions, geneators or async/await with describe callbacks; however, you may these functions everywhere else.\n' +

@@ -11,7 +11,6 @@
 const assert = require('assert');
 
 var a = JSON.parse(JSON.stringify({foo:'bar'}));
-
 var b = JSON.parse(JSON.stringify({foo:'bar'}));
 
 assert.deepEqual(a,b, 'not equal');
