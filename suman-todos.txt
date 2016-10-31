@@ -24,6 +24,10 @@ testblock
 
 //////////
 
+ For SUMAN_SINGLE_PROCESS => need to run once.pre before everything and once.post after everything
+
+////////////
+
 change Suites skipped : 1, to Suites skipped  (at least 1)
 
 
