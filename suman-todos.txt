@@ -21,6 +21,9 @@ testfile
 testsuite
 testblock
 
+//////////
+
+TODO: use pragmatik in the lib/index.js file so that we can work with opts.skip properly
 
 //////////
 
