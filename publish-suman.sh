@@ -9,6 +9,8 @@ if [[ "$BRANCH" != "dev" ]]; then
 fi
 
 #start of the end
+git remote add public https://github.com/ORESoftware/suman.git # git@github.com:ORESoftware/suman.git # might already exist which is bad but OK
+git fetch public &&
 npm version patch --force -m "Upgrade for several reasons" && # bump version
 git add . &&
 git add -A &&
@@ -19,8 +21,6 @@ git checkout -b devtemp &&
 git add . &&
 git add -A &&
 git commit -am "publish/release:$1" &&
-git remote add public git@github.com:ORESoftware/suman.git # might already exist which is bad but OK
-git fetch public &&
 git checkout -b temp public/master &&
 git merge -Xtheirs --squash -m "squashed with devtemp" devtemp &&
 git rm delete-internal-paths.sh -f &&
