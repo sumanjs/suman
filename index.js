@@ -64,7 +64,7 @@ const _ = require('lodash');
 
 //#project
 const constants = require('./config/suman-constants');
-const sumanUtils = require('./lib/utils');
+const sumanUtils = require('suman-utils/utils');
 
 ////////////////////////////////////////////////////////////////////
 

@@ -14,7 +14,7 @@ const async = require('async');
 
 const cwd = process.cwd();
 
-const sumanUtils = require('../lib/utils');
+const sumanUtils = require('suman-utils/utils');
 const root = sumanUtils.findProjectRoot(cwd);
 
 if (!root) {

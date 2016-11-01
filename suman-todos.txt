@@ -22,6 +22,11 @@ add "append-match-none"
 
 /////////////
 
+Test errors do not necessarily lead to 56 exit codes, e.g. =>
+/Users/t_millal/WebstormProjects/oresoftware/pragmatik/test/test-src/parse-to-array/five.test.js
+
+////////////
+
 suman --interactive
 
 ///////////
