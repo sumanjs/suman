@@ -6,13 +6,25 @@ SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
 
 ///////
 
-suman --interactive
+TODO: need to merge add-watcher and watch-project into one
+
+////////////
+
+TODO: even if test error happens, SUMAN_SINGLE_PROCESS still exits w code 0
+
+////////////
+
+TODO: regexes seem to match against test-target instead of test-src etc?
 
 ///////////
 
-suman.once
+add "append-match-none"
 
-//////////
+/////////////
+
+suman --interactive
+
+///////////
 
 image:
 

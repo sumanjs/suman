@@ -39,7 +39,6 @@ process.on('uncaughtException', function (err) {
 });
 
 process.on('unhandledRejection', function (err) {
-
     if (process.listenerCount('unhandledRejection') < 2) {
         console.error('\n\n => Suman unhandled rejection =>\n', (err.stack || err), '\n\n');
     }
@@ -119,7 +118,6 @@ const cwd = process.cwd();
 ////////////////////////////////////////////////////////////////////
 
 //#project
-const suman = require('./lib');
 const root = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = sumanUtils.findProjectRoot(cwd);
 const makeNetworkLog = require('./lib/make-network-log');
 const findSumanServer = require('./lib/find-suman-server');
@@ -198,11 +196,11 @@ if (cwd !== root) {
 }
 else {
     if (!opts.sparse) {
-        if(cwd === root){
+        if (cwd === root) {
             console.log(colors.gray(' => cwd:', cwd));
         }
     }
-    if(cwd !== root){
+    if (cwd !== root) {
         console.log(colors.magenta(' => cwd:', cwd));
     }
 }
@@ -365,18 +363,20 @@ global.sumanHelperDirRoot = path.resolve(root + '/' + (sumanConfig.sumanHelpersD
 
 ////////////// matching ///////////
 
-const sumanMatchesAny = (opts.matchAny || []).concat(sumanConfig.matchAny || [])
+const sumanMatchesAny = (matchAny || []).concat(sumanConfig.matchAny || [])
     .map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
-if(sumanMatchesAny.length < 1){
+if (sumanMatchesAny.length < 1) {
     // if the user does not provide anything, we default to this
     sumanMatchesAny.push(/\.js$/);
 }
 
 global.sumanMatchesAny = _.uniqBy(sumanMatchesAny, item => item);
-global.sumanMatchesNone = _.uniqBy((opts.matchNone || []).concat(sumanConfig.matchNone || [])
+
+global.sumanMatchesNone = _.uniqBy((matchNone || []).concat(sumanConfig.matchNone || [])
     .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
-global.sumanMatchesAll = _.uniqBy((opts.matchAll || []).concat(sumanConfig.matchAll || [])
+
+global.sumanMatchesAll = _.uniqBy((matchAll || []).concat(sumanConfig.matchAll || [])
     .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
 
 
@@ -510,7 +510,7 @@ var paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
 
 if (opts.verbose) {
     console.log(' => Suman verbose message => arguments assumed to be file paths to run:', paths);
-    if(paths.length < 1){
+    if (paths.length < 1) {
         console.log(' => Suman verbose message => Since no paths were passed at the command line, if you wish to run tests they will \n' +
             'by default originate from the "testSrc" directory (defined in your suman.conf.js file).')
     }
@@ -530,7 +530,7 @@ if (uninstallBabel) {
         if (err) {
             console.error(err.stack || err);
         }
-        else{
+        else {
             console.log(' => Babel successfully uninstalled from your local project.');
         }
     });
@@ -554,8 +554,8 @@ else if (useServer) {
             process.exit(1);
         }
         else {
-            console.log('\n\n', colors.bgBlue.green(' => Suman message => "suman-server" was installed successfully into your local project.'));
-            console.log('\n', colors.bgBlue.green(' => To learn about how to use "suman-server" with Suman, visit *.'), '\n');
+            console.log('\n\n', colors.bgBlue.white.bold(' => Suman message => "suman-server" was installed successfully into your local project.'));
+            console.log('\n', colors.bgBlue.white.bold(' => To learn about how to use "suman-server" with Suman, visit *.'), '\n');
             process.exit(0);
         }
     });
@@ -629,7 +629,9 @@ else if (convert) {
         throw new Error(' => Suman server is not installed yet => Please use "$ suman --use-server" in your local project ' + err3.stack);
     }
 
-    suman.Server({
+    const sumanServer = require('./lib/create-suman-server');
+
+    sumanServer({
         //configPath: 'suman.conf.js',
         config: sumanConfig,
         serverName: serverName || os.hostname()
@@ -1005,7 +1007,8 @@ else {
             else {
                 d.run(function () {
                     process.nextTick(function () {
-                        suman.Runner({
+                        const sumanRunner = require('./lib/create-suman-runner');
+                        sumanRunner({
                             grepSuite: grepSuite,
                             grepFile: grepFile,
                             $node_env: process.env.NODE_ENV,
