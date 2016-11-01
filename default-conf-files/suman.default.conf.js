@@ -1,5 +1,5 @@
 // => The Suman config file, should always remain at the root of your project
-// => For more info, see =>  oresoftware.github.io/suman/suman-config.html
+// => For more info, see =>  oresoftware.github.io/suman/conf.html
 
 
 const os = require('os');
@@ -23,7 +23,7 @@ module.exports = Object.freeze({
     uniqueAppName: pckgDotJson.name || '',
     browser: 'Firefox',                 // browser to open test results with
 
-    //booleans
+    //boolean
     bail: true,                     // when running one file, bail will bail test at first test failure
     bailRunner: true,               // when using the runner, bail will bail runner at first test failure in any file
     transpile: false,                      // transpile is false by default, can be overridden with command line also
