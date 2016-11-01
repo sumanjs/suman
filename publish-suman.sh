@@ -9,7 +9,7 @@ if [[ "$BRANCH" != "dev" ]]; then
 fi
 
 #start of the end #
-git remote add public https://github.com/ORESoftware/suman.git # git@github.com:ORESoftware/suman.git # might already exist which is bad but OK
+git remote add public git@github.com:ORESoftware/suman.git  # https://github.com/ORESoftware/suman.git might already exist which is bad but OK
 git fetch public &&
 npm version patch --force -m "Upgrade for several reasons" && # bump version
 git add . &&
