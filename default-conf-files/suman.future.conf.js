@@ -2,10 +2,12 @@
 // => For more info, see =>  oresoftware.github.io/suman/suman-config.html
 
 
+
 const os = require('os');
 const path = require('path');
+
+// let's get bizzy
 const numOfCPUs = os.cpus().length || 1;
-const pckgDotJson = require(path.resolve(__dirname, 'package.json'));
 
 
 module.exports = Object.freeze({
@@ -20,14 +22,14 @@ module.exports = Object.freeze({
     testSrcDir: 'test/test-src',
     testTargetDir: 'test/test-target',
     sumanHelpersDir: 'suman',
-    uniqueAppName: pckgDotJson.name || '',
+    uniqueAppName: 'suman',
     browser: 'Firefox',                 // browser to open test results with
 
     //booleans
-    bail: true,                     // when running one file, bail will bail test at first test failure
-    bailRunner: true,               // when using the runner, bail will bail runner at first test failure in any file
-    transpile: false,                      // transpile is false by default, can be overridden with command line also
-    executeRunnerCWDAtTestFile: true,   // if false, CWD for runner will be project root dir
+    bail: true,
+    bailRunner: true,
+    transpile: false,                          //default, can be overridden with command line
+    executeRunnerCWDAtTestFile: true,
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
     ultraSafe: false,                   //if true, Suman reads files before executing any supposed test file and makes sure it's a suman test before running
@@ -37,13 +39,12 @@ module.exports = Object.freeze({
     disableAutoOpen: false,             // use true if you never want suman to automatically open the browser to the latest test results
     suppressRunnerOutput: true,         // this defaults to true, use no-silent or silent to switch value
 
-    //integers
+    //numbers
     verbosity: 5,
     maxParallelProcesses: Math.max(6, numOfCPUs),           //maximum parallel processes running at one time, synonymous with --concurrency cmd line option
     resultsCapCount: 100,               // test results will be deleted if they are 101st oldest run
-    resultsCapSize: 7000, // 3 gb's     // oldest test results will be deleted if the results dir expands beyond this size
 
-    //integers in millis
+    //millis
     defaultHookTimeout: 5000,
     defaultTestCaseTimeout: 5000,
     timeoutToSearchForAvailServer: 2000,
@@ -53,11 +54,14 @@ module.exports = Object.freeze({
     expireResultsAfter: 10000000,     // test results will be deleted after this amount of time
 
 
+    resultsCapSize: 7000, // 3 gb's     // oldest test results will be deleted if the results dir expands beyond this size
+
+
     watch: {
 
         '//tests': {
             'default': {  // (re) execute the test file that changed
-                script: function (p) {
+                script: function(p){
                     return `./node_modules/.bin/suman ${p}`
                 },
                 include: [],

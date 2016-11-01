@@ -1,10 +1,28 @@
 
-// this command fails in poolio
 
-SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
-(look at the debugging output)
+/////////
+
+TODO: double check to see if bail option is always sumanOpts and also make it work with suman.conf.js too
 
 ///////
+
+//TODO: runner lock would allow only one instance of the runner to run at a time, perhaps putting requests in a queue
+//TODO: suman --clear-runner-queue would delete all lines in the file that queued runner runs
+//TODO: add runner-lock to roadmap
+//TODO: runnerLock: false should be default in suman.conf.js
+
+///////
+
+ //TODO: allow printing of just one line of results, until a failure
+ //readline.clearLine(process.stdout, 0);
+ //process.stdout.write('\r' + chalk.green('Pass count: ' + successCount));
+
+/////////
+
+TODO: can mark error object as being already handled in uncaughtException handlers, so
+that we don't print uncaughtExceptions more than once.
+
+/////////
 
 TODO: need to merge add-watcher and watch-project into one
 
@@ -17,6 +35,10 @@ TODO: even if test error happens, SUMAN_SINGLE_PROCESS still exits w code 0
 TODO: regexes seem to match against test-target instead of test-src etc?
 
 ///////////
+
+  //TODO: interactive shell with suman?  suman --interactive
+
+///////////////
 
 add "append-match-none"
 
@@ -112,11 +134,6 @@ make sure that .babelrc does not get overwritten when using suman --use-babel
 
  => beep when a watch-project test fails => https://www.npmjs.com/browse/keyword/beep
 
-/////////////
-
-need to give user appropriate place to put process.on('exit') handlers
-
-
 ////////
 
 need to add SIGINT handler to runner (there is one in lib/index);
@@ -124,12 +141,6 @@ need to add SIGINT handler to runner (there is one in lib/index);
 ///////////
 
 high priority - in runner for "test fail", need to print path of test file also
-
-//////////
-
-add env as an option in watchProject/watchTests
-
-todo: suman.once.post.js has to run if not using the runner
 
 ////////////
 
@@ -176,7 +187,7 @@ use NODE_PATH
 
 /////////////
 
-if transpile:true, and the user points suman to test-target/xyz, then we should just run the tests, not transpile first
+TODO: if transpile:true, and the user points suman to test-target/xyz, then we should just run the tests, not transpile first
 
 /////////////////
 
@@ -266,10 +277,6 @@ cwd /Users/Olegzandr/WebstormProjects/a && suman /Users/Olegzandr/WebstormProjec
 
 
   /////////////////
-
-  //TODO: interactive shell with suman?  suman --interactive
-
-  ///////////////
 
   3 diagrams, 1 for node a.test.js, 1 for suman a.test.js, 1 for suman --runner a.test.js
 

@@ -2,7 +2,7 @@
 
 /////////////////////////////////////////////////////////////////
 
-debugger;  //leave here forever so users can debug with "node --inspect" or "node debug"
+debugger;  //leave here forever so users can easily debug with "node --inspect" or "node debug"
 
 /////////////////////////////////////////////////////////////////
 
@@ -25,23 +25,48 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
 
 /////////////////////////////////////////////////////////////////
 
+function handleExceptionsAndRejections() {
+
+    if (global.sumanOpts && (global.sumanOpts.ignoreUncaughtExceptions || global.sumanOpts.ignoreUnhandledRejections)) {
+        console.error('\n\n => uncaughtException occurred, but we are ignoring due to the ' +
+            '"--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" flag(s) you passed.');
+    }
+    else {
+        console.error('\n\n => Use "--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" to potentially debug further,' +
+            'or simply continue in your program.');
+        process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+    }
+}
+
 process.on('uncaughtException', function (err) {
 
-    if (process.listenerCount('uncaughtException') < 2 || true) {
-        console.error('\n\n => Suman uncaught exception =>\n', err.stack, '\n\n');
+    if(typeof err !== 'object'){
+        err = {stack: util.inspect(err)}
     }
 
     if (String(err.stack || err).match(/Cannot find module/i) && global.sumanOpts && global.sumanOpts.transpile) {
         console.log(' => If transpiling, you may need to transpile your entire test directory to the destination directory using the ' +
             '--transpile and --all options together.')
     }
-    // process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+
+    if (err && !err._alreadyHandledBySuman) {
+        console.error('\n\n => Suman "uncaughtException" event occurred =>\n', err.stack, '\n\n');
+        handleExceptionsAndRejections();
+    }
+
 });
 
 process.on('unhandledRejection', function (err) {
-    if (process.listenerCount('unhandledRejection') < 2) {
-        console.error('\n\n => Suman unhandled rejection =>\n', (err.stack || err), '\n\n');
+
+    if(typeof err !== 'object'){
+        err = {stack: util.inspect(err)}
     }
+
+    if (err && !err._alreadyHandledBySuman) {
+        console.error('\n\n => Suman "unhandledRejection" event occurred =>\n', (err.stack || err), '\n\n');
+        handleExceptionsAndRejections();
+    }
+
 });
 
 
