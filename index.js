@@ -28,12 +28,12 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
 function handleExceptionsAndRejections() {
 
     if (global.sumanOpts && (global.sumanOpts.ignoreUncaughtExceptions || global.sumanOpts.ignoreUnhandledRejections)) {
-        console.error('\n\n => uncaughtException occurred, but we are ignoring due to the ' +
+        console.error('\n => uncaughtException occurred, but we are ignoring due to the ' +
             '"--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" flag(s) you passed.');
     }
     else {
-        console.error('\n\n => Use "--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" to potentially debug further,' +
-            'or simply continue in your program.');
+        console.error('\n => Use "--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" to potentially debug further,' +
+            'or simply continue in your program.\n\n');
         process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
     }
 }
@@ -320,7 +320,7 @@ if (opts.watch && opts.stop_watching) {
 
 if (init) {
     global.usingDefaultConfig = true;
-    sumanConfig = require(__dirname + '/default-conf-files/suman.default.conf');
+    sumanConfig = {};
 }
 else {
     try {
@@ -350,16 +350,30 @@ else {
             }
         }
         catch (err) {
-            console.log(colors.bgCyan.white(' => Suman message => Warning - no configuration found in your project, using default Suman configuration.'));
-            try {
-                pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
-                sumanConfig = require(pth);
-                global.usingDefaultConfig = true;
+
+            if(!uninstall){
+                throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
+                    'found in the root of your project.\n  ' + (err.stack || err));
             }
-            catch (err) {
-                console.error('\n => ' + err + '\n');
-                return;
+            else{
+                // if we read in the default config, then package.json is not resolved correctly
+                // we need to provide some default values though
+                sumanConfig = {
+                    sumanHelpersDir: 'suman'
+                };
             }
+
+            // console.log(colors.bgCyan.white(' => Suman message => Warning - no configuration found in your project, ' +
+            //     'using default Suman configuration.'));
+            // try {
+            //     pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
+            //     sumanConfig = require(pth);
+            //     global.usingDefaultConfig = true;
+            // }
+            // catch (err) {
+            //     console.error('\n => ' + err + '\n');
+            //     return;
+            // }
         }
     }
 }
