@@ -1,5 +1,3 @@
-
-
 const suman = require('suman');
 const Test = suman.init(module, {
     integrants: ['smartconnect', 'dolce-vida'],
@@ -25,12 +23,13 @@ function createIOCArgs() {
     }
 }
 
-Test.describe.delay('gggg', {parallel: false},
+Test.create.delay('gggg', {parallel: true},
+
     function (http, assert, fs, child_process, socket_io_client, suite, whoa, cherry, https) {
 
         setTimeout(() => {
             this.resume(5);
-        }, 1000);
+        }, 10);
 
         this.beforeEach(function (t) {
 
@@ -40,31 +39,25 @@ Test.describe.delay('gggg', {parallel: false},
 
         });
 
-        this.context.delay('moodle', {parallel: false}, function () {
+        this.context.delay('moodle', {parallel: true}, function () {
 
             const val = this.getResumeValue();
 
             this.resume();
 
-            console.log('val:',val);
+            console.log('val:', val);
 
             this.before.cb(t => {
-                setTimeout(function () {
-                    t.done();
-                }, 50);
+                setTimeout(t.done, 50);
 
             });
 
             this.before.cb(t => {
-                setTimeout(function () {
-                    t.done();
-                }, 50);
+                setTimeout(t.done, 50);
             });
 
             this.before.cb(t => {
-                setTimeout(function () {
-                    t.done();
-                }, 50);
+                setTimeout(t.done, 50);
             });
 
             this.before(function *() {
@@ -138,14 +131,17 @@ Test.describe.delay('gggg', {parallel: false},
 
         });
 
-        this.describe('bum', {parallel: false}, function () {
+
+
+        this.describe('bum', {parallel: true}, function () {
+
 
             this.describe('x', function () {
 
                 this.describe('y', function () {
 
                     this.it.cb('ddd', {parallel: false}, t => {
-                        setTimeout(t.done(), 50);
+                        setTimeout(t.done, 50);
                     });
 
                 });
@@ -155,29 +151,29 @@ Test.describe.delay('gggg', {parallel: false},
                 });
             });
 
-            this.it.cb('aaa1', {
-                parallel: false
-            }, t => {
-                setTimeout(t.done(), 50);
-            });
 
-            this.it.cb('aaa2', {
-                parallel: false
-            }, t => {
-                setTimeout(t.done(), 50);
-            });
+            const it = this.it;
 
-            this.it.cb('aaa3', {
-                parallel: false
-            }, t => {
-                setTimeout(t.done(), 50);
-            });
-
-            this.it.cb('aaa4', {
-                parallel: false
-            }, t => {
+            it.cb('aaa1', {parallel: false}, t => {
                 setTimeout(t.done, 50);
             });
+
+            it.cb('aaa2', {parallel: false}, t => {
+                setTimeout(t.done, 50);
+            });
+
+            it.cb('aaa3', {parallel: false}, t => {
+                setTimeout(t.done, 50);
+            });
+
+            it.cb('aaa4', {parallel: false}, t => {
+                setTimeout(t.done, 50);
+            });
+
+            it.cb('aaa4', {parallel: false}, t => {
+                setTimeout(t.done, 50);
+            });
+
 
             this.after(function () {
 
@@ -186,6 +182,192 @@ Test.describe.delay('gggg', {parallel: false},
         });
 
         this.after(function () {
+
+        });
+
+    });
+
+
+
+Test.create.delay('gggg', {parallel: true},
+    function (http, assert, fs, child_process, socket_io_client, suite, whoa, cherry, https) {
+
+        const {describe, it, before, after, beforeEach, afterEach, context} = this;
+
+        setTimeout(() => {
+            this.resume(5);
+        }, 10);
+
+        beforeEach(function (t) {
+
+        });
+
+        it('makes noise', {}, function () {
+
+        });
+
+        context.delay('moodle', {parallel: true}, function () {
+
+            const {describe, it, before, after, beforeEach, afterEach, context} = this;
+
+            const val = this.getResumeValue();
+            this.resume();
+
+            before.cb(t => {
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+
+            });
+
+            before.cb(t => {
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+            });
+
+            before.cb(t => {
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+            });
+
+            before(function *() {
+                yield new Promise(function (resolve) {
+                    setTimeout(function () {
+                        resolve('dude');
+                    });
+                });
+            });
+        });
+
+        describe('moodle', {parallel: true}, function () {
+
+            const {describe, it, before, after, beforeEach, afterEach, context} = this;
+
+            beforeEach.cb(t => {
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+            });
+
+            beforeEach.cb(t => {
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+            });
+
+            beforeEach.cb(t => {
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+            });
+
+            it.cb('mmm1', {parallel: false}, t => {
+
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+
+            });
+
+            it.cb('mmm2', {parallel: false}, (t) => {
+
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+
+            });
+
+            it.cb('mmm3', {parallel: false}, t => {
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+
+            });
+
+            beforeEach.cb(t => {
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+            });
+
+            afterEach.cb(t => {
+                setTimeout(function () {
+                    t.done();
+                }, 50);
+            });
+
+            afterEach.cb(t => {
+                setTimeout(function () {
+
+                    t.done();
+                }, 50);
+            });
+
+            after(function () {
+
+            });
+
+        });
+
+
+
+        describe('bum', {parallel: true}, function () {
+
+            const {describe, it, before, after, beforeEach, afterEach} = this;
+
+
+            describe('x', function () {
+                const {describe, it} = this;
+
+
+
+                describe('y', function () {
+
+                    const {it} = this;
+
+                    it.cb('ddd', {parallel: false}, t => {
+                        setTimeout(t.done, 50);
+                    });
+
+                });
+
+                it.cb('cccc', {parallel: false}, t => {
+                    setTimeout(t.done, 50);
+                });
+
+            });
+
+
+            it.cb('aaa1', {parallel: false}, t => {
+                setTimeout(t.done, 50);
+            });
+
+            it.cb('aaa2', {parallel: false}, t => {
+                setTimeout(t.done, 50);
+            });
+
+            it.cb('aaa3', {parallel: false}, t => {
+                setTimeout(t.done, 50);
+            });
+
+            it.cb('aaa4', {parallel: false}, t => {
+                setTimeout(t.done, 50);
+            });
+
+            it.cb('aaa4', {parallel: false}, t => {
+                setTimeout(t.done, 50);
+            });
+
+
+            after(function () {
+
+            });
+
+        });
+
+        after(function () {
 
         });
 
