@@ -3,7 +3,7 @@
  */
 
 
-var Test = require('suman').init(module, 'suman.conf.js');
+var Test = require('suman').init(module);
 
 
 Test.describe('desc', function () {

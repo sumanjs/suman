@@ -1,58 +1,63 @@
 // => The Suman config file, should always remain at the root of your project
-// => For more info, see =>  oresoftware.github.io/suman/suman-config.html
-
+// => For more info, see =>  oresoftware.github.io/suman/conf.html
 
 
 const os = require('os');
 const path = require('path');
-
-// let's get bizzy
 const numOfCPUs = os.cpus().length || 1;
+const pckgDotJson = require(path.resolve(__dirname, 'package.json'));
 
 
 module.exports = Object.freeze({
 
+    //regex
     matchAny: [],                              //recommended regex for "matchAny" => [/\.test\.js$/],
     matchNone: [/fixture/, /.*target/],        //recommended regex for "matchNone" => [/fixture/],
     matchAll: [/\.test\.js$/],                 //recommended regex for "matchAll" => [],
-    sumanHelpersDir: 'suman',
-    transpile: false,                          //default, can be overridden with command line
+
+    //string
     testDir: 'test',
     testSrcDir: 'test/test-src',
     testTargetDir: 'test/test-target',
-    verbosity: 5,
-    defaultHookTimeout: 5000,
-    defaultTestCaseTimeout: 5000,
-    executeRunnerCWDAtTestFile: true,
-    runnerLock: true,
-    timeoutToSearchForAvailServer: 2000,
+    sumanHelpersDir: 'suman',
+    uniqueAppName: pckgDotJson.name || '',
+    browser: 'Firefox',                 // browser to open test results with
+
+    //boolean
+    bail: true,                     // when running one file, bail will bail test at first test failure
+    bailRunner: true,               // when using the runner, bail will bail runner at first test failure in any file
+    transpile: false,                      // transpile is false by default, can be overridden with command line also
+    executeRunnerCWDAtTestFile: true,   // if false, CWD for runner will be project root dir
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
-    defaultDelayFunctionTimeout: 8000,
-    warningLevel: 3,
-    noFrills: false,
-    defaultChildProcessTimeout: 8000000,    //used with Suman runner, to kill child process if it has not exited beforehand
-    defaultTestSuiteTimeout: 15000,
-    maxParallelProcesses: Math.max(6, numOfCPUs),           //maximum parallel processes running at one time, synonymous with --concurrency cmd line option
     ultraSafe: false,                   //if true, Suman reads files before executing any supposed test file and makes sure it's a suman test before running
     verbose: true,                      //handles and logs warnings (using warning level?)
     checkMemoryUsage: false,            //limits stack traces to just relevant test case or test line
     fullStackTraces: false,             //allows you to view more than 3 lines for errors in test cases and hooks
-    uniqueAppName: 'suman',
-    NODE_ENV: 'development',            // NODE_ENV to use if you don't specify one
-    browser: 'Firefox',                 // browser to open test results with
     disableAutoOpen: false,             // use true if you never want suman to automatically open the browser to the latest test results
-    expireResultsAfter: '10000000',     // test results will be deleted after this amount of time
-    resultsCapCount: 100,               // test results will be deleted if they are 101st oldest run
     suppressRunnerOutput: true,         // this defaults to true, use no-silent or silent to switch value
+
+    //integers
+    verbosity: 5,
+    maxParallelProcesses: Math.max(6, numOfCPUs),           //maximum parallel processes running at one time, synonymous with --concurrency cmd line option
+    resultsCapCount: 100,               // test results will be deleted if they are 101st oldest run
     resultsCapSize: 7000, // 3 gb's     // oldest test results will be deleted if the results dir expands beyond this size
+
+    //integers in millis
+    defaultHookTimeout: 5000,
+    defaultTestCaseTimeout: 5000,
+    timeoutToSearchForAvailServer: 2000,
+    defaultDelayFunctionTimeout: 8000,
+    defaultChildProcessTimeout: 8000000,    //used with Suman runner, to kill child process if it has not exited beforehand
+    defaultTestSuiteTimeout: 15000,
+    expireResultsAfter: 10000000,     // test results will be deleted after this amount of time
 
 
     watch: {
 
         '//tests': {
             'default': {  // (re) execute the test file that changed
-                script: function(p){
+                script: function (p) {
                     return `./node_modules/.bin/suman ${p}`
                 },
                 include: [],

@@ -64,10 +64,11 @@ take the time to compare its capabilities with AVA, Mocha and Tape.
 The primary aims are:
 
 * Developer experience and test debuggability are above all else
+* Provide a beautiful and intuitive API
 * Make tests run faster by leveraging async I/O and separate Node.js processes
-* Isolate tests by running them in separate processes, so that they cannot interact
-* Make tests independent, so that you can easily run one test at a time (damn you Mocha).
-* Make debugging your test files easier; this is achieved by allowing for running of tests with the plain old node executable,
+* _Isolate_ tests by running them in separate processes, so that they cannot interact
+* Make tests _independent_, so that you can easily run one test at a time (damn you Mocha).
+* Make debugging your test files easier; this is achieved by allowing for the running of tests with the plain-old node executable,
 this makes Suman tests "node-able"
 * Provide cleaner output, so that developer logging output is not necessarily mixed with test result => 
 achieved by using child processes and ignoring stdout.

@@ -19,13 +19,11 @@ module.exports = Object.freeze({
             types: [],
             errorMessage: ''
         },
-        'ioc':{
+        'ioc': {
             types: [],
             errorMessage: ''
         },
-        'timeout':{
-
-        }
+        'timeout': {}
 
 
     },
@@ -57,12 +55,15 @@ module.exports = Object.freeze({
         ERROR_INVOKING_NETWORK_LOG_IN_RUNNER: 31,
         UNEXPECTED_FATAL_ERROR: 32,
         TIMED_OUT_AFTER_ALL_PROCESSES_EMIT_EXIT: 33,
+        NO_TEST_FILES_MATCHED_OR_FOUND: 34,
         UNCAUGHT_EXCEPTION: 777
     },
     EXIT_CODES: {
         SUCCESSFUL_RUN: 0,
         WHOLE_TEST_SUITE_SKIPPED: 0,
         GREP_SUITE_DID_NOT_MATCH: 0,
+        SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT: 50,
+        SUMAN_PRE_DOES_NOT_EXPORT_FUNCTION: 51,
         BAD_GREP_SUITE_OPTION: 52,
         SUMAN_UNCAUGHT_EXCEPTION: 53,
         BAD_CONFIG_OR_PROGRAM_ARGUMENTS: 54,
@@ -77,7 +78,7 @@ module.exports = Object.freeze({
         SUITE_BAIL: 63,
         INTEGRANT_VERIFICATION_FAILURE: 64,
         UNKNOWN_RUNNER_CHILD_PROCESS_STATE: 65,
-        ERROR_IN_ROOT_SUITE: 66,
+        ERROR_IN_ROOT_SUITE_BLOCK: 66,
         IOC_DEPS_ACQUISITION_ERROR: 67,
         EXPORT_TEST_BUT_RAN_TEST_FILE_DIRECTLY: 68,
         DELAY_NOT_REFERENCED: 69,
@@ -100,7 +101,10 @@ module.exports = Object.freeze({
         HOOK_TIMED_OUT_ERROR: 87,
         UNCAUGHT_EXCEPTION_BEFORE_ONCE_POST_INVOKED: 88,
         UNCAUGHT_EXCEPTION_AFTER_ONCE_POST_INVOKED: 89,
-        ASYNCHRONOUS_CALL_OF_TEST_DOT_DESCRIBE: 90
+        ASYNCHRONOUS_CALL_OF_TEST_DOT_DESCRIBE: 90,
+        COULD_NOT_CREATE_LOG_DIR: 91,
+        COULD_NOT_LOCATE_SUMAN_HELPERS_DIR: 92,
+        INTEGRANT_ACQUISITION_TIMEOUT: 93
     },
     ERROR_MESSAGES: {
         INVALID_FUNCTION_TYPE_USAGE: ' => Suman fatal error => You cannot use arrow functions, geneators or async/await with describe callbacks; however, you may these functions everywhere else.\n' +

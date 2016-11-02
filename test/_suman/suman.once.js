@@ -1,7 +1,3 @@
-/**
- * Created by denman on 3/16/2016.
- */
-
 
 
 //*************************************************************************************************************************************
@@ -16,9 +12,15 @@ module.exports = () => {  //load async deps for any of your suman tests
 	return {
 
 		'charlie': function () {
+
+			console.log('charlie is running');
+
 			return 'charlie';
 		},
 		'smartconnect': function () {
+
+			console.log('smartconnect running...');
+
 			return Promise.resolve(JSON.stringify({
 				formica: 'not metal'
 			}));
@@ -26,11 +28,24 @@ module.exports = () => {  //load async deps for any of your suman tests
 		},
 		'dolce-vida': (cb) => {
 
+			console.log('dolce-vida running...');
+
 			setTimeout(function () {
 				cb(null, "new Error('rub')");
 			}, 10);
 
+		},
+
+		'mulch': (cb) => {
+
+			console.log('mulch running...');
+
+			setTimeout(function () {
+				cb(null, "new Error('mulch')");
+			}, 10);
+
 		}
+
 
 	}
 

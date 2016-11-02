@@ -1,5 +1,3 @@
-
-
 const suman = require('suman');
 const Test = suman.init(module);
 
@@ -10,10 +8,15 @@ Test.describe('SimpleTest', {parallel: false}, function (assert, fs, http, os) {
     });
 
     this.it('tests-t', t => {
-        assert(typeof t === 'function');
+        assert.notEqual(typeof t, 'function');
     });
 
     this.it.cb('tests-t', t => {
+        t.apply(null);
+    });
+
+    this.it.cb('tests-t', t => {
+        t.bind(null);
         t.apply(null);
     });
 

@@ -2,7 +2,7 @@
 
 /////////////////////////////////////////////////////////////////
 
-debugger;  //leave here forever so users can debug with "node --inspect" or "node debug"
+debugger;  //leave here forever so users can easily debug with "node --inspect" or "node debug"
 
 /////////////////////////////////////////////////////////////////
 
@@ -25,24 +25,53 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
 
 /////////////////////////////////////////////////////////////////
 
+function handleExceptionsAndRejections() {
+
+    if (global.sumanOpts && (global.sumanOpts.ignoreUncaughtExceptions || global.sumanOpts.ignoreUnhandledRejections)) {
+        console.error('\n => uncaughtException occurred, but we are ignoring due to the ' +
+            '"--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" flag(s) you passed.');
+    }
+    else {
+        console.error('\n => Use "--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" to potentially debug further,' +
+            'or simply continue in your program.\n\n');
+        process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+    }
+}
+
 process.on('uncaughtException', function (err) {
 
-    if (process.listenerCount('uncaughtException') < 2 || true) {
-        console.error('\n\n => Suman uncaught exception =>\n', err.stack, '\n\n');
+    if (typeof err !== 'object') {
+        err = {stack: typeof err === 'string' ? err : util.inspect(err)}
     }
 
     if (String(err.stack || err).match(/Cannot find module/i) && global.sumanOpts && global.sumanOpts.transpile) {
         console.log(' => If transpiling, you may need to transpile your entire test directory to the destination directory using the ' +
             '--transpile and --all options together.')
     }
-    // process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+
+    if(process.listenerCount('uncaughtException') === 1){
+        if (err && !err._alreadyHandledBySuman) {
+            err._alreadyHandledBySuman = true;
+            console.error('\n\n => Suman "uncaughtException" event occurred =>\n', err.stack, '\n\n');
+            handleExceptionsAndRejections();
+        }
+    }
+
 });
+
 
 process.on('unhandledRejection', function (err) {
 
-    if (process.listenerCount('unhandledRejection') < 2) {
-        console.error('\n\n => Suman unhandled rejection =>\n', (err.stack || err), '\n\n');
+    if (typeof err !== 'object') {
+        err = {stack: typeof err === 'string' ? err : util.inspect(err)}
     }
+
+    if (err && !err._alreadyHandledBySuman) {
+        err._alreadyHandledBySuman = true;
+        console.error('\n\n => Suman "unhandledRejection" event occurred =>\n', (err.stack || err), '\n\n');
+        handleExceptionsAndRejections();
+    }
+
 });
 
 
@@ -65,7 +94,7 @@ const _ = require('lodash');
 
 //#project
 const constants = require('./config/suman-constants');
-const sumanUtils = require('./lib/utils');
+const sumanUtils = require('suman-utils/utils');
 
 ////////////////////////////////////////////////////////////////////
 
@@ -119,7 +148,6 @@ const cwd = process.cwd();
 ////////////////////////////////////////////////////////////////////
 
 //#project
-const suman = require('./lib');
 const root = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = sumanUtils.findProjectRoot(cwd);
 const makeNetworkLog = require('./lib/make-network-log');
 const findSumanServer = require('./lib/find-suman-server');
@@ -198,7 +226,12 @@ if (cwd !== root) {
 }
 else {
     if (!opts.sparse) {
-        console.log(colors.cyan(' => cwd:', cwd));
+        if (cwd === root) {
+            console.log(colors.gray(' => cwd:', cwd));
+        }
+    }
+    if (cwd !== root) {
+        console.log(colors.magenta(' => cwd:', cwd));
     }
 }
 
@@ -253,8 +286,8 @@ if (!init) {
     catch (err) {
         err3 = err;
         sumanServerInstalled = false;
-        if (!opts.sparse) {
-            console.log(' ' + colors.yellow('=> Suman message => note that "suman-server" package is not yet installed.'));
+        if (opts.verbose) {
+            console.log(' ' + colors.yellow('=> Suman verbose message => note that "suman-server" package is not yet installed.'));
         }
     }
 
@@ -287,7 +320,7 @@ if (opts.watch && opts.stop_watching) {
 
 if (init) {
     global.usingDefaultConfig = true;
-    sumanConfig = require(__dirname + '/default-conf-files/suman.default.conf');
+    sumanConfig = {};
 }
 else {
     try {
@@ -317,16 +350,30 @@ else {
             }
         }
         catch (err) {
-            console.log(colors.bgCyan.white(' => Suman message => Warning - no configuration found in your project, using default Suman configuration.'));
-            try {
-                pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
-                sumanConfig = require(pth);
-                global.usingDefaultConfig = true;
+
+            if(!uninstall){
+                throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
+                    'found in the root of your project.\n  ' + (err.stack || err));
             }
-            catch (err) {
-                console.error('\n => ' + err + '\n');
-                return;
+            else{
+                // if we read in the default config, then package.json is not resolved correctly
+                // we need to provide some default values though
+                sumanConfig = {
+                    sumanHelpersDir: 'suman'
+                };
             }
+
+            // console.log(colors.bgCyan.white(' => Suman message => Warning - no configuration found in your project, ' +
+            //     'using default Suman configuration.'));
+            // try {
+            //     pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
+            //     sumanConfig = require(pth);
+            //     global.usingDefaultConfig = true;
+            // }
+            // catch (err) {
+            //     console.error('\n => ' + err + '\n');
+            //     return;
+            // }
         }
     }
 }
@@ -359,11 +406,21 @@ global.maxProcs = global.sumanOpts.concurrency || sumanConfig.maxParallelProcess
 global.sumanHelperDirRoot = path.resolve(root + '/' + (sumanConfig.sumanHelpersDir || 'suman'));
 
 ////////////// matching ///////////
-global.sumanMatchesAny = _.uniqBy((opts.matchAny || []).concat(sumanConfig.matchAny || [])
+
+const sumanMatchesAny = (matchAny || []).concat(sumanConfig.matchAny || [])
+    .map(item => (item instanceof RegExp) ? item : new RegExp(item));
+
+if (sumanMatchesAny.length < 1) {
+    // if the user does not provide anything, we default to this
+    sumanMatchesAny.push(/\.js$/);
+}
+
+global.sumanMatchesAny = _.uniqBy(sumanMatchesAny, item => item);
+
+global.sumanMatchesNone = _.uniqBy((matchNone || []).concat(sumanConfig.matchNone || [])
     .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
-global.sumanMatchesNone = _.uniqBy((opts.matchNone || []).concat(sumanConfig.matchNone || [])
-    .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
-global.sumanMatchesAll = _.uniqBy((opts.matchAll || []).concat(sumanConfig.matchAll || [])
+
+global.sumanMatchesAll = _.uniqBy((matchAll || []).concat(sumanConfig.matchAll || [])
     .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
 
 
@@ -497,6 +554,10 @@ var paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
 
 if (opts.verbose) {
     console.log(' => Suman verbose message => arguments assumed to be file paths to run:', paths);
+    if (paths.length < 1) {
+        console.log(' => Suman verbose message => Since no paths were passed at the command line, if you wish to run tests they will \n' +
+            'by default originate from the "testSrc" directory (defined in your suman.conf.js file).')
+    }
 }
 
 /////////////////// assign vals from config ////////////////////////////////////////////////
@@ -513,7 +574,7 @@ if (uninstallBabel) {
         if (err) {
             console.error(err.stack || err);
         }
-        else{
+        else {
             console.log(' => Babel successfully uninstalled from your local project.');
         }
     });
@@ -537,8 +598,8 @@ else if (useServer) {
             process.exit(1);
         }
         else {
-            console.log('\n\n', colors.bgBlue.green(' => Suman message => "suman-server" was installed successfully into your local project.'));
-            console.log('\n', colors.bgBlue.green(' => To learn about how to use "suman-server" with Suman, visit *.'), '\n');
+            console.log('\n\n', colors.bgBlue.white.bold(' => Suman message => "suman-server" was installed successfully into your local project.'));
+            console.log('\n', colors.bgBlue.white.bold(' => To learn about how to use "suman-server" with Suman, visit *.'), '\n');
             process.exit(0);
         }
     });
@@ -554,8 +615,8 @@ else if (useBabel) {
             process.exit(1);
         }
         else {
-            console.log('\n', colors.bgGreen.blue('Babel was installed successfully into your local project.'), '\n');
-            console.log('\n', colors.bgGreen.blue(' => To learn about how to use Babel with Suman, visit *.'), '\n');
+            console.log('\n', colors.bgBlue.white.bold('Babel was installed successfully into your local project.'), '\n');
+            console.log('\n', colors.bgBlue.white.bold(' => To learn about how to use Babel with Suman, visit *.'), '\n');
             process.exit(0);
         }
     });
@@ -612,7 +673,9 @@ else if (convert) {
         throw new Error(' => Suman server is not installed yet => Please use "$ suman --use-server" in your local project ' + err3.stack);
     }
 
-    suman.Server({
+    const sumanServer = require('./lib/create-suman-server');
+
+    sumanServer({
         //configPath: 'suman.conf.js',
         config: sumanConfig,
         serverName: serverName || os.hostname()
@@ -779,6 +842,10 @@ else {
             async.parallel({
                 npmList: function (cb) {
 
+                    return process.nextTick(cb);
+
+                    //TODO: this was causing problems, skip for now
+
                     var callable = true;
 
                     const to = setTimeout(first, 600);
@@ -874,7 +941,7 @@ else {
 
         d.once('error', function (err) {
             //TODO: add link showing how to set up Babel
-            console.error(colors.magenta(' => Suman fatal error => ' + (err.stack || err) + '\n'));
+            console.error(colors.magenta(' => Suman fatal error (domain caught) => ' + (err.stack || err) + '\n'));
             process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
         });
 
@@ -984,7 +1051,8 @@ else {
             else {
                 d.run(function () {
                     process.nextTick(function () {
-                        suman.Runner({
+                        const sumanRunner = require('./lib/create-suman-runner');
+                        sumanRunner({
                             grepSuite: grepSuite,
                             grepFile: grepFile,
                             $node_env: process.env.NODE_ENV,

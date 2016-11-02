@@ -4,7 +4,7 @@
 
 
 var suman = require('suman');
-var Test = suman.init(module, 'suman.conf.js');
+var Test = suman.init(module);
 
 Test.describe('foo', function () {
 

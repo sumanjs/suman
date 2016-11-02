@@ -1,12 +1,131 @@
 
-// this command fails in poolio
+//////
 
-SUMAN_DEBUG=yes suman test/test-src --not-match "\.test\.js$" -r
-(look at the debugging output)
+TODO:
+
+fix "undefined" below:
+
+cd oresoftware/suman && SUMAN_SINGLE_PROCESS=yes suman test/multiple-test-suites/one.test.js --rnr
+
+
+ => Suman runner => there was a fatal test suite error - an error was encountered in your test code that prevents Suman
+         from continuing with a particular test suite within the following path:
+
+         => undefined
+
+        (note that despite this fatal error, other test processes will continue running, as would be expected; use the --runner-bail option, if you wish otherwise.)
+
+                Error: => fatal error in hook => (to continue even in the event of an error in a hook use option {fatal:false}) =>
+                Error: oh shit
+
+
+/////////
+
+TODO: double check to see if bail option is always sumanOpts and also make it work with suman.conf.js too
 
 ///////
 
+//TODO: runner lock would allow only one instance of the runner to run at a time, perhaps putting requests in a queue
+//TODO: suman --clear-runner-queue would delete all lines in the file that queued runner runs
+//TODO: add runner-lock to roadmap
+//TODO: runnerLock: false should be default in suman.conf.js
+
+///////
+
+ //TODO: allow printing of just one line of results, until a failure
+ //readline.clearLine(process.stdout, 0);
+ //process.stdout.write('\r' + chalk.green('Pass count: ' + successCount));
+
+/////////
+
+TODO: can mark error object as being already handled in uncaughtException handlers, so
+that we don't print uncaughtExceptions more than once.
+
+/////////
+
+TODO: need to merge add-watcher and watch-project into one
+
+////////////
+
+TODO: even if test error happens, SUMAN_SINGLE_PROCESS still exits w code 0
+
+////////////
+
+TODO: regexes seem to match against test-target instead of test-src etc?
+
+///////////
+
+  //TODO: interactive shell with suman?  suman --interactive
+
+///////////////
+
+add "append-match-none"
+
+/////////////
+
+Test errors do not necessarily lead to 56 exit codes, e.g. =>
+/Users/t_millal/WebstormProjects/oresoftware/pragmatik/test/test-src/parse-to-array/five.test.js
+
+////////////
+
 suman --interactive
+
+///////////
+
+image:
+
+testgroup
+testfile
+testsuite
+testblock
+
+//////////
+
+TODO: use pragmatik in the lib/index.js file so that we can work with opts.skip properly
+
+//////////
+
+ For SUMAN_SINGLE_PROCESS => need to run once.pre before everything and once.post after everything
+
+////////////
+
+change Suites skipped : 1, to Suites skipped  (at least 1)
+
+
+////////////
+
+if suman.conf.js does not reflect where the _suman/.suman directory is, you get this:
+
+ => Suman uncaught exception =>  Error: ENOENT: no such file or directory, open '/Users/t_millal/WebstormProjects/oresoftware/pragmatik/suman/logs/test-debug.log'
+    at Error (native)
+    at Object.fs.openSync (fs.js:640:18)
+    at Object.fs.writeFileSync (fs.js:1333:33)
+
+
+//////////////
+
+TODO: SUMAN_SINGLE_PROCESS => for runner, have it either pass data back to runner table, or don't print table at all,
+probably latter is better.
+
+////////////////
+
+ => Suman is exiting with code 56   > see http://oresoftware.github.io/suman/exit-codes.html
+
+
+ => Suman test process experienced a fatal error during the run, most likely the majority of tests, if not all tests, were not run.
+
+^^^^ the above is not appropriate after only failing with a 56 error
+
+
+//////////////////
+
+
+ suman --touch   // will touch package.json, which should fire chokidar change events
+
+
+///////////
+
+assert that typeof second arg is 'object' suman.init(module,{})
 
 /////////
 
@@ -34,11 +153,6 @@ make sure that .babelrc does not get overwritten when using suman --use-babel
 
  => beep when a watch-project test fails => https://www.npmjs.com/browse/keyword/beep
 
-/////////////
-
-need to give user appropriate place to put process.on('exit') handlers
-
-
 ////////
 
 need to add SIGINT handler to runner (there is one in lib/index);
@@ -46,12 +160,6 @@ need to add SIGINT handler to runner (there is one in lib/index);
 ///////////
 
 high priority - in runner for "test fail", need to print path of test file also
-
-//////////
-
-add env as an option in watchProject/watchTests
-
-todo: suman.once.post.js has to run if not using the runner
 
 ////////////
 
@@ -98,7 +206,7 @@ use NODE_PATH
 
 /////////////
 
-if transpile:true, and the user points suman to test-target/xyz, then we should just run the tests, not transpile first
+TODO: if transpile:true, and the user points suman to test-target/xyz, then we should just run the tests, not transpile first
 
 /////////////////
 
@@ -109,10 +217,6 @@ suman.hook.js => suman.shared-hooks.js
 inject data into suman.once.pre.js, because there is data being injected into suman.once.post.js
 
 ///////////////
-
-in suman runner => test errors need to show which test file they are for
-
-/////////////////
 
 if uncaughtException is thrown/called, add a global flag, which will be checked by all hooks/test cases
 if the --ignore-uncaught-exceptions flag is not set then exit early from hooks/test cases
@@ -192,10 +296,6 @@ cwd /Users/Olegzandr/WebstormProjects/a && suman /Users/Olegzandr/WebstormProjec
 
 
   /////////////////
-
-  //TODO: interactive shell with suman?  suman --interactive
-
-  ///////////////
 
   3 diagrams, 1 for node a.test.js, 1 for suman a.test.js, 1 for suman --runner a.test.js
 
