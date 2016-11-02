@@ -40,8 +40,8 @@ function handleExceptionsAndRejections() {
 
 process.on('uncaughtException', function (err) {
 
-    if(typeof err !== 'object'){
-        err = {stack: util.inspect(err)}
+    if (typeof err !== 'object') {
+        err = {stack: typeof err === 'string' ? err : util.inspect(err)}
     }
 
     if (String(err.stack || err).match(/Cannot find module/i) && global.sumanOpts && global.sumanOpts.transpile) {
@@ -49,20 +49,25 @@ process.on('uncaughtException', function (err) {
             '--transpile and --all options together.')
     }
 
-    if (err && !err._alreadyHandledBySuman) {
-        console.error('\n\n => Suman "uncaughtException" event occurred =>\n', err.stack, '\n\n');
-        handleExceptionsAndRejections();
+    if(process.listenerCount('uncaughtException') === 1){
+        if (err && !err._alreadyHandledBySuman) {
+            err._alreadyHandledBySuman = true;
+            console.error('\n\n => Suman "uncaughtException" event occurred =>\n', err.stack, '\n\n');
+            handleExceptionsAndRejections();
+        }
     }
 
 });
 
+
 process.on('unhandledRejection', function (err) {
 
-    if(typeof err !== 'object'){
-        err = {stack: util.inspect(err)}
+    if (typeof err !== 'object') {
+        err = {stack: typeof err === 'string' ? err : util.inspect(err)}
     }
 
     if (err && !err._alreadyHandledBySuman) {
+        err._alreadyHandledBySuman = true;
         console.error('\n\n => Suman "unhandledRejection" event occurred =>\n', (err.stack || err), '\n\n');
         handleExceptionsAndRejections();
     }
@@ -596,8 +601,8 @@ else if (useBabel) {
             process.exit(1);
         }
         else {
-            console.log('\n', colors.bgGreen.blue('Babel was installed successfully into your local project.'), '\n');
-            console.log('\n', colors.bgGreen.blue(' => To learn about how to use Babel with Suman, visit *.'), '\n');
+            console.log('\n', colors.bgBlue.white.bold('Babel was installed successfully into your local project.'), '\n');
+            console.log('\n', colors.bgBlue.white.bold(' => To learn about how to use Babel with Suman, visit *.'), '\n');
             process.exit(0);
         }
     });
@@ -922,7 +927,7 @@ else {
 
         d.once('error', function (err) {
             //TODO: add link showing how to set up Babel
-            console.error(colors.magenta(' => Suman fatal error => ' + (err.stack || err) + '\n'));
+            console.error(colors.magenta(' => Suman fatal error (domain caught) => ' + (err.stack || err) + '\n'));
             process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
         });
 

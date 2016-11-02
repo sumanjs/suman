@@ -1,4 +1,23 @@
 
+//////
+
+TODO:
+
+fix "undefined" below:
+
+cd oresoftware/suman && SUMAN_SINGLE_PROCESS=yes suman test/multiple-test-suites/one.test.js --rnr
+
+
+ => Suman runner => there was a fatal test suite error - an error was encountered in your test code that prevents Suman
+         from continuing with a particular test suite within the following path:
+
+         => undefined
+
+        (note that despite this fatal error, other test processes will continue running, as would be expected; use the --runner-bail option, if you wish otherwise.)
+
+                Error: => fatal error in hook => (to continue even in the event of an error in a hook use option {fatal:false}) =>
+                Error: oh shit
+
 
 /////////
 
