@@ -11,28 +11,25 @@ The following features are currently in the works:
     want to use bash scripts as hooks, and may need to put them in a 
     directory called sh.
     
-2. Including more than one Test.describe per file.
 
-    * this is probably completely unnecessary but may prove useful
-    in some weird edge cases. Especially useful for easy conversion from Mocha.
-    
-
-3. Support observables. 
+2. Support observables. 
 
     * As this area of Node and JS congeals, Suman will make
     observables a first-class citizen alongside promises and callbacks.
     
     
-4. Suman runner can handle pre-defined groups of tests, using suman.groups.js
+3. Suman runner can handle pre-defined groups of tests, using suman.groups.js
 
     * suman.groups.js will allow the user to define groups of tests that are to run
     together; this will basically override any behavior given by suman.order.js.
     
     
-5. Optimize suman.order.js => Optimize the order in which tests run, according to
+4. Optimize suman.order.js => Optimize the order in which tests run, according to
 suman.order.js; also, allow for randomization of test order.
 
 
-6. Allow for the user to make hooks (before/afterEach, etc) run completely in parallel as well.
+5. Allow for the user to make hooks (before/afterEach, etc) run completely in parallel as well.
 
-7. Instead of tailing logs, use a web app hosted on localhost to view test output
+6. Instead of tailing logs, use a web app hosted on localhost to view test output
+
+7. Provide JIRA, Jenkins integration, etc etc.
