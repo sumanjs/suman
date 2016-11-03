@@ -1,6 +1,19 @@
 const proto = {};
 
-const p = Object.assign(proto, Function.prototype);
+const p = Object.create(Function.prototype);
 
-console.log(proto);
-console.log(p);
+p.testing = function(){
+   console.log('here is a method on p');
+};
+
+
+function P(){
+
+}
+
+
+Object.setPrototypeOf(P,p);
+
+
+console.log(P instanceof Function);
+console.log(typeof P);

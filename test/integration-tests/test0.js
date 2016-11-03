@@ -31,12 +31,31 @@ Test.create.delay('gggg', {parallel: true},
             this.resume(5);
         }, 10);
 
+        this.it.cb('whoa', t => {
+
+            assert.equal(typeof t,'function'); // true
+            assert(t instanceof Function);     // true
+
+            t();
+        });
+
         this.beforeEach(function (t) {
+
+            console.log('t instanceof Function (beforeEach)', t instanceof Function);
+            console.log('typeof t (beforeEach)', typeof t);
 
         });
 
-        this.it('makes noise', {}, function () {
+        this.it.cb('makes noise', {}, t => {
 
+            console.log('t instanceof Function (no cb)', t instanceof Function);
+            console.log('typeof t (no cb)', typeof t);
+
+            t.once('done', function (a) {
+                console.log('t is DONEEEE');
+            });
+
+            t.done();
         });
 
         this.context.delay('moodle', {parallel: true}, function () {
@@ -132,7 +151,6 @@ Test.create.delay('gggg', {parallel: true},
         });
 
 
-
         this.describe('bum', {parallel: true}, function () {
 
 
@@ -186,7 +204,6 @@ Test.create.delay('gggg', {parallel: true},
         });
 
     });
-
 
 
 Test.create.delay('gggg', {parallel: true},
@@ -312,7 +329,6 @@ Test.create.delay('gggg', {parallel: true},
         });
 
 
-
         describe('bum', {parallel: true}, function () {
 
             const {describe, it, before, after, beforeEach, afterEach} = this;
@@ -320,7 +336,6 @@ Test.create.delay('gggg', {parallel: true},
 
             describe('x', function () {
                 const {describe, it} = this;
-
 
 
                 describe('y', function () {
