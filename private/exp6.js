@@ -1,9 +1,6 @@
+const proto = {};
 
+const p = Object.assign(proto, Function.prototype);
 
-const util = require('util');
-
-const str = 'a' + '\n' + 'b';
-
-console.log(str);
-
-console.log(util.inspect(str));
+console.log(proto);
+console.log(p);
