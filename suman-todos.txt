@@ -73,9 +73,23 @@ Test errors do not necessarily lead to 56 exit codes, e.g. =>
 
 ///////////////
 
+TODO: /Users/t_millal/WebstormProjects/oresoftware/suman/test/plan-and-confirm/two.test.js
+
+should not log:
+yolo
+cholo
+
+///////////////
+
 remove all listeners from t after test/hook is completed
 
 /////////////
+
+
+--errors-only should be readline/clearLine so pass count simply goes up
+
+
+////////////
 
 suman --interactive
 

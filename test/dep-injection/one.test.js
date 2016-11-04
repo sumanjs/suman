@@ -9,6 +9,34 @@ Test.create('example', function(before, describe){
     });
 
 
+    describe('inner-hooks', function(before){
+
+        before('makes testing fun', t => {
+
+            t.on('done',function(){
+                console.log('t is done (b1) !');
+            })
+
+        });
+
+        before('makes testing fun', t => {
+
+            t.on('done',function(){
+                console.log('t is done (b2) !');
+            });
+
+        });
+
+        before('makes testing fun', t => {
+
+            t.on('done',function(){
+                console.log('t is done (b3) !');
+            });
+
+        });
+    });
+
+
     describe('inner', function(it){
 
         it('makes testing fun', t => {
