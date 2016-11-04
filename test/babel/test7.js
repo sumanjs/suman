@@ -8,8 +8,7 @@ var Test = suman.init(module);
 
 ////////
 
-Test.describe('B2', {}, function (socketio, request, assert, choodles, fs) {
-
+Test.create('B2', {}, function (socketio, request, assert, choodles, fs) {
 
     var paper = [];
 

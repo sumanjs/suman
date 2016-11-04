@@ -3,12 +3,13 @@
 Suman has some hidden/secret features that will be helpful to know about
 
 
-Did you know that t is a function?
+Did you know that in callback mode, t is a function?
 
 ```js
-this.it('whoa', t => {
+this.it.cb('whoa', t => {
 
-     assert(typeof t === 'function'); // false => TODO
+     assert.equal(typeof t,'function'); // true
+     assert(t instanceof Function);     // true
 
 });
 

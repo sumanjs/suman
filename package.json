@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.512138",
+  "version": "1.1.512143",
   "main": "lib/index.js",
   "scripts": {
     "test": "suman",
@@ -26,11 +26,15 @@
     "debug": "^2.2.0",
     "du": "^0.1.0",
     "function-arguments": "^1.0.4",
+    "inquirer": "^1.2.2",
+    "inquirer-directory": "^2.0.0",
+    "inquirer-path": "^1.0.0-alpha5",
     "jquery": "^2.2.2",
     "lodash": "^4.6.1",
     "make-beep": "0.0.1",
     "net-ping": "^1.1.12",
     "pragmatik": "0.0.3",
+    "prompt": "^1.0.0",
     "request": "^2.76.0",
     "require-from-string": "^1.1.0",
     "residence": "0.0.1",

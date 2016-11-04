@@ -1,9 +1,21 @@
 
 
-const util = require('util');
+const stream = require('stream');
 
-const str = 'a' + '\n' + 'b';
+var jsonData = [];
 
-console.log(str);
+var strm = new stream.Writable({
+   write: function(chunk, encoding, next) {
 
-console.log(util.inspect(str));
+      jsonData.push(chunk.toString());
+      next();
+   }
+
+});
+
+
+strm.on('foo',function(msg){
+   console.log(msg); //doesn't get called
+});
+
+strm.emit('foo','bar');  //this doesn't seem to do anything

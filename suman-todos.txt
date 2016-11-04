@@ -1,5 +1,9 @@
 
-//////
+///////
+
+TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
+
+////////
 
 TODO:
 
@@ -55,7 +59,7 @@ TODO: regexes seem to match against test-target instead of test-src etc?
 
 ///////////
 
-  //TODO: interactive shell with suman?  suman --interactive
+//TODO: interactive shell with suman?  suman --interactive
 
 ///////////////
 
@@ -66,11 +70,30 @@ add "append-match-none"
 Test errors do not necessarily lead to 56 exit codes, e.g. =>
 /Users/t_millal/WebstormProjects/oresoftware/pragmatik/test/test-src/parse-to-array/five.test.js
 
+
+///////////////
+
+TODO: /Users/t_millal/WebstormProjects/oresoftware/suman/test/plan-and-confirm/two.test.js
+
+should not log:
+yolo
+cholo
+
+///////////////
+
+remove all listeners from t after test/hook is completed
+
+/////////////
+
+
+--errors-only should be readline/clearLine so pass count simply goes up
+
+
 ////////////
 
 suman --interactive
 
-///////////
+////////////
 
 image:
 
