@@ -3,21 +3,6 @@
 
 TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
 
-///////
-
-TypeError: it.cb is not a function
-    at TestSuiteBase.<anonymous> (/Users/t_millal/WebstormProjects/oresoftware/suman/test/dep-injection/one.test.js:31:12)
-    at /Users/t_millal/WebstormProjects/oresoftware/suman/lib/TestSuite.js:373:48
-    at module.exports (/Users/t_millal/WebstormProjects/oresoftware/suman/lib/acquire-deps-fill-in.js:70:5)
-    at /Users/t_millal/WebstormProjects/oresoftware/suman/lib/TestSuite.js:357:33
-    at /Users/t_millal/WebstormProjects/oresoftware/suman/lib/acquire-deps-original.js:163:9
-    at process._tickDomainCallback (internal/process/next_tick.js:129:7)
-
-
- => Suman is exiting with code 0
-
-
-
 ////////
 
 TODO:
@@ -74,7 +59,7 @@ TODO: regexes seem to match against test-target instead of test-src etc?
 
 ///////////
 
-  //TODO: interactive shell with suman?  suman --interactive
+//TODO: interactive shell with suman?  suman --interactive
 
 ///////////////
 
@@ -85,11 +70,16 @@ add "append-match-none"
 Test errors do not necessarily lead to 56 exit codes, e.g. =>
 /Users/t_millal/WebstormProjects/oresoftware/pragmatik/test/test-src/parse-to-array/five.test.js
 
-////////////
+
+///////////////
+
+remove all listeners from t after test/hook is completed
+
+/////////////
 
 suman --interactive
 
-///////////
+////////////
 
 image:
 

@@ -1,19 +1,21 @@
-const proto = {};
-
-const p = Object.create(Function.prototype);
-
-p.testing = function(){
-   console.log('here is a method on p');
-};
 
 
-function P(){
+const stream = require('stream');
 
-}
+var jsonData = [];
+
+var strm = new stream.Writable({
+   write: function(chunk, encoding, next) {
+
+      jsonData.push(chunk.toString());
+      next();
+   }
+
+});
 
 
-Object.setPrototypeOf(P,p);
+strm.on('foo',function(msg){
+   console.log(msg); //doesn't get called
+});
 
-
-console.log(P instanceof Function);
-console.log(typeof P);
+strm.emit('foo','bar');  //this doesn't seem to do anything

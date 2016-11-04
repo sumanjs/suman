@@ -1,3 +1,4 @@
+
 [![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
 
 
@@ -13,15 +14,15 @@
 
 #  Suman is a superior next-gen test runner and test reporter for Node.js servers and applications
 
-### _> Suman = AVA + Mocha + Lab
-### _> It is primarily designed to supercede Mocha, and rival AVA_
+###  Suman = ( AVA + Mocha + Lab )
+###  It is primarily designed to supercede Mocha, and rival AVA
 
 ---
 
-### disclaimers: 
-Suman is in beta, despite the current version number.
-Suman supports Node versions >= 4.0.
-Windows support is on the roadmap, but is not ready yet.
+### Disclaimers: 
+=> Suman is in beta, despite the current version number.
+=> Suman supports Node versions >= 4.0.
+=> Windows support is on the roadmap, but is not ready yet.
 
 ---
 
@@ -542,3 +543,14 @@ Note: Suman is *not* designed to and cannot be run in the browser - it is design
  it will involve full-stack work with SQLite, Express and React. Relative newbs welcome. Thanks!
  
 <br>
+
+
+<style>
+.theBlackBackground {background-color:#000;color: red;}
+</style>
+
+<textarea id="source">
+
+class: middle, center, theBlackBackground
+# Title
+</textarea>

@@ -34,16 +34,25 @@ module.exports = Object.freeze({
         'test-target/'
     ],
     SUMAN_HARD_LIST: [
-        'userData',
-        'delay',
-        'suite',
+
+        //bdd
+        'describe',
         'before',
         'after',
         'beforeEach',
         'afterEach',
         'it',
+
+        //tdd
+        'suite',
         'test',
-        'describe',
+        'setup',
+        'teardown',
+        'setupTest',
+        'teardownTest',
+
+        //all
+        'userData',
         'context',
         'extra',
         '$uda',
