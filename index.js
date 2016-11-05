@@ -100,8 +100,6 @@ if (process.env.SUMAN_DEBUG === 'yes') {
   console.log('\n\n', ' => Suman started with the following command:', '\n', process.argv, '\n');
 }
 
-console.log(' => Node.js version:', process.version);
-
 /*
 
  TODO
@@ -129,16 +127,18 @@ const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
 
 if (semver.lt(nodeVersion, oldestSupported)) {
-  console.log(colors.red(' => Suman warning => Suman is not well-tested against Node versions prior to ' +
+  console.error(colors.red(' => Suman warning => Suman is not well-tested against Node versions prior to ' +
     oldestSupported + ', your version: ' + nodeVersion));
   throw new Error('Please upgrade to a newer Node.js version.');
 }
 
+console.log(' => Node.js version:', nodeVersion);
+
 ////////////////////////////////////////////////////////////////////
 
 const pkgJSON = require('./package.json');
-const v = pkgJSON.version;
-console.log(colors.yellow.italic(' => Suman v' + v + ' running...'));
+const sumanVersion = pkgJSON.version;
+console.log(colors.yellow.italic(' => Suman v' + sumanVersion + ' running...'));
 
 ////////////////////////////////////////////////////////////////////
 
@@ -148,7 +148,6 @@ const cwd = process.cwd();
 
 //#project
 const projectRoot = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = sumanUtils.findProjectRoot(cwd);
-
 
 if (!projectRoot) {
   console.log(' => Warning => A NPM/Node.js project root could not be found given your current working directory.');
@@ -283,6 +282,7 @@ if (!init) {
 }
 
 if (opts.version) {
+  console.log(' => Node.js version:', process.version);
   console.log('...And we\'re done here.', '\n');
   return;
 }
@@ -520,8 +520,11 @@ if (sumanReporters.length < 1) {
 }
 
 sumanReporters.forEach(function (reporter) {
-  reporter.apply(global, [ global.resultBroadcaster ]);
+  reporter.apply(global, [ resultBroadcaster ]);
 });
+
+resultBroadcaster.emit('node-version', nodeVersion);
+resultBroadcaster.emit('suman-version', sumanVersion);
 
 //note: whatever args are remaining are assumed to be file or directory paths to tests
 const paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
