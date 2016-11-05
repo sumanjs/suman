@@ -594,12 +594,12 @@ else if (convert) {
 }
 else if (watch) {
 
-  require('./lib/helpers/watch-init')(sumanServerInstalled);
+  require('./lib/helpers/watch-init')(paths, sumanServerInstalled);
 
 }
 else {
 
-  //we do some work here
+  //we do some work here//
   require('./lib/run')(opts, paths, sumanServerInstalled, originalTranspileOption);
 
 }

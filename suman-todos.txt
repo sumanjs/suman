@@ -19,7 +19,7 @@ TODO: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/b
 TODO: provide expected exit-code in test file, so that when runner sees exit code, it is OK with it and says
 56 (expected)
 
-//////////
+////////////
 
 TODO:
 
@@ -63,7 +63,7 @@ that we don't print uncaughtExceptions more than once.
 
 /////////
 
-TODO: need to merge add-watcher and watch-project into one
+TODO: need to merge add-watcher and watch-project into one, -w file is not working now
 
 ////////////
 
