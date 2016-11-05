@@ -4,6 +4,11 @@ TODO: top level block needs .only to work
 
 ///////
 
+TODO: figure out a way to do require('suman') from index without problems,
+ so if user code require's suman we are still OK
+
+//////
+
 TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
 
 ////////

@@ -364,7 +364,7 @@ else {
 }
 
 if (process.env.SUMAN_DEBUG === 'yes') {
-  console.log(' => Suman configuration (suman.conf.js) => ', util.inspect(sumanConfig));
+  console.log(' => Suman configuration (suman.conf.js) =>\n\n', util.inspect(sumanConfig));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
