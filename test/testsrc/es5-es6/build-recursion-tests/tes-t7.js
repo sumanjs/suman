@@ -18,7 +18,6 @@ const Test = require('suman').init(module, {
 Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, request, assert) {
 
 
-
     this.before.cb(t => {
         t.ctn();
     });

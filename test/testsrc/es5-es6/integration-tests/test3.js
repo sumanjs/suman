@@ -9,7 +9,20 @@ const Test = suman.init(module, {
 });
 
 
-Test.describe('My Suite', {}, function () {
+Test.describe('My Suite', {}, function (describe, it, assert) {
+
+
+    it(t => assert(true));
+
+
+
+    describe.skip('desc',{}, function(){
+
+    });
+
+    describe.only('desc',{}, function(){
+
+    });
 
 
     this.describe('bugs', function () {
@@ -17,11 +30,7 @@ Test.describe('My Suite', {}, function () {
 
         this.it.only('is meow', function (t) {
 
-            //throw new Error('jesus christ');
-            //setTimeout(function(){
-            //    throw new Error('jesus');
-            //    done();
-            //},10);
+            throw new Error('jesus christ');
 
         });
 
@@ -37,7 +46,6 @@ Test.describe('My Suite', {}, function () {
             this.describe('sounds', function () {
 
                 this.it.cb('is good');
-
 
             });
 

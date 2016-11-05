@@ -8,11 +8,10 @@ module.exports = Object.freeze({
     matchNone: [/fixture/],
     matchAll: [],
     testDir: 'test',
-    testSrcDir: 'test/testsrc',
-    testTargetDir: 'test/TEST-TARGET',
+    testSrcDir: 'test/testsrc/es5-es6',
     sumanHelpersDir: 'test/_suman',
     defaultTestSuiteTimeout: 150000,
-    transpile: true,
+    transpile: false,
     maxParallelProcesses: 10,
     safe: false, //reads files in with fs.createReadStream and makes sure it's a suman test before running
     verbose: true, //handles and logs warnings (using warning level?)

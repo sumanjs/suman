@@ -1,9 +1,25 @@
+//////////
+
+TODO: top level block needs .only to work
 
 ///////
 
 TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
 
 ////////
+
+TODO: stubbed count is wrong => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/integration-tests/test3.js
+
+/////////
+
+TODO: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/tes-t7-start.test.js
+
+//////////
+
+TODO: provide expected exit-code in test file, so that when runner sees exit code, it is OK with it and says
+56 (expected)
+
+//////////
 
 TODO:
 

@@ -4,7 +4,7 @@
 
 
 const Test = require('suman').init(module, {
-    export: false, //module.exports.wait = false;
+    export: false,
     integrants: []
 });
 
