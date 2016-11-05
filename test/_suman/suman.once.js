@@ -38,8 +38,6 @@ module.exports = () => {  //load async deps for any of your suman tests
 
 		'mulch': (cb) => {
 
-			console.log('mulch running...');
-
 			setTimeout(function () {
 				cb(null, "new Error('mulch')");
 			}, 10);
