@@ -130,6 +130,7 @@ to run. Suman solves this problem ridiculously well, because Suman was designed 
 ## Suman Philosophy 
 
 * "Just works" - no need for addons or plugins, unless you want to write a custom reporter
+* Fail-fast
 * Stick to Node core modules
 * Unlike AVA, you don't need to transpile with Babel if you don't want to: _as ES6 generators + Promises
  can give you the same coding patterns as ES7 async/await_

@@ -159,11 +159,11 @@ module.exports = Object.freeze({
             default: '(unknown)'
         },
         SUITE_COUNT: {
-            name: '+total',
+            name: 'total',
             default: '-'
         },
         SUITE_SKIPPED_COUNT: {
-            name: '+skipped',
+            name: 'skipped',
             default: '-'
         },
         TEST_CASES_DESIGNATOR: {
@@ -171,23 +171,23 @@ module.exports = Object.freeze({
             default: ''
         },
         TEST_CASES_TOTAL: {
-            name: '*total',
+            name: 'total',
             default: '-'
         },
         TEST_CASES_PASSED: {
-            name: '*passed',
+            name: 'passed',
             default: '-'
         },
         TEST_CASES_FAILED: {
-            name: '*failed',
+            name: 'failed',
             default: '-'
         },
         TEST_CASES_SKIPPED: {
-            name: '*skipped',
+            name: 'skipped',
             default: '-'
         },
         TEST_CASES_STUBBED: {
-            name: '*stubbed',
+            name: 'stubbed',
             default: '-'
         },
         OVERALL_DESIGNATOR: {
