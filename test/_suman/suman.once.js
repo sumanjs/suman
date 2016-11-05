@@ -12,23 +12,16 @@ module.exports = () => {  //load async deps for any of your suman tests
 	return {
 
 		'charlie': function () {
-
-			console.log('charlie is running');
-
 			return 'charlie';
 		},
 		'smartconnect': function () {
-
-			console.log('smartconnect running...');
 
 			return Promise.resolve(JSON.stringify({
 				formica: 'not metal'
 			}));
 
 		},
-		'dolce-vida': (cb) => {
-
-			console.log('dolce-vida running...');
+		'dolce-vida': cb => {
 
 			setTimeout(function () {
 				cb(null, "new Error('rub')");
@@ -36,7 +29,7 @@ module.exports = () => {  //load async deps for any of your suman tests
 
 		},
 
-		'mulch': (cb) => {
+		'mulch': cb => {
 
 			setTimeout(function () {
 				cb(null, "new Error('mulch')");

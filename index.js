@@ -169,7 +169,7 @@ if (opts.verbose) {
 ////////////////////////////////////////////////////////////////////
 
 const viaSuman = global.viaSuman = true;
-const resultBroadcaster = global.resultBroadcaster = new EE();
+const resultBroadcaster = global.resultBroadcaster = global.resultBroadcaster || new EE();
 
 /////////////////////////////////////////////////////////////////////
 
@@ -478,7 +478,7 @@ if (optCheck.length > 1) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-global.sumanReporters = (opts.reporter_paths || []).map(function (item) {
+const sumanReporters = global.sumanReporters = (opts.reporter_paths || []).map(function (item) {
   if (!path.isAbsolute(item)) {
     item = path.resolve(projectRoot + '/' + item);
   }
@@ -488,7 +488,7 @@ global.sumanReporters = (opts.reporter_paths || []).map(function (item) {
   return fn;
 });
 
-if (opts.reporters && !sumanConfig.reporters) {
+if (opts.reporters && typeof sumanConfig.reporters !== 'object') {
   throw new Error(' => Suman fatal error => You provided reporter names but have no reporters object in your suman.conf.js file.');
 }
 
@@ -508,18 +508,18 @@ const reporterKV = sumanConfig.reporters || {};
     const fn = require(val);
     assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + val + '"');
     fn.pathToReporter = val;
-    global.sumanReporters.push(fn);
+    sumanReporters.push(fn);
   }
 
 });
 
-if (global.sumanReporters.length < 1) {
+if (sumanReporters.length < 1) {
   const fn = require(path.resolve(__dirname + '/lib/reporters/std-reporter'));
   assert(typeof fn === 'function', 'Suman native reporter fail.');
-  global.sumanReporters.push(fn);
+  sumanReporters.push(fn);
 }
 
-global.sumanReporters.forEach(function (reporter) {
+sumanReporters.forEach(function (reporter) {
   reporter.apply(global, [ global.resultBroadcaster ]);
 });
 

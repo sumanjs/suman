@@ -63,6 +63,10 @@ that we don't print uncaughtExceptions more than once.
 
 /////////
 
+TODO: allow for istanbul test coverage in runner child processes
+
+///////
+
 TODO: need to merge add-watcher and watch-project into one, -w file is not working now
 
 ////////////

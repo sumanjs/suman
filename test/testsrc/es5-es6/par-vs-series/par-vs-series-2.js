@@ -13,23 +13,23 @@ Test.describe('2', {parallel: false}, function () {
 
 
     this.it.cb('one', t => {
-        setTimeout(t.done, 2000);
+        setTimeout(t.done, 500);
     });
 
     this.it.cb('two', t => {
-        setTimeout(t.done, 2000);
+        setTimeout(t.done, 500);
     });
 
     this.it.cb('three', t => {
-        setTimeout(t.done, 2000);
+        setTimeout(t.done, 500);
     });
 
     this.it.cb('four', t => {
-        setTimeout(t.done, 2000);
+        setTimeout(t.done, 500);
     });
 
     this.it.cb('five', t => {
-        setTimeout(t.done, 2000);
+        setTimeout(t.done, 500);
     });
 
 

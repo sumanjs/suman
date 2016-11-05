@@ -47,7 +47,8 @@ module.exports = Object.freeze({
 
     reporters: {
         'tap': 'suman/reporters/tap',
-        'std': ''
+        'std': '',
+        'progress': './lib/reporters/progress-reporter'
     },
 
     servers: {
