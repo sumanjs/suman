@@ -17,7 +17,7 @@ Test.describe(__filename, {}, function (assert) {
     });
 
     this.it('a', t => {
-        assert(false);
+        assert(true);
     });
 
 

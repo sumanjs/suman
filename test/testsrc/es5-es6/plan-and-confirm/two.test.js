@@ -8,7 +8,8 @@ Test.describe('SimpleTest', {parallel: true}, function (assert, fs, http, os) {
     //synchronous
     this.beforeEach({plan: 5, throws: /Expected plan count was/}, t=> {
 
-        t.plan(1);
+        // t.plan(1);
+        t.confirm();
         t.confirm();
         t.confirm();
         t.confirm();
