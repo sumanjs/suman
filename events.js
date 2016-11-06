@@ -11,7 +11,6 @@ function makeToString (val) {
 
 const events = module.exports = Object.freeze({
 
-
   // runner events
   TEST_FILE_CHILD_PROCESS_EXITED: {
     explanation: 'runner is started, fires before any test child processes are started.',
