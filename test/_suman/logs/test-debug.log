@@ -5,11 +5,11 @@
 
 
 
- ### Suman start run indiv. @Sat Nov 05 2016 17:51:43 GMT-0700 (PDT) ###
+ ### Suman start run indiv. @Sat Nov 05 2016 19:00:34 GMT-0700 (PDT) ###
 
  ### Filename: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/dep-injection/one.test.js
 
- ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node","/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/dep-injection/one.test.js"]
+ ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node","/Users/Olegzandr/WebstormProjects/oresoftware/suman-server/server/bin/suman-watch-worker.js","--no-transpile","/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/dep-injection/one.test.js"]
 
 
 
