@@ -7,7 +7,9 @@ that they are still the only ones that run.
 */
 
 const suman = require('suman');
-const Test = suman.init(module);
+const Test = suman.init(module, {
+   __expectedExitCode: 94
+});
 
 
 Test.create('SimpleTest', {parallel: false}, function (assert, fs, http, os) {
