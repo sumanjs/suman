@@ -8,7 +8,7 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 
 if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes') {
   //prevents users from f*king up by accident and getting in some possible infinite process-spawn
-  //loop that will lock up their system
+  //loop that will lock up their entire system
   console.log('Warning: attempted to require Suman index.js but this cannot be.');
   return;
 }
@@ -600,9 +600,10 @@ else if (watch) {
   require('./lib/helpers/watch-init')(paths, sumanServerInstalled);
 
 }
+
 else {
 
-  //we do some work here//
+  //we do some work here
   require('./lib/run')(opts, paths, sumanServerInstalled, originalTranspileOption);
 
 }

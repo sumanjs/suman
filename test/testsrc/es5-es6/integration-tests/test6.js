@@ -1,18 +1,11 @@
-/**
- * Created by denman on 2/9/16.
- */
 
-
-"use strict";
+'use strict';
 
 var suman = require('suman');
-var Test = suman.init(module, 'suman.conf.js');
+var Test = suman.init(module);
 
 Test.describe.delay('B1', {}, function (socketio, request, roodles, choodles, fs) {
 
-    // console.log('roodles:', roodles);
-    // console.log('choodles:', choodles);
-    // console.log('fs:', fs);
 
     var arr = [1, 2, 3];
 

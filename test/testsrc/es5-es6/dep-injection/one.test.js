@@ -64,9 +64,10 @@ Test.create('example', function(before, describe){
         });
     });
 
-    describe.delay('inner', function(beforeEach, it){
+    describe.delay('inner', function(beforeEach, it, suite){
 
-        this.resume();
+
+        suite.resume();
 
         beforeEach(t => {
 
