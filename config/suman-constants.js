@@ -142,13 +142,6 @@ module.exports = Object.freeze({
     TABLE_DATA_RECEIVED: 'TABLE_DATA_RECEIVED'
   },
 
-  broadcast_event_type: {
-    TEST_CASE_FAIL: 'test-case-fail',
-    TEST_CASE_PASS: 'test-case-pass',
-    TEST_CASE_STUBBED: 'test-case-stubbed',
-    TEST_CASE_SKIPPED: 'test-case-skipped'
-  },
-
   warnings: {
     NO_DONE_WARNING: 'Warning: no done referenced in callback',
     RETURNED_VAL_DESPITE_CALLBACK_MODE: 'Warning: callback mode is set, but a non-null value was returned by the hook',
