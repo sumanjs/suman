@@ -5,6 +5,10 @@ TODO: figure out a way to do require('suman') from index without problems,
 
 //////
 
+TODO: suman_extraneous_executable should become global not env var
+
+//////
+
 TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
 
 
@@ -64,10 +68,6 @@ TODO: allow for istanbul test coverage in runner child processes
 ///////
 
 TODO: need to merge add-watcher and watch-project into one, -w file is not working now
-
-////////////
-
-TODO: even if test error happens, SUMAN_SINGLE_PROCESS still exits w code 0
 
 ////////////
 
