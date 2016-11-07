@@ -8,7 +8,7 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
-#start of the end ###
+### start of the end ###
 git remote add public git@github.com:ORESoftware/suman.git  # https://github.com/ORESoftware/suman.git might already exist which is bad but OK
 git fetch public &&
 git add . &&
