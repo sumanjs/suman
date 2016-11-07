@@ -46,6 +46,7 @@ module.exports = Object.freeze({
 
 
     reporters: {
+        'suman-example-reporter': require('suman-example-reporter'),
         'tap': 'suman/reporters/tap',
         'std': '',
         'progress': './lib/reporters/progress-reporter'

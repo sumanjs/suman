@@ -5,27 +5,20 @@
 
 
 
- ### Suman start run indiv. @Sun Nov 06 2016 15:30:32 GMT-0800 (PST) ###
+ ### Suman start run indiv. @Sun Nov 06 2016 15:44:10 GMT-0800 (PST) ###
 
- ### Filename: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/skip-and-only/three.test.js
+ ### Filename: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/integration-tests/test6.js
 
- ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node","/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/skip-and-only/three.test.js"]
+ ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node","/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/suman","test/testsrc/es5-es6/integration-tests/"]
 
- => Suite with description => "SimpleTest" was skipped because another test suite in this file
-invoked the only option.
-
-'Error: Suman usage error => Fatal error => You have attempted to register calls to a\ntest suite block that has already finished registering hooks, test cases and child blocks.\nTo be more exact, one of two things happened: Either (1) You referenced a parent suite block inside a\nchild suite block by accident, or more likely (2) you called registry functions asynchronously.\n\nYou cannot call the following functions asynchronously - describe(), it(), before(), beforeEach(), after(), afterEach()\n- do not put these calls inside a setTimeout, setImmediate, process.nextTick or any other asynchronous calls.\n *** !! This includes nesting these calls inside each other. !! ***\n\t\nThis is a fatal error because behavior will be completely indeterminate upon asynchronous registry of these calls.\n    at handleSetupComplete (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/TestSuite.js:29:15)\n    at TestSuiteBase.TestSuite.it (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/TestSuite.js:281:9)\n    at TestSuiteBase.it.t (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/skip-and-only/three.test.js:32:10)\n    at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:207:56\n    at _combinedTickCallback (internal/process/next_tick.js:67:7)\n    at process._tickDomainCallback (internal/process/next_tick.js:122:9)'
-
-Error: Suman usage error => Fatal error => You have attempted to register calls to a
-test suite block that has already finished registering hooks, test cases and child blocks.
-To be more exact, one of two things happened: Either (1) You referenced a parent suite block inside a
-child suite block by accident, or more likely (2) you called registry functions asynchronously.
-You cannot call the following functions asynchronously - describe(), it(), before(), beforeEach(), after(), afterEach()
-- do not put these calls inside a setTimeout, setImmediate, process.nextTick or any other asynchronous calls.
- *** !! This includes nesting these calls inside each other. !! ***
-    at TestSuiteBase.TestSuite.it (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/TestSuite.js:281:9)
-    at TestSuiteBase.it.t (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/skip-and-only/three.test.js:32:10)
-
+ => Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false => 
+	TypeError: Cannot assign to read only property 'done' of function 'function done(err) {
+	                        if (!t.callbackMode) {
+	                            handleNonCallba...<omitted>... }'
+	    at TestSuiteBase.before.cb.t (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/integration-tests/test2.js:82:16)
+	    at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/make-handle-befores-afters.js:166:43
+	    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+	    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
 
 
 
@@ -34,5 +27,3 @@ You cannot call the following functions asynchronously - describe(), it(), befor
 
 
 
-
- => Expected exit code not met. Expected => 94, actual => 95

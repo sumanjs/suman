@@ -8,7 +8,7 @@ that they are still the only ones that run.
 
 const suman = require('suman');
 const Test = suman.init(module, {
-   __expectedExitCode: 94
+   __expectedExitCode: 95
 });
 
 

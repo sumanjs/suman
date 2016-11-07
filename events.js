@@ -147,6 +147,11 @@ const events = module.exports = Object.freeze({
   FATAL_TEST_ERROR: {
     explanation: 'runner is started, fires before any test child processes are started.',
     toString: makeToString('FATAL_TEST_ERROR')
+  },
+
+  USING_STANDARD_REPORTER: {
+    explanation: 'runner is started, fires before any test child processes are started.',
+    toString: makeToString('USING_STANDARD_REPORTER')
   }
 
 });

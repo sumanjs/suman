@@ -478,50 +478,7 @@ if (optCheck.length > 1) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const sumanReporters = global.sumanReporters = (opts.reporter_paths || []).map(function (item) {
-  if (!path.isAbsolute(item)) {
-    item = path.resolve(projectRoot + '/' + item);
-  }
-  const fn = require(item);
-  assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + item + '"');
-  fn.pathToReporter = item;
-  return fn;
-});
-
-if (opts.reporters && typeof sumanConfig.reporters !== 'object') {
-  throw new Error(' => Suman fatal error => You provided reporter names but have no reporters object in your suman.conf.js file.');
-}
-
-const reporterKV = sumanConfig.reporters || {};
-
-(opts.reporters || []).forEach(function (item) {
-
-  //TODO: check to see if paths of reporter paths clashes with paths from reporter names at command line (unlikely)
-  var val = reporterKV[ item ];
-  if (!val) {
-    throw new Error(' => Suman fatal error => no reporter with name = "' + item + '" in your suman.conf.js file.');
-  }
-  else {
-    if (!path.isAbsolute(val)) {
-      val = path.resolve(projectRoot + '/' + val);
-    }
-    const fn = require(val);
-    assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + val + '"');
-    fn.pathToReporter = val;
-    sumanReporters.push(fn);
-  }
-
-});
-
-if (sumanReporters.length < 1) {
-  const fn = require(path.resolve(__dirname + '/lib/reporters/std-reporter'));
-  assert(typeof fn === 'function', 'Suman native reporter fail.');
-  sumanReporters.push(fn);
-}
-
-sumanReporters.forEach(function (reporter) {
-  reporter.apply(global, [ resultBroadcaster ]);
-});
+require('./lib/reporters/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
 
 resultBroadcaster.emit('node-version', nodeVersion);
 resultBroadcaster.emit('suman-version', sumanVersion);

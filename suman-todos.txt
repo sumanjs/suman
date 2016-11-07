@@ -1,12 +1,4 @@
-//////////
 
-TODO: top level block needs .only to work
-
-///////
-
-=> TODO: inject resume method bound to suite
-
-//////
 
 TODO: figure out a way to do require('suman') from index without problems,
  so if user code require's suman we are still OK
@@ -15,11 +7,6 @@ TODO: figure out a way to do require('suman') from index without problems,
 
 TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
 
-////////
-
-TODO: stubbed count is wrong => /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/integration-tests/test3.js
-
-/////////
 
 TODO: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/tes-t7-start.test.js
 
