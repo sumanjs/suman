@@ -19,9 +19,12 @@ git checkout -b devtemp &&
 git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&
+git commit --allow-empty -am "some-temp-bs" &&
 git reset --soft HEAD~10 &&
-git commit -am "publish/release:$1" &&
-git push public master -f &&
+git add . &&
+git add -A &&
+git commit --allow-empty -am "publish/release:$1" &&
+git push public HEAD:master -f &&
 git checkout dev &&
 git branch -D devtemp &&
 npm publish .
