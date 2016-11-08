@@ -5,20 +5,21 @@
 
 
 
- ### Suman start run indiv. @Sun Nov 06 2016 23:52:43 GMT-0800 (PST) ###
+ ### Suman start run indiv. @Mon Nov 07 2016 15:03:15 GMT-0800 (PST) ###
 
- ### Filename: /Users/Olegzandr/WebstormProjects/oresoftware/pragmatik/test/test-src/parse-to-array/five.test.js
+ ### Filename: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/plan-and-confirm/two.test.js
 
- ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node","/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/suman","/Users/Olegzandr/WebstormProjects/oresoftware/pragmatik/test/test-src/parse-to-array/five.test.js"]
+ ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.2/bin/node","/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/plan-and-confirm/two.test.js"]
 
-Error:  => Suman error => Error acquiring IOC deps => 
-Error: The following desired dependency is not in your suman.ioc.js file: "pragmatik"
- => ...your available dependencies are: [ "william" , "socketio" , "should" , "request" , "socket_io_client" , "choodles" , "roodles" , "whoa" , "cherry" ]
-    at deps.forEach.dep (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/acquire-deps-original.js:55:23)
-    at Array.forEach (native)
-    at acquireDepsOriginal (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/acquire-deps-original.js:25:10)
-    at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/exec-suite.js:186:13
+Error: Error => Expected plan count was 5 but actual assertion/confirm count was 4
+    at TestSuiteBase.TestSuite.beforeEach (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/TestSuite.js:235:25)
+    at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/plan-and-confirm/two.test.js:9:10)
+    at /Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/exec-suite.js:298:20
     at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
+Error => Expected to throw an error matching regex (/Exected plan count was/) , but did not.
+    at TestSuiteBase.TestSuite.beforeEach (/Users/Olegzandr/WebstormProjects/oresoftware/suman/lib/TestSuite.js:235:25)
+    at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/plan-and-confirm/two.test.js:9:10)
 
 
 

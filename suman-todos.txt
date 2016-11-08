@@ -83,6 +83,12 @@ add "append-match-none"
 
 /////////////
 
+when transpile: true, and test-target is not inside test directory, *and* sumanhelpersdir is inside test directory,
+then we need to point sumanHelpersDir to the target directory. Basically, whenever sumanHelpersDir is inside the directory
+that will get transpiled/moved, we have to update location.
+
+/////////////
+
 Test errors do not necessarily lead to 56 exit codes, e.g. =>
 /Users/t_millal/WebstormProjects/oresoftware/pragmatik/test/test-src/parse-to-array/five.test.js
 
