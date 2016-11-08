@@ -2,6 +2,10 @@
 
 ////
 
+removed inquirer, inquirer-directory, inquirer-path from package.json
+
+///
+
 
 SUMAN_CHILD_TEST_PATH=/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/a.js node --inspect
 --debug-brk --harmony ./node_modules/.bin/istanbul cover ./lib/run-child.js
