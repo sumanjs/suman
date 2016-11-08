@@ -29,7 +29,8 @@ git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
 git push &&                                                      # push to private/dev remote repo
-git checkout -b devtemp &&                                       # we do squashing on this branch
+git checkout dev_squash &&                                       # we do squashing on this branch
+git merge dev &&
 git reset --soft $(git describe --tags) &&
 git add . &&
 git add -A &&
@@ -43,8 +44,7 @@ git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
 git push public HEAD:master -f &&
 git checkout dev &&
-git merge devtemp &&
-git branch -D temp devtemp &&
+git branch -D temp &&
 npm publish .
 
 
