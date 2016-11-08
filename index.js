@@ -496,7 +496,7 @@ if (uninstallBabel) {
   require('./lib/use-babel/uninstall-babel')(null);
 }
 else if (useIstanbul) {
-  require('./lib/make-tail/tail-any')();
+  require('./lib/use-istanbul/use-istanbul')();
 }
 else if (tail) {
   require('./lib/make-tail/tail-any')(paths);

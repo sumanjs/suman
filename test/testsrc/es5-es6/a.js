@@ -5,7 +5,7 @@ const Test = suman.init(module, {});
 Test.describe(__filename, {}, function (assert) {
 
     this.before(t => {
-        console.log('before a');
+        console.error('before a');
     });
 
     this.beforeEach.cb(t => {
@@ -22,7 +22,7 @@ Test.describe(__filename, {}, function (assert) {
 
 
     this.after(t => {
-        console.log('after a');
+        console.error('after a');
     });
 
 
@@ -53,6 +53,7 @@ Test.describe(__filename, {}, function (assert) {
             });
 
             this.it('c', t => {
+                console.error('test passed');
                 assert(true);
             });
 

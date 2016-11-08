@@ -52,6 +52,7 @@
     "test": "test"
   },
   "devDependencies": {
+    "istanbul": "^0.4.5",
     "keypress": "^0.2.1",
     "should": "^8.3.1"
   },

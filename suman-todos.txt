@@ -1,5 +1,13 @@
 
 
+////
+
+
+SUMAN_CHILD_TEST_PATH=/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/a.js node --inspect
+--debug-brk --harmony ./node_modules/.bin/istanbul cover ./lib/run-child.js
+
+/////
+
 TODO: figure out a way to do require('suman') from index without problems,
  so if user code require's suman we are still OK
 
