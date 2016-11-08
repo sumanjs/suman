@@ -34,7 +34,7 @@ git merge dev &&
 git reset --soft $(git describe --tags) &&
 git add . &&
 git add -A &&
-git commit -am "publish/release:$1"
+git commit --allow-empty -am "publish/release:$1" &&
 git tag xyz`date "+production-%Y%m%d%H%M%S"` &&
 git checkout -b temp  &&                                          # we checkout this branch to run deletes on private files
 ./delete-internal-paths.sh &&

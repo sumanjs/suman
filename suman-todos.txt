@@ -5,7 +5,8 @@ TODO: figure out a way to do require('suman') from index without problems,
 
 //////
 
-TODO: suman_extraneous_executable should become global not env var
+TODO: suman_extraneous_executable should become global not env var, so that in child processes it is not set,
+if it is set in CPs, then they can require the index file, which is exactly what we want to avoid!
 
 //////
 
@@ -67,10 +68,6 @@ TODO: allow for istanbul test coverage in runner child processes
 
 ///////
 
-TODO: need to merge add-watcher and watch-project into one, -w file is not working now
-
-////////////
-
 TODO: regexes seem to match against test-target instead of test-src etc?
 
 ///////////
@@ -83,7 +80,7 @@ add "append-match-none"
 
 /////////////
 
-when transpile: true, and test-target is not inside test directory, *and* sumanhelpersdir is inside test directory,
+TODO: when transpile: true, and test-target is not inside test directory, *and* sumanhelpersdir is inside test directory,
 then we need to point sumanHelpersDir to the target directory. Basically, whenever sumanHelpersDir is inside the directory
 that will get transpiled/moved, we have to update location.
 
@@ -91,7 +88,6 @@ that will get transpiled/moved, we have to update location.
 
 Test errors do not necessarily lead to 56 exit codes, e.g. =>
 /Users/t_millal/WebstormProjects/oresoftware/pragmatik/test/test-src/parse-to-array/five.test.js
-
 
 ///////////////
 
@@ -102,10 +98,6 @@ yolo
 cholo
 
 ///////////////
-
-remove all listeners from t after test/hook is completed
-
-/////////////
 
 
 --errors-only should be readline/clearLine so pass count simply goes up
@@ -139,34 +131,13 @@ change Suites skipped : 1, to Suites skipped  (at least 1)
 
 ////////////
 
-if suman.conf.js does not reflect where the _suman/.suman directory is, you get this:
-
- => Suman uncaught exception =>  Error: ENOENT: no such file or directory, open '/Users/t_millal/WebstormProjects/oresoftware/pragmatik/suman/logs/test-debug.log'
-    at Error (native)
-    at Object.fs.openSync (fs.js:640:18)
-    at Object.fs.writeFileSync (fs.js:1333:33)
-
-
-//////////////
 
 TODO: SUMAN_SINGLE_PROCESS => for runner, have it either pass data back to runner table, or don't print table at all,
 probably latter is better.
 
 ////////////////
 
- => Suman is exiting with code 56   > see http://oresoftware.github.io/suman/exit-codes.html
-
-
- => Suman test process experienced a fatal error during the run, most likely the majority of tests, if not all tests, were not run.
-
-^^^^ the above is not appropriate after only failing with a 56 error
-
-
-//////////////////
-
-
  suman --touch   // will touch package.json, which should fire chokidar change events
-
 
 ///////////
 
@@ -185,8 +156,6 @@ need to consolidate multiple Test.describes into one report to send back to runn
 
 ////////////
 
-use // for unique key in suman.conf.js "watch"
-
 when running with {transpile:true} in suman.conf.js, simply "$ suman" (without -r)
 will still transpile *all* of test-src to test-target, (but still only run one file)
 
@@ -201,6 +170,8 @@ make sure that .babelrc does not get overwritten when using suman --use-babel
 ////////
 
 need to add SIGINT handler to runner (there is one in lib/index);
+this should allow us to run shutdown hooks in any event, and then exit.
+if they use two SIGINTs, then shutdown immediately.
 
 ///////////
 
@@ -223,22 +194,6 @@ create functionality for timeout option in suman.init(module)
 create setTimeout and call n.kill if child_process does not exit after X number of seconds
 
 ////////////
-
-use AVA to test Suman
-
-////////////
-
-
-  => Suman message => No test files were found in the directories provided
-  => dirs =>  ["/Users/t_millal/WebstormProjects/oresoftware/suman/test/build-tests"]
-
-
-  => perhaps you should use the --recursive option?
-
-  need to warn user that regex might not match
-
-
-/////////////
 
 use NODE_PATH
 
