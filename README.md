@@ -6,7 +6,6 @@
 
 
 
-
  >   Suman documentation => [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")  
 
  ---

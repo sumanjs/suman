@@ -6,6 +6,13 @@ removed inquirer, inquirer-directory, inquirer-path from package.json
 
 ///
 
+should we run
+
+rm -rf node_modules &&
+npm install &&
+
+to make sure that works?
+
 
 SUMAN_CHILD_TEST_PATH=/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/a.js node --inspect
 --debug-brk --harmony ./node_modules/.bin/istanbul cover ./lib/run-child.js

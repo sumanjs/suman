@@ -30,7 +30,7 @@ git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
 git push &&                                                      # push to private/dev remote repo
 git checkout dev_squash &&                                       # we do squashing on this branch
-git merge dev &&
+git merge dev -m "squashing" &&
 git reset --soft $(git describe --tags) &&
 git add . &&
 git add -A &&

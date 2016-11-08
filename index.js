@@ -316,8 +316,14 @@ else {
     catch (err) {
 
       if (!uninstall) {
-        throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
-          'found in the root of your project.\n  ' + (err.stack || err));
+        if(String(err.stack || err).match(/Cannot find module\.*suman\.conf\.js/)){
+          throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
+            'found in the root of your project.\n  ' + (err.stack || err));
+        }
+        else{
+          throw new Error(' => Suman usage error => There was an error loading your suman.conf.js file =>\n ' + (err.stack || err));
+        }
+
       }
       else {
         // if we read in the default config, then package.json is not resolved correctly
