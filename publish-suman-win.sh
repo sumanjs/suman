@@ -23,19 +23,19 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
-### start of the end ###
+
 npm version patch --force -m "Upgrade for several reasons" &&    # bump version
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
 git push &&                                                      # push to private/dev remote repo
-git checkout -b devtemp &&
+git checkout -b devtemp &&                                       # we do squashing on this branch
 git reset --soft xyz &&
 git add . &&
 git add -A &&
 git commit -am "publish/release:$1"
 git tag xyz &&
-git checkout -b temp
+git checkout -b temp                                            # we checkout this branch to run deletes on private files
 ./delete-internal-paths.sh &&
 git rm delete-internal-paths.sh -f &&
 git add . &&
@@ -43,7 +43,8 @@ git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
 git push public HEAD:master -f &&
 git checkout dev &&
-git branch -D devtemp &&
+git branch -D temp &&
+git merge devtemp &&
 npm publish .
 
 
