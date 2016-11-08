@@ -35,7 +35,7 @@ git add . &&
 git add -A &&
 git commit -am "publish/release:$1"
 git tag xyz &&
-git checkout -b temp                                            # we checkout this branch to run deletes on private files
+git checkout -b temp  &&                                          # we checkout this branch to run deletes on private files
 ./delete-internal-paths.sh &&
 git rm delete-internal-paths.sh -f &&
 git add . &&
@@ -43,8 +43,8 @@ git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
 git push public HEAD:master -f &&
 git checkout dev &&
-git branch -D temp &&
 git merge devtemp &&
+git branch -D temp devtemp &&
 npm publish .
 
 
