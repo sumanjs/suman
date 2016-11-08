@@ -100,27 +100,6 @@ if (process.env.SUMAN_DEBUG === 'yes') {
   console.log('\n\n', ' => Suman started with the following command:', '\n', process.argv, '\n');
 }
 
-/*
-
- TODO
-
- may cause problems:
-
- => Suman started with the following command:
- [ '/Users/amills/.nvm/versions/node/v4.4.5/bin/node',
- '/Users/amills/.nvm/versions/node/v4.4.5/bin/suman',
- 'service_proxifier_test.js' ]
-
- whereas this is ok:
-
- => Suman started with the following command:
- [ '/Users/amills/.nvm/versions/node/v4.4.5/bin/node',
- '/Users/amills/.nvm/versions/node/v4.4.5/bin/suman',
- '/Users/amills/WebstormProjects/vmware/wem_server2/test-suman/mocha/wem/actors/registry_loader_test.js' ]
-
-
- */
-
 ////////////////////////////////////////////////////////////////////
 
 const nodeVersion = process.version;
@@ -146,7 +125,7 @@ const cwd = process.cwd();
 
 ////////////////////////////////////////////////////////////////////
 
-//#project
+const sumanExecutablePath = global.sumanExecutablePath = process.env.SUMAN_EXECUTABLE_PATH = __filename;
 const projectRoot = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = sumanUtils.findProjectRoot(cwd);
 
 if (!projectRoot) {
@@ -386,7 +365,11 @@ if ('concurrency' in opts) {
 }
 
 global.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
-global.sumanHelperDirRoot = path.resolve(projectRoot + '/' + (sumanConfig.sumanHelpersDir || 'suman'));
+const sumanHelpersDir = global.sumanHelperDirRoot = path.resolve(projectRoot + '/' + (sumanConfig.sumanHelpersDir || 'suman'));
+const logDir = path.resolve(global.sumanHelperDirRoot + '/logs');
+
+//ensure that sumanHelpersDir exists and create logs dir if it does not (maybe got deleted)
+require('./lib/helpers/create-helpers-logs')(sumanHelpersDir, logDir);
 
 ////////////// matching ///////////
 

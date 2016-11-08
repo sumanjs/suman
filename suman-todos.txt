@@ -5,6 +5,10 @@ TODO: figure out a way to do require('suman') from index without problems,
 
 //////
 
+if suman.once.js does not exist, simply log an error, right now we throw an error
+
+////
+
 TODO: suman_extraneous_executable should become global not env var, so that in child processes it is not set,
 if it is set in CPs, then they can require the index file, which is exactly what we want to avoid!
 
