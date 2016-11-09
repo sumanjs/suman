@@ -27,9 +27,7 @@ to make sure that works before publishing?
 TODO: runner should show which order files are read, and then if --rand is chosen, the random order in which
 they will run
 
-
 /////////////////
-
 
 SUMAN_CHILD_TEST_PATH=/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/a.js node --inspect
 --debug-brk --harmony ./node_modules/.bin/istanbul cover ./lib/run-child.js
@@ -51,7 +49,6 @@ if it is set in CPs, then they can require the index file, which is exactly what
 //////
 
 TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
-
 TODO: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/tes-t7-start.test.js
 
 //////////
@@ -75,8 +72,8 @@ cd oresoftware/suman && SUMAN_SINGLE_PROCESS=yes suman test/multiple-test-suites
 
         (note that despite this fatal error, other test processes will continue running, as would be expected; use the --runner-bail option, if you wish otherwise.)
 
-                Error: => fatal error in hook => (to continue even in the event of an error in a hook use option {fatal:false}) =>
-                Error: oh shit
+            Error: => fatal error in hook => (to continue even in the event of an error in a hook use option {fatal:false}) =>
+            Error: oh shit
 
 
 /////////
@@ -130,14 +127,6 @@ Test errors do not necessarily lead to 56 exit codes, e.g. =>
 
 ///////////////
 
-TODO: /Users/t_millal/WebstormProjects/oresoftware/suman/test/plan-and-confirm/two.test.js
-
-should not log:
-yolo
-cholo
-
-///////////////
-
 --errors-only should be readline/clearLine so pass count simply goes up
 
 ////////////
@@ -165,9 +154,7 @@ TODO: use pragmatik in the lib/index.js file so that we can work with opts.skip 
 
 change Suites skipped : 1, to Suites skipped  (at least 1)
 
-
 ////////////
-
 
 TODO: SUMAN_SINGLE_PROCESS => for runner, have it either pass data back to runner table, or don't print table at all,
 probably latter is better.

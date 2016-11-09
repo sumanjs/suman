@@ -2,6 +2,7 @@
 
 var suman = require('suman');
 var Test = suman.init(module, {
+  timeout: 10,
   integrants: [ 'smartconnect', 'dolce-vida', 'charlie' ]
 });
 
@@ -15,7 +16,7 @@ Test.describe('suite 1', { parallel: true }, function () {
 
   const cars = [ 1, 2, 3 ];
 
-  this.describe('desc', function () {
+  this.describe('x', function () {
 
     this.describe('desc', function () {
 
@@ -28,9 +29,7 @@ Test.describe('suite 1', { parallel: true }, function () {
 
       });
 
-      this.it('does 2', function () {
-
-      });
+      this.it('mm', { z: 'b' });
 
       this.it('does 2', function () {
 
