@@ -1,7 +1,8 @@
 language: node_js
 node_js:
+  - '7'
   - '6'
   - '5'
   - '4'
 script: 'node index --coverage test/testsrc/es5-es6 -r'
-after_script: 'cat coverage/lcov.info | coveralls'
+after_script: 'npm install -g coveralls && cat coverage/lcov.info | coveralls'

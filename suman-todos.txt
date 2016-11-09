@@ -4,14 +4,31 @@
 
 removed inquirer, inquirer-directory, inquirer-path from package.json
 
-///
+//////////////
+
+TODO: integrate suman once with gulp
+
+///////////
+
+https://github.com/gulpjs/gulp/issues/770#issuecomment-259282294
+
+////////////
 
 should we run
 
 rm -rf node_modules &&
 npm install &&
 
-to make sure that works?
+to make sure that works before publishing?
+
+/////////////////
+
+
+TODO: runner should show which order files are read, and then if --rand is chosen, the random order in which
+they will run
+
+
+/////////////////
 
 
 SUMAN_CHILD_TEST_PATH=/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/a.js node --inspect
@@ -34,7 +51,6 @@ if it is set in CPs, then they can require the index file, which is exactly what
 //////
 
 TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
-
 
 TODO: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/tes-t7-start.test.js
 
@@ -122,9 +138,7 @@ cholo
 
 ///////////////
 
-
 --errors-only should be readline/clearLine so pass count simply goes up
-
 
 ////////////
 

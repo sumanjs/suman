@@ -79,7 +79,7 @@ Test.describe('suite 2', { parallel: true }, function () {
     this.describe('desc', function () {
 
       this.before.cb('C', { fatal: false }, t => {
-        t.done = 'fooage';
+        // t.done = 'fooage';
         t.done(new Error('dog'));
       });
 

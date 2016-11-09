@@ -53,6 +53,7 @@ module.exports = Object.freeze({
 
     //all
     // 'resume', => use suite.resume() instead
+    'extraArgs',
     'userData',
     'context',
     'extra',

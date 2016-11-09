@@ -4,23 +4,23 @@
 const suman = require('suman');
 
 const Test = suman.init(module, {
-    export: true,
+    export: false,
     interface: 'TDD'
 });
 
 
-Test.suite('@Test1', {parallel: false, bail: true}, function (assert, fs, path, stream, delay, extra) {
+Test.suite('@Test1', {parallel: false, bail: true}, function (assert, fs, path, stream, suite, extraArgs) {
 
 
-    const expected = extra[0].expected;
-    const strm = extra[0].strm;
+    const expected = extraArgs[0].expected;
+    const strm = extraArgs[0].strm;
 
     // strm.on('finish', function () {
     //     delay();
     // });
 
     
-    strm.on('data', (data)=> {
+    strm.on('data', d => {
 
         this.test('test', function () {
             assert('a' === 'a');
@@ -29,7 +29,7 @@ Test.suite('@Test1', {parallel: false, bail: true}, function (assert, fs, path, 
     });
 
     strm.on('end', function () {
-        delay();
+        suite.resume();
     });
 
     strm.resume();

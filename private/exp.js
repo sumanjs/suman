@@ -7,6 +7,8 @@
 //
 // console.log(new RegExp(str));
 
+null.this = 5;
+
 function Proto() {
 
 
