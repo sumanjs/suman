@@ -1,6 +1,8 @@
 
 
-////
+////////
+
+TODO: passing rate => 1 stubbed, 5 passed, 6 total, passing rate is 83.33%?
 
 removed inquirer, inquirer-directory, inquirer-path from package.json
 
@@ -13,6 +15,10 @@ TODO: integrate suman once with gulp
 https://github.com/gulpjs/gulp/issues/770#issuecomment-259282294
 
 ////////////
+
+//TODO: parse (subset of?) command line opts with plain node exec?
+
+///////////
 
 should we run
 
@@ -206,6 +212,7 @@ high priority - in runner for "test fail", need to print path of test file also
 error should be thrown for any key/values passed to suman.init(module,{
    x: 'y'
 })
+
 
 throw new Error('"x" is not an available option, available options are: a b c, etc');
 

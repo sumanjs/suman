@@ -49,7 +49,7 @@ Test.describe.delay('A2', {}, function () {
 
         });
 
-        this.describe(function () {
+        this.describe('zoom',function () {
             arr.forEach((item)=> {
 
                 this.it('[test]' + item, t => {

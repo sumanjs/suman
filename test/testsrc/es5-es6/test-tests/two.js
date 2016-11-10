@@ -18,7 +18,7 @@ Test.describe('root suite description', {}, function (assert) {   // we define t
         t.ctn();
     });
 
-    this.it(function (t) {
+    this.it('though this was fixed',function (t) {
         console.log('3', this === self);  //true
         t.log('whooooa');
     });

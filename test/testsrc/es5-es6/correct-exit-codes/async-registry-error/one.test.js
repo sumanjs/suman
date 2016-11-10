@@ -1,14 +1,14 @@
 
 /*
 
-This test is to ensure that if only is called on blocks registered towards the end of the current tick,
-that they are still the only ones that run.
+ This test is to ensure that if only is called on blocks registered towards the end of the current tick,
+ that they are still the only ones that run.
 
-*/
+ */
 
 const suman = require('suman');
 const Test = suman.init(module, {
-   __expectedExitCode: 95
+  __expectedExitCode: 95
 });
 
 
@@ -29,6 +29,10 @@ Test.create.only('Complex test', {parallel: false}, function (assert, fs, http, 
 
   this.it('is great', t => {
 
+    this.it('is great', t => {
+
+
+    });
 
   });
 

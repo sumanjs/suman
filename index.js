@@ -93,6 +93,7 @@ const _ = require('lodash');
 //#project
 const constants = require('./config/suman-constants');
 const sumanUtils = require('suman-utils/utils');
+const ascii = require('./lib/helpers/ascii');
 
 ////////////////////////////////////////////////////////////////////
 
@@ -135,6 +136,8 @@ if (!projectRoot) {
   return;
 }
 
+
+
 ////////////////////////////////////////////////////////////////////
 
 const opts = global.sumanOpts = require('./lib/parse-cmd-line-opts/parse-opts');
@@ -145,6 +148,26 @@ if (opts.verbose) {
 }
 
 ////////////////////////////////////////////////////////////////////
+
+
+if (cwd !== projectRoot) {
+  if (!opts.vsparse) {
+    console.log(' => CWD is not equal to project root:', cwd);
+    console.log(' => Project root:', projectRoot);
+  }
+}
+else {
+  if (!opts.sparse) {
+    if (cwd === projectRoot) {
+      console.log(colors.gray(' => cwd:', cwd));
+    }
+  }
+  if (cwd !== projectRoot) {
+    console.log(colors.magenta(' => cwd:', cwd));
+  }
+}
+
+console.log(ascii.suman_slant, '\n');
 
 const viaSuman = global.viaSuman = true;
 const resultBroadcaster = global.resultBroadcaster = global.resultBroadcaster || new EE();
@@ -187,22 +210,6 @@ var originalTranspileOption = opts.transpile;
 var sumanInstalledAtAll = null;
 var sumanServerInstalled = null;
 
-if (cwd !== projectRoot) {
-  if (!opts.vsparse) {
-    console.log(' => CWD is not equal to project root:', cwd);
-    console.log(' => Project root:', projectRoot);
-  }
-}
-else {
-  if (!opts.sparse) {
-    if (cwd === projectRoot) {
-      console.log(colors.gray(' => cwd:', cwd));
-    }
-  }
-  if (cwd !== projectRoot) {
-    console.log(colors.magenta(' => cwd:', cwd));
-  }
-}
 
 if (!init) {
   var err1, err2;
@@ -498,7 +505,10 @@ process.env.TEST_TARGET_DIR = path.resolve(projectRoot + '/' + (global.sumanConf
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-if (uninstallBabel) {
+if(interactive){
+  require('./lib/interactive');
+}
+else if (uninstallBabel) {
   require('./lib/use-babel/uninstall-babel')(null);
 }
 else if (useIstanbul) {

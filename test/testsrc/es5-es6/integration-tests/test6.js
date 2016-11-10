@@ -71,7 +71,7 @@ Test.describe.delay('B1', {}, function (socketio, request, roodles, choodles, fs
             suite.resume();
         }, 100);
 
-        this.describe(function () {
+        this.describe('bam',function () {
 
             arr.forEach((item)=> {
                 this.it('[test]' + item, function (t) {

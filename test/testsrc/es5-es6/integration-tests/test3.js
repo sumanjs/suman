@@ -12,7 +12,7 @@ const Test = suman.init(module, {
 Test.describe('My Suite', {}, function (describe, it, assert) {
 
 
-    it(t => assert(true));
+    it('dayum',t => assert(true));
 
 
 

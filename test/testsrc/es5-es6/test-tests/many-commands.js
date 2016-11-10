@@ -7,11 +7,11 @@ Test.describe('Run many different options with Suman', {}, function (child_proce
     this.describe('child suite A', {parallel:true}, function () {  //calling 'this.describe' creates a child suite
 
 
-        this.it.cb({mode: 'parallel'}, t => {
+        this.it.cb('shakes babies', {mode: 'parallel'}, t => {
 
 
             child_process.exec('node index --tail-runner', {
-                cwd: '/Users/Olegzandr/WebstormProjects/suman'
+                cwd: global.projectRoot
 
 
             }, function (err, stdout, stderr) {
@@ -28,10 +28,10 @@ Test.describe('Run many different options with Suman', {}, function (child_proce
         });
 
 
-        this.it.cb({mode: 'parallel'}, t => {
+        this.it.cb('golly',{mode: 'parallel'}, t => {
             
             child_process.exec('node index --tail-test', {
-                cwd: '/Users/Olegzandr/WebstormProjects/suman'
+                cwd: global.projectRoot
 
             }, function (err, stdout, stderr) {
 
@@ -47,12 +47,12 @@ Test.describe('Run many different options with Suman', {}, function (child_proce
         });
 
 
-        this.it.cb({mode: 'parallel'}, t => {
+        this.it.cb('booty',{mode: 'parallel'}, t => {
 
 
             child_process.exec('node index test/build-tests/test6.test.js', {
 
-                cwd: '/Users/Olegzandr/WebstormProjects/suman'
+                cwd: global.projectRoot
 
             }, function (err, stdout, stderr) {
 

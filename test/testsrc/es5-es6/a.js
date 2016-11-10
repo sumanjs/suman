@@ -8,12 +8,13 @@ Test.describe(__filename, {}, function (assert) {
         console.error('before a');
     });
 
-    this.beforeEach.cb(t => {
+    this.beforeEach.cb({}, t => {
         console.log('before each starting...');
         setTimeout(function () {
             console.log('before each hook finished.');
             t.ctn();
         }, 100);
+
     });
 
     this.it('a', t => {
@@ -26,7 +27,7 @@ Test.describe(__filename, {}, function (assert) {
     });
 
 
-    this.describe('nested group 1', function () {
+    this.describe.skip('nested group 1', function () {
 
         this.before(t => {
             console.log('before b');

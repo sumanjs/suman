@@ -2,7 +2,7 @@
 
 var suman = require('suman');
 var Test = suman.init(module, {
-  timeout: 10,
+  timeout: 10000,
   integrants: [ 'smartconnect', 'dolce-vida', 'charlie' ]
 });
 

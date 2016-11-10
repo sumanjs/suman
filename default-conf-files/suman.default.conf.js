@@ -24,6 +24,9 @@ module.exports = Object.freeze({
     browser: 'Firefox',                 // browser to open test results with
 
     //boolean
+    enforceTestCaseNames: true,
+    enforceBlockNames: true,
+    enforceHookNames: false,
     bail: true,                     // when running one file, bail will bail test at first test failure
     bailRunner: true,               // when using the runner, bail will bail runner at first test failure in any file
     transpile: false,                      // transpile is false by default, can be overridden with command line also
