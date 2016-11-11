@@ -24,6 +24,8 @@ module.exports = Object.freeze({
     browser: 'Firefox',                 // browser to open test results with
 
     //boolean
+    enforceGlobalInstallationOnly: false,
+    enforceLocalInstallationOnly: false,
     enforceTestCaseNames: true,
     enforceBlockNames: true,
     enforceHookNames: false,

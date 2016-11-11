@@ -27,7 +27,7 @@ Test.describe(__filename, {}, function (assert) {
     });
 
 
-    this.describe.skip('nested group 1', function () {
+    this.describe('nested group 1', function () {
 
         this.before(t => {
             console.log('before b');

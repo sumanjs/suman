@@ -167,7 +167,6 @@ else {
   }
 }
 
-console.log(ascii.suman_slant, '\n');
 
 const viaSuman = global.viaSuman = true;
 const resultBroadcaster = global.resultBroadcaster = global.resultBroadcaster || new EE();
@@ -558,6 +557,8 @@ else if (watch) {
 }
 
 else {
+
+  console.log(ascii.suman_slant, '\n');
 
   //we do some work here
   require('./lib/run')(opts, paths, sumanServerInstalled, originalTranspileOption);
