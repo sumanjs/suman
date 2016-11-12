@@ -1,21 +1,6 @@
+const path = require('path');
 
+const p1 = path.normalize('/test/a/b/c/');
+const p2 = path.normalize('/test/a/b/c');
 
-const stream = require('stream');
-
-var jsonData = [];
-
-var strm = new stream.Writable({
-   write: function(chunk, encoding, next) {
-
-      jsonData.push(chunk.toString());
-      next();
-   }
-
-});
-
-
-strm.on('foo',function(msg){
-   console.log(msg); //doesn't get called
-});
-
-strm.emit('foo','bar');  //this doesn't seem to do anything
+console.log(p1, p2);
