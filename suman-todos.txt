@@ -8,8 +8,6 @@ containerization of Suman tests and Suman-server
 
 TODO: passing rate => 1 stubbed, 5 passed, 6 total, passing rate is 83.33%?
 
-removed inquirer, inquirer-directory, inquirer-path from package.json
-
 //////////////
 
 TODO: integrate suman once with gulp

@@ -80,7 +80,8 @@
     "suman": "index.js",
     "suman-debug": "index-debug.js",
     "suman-babel": "index-babel.js",
-    "suman-inspect": "index-inspect.js"
+    "suman-inspect": "index-inspect.js",
+    "suman-troubleshoot": "index-troubleshoot.js"
   },
   "homepage": "https://github.com/ORESoftware/suman#readme",
   "description": "Suman is a next-generation Node.js test runner designed to supercede Mocha and rival AVA"
