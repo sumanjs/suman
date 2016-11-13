@@ -1,5 +1,20 @@
 
 
+
+////////
+
+add suman-debug / suman--debug  --paths=["a.js","b.js"]
+
+/////////
+
+TODO:
+
+run tests
+debug tests
+run tests with test coverage
+watch project and run/transpile tests on changes
+
+
 ////////
 
 containerization of Suman tests and Suman-server

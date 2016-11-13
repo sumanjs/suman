@@ -23,6 +23,15 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
 // 	}
 // });
 
+const weAreDebugging = require('./lib/helpers/we-are-debugging');
+
+if(weAreDebugging){
+  console.log(' => Suman is in debug mode (we are debugging).');
+}
+else{
+  console.log(' => Suman is *not* in debug mode (we are debugging).');
+}
+
 /////////////////////////////////////////////////////////////////
 
 function handleExceptionsAndRejections () {

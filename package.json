@@ -5,8 +5,7 @@
   "scripts": {
     "test": "suman test/testsrc/es5-es6/ -r",
     "postinstallX": "node scripts/create-suman-dir.js && node scripts/create-suman-alias.js && source ~/.bash_profile",
-    "merge": "git merge -Xignore-all-space",
-    "debug_mocha": "node-debug _mocha --no-timeouts "
+    "merge": "git merge -Xignore-all-space"
   },
   "author": "Olegzandr Denman",
   "license": "ISC",
@@ -79,6 +78,7 @@
   "bin": {
     "suman": "index.js",
     "suman-debug": "index-debug.js",
+    "suman--debug": "index--debug.js",
     "suman-babel": "index-babel.js",
     "suman-inspect": "index-inspect.js",
     "suman-troubleshoot": "index-troubleshoot.js"
