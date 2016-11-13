@@ -51,10 +51,6 @@ if suman.once.js does not exist, simply log an error, right now we throw an erro
 
 ////
 
-TODO: suman_extraneous_executable should become global not env var, so that in child processes it is not set,
-if it is set in CPs, then they can require the index file, which is exactly what we want to avoid!
-
-//////
 
 TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
 TODO: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/tes-t7-start.test.js
@@ -116,10 +112,6 @@ TODO: regexes seem to match against test-target instead of test-src etc?
 
 ///////////
 
-//TODO: interactive shell with suman?  suman --interactive
-
-///////////////
-
 add "append-match-none"
 
 /////////////
@@ -129,11 +121,6 @@ then we need to point sumanHelpersDir to the target directory. Basically, whenev
 that will get transpiled/moved, we have to update location.
 
 /////////////
-
-Test errors do not necessarily lead to 56 exit codes, e.g. =>
-/Users/t_millal/WebstormProjects/oresoftware/pragmatik/test/test-src/parse-to-array/five.test.js
-
-///////////////
 
 --errors-only should be readline/clearLine so pass count simply goes up
 
@@ -207,9 +194,6 @@ if they use two SIGINTs, then shutdown immediately.
 
 ///////////
 
-high priority - in runner for "test fail", need to print path of test file also
-
-////////////
 
 error should be thrown for any key/values passed to suman.init(module,{
    x: 'y'
@@ -311,25 +295,6 @@ http://superuser.com/questions/149312/how-to-set-processor-affinity-on-os-x
 
 //////////////////////////////
 
-if you run suman in the wrong project, the cwd and the test file argument will be for different projects
-
-///////////////////////////////
-
-cwd /Users/Olegzandr/WebstormProjects/a && suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integration_test.js
-
- ⚑  => Suman fatal error  => making a graceful exit =>
-        Error:  => Suman error => Error acquiring IOC deps =>
-        Error: The following desired dependency is not in your suman.ioc.js file: "burro"
-         => ...your available dependencies are: [ "william" , "should" , "request" , "socketio" , "choodles" , "roodles" , "whoa" , "cherry" ]
-            at deps.forEach.dep (/Users/Olegzandr/WebstormProjects/suman/lib/suman.js:95:23)
-            at Array.forEach (native)
-            at Suman.acquire (/Users/Olegzandr/WebstormProjects/suman/lib/suman.js:66:15)
-            at /Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:184:13
-            at _combinedTickCallback (internal/process/next_tick.js:67:7)
-
-
-  /////////////////
-
   3 diagrams, 1 for node a.test.js, 1 for suman a.test.js, 1 for suman --runner a.test.js
 
   draw a node green arrow through a test script
@@ -366,11 +331,8 @@ Error: desc is not a string
 //TODO: https://www.vagrantup.com/
 //TODO: https://blog.codeship.com/cross-platform-docker-development-environment/
 //TODO: http://nathanleclaire.com/blog/2014/07/12/10-docker-tips-and-tricks-that-will-make-you-sing-a-whale-song-of-joy/
-
 //TODO: http://stackoverflow.com/questions/8173232/make-exe-files-from-node-js-app
 //TODO: create binary of suman project for speed?
-
-
 //TODO: assert that rootDir is the same as cd'ing two directories higher than suman/index.js
 
 
@@ -388,7 +350,6 @@ Error: desc is not a string
 //TODO: monkey patch process.exit
 //TODO: in before/after hooks, we should be able to access t.data and pass that to all tests?
 //TODO: when re-initting suman and potentially overwriting existing suman files, mv the current suman folder to root and
-//rename suman-tmp or what not
 //TODO: draw data => picture showing ioc injecting data into multiple tests
 //TODO: draw data => picture showing data being passed directly to beforeEach and back
 //TODO: chsh -s /bin/bash
@@ -513,7 +474,6 @@ which items will be converted to where
 //TODO: assert title/desc.lenght of root test suite is > 0
 //TODO: fatal error in hook should have hook name if it exists
 //TODO: outputDir: path.resolve(process.env[(process.platform === 'win32' ? 'USERPROFILE' : 'HOME')] + '/suman/suman_results')
-//TODO: invert socketio, so that the servers are the clients, and the command line app is the server, and can broacast
 //TODO: need to add chmod to suman_results and/or suman dirs
 //TODO: need to add "need your help with mocha conversion" to end of slideshow, and babel plugin for that
 //TODO: need to add write to suman server to readme table
