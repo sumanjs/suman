@@ -4,6 +4,9 @@ const Test = suman.init(module, {});
 
 Test.describe(__filename, {}, function (assert) {
 
+
+    debugger;
+
     this.before(t => {
         console.error('before a');
     });

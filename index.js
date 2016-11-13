@@ -25,12 +25,11 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
 
 const weAreDebugging = require('./lib/helpers/we-are-debugging');
 
-if(weAreDebugging){
+if (weAreDebugging) {
   console.log(' => Suman is in debug mode (we are debugging).');
+  console.log(' => Process PID => ', process.pid);
 }
-else{
-  console.log(' => Suman is *not* in debug mode (we are debugging).');
-}
+
 
 /////////////////////////////////////////////////////////////////
 
@@ -145,8 +144,6 @@ if (!projectRoot) {
   return;
 }
 
-
-
 ////////////////////////////////////////////////////////////////////
 
 const opts = global.sumanOpts = require('./lib/parse-cmd-line-opts/parse-opts');
@@ -157,7 +154,6 @@ if (opts.verbose) {
 }
 
 ////////////////////////////////////////////////////////////////////
-
 
 if (cwd !== projectRoot) {
   if (!opts.vsparse) {
@@ -175,7 +171,6 @@ else {
     console.log(colors.magenta(' => cwd:', cwd));
   }
 }
-
 
 const viaSuman = global.viaSuman = true;
 const resultBroadcaster = global.resultBroadcaster = global.resultBroadcaster || new EE();
@@ -217,7 +212,6 @@ var sumanInstalledLocally = null;
 var originalTranspileOption = opts.transpile;
 var sumanInstalledAtAll = null;
 var sumanServerInstalled = null;
-
 
 if (!init) {
   var err1, err2;
@@ -331,11 +325,11 @@ else {
     catch (err) {
 
       if (!uninstall) {
-        if(String(err.stack || err).match(/Cannot find module\.*suman\.conf\.js/)){
+        if (String(err.stack || err).match(/Cannot find module\.*suman\.conf\.js/)) {
           throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
             'found in the root of your project.\n  ' + (err.stack || err));
         }
-        else{
+        else {
           throw new Error(' => Suman usage error => There was an error loading your suman.conf.js file =>\n ' + (err.stack || err));
         }
 
@@ -513,7 +507,7 @@ process.env.TEST_TARGET_DIR = path.resolve(projectRoot + '/' + (global.sumanConf
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-if(interactive){
+if (interactive) {
   require('./lib/interactive');
 }
 else if (uninstallBabel) {
