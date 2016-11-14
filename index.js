@@ -100,7 +100,7 @@ const _ = require('lodash');
 //#project
 const constants = require('./config/suman-constants');
 const sumanUtils = require('suman-utils/utils');
-const ascii = require('./lib/helpers/ascii');
+
 
 ////////////////////////////////////////////////////////////////////
 

@@ -5,6 +5,10 @@ add suman-debug / suman--debug  --paths=["a.js","b.js"]
 
 /////////
 
+update visit *** (every sequence of *** is a future hyperlink that needs filling in)
+
+///////
+
 TODO:
 
 run tests
