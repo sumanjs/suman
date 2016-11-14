@@ -14,6 +14,9 @@ debug tests
 run tests with test coverage
 watch project and run/transpile tests on changes
 
+///////
+
+https://github.com/nodejs/help/issues/363#issuecomment-260213843
 
 ////////
 
