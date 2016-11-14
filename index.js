@@ -30,7 +30,6 @@ if (weAreDebugging) {
   console.log(' => Process PID => ', process.pid);
 }
 
-
 /////////////////////////////////////////////////////////////////
 
 function handleExceptionsAndRejections () {
@@ -561,9 +560,7 @@ else if (watch) {
 
 else {
 
-  console.log(ascii.suman_slant, '\n');
-
   //we do some work here
-  require('./lib/run')(opts, paths, sumanServerInstalled, originalTranspileOption);
+  require('./lib/run')(opts, paths, sumanServerInstalled, originalTranspileOption, sumanVersion);
 
 }
