@@ -18,6 +18,10 @@ watch project and run/transpile tests on changes
 
 ///////
 
+https://nodejs.org/api/tty.html
+http://stackoverflow.com/questions/24582183/how-to-stream-to-from-a-file-descriptor-in-node
+https://github.com/nodejs/help/issues/365#issuecomment-260574249
+https://github.com/nodejs/help/issues/366#issuecomment-260749863
 https://github.com/nodejs/help/issues/363#issuecomment-260245021
 https://github.com/nodejs/help/issues/363#issuecomment-260213843
 
