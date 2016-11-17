@@ -43,6 +43,7 @@ module.exports = Object.freeze({
     suppressRunnerOutput: true,         // this defaults to true, use no-silent or silent to switch value
 
     //integers
+
     verbosity: 5,
     maxParallelProcesses: Math.max(6, numOfCPUs),           //maximum parallel processes running at one time, synonymous with --concurrency cmd line option
     resultsCapCount: 100,               // test results will be deleted if they are 101st oldest run

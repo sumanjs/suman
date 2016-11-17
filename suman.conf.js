@@ -26,7 +26,7 @@ module.exports = Object.freeze({
     suppressRunnerOutput: true,
     resultsCapSize: 7000, // 3 gb's,
 
-    //
+    /////////
 
     watch: {
         '//tests': {
@@ -38,7 +38,7 @@ module.exports = Object.freeze({
         },
 
         '//project': {
-            script: 'suman',
+            script: 'suman --no-color',
             include: ['.'],
             exclude: []
         },
@@ -77,10 +77,10 @@ module.exports = Object.freeze({
             host: '172.20.3.31',
             port: 6969,
         },
-        'Alexanders-MacBook-Pro.local': {
-            host: 'localhost',
-            port: 6969
-        }
+        // 'Alexanders-MacBook-Pro.local': {
+        //     host: 'localhost',
+        //     port: 6969
+        // }
     }
 
 });

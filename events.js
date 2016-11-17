@@ -89,6 +89,20 @@ const events = module.exports = Object.freeze({
 
 
   // perennial events
+  USING_SERVER_MARKED_BY_HOSTNAME: {
+    explanation: 'Using server marked by hostname, matched with a property on your "servers" property in your config.',
+    toString: makeToString('USING_SERVER_MARKED_BY_HOSTNAME')
+  },
+  USING_FALLBACK_SERVER: {
+    explanation: 'Using fallback server which is hardcoded in the suman project, with localhost and port 6969.',
+    toString: makeToString('USING_FALLBACK_SERVER')
+  },
+
+  USING_DEFAULT_SERVER: {
+    explanation: 'Using default server marked by "*default" on your servers property in your suman.conf.js file.',
+    toString: makeToString('USING_DEFAULT_SERVER')
+  },
+
   TEST_CASE_STUBBED: {
     explanation: 'runner is started, fires before any test child processes are started.',
     toString: makeToString('TEST_CASE_STUBBED')
