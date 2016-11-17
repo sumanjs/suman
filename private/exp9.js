@@ -1,8 +1,11 @@
 
 
-const cp = require('child_process');
-const util = require('util');
+const a = [1,2,3,4,5];
 
-const tty = String(cp.execSync('tty', {stdio:['inherit','pipe','pipe']})).trim();
 
-console.log(util.inspect(tty));
+const b = a.reduce(function(prev,curr){
+    console.log('prev:',prev,'curr:',curr);
+     return prev + curr;
+},0);
+
+console.log('b:',b);
