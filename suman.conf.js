@@ -38,8 +38,8 @@ module.exports = Object.freeze({
         },
 
         '//project': {
-            script: 'suman --no-color',
-            include: ['.'],
+            script: 'suman --no-color test/testsrc/es5-es6/integration-tests',
+            include: [__dirname],
             exclude: []
         },
     },
