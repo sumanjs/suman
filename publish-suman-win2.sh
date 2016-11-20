@@ -31,7 +31,8 @@ git commit --allow-empty -am "publish/release:$1" &&
 git push &&                                                      # push to private/dev remote repo
 git checkout dev_squash &&                                       # we do squashing on this branch
 git merge dev -m "squashing" &&
-git reset --soft $(git describe --tags) &&
+#git reset --soft $(git describe --tags) &&
+git rebase $(git describe --tags) &&
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
@@ -42,10 +43,7 @@ git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
-git rebase $(git describe --tags) &&
-git add . &&
-git add -A &&
-git commit --allow-empty -am "publish/release:$1" &&
+#git rebase $(git describe --tags) &&
 git push public HEAD:master -f &&
 git checkout dev &&
 git branch -D temp &&
