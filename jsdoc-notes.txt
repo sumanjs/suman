@@ -2,7 +2,7 @@
 http://www.fusioncharts.com/blog/2014/06/extend-jsdoc-api-documentation-through-tutorials/
 
 
-//////
+////////
 => Close and reopen your terminal to start using nvm / Suman
 
 >>>>>> http://stackoverflow.com/questions/36782467/set-subdirectory-as-website-root-on-github-pages
