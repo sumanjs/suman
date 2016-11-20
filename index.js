@@ -297,7 +297,7 @@ if (opts.watch && opts.stop_watching) {
 
 if (init) {
   global.usingDefaultConfig = true;
-  sumanConfig = {};
+  sumanConfig = global.sumanConfig = {};
 }
 else {
   try {

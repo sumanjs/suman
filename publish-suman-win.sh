@@ -42,6 +42,10 @@ git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
+git reset --soft $(git describe --tags) &&
+git add . &&
+git add -A &&
+git commit --allow-empty -am "publish/release:$1" &&
 git push public HEAD:master -f &&
 git checkout dev &&
 git branch -D temp &&
