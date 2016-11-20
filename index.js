@@ -383,7 +383,10 @@ const sumanHelpersDir = global.sumanHelperDirRoot = path.resolve(projectRoot + '
 const logDir = path.resolve(global.sumanHelperDirRoot + '/logs');
 
 //ensure that sumanHelpersDir exists and create logs dir if it does not (maybe got deleted)
-require('./lib/helpers/create-helpers-logs')(sumanHelpersDir, logDir);
+if(!init){
+  require('./lib/helpers/create-helpers-logs')(sumanHelpersDir, logDir);
+}
+
 
 ////////////// matching ///////////
 

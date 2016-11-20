@@ -623,11 +623,10 @@ which items will be converted to where
  }
 
 
-//TODO: if parent is parallel, it test cases don't seem to run in parallel
-//TODO: if callback is called twice in hook or test, ignore the second, just throw an error
 //TODO: move to lodash, ditch underscore
 //TODO: use fs.createReadStream to check files to see if they are actually Suman tests in safe mode
-//TODO: need to check to make sure the tests have different names, before running (namespace can have filepath in front to prevent clashing)
+
+
 //TODO: note: https://www.npmjs.com/package/gulp-mocha
 //TODO: use Object.defineProperties for read-only
 //TODO:  Future development - suman.groups.js / observable support
