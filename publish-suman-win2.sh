@@ -42,7 +42,7 @@ git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
-git rebase HEAD~100 &&
+git rebase HEAD~50 &&
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
