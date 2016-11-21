@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.512176",
+  "version": "1.1.512177",
   "main": "lib/index.js",
   "scripts": {
     "test": "suman test/testsrc/es5-es6/ -r",
