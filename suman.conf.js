@@ -26,7 +26,7 @@ module.exports = Object.freeze({
     suppressRunnerOutput: true,
     resultsCapSize: 7000, // 3 gb's,
 
-    ///////
+    /////////
 
     watch: {
         '//tests': {
