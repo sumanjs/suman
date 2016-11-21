@@ -29,7 +29,7 @@ git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
 git push &&                                                      # push to private/dev remote repo
-git checkout dev_squash2 $(git describe --tags --abbrev=0) &&    # we do squashing on this branch
+git checkout dev_squash2 $(git describe --tags --abbrev=0 --match xyz) &&    # we do squashing on this branch
 git merge --squash dev -m "squashing" &&
 git add . &&
 git add -A &&
