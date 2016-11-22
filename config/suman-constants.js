@@ -77,7 +77,7 @@ module.exports = Object.freeze({
     WHOLE_TEST_SUITE_SKIPPED: 0,
     GREP_SUITE_DID_NOT_MATCH: 0,
     SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT: 50,
-    SUMAN_PRE_DOES_NOT_EXPORT_FUNCTION: 51,
+    SUMAN_HELPER_FILE_DOES_NOT_EXPORT_EXPECTED_FUNCTION: 51,
     BAD_GREP_SUITE_OPTION: 52,
     SUMAN_UNCAUGHT_EXCEPTION: 53,
     BAD_CONFIG_OR_PROGRAM_ARGUMENTS: 54,
@@ -202,10 +202,14 @@ module.exports = Object.freeze({
       default: '(not received)',
       allowEmptyString: true
     },
-    TEST_SUITE_MILLIS: {
+    TEST_FILE_MILLIS: {
       name: 'millis',
       default: null
     },
+    // TEST_SUITE_MILLIS: {
+    //   name: 'suite max millis',
+    //   default: null
+    // },
     TEST_SUITE_EXIT_CODE: {
       name: 'exit-code',
       default: '-'
