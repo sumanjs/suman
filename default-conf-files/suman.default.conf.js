@@ -17,8 +17,8 @@ module.exports = Object.freeze({
 
     //string
     testDir: 'test',
-    testSrcDir: 'test/test-src',
-    testTargetDir: 'test/test-target',
+    testSrcDir: 'test',                        // recommended that you create a test/test-src directory
+    testTargetDir: 'test-target',              // recommended to transpile to test/test-target directory
     sumanHelpersDir: 'suman',
     uniqueAppName: pckgDotJson.name || '',
     browser: 'Firefox',                 // browser to open test results with
@@ -43,7 +43,6 @@ module.exports = Object.freeze({
     suppressRunnerOutput: true,         // this defaults to true, use no-silent or silent to switch value
 
     //integers
-
     verbosity: 5,
     maxParallelProcesses: Math.max(6, numOfCPUs),           //maximum parallel processes running at one time, synonymous with --concurrency cmd line option
     resultsCapCount: 100,               // test results will be deleted if they are 101st oldest run

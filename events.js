@@ -172,7 +172,7 @@ const events = module.exports = Object.freeze({
 
 
 
-//validate
+// validate all of the above
 Object.keys(events).forEach(function (k) {
 
   const ev = events[ k ];

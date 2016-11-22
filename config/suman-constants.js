@@ -202,10 +202,14 @@ module.exports = Object.freeze({
       default: '(not received)',
       allowEmptyString: true
     },
-    TEST_SUITE_MILLIS: {
+    TEST_FILE_MILLIS: {
       name: 'millis',
       default: null
     },
+    // TEST_SUITE_MILLIS: {
+    //   name: 'suite max millis',
+    //   default: null
+    // },
     TEST_SUITE_EXIT_CODE: {
       name: 'exit-code',
       default: '-'

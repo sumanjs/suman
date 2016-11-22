@@ -29,7 +29,8 @@ Test.describe('2', {}, function (assert) {
     this.before.cb(t => {
         console.log('before a');
         setTimeout(function(){
-            throw new Error('oh shit');
+            // throw new Error('oh shit');
+            t.done();
         },1000);
     });
 

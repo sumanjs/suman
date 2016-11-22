@@ -101,7 +101,6 @@ const _ = require('lodash');
 const constants = require('./config/suman-constants');
 const sumanUtils = require('suman-utils/utils');
 
-
 ////////////////////////////////////////////////////////////////////
 
 if (process.env.SUMAN_DEBUG === 'yes') {
@@ -329,7 +328,8 @@ else {
             'found in the root of your project.\n  ' + (err.stack || err));
         }
         else {
-          throw new Error(' => Suman usage error => There was an error loading your suman.conf.js file =>\n ' + (err.stack || err));
+          throw new Error(colors.red(' => Suman usage error => There was an error loading your suman.conf.js file =>')
+            + '\n ' + (err.stack || err));
         }
 
       }
@@ -383,10 +383,9 @@ const sumanHelpersDir = global.sumanHelperDirRoot = path.resolve(projectRoot + '
 const logDir = path.resolve(global.sumanHelperDirRoot + '/logs');
 
 //ensure that sumanHelpersDir exists and create logs dir if it does not (maybe got deleted)
-if(!init){
+if (!init) {
   require('./lib/helpers/create-helpers-logs')(sumanHelpersDir, logDir);
 }
-
 
 ////////////// matching ///////////
 
