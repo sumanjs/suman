@@ -6,6 +6,15 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 
 ///////////////////////////////////////////////////////////////////
 
+//
+// for debugging:
+
+// Object.defineProperty(global, 'integPath', {
+//    set: function(){
+//      console.error(new Error('integPath set').stack);
+//    }
+// });
+
 if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes') {
   //prevents users from f*king up by accident and getting in some possible infinite process-spawn
   //loop that will lock up their entire system
@@ -206,66 +215,14 @@ const uninstallBabel = opts.uninstall_babel;
 //re-assignable
 var register = opts.register;
 var transpile = opts.transpile;
-var sumanInstalledLocally = null;
 var originalTranspileOption = opts.transpile;
+
+//////////////////////////////////
+var sumanInstalledLocally = null;
 var sumanInstalledAtAll = null;
 var sumanServerInstalled = null;
+///////////////////////////////////
 
-if (!init) {
-  var err1, err2;
-
-  try {
-    require.resolve(projectRoot + '/node_modules/suman');
-    sumanInstalledLocally = true;
-  } catch (e) {
-    err1 = e;
-  }
-  finally {
-    if (err1) {
-      sumanInstalledLocally = false;
-      if (!opts.sparse) {
-        console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"'));
-      }
-    }
-    else {
-      if (false) {  //only if user asks for verbose option
-        console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
-      }
-    }
-  }
-
-  try {
-    require.resolve('suman');
-    sumanInstalledAtAll = true;
-  } catch (e) {
-    err1 = e;
-  }
-  finally {
-    if (err1) {
-      sumanInstalledAtAll = false;
-      if (!opts.sparse || true) {
-        console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed at all, you may wish to run "$ suman --init"'));
-      }
-    }
-    else {
-      if (opts.verbose) {  //only if user asks for verbose option
-        console.log(' ' + colors.yellow('=> Suman message => Suman appears to be installed locally.'));
-      }
-    }
-  }
-
-  try {
-    require.resolve(projectRoot + '/node_modules/suman-server');
-    sumanServerInstalled = true;
-  }
-  catch (err) {
-    sumanServerInstalled = false;
-    if (opts.verbose) {
-      console.log(' ' + colors.yellow('=> Suman verbose message => note that "suman-server" package is not yet installed.'));
-    }
-  }
-
-}
 
 if (opts.version) {
   console.log(' => Node.js version:', process.version);
@@ -341,24 +298,24 @@ else {
         };
       }
 
-      // console.log(colors.bgCyan.white(' => Suman message => Warning - no configuration found in your project, ' +
-      //     'using default Suman configuration.'));
-      // try {
-      //     pth = path.resolve(__dirname + '/default-conf-files/suman.default.conf.js');
-      //     sumanConfig = require(pth);
-      //     global.usingDefaultConfig = true;
-      // }
-      // catch (err) {
-      //     console.error('\n => ' + err + '\n');
-      //     return;
-      // }
+      // note that we used to use to fallback on default configuration, but now we don't anymore
     }
   }
 }
 
 if (process.env.SUMAN_DEBUG === 'yes') {
-  console.log(' => Suman configuration (suman.conf.js) =>\n\n', util.inspect(sumanConfig));
+  console.log(' => Suman configuration (suman.conf.js) => \n\n', util.inspect(sumanConfig));
 }
+
+if (!init) {
+  const installObj = require('./lib/helpers/determine-if-suman-is-installed')(sumanConfig, opts);
+  sumanInstalledAtAll = installObj.sumanInstalledAtAll;
+  sumanServerInstalled = installObj.sumanServerInstalled;
+  sumanInstalledLocally = installObj.sumanInstalledLocally;
+}
+
+const sumanPaths = require('./lib/helpers/resolve-shared-dirs')(sumanConfig, projectRoot);
+const sumanObj = require('./lib/helpers/load-shared-objects')(sumanPaths, projectRoot);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -375,19 +332,13 @@ if (sumanConfig.transpile === true && sumanConfig.useBabelRegister === true) {
 ///////////////////// HERE WE RECONCILE / MERGE COMMAND LINE OPTS WITH CONFIG ///////////////////////////
 
 if ('concurrency' in opts) {
-  assert(Number(opts.concurrency) > 0, ' => Suman error => --concurrency value should be an integer greater than 0.');
+  assert(Number.isInteger(opts.concurrency) && Number(opts.concurrency) > 0,
+    colors.red(' => Suman error => "--concurrency" option value should be an integer greater than 0.'));
 }
 
 global.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
-const sumanHelpersDir = global.sumanHelperDirRoot = path.resolve(projectRoot + '/' + (sumanConfig.sumanHelpersDir || 'suman'));
-const logDir = path.resolve(global.sumanHelperDirRoot + '/logs');
 
-//ensure that sumanHelpersDir exists and create logs dir if it does not (maybe got deleted)
-if (!init) {
-  require('./lib/helpers/create-helpers-logs')(sumanHelpersDir, logDir);
-}
-
-////////////// matching ///////////
+/////////////////////// matching ///////////////////////////////////////
 
 const sumanMatchesAny = (matchAny || []).concat(sumanConfig.matchAny || [])
   .map(item => (item instanceof RegExp) ? item : new RegExp(item));
@@ -477,7 +428,7 @@ if (optCheck.length > 1) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-require('./lib/reporters/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
+require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
 
 resultBroadcaster.emit('node-version', nodeVersion);
 resultBroadcaster.emit('suman-version', sumanVersion);
@@ -498,15 +449,6 @@ if (opts.verbose) {
       'default to running tests from the "testSrc" directory (defined in your suman.conf.js file).');
   }
 }
-
-/////////////////// assign vals from config ////////////////////////////////////////////////
-
-//TODO possibly reconcile these with cmd line options
-process.env.TEST_DIR = path.resolve(projectRoot + '/' + (global.sumanConfig.testDir || 'test'));
-process.env.TEST_SRC_DIR = path.resolve(projectRoot + '/' + (global.sumanConfig.testSrcDir || 'test/test-src'));
-process.env.TEST_TARGET_DIR = path.resolve(projectRoot + '/' + (global.sumanConfig.testTargetDir || 'test/test-target'));
-
-////////////////////////////////////////////////////////////////////////////////////////////
 
 if (interactive) {
   require('./lib/interactive');

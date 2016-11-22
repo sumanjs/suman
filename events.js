@@ -1,7 +1,11 @@
 'use striiiict';
 
-
+//core
 const assert = require('assert');
+
+//npm
+const colors = require('colors/safe');
+
 
 function makeToString (val) {
   return function () {
@@ -177,11 +181,11 @@ Object.keys(events).forEach(function (k) {
 
   const ev = events[ k ];
   const toStr = String(ev);
-  assert(ev.explanation.length > 50, ' => Please provide a more detailed explanation for the event.');
+  assert(ev.explanation.length > 50, colors.red(' => Please provide a more detailed explanation for the event.'));
 
   if (toStr !== k) {
-    throw new Error(' => Suman implementation error => toString() on events object is' +
-      ' not expected value for key => "' + k + '",\ntoString() val is => ' + toStr);
+    throw new Error(colors.red(' => Suman implementation error => toString() on events object is' +
+      ' not expected value for key => "' + k + '",\ntoString() val is => ' + toStr));
   }
 });
 

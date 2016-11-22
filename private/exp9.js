@@ -1,3 +1,9 @@
+var a = [];
 
+const b = a.slice(0);
 
-console.log(Date.now());
+const c = b;
+
+console.log(a === b);
+
+console.log(c === b);
