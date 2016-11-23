@@ -1,5 +1,15 @@
 
-////////
+//////////
+
+#!/usr/bin/env node -- --inspect
+https://github.com/creationix/nvm/issues/1318#event-869975010
+
+///////////
+
+global vs. local => create a cli-finder.js file that can search and find the local suman installation instead
+of running the global code.
+
+///////////
 
 should node --inspect / suman-inspect only be for one file (not --inspecting the runner)?
 

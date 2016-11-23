@@ -7,11 +7,11 @@ const fs = require('fs');
 //project
 const sumanUtils = require('suman-utils/utils');
 
+
+///////////////////////////////////////////////////////////////////////////
+
 const userHomeDir = path.resolve(sumanUtils.getHomeDir());
-
-
 const p = path.resolve(userHomeDir + '/.suman');
-
 const findSumanExec = path.resolve(p + '/find-suman-executable.js');
 const fileToWrite = fs.readFileSync(require.resolve('./find-suman-executable.js'));
 
