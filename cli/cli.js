@@ -124,7 +124,7 @@ console.log(' => Node.js version:', nodeVersion);
 ////////////////////////////////////////////////////////////////////
 
 const pkgJSON = require('../package.json');
-const sumanVersion = pkgJSON.version;
+const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
 console.log(colors.yellow.italic(' => Suman v' + sumanVersion + ' running...'));
 
 ////////////////////////////////////////////////////////////////////

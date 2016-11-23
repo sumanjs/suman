@@ -9,7 +9,7 @@ const sumanUtils = require('suman-utils/utils');
 const bashProfileFile = path.resolve(sumanUtils.getHomeDir() + '/.bash_profile');
 // const cmd = 'alias suman="./node_modules/.bin/suman"';
 
-const cmd = 'alias suman="echo suman-alias-running && node $(node $HOME/.suman/find-suman-executable.js)"';
+const cmd = 'alias suman="echo suman-alias-running && node $(node $HOME/.suman/find-local-suman-executable.js)"';
 
 fs.readFile(bashProfileFile, function (err, contents) {
     if (err) {
