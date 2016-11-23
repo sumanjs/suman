@@ -93,6 +93,77 @@ shouldn't an error happen?
 
 ////////
 
+https://bbs.archlinux.org/viewtopic.php?id=168479
+
+
+////////////////
+
+
+make sure falsy is ok, 0 exit codes passed to t.done() should not fail test.
+
+
+/////////////////
+
+
+should --force allow us to use the current working directory as root?
+
+Alexanders-MacBook-Pro:suman-test-projects Olegzandr$ suman test-all.js
+ => Node.js version: v7.0.0
+ => Suman v1.1.512181 running...
+ => Warning => A NPM/Node.js project root could not be found given your current working directory.
+ => cwd: /Users/Olegzandr/WebstormProjects/oresoftware/suman-test-projects
+ => Please execute the suman command from within the root of your project.
+
+
+/////////////////
+
+if sumanOpts.strict => then we fail early if certain files don't exist, like certain suman helpers files
+
+alternatively it could be strict = !lax
+
+//////////
+
+
+these items are appended multiple times in gitignore file:
+
+*suman/logs/
+test-target/
+
+*suman/logs/
+test-target/
+
+*suman/logs/
+test-target/
+
+*suman/logs/
+test-target/
+
+*suman/logs/
+test-target/
+
+*suman/logs/
+test-target/
+
+
+
+////////
+
+//TODO: make this path reference the resolved paths in the resolved paths module
+        const globalHooks = require(path.resolve(global.sumanHelperDirRoot + '/suman.hooks.js'));
+        //in create-suman-runner =>
+         const orderPath = path.resolve(global.sumanHelperDirRoot + '/suman.order.js');
+
+//////////
+
+TODO: we need to create shared suman-config loading file so that in index and lib/index it uses same logic
+
+/////////
+
+when running node index.js, all we get is: https://www.dropbox.com/s/ut1ndbq1mfsjhjg/Screenshot%202016-11-21%2019.42.30.png?dl=0
+shouldn't an error happen?
+
+////////
+
 add suman-debug / suman--debug  --paths=["a.js","b.js"]
 
 /////////
