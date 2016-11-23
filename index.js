@@ -1,19 +1,10 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node
 
 ///////////////////////////////////////////////////////////////////
 
 debugger;  //leave here forever so users can easily debug with "node --inspect" or "node debug"
 
 ///////////////////////////////////////////////////////////////////
-
-//
-// for debugging:
-
-// Object.defineProperty(global, 'integPath', {
-//    set: function(){
-//      console.error(new Error('integPath set').stack);
-//    }
-// });
 
 if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes') {
   //prevents users from f*king up by accident and getting in some possible infinite process-spawn
@@ -43,7 +34,7 @@ if (weAreDebugging) {
 
 function handleExceptionsAndRejections () {
 
-  if (global.sumanOpts && (global.sumanOpts.ignoreUncaughtExceptions || global.sumanOpts.ignoreUnhandledRejections)) {
+  if (global.sumanOpts && (global.sumanOpts.ignore_uncaught_exceptions || global.sumanOpts.ignore_unhandled_rejections)) {
     console.error('\n => uncaughtException occurred, but we are ignoring due to the ' +
       '"--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" flag(s) you passed.');
   }
@@ -89,6 +80,7 @@ process.on('unhandledRejection', function (err) {
 
 });
 
+//core
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -99,14 +91,14 @@ const assert = require('assert');
 const EE = require('events');
 const util = require('util');
 
-//#npm
+//npm
 const semver = require('semver');
 const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
 const _ = require('lodash');
 
-//#project
+//project
 const constants = require('./config/suman-constants');
 const sumanUtils = require('suman-utils/utils');
 
@@ -142,13 +134,22 @@ const cwd = process.cwd();
 ////////////////////////////////////////////////////////////////////
 
 const sumanExecutablePath = global.sumanExecutablePath = process.env.SUMAN_EXECUTABLE_PATH = __filename;
-const projectRoot = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = sumanUtils.findProjectRoot(cwd);
+var projectRoot = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = sumanUtils.findProjectRoot(cwd);
+
+const cwdAsRoot = process.argv.indexOf('--cwd-is-root') > -1;
 
 if (!projectRoot) {
-  console.log(' => Warning => A NPM/Node.js project root could not be found given your current working directory.');
-  console.log(colors.bgRed.white.bold(' => cwd:', cwd, ' '));
-  console.log(' => Please execute the suman command from within the root of your project.\n\n');
-  return;
+  if (!cwdAsRoot) {
+    console.log(' => Warning => A NPM/Node.js project root could not be found given your current working directory.');
+    console.log(colors.bgRed.white.bold(' => cwd:', cwd, ' '));
+    console.log(' => Please execute the suman command from within the root of your project.\n\n');
+    console.log(colors.green(' => (Perhaps you should run "npm init" before running "suman --init", ' +
+        'which will create a package.json file for you at the root of your project.).') + '\n\n');
+    return;
+  }
+  else {
+    projectRoot = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = cwd;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -164,8 +165,9 @@ if (opts.verbose) {
 
 if (cwd !== projectRoot) {
   if (!opts.vsparse) {
-    console.log(' => CWD is not equal to project root:', cwd);
-    console.log(' => Project root:', projectRoot);
+    console.log(' => Note that your current working directory is not equal to the project root:');
+    console.log(' => cwd:', colors.magenta(cwd));
+    console.log(' => Project root:', colors.magenta(projectRoot));
   }
 }
 else {
@@ -222,7 +224,6 @@ var sumanInstalledLocally = null;
 var sumanInstalledAtAll = null;
 var sumanServerInstalled = null;
 ///////////////////////////////////
-
 
 if (opts.version) {
   console.log(' => Node.js version:', process.version);
@@ -426,7 +427,7 @@ if (optCheck.length > 1) {
   return;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////// load reporters  ////////////////////////////////////////////////////
 
 require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
 
@@ -488,23 +489,18 @@ else if (uninstall) {
 
 }
 else if (convert) {
-
   require('./lib/helpers/convert-mocha')(projectRoot, src, dest, force);
 
-} else if (s) {
-
+}
+else if (s) {
   require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
-
 }
 else if (watch) {
-
   require('./lib/helpers/watch-init')(paths, sumanServerInstalled);
-
 }
 
 else {
-
-  //we do some work here
+  //this path runs all tests
   require('./lib/run')(opts, paths, sumanServerInstalled, originalTranspileOption, sumanVersion);
 
 }
