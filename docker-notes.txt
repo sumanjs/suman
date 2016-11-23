@@ -1,0 +1,20 @@
+
+
+docker-machine create -d virtualbox default
+
+eval "$(docker-machine env default)"
+
+docker run hello-world
+
+https://hub.docker.com/_/node/
+
+docker build -t suman-installation-test .
+docker run -it --rm suman-installation-test
+
+http://stackoverflow.com/questions/31578446/running-a-script-inside-a-docker-container-using-shell-script
+
+>>>> docker exec mycontainer /path/to/test.sh
+
+
+# docker stop $(docker ps -a -q)
+# docker rm $(docker ps -a -q)

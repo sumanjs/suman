@@ -1,4 +1,7 @@
-/**
- * Created by Olegzandr on 11/20/16.
- */
 
+
+setInterval(function(){
+
+  console.log('Docker kinda blows sometimes.');
+
+},5000);
