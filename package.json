@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.512183",
+  "version": "1.1.512184",
   "main": "lib/index.js",
   "scripts": {
     "test": "suman test/testsrc/es5-es6/ -r",
@@ -32,7 +32,7 @@
     "make-beep": "0.0.1",
     "net-ping": "^1.1.12",
     "node-progress-bars": "^1.0.0",
-    "pragmatik": "0.0.404",
+    "pragmatik": "0.0.405",
     "progress": "^1.1.8",
     "prompt": "^1.0.0",
     "request": "^2.76.0",
