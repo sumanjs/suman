@@ -8,46 +8,28 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
-### start of the end ###
-git remote add public git@github.com:ORESoftware/suman.git  # https://github.com/ORESoftware/suman.git might already exist which is bad but OK
-git fetch public &&
+
+npm version patch --force -m "Upgrade for several reasons" &&    # bump version
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
-git push &&
-git checkout -b devtemp &&
-./delete-internal-paths.sh &&
-git add . &&
-git add -A &&
-git commit -am "publish/release:$1" &&
-git checkout -b temp public/master &&
-# we make sure we can merge automatically before patching version
-git merge -Xtheirs --squash -m "squashed with devtemp" devtemp &&
-git checkout dev -f &&
-git branch -D temp devtemp &&
-
-
-npm version patch --force -m "Upgrade for several reasons" && # bump version
+git push &&                                                      # push to private/dev remote repo
+git checkout dev_squash2  &&    # we do squashing on this branch
+git merge --squash -Xtheirs dev -m "squashing" &&
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
-git push &&
-git checkout -b devtemp &&
+git checkout -b temp  &&                                          # we checkout this branch to run deletes on private files
 ./delete-internal-paths.sh &&
-git add . &&
-git add -A &&
-git commit -am "publish/release:$1" &&
-git checkout -b temp public/master &&
-git merge -Xtheirs --squash -m "squashed with devtemp" devtemp &&
 git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&
-git commit -am "publish/release:$1" &&
-git push public temp:master &&
-git remote rm public &&
+git commit --allow-empty -am "publish/release:$1" &&
+#git rebase $(git describe --tags) &&
+git push public HEAD:master -f &&
+npm publish . &&
 git checkout dev &&
-git branch -D devtemp &&
-git branch -D temp &&
-npm publish .
+git branch -D temp
+
 
 

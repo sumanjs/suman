@@ -1,11 +1,17 @@
 
 ////////
 
-https://bbs.archlinux.org/viewtopic.php?id=168479
+should node --inspect / suman-inspect only be for one file (not --inspecting the runner)?
 
+//////////////////////////////////////
+
+https://bbs.archlinux.org/viewtopic.php?id=168479
 
 ////////////////
 
+https://strongloop.com/strongblog/node-js-publish-to-multiple-npm-registries/
+
+////////////////
 
 make sure falsy is ok, 0 exit codes passed to t.done() should not fail test.
 
