@@ -15,7 +15,7 @@ git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
 git push &&
 git checkout -b devtemp &&
-./delete-internal-paths.sh &&
+../../delete-internal-paths.sh &&
 git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&

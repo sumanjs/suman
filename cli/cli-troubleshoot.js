@@ -1,4 +1,4 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node
 
 process.stdin.on('readable', () => {
   var chunk = process.stdin.read();
