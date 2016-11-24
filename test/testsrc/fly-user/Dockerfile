@@ -6,6 +6,8 @@
 # start with this image as a base
 FROM node:5
 
+RUN npm cache clean
+
 RUN chmod -R 777 $(npm root -g)
 
 RUN useradd -ms /bin/bash newuser
