@@ -12,6 +12,9 @@ const async = require('async');
 //project
 const sumanUtils = require('suman-utils/utils');
 
+//cwd
+const cwd = process.cwd();
+
 ///////////////////////////////////////////////////////////////////////////
 
 const userHomeDir = path.resolve(sumanUtils.getHomeDir());
@@ -32,18 +35,21 @@ fs.mkdir(p, function (err) {
 
     function (cb) {
       //always want to update this file to the latest version, so always overwrite
-      fs.writeFile(findSumanExec, fileToWrite, cb);
+      fs.writeFile(findSumanExec, fileToWrite, { flag: 'w' }, cb);
     },
     function (cb) {
-      fs.writeFile(sumanDebugLog, '=> Suman post-install script run on ' + new Date(), { flag: 'a' }, cb);
+      fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
+        +', from directory (cwd) => ' + cwd, { flag: 'a' }, cb);
     }
 
   ], function (err) {
 
     if (err) {
+      fs.writeFileSync(sumanDebugLog, '\n => Suman post-install script failed with error => \n' + (err.stack || err), { flag: 'a' });
       throw err;
     }
     else {
+      fs.writeFileSync(sumanDebugLog, '\n => Suman post-install script succeeded', { flag: 'a' });
       process.exit(0);
     }
 

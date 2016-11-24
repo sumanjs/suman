@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "suman test/testsrc/es5-es6/ -r",
-    "postinstallX": "node scripts/create-suman-dir.js && node scripts/create-suman-alias.js",
+    "postinstall": "node scripts/create-suman-dir.js && node scripts/create-suman-alias.js",
     "merge": "git merge -Xignore-all-space"
   },
   "author": "Olegzandr Denman",

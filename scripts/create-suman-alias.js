@@ -4,6 +4,12 @@ console.log(' => In Suman postinstall script => ', __filename);
 const path = require('path');
 const fs = require('fs');
 
+///// !!!! we don't want to actually run this yet //////////
+
+return;
+
+///////////////////////
+
 const sumanUtils = require('suman-utils/utils');
 
 const bashProfileFile = path.resolve(sumanUtils.getHomeDir() + '/.bash_profile');
