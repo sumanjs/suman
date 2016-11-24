@@ -23,11 +23,7 @@ const findSumanExec = path.resolve(p + '/find-local-suman-executable.js');
 const sumanDebugLog = path.resolve(p + '/suman-debug.log');
 const fileToWrite = fs.readFileSync(require.resolve('../cli/find-local-suman-executable.js'));
 
-  if (err) {
-    if (!String(err.stack || err).match(/EEXIST: file already exists/)) {
-      throw err;
-    }
-  }
+  async.parallel([
 
   if (err) {
     if (!String(err.stack || err).match(/EEXIST: file already exists/)) {
