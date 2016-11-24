@@ -23,14 +23,6 @@ const findSumanExec = path.resolve(p + '/find-local-suman-executable.js');
 const sumanDebugLog = path.resolve(p + '/suman-debug.log');
 const fileToWrite = fs.readFileSync(require.resolve('../cli/find-local-suman-executable.js'));
 
-    function (cb) {
-      //always want to update this file to the latest version, so always overwrite
-      fs.writeFile(findSumanExec, fileToWrite, cb);
-    },
-    function (cb) {
-      fs.writeFile(sumanDebugLog, '=> Suman post-install script run on ' + new Date(), { flag: 'a' }, cb);
-    }
-
   ], function (err) {
 
   if (err) {
@@ -41,11 +33,11 @@ const fileToWrite = fs.readFileSync(require.resolve('../cli/find-local-suman-exe
 
   async.parallel([
 
-    function (cb) {
+    function a(cb) {
       //always want to update this file to the latest version, so always overwrite
       fs.writeFile(findSumanExec, fileToWrite, { flag: 'w' }, cb);
     },
-    function (cb) {
+    function b(cb) {
       fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
         +', from directory (cwd) => ' + cwd, { flag: 'a' }, cb);
     }
