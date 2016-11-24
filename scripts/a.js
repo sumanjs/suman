@@ -1,5 +1,14 @@
 
 
+CONFLICT (add/add): Merge conflict in test/testsrc/installation/run-docker-test.sh
+
+#!/usr/bin/env bash
+
+docker run -it --rm suman-installation-test
+
+............................
+
+
 console.log(' all good!');
 console.error(' is error!');
 
