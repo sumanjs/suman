@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 cd # cd to home dir
 mkdir suman-test
 cd suman-test &&
