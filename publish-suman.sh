@@ -22,7 +22,7 @@ git commit --allow-empty -am "publish/release:$1" &&
 git push &&                     # push to private/dev remote repo
 git checkout -b dev_squash_temp dev_squash &&
 git merge --squash -Xtheirs dev -m "squashing" &&  # make sure the merge succeeds before actually doing it...
-git checkout dev_squash  &&    # we do squashing on this branch
+git checkout dev_squash -f &&    # we do squashing on this branch
 git branch -D dev_squash_temp &&
 git merge --squash -Xtheirs dev -m "squashing" &&
 git add . &&
