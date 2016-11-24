@@ -1,6 +1,10 @@
 
 //////////
 
+http://stackoverflow.com/questions/27701930/add-user-to-docker-container
+
+/////////
+
 #!/usr/bin/env node -- --inspect
 https://github.com/creationix/nvm/issues/1318#event-869975010
 
@@ -69,6 +73,9 @@ test-target/
 test-target/
 
 
+///////
+
+http://www.codeproject.com/Questions/1157471/Redirecting-shell-output-via-grep
 
 ////////
 
