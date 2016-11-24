@@ -2,7 +2,6 @@
 node_modules
 bower_components
 internal-docs
-file-examples
 bugs
 coverage
 docs
@@ -16,5 +15,5 @@ test-target
 benchmark-tests
 .nyc_output
 jsdoc-notes.txt
-suman_old
+docker-notes.txt
 
