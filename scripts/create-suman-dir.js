@@ -33,11 +33,11 @@ fs.mkdir(p, function (err) {
 
   async.parallel([
 
-    function (cb) {
+    function a(cb) {
       //always want to update this file to the latest version, so always overwrite
       fs.writeFile(findSumanExec, fileToWrite, { flag: 'w' }, cb);
     },
-    function (cb) {
+    function b(cb) {
       fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
         +', from directory (cwd) => ' + cwd, { flag: 'a' }, cb);
     }
