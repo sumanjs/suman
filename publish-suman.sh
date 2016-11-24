@@ -8,8 +8,14 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
+if [ $2 = "publish" ]; then
+   npm version patch --force -m "Upgrade for several reasons" &&    # bump version
+   echo "bumped version"
+else
+  echo "note that we are *not* publishing to NPM"
+fi
 
-npm version patch --force -m "Upgrade for several reasons" &&    # bump version
+
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
@@ -27,7 +33,13 @@ git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
 #git rebase $(git describe --tags) &&
 git push public HEAD:master -f &&
-npm publish . &&
+
+
+if [ $2 = "publish" ]; then
+   npm publish .  &&    # bump version
+   echo "published suman to NPM"
+fi
+
 git checkout dev &&
 git branch -D temp
 
