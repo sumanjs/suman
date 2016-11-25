@@ -8,11 +8,11 @@ LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
 
 if [ -z "$LOCAL_SUMAN" ]; then
 echo " => No local Suman executable could be found, given the current directory => $PWD"
-echo " => Attempting to run a globally installed version of Suman..."
-node $(which suman__internal) "$@";
+echo " => Warning...attempting to run a globally installed version of Suman..."
+SUMAN_LOCAL_ALREADY_FOUND=yes node $(which suman) "$@";
 else
-echo " => Using Suman alias in suman-clis.sh rooomba..."
-node "$LOCAL_SUMAN" "$@";
+echo " => Using Suman alias in suman-clis.sh ZZZam!!..."
+SUMAN_LOCAL_ALREADY_FOUND=yes node "$LOCAL_SUMAN" "$@";
 fi
 # echo "first arg => $1, second arg => $2"
 }
@@ -26,7 +26,7 @@ if [ -z "$LOCAL_SUMAN" ]; then
 echo "No local Suman executable could be found, given the current directory => $PWD"
 return 1;
 else
-LOCAL_SUMAN_FOUND=yes sh "$LOCAL_SUMAN" "$@";
+SUMAN_LOCAL_ALREADY_FOUND=yes sh "$LOCAL_SUMAN" "$@";
 return 0;
 fi
 # echo "first arg => $1, second arg => $2"
@@ -39,9 +39,10 @@ echo "suman-debug"
 
 if [ -z "$LOCAL_SUMAN" ]; then
 echo "No local Suman executable could be found, given the current directory => $PWD"
+echo "Use '$ which suman-debug' to find a globally installed version."
 return 1;
 else
-LOCAL_SUMAN_FOUND=yes sh "$LOCAL_SUMAN" "$@";
+SUMAN_LOCAL_ALREADY_FOUND=yes sh "$LOCAL_SUMAN" "$@";
 return 0;
 fi
 # echo "first arg => $1, second arg => $2"
@@ -54,9 +55,10 @@ echo "suman--debug"
 
 if [ -z "$LOCAL_SUMAN" ]; then
 echo "No local Suman executable could be found, given the current directory => $PWD"
+echo "Use '$ which suman--debug' to find a globally installed version."
 return 1;
 else
-LOCAL_SUMAN_FOUND=yes node "$LOCAL_SUMAN" "$@";
+SUMAN_LOCAL_ALREADY_FOUND=yes node "$LOCAL_SUMAN" "$@";
 return 0;
 fi
 # echo "first arg => $1, second arg => $2"

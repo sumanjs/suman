@@ -10,10 +10,10 @@ var exec;
 const execNameIndex = process.argv.indexOf('--exec-name');
 
 if(execNameIndex < 0){
-  exec = 'suman__internal';
+  exec = 'suman/cli.js';
 }
 else{
-  exec = process.argv[execNameIndex + 1];
+  exec = '.bin/' + process.argv[execNameIndex + 1];
 }
 
 const debugLogPath = path.resolve(process.env.HOME + '/.suman/suman-debug.log');
@@ -46,7 +46,7 @@ while (true) {
     break;
   }
 
-  p = path.resolve(cd + '/node_modules/.bin/' + exec);
+  p = path.resolve(cd + '/node_modules/' + exec);
 
   fs.writeFileSync(debugLogPath, '\n Searching for suman executable at this path => ' + p, { flag: 'a' });
 

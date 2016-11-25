@@ -25,7 +25,7 @@ const sumanClis = path.resolve(p + '/suman-clis.sh');
 const sumanDebugLog = path.resolve(p + '/suman-debug.log');
 
 const sumanClisFile = fs.readFileSync(require.resolve('./suman-clis.sh'));
-const findSumanExecFile = fs.readFileSync(require.resolve('../cli/find-local-suman-executable.js'));
+const findSumanExecFile = fs.readFileSync(require.resolve('./find-local-suman-executable.js'));
 
 fs.mkdir(p, function (err) {
 
