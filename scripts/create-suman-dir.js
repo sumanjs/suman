@@ -1,4 +1,5 @@
-'use striiiict';
+#!/usr/bin/env node
+
 
 console.log(' => In Suman postinstall script => ', __filename);
 

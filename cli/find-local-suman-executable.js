@@ -28,6 +28,7 @@ function stat (p) {
     return fs.statSync(p).isFile();
   }
   catch (err) {
+    fs.writeFileSync(debugLogPath, '\n => stat error => ' + (err.stack || err), { flag: 'a' });
     if (!String(err.stack || err).match(/ENOENT: no such file or directory/i)) {
       throw err;
     }
@@ -46,7 +47,8 @@ while (true) {
   }
 
   p = path.resolve(cd + '/node_modules/.bin/' + exec);
-  // p = path.resolve(cd + '/node_modules/.bin/suman__internal');
+
+  fs.writeFileSync(debugLogPath, '\n Searching for suman executable at this path => ' + p, { flag: 'a' });
 
   if (stat(p)) {
     // Found Suman installation path
