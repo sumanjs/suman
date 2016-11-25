@@ -20,8 +20,11 @@ const cwd = process.cwd();
 const userHomeDir = path.resolve(sumanUtils.getHomeDir());
 const p = path.resolve(userHomeDir + '/.suman');
 const findSumanExec = path.resolve(p + '/find-local-suman-executable.js');
+const sumanClis = path.resolve(p + '/suman-clis.sh');
 const sumanDebugLog = path.resolve(p + '/suman-debug.log');
-const fileToWrite = fs.readFileSync(require.resolve('../cli/find-local-suman-executable.js'));
+
+const sumanClisFile = fs.readFileSync(require.resolve('./suman-clis.sh'));
+const findSumanExecFile = fs.readFileSync(require.resolve('../cli/find-local-suman-executable.js'));
 
 fs.mkdir(p, function (err) {
 
@@ -35,7 +38,11 @@ fs.mkdir(p, function (err) {
 
     function a(cb) {
       //always want to update this file to the latest version, so always overwrite
-      fs.writeFile(findSumanExec, fileToWrite, { flag: 'w' }, cb);
+      fs.writeFile(sumanClis, sumanClisFile, { flag: 'w' }, cb);
+    },
+    function a(cb) {
+      //always want to update this file to the latest version, so always overwrite
+      fs.writeFile(findSumanExec, findSumanExecFile, { flag: 'w' }, cb);
     },
     function b(cb) {
       fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
