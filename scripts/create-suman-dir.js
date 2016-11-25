@@ -1,4 +1,5 @@
-'use striiiict';
+#!/usr/bin/env node
+
 
 console.log(' => In Suman postinstall script => ', __filename);
 
@@ -48,9 +49,6 @@ fs.mkdir(p, function (err) {
       fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
         +', from directory (cwd) => ' + cwd, { flag: 'a' }, cb);
     }
-  }
-
-  async.parallel([
 
   ], function (err) {
 

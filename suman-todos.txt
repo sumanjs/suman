@@ -6,6 +6,11 @@ restore default $HOME/.suman dir, using suman --restore-default-suman-home-dir
 
 ///////////
 
+"$ which suman" will work
+https://www.dropbox.com/s/echzmuzcxjnuorw/Screenshot%202016-11-24%2018.18.47.png?dl=0
+
+///////////
+
 
 http://stackoverflow.com/questions/27701930/add-user-to-docker-container
 

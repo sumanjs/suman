@@ -7,8 +7,9 @@ function suman {
 LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
 
 if [ -z "$LOCAL_SUMAN" ]; then
-echo "No local Suman executable could be found, given the current directory => $PWD"
-return 1;
+echo " => No local Suman executable could be found, ROLO given the current directory => $PWD"
+echo " => Attempting to run a globally installed version of Suman..."
+node $(which suman__internal) "$@";
 else
 echo " => Using Suman alias in suman-clis.sh ZOOOM..."
 node "$LOCAL_SUMAN" "$@";
