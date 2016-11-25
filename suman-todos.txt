@@ -5,6 +5,10 @@ http://stackoverflow.com/questions/27701930/add-user-to-docker-container
 
 /////////
 
+create test which installs suman into any old directory via npm and asserts that certain files are present
+
+//////
+
 #!/usr/bin/env node -- --inspect
 https://github.com/creationix/nvm/issues/1318#event-869975010
 
