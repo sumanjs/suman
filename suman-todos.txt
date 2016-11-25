@@ -5,6 +5,10 @@ http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-
 
 /////////////
 
+http://stackoverflow.com/questions/40800418/resolving-path-with-bash/40800713?noredirect=1#comment68825967_40800713
+
+/////////
+
 if Suman usage warning: no suman.once.pre.js file found
 then if there are any integrants/pre: [], we have to throw an error
 

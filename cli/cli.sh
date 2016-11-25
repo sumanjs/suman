@@ -21,7 +21,6 @@ echo "EXECDIR => $EXECDIR"
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 X=$(node -e "var path = require('path'); process.stdout.write(path.resolve('$DIRN/$EXECDIR'))");
-
 echo "X => $X"
 
 echo "DDDDIR => $DIR"
