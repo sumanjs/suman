@@ -1,6 +1,26 @@
 
 //////////
 
+http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
+
+/////////////
+
+if Suman usage warning: no suman.once.pre.js file found
+then if there are any integrants/pre: [], we have to throw an error
+
+//////////
+
+syntax highlighting for npm module
+
+//////////
+
+need to validate suman.conf.js when we read it in
+
+ AssertionError:  => Suman usage error => "testSrcDir" and "testTargetDir" must be at the same level in your project =>
+but in this cased testSrcDir is not defined
+
+/////////
+
 restore default $HOME/.suman dir, using suman --restore-default-suman-home-dir
 (probably will run create-suman-dir.js)
 
