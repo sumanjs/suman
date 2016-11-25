@@ -23,7 +23,7 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
 // 	}
 // });
 
-const weAreDebugging = require('../lib/helpers/we-are-debugging');
+const weAreDebugging = require('./lib/helpers/we-are-debugging');
 
 if (weAreDebugging) {
   console.log(' => Suman is in debug mode (we are debugging).');
@@ -99,7 +99,7 @@ const async = require('async');
 const _ = require('lodash');
 
 //project
-const constants = require('../config/suman-constants');
+const constants = require('./config/suman-constants');
 const sumanUtils = require('suman-utils/utils');
 
 ////////////////////////////////////////////////////////////////////
@@ -123,7 +123,7 @@ console.log(' => Node.js version:', nodeVersion);
 
 ////////////////////////////////////////////////////////////////////
 
-const pkgJSON = require('../package.json');
+const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
 console.log(colors.yellow.italic(' => Suman v' + sumanVersion + ' running...'));
 
@@ -154,7 +154,7 @@ if (!projectRoot) {
 
 ////////////////////////////////////////////////////////////////////
 
-const opts = global.sumanOpts = require('../lib/parse-cmd-line-opts/parse-opts');
+const opts = global.sumanOpts = require('./lib/parse-cmd-line-opts/parse-opts');
 global.sumanArgs = opts._args;
 
 if (opts.verbose) {
@@ -234,7 +234,7 @@ if (opts.version) {
 if (opts.testing) {
   // this option is used to make sure we are talking to the right Suman module
   // (in case we are pointing to the wrong one).
-  require('../lib/testing');
+  require('./lib/testing');
   return;
 }
 
@@ -309,14 +309,14 @@ if (process.env.SUMAN_DEBUG === 'yes') {
 }
 
 if (!init) {
-  const installObj = require('../lib/helpers/determine-if-suman-is-installed')(sumanConfig, opts);
+  const installObj = require('./lib/helpers/determine-if-suman-is-installed')(sumanConfig, opts);
   sumanInstalledAtAll = installObj.sumanInstalledAtAll;
   sumanServerInstalled = installObj.sumanServerInstalled;
   sumanInstalledLocally = installObj.sumanInstalledLocally;
 }
 
-const sumanPaths = require('../lib/helpers/resolve-shared-dirs')(sumanConfig, projectRoot);
-const sumanObj = require('../lib/helpers/load-shared-objects')(sumanPaths, projectRoot);
+const sumanPaths = require('./lib/helpers/resolve-shared-dirs')(sumanConfig, projectRoot);
+const sumanObj = require('./lib/helpers/load-shared-objects')(sumanPaths, projectRoot);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -429,7 +429,7 @@ if (optCheck.length > 1) {
 
 /////////////////// load reporters  ////////////////////////////////////////////////////
 
-require('../lib/helpers/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
+require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
 
 resultBroadcaster.emit('node-version', nodeVersion);
 resultBroadcaster.emit('suman-version', sumanVersion);
@@ -452,36 +452,36 @@ if (opts.verbose) {
 }
 
 if (interactive) {
-  require('../lib/interactive');
+  require('./lib/interactive');
 }
 else if (uninstallBabel) {
-  require('../lib/use-babel/uninstall-babel')(null);
+  require('./lib/use-babel/uninstall-babel')(null);
 }
 else if (useIstanbul) {
-  require('../lib/use-istanbul/use-istanbul')();
+  require('./lib/use-istanbul/use-istanbul')();
 }
 else if (tail) {
-  require('../lib/make-tail/tail-any')(paths);
+  require('./lib/make-tail/tail-any')(paths);
 }
 else if (create) {
-  require('../lib/create-opt/create')(create);
+  require('./lib/create-opt/create')(create);
 }
 else if (useServer) {
-  require('../lib/use-server/use-server')(null);
+  require('./lib/use-server/use-server')(null);
 }
 else if (useBabel) {
-  require('../lib/use-babel/use-babel')(null);
+  require('./lib/use-babel/use-babel')(null);
 }
 else if (init) {
 
-  require('../lib/init/init-project')({
+  require('./lib/init/init-project')({
     force: force,
     fforce: fforce
   });
 
 }
 else if (uninstall) {
-  require('../lib/uninstall/uninstall-suman')({
+  require('./lib/uninstall/uninstall-suman')({
     force: force,
     fforce: fforce,
     removeBabel: removeBabel,
@@ -489,18 +489,18 @@ else if (uninstall) {
 
 }
 else if (convert) {
-  require('../lib/helpers/convert-mocha')(projectRoot, src, dest, force);
+  require('./lib/helpers/convert-mocha')(projectRoot, src, dest, force);
 
 }
 else if (s) {
-  require('../lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
+  require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
 }
 else if (watch) {
-  require('../lib/helpers/watch-init')(paths, sumanServerInstalled);
+  require('./lib/helpers/watch-init')(paths, sumanServerInstalled);
 }
 
 else {
   //this path runs all tests
-  require('../lib/run')(opts, paths, sumanServerInstalled, originalTranspileOption, sumanVersion);
+  require('./lib/run')(opts, paths, sumanServerInstalled, originalTranspileOption, sumanVersion);
 
 }
