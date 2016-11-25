@@ -5,6 +5,17 @@ const cwd = process.cwd();
 const down = [];
 var found = false;
 
+
+var exec;
+const execNameIndex = process.argv.indexOf('--exec-name');
+
+if(execNameIndex < 0){
+  exec = 'suman__internal';
+}
+else{
+  exec = process.argv[execNameIndex + 1];
+}
+
 const debugLogPath = path.resolve(process.env.HOME + '/.suman/suman-debug.log');
 fs.writeFileSync(debugLogPath, '\n', { flag: 'w' });
 fs.writeFileSync(debugLogPath, ' => Running find-local-suman-executable.\n', { flag: 'a' });
@@ -34,7 +45,8 @@ while (true) {
     break;
   }
 
-  p = path.resolve(cd + '/node_modules/.bin/suman__internal');
+  p = path.resolve(cd + '/node_modules/.bin/' + exec);
+  // p = path.resolve(cd + '/node_modules/.bin/suman__internal');
 
   if (stat(p)) {
     // Found Suman installation path

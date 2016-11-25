@@ -1,6 +1,12 @@
 
 //////////
 
+restore default $HOME/.suman dir, using suman --restore-default-suman-home-dir
+(probably will run create-suman-dir.js)
+
+///////////
+
+
 http://stackoverflow.com/questions/27701930/add-user-to-docker-container
 
 /////////
