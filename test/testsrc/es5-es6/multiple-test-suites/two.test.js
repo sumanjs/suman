@@ -13,9 +13,9 @@ process.on('warning', function(w){
 });
 
 
-[1,2,3,4,5,6,7,8,9].forEach(function(){
+[1,2,3,4,5,6,7,8,9].forEach(function(item){
 
-  Test.describe('1', {}, function (assert, william, socketio, roodles, whoa) {
+  Test.describe('testsuite#'+item, {}, function (assert, william, socketio, roodles, whoa) {
 
     this.before(t => {
       console.log('before a');
@@ -25,7 +25,7 @@ process.on('warning', function(w){
       setTimeout(function(){
         console.log('done 1');
         t.done();
-      },1000);
+      },200);
     });
 
   });

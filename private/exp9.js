@@ -1,17 +1,23 @@
-
-
+const cp = require('child_process');
 const fs = require('fs');
 
+const fd = fs.openSync('bar.log','a');
 
-fs.readFile(__dirname + '/.gitignore', function(err,data){
-  console.log(err);
-  console.log(data);
+const child = cp.spawn('node', [ 'foo.js' ], {
+  cwd: __dirname,
+  stdio: [ 'ignore', fd, fd ]
+});
 
-  if(String(data).indexOf('item') < 0){
-    fs.appendFile(__dirname + '/.gitignore','item', function(err, res){
-      console.log(err);
-      console.log(res);
-    });
-  }
+// using stdio array above I send stdout/stderr to log file
+// but I would still like to receive stdout/stderr to this process so I can do something else with it
 
+child.stdout.setEncoding('utf8');
+child.stderr.setEncoding('utf8');
+
+child.stdout.on('data', function (d) {
+  console.log('stdout => ', d);
+});
+
+child.stderr.on('data', function (d) {
+  console.log('stderr => ', d);
 });
