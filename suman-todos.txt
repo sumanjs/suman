@@ -1,11 +1,29 @@
 
-//////////
 
-[1,2,3,4,5].forEach(function(){
-  Test.create('a', function(){
-     yolo
-  });
-}):
+/////////
+
+utilize multiple machines in a local network, instead of running 100 tests on machine, or whatever
+
+/////////
+
+expected exit codes => need to work on it
+
+////////////
+
+spawn child process, make sure no_silent or whatever options are available
+
+1. file
+2. silent /dev/null
+3. inherit
+
+ (1) the parent process should just inherit the stdio from the children so that it's all logged in the original terminal,
+ (2) to send the stdio to a file, or
+ (3) send all stdio to /dev/null
+
+///////////
+
+debugStrm
+ const debugStrm = fs.createWriteStream(path.resolve(global.sumanHelperDirRoot + '/logs/suman-debug.log'));
 
 /////////
 

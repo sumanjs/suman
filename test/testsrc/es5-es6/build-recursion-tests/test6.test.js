@@ -42,17 +42,14 @@ Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
     this.series(function (test) {
 
         return [
-
             test('makes rain', {value: 5}, function (t) {
                 // throw new Error('fab');
             }),
 
             test('makes rain', {})
-
-
         ]
-
     });
+
 
     this.suite('yolo', {}, function () {
 
@@ -85,7 +82,7 @@ Test.suite('@Test1-TDD', {parallel: false, bail: true}, function () {
             return promiseTimeout(t);
         });
 
-        this.suite(function () {
+        this.suite('hiii',function () {
 
             this.test('four', (t) => {
                 return promiseTimeout(t);
