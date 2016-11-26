@@ -53,7 +53,7 @@ http://stackoverflow.com/questions/27701930/add-user-to-docker-container
 
 /////////
 
-create test which installs suman into any old directory via npm and asserts that certain files are present
+create test which installs suman into "any old directory" via npm and asserts that certain files are present
 
 //////
 

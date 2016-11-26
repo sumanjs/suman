@@ -29,7 +29,6 @@ module.exports = Object.freeze({
   SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
 
   GIT_IGNORE: [
-    '\n',
     '*suman/logs/',
     'test-target/'
   ],
@@ -76,6 +75,7 @@ module.exports = Object.freeze({
     SUCCESSFUL_RUN: 0,
     WHOLE_TEST_SUITE_SKIPPED: 0,
     GREP_SUITE_DID_NOT_MATCH: 0,
+    FILE_OR_DIRECTORY_DOES_NOT_EXIST: 49,
     SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT: 50,
     SUMAN_HELPER_FILE_DOES_NOT_EXPORT_EXPECTED_FUNCTION: 51,
     BAD_GREP_SUITE_OPTION: 52,
