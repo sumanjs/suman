@@ -2,6 +2,10 @@
 
 /////////
 
+utilize multiple machines in a local network, instead of running 100 tests on machine, or whatever
+
+/////////
+
 expected exit codes => need to work on it
 
 ////////////

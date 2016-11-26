@@ -49,7 +49,7 @@ add a directory to your project which you can move to a location of your choosin
 
 ### Local installations only => 
 
-If you wish to avoid global NPM module installations, see: 
+If you wish to avoid global NPM module installations, we commend you, see: 
  [http://oresoftware.github.io/suman/tutorial-11-advanced-installation.html/](http://oresoftware.github.io/suman/tutorial-11-advanced-installation.html "Suman Docs: Advanced Installation") 
 
 
@@ -471,6 +471,20 @@ only pertains to running a single test file (usually when developing a particula
  *Suman uses domains to correctly map runtime/assertion errors to test cases and hooks, which provides a much more reliable and well designed piece of software because it can
  handle any error that gets thrown, not just assertion errors.
  
+
+### Testing and pull requests
+ 
+ Suman uses itself to test itself :)
+ 
+ The right way to do this is as follows:
+ 
+ ```
+ git clone https://github.com/ORESoftware/suman.git &&
+ npm install &&
+ npm link &&
+ npm link suman &&
+ npm test
+ ```
  
 ### Extra info
 
