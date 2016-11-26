@@ -36,6 +36,7 @@
     "pragmatik": "latest",
     "progress": "^1.1.8",
     "prompt": "^1.0.0",
+    "request": "^2.79.0",
     "require-from-string": "^1.1.0",
     "residence": "latest",
     "semver": "^5.3.0",

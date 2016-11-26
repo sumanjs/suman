@@ -13,6 +13,8 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
   return;
 }
 
+console.log(' => Resolved path of Suman executable =>', '"' + __filename + '"');
+
 // var sigintCount = 0;
 // TODO: add shutdown hooks for runner too
 // process.on('SIGINT', () => {
@@ -141,10 +143,10 @@ const cwdAsRoot = process.argv.indexOf('--cwd-is-root') > -1;
 if (!projectRoot) {
   if (!cwdAsRoot) {
     console.log(' => Warning => A NPM/Node.js project root could not be found given your current working directory.');
-    console.log(colors.bgRed.white.bold(' => cwd:', cwd, ' '));
-    console.log(' => Please execute the suman command from within the root of your project.\n\n');
-    console.log(colors.green(' => (Perhaps you should run "npm init" before running "suman --init", ' +
-        'which will create a package.json file for you at the root of your project.).') + '\n\n');
+    console.log(colors.red.bold(' => cwd:', cwd, ' '));
+    console.log(colors.bgRed.white.bold(' => Please execute the suman command from within the root of your project.'), '\n\n');
+    console.log(colors.bgBlack.green(' => (Perhaps you need to run "npm init" before running "suman --init", ' +
+        'which will create a package.json file for you at the root of your project.)') + '\n\n');
     return;
   }
   else {

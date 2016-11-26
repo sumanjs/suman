@@ -1,6 +1,19 @@
 
 //////////
 
+[1,2,3,4,5].forEach(function(){
+  Test.create('a', function(){
+     yolo
+  });
+}):
+
+/////////
+
+how to use babel vs babel-node
+https://github.com/babel/example-node-server
+
+//////////
+
 http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
 
 /////////////
