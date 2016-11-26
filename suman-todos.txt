@@ -1,9 +1,26 @@
 
 //////////
 
+[1,2,3,4,5].forEach(function(){
+  Test.create('a', function(){
+     yolo
+  });
+}):
+
+/////////
+
+how to use babel vs babel-node
+https://github.com/babel/example-node-server
+
+//////////
+
 http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
 
 /////////////
+
+http://stackoverflow.com/questions/40800418/resolving-path-with-bash/40800713?noredirect=1#comment68825967_40800713
+
+/////////
 
 if Suman usage warning: no suman.once.pre.js file found
 then if there are any integrants/pre: [], we have to throw an error
@@ -36,7 +53,7 @@ http://stackoverflow.com/questions/27701930/add-user-to-docker-container
 
 /////////
 
-create test which installs suman into any old directory via npm and asserts that certain files are present
+create test which installs suman into "any old directory" via npm and asserts that certain files are present
 
 //////
 

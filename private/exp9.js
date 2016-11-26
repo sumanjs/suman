@@ -6,19 +6,19 @@ function log (d) {
   }
 }
 
-const foo = 'abc\ndef\nae\nz';
-const lines = String(foo).split('\n');
+const fs = require('fs');
 
 var line = 'npm info';
 
-line += lines.shift();
+fs.readFile(__dirname + '/.gitignore', function(err,data){
+  console.log(err);
+  console.log(data);
 
-log('line 1 => ' + line);
+  if(String(data).indexOf('item') < 0){
+    fs.appendFile(__dirname + '/.gitignore','item', function(err, res){
+      console.log(err);
+      console.log(res);
+    });
+  }
 
-for (var i = 0; i < lines.length - 1; i++) {
-  log(lines[ i ]);
-}
-
-line = lines[ i ];
-
-log('line 2 => ' + line);
+});
