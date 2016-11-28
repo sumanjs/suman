@@ -7,6 +7,7 @@ node_js:
 script: 'node index --coverage test/testsrc/es5-es6 -r'
 after_script: 'npm install -g coveralls && cat coverage/lcov.info | coveralls'
 notifications:
+  email: false
   slack:
     rooms:
       - sumanjs:gvauyHh80cuzpV5v8LlQOAcI#general
