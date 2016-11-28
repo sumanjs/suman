@@ -1,6 +1,17 @@
 
 /////////
 
+expect a 56 error for this test - or maybe    TEST_ERROR_AND_BAIL_IS_TRUE: 80,
+/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/empty.test.js
+
+////////
+
+suman is sending the runner the same errors twice (process.send())
+https://www.dropbox.com/s/kr6x1c0d3a5ccpg/Screenshot%202016-11-28%2014.54.55.png?dl=0
+
+
+////////
+
 add labjs to readme tables
 
 /////////

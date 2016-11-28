@@ -5,7 +5,7 @@
 
 
 const Test = require('suman').init(module, {
-    export: false,
+    export: true,
     integrants: ['smartconnect', 'dolce-vida'],
     iocData: {  //we pass this data to ioc file
         choodles: function () {
@@ -15,7 +15,7 @@ const Test = require('suman').init(module, {
 });
 
 
-Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, request, assert) {
+Test.describe('Suite7', {parallel: true}, function (fs, choodles, request, assert) {
 
 
     this.before.cb(t => {
@@ -87,7 +87,7 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, request
 
     });
 
-    this.describe('loop', function (delay) {
+    this.describe('loop', function () {
 
         [1, 2, 3, 4, 5, 6].forEach(val=> {
 
@@ -101,7 +101,6 @@ Test.describe('Suite7', {parallel: true}, function (fs, extra, choodles, request
             });
         });
 
-        delay();
 
     });
 
