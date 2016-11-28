@@ -3,7 +3,7 @@
   "version": "1.1.512195",
   "main": "lib/index.js",
   "scripts": {
-    "test": "suman test/testsrc/es5-es6/a.js",
+    "test": "./node_modules/.bin/suman test/testsrc/es5-es6/a.js",
     "postinstallz": "./scripts/create-suman-dir.js",
     "postinstally": "node scripts/create-suman-dir.js && node scripts/create-suman-alias.js",
     "postinstallx": "node scripts/a.js",
