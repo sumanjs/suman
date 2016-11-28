@@ -22,4 +22,4 @@ notifications:
   email: false
   slack:
     rooms:
-      - sumanjs:gvauyHh80cuzpV5v8LlQOAcI#general
+      - sumanjs:gvauyHh80cuzpV5v8LlQOAcI#travis-ci

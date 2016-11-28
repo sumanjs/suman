@@ -12,6 +12,12 @@ how to do this? suman code shouldn't have to change, instead, we create differen
 
 /////////
 
+add to docs:
+Preventing false negatives
+preventing false positives
+
+/////////
+
 expected exit codes => need to work on it
 
 ////////////
