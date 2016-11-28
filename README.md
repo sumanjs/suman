@@ -65,6 +65,7 @@ The primary aims are:
 
 * Developer experience and test debuggability are above all else
 * Provide a beautiful and intuitive API
+* Solve all major and minor problems in the Mocha API
 * Make tests run faster by leveraging async I/O and separate Node.js processes
 * _Isolate_ tests by running them in separate processes, so that they cannot interact
 * Make tests _independent_, so that you can easily run one test at a time (damn you Mocha).
@@ -109,6 +110,8 @@ away with (implicit) global variables.
 * Using Mocha, Tape and Jasmine, not only was everything run in a single process, but all test cases and hooks were also run in series, which takes unnecessary amounts of time for tests utilizing async I/O
 * Mocha prescribed no solution to the problem of starting up the services necessary to do system/integration testing - using Mocha/Tape/AVA it is up to the developer to manually start those services,
 which makes automated testing much more difficult.
+* Single process test runners like Mocha face out-of-memory issues - https://github.com/mochajs/mocha/issues/2555, these issues are
+much much less likely to occur if tests are split into multiple processes
 * Mocha and Jasmine could not move forward with ES6/ES7 features due to certain software patterns used (globals and complex context binding)
 * a BIG ONE: clean reporting - at the command line, using Mocha and Jasmine, logging/debugging output by the developer would obfuscate the test results, nullifying any advantage of reporting tools. Suman has a simple
 trick up its sleeve to allow for 100% clean reporting for any test or group of tests. 

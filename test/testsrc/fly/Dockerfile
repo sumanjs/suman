@@ -5,6 +5,7 @@ FROM node:5
 # add all files from current directory
 # ADD ./ /home/web-service-dockerized
 
+RUN mkdir -p /usr/src/app
 COPY script.sh /usr/src/app/
 
 # execute bash commands

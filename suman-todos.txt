@@ -2,11 +2,18 @@
 
 /////////
 
-utilize multiple machines in a local network, instead of running 100 tests on machine, or whatever
+http://unix.stackexchange.com/questions/34273/can-i-pipe-stdout-on-one-server-to-stdin-on-another-server
+
+utilize multiple machines in a local network, instead of running 100 tests on one machine, or whatever
+how to do this? suman code shouldn't have to change, instead, we create different bash scripts
 
 /////////
 
 expected exit codes => need to work on it
+
+////////////
+
+if user calls t.done() and there is no cb, this.test.cb, should log warnings
 
 ////////////
 
@@ -795,6 +802,8 @@ which items will be converted to where
 //TODO: use Object.defineProperties for read-only
 //TODO:  Future development - suman.groups.js / observable support
 
+
+//TODO: https://sumanjs.slack.com/services/109528432339?updated=1
 
 /*
 
