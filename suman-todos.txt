@@ -1,6 +1,16 @@
 
 /////////
 
+https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
+
+/////////////
+
+send the exit code with each FATAL message to runner, so that we don't print unnecessary errors
+in the runner for tests that are expected to exit with a certain non-zero exit code
+
+////////////
+
+
 expect a 56 error for this test - or maybe    TEST_ERROR_AND_BAIL_IS_TRUE: 80,
 /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/empty.test.js
 
@@ -15,6 +25,14 @@ if we use SUMAN_SINGLE_PROCESS=yes, if suman tests spawn suman tests, then those
 because of nature of environment vars.
 
 ////////
+
+allow for concurrency in eachLimit in handle-singe-proc
+
+///////
+
+https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
+
+///////
 
 add labjs to readme tables
 
