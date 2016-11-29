@@ -9,6 +9,10 @@ expect a 56 error for this test - or maybe    TEST_ERROR_AND_BAIL_IS_TRUE: 80,
 suman is sending the runner the same errors twice (process.send())
 https://www.dropbox.com/s/kr6x1c0d3a5ccpg/Screenshot%202016-11-28%2014.54.55.png?dl=0
 
+////////
+
+if we use SUMAN_SINGLE_PROCESS=yes, if suman tests spawn suman tests, then those will be forced to be SSP also
+because of nature of environment vars.
 
 ////////
 
