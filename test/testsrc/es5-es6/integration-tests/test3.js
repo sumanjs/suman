@@ -1,12 +1,11 @@
-/**
- * Created by denman on 12/3/15.
- */
 
 
 const suman = require('suman');
 const Test = suman.init(module, {});
 
 Test.describe('My Suite', {}, function (describe, it, assert) {
+
+  console.log('suman runner');
 
   it('dayum', t => assert(true));
 
@@ -15,6 +14,10 @@ Test.describe('My Suite', {}, function (describe, it, assert) {
   });
 
   describe.only('desc', {}, function () {
+
+    this.it('whoa', function(){
+      console.log('is whoa');
+    })
 
   });
 
