@@ -1,3 +1,2 @@
-/**
- * Created by Olegzandr on 11/26/16.
- */
+const arr = [1,2,3];
+console.log(arr.concat(4));
