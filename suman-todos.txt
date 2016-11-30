@@ -10,6 +10,20 @@ in the runner for tests that are expected to exit with a certain non-zero exit c
 
 ////////////
 
+C++ addons for speed
+https://medium.com/developers-writing/how-to-get-a-performance-boost-using-node-js-native-addons-fd3a24719c85#.ko1c8huw8
+
+///////////
+
+test macros, important
+
+///////////
+
+readlink => need to install it on a mac
+
+in init, need to run "which readlink", if it's not there, need to log big red warning
+
+//////////
 
 expect a 56 error for this test - or maybe    TEST_ERROR_AND_BAIL_IS_TRUE: 80,
 /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/empty.test.js
