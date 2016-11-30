@@ -43,7 +43,8 @@ function handleExceptionsAndRejections () {
   else {
     console.error('\n => Use "--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" to potentially debug further,' +
       'or simply continue in your program.\n\n');
-    process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+    // process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+    process.exit(59);
   }
 }
 

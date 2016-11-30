@@ -5,9 +5,7 @@ const path = require('path');
 const fs = require('fs');
 
 ///// !!!! we don't want to actually run this yet //////////
-
-return;
-
+return; // <<<<<<<<<<<<<<<<<<<<
 ///////////////////////
 
 const sumanUtils = require('suman-utils/utils');
