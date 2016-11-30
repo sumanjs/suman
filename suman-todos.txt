@@ -1,6 +1,15 @@
 
 /////////
 
+add a staging branch
+
+/////////
+
+suman groups
+
+///////
+
+Docker:
 https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
 
 /////////////
@@ -40,9 +49,6 @@ because of nature of environment vars.
 
 ////////
 
-allow for concurrency in eachLimit in handle-singe-proc
-
-///////
 
 https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
 
@@ -109,6 +115,7 @@ then if there are any integrants/pre: [], we have to throw an error
 //////////
 
 syntax highlighting for npm module
+(if you you ignore node_modules syntax highlighting seem to be off)
 
 //////////
 
@@ -129,22 +136,12 @@ https://www.dropbox.com/s/echzmuzcxjnuorw/Screenshot%202016-11-24%2018.18.47.png
 
 ///////////
 
-
 http://stackoverflow.com/questions/27701930/add-user-to-docker-container
 
 /////////
 
-create test which installs suman into "any old directory" via npm and asserts that certain files are present
-
-//////
-
 #!/usr/bin/env node -- --inspect
 https://github.com/creationix/nvm/issues/1318#event-869975010
-
-///////////
-
-global vs. local => create a cli-finder.js file that can search and find the local suman installation instead
-of running the global code.
 
 ///////////
 
@@ -152,29 +149,7 @@ should node --inspect / suman-inspect only be for one file (not --inspecting the
 
 //////////////////////////////////////
 
-https://bbs.archlinux.org/viewtopic.php?id=168479
-
-////////////////
-
-https://strongloop.com/strongblog/node-js-publish-to-multiple-npm-registries/
-
-////////////////
-
 make sure falsy is ok, 0 exit codes passed to t.done() should not fail test.
-
-
-/////////////////
-
-
-should --force allow us to use the current working directory as root?
-
-Alexanders-MacBook-Pro:suman-test-projects Olegzandr$ suman test-all.js
- => Node.js version: v7.0.0
- => Suman v1.1.512181 running...
- => Warning => A NPM/Node.js project root could not be found given your current working directory.
- => cwd: /Users/Olegzandr/WebstormProjects/oresoftware/suman-test-projects
- => Please execute the suman command from within the root of your project.
-
 
 /////////////////
 
@@ -223,10 +198,6 @@ TODO: we need to create shared suman-config loading file so that in index and li
 
 /////////
 
-when running node index.js, all we get is: https://www.dropbox.com/s/ut1ndbq1mfsjhjg/Screenshot%202016-11-21%2019.42.30.png?dl=0
-shouldn't an error happen?
-
-////////
 
 add suman-debug / suman--debug  --paths=["a.js","b.js"]
 
@@ -270,39 +241,18 @@ https://github.com/gulpjs/gulp/issues/770#issuecomment-259282294
 
 ////////////
 
-//TODO: parse (subset of?) command line opts with plain node exec?
+no_silent option needs to be replaced with (pipe, ignore, inherit, etc)
 
 ///////////
 
-should we run
+//TODO: parse (subset of?) command line opts for plain node Suman run?
 
-rm -rf node_modules &&
-npm install &&
-
-to make sure that works before publishing?
-
-/////////////////
-
+///////////
 
 TODO: runner should show which order files are read, and then if --rand is chosen, the random order in which
 they will run
 
 /////////////////
-
-SUMAN_CHILD_TEST_PATH=/Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/a.js node --inspect
---debug-brk --harmony ./node_modules/.bin/istanbul cover ./lib/run-child.js
-
-/////
-
-TODO: figure out a way to do require('suman') from index without problems,
- so if user code require's suman we are still OK
-
-//////
-
-if suman.once.js does not exist, simply log an error, right now we throw an error
-
-////
-
 
 TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
 TODO: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/tes-t7-start.test.js
@@ -313,26 +263,6 @@ TODO: provide expected exit-code in test file, so that when runner sees exit cod
 56 (expected)
 
 ////////////
-
-TODO:
-
-fix "undefined" below:
-
-cd oresoftware/suman && SUMAN_SINGLE_PROCESS=yes suman test/multiple-test-suites/one.test.js --rnr
-
-
- => Suman runner => there was a fatal test suite error - an error was encountered in your test code that prevents Suman
-         from continuing with a particular test suite within the following path:
-
-         => undefined
-
-        (note that despite this fatal error, other test processes will continue running, as would be expected; use the --runner-bail option, if you wish otherwise.)
-
-            Error: => fatal error in hook => (to continue even in the event of an error in a hook use option {fatal:false}) =>
-            Error: oh shit
-
-
-/////////
 
 TODO: double check to see if bail option is always sumanOpts and also make it work with suman.conf.js too
 
@@ -375,10 +305,6 @@ that will get transpiled/moved, we have to update location.
 /////////////
 
 --errors-only should be readline/clearLine so pass count simply goes up
-
-////////////
-
-suman --interactive
 
 ////////////
 

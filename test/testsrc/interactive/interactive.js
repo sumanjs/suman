@@ -1,4 +1,4 @@
-const inquirer = require('inquirer');
+const inquirer = require('suman-inquirer');
 const util = require('util');
 
 inquirer.prompt([
