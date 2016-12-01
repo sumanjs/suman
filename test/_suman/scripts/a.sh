@@ -5,12 +5,17 @@ echo ${PWD} &&
 mkdir project &&
 cd project &&
 npm init -f &&
-echo "Installign suman with 'npm install -D --silent github:oresoftware/suman' " &&
+echo ".....Installing suman with 'npm install -D --silent github:oresoftware/suman'...." &&
 npm install -D --silent github:oresoftware/suman &&
-echo "Making test directory" &&
+echo "...Making test directory..." &&
 mkdir test &&
-
-./node_modules/.bin/suman --init &&
-./node_modules/.bin/suman --create test/one.test.js &&
-./node_modules/.bin/suman &&
-echo "fish and human being"
+echo $(ls -a) &&
+echo "....initing suman..." &&
+SUMAN_DEBUG=s ./node_modules/.bin/suman --init &&
+echo "....DONE initing suman..." &&
+echo $(ls -a) &&
+echo "....creating new test file..." &&
+SUMAN_DEBUG=s ./node_modules/.bin/suman --create test/one.test.js &&
+echo "....executing suman test runner..." &&
+SUMAN_DEBUG=s  ./node_modules/.bin/suman &&
+echo "all done here!"
