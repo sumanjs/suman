@@ -5,9 +5,14 @@ add a staging branch
 
 ////////
 
+creating documentation site:
 https://code.google.com/p/gitiles/
 
 /////////
+
+suman.conf.js does not seem to get written out if suman is already installed locally
+
+////////
 
 instead of SUMAN_DEBUG, we really need DEBUG=suman:x instead
 

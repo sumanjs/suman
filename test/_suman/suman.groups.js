@@ -15,6 +15,16 @@ function getBuildArgs (name) {
 
 const projectRoot = sumanUtils.findProjectRoot(process.cwd());
 
+
+function build(){
+  return 'cd ' + __dirname + ' &&  docker build ' + getBuildArgs(this.name) + ' -t ' + this.name + ' .'
+}
+
+function run(){
+  return 'cd ' + __dirname + ' &&  docker build ' + getBuildArgs(this.name) + ' -t ' + this.name + ' .'
+}
+
+
 module.exports = data => {
 
   return {
