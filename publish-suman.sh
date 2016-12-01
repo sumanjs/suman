@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-# start Usage:
+# usage:
 # GIT_COMMIT_MSG = $1  =>  first argument to script
 # if second argument to script $2 is "publish"  then we publish to NPM
-# end usage
+
+
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$BRANCH" != "dev" ]]; then
