@@ -5,6 +5,10 @@ add a staging branch
 
 ////////
 
+https://code.google.com/p/gitiles/
+
+/////////
+
 instead of SUMAN_DEBUG, we really need DEBUG=suman:x instead
 
 ////////
