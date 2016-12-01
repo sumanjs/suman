@@ -6,8 +6,16 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 
 ///////////////////////////////////////////////////////////////////
 
+/*
+
+ For the reader: Suman uses dashdash to parse command line arguments
+ We found dashdash to be a better alternative to existing tools like commander
+ => https://github.com/trentm/node-dashdash
+
+ */
+
 if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes') {
-  //prevents users from f*king up by accident and getting in some possible infinite process-spawn
+  //prevents users from f*king up by accident and getting in an infinite process-spawn
   //loop that will lock up their entire system
   console.log('Warning: attempted to require Suman index.js but this cannot be.');
   return;
@@ -100,16 +108,18 @@ const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
 const _ = require('lodash');
+const debug = require('suman-debug');
 
 //project
+
 const constants = require('./config/suman-constants');
 const sumanUtils = require('suman-utils/utils');
 
+const debugIndex = debug('s:index');
+
 ////////////////////////////////////////////////////////////////////
 
-if (process.env.SUMAN_DEBUG === 'yes') {
-  console.log('\n\n', ' => Suman started with the following command:', '\n', process.argv, '\n');
-}
+debugIndex(' => Suman started with the following command:', process.argv);
 
 ////////////////////////////////////////////////////////////////////
 
@@ -216,6 +226,7 @@ const matchAny = opts.match_any;
 const matchAll = opts.match_all;
 const matchNone = opts.match_none;
 const uninstallBabel = opts.uninstall_babel;
+const groups = opts.groups;
 
 //re-assignable
 var register = opts.register;
@@ -254,6 +265,9 @@ if (opts.watch && opts.stop_watching) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
+
+
+console.log('init => ', init);
 
 if (init) {
   global.usingDefaultConfig = true;
@@ -307,9 +321,7 @@ else {
   }
 }
 
-if (process.env.SUMAN_DEBUG === 'yes') {
-  console.log(' => Suman configuration (suman.conf.js) => \n\n', util.inspect(sumanConfig));
-}
+debugIndex(' => Suman configuration (suman.conf.js) => ', sumanConfig);
 
 if (!init) {
   const installObj = require('./lib/helpers/determine-if-suman-is-installed')(sumanConfig, opts);
@@ -412,6 +424,7 @@ const optCheck = [
   init,
   uninstall,
   convert,
+  groups,
   s,
   tailTest,
   tailRunner,
@@ -500,6 +513,10 @@ else if (s) {
 }
 else if (watch) {
   require('./lib/helpers/watch-init')(paths, sumanServerInstalled);
+}
+
+else if(groups){
+   require('./lib/groups')(paths);
 }
 
 else {

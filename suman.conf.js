@@ -1,6 +1,12 @@
-////////zzzzzzzzz/////
+'use strict';
 
+
+const os = require('os');
 const path = require('path');
+const numOfCPUs = os.cpus().length || 1;
+const pckgDotJson = require('./package.json');
+
+//////////////////////////////////////////////////////////
 
 module.exports = Object.freeze({
 
@@ -12,12 +18,12 @@ module.exports = Object.freeze({
   sumanHelpersDir: 'test/_suman',
   defaultTestSuiteTimeout: 150000,
   transpile: false,
-  maxParallelProcesses: 10,
+  maxParallelProcesses: Math.max(6, numOfCPUs),
   safe: false, //reads files in with fs.createReadStream and makes sure it's a suman test before running
   verbose: true, //handles and logs warnings (using warning level?)
   checkMemoryUsage: false,
   fullStackTraces: false,
-  uniqueAppName: 'suman',
+  uniqueAppName: pckgDotJson.name || 'sumanX',
   DEFAULT_NODE_ENV: 'development',
   browser: 'Firefox',
   disableAutoOpen: false,

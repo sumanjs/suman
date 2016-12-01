@@ -3,6 +3,17 @@
 
 add a staging branch
 
+////////
+
+instead of SUMAN_DEBUG, we really need DEBUG=suman:x instead
+
+////////
+
+headless chrome browser
+https://gist.github.com/addyosmani/5336747
+ >>>> this >>>> https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
+https://github.com/dhamaniasad/HeadlessBrowsers
+
 /////////
 
 suman groups
@@ -202,6 +213,11 @@ TODO: we need to create shared suman-config loading file so that in index and li
 add suman-debug / suman--debug  --paths=["a.js","b.js"]
 
 /////////
+
+forwarding event emitters
+https://stackoverflow.com/questions/40856154/forwarding-events-from-one-event-emitter-to-another
+
+////////
 
 update visit *** (every sequence of *** is a future hyperlink that needs filling in)
 
