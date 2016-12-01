@@ -41,6 +41,7 @@
     "semver": "^5.3.0",
     "siamese": "latest",
     "socket.io-client": "^1.4.3",
+    "suman-debug": "latest",
     "suman-inquirer": "latest",
     "suman-inquirer-directory": "latest",
     "suman-utils": "latest",
