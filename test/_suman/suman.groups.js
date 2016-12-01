@@ -1,9 +1,16 @@
+'use strict';
+
+//core
 const path = require('path');
+
+//npm
 const sumanUtils = require('suman-utils/utils');
 
 //////////////////////////////////////////////////////////////////////
 
 const scripts = path.resolve(__dirname + '/scripts');
+
+//TODO: these functions should give users options to use kubernetes or docker
 
 function getScript (s) {
   return path.resolve(scripts + '/' + s + '.sh');
@@ -21,9 +28,18 @@ function build(){
 }
 
 function run(){
-  return 'cd ' + __dirname + ' &&  docker build ' + getBuildArgs(this.name) + ' -t ' + this.name + ' .'
+  return 'docker run -it --tty=false --rm ' + this.name;
 }
 
+function getPathToScript(){
+   return path.resolve(scripts + '/' + this.name + '.sh');
+}
+
+const defaults = Object.freeze({
+  build: build,
+  getPathToScript: getPathToScript,
+  run: run
+});
 
 module.exports = data => {
 
@@ -38,35 +54,41 @@ module.exports = data => {
 
       {
         name: 'a',
+        allowReuseImage: false,
         useContainer: true,
         //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
-        build: function () {
-          // return 'cd ' + __dirname + ' &&  docker build --build-arg s=' + getScript(this.name) + ' -t ' + this.name + ' .'
-          return 'cd ' + __dirname + ' &&  docker build ' + getBuildArgs(this.name) + ' -t ' + this.name + ' .'
-        },
-        pathToScript: '',
-        run: function () {
-          return 'docker run -it --tty=false --rm ' + this.name;
-        },
+        // build: build,
+        // getPathToScript: getPathToScript,
+        // run: run
 
       },
 
       {
         name: 'b',
+        allowReuseImage: false,
         useContainer: true,
         //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
-        build: function () {
-          // return 'cd ' + __dirname + ' &&  docker build --build-arg s=' + getScript(this.name) + ' -t ' + this.name + ' .'
-          return 'cd ' + __dirname + ' &&  docker build ' + getBuildArgs(this.name) + ' -t ' + this.name + ' .'
-        },
-        pathToScript: '',
-        run: function () {
-          return 'docker run -it --tty=false --rm ' + this.name;
-        },
+        // build: build,
+        // getPathToScript: getPathToScript,
+        // run: run
 
       },
 
-    ]
+      {
+        name: 'c',
+        allowReuseImage: false,
+        useContainer: true,
+        //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
+        // build: build,
+        // getPathToScript: getPathToScript,
+        // run: run
+
+      },
+
+
+    ].map(function(item){
+        return Object.assign({}, defaults, item);
+    })
   }
 
 };

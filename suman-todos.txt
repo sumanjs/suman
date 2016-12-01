@@ -9,6 +9,10 @@ http://stackoverflow.com/questions/40902445/using-variable-interpolation-in-stri
 
 /////////
 
+how to determine if container is already built
+
+/////////
+
 creating documentation site:
 https://code.google.com/p/gitiles/
 

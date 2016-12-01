@@ -514,7 +514,7 @@ else if (watch) {
 }
 
 else if(groups){
-   require('./lib/groups')(paths);
+   require('./lib/groups/groups.js')(paths);
 }
 
 else {
