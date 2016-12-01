@@ -267,8 +267,6 @@ if (opts.watch && opts.stop_watching) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-console.log('init => ', init);
-
 if (init) {
   global.usingDefaultConfig = true;
   sumanConfig = global.sumanConfig = {};

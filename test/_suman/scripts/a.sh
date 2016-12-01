@@ -5,8 +5,8 @@ echo ${PWD} &&
 mkdir project &&
 cd project &&
 npm init -f &&
-echo ".....Installing suman with 'npm install -D --silent github:oresoftware/suman'...." &&
-npm install -D --silent github:oresoftware/suman &&
+echo ".....Installing suman with 'npm install -D --silent github:oresoftware/suman#dev'...." &&
+npm install -D --silent --progress=false github:oresoftware/suman#dev &&
 echo "...Making test directory..." &&
 mkdir test &&
 echo $(ls -a) &&
