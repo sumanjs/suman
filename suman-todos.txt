@@ -5,6 +5,10 @@ add a staging branch
 
 ////////
 
+http://stackoverflow.com/questions/40902445/using-variable-interpolation-in-string-in-docker/40903689#40903689
+
+/////////
+
 creating documentation site:
 https://code.google.com/p/gitiles/
 
