@@ -36,6 +36,8 @@ function getPathToScript(){
 }
 
 const defaults = Object.freeze({
+  allowReuseImage: false,
+  useContainer: true,
   build: build,
   getPathToScript: getPathToScript,
   run: run
@@ -43,50 +45,50 @@ const defaults = Object.freeze({
 
 module.exports = data => {
 
+  const groups = [
+
+    {
+      name: 'a',
+      allowReuseImage: false,
+      useContainer: true,
+      //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
+      // build: build,
+      // getPathToScript: getPathToScript,
+      // run: run
+
+    },
+
+    {
+      name: 'b',
+      allowReuseImage: false,
+      useContainer: true,
+      //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
+      // build: build,
+      // getPathToScript: getPathToScript,
+      // run: run
+
+    },
+
+    {
+      name: 'c',
+      allowReuseImage: false,
+      useContainer: true,
+      //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
+      // build: build,
+      // getPathToScript: getPathToScript,
+      // run: run
+
+    },
+
+  ];
+
   return {
 
     //TODO: have to handle the case where the build has already been built - don't want to rebuild container
 
     // put in .suman/groups/scripts
     // if pathToScript is null/undefined, will read script with the same name as the group in the above dir
-
-    groups: [
-
-      {
-        name: 'a',
-        allowReuseImage: false,
-        useContainer: true,
-        //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
-        // build: build,
-        // getPathToScript: getPathToScript,
-        // run: run
-
-      },
-
-      {
-        name: 'b',
-        allowReuseImage: false,
-        useContainer: true,
-        //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
-        // build: build,
-        // getPathToScript: getPathToScript,
-        // run: run
-
-      },
-
-      {
-        name: 'c',
-        allowReuseImage: false,
-        useContainer: true,
-        //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
-        // build: build,
-        // getPathToScript: getPathToScript,
-        // run: run
-
-      },
-
-
-    ].map(function(item){
+    groups: groups.map(function(item){
         return Object.assign({}, defaults, item);
     })
   }
