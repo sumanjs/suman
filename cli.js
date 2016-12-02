@@ -267,8 +267,6 @@ if (opts.watch && opts.stop_watching) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-console.log('init => ', init);
-
 if (init) {
   global.usingDefaultConfig = true;
   sumanConfig = global.sumanConfig = {};
@@ -516,7 +514,7 @@ else if (watch) {
 }
 
 else if(groups){
-   require('./lib/groups')(paths);
+   require('./lib/groups/groups.js')(paths);
 }
 
 else {

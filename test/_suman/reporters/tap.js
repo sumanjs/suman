@@ -1,7 +1,7 @@
 'use striiiict';
 
 
-const events = require('suman/events');
+const events = require('suman-events');
 
 function title(test) {
     return String(test.desc).replace(/#/g, '');
