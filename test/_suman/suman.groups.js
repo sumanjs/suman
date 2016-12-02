@@ -36,7 +36,7 @@ function getPathToScript(){
 }
 
 const defaults = Object.freeze({
-  allowReuseImage: false,
+  allowReuseImage: true,
   useContainer: true,
   build: build,
   getPathToScript: getPathToScript,
@@ -49,7 +49,7 @@ module.exports = data => {
 
     {
       name: 'a',
-      allowReuseImage: false,
+      // allowReuseImage: false,
       useContainer: true,
       //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
       // build: build,
@@ -60,7 +60,7 @@ module.exports = data => {
 
     {
       name: 'b',
-      allowReuseImage: false,
+      // allowReuseImage: false,
       useContainer: true,
       //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
       // build: build,
@@ -71,7 +71,7 @@ module.exports = data => {
 
     {
       name: 'c',
-      allowReuseImage: false,
+      // allowReuseImage: false,
       useContainer: true,
       //the machine hopefully *already* has the build saved on the fs, so won't have to rebuild
       // build: build,

@@ -1,9 +1,6 @@
 
 /////////
 
-add a staging branch
-
-////////
 
 http://stackoverflow.com/questions/40902445/using-variable-interpolation-in-string-in-docker/40903689#40903689
 
@@ -13,18 +10,24 @@ how to determine if container is already built
 
 /////////
 
+tail multiple files:
+http://www.thegeekstuff.com/2009/09/multitail-to-view-tail-f-output-of-multiple-log-files-in-one-terminal
+
+/////////
+
+=> load suman-inquirer and suman-inquirer-directory from NPM instead of installing first
+=> todo: list dependency size on disk
+
+/////////
+
+http://stackoverflow.com/questions/40906381/use-only-one-write-stream-in-parent-process-for-multiple-child-processes/40908503#40908503
+
+///////
+
 creating documentation site:
 https://code.google.com/p/gitiles/
 
 /////////
-
-suman.conf.js does not seem to get written out if suman is already installed locally
-
-////////
-
-instead of SUMAN_DEBUG, we really need DEBUG=suman:x instead
-
-////////
 
 headless chrome browser
 https://gist.github.com/addyosmani/5336747
@@ -33,9 +36,15 @@ https://github.com/dhamaniasad/HeadlessBrowsers
 
 /////////
 
-suman groups
+npm ls x
+npm la x   // list dependencies in your project that depend on x
 
-///////
+/////////
+
+TODO: if require.main = $module => export = false
+      if
+
+/////////
 
 Docker:
 https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/

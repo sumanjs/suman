@@ -18,7 +18,6 @@
     "async": "^1.5.0",
     "builtin-modules": "^1.1.1",
     "callsite": "^1.0.0",
-    "chalk": "^1.1.1",
     "chmodr": "^1.0.2",
     "colors": "^1.1.2",
     "cross-spawn": "^2.2.3",
@@ -26,14 +25,12 @@
     "debug": "^2.3.3",
     "du": "^0.1.0",
     "function-arguments": "^1.0.4",
-    "jquery": "^2.2.2",
     "lodash": "^4.6.1",
     "make-beep": "0.0.1",
     "net-ping": "^1.1.12",
     "node-progress-bars": "^1.0.0",
     "pragmatik": "latest",
     "progress": "^1.1.8",
-    "prompt": "^1.0.0",
     "request": "^2.79.0",
     "require-from-string": "^1.1.0",
     "residence": "latest",
@@ -42,8 +39,8 @@
     "siamese": "latest",
     "socket.io-client": "^1.4.3",
     "suman-debug": "latest",
-    "suman-inquirer": "latest",
-    "suman-inquirer-directory": "latest",
+    "suman-events": "latest",
+    "suman-example-reporter": "latest",
     "suman-utils": "latest",
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
@@ -53,8 +50,6 @@
     "test": "test"
   },
   "devDependencies": {
-    "should": "^8.3.1",
-    "suman-example-reporter": "^1.0.0"
   },
   "repository": {
     "type": "git",
