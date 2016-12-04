@@ -1,10 +1,11 @@
 {
   "name": "suman",
-  "version": "1.1.512195",
+  "version": "1.1.512196",
   "main": "lib/index.js",
   "scripts": {
     "test": "./node_modules/.bin/suman test/testsrc/es5-es6/a.js",
-    "postinstall": "./scripts/create-suman-dir.js",
+    "postinstall": "./scripts/suman-postinstall.sh",
+    "postinstallz": "./scripts/create-suman-dir.js & ./scripts/install-suman-home.sh && ./scripts/on-install-success.js",
     "postinstally": "node scripts/create-suman-dir.js && node scripts/create-suman-alias.js",
     "postinstallx": "node scripts/a.js",
     "merge": "git merge -Xignore-all-space"
