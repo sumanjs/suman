@@ -39,7 +39,7 @@ git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$1" &&
 #git rebase $(git describe --tags) &&
-git push public HEAD:staging -f &&
+git push origin HEAD:staging -f &&
 
 
 if [ "$2" = "publish" ]; then
