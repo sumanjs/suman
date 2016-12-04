@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 
-console.log(' => In Suman postinstall script => ', __filename,'\n\n');
+console.log(' => In Suman postinstall script => ', __filename, '\n\n');
 
 //core
 const path = require('path');
@@ -18,6 +18,8 @@ const sumanUtils = require('suman-utils/utils');
 
 
 const cwd = process.cwd();
+console.log(' => In Suman postinstall script, cwd => ', cwd, '\n\n');
+
 const userHomeDir = path.resolve(sumanUtils.getHomeDir());
 const p = path.resolve(userHomeDir + '/.suman');
 const findSumanExec = path.resolve(p + '/find-local-suman-executable.js');
@@ -38,7 +40,7 @@ fs.mkdir(p, function (err) {
     if (err && !String(err.stack || err).match(/EEXIST/)) {
         throw err;
     }
-    else if(err){
+    else if (err) {
         fs.writeFileSync(sumanDebugLog, '\n => Suman post-install script warning => \n' + (err.stack || err), {flag: 'a'});
     }
 
