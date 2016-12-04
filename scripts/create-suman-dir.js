@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 
-console.log(' => In Suman postinstall script => ', __filename);
+console.log(' => In Suman postinstall script => ', __filename,'\n\n');
 
 //core
 const path = require('path');
@@ -29,10 +29,17 @@ const sumanHome = path.resolve(process.env.HOME + '/.suman');
 
 //////////////////////////////////////////////////////////////////////////
 
+fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', {flag: 'a'});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 fs.mkdir(p, function (err) {
 
     if (err && !String(err.stack || err).match(/EEXIST/)) {
         throw err;
+    }
+    else if(err){
+        fs.writeFileSync(sumanDebugLog, '\n => Suman post-install script warning => \n' + (err.stack || err), {flag: 'a'});
     }
 
     async.parallel([
@@ -55,17 +62,25 @@ fs.mkdir(p, function (err) {
 
         if (err) {
             fs.writeFileSync(sumanDebugLog, '\n => Suman post-install script failed with error => \n' + (err.stack || err), {flag: 'a'});
-            throw err;
+            console.error(err.stack || err);
+            process.exit(1);
         }
         else {
 
-            const n = cp.spawn('sh', [path.resolve(__dirname, 'install-suman-home.sh')], {
-                detached: true,
-                stdio: ['ignore', fs.openSync(sumanDebugLog, 'a'), fs.openSync(sumanDebugLog, 'a')]
-            });
+            // const n = cp.spawn('sh', [path.resolve(__dirname, 'install-suman-home.sh')], {
+            //     detached: false,
+            //     stdio: ['ignore', fs.openSync(sumanDebugLog, 'a'), fs.openSync(sumanDebugLog, 'a')],
+            //     env: {
+            //       DEBUG_LOG_PATH: sumanDebugLog
+            //     },
+            //
+            // });
+            //
+            // n.on('close', function(){
+            //
+            // });
 
 
-            fs.writeFileSync(sumanDebugLog, '\n => Suman post-install script succeeded', {flag: 'a'});
             process.nextTick(function () {
                 process.exit(0);
             });
