@@ -1,10 +1,36 @@
 
+///////
+
+because Poolio depends on Suman, we might need to install suman with --production / --only-production flag
+
+///////
+
+suman-server/frontail in ~/.suman
+install them in ~/.suman/node_modules for now
+
+////////
+
+TODO: when running require('suman'), it will try to load suman.conf.js, which is bad when trying to run init!
+it will throw an error if suman.conf.js does not exist
+
+/////////
+
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04
+
+////////
+
+https://medium.com/@mbostock/prereleases-and-npm-e778fc5e2420#.v7sfbacbc
+
 /////////
 
 
 http://stackoverflow.com/questions/40902445/using-variable-interpolation-in-string-in-docker/40903689#40903689
 
 /////////
+
+http://stackoverflow.com/questions/9268259/how-do-you-prevent-install-of-devdependencies-npm-modules-for-node-js-package
+
+////////
 
 how to determine if container is already built
 

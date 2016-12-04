@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 if ! [ -z "${LOCAL_SUMAN_ALREADY_FOUND+x}" ]; then
     echo " => \$LOCAL_SUMAN_ALREADY_FOUND ? => $LOCAL_SUMAN_ALREADY_FOUND"
 fi
@@ -10,6 +11,9 @@ RL=$(readlink "$0");
 EXECDIR=$(dirname $(dirname "$RL"));
 MYPATH="$DIRN/$EXECDIR";
 X="$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})"
+
+
+NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
 if [ "${LOCAL_SUMAN_ALREADY_FOUND}" = "yes" ]; then
     # we know that this directory contains the local version of suman we want to use

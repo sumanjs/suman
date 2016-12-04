@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# note to reader - if you wish to modify this file please move outside the $HOME/.suman dir, because suman
+# note to reader - if you wish to modify this file please move outside the ~/.suman dir, because suman
 # may periodically update this file's contents which would overwrite your changes
+# if you do so, just change your .bashrc or .zshrc, or whatever, to source your file instead of this one
 
 function __handle_global_suman {
 
@@ -22,7 +23,7 @@ function __handle_global_suman {
         # we work with the first argument passed to this function
         local ref="$1[@]";
         shift
-        SUMAN_LOCAL_ALREADY_FOUND=yes node "${!ref}" "${X}/cli.js" "${2}";
+        SUMAN_LOCAL_ALREADY_FOUND=yes NODE_PATH=${NODE_PATH}:~/.suman/node_modules node "${!ref}" "${X}/cli.js" "${2}";
     fi
 }
 
@@ -37,7 +38,7 @@ function suman {
         local -a node_exec_args=( )
         __handle_global_suman node_exec_args "$@"
     else
-        SUMAN_LOCAL_ALREADY_FOUND=yes node "$LOCAL_SUMAN" "$@";
+        SUMAN_LOCAL_ALREADY_FOUND=yes NODE_PATH=${NODE_PATH}:~/.suman/node_modules node "$LOCAL_SUMAN" "$@";
     fi
 }
 
@@ -52,7 +53,7 @@ function suman-inspect {
         local -a node_exec_args=( --inspect --debug-brk )
         __handle_global_suman node_exec_args "$@"
     else
-        SUMAN_LOCAL_ALREADY_FOUND=yes sh "$LOCAL_SUMAN" "$@";
+        SUMAN_LOCAL_ALREADY_FOUND=yes NODE_PATH=${NODE_PATH}:~/.suman/node_modules node "$LOCAL_SUMAN" "$@";
     fi
 }
 
@@ -68,7 +69,7 @@ function suman-debug {
         local -a node_exec_args=( debug )
         __handle_global_suman node_exec_args "$@"
     else
-        SUMAN_LOCAL_ALREADY_FOUND=yes sh "$LOCAL_SUMAN" "$@";
+        SUMAN_LOCAL_ALREADY_FOUND=yes NODE_PATH=${NODE_PATH}:~/.suman/node_modules node "$LOCAL_SUMAN" "$@";
     fi
 }
 
@@ -84,6 +85,6 @@ function suman--debug {
         local -a node_exec_args=( --debug-brk=5858 --debug=5858 )
         __handle_global_suman node_exec_args "$@"
     else
-        SUMAN_LOCAL_ALREADY_FOUND=yes node "$LOCAL_SUMAN" "$@";
+        SUMAN_LOCAL_ALREADY_FOUND=yes NODE_PATH=${NODE_PATH}:~/.suman/node_modules node "$LOCAL_SUMAN" "$@";
     fi
 }

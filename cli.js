@@ -120,6 +120,7 @@ const debugIndex = debug('s:index');
 ////////////////////////////////////////////////////////////////////
 
 debugIndex(' => Suman started with the following command:', process.argv);
+debugIndex(' => $NODE_PATH is as follows:', process.env.NODE_PATH);
 
 ////////////////////////////////////////////////////////////////////
 
@@ -510,7 +511,7 @@ else if (s) {
   require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
 }
 else if (watch) {
-  require('./lib/helpers/watch-init')(paths, sumanServerInstalled);
+  require('./lib/watching/watch-init')(paths, sumanServerInstalled);
 }
 
 else if(groups){
