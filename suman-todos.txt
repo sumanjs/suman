@@ -1,7 +1,38 @@
 
+//////
+
+create symbolic link from ~/.suman/node_modules/.bin/istanbul to ./node_modules/.bin/istanbul
+http://stackoverflow.com/questions/1951742/how-to-symlink-a-file-in-linux
+
 ///////
 
+in case suman gets installed more than once in someone's project, need to make sure the postinstall script
+doesn't run twice?
+
+///////
+
+~/suman/test_results are still being written out
+
+///////
+
+ in --interactive, on final countdown from 10, only listen for backspace event instead of all stdin keys
+
+///////
+
+we can use npm link to link ~/.suman/node_modules
+
+//////
+
+if user is root, can we write .suman directory to ~/.suman?
+
+//////
+
 because Poolio depends on Suman, we might need to install suman with --production / --only-production flag
+
+///////
+
+pnpm, ied => https://github.com/tapjs/node-tap/issues/333#issuecomment-264680790
+
 
 ///////
 
