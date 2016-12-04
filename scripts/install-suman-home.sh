@@ -11,7 +11,7 @@ fi
 
 
 LOG_PATH=~/.suman/suman-debug.log
-cd ~/.suman && npm install --progress=false --loglevel=silent suman-home@latest > ${LOG_PATH} 2>&1
-#cd ~/.suman/ && yarn add suman-home > ${LOG_PATH}  2>&1
+#cd ~/.suman && npm install --progress=false --loglevel=silent suman-home@latest > ${LOG_PATH} 2>&1
+cd ~/.suman/ && yarn add suman-home > ${LOG_PATH}  2>&1
 
 #echo "suman-home install happening in background" > ${DEBUG_LOG_PATH} &
