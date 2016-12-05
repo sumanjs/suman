@@ -111,11 +111,20 @@ async.eachSeries(installs, function (item, cb) {
     const p = path.resolve(sumanHome + '/node_modules/', item);
     console.log(' => Looking for directory for item =>', item, ' => here => ', p);
 
-    const stat = fs.statSync(p);
+    var stat;
+    var isDirectory = false;
+
+    try{
+        stat = fs.statSync(p);
+        isDirectory = stat.isDirectory();
+    }
+    catch(err) {
+
+    }
 
     var args;
 
-    if (stat.isDirectory()) {
+    if (isDirectory) {
 
         console.log(' => Updating => ', item, ' at path => ', sumanHome);
         args = ['update', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
