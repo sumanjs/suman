@@ -6,7 +6,7 @@ DOT_SUMAN_DIR=$(cd ~/.suman && pwd)
 
 echo "DOT_SUMAN_DIR => $DOT_SUMAN_DIR"
 
-if ![[ -d "$DOT_SUMAN_DIR" ]]; then
+if [[ ! -d "$DOT_SUMAN_DIR" ]]; then
     echo " => Suman failed to create ~/.suman directory, exiting with 1"
     exit 1;
 fi
@@ -15,10 +15,14 @@ SUMAN_CONF_JS=$(dirname $(dirname $PWD))/suman.conf.js
 
 LOG_PATH=~/.suman/suman-debug.log
 
+# get base directory, to uppercase  ( HOME, USERS, USR , etc.)
+BASE_DIRECTORY=$(echo "$PWD" | cut -d "/" -f2) | tr '[:upper:]'
+
 echo " => Potential suman.conf.js file path => ${SUMAN_CONF_JS}"
+echo " => BASE_DIRECTORY=> ${BASE_DIRECTORY}"
 
 # if suman.conf.js exists, then we run things in "foreground", otherwise run as daemon
-if [ -e "$SUMAN_CONF_JS" ]; then
+if [[ (-e "$SUMAN_CONF_JS") || ("HOME" == "$BASE_DIRECTORY") || ("USERS" == "$BASE_DIRECTORY") ]]; then
     echo " => suman.conf.js file found."
     ./scripts/install-suman-home.sh &&
     ./scripts/on-install-success.js
