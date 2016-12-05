@@ -59,22 +59,22 @@ catch (err) {
 const sumanConf = require(path.resolve(projectRoot + '/suman.conf.js'));
 
 //always install latest for now
-const installs = [];
+var installs = [];
 
 if (sumanConf.useBabel || true) {
-    installs.concat(Object.keys(deps.babel));
+    installs = installs.concat(Object.keys(deps.babel));
 }
 
 if (sumanConf.useSumanServer || true) {
-    installs.concat(Object.keys(deps.sumanServer));
+    installs =installs.concat(Object.keys(deps.sumanServer));
 }
 
 if (sumanConf.useSumanInteractive || true) {
-    installs.concat(Object.keys(deps.sumanInteractive));
+    installs = installs.concat(Object.keys(deps.sumanInteractive));
 }
 
 if (sumanConf.useIstanbul || true) {
-    installs.concat(Object.keys(deps.istanbul));
+    installs = installs.concat(Object.keys(deps.istanbul));
 }
 
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
@@ -86,6 +86,8 @@ const to = setTimeout(function () {
     console.log(' => Suman postinstall process timed out.');
     process.exit(1);
 }, 200000);
+
+console.log('=> Installs =>', installs);
 
 async.eachSeries(installs, function (item, cb) {
 
