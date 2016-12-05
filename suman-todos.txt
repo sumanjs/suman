@@ -1,6 +1,12 @@
 
 /////
 
+
+test-errors should be created whenever suman is run
+
+/////
+
+
 source modules from ~/.npm cache if we can't find them in ~/.suman/node_modules
 
 /////

@@ -3,9 +3,12 @@
 
 YARN=$(which yarn)
 
+
 if [ -z "${YARN}" ]; then
-    npm install -g yarn &&
-    echo "yarn installed successfully"
+#    npm install -g yarn &&
+    echo "need SUDO to install yarn installed successfully"
+else
+    echo "yarn already installed here => $YARN"
 fi
 
 
