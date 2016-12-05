@@ -229,7 +229,9 @@ async.map(installs, function (item, cb) {
                 args = ['update', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
                 break;
             default:
-                throw new Error(' => Switch statement fallthrough.');
+                return process.nextTick(function(){
+                    cb(new Error(' => Switch statement fallthrough.'));
+                });
         }
 
 
@@ -245,6 +247,7 @@ async.map(installs, function (item, cb) {
         clearTimeout(to);
 
         if (err) {
+            console.error(err.stack || err);
             process.exit(1);
         }
         else {
