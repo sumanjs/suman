@@ -66,7 +66,7 @@ if (sumanConf.useBabel || true) {
 }
 
 if (sumanConf.useSumanServer || true) {
-    installs =installs.concat(Object.keys(deps.sumanServer));
+    installs = installs.concat(Object.keys(deps.sumanServer));
 }
 
 if (sumanConf.useSumanInteractive || true) {
@@ -89,13 +89,18 @@ const to = setTimeout(function () {
 
 console.log('=> Installs =>', installs);
 
+const fd = fs.openSync(debugLog, 'a');
+// const fdstderr =fs.openSync(debugLog, 'a');
+
 async.eachSeries(installs, function (item, cb) {
 
     console.log(' => Installing => ', item, ' at path => ', sumanHome);
 
-    const n = cp.spawn('npm'['install', item + '@latest', '--loglevel=error', '--silent', '--progress=false'], {
+    const args = ['install', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
+
+    const n = cp.spawn('npm', args, {
         cwd: sumanHome,
-        stdio: ['ignore', fs.openSync(debugLog, 'a'), fs.openSync(debugLog, 'a')]
+        stdio: ['ignore', fd, fd]
     });
 
     n.on('close', cb);
