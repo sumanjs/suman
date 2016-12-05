@@ -41,8 +41,9 @@ const deps = Object.freeze({
 });
 
 const cwd = process.cwd();
-
-const projectRoot = path.resolve(__dirname, '/../../');
+console.log(' => cwd in postinstall script =>', cwd);
+const projectRoot = path.resolve(__dirname + '/../../');
+console.log('project root => ', projectRoot);
 
 var pkgDotJSON;
 
@@ -88,7 +89,7 @@ const to = setTimeout(function () {
 
 async.eachSeries(installs, function (item, cb) {
 
-    const n = cp.spawn('npm'['install', item + '@latest', '--loglevel=error', '--silent','--progress=false'], {
+    const n = cp.spawn('npm'['install', item + '@latest', '--loglevel=error', '--silent', '--progress=false'], {
         cwd: sumanHome,
         stdio: ['ignore', fs.openSync(debugLog, 'a'), fs.openSync(debugLog, 'a')]
     });
