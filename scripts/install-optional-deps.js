@@ -46,34 +46,45 @@ const projectRoot = path.resolve(cwd + '/../../');
 console.log('project root => ', projectRoot);
 
 var pkgDotJSON;
+const pth = path.resolve(projectRoot + '/package.json');
 
 try {
-    pkgDotJSON = require(path.resolve(projectRoot + '/package.json'));
+    pkgDotJSON = require(pth);
 }
 catch (err) {
-    console.error('\n', ' => Suman postinstall error => \n', err.stack || err, '\n');
-    process.exit(1);
-    return;
+    console.error('\n',
+        ' => Suman postinstall warning => \n',
+        'Could not find package.json located here => ', pth, '\n');
 }
 
-const sumanConf = require(path.resolve(projectRoot + '/suman.conf.js'));
+var sumanConf;
+var alwaysInstall = false;
+
+try {
+    require(path.resolve(projectRoot + '/suman.conf.js'));
+}
+catch (err) {
+    // if there is not suman.conf.js file, we install all deps, and we do it as a daemon
+    alwaysInstall = true;
+}
+
 
 //always install latest for now
 var installs = [];
 
-if (sumanConf.useBabel || true) {
+if (sumanConf.useBabel || alwaysInstall) {
     installs = installs.concat(Object.keys(deps.babel));
 }
 
-if (sumanConf.useSumanServer || true) {
+if (sumanConf.useSumanServer || alwaysInstall) {
     installs = installs.concat(Object.keys(deps.sumanServer));
 }
 
-if (sumanConf.useSumanInteractive || true) {
+if (sumanConf.useSumanInteractive || alwaysInstall) {
     installs = installs.concat(Object.keys(deps.sumanInteractive));
 }
 
-if (sumanConf.useIstanbul || true) {
+if (sumanConf.useIstanbul || alwaysInstall) {
     installs = installs.concat(Object.keys(deps.istanbul));
 }
 
