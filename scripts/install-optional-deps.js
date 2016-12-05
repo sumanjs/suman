@@ -40,6 +40,13 @@ const deps = Object.freeze({
     }
 });
 
+const bd = process.env.BASE_DIRECTORY;
+
+const dirs = ['HOME','USERS'];
+
+//if base directory is not home or users, then we are installing globally, so always install all
+const alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace(path.sep,'')) < 0;
+
 const cwd = process.cwd();
 console.log(' => cwd in postinstall script =>', cwd);
 const projectRoot = path.resolve(cwd + '/../../');
@@ -72,24 +79,23 @@ catch (err) {
 //always install latest for now
 var installs = [];
 
-if (sumanConf.useBabel || alwaysInstall) {
+if (sumanConf.useBabel || alwaysInstall || alwaysInstallDueToGlobal) {
     installs = installs.concat(Object.keys(deps.babel));
 }
 
-if (sumanConf.useSumanServer || alwaysInstall) {
+if (sumanConf.useSumanServer || alwaysInstall || alwaysInstallDueToGlobal) {
     installs = installs.concat(Object.keys(deps.sumanServer));
 }
 
-if (sumanConf.useSumanInteractive || alwaysInstall) {
+if (sumanConf.useSumanInteractive || alwaysInstall || alwaysInstallDueToGlobal) {
     installs = installs.concat(Object.keys(deps.sumanInteractive));
 }
 
-if (sumanConf.useIstanbul || alwaysInstall) {
+if (sumanConf.useIstanbul || alwaysInstall || alwaysInstallDueToGlobal) {
     installs = installs.concat(Object.keys(deps.istanbul));
 }
 
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
-
 const debugLog = path.resolve(sumanHome + '/suman-debug.log');
 
 //200 second timeout...

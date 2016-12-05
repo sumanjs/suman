@@ -31,7 +31,7 @@ const sumanHome = path.resolve(process.env.HOME + '/.suman');
 
 //////////////////////////////////////////////////////////////////////////
 
-fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', {flag: 'a', flags: 'a'});
+fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', {flag: 'w', flags: 'w'});
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,9 +40,9 @@ fs.mkdir(p, function (err) {
     if (err && !String(err.stack || err).match(/EEXIST/)) {
         throw err;
     }
-    else if (err) {
-        fs.writeFileSync(sumanDebugLog, '\n => Suman post-install script warning => \n' + (err.stack || err), {flag: 'a'});
-    }
+    // else if (err) {
+    //     fs.writeFileSync(sumanDebugLog, '\n => Suman post-install script warning => \n' + (err.stack || err), {flag: 'a'});
+    // }
 
     async.parallel([
 

@@ -3,7 +3,12 @@
 
 source modules from ~/.npm cache if we can't find them in ~/.suman/node_modules
 
-///// ...
+/////
+
+if project with suman as a dependency are being installed in parallel, then .suman/node_modules will be
+written to in parallel, need to mitigate this
+
+/////
 
 TODO: can optimize install-optional-deps by manually running view version in npm registry
 and then seeing if update or install is the right way to go

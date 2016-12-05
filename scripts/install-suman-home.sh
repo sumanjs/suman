@@ -9,7 +9,10 @@ if [ -z "${YARN}" ]; then
 fi
 
 
+# if BASE_DIRECTORY is not /home or /users, we are global
+BASE_DIRECTORY=$(echo "$PWD" | cut -d "/" -f2)
 
+echo "BASE_DIRECTORY => $BASE_DIRECTORY"
 LOG_PATH=~/.suman/suman-debug.log
 node $(dirname "$0")/install-optional-deps.js
 
