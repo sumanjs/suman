@@ -1,6 +1,12 @@
 
 /////
 
+
+if someone is installing project for first time (ie, no suman.conf.js file), then we should install all
+optional deps as a daemon process.
+
+/////
+
 require.resolve('istanbul') - we want executable, not package.json.main
 
 https://github.com/nodejs/help/issues/388
