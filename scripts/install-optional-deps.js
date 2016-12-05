@@ -3,7 +3,7 @@ const path = require('path');
 const cp = require('child_process');
 const fs = require('fs');
 const assert = require('assert');
-const util  = require('util');
+const util = require('util');
 
 //async
 const async = require('async');
@@ -130,7 +130,7 @@ async.map(installs, function (item, cb) {
                 }
                 cb(null, {
                     name: item,
-                    version: val
+                    version: String(val).replace(/\s/g,'')
                 })
             });
         },
@@ -144,6 +144,9 @@ async.map(installs, function (item, cb) {
                     ijson.parse(data).then(function (val) {
 
                         console.log('parsed val => ', val);
+                        if (!val || !val.version) {
+                            console.log(' val is not defined for item => ', item);
+                        }
                         cb(null, {
                             version: val.version
                         })
@@ -172,7 +175,8 @@ async.map(installs, function (item, cb) {
             }
             catch (err) {
                 console.error(err.stack || err);
-                return cb(err);
+                results.view.action = 'install';
+                return cb(null, results.view);
             }
 
             if (semver.lt(results.stats.version, results.view.version)) {
@@ -224,14 +228,14 @@ async.map(installs, function (item, cb) {
                 return process.nextTick(cb);
             case 'install':
                 console.log(' => Installing => ', item, ' at path => ', sumanHome);
-                args = ['install', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
+                args = ['install', item + '@latest', '--force', '--loglevel=error', '--silent', '--progress=false'];
                 break;
             case 'update':
                 console.log(' => Updating => ', item, ' at path => ', sumanHome);
                 args = ['update', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
                 break;
             default:
-                return process.nextTick(function(){
+                return process.nextTick(function () {
                     cb(new Error(' => Switch statement fallthrough.'));
                 });
         }
