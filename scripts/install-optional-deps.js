@@ -92,6 +92,8 @@ console.log('=> Installs =>', installs);
 const fd = fs.openSync(debugLog, 'a');
 // const fdstderr =fs.openSync(debugLog, 'a');
 
+const time = Date.now();
+
 async.each(installs, function (item, cb) {
 
     console.log(' => Installing => ', item, ' at path => ', sumanHome);
@@ -113,6 +115,7 @@ async.each(installs, function (item, cb) {
         process.exit(1);
     }
     else {
+        console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));
         process.exit(0);
     }
 
