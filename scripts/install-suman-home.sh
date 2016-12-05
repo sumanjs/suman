@@ -11,7 +11,7 @@ fi
 
 
 LOG_PATH=~/.suman/suman-debug.log
-node "$0"/install-optional-deps.js
+node $(dirname "$0")/install-optional-deps.js
 
 #cd ~/.suman && npm update --progress=false --loglevel=silent suman-home@latest > ${LOG_PATH} 2>&1
 #cd ~/.suman/ && yarn add suman-home > ${LOG_PATH}  2>&1
