@@ -97,9 +97,7 @@ const time = Date.now();
 async.eachSeries(installs, function (item, cb) {
 
     console.log(' => Installing => ', item, ' at path => ', sumanHome);
-
     const p = path.resolve(sumanHome + '/node_modules/', item);
-
     console.log(' => Looking for directory for item =>', item, ' => here => ', p);
 
     const stat = fs.statSync(p);

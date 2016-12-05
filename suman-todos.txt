@@ -1,6 +1,11 @@
 
 ///// ...
 
+TODO: can optimize install-optional-deps by manually running view version in npm registry
+and then seeing if update or install is the right way to go
+
+//////
+
 
 if someone is installing project for first time (ie, no suman.conf.js file), then we should install all
 optional deps as a daemon process.
