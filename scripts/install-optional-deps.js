@@ -140,6 +140,7 @@ async.eachSeries(installs, function (item, cb) {
         args = ['install', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
     }
 
+    return process.nextTick(cb);
 
     const n = cp.spawn('npm', args, {
         cwd: sumanHome,
