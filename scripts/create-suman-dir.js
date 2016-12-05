@@ -29,10 +29,6 @@ const sumanClisFile = fs.readFileSync(require.resolve('./suman-clis.sh'));
 const findSumanExecFile = fs.readFileSync(require.resolve('./find-local-suman-executable.js'));
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
 
-//////////////////////////////////////////////////////////////////////////
-
-fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', {flag: 'w', flags: 'w'});
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 console.log(' => Suman home dir path => ', p);
@@ -42,6 +38,9 @@ fs.mkdir(p, function (err) {
     if (err && !String(err.stack || err).match(/EEXIST/)) {
         throw err;
     }
+
+    fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', {flag: 'w', flags: 'w'});
+
     // else if (err) {
     //     fs.writeFileSync(sumanDebugLog, '\n => Suman post-install script warning => \n' + (err.stack || err), {flag: 'a'});
     // }
