@@ -6,7 +6,7 @@ DOT_SUMAN_DIR=$(cd ~/.suman && pwd)
 
 echo "DOT_SUMAN_DIR => $DOT_SUMAN_DIR"
 
-if [ -e "$DOT_SUMAN_DIR" ]; then
+if ![ -d "$DOT_SUMAN_DIR" ]; then
     echo " => Suman failed to create ~/.suman directory, exiting with 1"
     exit 1;
 fi
