@@ -89,6 +89,8 @@ const to = setTimeout(function () {
 
 async.eachSeries(installs, function (item, cb) {
 
+    console.log(' => Installing => ', item, ' at path => ', sumanHome);
+
     const n = cp.spawn('npm'['install', item + '@latest', '--loglevel=error', '--silent', '--progress=false'], {
         cwd: sumanHome,
         stdio: ['ignore', fs.openSync(debugLog, 'a'), fs.openSync(debugLog, 'a')]
