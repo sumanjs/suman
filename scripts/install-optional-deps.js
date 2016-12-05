@@ -98,7 +98,21 @@ async.eachSeries(installs, function (item, cb) {
 
     console.log(' => Installing => ', item, ' at path => ', sumanHome);
 
-    const args = ['install', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
+    const p = path.resolve(sumanHome + '/node_modules/', item);
+
+    console.log(' => Looking for directory for item =>', item, ' => here => ', p);
+
+    const stat = fs.statSync(p);
+
+    var args;
+
+    if (stat.isDirectory()) {
+        args = ['update', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
+    }
+    else {
+        args = ['install', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
+    }
+
 
     const n = cp.spawn('npm', args, {
         cwd: sumanHome,
