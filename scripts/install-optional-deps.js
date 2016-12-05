@@ -42,7 +42,7 @@ const deps = Object.freeze({
 
 const cwd = process.cwd();
 console.log(' => cwd in postinstall script =>', cwd);
-const projectRoot = path.resolve(__dirname + '/../../');
+const projectRoot = path.resolve(cwd + '/../../');
 console.log('project root => ', projectRoot);
 
 var pkgDotJSON;
