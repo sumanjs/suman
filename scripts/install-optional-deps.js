@@ -92,7 +92,7 @@ console.log('=> Installs =>', installs);
 const fd = fs.openSync(debugLog, 'a');
 // const fdstderr =fs.openSync(debugLog, 'a');
 
-async.eachSeries(installs, function (item, cb) {
+async.each(installs, function (item, cb) {
 
     console.log(' => Installing => ', item, ' at path => ', sumanHome);
 
