@@ -17,9 +17,10 @@ else{
 }
 
 const debugLogPath = path.resolve(process.env.HOME + '/.suman/suman-debug.log');
-fs.writeFileSync(debugLogPath, '\n', { flag: 'w' });
-fs.writeFileSync(debugLogPath, ' => Running find-local-suman-executable.\n', { flag: 'a' });
-fs.writeFileSync(debugLogPath, 'cwd => ' + cwd, { flag: 'a' });
+
+fs.writeFileSync(debugLogPath, '\n', { flag: 'w', flags: 'w' });
+fs.writeFileSync(debugLogPath, ' => Running find-local-suman-executable.\n', { flag: 'a', flags: 'a' });
+fs.writeFileSync(debugLogPath, 'cwd => ' + cwd, { flag: 'a', flags: 'a' });
 
 var p, cd;
 
