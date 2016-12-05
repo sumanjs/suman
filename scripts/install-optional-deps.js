@@ -163,6 +163,8 @@ async.map(installs, function (item, cb) {
             return cb(err);
         }
 
+        console.log(' item => ', item, 'view version:', results.view.version, 'stats version => ', results.stats.version, '\n\n\n');
+
         if (!results.stats.version) {
             results.view.action = 'install';
         }
