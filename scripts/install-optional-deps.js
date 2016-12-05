@@ -94,7 +94,7 @@ const fd = fs.openSync(debugLog, 'a');
 
 const time = Date.now();
 
-async.each(installs, function (item, cb) {
+async.eachSeries(installs, function (item, cb) {
 
     console.log(' => Installing => ', item, ' at path => ', sumanHome);
 
