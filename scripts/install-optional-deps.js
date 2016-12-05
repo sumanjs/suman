@@ -136,12 +136,14 @@ async.map(installs, function (item, cb) {
         },
         stats: function (cb) {
 
-            fs.readFile(path.resolve(p + '/package.json'), function (err, data) {
+            fs.readFile(path.resolve(p + '/package.json'), 'utf8', function (err, data) {
                 if (err) {
                     cb(null, {version: null});
                 }
                 else {
                     ijson.parse(data).then(function (val) {
+
+                        console.log('parsed val => ', val);
                         cb(null, {
                             version: val.version
                         })
@@ -181,7 +183,7 @@ async.map(installs, function (item, cb) {
             }
         }
         //finally we call
-        cb(null, results);
+        cb(null, results.view);
     });
 
 
