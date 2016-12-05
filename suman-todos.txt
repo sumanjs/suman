@@ -1,5 +1,5 @@
 
-/////
+///// ...
 
 
 if someone is installing project for first time (ie, no suman.conf.js file), then we should install all
