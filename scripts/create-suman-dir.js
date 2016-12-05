@@ -35,6 +35,8 @@ fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+console.log(' => Suman home dir path => ', p);
+
 fs.mkdir(p, function (err) {
 
     if (err && !String(err.stack || err).match(/EEXIST/)) {
@@ -81,6 +83,15 @@ fs.mkdir(p, function (err) {
             // n.on('close', function(){
             //
             // });
+
+            const exists = fs.existsSync(sumanHome);
+
+            if(exists){
+                console.log(' => ~/.suman dir exists!');
+            }
+            else{
+                console.log(' => ~/.suman dir does not exist!');
+            }
 
             process.exit(0);
 
