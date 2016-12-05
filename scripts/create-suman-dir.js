@@ -31,7 +31,7 @@ const sumanHome = path.resolve(process.env.HOME + '/.suman');
 
 //////////////////////////////////////////////////////////////////////////
 
-fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', {flag: 'a'});
+fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', {flag: 'a', flags: 'a'});
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,10 +82,8 @@ fs.mkdir(p, function (err) {
             //
             // });
 
+            process.exit(0);
 
-            process.nextTick(function () {
-                process.exit(0);
-            });
 
         }
 

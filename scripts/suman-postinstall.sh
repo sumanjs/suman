@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
 ./scripts/create-suman-dir.js &&
+
+
+if [ -e "$(cd ~/.suman && pwd)" ]; then
+    echo " => Suman failed to create ~/.suman directory, exiting with 1"
+    exit 1;
+fi
+
 SUMAN_CONF_JS=$(dirname $(dirname $PWD))/suman.conf.js
 
 LOG_PATH=~/.suman/suman-debug.log
