@@ -3,6 +3,7 @@ const path = require('path');
 const cp = require('child_process');
 const fs = require('fs');
 const assert = require('assert');
+const util  = require('util');
 
 //async
 const async = require('async');
@@ -207,6 +208,8 @@ async.map(installs, function (item, cb) {
         // catch (err) {
         //
         // }
+
+        console.log(' result => ', util.inspect(result));
 
         const item = result.name;
         const action = result.action;
