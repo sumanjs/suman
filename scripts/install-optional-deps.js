@@ -2,10 +2,12 @@
 const path = require('path');
 const cp = require('child_process');
 const fs = require('fs');
+const assert = require('assert');
 
 //async
 const async = require('async');
-
+const semver = require('semver');
+const ijson = require('siamese');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -42,15 +44,18 @@ const deps = Object.freeze({
 
 const bd = process.env.BASE_DIRECTORY;
 
-const dirs = ['HOME','USERS'];
+const dirs = ['HOME', 'USERS'];
 
 //if base directory is not home or users, then we are installing globally, so always install all
-const alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace(path.sep,'')) < 0;
+const alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace(path.sep, '')) < 0;
 
 const cwd = process.cwd();
 console.log(' => cwd in postinstall script =>', cwd);
 const projectRoot = path.resolve(cwd + '/../../');
 console.log('project root => ', projectRoot);
+
+
+// semver.gt('1.2.3', '9.8.7') // false
 
 var pkgDotJSON;
 const pth = path.resolve(projectRoot + '/package.json');
@@ -111,54 +116,141 @@ const fd = fs.openSync(debugLog, 'a');
 
 const time = Date.now();
 
-async.eachSeries(installs, function (item, cb) {
 
+async.map(installs, function (item, cb) {
 
     const p = path.resolve(sumanHome + '/node_modules/', item);
-    console.log(' => Looking for directory for item =>', item, ' => here => ', p);
 
-    var stat;
-    var isDirectory = false;
+    async.parallel({
+        view: function (cb) {
+            cp.exec('npm view ' + item + ' version', function (err, val) {
+                if (err) {
+                    return cb(err);
+                }
+                cb(null, {
+                    name: item,
+                    version: val
+                })
+            });
+        },
+        stats: function (cb) {
 
-    try{
-        stat = fs.statSync(p);
-        isDirectory = stat.isDirectory();
-    }
-    catch(err) {
+            fs.readFile(path.resolve(p + '/package.json'), function (err, data) {
+                if (err) {
+                    cb(null, {version: null});
+                }
+                else {
+                    ijson.parse(data).then(function (val) {
+                        cb(null, {
+                            version: val.version
+                        })
+                    }, cb);
 
-    }
+                }
 
-    var args;
+            })
 
-    if (isDirectory) {
+        }
+    }, function (err, results) {
+        if (err) {
+            return cb(err);
+        }
 
-        console.log(' => Updating => ', item, ' at path => ', sumanHome);
-        args = ['update', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
-    }
-    else {
-        console.log(' => Installing => ', item, ' at path => ', sumanHome);
-        args = ['install', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
-    }
+        if (!results.stats.version) {
+            results.view.action = 'install';
+        }
+        else {
+            // semver.gt('1.2.3', '9.8.7') // false
 
-    return process.nextTick(cb);
+            try {
+                assert(semver.valid(results.stats.version));
+                assert(semver.valid(results.view.version));
 
-    const n = cp.spawn('npm', args, {
-        cwd: sumanHome,
-        stdio: ['ignore', fd, fd]
+            }
+            catch (err) {
+                console.error(err.stack || err);
+                return cb(err);
+            }
+
+            if (semver.lt(results.stats.version, results.view.version)) {
+                results.view.action = 'update';
+            }
+            else {
+                results.view.action = 'do-nothing';
+            }
+        }
+        //finally we call
+        cb(null, results);
     });
 
-    n.on('close', cb);
 
-}, function (err) {
-
-    clearTimeout(to);
+}, function (err, results) {
 
     if (err) {
-        process.exit(1);
-    }
-    else {
-        console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));
-        process.exit(0);
+        throw err;
     }
 
+
+    async.eachSeries(results, function (result, cb) {
+
+
+        // const p = path.resolve(sumanHome + '/node_modules/', item);
+        // console.log(' => Looking for directory for item =>', item, ' => here => ', p);
+        //
+        // var stat;
+        // var isDirectory = false;
+        //
+        // try {
+        //     stat = fs.statSync(p);
+        //     isDirectory = stat.isDirectory();
+        // }
+        // catch (err) {
+        //
+        // }
+
+        const item = result.name;
+        const action = result.action;
+
+
+        var args;
+
+        switch (action) {
+            case 'do-nothing':
+                return process.nextTick(cb);
+            case 'install':
+                console.log(' => Installing => ', item, ' at path => ', sumanHome);
+                args = ['install', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
+                break;
+            case 'update':
+                console.log(' => Updating => ', item, ' at path => ', sumanHome);
+                args = ['update', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
+                break;
+            default:
+                throw new Error(' => Switch statement fallthrough.');
+        }
+
+
+        const n = cp.spawn('npm', args, {
+            cwd: sumanHome,
+            stdio: ['ignore', fd, fd]
+        });
+
+        n.on('close', cb);
+
+    }, function (err) {
+
+        clearTimeout(to);
+
+        if (err) {
+            process.exit(1);
+        }
+        else {
+            console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));
+            process.exit(0);
+        }
+
+    });
+
+
 });
+

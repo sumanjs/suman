@@ -19,6 +19,11 @@ written to in parallel, need to mitigate this
 TODO: can optimize install-optional-deps by manually running view version in npm registry
 and then seeing if update or install is the right way to go
 
+in parallel
+
+read package.json.version
+compare npm view version
+
 //////
 
 if someone is installing project for first time (ie, no suman.conf.js file), then we should install all
