@@ -57,7 +57,7 @@ catch (err) {
         'Could not find package.json located here => ', pth, '\n');
 }
 
-var sumanConf;
+var sumanConf = {};
 var alwaysInstall = false;
 
 try {
