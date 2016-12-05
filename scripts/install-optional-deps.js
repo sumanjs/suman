@@ -143,7 +143,8 @@ async.map(installs, function (item, cb) {
                 else {
                     ijson.parse(data).then(function (val) {
 
-                        console.log('parsed val => ', val);
+                        // console.log('parsed val => ', val);
+
                         if (!val || !val.version) {
                             console.log(' val is not defined for item => ', item);
                         }
@@ -225,6 +226,7 @@ async.map(installs, function (item, cb) {
 
         switch (action) {
             case 'do-nothing':
+                // local version is up-to-date with latest in npm registry
                 return process.nextTick(cb);
             case 'install':
                 console.log(' => Installing => ', item, ' at path => ', sumanHome);
