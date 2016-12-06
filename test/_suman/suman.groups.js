@@ -3,6 +3,7 @@
 //core
 const path = require('path');
 const util = require('util');
+const assert = require('assert');
 
 //npm
 const sumanUtils = require('suman-utils/utils');
@@ -50,6 +51,7 @@ const defaults = Object.freeze({
 module.exports = data => {
 
     data = data || {};
+    assert(typeof data === 'object', ' => Please pass in object to suman.groups.js function.');
 
     const groups = [
 

@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-cd ${HOME} &&
+cd  &&  # cd to $HOME
 echo ${PWD} &&
-mkdir project &&
-cd project &&
+rm -rf suman_project_test_dir &&
+mkdir suman_project_test_dir  # might already exist
+cd suman_project_test_dir &&
 npm init -f &&
 echo ".....Installing suman with 'npm install -D --silent github:oresoftware/suman#dev'...." &&
 SUMAN_POSTINSTALL_IS_DAEMON=yes npm install -D --silent --progress=false github:oresoftware/suman#dev &&
