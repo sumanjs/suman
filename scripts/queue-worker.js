@@ -27,10 +27,10 @@ const debugLog = path.resolve(sumanHome + '/suman-debug.log');
 
 
 //200 second timeout...
-setTimeout(function () {
-    console.error(' => Suman postinstall queue worker timed out.');
-    process.exit(1);
-}, 200000);
+// const to = setTimeout(function () {
+//     console.error(' => Suman postinstall queue worker timed out.');
+//     process.exit(1);
+// }, 200000);
 
 
 const fd = fs.openSync(debugLog, 'a');
