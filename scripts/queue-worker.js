@@ -85,7 +85,8 @@ module.exports = function work(cb) {
             else {
 
                 const lines = String(data).split('\n').filter(function(l){
-                    return String(l).trim().length;
+                    // filter out empty lines
+                    return String(l).trim().length > 0;
                 });
 
                 const first = String(lines[0] || '').trim();
@@ -123,8 +124,7 @@ module.exports = function work(cb) {
                         });
 
                         n.on('close', function () {
-                            work();
-                            // cp.spawn('node', [__filename]);
+                            work(cb);
                         });
 
                     });

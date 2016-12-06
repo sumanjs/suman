@@ -9,7 +9,7 @@ rm -rf suman-test-projects &&
 #git clone git@github.com:sumanjs/suman-test-projects.git &&
 git clone https://github.com/sumanjs/suman-test-projects.git &&
 cd suman-test-projects &&
-npm test &&
+suman --groups XXX &&
 # npm test > output.log 2>&1 &&
 
 EXIT=$?

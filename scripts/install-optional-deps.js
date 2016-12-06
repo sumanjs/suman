@@ -307,32 +307,78 @@ async.map(installs, function (item, cb) {
             return process.exit(0);
         }
 
-        lockfile.lock(queueWorkerLock, {
+        function makeWorker() {
+            queueWorker(function () {
+                console.log(' => Done with queue-worker, now unlocking queueWorkerLock...');
+                fs.unlink(queueWorkerLock, function () {
+                    clearTimeout(to);
+                    console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));
+                    process.exit(0);
+                });
 
-            wait: 10000,
-            stale: 500000,
-            retries: 40000,
-            retryWait: 100
+            });
+        }
 
-        }, function (err) {
 
-            if (err) {
+        fs.writeFile(queueWorkerLock, String(new Date()), {flag: 'wx', flags: 'wx'}, function (err) {
+
+            if (err && !String(err.stack || err).match(/EEXIST/i)) {
                 console.error(err.stack || err);
                 return process.exit(1);
             }
-            else {
-                queueWorker(function () {
-                    console.log(' => Done with queue-worker, now unlocking queueWorkerLock...');
-                    lockfile.unlock(queueWorkerLock, function () {
-                        clearTimeout(to);
-                        console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));
-                        process.exit(0);
-                    });
+            else if (err) {
+                fs.readFile(queueWorkerLock, function (err, data) {
+                    //ignore err
+                    if (err) {
+                        console.error(err.stack || err);
+                    }
+                    if (data) {
+                        const now = new Date();
+                        const then = new Date(String(data).trim());
+                        if (now - then > 300000) {
+                           fs.unlink(queueWorkerLock, makeWorker);
+                        }
+                    }
+                    else {
+                        console.error(new Error(' => No data returned from readFile call to queueWorkerLock file.'));
+                        return process.exit(1);
+                    }
 
-                });
+                })
+
+            }
+            else {
+                makeWorker();
             }
 
         });
+
+        // lockfile.lock(queueWorkerLock, {
+        //
+        //     wait: 10000,
+        //     stale: 500000,
+        //     retries: 40000,
+        //     retryWait: 100
+        //
+        // }, function (err) {
+        //
+        //     if (err) {
+        //         console.error(err.stack || err);
+        //         return process.exit(1);
+        //     }
+        //     else {
+        //         queueWorker(function () {
+        //             console.log(' => Done with queue-worker, now unlocking queueWorkerLock...');
+        //             lockfile.unlock(queueWorkerLock, function () {
+        //                 clearTimeout(to);
+        //                 console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));
+        //                 process.exit(0);
+        //             });
+        //
+        //         });
+        //     }
+        //
+        // });
 
     });
 
