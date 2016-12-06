@@ -136,6 +136,6 @@ module.exports = function work(cb) {
 
     });
 
-}
+};
 
 

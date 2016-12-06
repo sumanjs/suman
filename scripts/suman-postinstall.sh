@@ -28,6 +28,7 @@ if [[ (-e "$SUMAN_CONF_JS") || ("home" == "$BASE_DIRECTORY") || ("Users" == "$BA
     echo " => suman.conf.js file found, or root dir is home or Users"
     echo " => suman.conf.js file found, or root dir is home or Users"
     echo " => suman.conf.js file found, or root dir is home or Users"
+    echo " => Suman optional deps being installed in the foreground"
     ./scripts/install-suman-home.sh &&
     ./scripts/on-install-success.js
 else
