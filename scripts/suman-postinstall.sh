@@ -24,10 +24,10 @@ echo " => Potential suman.conf.js file path => ${SUMAN_CONF_JS}"
 echo " => BASE_DIRECTORY=> ${BASE_DIRECTORY}"
 
 # if suman.conf.js exists, then we run things in "foreground", otherwise run as daemon
-if [[ (-e "$SUMAN_CONF_JS") || ("home" == "$BASE_DIRECTORY") || ("users" == "$BASE_DIRECTORY") ]]; then
-    echo " => suman.conf.js file found."
-    echo " => suman.conf.js file found."
-    echo " => suman.conf.js file found."
+if [[ (-e "$SUMAN_CONF_JS") || ("home" == "$BASE_DIRECTORY") || ("Users" == "$BASE_DIRECTORY") ]]; then
+    echo " => suman.conf.js file found, or root dir is home or Users"
+    echo " => suman.conf.js file found, or root dir is home or Users"
+    echo " => suman.conf.js file found, or root dir is home or Users"
     ./scripts/install-suman-home.sh &&
     ./scripts/on-install-success.js
 else
