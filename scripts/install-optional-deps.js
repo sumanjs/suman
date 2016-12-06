@@ -255,7 +255,7 @@ async.map(installs, function (item, cb) {
                 else {
                     const lines = String(data).split('\n');
                     lines.push(args);
-                    fs.writeFile(lines.join('\n'), function ($err) {
+                    fs.writeFile(queue, lines.join('\n'), function ($err) {
                         lockfile.unlock(installQueueLock, function (err) {
                             cb($err || err);
                         });
