@@ -31,7 +31,6 @@
     "make-beep": "0.0.1",
     "mkdirp": "^0.5.1",
     "net-ping": "^1.1.12",
-    "node-progress-bars": "^1.0.0",
     "pragmatik": "latest",
     "progress": "^1.1.8",
     "request": "^2.79.0",
