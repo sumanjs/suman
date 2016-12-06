@@ -28,6 +28,7 @@ const sumanDebugLog = path.resolve(p + '/suman-debug.log');
 const sumanClisFile = fs.readFileSync(require.resolve('./suman-clis.sh'));
 const findSumanExecFile = fs.readFileSync(require.resolve('./find-local-suman-executable.js'));
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
+const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,6 +59,9 @@ fs.mkdir(p, function (err) {
         function (cb) {
             fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
                 + ', from directory (cwd) => ' + cwd, {flag: 'a'}, cb);
+        },
+        function (cb) {
+            fs.writeFile(queue, '', {flag: 'a', flags: 'a'}, cb);
         }
 
 
@@ -85,10 +89,10 @@ fs.mkdir(p, function (err) {
 
             const exists = fs.existsSync(sumanHome);
 
-            if(exists){
+            if (exists) {
                 console.log(' => ~/.suman dir exists!');
             }
-            else{
+            else {
                 console.log(' => ~/.suman dir does not exist!');
             }
 
