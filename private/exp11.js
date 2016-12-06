@@ -1,15 +1,8 @@
-/**
- * Created by olegzandr on 12/3/16.
- */
 
 
-const async = require('async');
+const a = [1,2,3];
 
+const b = a.splice(1);
 
- async.parallel([], function(err){
-    if(err){
-        throw err;
-    }
-
-    console.log('done');
-});
+console.log(a);
+console.log(b);

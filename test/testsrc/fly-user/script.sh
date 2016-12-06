@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+
+ echo "NODE_PATH => $NODE_PATH"
 cd # cd to home dir
 mkdir suman-test
 cd suman-test &&

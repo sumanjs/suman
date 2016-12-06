@@ -5,12 +5,24 @@ const fs = require('fs');
 const assert = require('assert');
 const util = require('util');
 
-//async
+//npm
+const lockfile = require('lockfile');
 const async = require('async');
 const semver = require('semver');
 const ijson = require('siamese');
+const debug = require('suman-debug');
+const queueWorkerLock = path.resolve('~/.suman/queue-worker.lock');
+const installQueueLock = path.resolve('~/.suman/install-queue.lock');
+const queue = path.resolve('~/.suman/install-queue.txt');
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+//project
+const queueWorker = require('./queue-worker');
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+const debugPostinstall = debug('s:postinstall');
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
 const deps = Object.freeze({
     'babel': {
@@ -44,16 +56,15 @@ const deps = Object.freeze({
 });
 
 const bd = process.env.BASE_DIRECTORY;
-
 const dirs = ['HOME', 'USERS'];
 
 //if base directory is not home or users, then we are installing globally, so always install all
 const alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace(path.sep, '')) < 0;
 
 const cwd = process.cwd();
-console.log(' => cwd in postinstall script =>', cwd);
+debugPostinstall(' => cwd in postinstall script =>', cwd);
 const projectRoot = path.resolve(cwd + '/../../');
-console.log('project root => ', projectRoot);
+debugPostinstall('project root => ', projectRoot);
 
 
 // semver.gt('1.2.3', '9.8.7') // false
@@ -106,12 +117,12 @@ const debugLog = path.resolve(sumanHome + '/suman-debug.log');
 
 //200 second timeout...
 const to = setTimeout(function () {
-    console.log(' => Suman postinstall process timed out.');
+    console.error(' => Suman postinstall process timed out.');
     process.exit(1);
-}, 200000);
+}, 2000000);
 
-console.log('=> Installs =>', installs);
 
+debugPostinstall('=> Installs =>', installs);
 const fd = fs.openSync(debugLog, 'a');
 // const fdstderr =fs.openSync(debugLog, 'a');
 
@@ -130,7 +141,7 @@ async.map(installs, function (item, cb) {
                 }
                 cb(null, {
                     name: item,
-                    version: String(val).replace(/\s/g,'')
+                    version: String(val).replace(/\s/g, '')
                 })
             });
         },
@@ -143,10 +154,8 @@ async.map(installs, function (item, cb) {
                 else {
                     ijson.parse(data).then(function (val) {
 
-                        // console.log('parsed val => ', val);
-
                         if (!val || !val.version) {
-                            console.log(' val is not defined for item => ', item);
+                            console.error(' val is not defined for item => ', item);
                         }
                         cb(null, {
                             version: val.version
@@ -163,7 +172,7 @@ async.map(installs, function (item, cb) {
             return cb(err);
         }
 
-        console.log(' item => ', item, 'view version:', results.view.version, 'stats version => ', results.stats.version, '\n\n\n');
+        debugPostinstall(' item => ', item, 'view version:', results.view.version, 'stats version => ', results.stats.version, '\n\n\n');
 
         if (!results.stats.version) {
             results.view.action = 'install';
@@ -197,32 +206,17 @@ async.map(installs, function (item, cb) {
 }, function (err, results) {
 
     if (err) {
-        throw err;
+        console.error(err);
+        return process.exit(1);
     }
 
+    var runWorker = false;
 
     async.eachSeries(results, function (result, cb) {
 
-
-        // const p = path.resolve(sumanHome + '/node_modules/', item);
-        // console.log(' => Looking for directory for item =>', item, ' => here => ', p);
-        //
-        // var stat;
-        // var isDirectory = false;
-        //
-        // try {
-        //     stat = fs.statSync(p);
-        //     isDirectory = stat.isDirectory();
-        // }
-        // catch (err) {
-        //
-        // }
-
-        console.log(' result => ', util.inspect(result));
-
+        debugPostinstall(' result => ', util.inspect(result));
         const item = result.name;
         const action = result.action;
-
 
         var args;
 
@@ -232,11 +226,11 @@ async.map(installs, function (item, cb) {
                 return process.nextTick(cb);
             case 'install':
                 console.log(' => Installing => ', item, ' at path => ', sumanHome);
-                args = ['install', item + '@latest', '--force', '--loglevel=error', '--silent', '--progress=false'];
+                args = ['npm', 'install', item + '@latest', '--force', '--loglevel=error', '--silent', '--progress=false'];
                 break;
             case 'update':
                 console.log(' => Updating => ', item, ' at path => ', sumanHome);
-                args = ['update', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
+                args = ['npm', 'update', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
                 break;
             default:
                 return process.nextTick(function () {
@@ -244,26 +238,100 @@ async.map(installs, function (item, cb) {
                 });
         }
 
+        args = args.join(' ').trim();
 
-        const n = cp.spawn('npm', args, {
-            cwd: sumanHome,
-            stdio: ['ignore', fd, fd]
+        runWorker = true;
+
+        lockfile.lock(installQueueLock, function (err) {
+
+            if (err) {
+                return cb(err);
+            }
+
+            fs.readFile(queue, 'utf8', function (err, data) {
+                if (err) {
+                    cb(err);
+                }
+                else {
+                    const lines = String(data).split('\n');
+                    lines.push(args);
+                    fs.writeFile(lines.join('\n'), function ($err) {
+                        lockfile.unlock(installQueueLock, function (err) {
+                            cb($err || err);
+                        });
+                    });
+
+                }
+            });
+
         });
 
-        n.on('close', cb);
+
+        // const n = cp.spawn('npm', args, {
+        //     cwd: sumanHome,
+        //     stdio: ['ignore', fd, fd]
+        // });
+        //
+        // n.on('close', cb);
 
     }, function (err) {
 
-        clearTimeout(to);
-
         if (err) {
             console.error(err.stack || err);
-            process.exit(1);
+            return process.exit(1);
         }
-        else {
-            console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));
-            process.exit(0);
+
+        /*
+
+         opts.wait
+         A number of milliseconds to wait for locks to expire before giving up.
+         Only used by lockFile.lock. Poll for opts.wait ms. If the lock is not cleared by the time the wait expires,
+         then it returns with the original error.
+
+         opts.pollPeriod
+         When using opts.wait, this is the period in ms in which it polls to check if the lock has expired.
+         Defaults to 100.
+
+         opts.stale
+         A number of milliseconds before locks are considered to have expired.
+
+         opts.retries
+         Used by lock and lockSync. Retry n number of times before giving up.
+
+         opts.retryWait
+         Used by lock. Wait n milliseconds before retrying.
+
+         */
+
+        if (!runWorker) {
+            return process.exit(0);
         }
+
+        lockfile.lock(queueWorkerLock, {
+
+            wait: 10000,
+            stale: 500000,
+            retries: 40000,
+            retryWait: 100
+
+        }, function (err) {
+
+            if (err) {
+                console.error(err.stack || err);
+                return process.exit(1);
+            }
+            else {
+                queueWorker(function () {
+                    lockfile.unlock(queueWorkerLock, function () {
+                        clearTimeout(to);
+                        console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));
+                        process.exit(0);
+                    });
+
+                });
+            }
+
+        });
 
     });
 
