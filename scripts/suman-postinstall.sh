@@ -26,6 +26,10 @@ echo " => BASE_DIRECTORY=> ${BASE_DIRECTORY}"
 
 # SUMAN_POSTINSTALL_IS_DAEMON=yes/no
 
+echo "SUMAN_POSTINSTALL_IS_DAEMON => ${SUMAN_POSTINSTALL_IS_DAEMON}"
+echo "SUMAN_POSTINSTALL_IS_DAEMON => ${SUMAN_POSTINSTALL_IS_DAEMON}"
+echo "SUMAN_POSTINSTALL_IS_DAEMON => ${SUMAN_POSTINSTALL_IS_DAEMON}"
+
 # if suman.conf.js exists, then we run things in "foreground", otherwise run as daemon
 if [[ ("no" == "${SUMAN_POSTINSTALL_IS_DAEMON}") \
  || (("yes" != "${SUMAN_POSTINSTALL_IS_DAEMON}") && ((-e "$SUMAN_CONF_JS") || ("home" == "$BASE_DIRECTORY") || ("Users" == "$BASE_DIRECTORY"))) ]]; then
