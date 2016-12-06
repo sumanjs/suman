@@ -6,6 +6,7 @@ const assert = require('assert');
 const util = require('util');
 
 //npm
+const colors = require('colors/safe');
 const lockfile = require('lockfile');
 const async = require('async');
 const semver = require('semver');
@@ -335,6 +336,7 @@ async.map(installs, function (item, cb) {
                     if (data) {
                         const now = new Date();
                         const then = new Date(String(data).trim());
+                        console.log(colors.green.bold(' => Existing date in lock file => '), colors.yellow.bold(then));
                         if (now - then > 300000) {
                            fs.unlink(queueWorkerLock, makeWorker);
                         }
