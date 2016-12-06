@@ -322,6 +322,7 @@ async.map(installs, function (item, cb) {
             }
             else {
                 queueWorker(function () {
+                    console.log(' => Done with queue-worker, now unlocking queueWorkerLock...');
                     lockfile.unlock(queueWorkerLock, function () {
                         clearTimeout(to);
                         console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));

@@ -23,8 +23,12 @@ BASE_DIRECTORY=$(echo "$PWD" | cut -d "/" -f2)
 echo " => Potential suman.conf.js file path => ${SUMAN_CONF_JS}"
 echo " => BASE_DIRECTORY=> ${BASE_DIRECTORY}"
 
+
+# SUMAN_POSTINSTALL_IS_DAEMON=yes/no
+
 # if suman.conf.js exists, then we run things in "foreground", otherwise run as daemon
-if [[ (-e "$SUMAN_CONF_JS") || ("home" == "$BASE_DIRECTORY") || ("Users" == "$BASE_DIRECTORY") ]]; then
+if [[ ("no" == "${SUMAN_POSTINSTALL_IS_DAEMON}") \
+ || (("yes" != "${SUMAN_POSTINSTALL_IS_DAEMON}") && ((-e "$SUMAN_CONF_JS") || ("home" == "$BASE_DIRECTORY") || ("Users" == "$BASE_DIRECTORY"))) ]]; then
     echo " => suman.conf.js file found, or root dir is home or Users"
     echo " => suman.conf.js file found, or root dir is home or Users"
     echo " => suman.conf.js file found, or root dir is home or Users"
