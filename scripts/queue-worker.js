@@ -84,7 +84,10 @@ module.exports = function work(cb) {
             }
             else {
 
-                const lines = String(data).split('\n');
+                const lines = String(data).split('\n').filter(function(l){
+                    return String(l).trim().length;
+                });
+
                 const first = String(lines[0] || '').trim();
 
                 console.log(' => lines => ', util.inspect(lines));
