@@ -1,6 +1,10 @@
 
 /////
 
+sudo chown -R root:root ~/.suman
+
+
+/////
 
 test-errors should be created whenever suman is run
 
