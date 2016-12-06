@@ -16,7 +16,9 @@ SUMAN_CONF_JS=$(dirname $(dirname $PWD))/suman.conf.js
 LOG_PATH=~/.suman/suman-debug.log
 
 # get base directory, to uppercase  ( HOME, USERS, USR , etc.)
-BASE_DIRECTORY=$(echo "$PWD" | cut -d "/" -f2) | awk '{print tolower($0)}'
+#BASE_DIRECTORY=$(echo "$PWD" | cut -d "/" -f2) | awk '{print tolower($0)}'
+
+BASE_DIRECTORY=$(echo "$PWD" | cut -d "/" -f2)
 
 echo " => Potential suman.conf.js file path => ${SUMAN_CONF_JS}"
 echo " => BASE_DIRECTORY=> ${BASE_DIRECTORY}"
