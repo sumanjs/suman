@@ -90,7 +90,9 @@ module.exports = function work(cb) {
 
                 const first = String(lines[0] || '').trim();
 
-                console.log(' => lines => ', util.inspect(lines));
+                // console.log(' => lines => ', util.inspect(lines));
+
+                console.log(' => number of lines => ', lines.length);
 
                 if (!first) {
                     console.log(' => Install queue is empty, we are done here.');
