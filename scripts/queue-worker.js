@@ -4,6 +4,7 @@
 const path = require('path');
 const fs = require('fs');
 const cp = require('child_process');
+const util = require('util');
 
 //npm
 const lockFile = require('lockfile');
@@ -59,14 +60,12 @@ const fd = fs.openSync(debugLog, 'a');
  */
 
 function unlock(cb) {
-    lockFile.unlock(lock, {}, function (err) {
+    lockFile.unlock(lock, function (err) {
         if (err) {
             console.error(err.stack || err);
         }
 
-        if (cb) {
-            process.nextTick(cb);
-        }
+        cb && cb();
     });
 }
 
@@ -87,6 +86,8 @@ module.exports = function work(cb) {
 
                 const lines = String(data).split('\n');
                 const first = String(lines[0] || '').trim();
+
+                console.log(' => lines => ', util.inspect(lines));
 
                 if (!first) {
                     console.log(' => Install queue is empty, we are done here.');
