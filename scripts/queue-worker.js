@@ -11,9 +11,9 @@ const debug = require('suman-debug');
 
 ///////////////////////////////////////////////////////////////
 
-const sumanHome = path.resolve('~/.suman');
-const queue = path.resolve('~/.suman/install-queue.txt');
-const lock = path.resolve('~/.suman/install-queue.lock');
+const sumanHome = path.resolve(process.env.HOME + '/.suman');
+const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
+const lock = path.resolve(process.env.HOME + '/.suman/install-queue.lock');
 const debugPostinstall = debug('s:postinstall');
 
 //////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ const fd = fs.openSync(debugLog, 'a');
  opts.retryWait
  Used by lock. Wait n milliseconds before retrying.
 
-*/
+ */
 
 function unlock(cb) {
     lockFile.unlock(lock, {}, function (err) {
@@ -70,7 +70,7 @@ function unlock(cb) {
     });
 }
 
-module.exports = function work(cb){
+module.exports = function work(cb) {
 
     lockFile.lock(lock, {}, function (err) {
 

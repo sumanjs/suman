@@ -11,9 +11,9 @@ const async = require('async');
 const semver = require('semver');
 const ijson = require('siamese');
 const debug = require('suman-debug');
-const queueWorkerLock = path.resolve('~/.suman/queue-worker.lock');
-const installQueueLock = path.resolve('~/.suman/install-queue.lock');
-const queue = path.resolve('~/.suman/install-queue.txt');
+const queueWorkerLock = path.resolve(process.env.HOME + '/.suman/queue-worker.lock');
+const installQueueLock = path.resolve(process.env.HOME + '/.suman/install-queue.lock');
+const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
 
 //project
 const queueWorker = require('./queue-worker');
