@@ -396,15 +396,21 @@ else {
     }
 
     if (overridingTranspile) {
+        transpile = opts.transpile = false;  //when using register, we don't transpile manually
+
         if (!opts.vsparse) {
             if (global.sumanConfig.transpile === true) {
                 console.log('\n ', colors.bgCyan.black.bold(' => Suman message => although transpilation is the default (due to ') + '\n  ' +
-                    colors.bgCyan.black.bold(' your configuration option => {transpile:true}), the ' + colors.magenta('--register') + ' flag was passed and takes precedence,') + '\n  ' +
-                    colors.bgCyan.black.bold(' so we will transpile on the fly with "babel-register", no transpiled files will be written out.'), '\n');
+                    colors.bgCyan.black.bold(' your configuration option => {transpile:true}), the ' + colors.magenta('--babel-register')
+                        + ' flag was passed and takes precedence,') + '\n  ' +
+                    colors.bgCyan.black.bold(' so we will transpile on the fly with "babel-register",' +
+                        ' no transpiled files will be written out.'), '\n');
             }
             else {
-                if (opts.register && opts.verbose) {
-                    console.log('\n', colors.bgCyan.black.bold('=> Suman message => --register flag passed, so we will transpile your sources on the fly,') + '\n' +
+                if (babelRegister && opts.verbose) {
+                    console.log('\n', colors.bgCyan.black.bold('=> Suman message => ' + colors.magenta('--babel-register')
+                            + ' flag passed or useBabelRegister is' +
+                            'set to true in your suman.conf.js file, so we will transpile your sources on the fly,') + '\n' +
                         colors.bgCyan.black.bold('no transpiled files will be written out.'), '\n');
                 }
                 else if (opts.verbose) {
@@ -414,8 +420,7 @@ else {
                 }
             }
         }
-        register = global.usingBabelRegister = opts.register = true;
-        transpile = opts.transpile = false;  //when using register, we don't transpile manually
+
     }
 }
 

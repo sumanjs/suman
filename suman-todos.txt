@@ -5,6 +5,17 @@ sudo chown -R root:root ~/.suman
 
 /////
 
+//TODO: should pass sumanOpts from runner to child processes
+
+////
+
+if not installing as daemon - should only install the deps explicitly declared in suman.conf.js
+
+in other words - if suman.conf.js is not present - install all deps as daemon,
+if it is present, only install deps declared as foreground process
+
+////
+
 https://travis-ci.org/ORESoftware/suman/jobs/181600112
 
 /////
@@ -145,13 +156,7 @@ because Poolio depends on Suman, we might need to install suman with --productio
 
 pnpm, ied => https://github.com/tapjs/node-tap/issues/333#issuecomment-264680790
 
-
 ///////
-
-suman-server/frontail in ~/.suman
-install them in ~/.suman/node_modules for now
-
-////////
 
 TODO: when running require('suman'), it will try to load suman.conf.js, which is bad when trying to run init!
 it will throw an error if suman.conf.js does not exist
@@ -166,7 +171,6 @@ https://medium.com/@mbostock/prereleases-and-npm-e778fc5e2420#.v7sfbacbc
 
 /////////
 
-
 http://stackoverflow.com/questions/40902445/using-variable-interpolation-in-string-in-docker/40903689#40903689
 
 /////////
@@ -175,9 +179,9 @@ http://stackoverflow.com/questions/9268259/how-do-you-prevent-install-of-devdepe
 
 ////////
 
-how to determine if container is already built
+=> suman should write out suman-babel.rc always
 
-/////////
+////////
 
 tail multiple files:
 http://www.thegeekstuff.com/2009/09/multitail-to-view-tail-f-output-of-multiple-log-files-in-one-terminal
@@ -235,7 +239,6 @@ test macros, important
 ///////////
 
 readlink => need to install it on a mac
-
 in init, need to run "which readlink", if it's not there, need to log big red warning
 
 //////////
@@ -363,30 +366,6 @@ if sumanOpts.strict => then we fail early if certain files don't exist, like cer
 
 alternatively it could be strict = !lax
 
-//////////
-
-
-these items are appended multiple times in gitignore file:
-
-*suman/logs/
-test-target/
-
-*suman/logs/
-test-target/
-
-*suman/logs/
-test-target/
-
-*suman/logs/
-test-target/
-
-*suman/logs/
-test-target/
-
-*suman/logs/
-test-target/
-
-
 ///////
 
 http://www.codeproject.com/Questions/1157471/Redirecting-shell-output-via-grep
@@ -451,6 +430,49 @@ TODO: integrate suman once with gulp
 https://github.com/gulpjs/gulp/issues/770#issuecomment-259282294
 
 ////////////
+
+
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+var execSync = require('child_process').execSync;
+var opn = require('opn');
+
+function openBrowser(url) {
+  if (process.platform === 'darwin') {
+    try {
+      // Try our best to reuse existing tab
+      // on OS X Google Chrome with AppleScript
+      execSync('ps cax | grep "Google Chrome"');
+      execSync(
+        'osascript chrome.applescript ' + url,
+        {cwd: __dirname, stdio: 'ignore'}
+      );
+      return true;
+    } catch (err) {
+      // Ignore errors.
+    }
+  }
+  // Fallback to opn
+  // (It will always open new tab)
+  try {
+    opn(url);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+module.exports = openBrowser;
+
+
+///////////////////
 
 no_silent option needs to be replaced with (pipe, ignore, inherit, etc)
 

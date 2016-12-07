@@ -17,7 +17,7 @@ module.exports = Object.freeze({
   testSrcDir: 'test/testsrc/es5-es6',
   sumanHelpersDir: 'test/_suman',
   defaultTestSuiteTimeout: 150000,
-  transpile: false,
+  transpile: true,
   maxParallelProcesses: Math.max(6, numOfCPUs),
   safe: false, //reads files in with fs.createReadStream and makes sure it's a suman test before running
   verbose: true, //handles and logs warnings (using warning level?)
@@ -33,6 +33,8 @@ module.exports = Object.freeze({
   resultsCapSize: 7000, // 3 gb's,
 
   /////////
+
+  useBabelRegister: true,
 
   watch: {
     '//tests': {
