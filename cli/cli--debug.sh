@@ -5,7 +5,7 @@ if [ -z "$LOCAL_SUMAN_FOUND" ]; then
 fi
 
 
-NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
 if [ "$LOCAL_SUMAN_FOUND" = "yes" ]; then
     SUMAN_EXTRANEOUS_EXECUTABLE=yes node --debug-brk=5858 --debug=5858 `dirname $0`/suman__internal "$@"

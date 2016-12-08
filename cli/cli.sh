@@ -13,7 +13,8 @@ MYPATH="$DIRN/$EXECDIR";
 X="$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})"
 
 
-NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+
 
 if [ "${LOCAL_SUMAN_ALREADY_FOUND}" = "yes" ]; then
     # we know that this directory contains the local version of suman we want to use

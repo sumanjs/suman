@@ -15,7 +15,7 @@ MYPATH="$DIRN/$EXECDIR";
 X=$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})
 
 
-NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
 if [ "${LOCAL_SUMAN_ALREADY_FOUND}" = "yes" ]; then
 SUMAN_EXTRANEOUS_EXECUTABLE=yes babel-node --presets stage-3 ${X}/cli.js "$@"
