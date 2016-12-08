@@ -18,7 +18,7 @@ function __handle_global_suman {
         EXECDIR=$(dirname $(dirname "$RL"));
         MYPATH="$DIRN/$EXECDIR";
         X="$(cd$(dirname${MYPATH})&&pwd)/$(basename${MYPATH})"
-        NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+        export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
         # $1 is the node exec args (inspect/debug etc), $2 is the original user args
         # we work with the first argument passed to this function
@@ -33,7 +33,7 @@ function suman {
 
     echo " => Using 'suman' alias in suman-clis.sh..."
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
-    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
     if [ -z "$LOCAL_SUMAN" ]; then
         echo " => No local Suman executable could be found, given the present working directory => $PWD"
         echo " => Warning...attempting to run a globally installed version of Suman..."
@@ -48,7 +48,7 @@ function suman-inspect {
 
     echo " => Using 'suman-inspect' alias in suman-clis.sh..."
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-inspect);
-    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
     if [ -z "$LOCAL_SUMAN" ]; then
         echo " => No local Suman executable could be found, given the present working directory => $PWD"
@@ -66,7 +66,7 @@ function suman-debug {
 
     echo " => Using 'suman-debug' alias in suman-clis.sh..."
 
-    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
     if [ -z "$LOCAL_SUMAN" ]; then
         echo "No local Suman executable could be found, given the current directory => $PWD"
@@ -84,7 +84,7 @@ function suman--debug {
 
     echo "suman--debug"
 
-    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
     if [ -z "$LOCAL_SUMAN" ]; then
         echo "No local Suman executable could be found, given the current directory => $PWD"
