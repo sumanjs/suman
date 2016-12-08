@@ -5,6 +5,10 @@ sudo chown -R root:root ~/.suman
 
 /////
 
+run node -c against all node.js files in project after merge
+
+/////
+
 we want a separate script to checkout master, run tests, then publish
 right now we have an npm publish script which might make staging the published branch instead of master
 even though master and staging should never be different
