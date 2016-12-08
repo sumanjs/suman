@@ -40,6 +40,9 @@ fs.mkdir(p, function (err) {
         throw err;
     }
 
+
+    //please don't make an error
+
     fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', {flag: 'w', flags: 'w'});
 
     // else if (err) {
