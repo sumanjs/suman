@@ -9,7 +9,15 @@ cd suman && npm install suman -f   // force
 
 /////
 
+suman needs to handle shell scripts, not just .js files
+
+/////
+
 run node -c against all node.js files in project after merge
+
+/////
+
+send usage data to slack (create app to track data)
 
 /////
 
