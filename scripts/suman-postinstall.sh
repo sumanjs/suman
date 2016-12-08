@@ -27,7 +27,7 @@ fi
 
 
 
-if [ "yes" = ${SUMAN_POSTINSTALL_IS_DAEMON} ]; then
+if [ "yes" = "${SUMAN_POSTINSTALL_IS_DAEMON}" ]; then
     echo "SUMAN_POSTINSTALL_IS_DAEMON is set to value => ${SUMAN_POSTINSTALL_IS_DAEMON}"
 fi
 
@@ -41,12 +41,13 @@ else
     echo " => suman.conf.js file *not* found at path $SUMAN_CONF_JS"
 fi
 
+HOME_IS_BASE_DIR=$("home" == "${BASE_DIRECTORY}")
+USERS_IS_BASE_DIR=$("Users" == "${BASE_DIRECTORY}")
+
 # if suman.conf.js exists, then we run things in "foreground", otherwise run as daemon
 if [[ ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
-  || ( ( "yes" != "${SUMAN_POSTINSTALL_IS_DAEMON}" ) && ( SUMAN_CONF_JS_FOUND || ( "home" == "$BASE_DIRECTORY" ) || ( "Users" == "$BASE_DIRECTORY" ) ) ) ]]; then
-    echo " => suman.conf.js file found, or root dir is home or Users"
-    echo " => suman.conf.js file found, or root dir is home or Users"
-    echo " => suman.conf.js file found, or root dir is home or Users"
+  || ( ( "yes" != "${SUMAN_POSTINSTALL_IS_DAEMON}" ) && ( SUMAN_CONF_JS_FOUND || HOME_IS_BASE_DIR || USERS_IS_BASE_DIR) ) ]]; then
+
     echo " => Suman optional deps being installed in the foreground"
     ./scripts/install-suman-home.sh &&
     ./scripts/on-install-success.js
