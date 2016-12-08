@@ -21,7 +21,6 @@
     "callsite": "^1.0.0",
     "chmodr": "^1.0.2",
     "colors": "^1.1.2",
-    "cross-spawn": "^2.2.3",
     "dashdash": "^1.14.0",
     "debug": "^2.3.3",
     "du": "^0.1.0",
