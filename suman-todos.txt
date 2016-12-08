@@ -5,6 +5,10 @@ sudo chown -R root:root ~/.suman
 
 /////
 
+cd suman && npm install suman -f   // force
+
+/////
+
 run node -c against all node.js files in project after merge
 
 /////
