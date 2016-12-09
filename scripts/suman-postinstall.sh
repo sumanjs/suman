@@ -61,6 +61,6 @@ if [[ ( "no" = "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
     ./scripts/install-suman-home.sh &&
     ./scripts/on-install-success.js
 else
-    ./scripts/install-suman-home.sh > ${LOG_PATH} 2 > &1 & echo " => Suman optional deps being installed as daemon.\n"
+    ./scripts/install-suman-home.sh > ${LOG_PATH} 2>&1 & echo " => Suman optional deps being installed as daemon.\n"
 fi
 
