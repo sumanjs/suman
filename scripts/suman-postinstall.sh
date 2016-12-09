@@ -31,12 +31,11 @@ if [ "yes" = "${SUMAN_POSTINSTALL_IS_DAEMON}" ]; then
 fi
 
 
-SUMAN_CONF_JS_FOUND=false
-
 if [ -e "$SUMAN_CONF_JS" ]; then
-    ${SUMAN_CONF_JS_FOUND}=true
+    SUMAN_CONF_JS_FOUND=true
     echo " => suman.conf.js file found at path $SUMAN_CONF_JS"
 else
+    SUMAN_CONF_JS_FOUND=false
     echo " => suman.conf.js file *not* found at path $SUMAN_CONF_JS"
 fi
 
