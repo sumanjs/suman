@@ -1,11 +1,47 @@
 
 /////
 
+http://www.thegeekstuff.com/2010/11/50-linux-commands/
+http://www.thegeekstuff.com/2010/08/ipcs-command-examples/
+
+/////
+
+We need to do the same thing with Node.js SUMAN_SINGLE_PROCESS etc.
+
+// Make sure it's not accidentally inherited by child processes.
+    delete process.env.NODE_CHANNEL_FD;
+////
+
+
+https://github.com/avajs/ava/issues/1147
+
+/////
+
+java / spark / go / python
+
+/////
+
+each language option should be a plugin, each plugin needs to have an entrypoint
+
+
+enable writing tests in any language, as long as the child process fulfills the IPC contract
+
+/////
+
+ if any file in the arguments list is not .js, we have to use the runner,
+ even if there is only one file (one .sh file for instance)
+
+/////
+
 sudo chown -R root:root ~/.suman
 
 /////
 
 cd suman && npm install suman -f   // force
+
+/////
+
+refactor FILE_IS_NOT_DOT_JS   => FILE_IS_NOT_ACCEPTED_EXTENSION
 
 /////
 
@@ -553,6 +589,14 @@ add "append-match-none"
 
 /////////////
 
+file failed: 1, but exit code is 0 for child process is 0, and overall exit code is 0
+
+///////////
+
+suman recommends usage of nvm, so that your global modules actually get installed into your user directory
+
+////////////
+
 TODO: when transpile: true, and test-target is not inside test directory, *and* sumanhelpersdir is inside test directory,
 then we need to point sumanHelpersDir to the target directory. Basically, whenever sumanHelpersDir is inside the directory
 that will get transpiled/moved, we have to update location.
@@ -614,6 +658,10 @@ will still transpile *all* of test-src to test-target, (but still only run one f
 ////////////
 
 make sure that .babelrc does not get overwritten when using suman --use-babel
+
+/////////////
+
+should always use .babelrc-suman
 
 /////////////
 

@@ -93,7 +93,6 @@ module.exports = function work(cb) {
 
                 // console.log(' => lines => ', util.inspect(lines));
 
-                console.log(' => number of lines => ', lines.length);
 
                 if (!first) {
                     console.log(' => Install queue is empty, we are done here.');
@@ -101,6 +100,8 @@ module.exports = function work(cb) {
 
                 }
                 else {
+
+                    console.log(' => number of npm install lines remaining => ', lines.length, ' item => ', first);
 
                     const d = lines.filter(function (l) {
                         // remove the first line, and any duplicate lines in the queue

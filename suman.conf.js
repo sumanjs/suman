@@ -10,7 +10,7 @@ const pckgDotJson = require('./package.json');
 
 module.exports = Object.freeze({
 
-  matchAny: [ /.js$/ ],              //recommended =>  match: ['.test.js'],
+  matchAny: [ /.js$/, /.sh$/ ],              //recommended =>  match: ['.test.js'],
   matchNone: [ /fixture/, /correct-exit-codes/ ],
   matchAll: [],
   testDir: 'test',

@@ -41,8 +41,11 @@ else
     echo " => suman.conf.js file *not* found at path $SUMAN_CONF_JS"
 fi
 
-HOME_IS_BASE_DIR=$("home" == "${BASE_DIRECTORY}")
-USERS_IS_BASE_DIR=$("Users" == "${BASE_DIRECTORY}")
+HOME_IS_BASE_DIR=false;
+USERS_IS_BASE_DIR=false;
+if [ "home" == "${BASE_DIRECTORY}" ] && HOME_IS_BASE_DIR=true;
+if [ "Users" == "${BASE_DIRECTORY}" ] && USERS_IS_BASE_DIR=true;
+
 
 # if suman.conf.js exists, then we run things in "foreground", otherwise run as daemon
 if [[ ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \

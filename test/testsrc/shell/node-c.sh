@@ -22,4 +22,6 @@ node -c ${FILES}
 
 EXIT_CODE="$?"
 echo " exit code => $EXIT_CODE"
-exit "$EXIT_CODE"
+#exit "$EXIT_CODE"
+
+exit 1
