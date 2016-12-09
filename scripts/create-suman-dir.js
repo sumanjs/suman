@@ -53,17 +53,18 @@ fs.mkdir(p, function (err) {
 
         function (cb) {
             //always want to update this file to the latest version, so always overwrite
-            fs.writeFile(sumanClis, sumanClisFile, {flag: 'w'}, cb);
+            fs.writeFile(sumanClis, sumanClisFile, {flag: 'w', flags:'w'}, cb);
         },
         function (cb) {
             //always want to update this file to the latest version, so always overwrite
-            fs.writeFile(findSumanExec, findSumanExecFile, {flag: 'w'}, cb);
+            fs.writeFile(findSumanExec, findSumanExecFile, {flag: 'w', flags: 'w'}, cb);
         },
         function (cb) {
             fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
                 + ', from directory (cwd) => ' + cwd, {flag: 'a'}, cb);
         },
         function (cb) {
+            // assume we want to create the file if it doesn't exist, and just write empty string
             fs.writeFile(queue, '', {flag: 'a', flags: 'a'}, cb);
         }
 

@@ -17,7 +17,7 @@ function __handle_global_suman {
         RL=$(readlink "$WHICH_SUMAN");
         EXECDIR=$(dirname $(dirname "$RL"));
         MYPATH="$DIRN/$EXECDIR";
-        X="$(cd$(dirname${MYPATH})&&pwd)/$(basename${MYPATH})"
+        X="$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})"
         export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
         # $1 is the node exec args (inspect/debug etc), $2 is the original user args
@@ -62,10 +62,9 @@ function suman-inspect {
 }
 
 function suman-debug {
-    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-debug);
 
     echo " => Using 'suman-debug' alias in suman-clis.sh..."
-
+    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-debug);
     export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
     if [ -z "$LOCAL_SUMAN" ]; then
@@ -80,10 +79,9 @@ function suman-debug {
 }
 
 function suman--debug {
+
+    echo " => Using 'suman--debug' alias in suman-clis.sh..."
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman--debug);
-
-    echo "suman--debug"
-
     export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
     if [ -z "$LOCAL_SUMAN" ]; then
