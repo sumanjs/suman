@@ -6,6 +6,10 @@ http://www.thegeekstuff.com/2010/08/ipcs-command-examples/
 
 /////
 
+when running scripts, use .sh for sh, and .bash for bash
+
+//////
+
 We need to do the same thing with Node.js SUMAN_SINGLE_PROCESS etc.
 
 // Make sure it's not accidentally inherited by child processes.
@@ -787,30 +791,6 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 
   //////////////////////////
 
-
-String(util.inspect(desc)).slice(0,50);
-
-//passed in a number into desc
-Error: desc is not a string
-    at handleExtraOpts (/Users/Olegzandr/WebstormProjects/suman/lib/handle-extra-opts.js:67:54)
-    at Function.it.cb (/Users/Olegzandr/WebstormProjects/suman/lib/TestSuite.js:432:57)
-    at data.forEach (/Users/Olegzandr/WebstormProjects/poolio/test-target/test-hook-params.js:55:17)
-    at Array.forEach (native)
-    at TestSuiteBase.<anonymous> (/Users/Olegzandr/WebstormProjects/poolio/test-target/test-hook-params.js:54:10)
-    at /Users/Olegzandr/WebstormProjects/suman/lib/exec-suite.js:292:11
-    at _combinedTickCallback (internal/process/next_tick.js:67:7)
-    at process._tickDomainCallback (internal/process/next_tick.js:122:9)
-
-
-//TODO: provide a way to not install suman globally
-
-//TODO: need to account for non-existence of .bash_profile
-=> Suman fatal installation error => Error: ENOENT: no such file or directory, open '/Users/duchess/.bash_profile'
-    at Error (native)
-
-
-//TODO: https://www.vagrantup.com/
-//TODO: https://blog.codeship.com/cross-platform-docker-development-environment/
 //TODO: http://nathanleclaire.com/blog/2014/07/12/10-docker-tips-and-tricks-that-will-make-you-sing-a-whale-song-of-joy/
 //TODO: http://stackoverflow.com/questions/8173232/make-exe-files-from-node-js-app
 //TODO: create binary of suman project for speed?

@@ -1,8 +1,6 @@
 
 
-const a = [1,2,3];
-
-const b = a.splice(1);
-
-console.log(a);
-console.log(b);
+console.log(JSON.stringify({
+    type:'CONSOLE_LOG',
+    data: 'weakkkkknesss'
+}));

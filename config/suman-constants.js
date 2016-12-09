@@ -9,7 +9,7 @@ module.exports = Object.freeze({
         value: 'yes'
     },
 
-    ACCEPTED_CHILD_FILE_EXTENSIONS: ['.sh','.js'],
+    ACCEPTED_CHILD_FILE_EXTENSIONS: ['.sh', '.js', '.bash'],
 
     AVAILABLE_SUMAN_INIT_OPTIONS: {
         'pre': {
