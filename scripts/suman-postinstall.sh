@@ -20,7 +20,7 @@ LOG_PATH=~/.suman/suman-debug.log
 
 BASE_DIRECTORY=$(echo "$PWD" | cut -d "/" -f2)
 
-if [ ! -z "{$SUMAN_DEBUG}" ]; then
+if [ ! "yes" = "{$SUMAN_DEBUG}" ]; then
 echo " => Potential suman.conf.js file path => ${SUMAN_CONF_JS}"
 echo " => BASE_DIRECTORY=> ${BASE_DIRECTORY}"
 fi
@@ -43,12 +43,12 @@ fi
 
 HOME_IS_BASE_DIR=false;
 USERS_IS_BASE_DIR=false;
-if [ "home" == "${BASE_DIRECTORY}" ] && HOME_IS_BASE_DIR=true;
-if [ "Users" == "${BASE_DIRECTORY}" ] && USERS_IS_BASE_DIR=true;
+if [ "home" = "${BASE_DIRECTORY}" ] && HOME_IS_BASE_DIR=true;
+if [ "Users" = "${BASE_DIRECTORY}" ] && USERS_IS_BASE_DIR=true;
 
 
 # if suman.conf.js exists, then we run things in "foreground", otherwise run as daemon
-if [[ ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
+if [[ ( "no" = "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
   || ( ( "yes" != "${SUMAN_POSTINSTALL_IS_DAEMON}" ) && ( SUMAN_CONF_JS_FOUND || HOME_IS_BASE_DIR || USERS_IS_BASE_DIR) ) ]]; then
 
     echo " => Suman optional deps being installed in the foreground"
