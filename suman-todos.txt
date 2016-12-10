@@ -6,27 +6,6 @@ http://www.thegeekstuff.com/2010/08/ipcs-command-examples/
 
 /////
 
-oleg@xps:~/WebstormProjects/oresoftware/suman$ suman
- => Using 'suman' alias in suman-clis.sh...
- => No local Suman executable could be found, given the present working directory => /home/oleg/WebstormProjects/oresoftware/suman
- => Warning...attempting to run a globally installed version of Suman...
-bash: dirname/home/oleg/.nvm/versions/node/v7.2.1/bin/../lib/node_modules/suman: No such file or directory
-bash: basename/home/oleg/.nvm/versions/node/v7.2.1/bin/../lib/node_modules/suman: No such file or directory
-module.js:472
-    throw err;
-    ^
-
-Error: Cannot find module '/home/oleg/cli.js'
-    at Function.Module._resolveFilename (module.js:470:15)
-    at Function.Module._load (module.js:418:25)
-    at Module.runMain (module.js:605:10)
-    at run (bootstrap_node.js:420:7)
-    at startup (bootstrap_node.js:139:9)
-    at bootstrap_node.js:535:3
-oleg@xps:~/WebstormProjects/oresoftware/suman$ s
-
-/////
-
 SUMAN_DEBUG="s:index" @15:05:54:554 pm
  => $NODE_PATH is as follows:
 ------------------------------------------------------------------------
@@ -44,10 +23,15 @@ We need to do the same thing with Node.js SUMAN_SINGLE_PROCESS etc.
 
 // Make sure it's not accidentally inherited by child processes.
     delete process.env.NODE_CHANNEL_FD;
+
 ////
 
-
 https://github.com/avajs/ava/issues/1147
+
+/////
+
+=> findFilesToRun and transpileFiles can run in parallel, via making the mapToTargetDir function
+shared between the two former routines
 
 /////
 

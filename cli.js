@@ -233,8 +233,7 @@ const groups = opts.groups;
 //re-assignable
 var babelRegister = opts.babel_register;
 var noBabelRegister = opts.no_babel_register;
-var transpile = opts.transpile = !!opts.transpile;
-var originalTranspileOption = opts.transpile;
+const originalTranspileOption = opts.transpile = !!opts.transpile;
 
 //////////////////////////////////
 var sumanInstalledLocally = null;
@@ -336,7 +335,6 @@ const sumanObj = require('./lib/helpers/load-shared-objects')(sumanPaths, projec
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 if (sumanConfig.transpile === true && sumanConfig.useBabelRegister === true) {
     console.log('\n\n', ' => Suman warning => both the "transpile" and "useBabelRegister" properties are set to true in your config.\n' +
         '  The "transpile" option will tell Suman to transpile your sources to the "test-target" directory, whereas', '\n',
@@ -379,11 +377,11 @@ global.sumanMatchesAll = _.uniqBy((matchAll || []).concat(sumanConfig.matchAll |
 debugIndex('babelRegister opt => ', babelRegister);
 debugIndex('noBabelRegister opt => ', noBabelRegister);
 
-const overridingTranspile = babelRegister || (!noBabelRegister && global.sumanConfig.useBabelRegister);
+const useBabelRegister = (babelRegister || (!noBabelRegister && global.sumanConfig.useBabelRegister));
 
-var useBabelRegister = false;
-if (overridingTranspile) {
-    useBabelRegister = process.env.USE_BABEL_REGISTER = 'yes';
+if (useBabelRegister) {
+    opts.useBabelRegister = true;
+    process.env.USE_BABEL_REGISTER = 'yes';
 }
 
 if (opts.no_transpile) {
@@ -391,16 +389,15 @@ if (opts.no_transpile) {
 }
 else {
 
-    if (!opts.no_transpile && sumanConfig.transpile === true) {
-        transpile = opts.transpile = true;
-        if (opts.verbose && !overridingTranspile && !opts.watch) {
+    if (sumanConfig.transpile === true) {
+         opts.transpile = true;
+        if (opts.verbose && !_usingBabelRegister && !opts.watch) {
             console.log('\n', colors.bgCyan.black.bold('=> Suman message => transpilation is the default due to ' +
                 'your configuration option => transpile:true'), '\n');
         }
     }
 
-    if (overridingTranspile) {
-        // transpile = opts.transpile = false;  //when using register, we don't transpile manually
+    if (useBabelRegister) {
 
         if (!opts.vsparse) {
             if (global.sumanConfig.transpile === true) {
@@ -537,6 +534,6 @@ else if (groups) {
 
 else {
     //this path runs all tests
-    require('./lib/run')(opts, paths, sumanServerInstalled, originalTranspileOption, sumanVersion);
+    require('./lib/run')(opts, paths, sumanServerInstalled, sumanVersion);
 
 }

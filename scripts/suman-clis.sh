@@ -33,7 +33,11 @@ function suman {
 
     echo " => Using 'suman' alias in suman-clis.sh..."
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
-    export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+
+    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    # remove duplicate entries according to http://linuxg.net/oneliners-for-removing-the-duplicates-in-your-path/
+    export NODE_PATH=`echo -n $NODE_PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
+
     if [ -z "$LOCAL_SUMAN" ]; then
         echo " => No local Suman executable could be found, given the present working directory => $PWD"
         echo " => Warning...attempting to run a globally installed version of Suman..."
@@ -49,7 +53,10 @@ function suman-inspect {
     echo " => Using 'suman-inspect' alias in suman-clis.sh...ZOOM"
 #    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-inspect);
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
-    export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+
+    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    # remove duplicate entries according to http://linuxg.net/oneliners-for-removing-the-duplicates-in-your-path/
+    export NODE_PATH=`echo -n $NODE_PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 
     if [ -z "$LOCAL_SUMAN" ]; then
         echo " => No local Suman executable could be found, given the present working directory => $PWD"
@@ -68,7 +75,10 @@ function suman-debug {
     echo " => Using 'suman-debug' alias in suman-clis.sh..."
 #    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-debug);
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
-    export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+
+    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    # remove duplicate entries according to http://linuxg.net/oneliners-for-removing-the-duplicates-in-your-path/
+    export NODE_PATH=`echo -n $NODE_PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 
     if [ -z "$LOCAL_SUMAN" ]; then
         echo "No local Suman executable could be found, given the current directory => $PWD"
@@ -86,7 +96,10 @@ function suman--debug {
     echo " => Using 'suman--debug' alias in suman-clis.sh..."
 #    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman--debug);
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
-    export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+
+    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    # remove duplicate entries according to http://linuxg.net/oneliners-for-removing-the-duplicates-in-your-path/
+    export NODE_PATH=`echo -n $NODE_PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 
     if [ -z "$LOCAL_SUMAN" ]; then
         echo "No local Suman executable could be found, given the current directory => $PWD"
