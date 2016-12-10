@@ -38,7 +38,7 @@ echo " parent message => $msg"  >&2
 #MESSAGE=$(read -u "$NODE_CHANNEL_FD")
 #echo " parent message => $MESSAGE"  >&2
 
-#node $(dirname "$0")/es5-es6/a.js
+node $(dirname $(dirname "$0"))/es5-es6/a.js
 
 sleep 2
 exit 1

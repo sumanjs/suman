@@ -60,6 +60,13 @@ instead of hardcoded
 TODO:  ' ~/.suman/node_modules/.bin/babel
 
 
+//////
+
+SUMAN_SINGLE_PROCESS needs to forbid non-js file
+
+///////
+
+https://github.com/nodejs/help/issues/363#issuecomment-260213843
 
 ////////
 
