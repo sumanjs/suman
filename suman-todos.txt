@@ -6,10 +6,6 @@ http://www.thegeekstuff.com/2010/08/ipcs-command-examples/
 
 /////
 
-when running scripts, use .sh for sh, and .bash for bash
-
-//////
-
 oleg@xps:~/WebstormProjects/oresoftware/suman$ suman
  => Using 'suman' alias in suman-clis.sh...
  => No local Suman executable could be found, given the present working directory => /home/oleg/WebstormProjects/oresoftware/suman
@@ -31,6 +27,19 @@ oleg@xps:~/WebstormProjects/oresoftware/suman$ s
 
 /////
 
+SUMAN_DEBUG="s:index" @15:05:54:554 pm
+ => $NODE_PATH is as follows:
+------------------------------------------------------------------------
+:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:
+/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:
+/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:
+/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:
+/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:
+/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules
+
+
+/////
+
 We need to do the same thing with Node.js SUMAN_SINGLE_PROCESS etc.
 
 // Make sure it's not accidentally inherited by child processes.
@@ -44,11 +53,17 @@ https://github.com/avajs/ava/issues/1147
 
 java / spark / go / python
 
-/////
+/////////
+
+suman.groups.js =>
+
+choose either getPathToScript, or getListOfTestFiles
+=> either suman will just run the script in a container, or suman will autogenerate a script file
+then run that in a container, based off of the list of test files
+
+/////////
 
 each language option should be a plugin, each plugin needs to have an entrypoint
-
-
 enable writing tests in any language, as long as the child process fulfills the IPC contract
 
 /////
@@ -57,6 +72,11 @@ enable writing tests in any language, as long as the child process fulfills the 
  even if there is only one file (one .sh file for instance)
 
 /////
+
+ => change get-file-path.js to async, and run it in parallel with
+
+/////
+
 
 sudo chown -R root:root ~/.suman
 

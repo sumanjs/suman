@@ -24,7 +24,7 @@ function __handle_global_suman {
         # we work with the first argument passed to this function
         local ref="$1[@]";
         shift
-        SUMAN_LOCAL_ALREADY_FOUND=yes node "${!ref}" "${X}/cli.js" "${2}";
+         node "${!ref}" "${X}/cli.js" "${2}";
     fi
 }
 
@@ -40,14 +40,15 @@ function suman {
         local -a node_exec_args=( )
         __handle_global_suman node_exec_args "$@"
     else
-        SUMAN_LOCAL_ALREADY_FOUND=yes node "$LOCAL_SUMAN" "$@";
+        node "$LOCAL_SUMAN" "$@";
     fi
 }
 
 function suman-inspect {
 
-    echo " => Using 'suman-inspect' alias in suman-clis.sh..."
-    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-inspect);
+    echo " => Using 'suman-inspect' alias in suman-clis.sh...ZOOM"
+#    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-inspect);
+    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
     export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
     if [ -z "$LOCAL_SUMAN" ]; then
@@ -57,14 +58,16 @@ function suman-inspect {
         local -a node_exec_args=( --inspect --debug-brk )
         __handle_global_suman node_exec_args "$@"
     else
-        SUMAN_LOCAL_ALREADY_FOUND=yes  node "$LOCAL_SUMAN" "$@";
+    echo "running node against local suman"
+         node --inspect --debug-brk "$LOCAL_SUMAN" "$@";
     fi
 }
 
 function suman-debug {
 
     echo " => Using 'suman-debug' alias in suman-clis.sh..."
-    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-debug);
+#    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-debug);
+    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
     export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
     if [ -z "$LOCAL_SUMAN" ]; then
@@ -74,14 +77,15 @@ function suman-debug {
         local -a node_exec_args=( debug )
         __handle_global_suman node_exec_args "$@"
     else
-        SUMAN_LOCAL_ALREADY_FOUND=yes  node "$LOCAL_SUMAN" "$@";
+        node debug "$LOCAL_SUMAN" "$@";
     fi
 }
 
 function suman--debug {
 
     echo " => Using 'suman--debug' alias in suman-clis.sh..."
-    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman--debug);
+#    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman--debug);
+    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
     export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
 
     if [ -z "$LOCAL_SUMAN" ]; then
@@ -91,6 +95,6 @@ function suman--debug {
         local -a node_exec_args=( --debug-brk=5858 --debug=5858 )
         __handle_global_suman node_exec_args "$@"
     else
-        SUMAN_LOCAL_ALREADY_FOUND=yes node "$LOCAL_SUMAN" "$@";
+        node --debug-brk=5858 --debug=5858 "$LOCAL_SUMAN" "$@";
     fi
 }

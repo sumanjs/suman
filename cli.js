@@ -375,6 +375,10 @@ global.sumanMatchesAll = _.uniqBy((matchAll || []).concat(sumanConfig.matchAll |
     .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
 
 /////////// override transpile ///////////
+
+debugIndex('babelRegister opt => ', babelRegister);
+debugIndex('noBabelRegister opt => ', noBabelRegister);
+
 const overridingTranspile = babelRegister || (!noBabelRegister && global.sumanConfig.useBabelRegister);
 
 var useBabelRegister = false;
