@@ -17,11 +17,15 @@ const installQueueLock = path.resolve(process.env.HOME + '/.suman/install-queue.
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
 
 //project
+const sumanUtils = require('suman-utils/utils');
+const residence = require('residence');
 const queueWorker = require('./queue-worker');
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-const debugPostinstall = debug('s:postinstall');
+const debugPostinstall = debug('s:postinstall', {
+    fg: 'cyan'
+});
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -64,7 +68,7 @@ const alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().re
 
 const cwd = process.cwd();
 debugPostinstall(' => cwd in postinstall script =>', cwd);
-const projectRoot = path.resolve(cwd + '/../../');
+const projectRoot = residence.findProjectRoot(cwd);
 debugPostinstall('project root => ', projectRoot);
 
 

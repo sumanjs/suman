@@ -6,6 +6,23 @@ http://www.thegeekstuff.com/2010/08/ipcs-command-examples/
 
 /////
 
+websockets in java
+https://github.com/firebase/TubeSock
+
+/////
+
+ava stores the babel .cache in node_modules/.cache/ava
+
+/////
+
+use pkill to kills suman procs
+
+/////
+
+suman-meta => uses git-clone-all-org-repos and then runs the build.sh file, which should checkout all the right branches from remote repo.
+
+/////
+
 need to use request-reply pattern when sending a fatal message with IPC from child to parent
 just like with the table data, the child could close before parent received the fatal message
 
