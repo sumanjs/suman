@@ -55,6 +55,14 @@ java / spark / go / python
 
 /////////
 
+TODO: babelExec needs to be require.resolve('babel').blah
+instead of hardcoded
+TODO:  ' ~/.suman/node_modules/.bin/babel
+
+
+
+////////
+
 suman.groups.js =>
 
 choose either getPathToScript, or getListOfTestFiles

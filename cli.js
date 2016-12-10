@@ -233,7 +233,7 @@ const groups = opts.groups;
 //re-assignable
 var babelRegister = opts.babel_register;
 var noBabelRegister = opts.no_babel_register;
-var transpile = opts.transpile;
+var transpile = opts.transpile = !!opts.transpile;
 var originalTranspileOption = opts.transpile;
 
 //////////////////////////////////
@@ -400,7 +400,7 @@ else {
     }
 
     if (overridingTranspile) {
-        transpile = opts.transpile = false;  //when using register, we don't transpile manually
+        // transpile = opts.transpile = false;  //when using register, we don't transpile manually
 
         if (!opts.vsparse) {
             if (global.sumanConfig.transpile === true) {

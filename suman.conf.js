@@ -17,7 +17,7 @@ module.exports = Object.freeze({
   testSrcDir: 'test/testsrc/es5-es6',
   sumanHelpersDir: 'test/_suman',
   defaultTestSuiteTimeout: 150000,
-  transpile: true,
+  transpile: false,
   maxParallelProcesses: Math.max(6, numOfCPUs),
   safe: false, //reads files in with fs.createReadStream and makes sure it's a suman test before running
   verbose: true, //handles and logs warnings (using warning level?)
