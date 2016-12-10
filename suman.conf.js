@@ -35,7 +35,7 @@ module.exports = Object.freeze({
 
     /////////
 
-    useBabelRegister: false,
+    useBabelRegister: true,
 
     watch: {
         '//tests': {

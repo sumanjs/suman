@@ -6,16 +6,8 @@ http://www.thegeekstuff.com/2010/08/ipcs-command-examples/
 
 /////
 
-SUMAN_DEBUG="s:index" @15:05:54:554 pm
- => $NODE_PATH is as follows:
-------------------------------------------------------------------------
-:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:
-/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:
-/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:
-/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:
-/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:
-/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules:/home/oleg/.suman/node_modules
-
+need to use request-reply pattern when sending a fatal message with IPC from child to parent
+just like with the table data, the child could close before parent received the fatal message
 
 /////
 
@@ -30,19 +22,7 @@ https://github.com/avajs/ava/issues/1147
 
 /////
 
-=> findFilesToRun and transpileFiles can run in parallel, via making the mapToTargetDir function
-shared between the two former routines
-
-/////
-
 java / spark / go / python
-
-/////////
-
-TODO: babelExec needs to be require.resolve('babel').blah
-instead of hardcoded
-TODO:  ' ~/.suman/node_modules/.bin/babel
-
 
 //////
 
