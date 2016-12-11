@@ -37,6 +37,8 @@ module.exports = Object.freeze({
 
     useBabelRegister: true,
 
+    useBabelRegister: true,
+
   watch: {
     '//tests': {
       script: function (p) {
@@ -45,13 +47,6 @@ module.exports = Object.freeze({
       include: [],
       exclude: [ '^test.*' ]
     },
-
-    '//project': {
-      script: 'suman --no-color test/testsrc/es5-es6/integration-tests',
-      include: [ __dirname ],
-      exclude: []
-    },
-  },
 
     reporters: {
         'suman-example-reporter': require('suman-example-reporter'),
