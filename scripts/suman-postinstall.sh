@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 
+
+SUMAN_DEBUG="$(echo -e "${SUMAN_DEBUG}" | tr -d '[:space:]')"
+echo " => SUMAN_DEBUG => '$SUMAN_DEBUG'"
+
 ./scripts/create-suman-dir.js &&
 
 DOT_SUMAN_DIR=$(cd ~/.suman && pwd)
 
-echo "DOT_SUMAN_DIR => $DOT_SUMAN_DIR"
+if [ ! -z "$SUMAN_DEBUG" ]; then echo "DOT_SUMAN_DIR => $DOT_SUMAN_DIR"; fi
+
 
 if [[ ! -d "$DOT_SUMAN_DIR" ]]; then
     echo " => Suman failed to create ~/.suman directory, exiting with 1"
     exit 1;
 fi
 
-SUMAN_CONF_JS=$(dirname $(dirname $PWD))/suman.conf.js
-
+#SUMAN_CONF_JS=$(dirname $(dirname $PWD))/suman.conf.js
+SUMAN_CONF_JS=$(node $HOME/.suman/find-project-root.js)/suman.conf.js
 LOG_PATH=~/.suman/suman-debug.log
 
 # get base directory, to uppercase  ( HOME, USERS, USR , etc.)
@@ -20,23 +25,24 @@ LOG_PATH=~/.suman/suman-debug.log
 
 BASE_DIRECTORY=$(echo "$PWD" | cut -d "/" -f2)
 
-if [ ! "yes" = "{$SUMAN_DEBUG}" ]; then
+
+if [ -n "$SUMAN_DEBUG" ]; then
     echo " => Potential suman.conf.js file path => ${SUMAN_CONF_JS}"
-    echo " => BASE_DIRECTORY=> ${BASE_DIRECTORY}"
+    echo " => BASE_DIRECTORY => ${BASE_DIRECTORY}"
 fi
 
 
 if [ "yes" = "${SUMAN_POSTINSTALL_IS_DAEMON}" ]; then
-    echo "SUMAN_POSTINSTALL_IS_DAEMON is set to value => ${SUMAN_POSTINSTALL_IS_DAEMON}"
+    if [ -n "$SUMAN_DEBUG" ]; then echo "SUMAN_POSTINSTALL_IS_DAEMON is set to value => ${SUMAN_POSTINSTALL_IS_DAEMON}" ; fi;
 fi
 
 
 if [ -e "$SUMAN_CONF_JS" ]; then
-    SUMAN_CONF_JS_FOUND=true
-    echo " => suman.conf.js file found at path $SUMAN_CONF_JS"
+    SUMAN_CONF_JS_FOUND=true;
+    if [ -n "$SUMAN_DEBUG" ]; then  echo " => suman.conf.js file found at path $SUMAN_CONF_JS" ; fi
 else
-    SUMAN_CONF_JS_FOUND=false
-    echo " => suman.conf.js file *not* found at path $SUMAN_CONF_JS"
+    SUMAN_CONF_JS_FOUND=false;
+     if [ -n "$SUMAN_DEBUG" ]; then echo " => suman.conf.js file *not* found at path $SUMAN_CONF_JS" ; fi
 fi
 
 

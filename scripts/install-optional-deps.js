@@ -177,7 +177,7 @@ async.map(installs, function (item, cb) {
             return cb(err);
         }
 
-        debugPostinstall(' item => ', item, 'view version:', results.view.version, 'stats version => ', results.stats.version, '\n\n\n');
+        debugPostinstall([' item => ' + item, 'view version:' + results.view.version, 'stats version:' + results.stats.version].join(', '));
 
         if (!results.stats.version) {
             results.view.action = 'install';
