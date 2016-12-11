@@ -19,10 +19,16 @@ else
   echo "note that we are *not* publishing to NPM"
 fi
 
+MILLIS_SINCE_EPOCH=$(date +%s%N | cut -b1-13)
+GIT_COMMIT_MSG=${1:-"${MILLIS_SINCE_EPOCH}"} &&
 
 git add . &&
 git add -A &&
-git commit --allow-empty -am "publish/release:$1" &&
+git commit --allow-empty -am "pre:$GIT_COMMIT_MSG" &&
+git pull &&
+git add . &&
+git add -A &&
+git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 git push &&                     # push to private/dev remote repo
 git checkout -b dev_squash_temp dev_squash &&
 git merge --squash -Xtheirs dev -m "squashing" &&  # make sure the merge succeeds before actually doing it...
@@ -31,16 +37,15 @@ git branch -D dev_squash_temp &&
 git merge --squash -Xtheirs dev -m "squashing" &&
 git add . &&
 git add -A &&
-git commit --allow-empty -am "publish/release:$1" &&
+git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 git checkout -b temp  &&                                          # we checkout this branch to run deletes on private files
 ./delete-internal-paths.sh &&
 git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&
-git commit --allow-empty -am "publish/release:$1" &&
+git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 #git rebase $(git describe --tags) &&
-git push public HEAD:staging -f &&
-
+git push origin HEAD:staging -f &&
 
 if [ "$2" = "publish" ]; then
    npm publish .  &&    # bump version

@@ -28,6 +28,7 @@ I ran into a similar issue, believe this occurs when your VM is inactive.
 Here's how I remedied the situation
 
 docker-machine rm default
-after it's cleaned up you can create a new default machine (assuming you haven't heavily modified it, then you'll probably want to script/automate that with packer/terraform etc)
+after it's cleaned up you can create a new default machine (assuming you haven't heavily modified it,
+ then you'll probably want to script/automate that with packer/terraform etc)
 
 docker-machine create default --driver virtualbox

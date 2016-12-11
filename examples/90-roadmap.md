@@ -1,35 +1,34 @@
-The following features are currently in the works:
+The following features are currently in the works, mostly planned for a 2.0.0 version of Suman:
 
 
-1. Hooking in bash scripts
+1. Provide a web interface to see test results over time. That means we will store test results in SQLite, and use Suman
+Server to deliver test results to the browser. This feature was started but not completed yet. Ideally, only
+one instance of Suman Server will run on any machine. Suman Server will be responsible for both file watching as well
+as delivering the web page locally.
 
-    * Suman will look for a bash script which has the same name as your
-    .js test in the same directory. It will launch the bash script instead
-    of the .js file itself. Your bash script can setup the desired 
-    environment and then is responsible for launching the .js file.
-    The user will probably have to use a flag to indicate that they
-    want to use bash scripts as hooks, and may need to put them in a 
-    directory called sh.
+2. Support other languages besides JS. The 1.x version of Suman will use Node.js standard IPC to communicate with child processes. 
+This very much limits Suman to only using JavaScript, for running tests. Even though there will never
+be first-class support for this, we'd like to allow users to write tests in Golang, Python, Java, etc, and also the browser. 
+Users can use the Suman runner to run tests in any language, as long as the other processes can communicate effectively
+with the Suman API, most likely using Websockets.
+
+In order to communicate with processes running in another language, we will most likely have to use Websockets for IPC, 
+not the UNIX socketpair approach that Node.js uses out of the box. In order to support running tests in other languages, 
+Suman will have to rely heavily on the community to develop test runners that adhere to the Suman runner API. Basically,
+the test file in Python, Golang, Java, etc, can be in any format, but they will need
+to implement Websockets and communicate with the Suman test runner.
     
 
-2. Support observables. 
-
-    * As this area of Node and JS congeals, Suman will make
-    observables a first-class citizen alongside promises and callbacks.
+3. Support observables. As this area of Node and JS congeals, Suman will make observables a first-class citizen
+ alongside promises and callbacks and standard event-emitters.
     
     
-3. Suman runner can handle pre-defined groups of tests, using suman.groups.js
+4. Improve grouping of tests, so that test groups can easily run on multiple machines.
+Right now, Suman is *not* designed to run different Suman groups on different machines 
+(for speed). Suman groups will basically override any behavior given by suman.order.js.
 
-    * suman.groups.js will allow the user to define groups of tests that are to run
-    together; this will basically override any behavior given by suman.order.js.
     
-    
-4. Optimize suman.order.js => Optimize the order in which tests run, according to
-suman.order.js; also, allow for randomization of test order.
+5. Optimize suman.order.js => Optimize the order in which tests run, according to
+suman.order.js; also, allow for better randomization of test order.
 
 
-5. Allow for the user to make hooks (before/afterEach, etc) run completely in parallel as well.
-
-6. Instead of tailing logs, use a web app hosted on localhost to view test output
-
-7. Provide JIRA, Jenkins integration, etc etc.

@@ -14,6 +14,7 @@ RUN echo $s
 RUN echo $sname
 
 ENV sname $sname
+ENV SUMAN_POSTINSTALL_IS_DAEMON=yes
 
 RUN chmod -R 777 $(npm root -g)
 
