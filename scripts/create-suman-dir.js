@@ -7,9 +7,7 @@ const fs = require('fs');
 const cp = require('child_process');
 
 //npm
-const async = require('async');
-
-//npm
+//
 const async = require('async');
 
 //project
@@ -45,9 +43,6 @@ fs.mkdir(p, function (err) {
     if (err && !String(err.stack || err).match(/EEXIST/)) {
         throw err;
     }
-  }
-
-  async.parallel([
 
     debugPostinstall(' => Beginning of Suman post-install script');
 
