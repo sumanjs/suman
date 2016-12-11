@@ -24,6 +24,10 @@ GIT_COMMIT_MSG=${1:-"${MILLIS_SINCE_EPOCH}"} &&
 
 git add . &&
 git add -A &&
+git commit --allow-empty -am "pre:$GIT_COMMIT_MSG" &&
+git pull &&
+git add . &&
+git add -A &&
 git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 git push &&                     # push to private/dev remote repo
 git checkout -b dev_squash_temp dev_squash &&
@@ -42,7 +46,6 @@ git add -A &&
 git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 #git rebase $(git describe --tags) &&
 git push origin HEAD:staging -f &&
-
 
 if [ "$2" = "publish" ]; then
    npm publish .  &&    # bump version

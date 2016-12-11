@@ -1,6 +1,3 @@
 
-
-console.log(JSON.stringify({
-    type:'CONSOLE_LOG',
-    data: 'weakkkkknesss'
-}));
+const path = require('path');
+console.log(path.resolve(__dirname,'..','..','..','doooogs'));

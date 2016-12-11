@@ -17,6 +17,7 @@ if [ ! -z "$RESULT" ]; then break; fi;
 FILES=$(find $(dirname "$DIR")/**/**/*.js -type f -maxdepth 8 -not -path "*/babel/*" -not -path "*/examples/*");
 echo "FILES => $FILES"
 
+# try to compile all .js files
 node -c ${FILES}
 
 EXIT_CODE="$?"

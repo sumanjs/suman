@@ -68,11 +68,8 @@ enable writing tests in any language, as long as the child process fulfills the 
  even if there is only one file (one .sh file for instance)
 
 /////
-
  => change get-file-path.js to async, and run it in parallel with
-
 /////
-
 
 sudo chown -R root:root ~/.suman
 
@@ -83,10 +80,6 @@ cd suman && npm install suman -f   // force
 /////
 
 refactor FILE_IS_NOT_DOT_JS   => FILE_IS_NOT_ACCEPTED_EXTENSION
-
-/////
-
-suman needs to handle shell scripts, not just .js files
 
 /////
 

@@ -407,7 +407,8 @@ else {
         if (!opts.vsparse) {
             if (sumanConfig.transpile === true) {
                 console.log('\n ', colors.bgCyan.black.bold(' => the ' + colors.magenta('--babel-register')
-                        + ' flag was passed,') + '\n  ' +
+                        + ' flag was passed or ' + colors.magenta('useBabelRegister')
+                        + ' was set to true in your suman.conf.js file,') + '\n  ' +
                     colors.bgCyan.black.bold(' so we will transpile on the fly with "babel-register",' +
                         ' no transpiled files will be written out.'), '\n');
             }
