@@ -208,7 +208,7 @@ const serverName = opts.server_name;
 const convert = opts.convert;
 const src = opts.src;
 const dest = opts.dest;
-const init = opts.init;
+const init = !!opts.init;
 const uninstall = opts.uninstall;
 const force = opts.force;
 const fforce = opts.fforce;
@@ -228,7 +228,6 @@ const matchAll = opts.match_all;
 const matchNone = opts.match_none;
 const uninstallBabel = opts.uninstall_babel;
 const groups = opts.groups;
-
 
 //re-assignable
 var babelRegister = opts.babel_register;
@@ -449,7 +448,8 @@ const optCheck = [
     interactive,
     uninstallBabel   //TODO: should mix this with uninstall-suman
 
-].filter(function (item) {
+].filter(function (item, index) {
+    debugIndex(' => filtering item at index => ', index, ', item => ', item);
     return item; //TODO what if item is falsy?
 });
 

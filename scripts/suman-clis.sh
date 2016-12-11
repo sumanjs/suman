@@ -42,9 +42,9 @@ function suman {
         echo " => No local Suman executable could be found, given the present working directory => $PWD"
         echo " => Warning...attempting to run a globally installed version of Suman..."
         local -a node_exec_args=( )
-        __handle_global_suman node_exec_args "$@"
+        __handle_global_suman node_exec_args $@
     else
-        node "$LOCAL_SUMAN" "$@";
+        node "$LOCAL_SUMAN" $@;
     fi
 }
 
@@ -63,10 +63,10 @@ function suman-inspect {
         echo "You can use '$ which suman-debug' to find a globally installed version."
         echo " => Warning...attempting to run a globally installed version of Suman..."
         local -a node_exec_args=( --inspect --debug-brk )
-        __handle_global_suman node_exec_args "$@"
+        __handle_global_suman node_exec_args $@
     else
     echo "running node against local suman"
-         node --inspect --debug-brk "$LOCAL_SUMAN" "$@";
+         node --inspect --debug-brk "$LOCAL_SUMAN" $@;
     fi
 }
 
@@ -85,9 +85,9 @@ function suman-debug {
         echo "You can use '$ which suman-debug' to find a globally installed version."
         echo " => Warning...attempting to run a globally installed version of Suman..."
         local -a node_exec_args=( debug )
-        __handle_global_suman node_exec_args "$@"
+        __handle_global_suman node_exec_args $@
     else
-        node debug "$LOCAL_SUMAN" "$@";
+        node debug "$LOCAL_SUMAN" $@;
     fi
 }
 
@@ -106,8 +106,8 @@ function suman--debug {
         echo "Use '$ which suman--debug' to find a globally installed version."
         echo " => Warning...attempting to run a globally installed version of Suman..."
         local -a node_exec_args=( --debug-brk=5858 --debug=5858 )
-        __handle_global_suman node_exec_args "$@"
+        __handle_global_suman node_exec_args $@
     else
-        node --debug-brk=5858 --debug=5858 "$LOCAL_SUMAN" "$@";
+        node --debug-brk=5858 --debug=5858 "$LOCAL_SUMAN" $@;
     fi
 }

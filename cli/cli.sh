@@ -23,7 +23,7 @@ PATH=$(printf %s "$PATH" \
 
 if [ "${LOCAL_SUMAN_ALREADY_FOUND}" = "yes" ]; then
     # we know that this directory contains the local version of suman we want to use
-    SUMAN_EXTRANEOUS_EXECUTABLE=yes node ${X}/cli.js "$@"
+    SUMAN_EXTRANEOUS_EXECUTABLE=yes node ${X}/cli.js $@
 
 else
 
@@ -34,11 +34,11 @@ else
         # no local version found, so we fallback on the version in this directory, global or not
         echo " => No local Suman executable could be found, given the current directory => $PWD"
         echo " => Attempting to run installed version of Suman here => `dirname $0`"
-        SUMAN_EXTRANEOUS_EXECUTABLE=yes node ${X}/cli.js "$@"
+        SUMAN_EXTRANEOUS_EXECUTABLE=yes node ${X}/cli.js $@
 
     else
         # local version found, so we run it
-        SUMAN_EXTRANEOUS_EXECUTABLE=yes node "${LOCAL_SUMAN}" "$@"
+        SUMAN_EXTRANEOUS_EXECUTABLE=yes node "${LOCAL_SUMAN}" $@
     fi
 
 fi

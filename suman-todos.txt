@@ -101,6 +101,31 @@ even though master and staging should never be different
 
 ////
 
+
+<--- JS stacktrace --->
+
+==== JS stack trace =========================================
+
+Security context: 0x1ab88c4c0d39 <JS Object>
+    2: findSharedPath [/home/oleg/WebstormProjects/oresoftware/sumanjs/suman-utils/utils.js:~200] [pc=0x1b28f4f119dc](this=0x2150e67f0049 <an Object with map 0x1777ece64e99>,p1=0x12164e93c259 <String[46]: /home/oleg/WebstormProjects/oresoftware/poolio>,p2=0x2150e67effa1 <String[46]: /home/oleg/WebstormProjects/oresoftware/poolio>)
+    3: /* anonymous */ [/home/oleg/WebstormProjects/oresoftware/...
+
+FATAL ERROR: invalid array length Allocation failed - JavaScript heap out of memory
+ 1: node::Abort() [node]
+ 2: 0x126264c [node]
+ 3: v8::Utils::ReportOOMFailure(char const*, bool) [node]
+ 4: v8::internal::V8::FatalProcessOutOfMemory(char const*, bool) [node]
+ 5: v8::internal::Heap::AllocateUninitializedFixedArray(int) [node]
+ 6: v8::internal::Factory::NewUninitializedFixedArray(int) [node]
+ 7: 0xe0772f [node]
+ 8: v8::internal::Runtime_GrowArrayElements(int, v8::internal::Object**, v8::internal::Isolate*) [node]
+ 9: 0x1b28f4c063a7
+Aborted (core dumped)
+
+
+/////
+
+
 if not installing as daemon - should only install the deps explicitly declared in suman.conf.js
 
 in other words - if suman.conf.js is not present - install all deps as daemon,
