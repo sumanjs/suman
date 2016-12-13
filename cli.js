@@ -108,7 +108,7 @@ const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
 const _ = require('lodash');
-const debug = require('suman-debug')('s:index');
+const debug = require('suman-debug')('s:cli');
 
 //project
 
