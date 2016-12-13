@@ -27,7 +27,6 @@ java / spark / go / python
 
 each language option should be a plugin, each plugin needs to have an entrypoint
 
-
 enable writing tests in any language, as long as the child process fulfills the IPC contract
 
 /////
@@ -48,6 +47,10 @@ cd suman && npm install suman -f   // force
 refactor FILE_IS_NOT_DOT_JS   => FILE_IS_NOT_ACCEPTED_EXTENSION
 
 /////
+
+if npm root -g is in user home, maybe we can use that cache instead (probably not)
+
+////
 
 suman needs to handle shell scripts, not just .js files
 

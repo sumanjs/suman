@@ -40,14 +40,7 @@ fs.mkdir(p, function (err) {
         throw err;
     }
 
-
-    //please don't make an error
-
     fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', {flag: 'w', flags: 'w'});
-
-    // else if (err) {
-    //     fs.writeFileSync(sumanDebugLog, '\n => Suman post-install script warning => \n' + (err.stack || err), {flag: 'a'});
-    // }
 
     async.parallel([
 

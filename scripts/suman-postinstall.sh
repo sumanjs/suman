@@ -40,13 +40,13 @@ else
 fi
 
 
-if [ "home" == "${BASE_DIRECTORY}" ]; then
+if [ "home" = "${BASE_DIRECTORY}" ]; then
     HOME_IS_BASE_DIR=true
 else
     HOME_IS_BASE_DIR=false
 fi
 
-if [ "Users" == "${BASE_DIRECTORY}" ]; then
+if [ "Users" = "${BASE_DIRECTORY}" ]; then
     USERS_IS_BASE_DIR=true
 else
     USERS_IS_BASE_DIR=false
