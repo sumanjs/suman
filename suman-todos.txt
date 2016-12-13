@@ -47,6 +47,7 @@ SUMAN_SINGLE_PROCESS needs to forbid non-js file
 
 ///////
 
+=======
 https://github.com/nodejs/help/issues/363#issuecomment-260213843
 
 ////////
@@ -59,7 +60,7 @@ then run that in a container, based off of the list of test files
 
 /////////
 
-each language option should be a plugin, each plugin needs to have an entrypoint
+each language option should be a plugin, each plugin needs to have an entrypoints
 enable writing tests in any language, as long as the child process fulfills the IPC contract
 
 /////
@@ -83,6 +84,15 @@ refactor FILE_IS_NOT_DOT_JS   => FILE_IS_NOT_ACCEPTED_EXTENSION
 
 /////
 
+if npm root -g is in user home, maybe we can use that cache instead (probably not)
+
+////
+
+suman needs to handle shell scripts, not just .js files
+
+/////
+
+=======
 run node -c against all node.js files in project after merge
 
 /////
