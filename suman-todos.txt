@@ -6,16 +6,34 @@ http://www.thegeekstuff.com/2010/08/ipcs-command-examples/
 
 /////
 
-when running scripts, use .sh for sh, and .bash for bash
+websockets in java
+https://github.com/firebase/TubeSock
 
-//////
+/////
+
+ava stores the babel .cache in node_modules/.cache/ava
+
+/////
+
+use pkill to kills suman procs
+
+/////
+
+suman-meta => uses git-clone-all-org-repos and then runs the build.sh file, which should checkout all the right branches from remote repo.
+
+/////
+
+need to use request-reply pattern when sending a fatal message with IPC from child to parent
+just like with the table data, the child could close before parent received the fatal message
+
+/////
 
 We need to do the same thing with Node.js SUMAN_SINGLE_PROCESS etc.
 
 // Make sure it's not accidentally inherited by child processes.
     delete process.env.NODE_CHANNEL_FD;
-////
 
+////
 
 https://github.com/avajs/ava/issues/1147
 
@@ -23,10 +41,26 @@ https://github.com/avajs/ava/issues/1147
 
 java / spark / go / python
 
-/////
+//////
 
-each language option should be a plugin, each plugin needs to have an entrypoint
+SUMAN_SINGLE_PROCESS needs to forbid non-js file
 
+///////
+
+=======
+https://github.com/nodejs/help/issues/363#issuecomment-260213843
+
+////////
+
+suman.groups.js =>
+
+choose either getPathToScript, or getListOfTestFiles
+=> either suman will just run the script in a container, or suman will autogenerate a script file
+then run that in a container, based off of the list of test files
+
+/////////
+
+each language option should be a plugin, each plugin needs to have an entrypoints
 enable writing tests in any language, as long as the child process fulfills the IPC contract
 
 /////
@@ -34,6 +68,8 @@ enable writing tests in any language, as long as the child process fulfills the 
  if any file in the arguments list is not .js, we have to use the runner,
  even if there is only one file (one .sh file for instance)
 
+/////
+ => change get-file-path.js to async, and run it in parallel with
 /////
 
 sudo chown -R root:root ~/.suman
@@ -56,6 +92,7 @@ suman needs to handle shell scripts, not just .js files
 
 /////
 
+=======
 run node -c against all node.js files in project after merge
 
 /////
@@ -73,6 +110,31 @@ even though master and staging should never be different
 //TODO: should pass sumanOpts from runner to child processes
 
 ////
+
+
+<--- JS stacktrace --->
+
+==== JS stack trace =========================================
+
+Security context: 0x1ab88c4c0d39 <JS Object>
+    2: findSharedPath [/home/oleg/WebstormProjects/oresoftware/sumanjs/suman-utils/utils.js:~200] [pc=0x1b28f4f119dc](this=0x2150e67f0049 <an Object with map 0x1777ece64e99>,p1=0x12164e93c259 <String[46]: /home/oleg/WebstormProjects/oresoftware/poolio>,p2=0x2150e67effa1 <String[46]: /home/oleg/WebstormProjects/oresoftware/poolio>)
+    3: /* anonymous */ [/home/oleg/WebstormProjects/oresoftware/...
+
+FATAL ERROR: invalid array length Allocation failed - JavaScript heap out of memory
+ 1: node::Abort() [node]
+ 2: 0x126264c [node]
+ 3: v8::Utils::ReportOOMFailure(char const*, bool) [node]
+ 4: v8::internal::V8::FatalProcessOutOfMemory(char const*, bool) [node]
+ 5: v8::internal::Heap::AllocateUninitializedFixedArray(int) [node]
+ 6: v8::internal::Factory::NewUninitializedFixedArray(int) [node]
+ 7: 0xe0772f [node]
+ 8: v8::internal::Runtime_GrowArrayElements(int, v8::internal::Object**, v8::internal::Isolate*) [node]
+ 9: 0x1b28f4c063a7
+Aborted (core dumped)
+
+
+/////
+
 
 if not installing as daemon - should only install the deps explicitly declared in suman.conf.js
 

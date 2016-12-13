@@ -208,7 +208,7 @@ const serverName = opts.server_name;
 const convert = opts.convert;
 const src = opts.src;
 const dest = opts.dest;
-const init = opts.init;
+const init = !!opts.init;
 const uninstall = opts.uninstall;
 const force = opts.force;
 const fforce = opts.fforce;
@@ -229,12 +229,10 @@ const matchNone = opts.match_none;
 const uninstallBabel = opts.uninstall_babel;
 const groups = opts.groups;
 
-
 //re-assignable
 var babelRegister = opts.babel_register;
 var noBabelRegister = opts.no_babel_register;
-var transpile = opts.transpile;
-var originalTranspileOption = opts.transpile;
+const originalTranspileOption = opts.transpile = !!opts.transpile;
 
 //////////////////////////////////
 var sumanInstalledLocally = null;
@@ -258,12 +256,20 @@ if (opts.testing) {
 //////////////// check for cmd line contradictions ///////////////////////////////////
 
 if (opts.transpile && opts.no_transpile) {
-    console.log('\n', ' => Suman fatal problem => --transpile and --no-transpile options with both set, please choose one only.');
+    console.log('\n', '=> Suman fatal problem => --transpile and --no-transpile options were both set,' +
+        ' please choose one only.','\n');
     return;
 }
 
 if (opts.watch && opts.stop_watching) {
-    console.log('\n', ' => Suman fatal problem => --watch and --stop-watching options with both set, please choose one only.');
+    console.log('\n', '=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
+        'please choose one only.','\n');
+    return;
+}
+
+if (opts.babel_register && opts.no_babel_register) {
+    console.log('\n', '=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
+        ' please choose one only.','\n');
     return;
 }
 
@@ -336,16 +342,13 @@ const sumanObj = require('./lib/helpers/load-shared-objects')(sumanPaths, projec
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-if (sumanConfig.transpile === true && sumanConfig.useBabelRegister === true) {
+if (sumanConfig.transpile === true && sumanConfig.useBabelRegister === true && opts.verbose) {
     console.log('\n\n', ' => Suman warning => both the "transpile" and "useBabelRegister" properties are set to true in your config.\n' +
         '  The "transpile" option will tell Suman to transpile your sources to the "test-target" directory, whereas', '\n',
-        ' "useBabelRegister" will transpile your sources on the fly and no transpiled files will be written to the filesystem.', '\n',
-        ' The "useBabelRegister" property and --register flag will take precedence.');
+        ' "useBabelRegister" will transpile your sources on the fly and no transpiled files will be written to the filesystem.', '\n');
 
-    // 'The basic "transpile" option will take precedence over using "babel-register", since using "babel-register" is both' +
-    // 'less performant and less transparent/debuggable.');
 }
+
 
 ///////////////////// HERE WE RECONCILE / MERGE COMMAND LINE OPTS WITH CONFIG ///////////////////////////
 
@@ -375,34 +378,36 @@ global.sumanMatchesAll = _.uniqBy((matchAll || []).concat(sumanConfig.matchAll |
     .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
 
 /////////// override transpile ///////////
-const overridingTranspile = babelRegister || (!noBabelRegister && global.sumanConfig.useBabelRegister);
 
-var useBabelRegister = false;
-if (overridingTranspile) {
-    useBabelRegister = process.env.USE_BABEL_REGISTER = 'yes';
-}
 
 if (opts.no_transpile) {
     opts.transpile = false;
 }
 else {
 
-    if (!opts.no_transpile && sumanConfig.transpile === true) {
-        transpile = opts.transpile = true;
-        if (opts.verbose && !overridingTranspile && !opts.watch) {
+    if (sumanConfig.transpile === true) {
+        opts.transpile = true;
+        if (opts.verbose && !opts.watch) {
             console.log('\n', colors.bgCyan.black.bold('=> Suman message => transpilation is the default due to ' +
                 'your configuration option => transpile:true'), '\n');
         }
     }
 
-    if (overridingTranspile) {
-        transpile = opts.transpile = false;  //when using register, we don't transpile manually
+
+    debugIndex('babelRegister opt => ', babelRegister);
+    debugIndex('noBabelRegister opt => ', noBabelRegister);
+
+    const useBabelRegister = (babelRegister || (!noBabelRegister && sumanConfig.useBabelRegister));
+
+    if (useBabelRegister) {
+        opts.useBabelRegister = true;
+        process.env.USE_BABEL_REGISTER = 'yes';
 
         if (!opts.vsparse) {
-            if (global.sumanConfig.transpile === true) {
-                console.log('\n ', colors.bgCyan.black.bold(' => Suman message => although transpilation is the default (due to ') + '\n  ' +
-                    colors.bgCyan.black.bold(' your configuration option => {transpile:true}), the ' + colors.magenta('--babel-register')
-                        + ' flag was passed and takes precedence,') + '\n  ' +
+            if (sumanConfig.transpile === true) {
+                console.log('\n ', colors.bgCyan.black.bold(' => the ' + colors.magenta('--babel-register')
+                        + ' flag was passed or ' + colors.magenta('useBabelRegister')
+                        + ' was set to true in your suman.conf.js file,') + '\n  ' +
                     colors.bgCyan.black.bold(' so we will transpile on the fly with "babel-register",' +
                         ' no transpiled files will be written out.'), '\n');
             }
@@ -443,7 +448,8 @@ const optCheck = [
     interactive,
     uninstallBabel   //TODO: should mix this with uninstall-suman
 
-].filter(function (item) {
+].filter(function (item, index) {
+    debugIndex(' => filtering item at index => ', index, ', item => ', item);
     return item; //TODO what if item is falsy?
 });
 
@@ -533,6 +539,6 @@ else if (groups) {
 
 else {
     //this path runs all tests
-    require('./lib/run')(opts, paths, sumanServerInstalled, originalTranspileOption, sumanVersion);
+    require('./lib/run')(opts, paths, sumanServerInstalled, sumanVersion);
 
 }

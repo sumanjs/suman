@@ -16,11 +16,19 @@ else{
   exec = '.bin/' + process.argv[execNameIndex + 1];
 }
 
+try{
+  fs.mkdirSync(path.resolve(process.env.HOME + '/.suman'));
+}
+catch(err){
+
+}
+
+
 const debugLogPath = path.resolve(process.env.HOME + '/.suman/suman-debug.log');
 
 fs.writeFileSync(debugLogPath, '\n', { flag: 'w', flags: 'w' });
 fs.writeFileSync(debugLogPath, ' => Running find-local-suman-executable.\n', { flag: 'a', flags: 'a' });
-fs.writeFileSync(debugLogPath, 'cwd => ' + cwd, { flag: 'a', flags: 'a' });
+fs.writeFileSync(debugLogPath, ' => cwd => ' + cwd, { flag: 'a', flags: 'a' });
 
 var p, cd;
 

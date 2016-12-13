@@ -1,38 +1,42 @@
 #!/usr/bin/env node
 
 
-console.log(' => In Suman postinstall script => ', __filename, '\n\n');
-
 //core
 const path = require('path');
 const fs = require('fs');
 const cp = require('child_process');
 
 //npm
+//
 const async = require('async');
 
 //project
 const sumanUtils = require('suman-utils/utils');
 
+
 ///////////////////////////////////////////////////////////////////////////
 
-
 const cwd = process.cwd();
-console.log(' => In Suman postinstall script, cwd => ', cwd, '\n\n');
-
 const userHomeDir = path.resolve(sumanUtils.getHomeDir());
 const p = path.resolve(userHomeDir + '/.suman');
 const findSumanExec = path.resolve(p + '/find-local-suman-executable.js');
 const sumanClis = path.resolve(p + '/suman-clis.sh');
+const findProjectRootDest = path.resolve(p + '/find-project-root.js');
 const sumanDebugLog = path.resolve(p + '/suman-debug.log');
 const sumanClisFile = fs.readFileSync(require.resolve('./suman-clis.sh'));
 const findSumanExecFile = fs.readFileSync(require.resolve('./find-local-suman-executable.js'));
+const findProjectRoot = fs.readFileSync(require.resolve('./find-project-root.js'));
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
 
+const debug = require('suman-debug');
+const debugPostinstall = debug('s:postinstall');
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-console.log(' => Suman home dir path => ', p);
+debugPostinstall(' => In Suman postinstall script, cwd => ', cwd);
+debugPostinstall(' => In Suman postinstall script => ', __filename);
+debugPostinstall(' => Suman home dir path => ', p);
 
 fs.mkdir(p, function (err) {
 
@@ -40,24 +44,28 @@ fs.mkdir(p, function (err) {
         throw err;
     }
 
-    fs.writeFileSync(sumanDebugLog, '\n => Beginning of Suman post-install script', {flag: 'w', flags: 'w'});
+    debugPostinstall(' => Beginning of Suman post-install script');
 
     async.parallel([
 
         function (cb) {
             //always want to update this file to the latest version, so always overwrite
-            fs.writeFile(sumanClis, sumanClisFile, {flag: 'w'}, cb);
+            fs.writeFile(sumanClis, sumanClisFile, {flag: 'w', flags: 'w'}, cb);
         },
         function (cb) {
             //always want to update this file to the latest version, so always overwrite
-            fs.writeFile(findSumanExec, findSumanExecFile, {flag: 'w'}, cb);
+            fs.writeFile(findSumanExec, findSumanExecFile, {flag: 'w', flags: 'w'}, cb);
         },
         function (cb) {
             fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
                 + ', from directory (cwd) => ' + cwd, {flag: 'a'}, cb);
         },
         function (cb) {
+            // assume we want to create the file if it doesn't exist, and just write empty string
             fs.writeFile(queue, '', {flag: 'a', flags: 'a'}, cb);
+        },
+        function (cb) {
+            fs.writeFile(findProjectRootDest, findProjectRoot, {flag: 'w', flags: 'w'}, cb);
         }
 
 
@@ -70,30 +78,14 @@ fs.mkdir(p, function (err) {
         }
         else {
 
-            // const n = cp.spawn('sh', [path.resolve(__dirname, 'install-suman-home.sh')], {
-            //     detached: false,
-            //     stdio: ['ignore', fs.openSync(sumanDebugLog, 'a'), fs.openSync(sumanDebugLog, 'a')],
-            //     env: {
-            //       DEBUG_LOG_PATH: sumanDebugLog
-            //     },
-            //
-            // });
-            //
-            // n.on('close', function(){
-            //
-            // });
-
-            const exists = fs.existsSync(sumanHome);
-
-            if (exists) {
-                console.log(' => ~/.suman dir exists!');
+            if (fs.existsSync(sumanHome)) {
+                debugPostinstall(' => ~/.suman dir exists!');
+                process.exit(0);
             }
             else {
-                console.log(' => ~/.suman dir does not exist!');
+                debugPostinstall(' => Warning => ~/.suman dir does not exist!');
+                process.exit(1)
             }
-
-            process.exit(0);
-
 
         }
 

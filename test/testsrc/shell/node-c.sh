@@ -17,6 +17,7 @@ if [ ! -z "$RESULT" ]; then break; fi;
 FILES=$(find $(dirname "$DIR")/**/**/*.js -type f -maxdepth 8 -not -path "*/babel/*" -not -path "*/examples/*");
 echo "FILES => $FILES"
 
+# try to compile all .js files
 node -c ${FILES}
 
 EXIT_CODE="$?"
@@ -39,6 +40,8 @@ echo " parent message => $msg"  >&2
 #
 #MESSAGE=$(read -u "$NODE_CHANNEL_FD")
 #echo " parent message => $MESSAGE"  >&2
+
+node $(dirname $(dirname "$0"))/es5-es6/a.js
 
 sleep 2
 exit 1
