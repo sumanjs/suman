@@ -108,19 +108,18 @@ const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
 const _ = require('lodash');
-const debug = require('suman-debug');
+const debug = require('suman-debug')('s:index');
 
 //project
 
 const constants = require('./config/suman-constants');
 const sumanUtils = require('suman-utils/utils');
 
-const debugIndex = debug('s:index');
 
 ////////////////////////////////////////////////////////////////////
 
-debugIndex(' => Suman started with the following command:', process.argv);
-debugIndex(' => $NODE_PATH is as follows:', process.env.NODE_PATH);
+debug([' => Suman started with the following command:', process.argv]);
+debug([' => $NODE_PATH is as follows:', process.env.NODE_PATH]);
 
 ////////////////////////////////////////////////////////////////////
 
@@ -246,13 +245,6 @@ if (opts.version) {
     return;
 }
 
-if (opts.testing) {
-    // this option is used to make sure we are talking to the right Suman module
-    // (in case we are pointing to the wrong one).
-    require('./lib/testing');
-    return;
-}
-
 //////////////// check for cmd line contradictions ///////////////////////////////////
 
 if (opts.transpile && opts.no_transpile) {
@@ -328,7 +320,7 @@ else {
     }
 }
 
-debugIndex(' => Suman configuration (suman.conf.js) => ', sumanConfig);
+debug([' => Suman configuration (suman.conf.js) => ', sumanConfig]);
 
 if (!init) {
     const installObj = require('./lib/helpers/determine-if-suman-is-installed')(sumanConfig, opts);
@@ -394,8 +386,8 @@ else {
     }
 
 
-    debugIndex('babelRegister opt => ', babelRegister);
-    debugIndex('noBabelRegister opt => ', noBabelRegister);
+    debug([' => "babelRegister" opt => ', babelRegister]);
+    debug([' => "noBabelRegister" opt => ', noBabelRegister]);
 
     const useBabelRegister = (babelRegister || (!noBabelRegister && sumanConfig.useBabelRegister));
 
@@ -449,7 +441,7 @@ const optCheck = [
     uninstallBabel   //TODO: should mix this with uninstall-suman
 
 ].filter(function (item, index) {
-    debugIndex(' => filtering item at index => ', index, ', item => ', item);
+    debug([' => filtering item at index => ', index, ', item => ', item]);
     return item; //TODO what if item is falsy?
 });
 

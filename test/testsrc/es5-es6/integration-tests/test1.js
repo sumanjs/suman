@@ -3,6 +3,7 @@ const suman = require('suman');
 const Test = suman.init(module, {
     interface: 'BDD',
     post: ['judas'],
+    series: true,
     integrants: ['smartconnect', 'dolce-vida']
 });
 

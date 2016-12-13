@@ -61,6 +61,10 @@ module.exports = Object.freeze({
     },
 
     servers: {
+        'xps': {
+            host: '127.0.0.1',
+            port: 6969,
+        },
         'cse-1s-dhcp--98-213.eng.vmware.com': {
             host: '127.0.0.1',
             port: 6969,

@@ -101,6 +101,10 @@ even though master and staging should never be different
 
 ////
 
+suman-to-tap => just like suman-troubleshoot, will distill output to only the tap output
+
+////
+
 
 <--- JS stacktrace --->
 
@@ -149,7 +153,6 @@ top level dependencies in package.json could be auto source in callback function
 /////
 
 allow arrow functions for describe blocks
-
 allowArrowFunctionsForTestSuites:false
 
 ////
@@ -238,6 +241,10 @@ npm ERR! Please include the following file with any support request:
 npm ERR!     /home/newuser/suman-test/suman-test-projects/npm-debug.log
 ./test/test-all.sh: line 23: ./node_modules/.bin/suman: No such file or directory
 
+
+//////
+
+watch should be on a per terminal basis, when user closes terminal, they stop watching
 
 ///////
 

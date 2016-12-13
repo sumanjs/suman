@@ -13,7 +13,6 @@ const async = require('async');
 //project
 const sumanUtils = require('suman-utils/utils');
 
-
 ///////////////////////////////////////////////////////////////////////////
 
 const cwd = process.cwd();
