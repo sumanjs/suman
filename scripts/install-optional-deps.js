@@ -57,6 +57,9 @@ const deps = Object.freeze({
     },
     'istanbul': {
         'istanbul': 'latest',
+    },
+    'nyc':{
+        'nyc': 'latest'
     }
 });
 

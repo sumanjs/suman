@@ -106,3 +106,7 @@ export SUMAN_FORCE_PARALLEL=yes
 
 what these do is make all hooks and test cases run in series, or parallel, without you having to change your code. If your
 code runs cleanly in parallel, that is a good sign.
+
+
+## Did you know that you can give Suman an expected exit code, if you expect a test process to exit with an exit code other than 0?
+

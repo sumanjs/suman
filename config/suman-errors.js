@@ -4,6 +4,7 @@
 
 
 const constants = require('./suman-constants');
+const fatalRequestReply = require('../lib/helpers/fatal-request-reply');
 
 function SumanError() {
 
@@ -50,21 +51,20 @@ function filter(suman, isFatal, err) {
 
     var type = isFatal ? 'FATAL' : 'NON_FATAL_ERR';
 
-    if (process.send) {
-        process.send({
-            type: type,
-            data: {
-                msg: stack
-            }
-        });
-    }
-    else {
-        process.stdout.write('\n' + stack + '\n');
-    }
+    fatalRequestReply({
+        type: type,
+        data: {
+            msg: stack
+        }
+    }, function () {
 
-    if (isFatal) {
-        process.exit(constants.EXIT_CODES.BAD_CONFIG_OR_PROGRAM_ARGUMENTS);
-    }
+        if (isFatal) {
+            process.exit(constants.EXIT_CODES.BAD_CONFIG_OR_PROGRAM_ARGUMENTS);
+        } else {
+            process.stdout.write('\n' + stack + '\n');
+        }
+
+    });
 
 }
 

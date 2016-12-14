@@ -6,9 +6,13 @@ Server to deliver test results to the browser. This feature was started but not 
 one instance of Suman Server will run on any machine. Suman Server will be responsible for both file watching as well
 as delivering the web page locally.
 
-2. Support other languages besides JS. The 1.x version of Suman will use Node.js standard IPC to communicate with child processes. 
-This very much limits Suman to only using JavaScript, for running tests. Even though there will never
-be first-class support for this, we'd like to allow users to write tests in Golang, Python, Java, etc, and also the browser. 
+2. Add more fun reporters. The 2 reporters Suman currently has are utilitarian and verbose. We will add 
+some more reporters as we go. You can always create your own, see:
+
+
+3. Support other languages besides JS. The 1.x version of Suman will use Node.js standard IPC to communicate with child processes. 
+This very much limits Suman to only using JavaScript/Node.js for running tests. Even though there will never
+be first-class support for this, we'd like to allow users to write tests in Golang, Python, Java, etc, and also the browser! 
 Users can use the Suman runner to run tests in any language, as long as the other processes can communicate effectively
 with the Suman API, most likely using Websockets.
 
@@ -19,16 +23,16 @@ the test file in Python, Golang, Java, etc, can be in any format, but they will 
 to implement Websockets and communicate with the Suman test runner.
     
 
-3. Support observables. As this area of Node and JS congeals, Suman will make observables a first-class citizen
- alongside promises and callbacks and standard event-emitters.
+4. Support observables. As this area of Node and JS congeals, Suman will make observables a first-class citizen
+ alongside promises and callbacks, event-emitters, etc.
     
     
-4. Improve grouping of tests, so that test groups can easily run on multiple machines.
-Right now, Suman is *not* designed to run different Suman groups on different machines 
-(for speed). Suman groups will basically override any behavior given by suman.order.js.
+5. Improve grouping of tests, so that test groups can easily run on multiple machines.
+Right now, Suman is *not* designed to run different Suman groups on different machines. 
+Suman groups will basically override any behavior given by suman.order.js.
 
     
-5. Optimize suman.order.js => Optimize the order in which tests run, according to
+6. Optimize suman.order.js => Optimize the order in which tests run, according to
 suman.order.js; also, allow for better randomization of test order.
 
 
