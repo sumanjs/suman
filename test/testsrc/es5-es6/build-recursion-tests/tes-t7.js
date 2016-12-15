@@ -5,7 +5,7 @@
 
 
 const Test = require('suman').init(module, {
-    export: true,
+    export: false,
     integrants: ['smartconnect', 'dolce-vida'],
     iocData: {  //we pass this data to ioc file
         choodles: function () {

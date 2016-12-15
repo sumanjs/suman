@@ -37,9 +37,21 @@ module.exports = Object.freeze({
 
     useBabelRegister: true,
 
-    useBabelRegister: true,
+    watch: {
+        '//tests': {
+            script: function (p) {
+                return `./node_modules/.bin/suman ${p}`
+            },
+            include: [],
+            exclude: ['^test.*']
+        },
 
-    useBabelRegister: true,
+        '//project': {
+            script: 'suman --no-color test/testsrc/es5-es6/integration-tests',
+            include: [__dirname],
+            exclude: []
+        },
+    },
 
     reporters: {
         'suman-example-reporter': require('suman-example-reporter'),
@@ -47,31 +59,6 @@ module.exports = Object.freeze({
         'std': '',
         'progress': './lib/reporters/progress-reporter'
     },
-    'CACSVML-16845': {
-      host: '127.0.0.1',
-      port: 6969,
-    },
-    'denman-lenovo': {
-      host: '127.0.0.1', //10.172.47.79
-      port: 6969,
-    },
-    'CACSVML-13295.local': {
-      host: '127.0.0.1',
-      port: 6969,
-    },
-    'smartconnect.sjc.i.sv.comcast.com': {
-      host: '69.252.255.134',
-      port: 6969,
-    },
-    'dev85.plaxo.com': {
-      host: '172.20.3.31',
-      port: 6969,
-    },
-    // 'Alexanders-MacBook-Pro.local': {
-    //     host: 'localhost',
-    //     port: 6969
-    // }
-  }
 
     servers: {
         'xps': {
