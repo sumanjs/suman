@@ -103,6 +103,8 @@ suman-to-tap => just like suman-troubleshoot, will distill output to only the ta
 
 ////
 
+publication strategy:
+
 run set of relatively fast prelim tests, including node -c
 push to staging
 submit PR to master
@@ -125,7 +127,7 @@ test-errors should be created whenever suman is run
 
 /////
 
-top level dependencies in package.json could be auto source in callback function
+top level dependencies in package.json could be auto sourced in callback function
 
 ////
 
