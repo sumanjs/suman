@@ -1,7 +1,6 @@
 
 
-[![Build Status](https://travis-ci.org/ORESoftware/suman.svg?branch=master)](duck)
-
+[![Build Status](https://travis-ci.org/ORESoftware/suman.svg?branch=master)](https://travis-ci.org/ORESoftware/suman)
 [![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
 
 

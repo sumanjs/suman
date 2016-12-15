@@ -1,3 +1,7 @@
+////
+
+run a squash without a merge
+
 
 /////
 
