@@ -10,6 +10,8 @@ RUN npm cache clean
 
 RUN chmod -R 777 $(npm root -g)
 
+RUN echo $NODE_PATH
+
 RUN useradd -ms /bin/bash newuser
 
 USER newuser
