@@ -32,9 +32,11 @@ git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 git push &&                     # push to private/dev remote repo
 git checkout -b dev_squash_temp dev_squash &&
 git merge --squash -Xtheirs dev -m "squashing" &&  # make sure the merge succeeds before actually doing it...
+./test/testsrc/shell/node-c.sh && echo "compiled successfully" || (git reset --hard; exit 1)
 git checkout dev_squash -f &&    # we do squashing on this branch
 git branch -D dev_squash_temp &&
 git merge --squash -Xtheirs dev -m "squashing" &&
+./test/testsrc/shell/node-c.sh && echo "compiled successfully" || (git reset --hard; exit 1)
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
@@ -45,6 +47,7 @@ git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 #git rebase $(git describe --tags) &&
+./test/testsrc/shell/node-c.sh && echo "compiled successfully" || (git reset --hard; exit 1)
 git push origin HEAD:staging -f &&
 
 if [ "$2" = "publish" ]; then
