@@ -1,9 +1,7 @@
 #!/bin/bash
 
 DIR=$(dirname "$0");
-
 echo "DIR => $DIR"
-
 RESULT="";
 VAL=""
 
@@ -13,12 +11,17 @@ RESULT=$(find "$DIR" -maxdepth 1 -name package.json);
 if [ ! -z "$RESULT" ]; then break; fi;
  done
 
+echo "DIR WITH package.json is => $DIR"
+FILES=$(find $(dirname "$DIR")/**/**/*.js -maxdepth 8 -type f -not -path "*/babel/*" -not -path "*/examples/*");
+#echo "FILES => "; echo "$FILES"
 
-FILES=$(find $(dirname "$DIR")/**/**/*.js -type f -maxdepth 8 -not -path "*/babel/*" -not -path "*/examples/*");
-echo "FILES => $FILES"
-
+find $(dirname "$DIR")/**/**/*.js -maxdepth 8 -type f  -not -path "*/node_modules/*" \
+-not -path "*/node_modules/*" -not -path "*/babel/*" -not -path "*/examples/*" | while read line; do
 # try to compile all .js files
-node -c ${FILES}
+(node -c ${line} && echo " processed file $line") || ( echo "file could not be compiled => $line")
+done
+
+
 
 EXIT_CODE="$?"
 echo " exit code => $EXIT_CODE"
