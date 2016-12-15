@@ -12,4 +12,7 @@ CM=${1:-set}
 git add . &&
 git add -A &&
 git commit --allow-empty -am "pdev:$CM" &&
+
+if [[ "$1" = "push" ]]; then
 git push
+fi

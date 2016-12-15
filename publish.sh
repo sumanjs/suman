@@ -15,7 +15,7 @@ REMOTE_STAGING_BRANCH_EXISTS="$(echo -e "${REMOTE_STAGING_BRANCH_EXISTS}" | tr -
 
 if [[ ! -z ${REMOTE_STAGING_BRANCH_EXISTS} ]]; then
 echo "REMOTE_STAGING_BRANCH_EXISTS => '$REMOTE_STAGING_BRANCH_EXISTS'"
-echo "You must delete the remote staging branch before continuing, or wait for the PR to complete, and delete it" &&
+echo "You must delete the remote staging branch before continuing. If there is pending PR - wait for the PR to complete, and then delete it" &&
 exit 1;
 fi
 
