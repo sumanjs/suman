@@ -47,7 +47,7 @@ git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 #git rebase $(git describe --tags) &&
 (./test/testsrc/shell/node-c.sh && echo "compiled successfully") || (git reset --hard; exit 1)
 git merge -Xours --squash origin/staging &&
-git push origin HEAD:staging  &&
+git push origin HEAD:staging -f &&
 
 if [ "$2" = "publish" ]; then
    npm publish .  &&    # bump version
