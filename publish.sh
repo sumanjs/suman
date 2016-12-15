@@ -29,15 +29,15 @@ git add -A &&
 git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 git push &&                     # push to private/dev remote repo
 git checkout -b dev_temp &&
-SHA=$(git merge-base dev_temp dev_squash2) # get the common ancestor of the two branches
+SHA=$(git merge-base dev_temp dev_rebase) # get the common ancestor of the two branches
 
 if [ -z "$SHA" ]; then
  echo "SHA was empty, something is wrong"
  exit 1;
 fi
 
-git branch -D dev_squash2 &&
-git checkout -b dev_squash2 &&
+git branch -D dev_rebase &&
+git checkout -b dev_rebase &&
 git rebase ${SHA} &&
 
 git add . &&
@@ -51,9 +51,10 @@ git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 
-git merge origin/staging &&
-(./test/testsrc/shell/node-c.sh && echo "compiled successfully") || (git checkout dev -f && git branch -D temp; exit 1) &&
-git push origin HEAD:staging -f &&
+(./test/testsrc/shell/node-c.sh && echo "compiled successfully") ||
+ (echo "after deleting files, we could not compile with node-c " && git checkout dev -f && git branch -D temp; exit 1) &&
+git push origin HEAD:staging ||
+(echo "could not push to staging branch, you should manually merge temp branch with origin/staging" && exit 1)
 
 if [ "$2" = "publish" ]; then
    npm publish .  &&    # bump version
