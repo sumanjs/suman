@@ -1,9 +1,11 @@
 
+
+[![Build Status](https://travis-ci.org/ORESoftware/suman.svg?branch=master)](duck)
+
 [![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
 
 
 ![alt text](https://raw.githubusercontent.com/ORESoftware/suman/master/images/suman.png "Suman Primary Logo")
-
 
 
  >   Suman documentation => [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")  
@@ -19,9 +21,11 @@
 ---
 
 ### Disclaimers: 
-=> Suman is in beta, despite the current version number.
-=> Suman supports Node versions >= 4.0.
-=> Windows support is on the roadmap, but is not ready yet.
+>
+>=> Suman is in beta, despite the current version number.
+>=> Suman supports Node versions >= 4.0.
+>=> Windows support is on the roadmap, but is not ready yet.
+>
 
 ---
 
