@@ -1,10 +1,11 @@
 {
   "name": "suman",
-  "version": "1.1.512195",
+  "version": "1.1.512212",
   "main": "lib/index.js",
   "scripts": {
     "test": "./node_modules/.bin/suman test/testsrc/es5-es6/a.js",
-    "postinstallz": "./scripts/create-suman-dir.js",
+    "postinstall": "./scripts/suman-postinstall.sh",
+    "postinstallz": "./scripts/create-suman-dir.js & ./scripts/install-suman-home.sh && ./scripts/on-install-success.js",
     "postinstally": "node scripts/create-suman-dir.js && node scripts/create-suman-alias.js",
     "postinstallx": "node scripts/a.js",
     "merge": "git merge -Xignore-all-space"
@@ -18,22 +19,19 @@
     "async": "^1.5.0",
     "builtin-modules": "^1.1.1",
     "callsite": "^1.0.0",
-    "chalk": "^1.1.1",
     "chmodr": "^1.0.2",
     "colors": "^1.1.2",
-    "cross-spawn": "^2.2.3",
     "dashdash": "^1.14.0",
     "debug": "^2.3.3",
     "du": "^0.1.0",
     "function-arguments": "^1.0.4",
-    "jquery": "^2.2.2",
+    "lockfile": "^1.0.3",
     "lodash": "^4.6.1",
     "make-beep": "0.0.1",
+    "mkdirp": "^0.5.1",
     "net-ping": "^1.1.12",
-    "node-progress-bars": "^1.0.0",
     "pragmatik": "latest",
     "progress": "^1.1.8",
-    "prompt": "^1.0.0",
     "request": "^2.79.0",
     "require-from-string": "^1.1.0",
     "residence": "latest",
@@ -42,8 +40,8 @@
     "siamese": "latest",
     "socket.io-client": "^1.4.3",
     "suman-debug": "latest",
-    "suman-inquirer": "latest",
-    "suman-inquirer-directory": "latest",
+    "suman-events": "latest",
+    "suman-example-reporter": "latest",
     "suman-utils": "latest",
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
@@ -52,10 +50,7 @@
   "directories": {
     "test": "test"
   },
-  "devDependencies": {
-    "should": "^8.3.1",
-    "suman-example-reporter": "^1.0.0"
-  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ORESoftware/suman.git"
