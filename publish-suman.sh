@@ -4,8 +4,6 @@
 # GIT_COMMIT_MSG = $1  =>  first argument to script
 # if second argument to script $2 is "publish"  then we publish to NPM
 
-
-
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$BRANCH" != "dev" ]]; then
   echo 'Aborting script because you are not on the right git branch (dev).';
@@ -32,11 +30,11 @@ git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 git push &&                     # push to private/dev remote repo
 git checkout -b dev_squash_temp dev_squash &&
 git merge --squash -Xtheirs dev -m "squashing" &&  # make sure the merge succeeds before actually doing it...
-./test/testsrc/shell/node-c.sh && echo "compiled successfully" || (git reset --hard; exit 1)
+(./test/testsrc/shell/node-c.sh && echo "compiled successfully") || (git reset --hard; exit 1)
 git checkout dev_squash -f &&    # we do squashing on this branch
 git branch -D dev_squash_temp &&
 git merge --squash -Xtheirs dev -m "squashing" &&
-./test/testsrc/shell/node-c.sh && echo "compiled successfully" || (git reset --hard; exit 1)
+(./test/testsrc/shell/node-c.sh && echo "compiled successfully") || (git reset --hard; exit 1)
 git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
@@ -47,8 +45,8 @@ git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 #git rebase $(git describe --tags) &&
-./test/testsrc/shell/node-c.sh && echo "compiled successfully" || (git reset --hard; exit 1)
-git push origin HEAD:staging -f &&
+(./test/testsrc/shell/node-c.sh && echo "compiled successfully") || (git reset --hard; exit 1)
+git push origin HEAD:staging  &&
 
 if [ "$2" = "publish" ]; then
    npm publish .  &&    # bump version
