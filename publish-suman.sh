@@ -28,6 +28,7 @@ git add . &&
 git add -A &&
 git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 git push &&                     # push to private/dev remote repo
+git branch -D dev_squash_temp && # fuck that branch
 git checkout -b dev_squash_temp dev_squash &&
 git merge --squash -Xtheirs dev -m "squashing" &&  # make sure the merge succeeds before actually doing it...
 (./test/testsrc/shell/node-c.sh && echo "compiled successfully") || (git reset --hard; exit 1) &&
