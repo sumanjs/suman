@@ -10,6 +10,16 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
+REMOTE_STAGING_BRANCH_EXISTS=$(git ls-remote --heads git@github.com:oresoftware/suman.git staging)
+REMOTE_STAGING_BRANCH_EXISTS="$(echo -e "${REMOTE_STAGING_BRANCH_EXISTS}" | tr -d '[:space:]')"
+
+if [[ ! -z ${REMOTE_STAGING_BRANCH_EXISTS} ]]; then
+echo "REMOTE_STAGING_BRANCH_EXISTS => '$REMOTE_STAGING_BRANCH_EXISTS'"
+echo "You must delete the remote staging branch before continuing, or wait for the PR to complete, and delete it" &&
+exit 1;
+fi
+
+
 if [ "$2" = "publish" ]; then
    npm version patch --force -m "Upgrade for several reasons" &&    # bump version
    echo "bumped version"
@@ -26,7 +36,7 @@ git commit --allow-empty -am "pre:$GIT_COMMIT_MSG" &&
 git pull &&
 git add . &&
 git add -A &&
-git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
+git commit --allow-empty -am "pub/rel:$GIT_COMMIT_MSG" &&
 git push &&                     # push to private/dev remote repo
 git checkout -b dev_temp &&
 SHA=$(git merge-base dev_temp dev_rebase) # get the common ancestor of the two branches
@@ -42,14 +52,14 @@ git rebase ${SHA} &&
 
 git add . &&
 git add -A &&
-git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
+git commit --allow-empty -am "pub/rel:$GIT_COMMIT_MSG" &&
 git checkout -b temp  &&                 # we checkout this branch to run deletes on private files
 
 ./delete-internal-paths.sh &&
 git rm delete-internal-paths.sh -f &&
 git add . &&
 git add -A &&
-git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
+git commit --allow-empty -am "pub/rel:$GIT_COMMIT_MSG" &&
 
 (./test/testsrc/shell/node-c.sh && echo "compiled successfully") ||
  (echo "after deleting files, we could not compile with node-c " && git checkout dev -f && git branch -D temp; exit 1) &&
