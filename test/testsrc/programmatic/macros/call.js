@@ -3,13 +3,17 @@
  */
 
 
-const one = require('./one.test');
+const suman = require('suman');
+
+const one = suman.load({
+    path: require.resolve('./one.test'),
+    indirect: true
+});
 
 const colors = require('colors/safe');
 
 var count = 0;
 one.on('test',function(t){
-  count++;
-  console.log(colors.red.bold('FUCK YOU STUPUD SHIT => ',count));
+  // count++;
   t.apply(null, ['a','b','c']);
 });

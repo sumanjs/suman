@@ -39,14 +39,7 @@ module.exports = Object.freeze({
 
     useBabelRegister: true,
 
-  watch: {
-    '//tests': {
-      script: function (p) {
-        return `./node_modules/.bin/suman ${p}`
-      },
-      include: [],
-      exclude: [ '^test.*' ]
-    },
+    useBabelRegister: true,
 
     reporters: {
         'suman-example-reporter': require('suman-example-reporter'),
@@ -81,6 +74,10 @@ module.exports = Object.freeze({
   }
 
     servers: {
+        'xps': {
+            host: '127.0.0.1',
+            port: 6969,
+        },
         'cse-1s-dhcp--98-213.eng.vmware.com': {
             host: '127.0.0.1',
             port: 6969,

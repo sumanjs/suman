@@ -11,6 +11,10 @@ https://github.com/firebase/TubeSock
 
 /////
 
+https://github.com/integrations/feature/continuous-integration
+
+/////
+
 ava stores the babel .cache in node_modules/.cache/ava
 
 /////
@@ -19,21 +23,15 @@ use pkill to kills suman procs
 
 /////
 
+npm install material-ui@next
+
+npm @next vs @latest
+
+/////
+
 suman-meta => uses git-clone-all-org-repos and then runs the build.sh file, which should checkout all the right branches from remote repo.
 
 /////
-
-need to use request-reply pattern when sending a fatal message with IPC from child to parent
-just like with the table data, the child could close before parent received the fatal message
-
-/////
-
-We need to do the same thing with Node.js SUMAN_SINGLE_PROCESS etc.
-
-// Make sure it's not accidentally inherited by child processes.
-    delete process.env.NODE_CHANNEL_FD;
-
-////
 
 https://github.com/avajs/ava/issues/1147
 
@@ -47,6 +45,7 @@ SUMAN_SINGLE_PROCESS needs to forbid non-js file
 
 ///////
 
+debugging with node debug <pid> etc
 https://github.com/nodejs/help/issues/363#issuecomment-260213843
 
 ////////
@@ -59,21 +58,15 @@ then run that in a container, based off of the list of test files
 
 /////////
 
-each language option should be a plugin, each plugin needs to have an entrypoint
+each language option should be a plugin, each plugin needs to have an entrypoints
 enable writing tests in any language, as long as the child process fulfills the IPC contract
 
-/////
+////////
 
  if any file in the arguments list is not .js, we have to use the runner,
  even if there is only one file (one .sh file for instance)
 
-/////
- => change get-file-path.js to async, and run it in parallel with
-/////
-
-sudo chown -R root:root ~/.suman
-
-/////
+//////
 
 cd suman && npm install suman -f   // force
 
@@ -83,6 +76,11 @@ refactor FILE_IS_NOT_DOT_JS   => FILE_IS_NOT_ACCEPTED_EXTENSION
 
 /////
 
+if npm root -g is in user home, maybe we can use that cache instead (probably not)
+
+////
+
+=======
 run node -c against all node.js files in project after merge
 
 /////
@@ -101,30 +99,18 @@ even though master and staging should never be different
 
 ////
 
+suman-to-tap => just like suman-troubleshoot, will distill output to only the tap output
 
-<--- JS stacktrace --->
+////
 
-==== JS stack trace =========================================
+publication strategy:
 
-Security context: 0x1ab88c4c0d39 <JS Object>
-    2: findSharedPath [/home/oleg/WebstormProjects/oresoftware/sumanjs/suman-utils/utils.js:~200] [pc=0x1b28f4f119dc](this=0x2150e67f0049 <an Object with map 0x1777ece64e99>,p1=0x12164e93c259 <String[46]: /home/oleg/WebstormProjects/oresoftware/poolio>,p2=0x2150e67effa1 <String[46]: /home/oleg/WebstormProjects/oresoftware/poolio>)
-    3: /* anonymous */ [/home/oleg/WebstormProjects/oresoftware/...
-
-FATAL ERROR: invalid array length Allocation failed - JavaScript heap out of memory
- 1: node::Abort() [node]
- 2: 0x126264c [node]
- 3: v8::Utils::ReportOOMFailure(char const*, bool) [node]
- 4: v8::internal::V8::FatalProcessOutOfMemory(char const*, bool) [node]
- 5: v8::internal::Heap::AllocateUninitializedFixedArray(int) [node]
- 6: v8::internal::Factory::NewUninitializedFixedArray(int) [node]
- 7: 0xe0772f [node]
- 8: v8::internal::Runtime_GrowArrayElements(int, v8::internal::Object**, v8::internal::Isolate*) [node]
- 9: 0x1b28f4c063a7
-Aborted (core dumped)
-
+run set of relatively fast prelim tests, including node -c
+push to staging
+submit PR to master
+tests run in background
 
 /////
-
 
 if not installing as daemon - should only install the deps explicitly declared in suman.conf.js
 
@@ -141,38 +127,21 @@ test-errors should be created whenever suman is run
 
 /////
 
-top level dependencies in package.json could be auto source in callback function
-
-/////
-
-
-/////
-
-allow arrow functions for describe blocks
-
-allowArrowFunctionsForTestSuites:false
+top level dependencies in package.json could be auto sourced in callback function
 
 ////
 
+allow arrow functions for describe blocks
+allowArrowFunctionsForTestSuites:false
+
+////
 
 source modules from ~/.npm cache if we can't find them in ~/.suman/node_modules
 
 /////
 
 if project with suman as a dependency are being installed in parallel, then .suman/node_modules will be
-written to in parallel, need to mitigate this
-
-/////
-
-TODO: can optimize install-optional-deps by manually running view version in npm registry
-and then seeing if update or install is the right way to go
-
-in parallel
-
-read package.json.version
-compare npm view version
-
-//////
+written to in parallel, need to mitigate this (hopefully the queue works)
 
 if someone is installing project for first time (ie, no suman.conf.js file), then we should install all
 optional deps as a daemon process.
@@ -187,57 +156,7 @@ https://www.npmjs.com/package/which
 
 //////
 
-*suman-home*
-
-npm update if suman-home exists and npm install otherwise
- docker run -it --rm suman-fly-user is giving error:
-
- => In Suman postinstall script =>  /home/newuser/suman-test/suman-test-projects/node_modules/suman/scripts/create-suman-dir.js
-
-
-fs.js:584
-  return binding.open(pathModule._makeLong(path), stringToFlags(flags), mode);
-                 ^
-
-Error: ENOENT: no such file or directory, open '/home/newuser/.suman/suman-debug.log'
-    at Error (native)
-    at Object.fs.openSync (fs.js:584:18)
-    at Object.fs.writeFileSync (fs.js:1224:33)
-    at Object.<anonymous> (/home/newuser/suman-test/suman-test-projects/node_modules/suman/scripts/create-suman-dir.js:32:4)
-    at Module._compile (module.js:413:34)
-    at Object.Module._extensions..js (module.js:422:10)
-    at Module.load (module.js:357:32)
-    at Function.Module._load (module.js:314:12)
-    at Function.Module.runMain (module.js:447:10)
-    at startup (node.js:148:18)
-suman-test-projects@0.0.1 /home/newuser/suman-test/suman-test-projects
-`-- byline@5.0.0
-
-npm ERR! Linux 4.4.0-51-generic
-npm ERR! argv "/usr/local/bin/node" "/usr/local/bin/npm" "--loglevel=warn" "--progress=false" "install"
-npm ERR! node v5.12.0
-npm ERR! npm  v3.8.6
-npm ERR! code ELIFECYCLE
-
-npm ERR! suman@1.1.512198 postinstall: `./scripts/suman-postinstall.sh`
-npm ERR! Exit status 1
-npm ERR!
-npm ERR! Failed at the suman@1.1.512198 postinstall script './scripts/suman-postinstall.sh'.
-npm ERR! Make sure you have the latest version of node.js and npm installed.
-npm ERR! If you do, this is most likely a problem with the suman package,
-npm ERR! not with npm itself.
-npm ERR! Tell the author that this fails on your system:
-npm ERR!     ./scripts/suman-postinstall.sh
-npm ERR! You can get information on how to open an issue for this project with:
-npm ERR!     npm bugs suman
-npm ERR! Or if that isn't available, you can get their info via:
-npm ERR!     npm owner ls suman
-npm ERR! There is likely additional logging output above.
-
-npm ERR! Please include the following file with any support request:
-npm ERR!     /home/newuser/suman-test/suman-test-projects/npm-debug.log
-./test/test-all.sh: line 23: ./node_modules/.bin/suman: No such file or directory
-
+watch should be on a per terminal basis, when user closes terminal, they stop watching
 
 ///////
 
@@ -260,8 +179,10 @@ doesn't run twice?
 ///////
 
 we can use npm link to link ~/.suman/node_modules
+this *may* install the binaries from ~/.suman/node_modules to the local project (?)
+only need those if the user wants to run them
 
-//////
+/////
 
 if user is root, can we write .suman directory to ~/.suman?
 
@@ -296,7 +217,9 @@ http://stackoverflow.com/questions/9268259/how-do-you-prevent-install-of-devdepe
 
 ////////
 
-=> suman should write out suman-babel.rc always
+
+=> suman should write out .suman-babelrc always ?
+we need babel to support different paths to .babelrc files
 
 ////////
 
@@ -306,7 +229,6 @@ http://www.thegeekstuff.com/2009/09/multitail-to-view-tail-f-output-of-multiple-
 /////////
 
 => load suman-inquirer and suman-inquirer-directory from NPM instead of installing first
-=> todo: list dependency size on disk
 
 /////////
 
@@ -329,12 +251,11 @@ https://github.com/dhamaniasad/HeadlessBrowsers
 npm ls x
 npm la x   // list dependencies in your project that depend on x
 
-/////////
+////////////
 
-TODO: if require.main = $module => export = false
-      if
+need to make suman.load() work with relative paths
 
-/////////
+///////////
 
 Docker:
 https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
@@ -416,6 +337,13 @@ spawn child process, make sure no_silent or whatever options are available
  (3) send all stdio to /dev/null
 
 ///////////
+
+implement:
+
+  enforceTestCaseNames: true,
+    enforceBlockNames: true,
+
+////////
 
 debugStrm
  const debugStrm = fs.createWriteStream(path.resolve(global.sumanHelperDirRoot + '/logs/suman-debug.log'));
@@ -500,7 +428,6 @@ TODO: we need to create shared suman-config loading file so that in index and li
 
 /////////
 
-
 add suman-debug / suman--debug  --paths=["a.js","b.js"]
 
 /////////
@@ -532,22 +459,17 @@ https://github.com/nodejs/help/issues/363#issuecomment-260213843
 
 ////////
 
-containerization of Suman tests and Suman-server
-
-////////
-
 TODO: passing rate => 1 stubbed, 5 passed, 6 total, passing rate is 83.33%?
 
 //////////////
 
-TODO: integrate suman once with gulp
+TODO: integrate suman once with gulp programmatically
 
 ///////////
 
 https://github.com/gulpjs/gulp/issues/770#issuecomment-259282294
 
 ////////////
-
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -631,14 +553,13 @@ TODO: double check to see if bail option is always sumanOpts and also make it wo
 
 /////////
 
-TODO: can mark error object as being already handled in uncaughtException handlers, so
-that we don't print uncaughtExceptions more than once.
+ => Users should be able to provide expected exit codes in another place besides in suman.init()
 
-/////////
+//////////
 
 TODO: allow for istanbul test coverage in runner child processes
 
-///////
+//////////
 
 TODO: regexes seem to match against test-target instead of test-src etc?
 
@@ -647,10 +568,6 @@ TODO: regexes seem to match against test-target instead of test-src etc?
 add "append-match-none"
 
 /////////////
-
-file failed: 1, but exit code is 0 for child process is 0, and overall exit code is 0
-
-///////////
 
 suman recommends usage of nvm, so that your global modules actually get installed into your user directory
 
@@ -682,6 +599,8 @@ TODO: use pragmatik in the lib/index.js file so that we can work with opts.skip 
  For SUMAN_SINGLE_PROCESS => need to run once.pre before everything and once.post after everything
 
 ////////////
+
+
 
 change Suites skipped : 1, to Suites skipped  (at least 1)
 
