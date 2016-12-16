@@ -186,6 +186,10 @@ pnpm, ied => https://github.com/tapjs/node-tap/issues/333#issuecomment-264680790
 
 ///////
 
+https://github.com/tunnckoCore/charlike
+
+////////
+
 TODO: when running require('suman'), it will try to load suman.conf.js, which is bad when trying to run init!
 it will throw an error if suman.conf.js does not exist
 

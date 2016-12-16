@@ -1,9 +1,2 @@
 
-const path = require('path');
-console.log(path.resolve(__dirname,'..','..','..','doooogs'));
-
-
-require.ensure(['dog'], function(){
-
-
-});
+console.log('fart' && 'fart2');
