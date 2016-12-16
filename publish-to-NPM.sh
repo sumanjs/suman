@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-git branch -D master &&
+git branch -D master ||  { echo "no master branch" && exit 1 };
 git fetch origin &&
 git checkout master &&
 

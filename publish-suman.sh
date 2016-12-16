@@ -4,6 +4,9 @@
 # GIT_COMMIT_MSG = $1  =>  first argument to script
 # if second argument to script $2 is "publish"  then we publish to NPM
 
+echo "not being used anymore"
+exit 1;
+
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$BRANCH" != "dev" ]]; then
   echo 'Aborting script because you are not on the right git branch (dev).';

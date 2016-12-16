@@ -73,6 +73,46 @@ So simple, and it should feel great to be able to just run a test with node inst
 
 ```
 
+Finding files to run
+
+You can either use command line tools like find, or you can use suman.conf.js and some command line options,
+by default Suman will run all .js files in the "testSrcDir" defined by your config file.
+
+e.g.
+
+```$ suman```
+
+if you specify arguments, like so:
+
+```$ suman test/testsrc/shell```
+
+Suman will run all the scripts in the shell directory and none more
+
+the following config options:
+
+```js
+    matchAny: [/.js$/, /.sh$/],              //recommended =>  match: ['.test.js'],
+    matchNone: [/fixture/, /correct-exit-codes/],
+    matchAll: [],
+```
+    
+as well as the following command line options:
+
+```js
+   --match-any           // will override any values in suman.conf.js
+   --match-all           // will override any values in suman.conf.js
+   --match-none          // will overrwide any values in suman.conf.js
+   --append-match-any     // will append to any values in suman.conf.js
+   --append-match-all     // will append to any values in suman.conf.js
+   --append-match-none     // will append to any values in suman.conf.js
+```
+
+allow you to determine which files will be executed as tests
+
+When using one of the above command line options, it is best to use single quotes like so:
+
+``` $ suman --match-any 'test.js$'  --match-any 'test.sh' ```
+
 
 here's some gist (add a github gist if necessary)
 

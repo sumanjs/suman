@@ -1,10 +1,5 @@
 ////
 
-run a squash without a merge
-
-
-/////
-
 http://www.thegeekstuff.com/2010/11/50-linux-commands/
 http://www.thegeekstuff.com/2010/08/ipcs-command-examples/
 
@@ -106,15 +101,6 @@ even though master and staging should never be different
 suman-to-tap => just like suman-troubleshoot, will distill output to only the tap output
 
 ////
-
-publication strategy:
-
-run set of relatively fast prelim tests, including node -c
-push to staging
-submit PR to master
-tests run in background
-
-/////
 
 if not installing as daemon - should only install the deps explicitly declared in suman.conf.js
 

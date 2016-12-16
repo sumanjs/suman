@@ -91,13 +91,9 @@ module.exports = function work(cb) {
 
                 const first = String(lines[0] || '').trim();
 
-                // console.log(' => lines => ', util.inspect(lines));
-
-
                 if (!first) {
                     console.log(' => Install queue is empty, we are done here.');
                     unlock(cb);
-
                 }
                 else {
 

@@ -14,11 +14,21 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 
  */
 
+
+const logExit = require('./lib/helpers/log-exit');
+
+process.on('exit', function(code){
+    if(process.listenerCount('exit') === 1){
+        logExit(code);
+    }
+});
+
+
 if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes') {
     //prevents users from f*king up by accident and getting in an infinite process-spawn
     //loop that will lock up their entire system
     console.log('Warning: attempted to require Suman index.js but this cannot be.');
-    return;
+    return process.exit(1);
 }
 
 console.log(' => Resolved path of Suman executable =>', '"' + __filename + '"');
@@ -222,6 +232,9 @@ const create = opts.create;
 const watch = opts.watch;
 const useIstanbul = opts.use_istanbul;
 const interactive = opts.interactive;
+const appendMatchAny = opts.append_match_any;
+const appendMatchAll = opts.append_match_all;
+const appendMatchNone = opts.append_match_none;
 const matchAny = opts.match_any;
 const matchAll = opts.match_all;
 const matchNone = opts.match_none;
@@ -248,10 +261,25 @@ if (opts.version) {
 //////////////// check for cmd line contradictions ///////////////////////////////////
 
 if (opts.transpile && opts.no_transpile) {
-    console.log('\n', '=> Suman fatal problem => --transpile and --no-transpile options were both set,' +
-        ' please choose one only.','\n');
-    return;
+    throw new Error(' \n => Suman fatal problem => --transpile and --no-transpile options were both set,' +
+        ' please choose one only.\n');
 }
+
+if(opts.append_match_all && opts.match_all){
+    throw new Error(' \n => Suman fatal problem => --match-all and --append-match-all options were both set,' +
+        ' please choose one only.\n');
+}
+
+if(opts.append_match_any && opts.match_any){
+    throw new Error(' \n => Suman fatal problem => --match-any and --append-match-any options were both set,' +
+        ' please choose one only.\n');
+}
+
+if(opts.append_match_none && opts.match_none){
+    throw new Error(' \n => Suman fatal problem => --match-none and --append-match-none options were both set,' +
+        ' please choose one only.\n');
+}
+
 
 if (opts.watch && opts.stop_watching) {
     console.log('\n', '=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
@@ -353,7 +381,9 @@ global.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
 
 /////////////////////// matching ///////////////////////////////////////
 
-const sumanMatchesAny = (matchAny || []).concat(sumanConfig.matchAny || [])
+// if matchAny is passed it overwrites anything in suman.conf.js, same goes for matchAll, matchNone
+// however, if appendMatchAny is passed, then it will append to the values in suman.conf.js
+const sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
     .map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
 if (sumanMatchesAny.length < 1) {
@@ -361,13 +391,17 @@ if (sumanMatchesAny.length < 1) {
     sumanMatchesAny.push(/\.js$/);
 }
 
+//http://stackoverflow.com/questions/1723182/a-regex-that-will-never-be-matched-by-anything
+const sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appendMatchNone || []))
+    .map(item => (item instanceof RegExp) ? item : new RegExp(item));
+
+const sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMatchAll || []))
+    .map(item => (item instanceof RegExp) ? item : new RegExp(item));
+
+
 global.sumanMatchesAny = _.uniqBy(sumanMatchesAny, item => item);
-
-global.sumanMatchesNone = _.uniqBy((matchNone || []).concat(sumanConfig.matchNone || [])
-    .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
-
-global.sumanMatchesAll = _.uniqBy((matchAll || []).concat(sumanConfig.matchAll || [])
-    .map(item => (item instanceof RegExp) ? item : new RegExp(item)), item => item);
+global.sumanMatchesNone = _.uniqBy(sumanMatchesNone, item => item);
+global.sumanMatchesAll = _.uniqBy(sumanMatchesAll, item => item);
 
 /////////// override transpile ///////////
 

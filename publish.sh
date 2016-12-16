@@ -10,15 +10,17 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
-REMOTE_STAGING_BRANCH_EXISTS=$(git ls-remote --heads git@github.com:oresoftware/suman.git staging)
-REMOTE_STAGING_BRANCH_EXISTS="$(echo -e "${REMOTE_STAGING_BRANCH_EXISTS}" | tr -d '[:space:]')"
+#REMOTE_STAGING_BRANCH_EXISTS=$(git ls-remote --heads git@github.com:oresoftware/suman.git staging)
+#REMOTE_STAGING_BRANCH_EXISTS="$(echo -e "${REMOTE_STAGING_BRANCH_EXISTS}" | tr -d '[:space:]')" # clear out any whitespace
+#
+#if [[ ! -z ${REMOTE_STAGING_BRANCH_EXISTS} ]]; then
+#echo "REMOTE_STAGING_BRANCH_EXISTS => '$REMOTE_STAGING_BRANCH_EXISTS'"
+#echo "You must delete the remote staging branch before continuing. If there is pending PR - wait for the PR to complete, and then delete it" &&
+#exit 1;
+#fi
 
-if [[ ! -z ${REMOTE_STAGING_BRANCH_EXISTS} ]]; then
-echo "REMOTE_STAGING_BRANCH_EXISTS => '$REMOTE_STAGING_BRANCH_EXISTS'"
-echo "You must delete the remote staging branch before continuing. If there is pending PR - wait for the PR to complete, and then delete it" &&
-exit 1;
-fi
-
+RELEASE_BRANCH_NAME=staging_`date +%s%N`
+echo "RELEASE_BRANCH_NAME => '${RELEASE_BRANCH_NAME}'"
 
 if [ "$2" = "publish" ]; then
    npm version patch --force -m "Upgrade for several reasons" &&    # bump version
@@ -29,6 +31,9 @@ fi
 
 MILLIS_SINCE_EPOCH=$(date +%s%N | cut -b1-13)
 GIT_COMMIT_MSG=${1:-"${MILLIS_SINCE_EPOCH}"} &&
+
+git branch -D temp
+git branch -D dev_temp
 
 git add . &&
 git add -A &&
@@ -46,6 +51,8 @@ if [ -z "$SHA" ]; then
  exit 1;
 fi
 
+
+
 git branch -D dev_rebase &&
 git checkout -b dev_rebase &&
 git rebase ${SHA} &&
@@ -62,17 +69,17 @@ git add -A &&
 git commit --allow-empty -am "pub/rel:$GIT_COMMIT_MSG" &&
 
 (./test/testsrc/shell/node-c.sh && echo "compiled successfully") ||
- (echo "after deleting files, we could not compile with node-c " && git checkout dev -f && git branch -D temp; exit 1) &&
-git push origin HEAD:staging ||
-(echo "could not push to staging branch, you should manually merge temp branch with origin/staging" && exit 1)
+ { echo "after deleting files, we could not compile with node-c " ; git checkout dev -f ; exit 1 ; } &&
+
+git push origin HEAD:${RELEASE_BRANCH_NAME} ||
+{ echo "could not push to staging branch, investigate the temp branch before re-running" ; exit 1; }
 
 if [ "$2" = "publish" ]; then
    npm publish .  &&    # bump version
    echo "published suman to NPM"
 fi
 
-git checkout dev &&
-git branch -D temp
+git checkout dev
 
 
 
