@@ -52,7 +52,6 @@ if [ -z "$SHA" ]; then
 fi
 
 
-
 git branch -D dev_rebase &&
 git checkout -b dev_rebase &&
 git rebase ${SHA} &&
