@@ -1,6 +1,10 @@
 
-Suman provides powerful features that are not available in any other Node.js test runner including AVA. The files in the suman
-folder in your project allow you to really boost the power of your testing system.
+Suman provides powerful features that are not available in any other Node.js test runner including AVA. 
+
+   * Suman groups allow you run groups of tests in separate containers
+   * Using the Suman executable gives you pre/post hooks that run before your test suite executes
+
+The files in the suman folder in your project allow you to really boost the power of your testing system.
 
 
 [1.] **```suman.once.js```** 

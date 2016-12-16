@@ -423,7 +423,7 @@ else {
     debug([' => "babelRegister" opt => ', babelRegister]);
     debug([' => "noBabelRegister" opt => ', noBabelRegister]);
 
-    const useBabelRegister = (babelRegister || (!noBabelRegister && sumanConfig.useBabelRegister));
+    const useBabelRegister = opts.transpile && (babelRegister || (!noBabelRegister && sumanConfig.useBabelRegister));
 
     if (useBabelRegister) {
         opts.useBabelRegister = true;

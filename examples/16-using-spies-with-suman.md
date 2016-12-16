@@ -1,1 +1,4 @@
-Using spies with Suman, like Sinon, etc.
+
+How to use spies, such as Sinon with Suman
+
+ * WIP, tbd

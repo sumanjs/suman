@@ -47,4 +47,39 @@ Test.describe('A', {}, function(fs, delay){
 
 });
 
+
+```
+
+3. If you want to use arrow functions everywhere, then you have to inject the methods for each test block like so:
+
+```js
+
+Test.create('example', function(describe){
+    
+    describe('one', (describe, it) => {
+        
+        it('has legs 1', t => {
+            
+        });
+        
+        describe('two', (it) => {
+           it('has legs 2', t => {
+                        
+            });
+        });
+        
+        
+        describe('three', (it) =>{
+           it('has legs 3', t => {
+                  
+               
+           });
+            
+        });
+        
+    });
+    
+});
+
+
 ```
