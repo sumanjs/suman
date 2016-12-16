@@ -35,7 +35,16 @@
     "title": "Command line options"
   },
   "05-advanced-use": {
-    "title": "Advanced Use"
+    "title": "Advanced Use",
+    "children": [
+      "usage-with-gulp",
+      "suman-groups",
+      "suman-globals",
+      "suman-ioc",
+      "suman-order",
+      "suman-once-pre",
+      "suman-once-post"
+    ]
   },
   "07-suman-patterns-and-recipes": {
     "title": "Suman Patterns and Recipes"

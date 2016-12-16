@@ -1,6 +1,7 @@
 
 
-Here will we will discuss the default Suman configuration, by looking at the comments in source control:
+suman.conf.js should reside in the root of your project => 
+here's a gist with extra comments describing each property:
 
 
-// create a gist with the suman.conf.js file ?
+<script src="https://gist.github.com/ORESoftware/cedd024fe69e66ea7462dfd752bbd059.js"></script>
