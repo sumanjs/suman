@@ -56,11 +56,11 @@ suman.groups.js =>
 
 if container:
 
-1. script =>
+1. script =>    use -c option to execute script in already running container?
 
-2. getPathToScript =>
+2. getPathToScript =>  copy the script to entrypoint
 
-3. run
+3. run        => if they use useContainer:true, seems like we always need these functions to be defined
    build
 
 choose either getPathToScript, or getListOfTestFiles
@@ -68,8 +68,18 @@ choose either getPathToScript, or getListOfTestFiles
 then run that in a container, based off of the list of test files
 
 use kubernetes to run tests on different nodes in a cluster
+http://kubernetes.io/docs/getting-started-guides/minikube/
 
 /////////
+
+todo: make coverage take one argument --coverage istanbul --coverage nyc
+
+/////////
+
+//if base directory is not home or users, then we are installing globally, so always install all
+//TODO: what about NVM?
+
+////////
 
 each language option should be a plugin, each plugin needs to have an entrypoints
 enable writing tests in any language, as long as the child process fulfills the IPC contract

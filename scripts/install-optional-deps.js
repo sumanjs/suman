@@ -11,7 +11,6 @@ const lockfile = require('lockfile');
 const async = require('async');
 const semver = require('semver');
 const ijson = require('siamese');
-const debug = require('suman-debug');
 const queueWorkerLock = path.resolve(process.env.HOME + '/.suman/queue-worker.lock');
 const installQueueLock = path.resolve(process.env.HOME + '/.suman/install-queue.lock');
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
@@ -23,7 +22,7 @@ const queueWorker = require('./queue-worker');
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-const debugPostinstall = debug('s:postinstall', {
+const debug = require('suman-debug')('s:postinstall', {
     fg: 'cyan'
 });
 
@@ -70,12 +69,13 @@ const bd = process.env.BASE_DIRECTORY;
 const dirs = ['HOME', 'USERS'];
 
 //if base directory is not home or users, then we are installing globally, so always install all
+//TODO: regarding above, but what about NVM?
 const alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace(path.sep, '')) < 0;
 
 const cwd = process.cwd();
-debugPostinstall(' => cwd in postinstall script =>', cwd);
+debug(' => cwd in postinstall script =>', cwd);
 const projectRoot = residence.findProjectRoot(cwd);
-debugPostinstall('project root => ', projectRoot);
+debug('project root => ', projectRoot);
 
 
 // semver.gt('1.2.3', '9.8.7') // false
@@ -107,6 +107,8 @@ catch (err) {
 //always install latest for now
 var installs = [];
 
+installs = installs.concat(Object.keys(deps.slack));
+
 if (sumanConf.useBabel || alwaysInstall || alwaysInstallDueToGlobal) {
     installs = installs.concat(Object.keys(deps.babel));
 }
@@ -133,7 +135,7 @@ const to = setTimeout(function () {
 }, 2000000);
 
 
-debugPostinstall('=> Installs =>', installs);
+debug('=> Installs =>', installs);
 const fd = fs.openSync(debugLog, 'a');
 // const fdstderr =fs.openSync(debugLog, 'a');
 
@@ -183,7 +185,7 @@ async.map(installs, function (item, cb) {
             return cb(err);
         }
 
-        debugPostinstall([' item => ' + item, 'view version:' + results.view.version, 'stats version:' + results.stats.version].join(', '));
+        debug([' item => ' + item, 'view version:' + results.view.version, 'stats version:' + results.stats.version].join(', '));
 
         if (!results.stats.version) {
             results.view.action = 'install';
@@ -225,7 +227,7 @@ async.map(installs, function (item, cb) {
 
     async.eachSeries(results, function (result, cb) {
 
-        debugPostinstall(' result => ', util.inspect(result));
+        debug(' result => ', util.inspect(result));
         const item = result.name;
         const action = result.action;
 
@@ -261,7 +263,9 @@ async.map(installs, function (item, cb) {
 
             fs.readFile(queue, 'utf8', function (err, data) {
                 if (err) {
-                    cb(err);
+                    lockfile.unlock(installQueueLock, function () {
+                        cb(err);
+                    });
                 }
                 else {
                     const lines = String(data).split('\n');
