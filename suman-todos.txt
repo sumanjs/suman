@@ -62,11 +62,6 @@ enable writing tests in any language, as long as the child process fulfills the 
 
 ////////
 
- if any file in the arguments list is not .js, we have to use the runner,
- even if there is only one file (one .sh file for instance)
-
-//////
-
 cd suman && npm install suman -f   // force
 
 /////
@@ -78,11 +73,6 @@ refactor FILE_IS_NOT_DOT_JS   => FILE_IS_NOT_ACCEPTED_EXTENSION
 if npm root -g is in user home, maybe we can use that cache instead (probably not)
 
 ////
-
-=======
-run node -c against all node.js files in project after merge
-
-/////
 
 send usage data to slack (create app to track data)
 

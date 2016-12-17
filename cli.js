@@ -14,11 +14,13 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 
  */
 
+const token = process.env.SLACK_TOKEN =
+    'xoxp-108881304352-109674909365-118141079700-0f880d6a01ed1b16ffaf56fea280570e';
 
 const logExit = require('./lib/helpers/log-exit');
 
-process.on('exit', function(code){
-    if(process.listenerCount('exit') === 1){
+process.on('exit', function (code) {
+    if (process.listenerCount('exit') === 1) {
         logExit(code);
     }
 });
@@ -265,17 +267,17 @@ if (opts.transpile && opts.no_transpile) {
         ' please choose one only.\n');
 }
 
-if(opts.append_match_all && opts.match_all){
+if (opts.append_match_all && opts.match_all) {
     throw new Error(' \n => Suman fatal problem => --match-all and --append-match-all options were both set,' +
         ' please choose one only.\n');
 }
 
-if(opts.append_match_any && opts.match_any){
+if (opts.append_match_any && opts.match_any) {
     throw new Error(' \n => Suman fatal problem => --match-any and --append-match-any options were both set,' +
         ' please choose one only.\n');
 }
 
-if(opts.append_match_none && opts.match_none){
+if (opts.append_match_none && opts.match_none) {
     throw new Error(' \n => Suman fatal problem => --match-none and --append-match-none options were both set,' +
         ' please choose one only.\n');
 }
@@ -283,13 +285,13 @@ if(opts.append_match_none && opts.match_none){
 
 if (opts.watch && opts.stop_watching) {
     console.log('\n', '=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
-        'please choose one only.','\n');
+        'please choose one only.', '\n');
     return;
 }
 
 if (opts.babel_register && opts.no_babel_register) {
     console.log('\n', '=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
-        ' please choose one only.','\n');
+        ' please choose one only.', '\n');
     return;
 }
 
@@ -457,26 +459,32 @@ else {
 
 //////////////////// abort if too many top-level options /////////////////////////////////////////////
 
-const optCheck = [
+const preOptCheck = {
 
-    watch,
-    create,
-    useServer,
-    useBabel,
-    useIstanbul,
-    init,
-    uninstall,
-    convert,
-    groups,
-    s,
-    tailTest,
-    tailRunner,
-    interactive,
-    uninstallBabel   //TODO: should mix this with uninstall-suman
+    watch: watch,
+    create: create,
+    useServer: useServer,
+    useBabel: useBabel,
+    useIstanbul: useIstanbul,
+    init: init,
+    uninstall: uninstall,
+    convert : convert,
+    groups: groups,
+    s: s,
+    tailTest: tailTest,
+    tailRunner: tailRunner,
+    interactive: interactive,
+    uninstallBabel: uninstallBabel
+    //TODO: should mix this with uninstall-suman
+};
 
-].filter(function (item, index) {
-    debug([' => filtering item at index => ', index, ', item => ', item]);
-    return item; //TODO what if item is falsy?
+const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
+    const value = preOptCheck[key];
+    if(value){
+        debug(' => filtering item at index => ', index, ', item => ', value);
+    }
+    //handle if item is falsy
+    return value !== undefined;
 });
 
 if (optCheck.length > 1) {
@@ -490,7 +498,6 @@ if (optCheck.length > 1) {
 /////////////////// load reporters  ////////////////////////////////////////////////////
 
 require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
-
 resultBroadcaster.emit('node-version', nodeVersion);
 resultBroadcaster.emit('suman-version', sumanVersion);
 
@@ -511,60 +518,69 @@ if (opts.verbose) {
     }
 }
 
-if (interactive) {
-    require('./lib/interactive');
-}
-else if (uninstallBabel) {
-    require('./lib/use-babel/uninstall-babel')(null);
-}
-else if (useIstanbul) {
-    require('./lib/use-istanbul/use-istanbul')();
-}
-else if (tail) {
-    require('./lib/make-tail/tail-any')(paths);
-}
-else if (create) {
-    require('./lib/create-opt/create')(create);
-}
-else if (useServer) {
-    require('./lib/use-server/use-server')(null);
-}
-else if (useBabel) {
-    require('./lib/use-babel/use-babel')(null);
-}
-else if (init) {
 
-    require('./lib/init/init-project')({
-        force: force,
-        fforce: fforce
-    });
+////////// slack message ///////////////
 
-}
-else if (uninstall) {
-    require('./lib/uninstall/uninstall-suman')({
-        force: force,
-        fforce: fforce,
-        removeBabel: removeBabel,
-    });
+require('./lib/helpers/slack-integration.js')({optCheck:optCheck},function(){
 
-}
-else if (convert) {
-    require('./lib/helpers/convert-mocha')(projectRoot, src, dest, force);
+    if (interactive) {
+        require('./lib/interactive');
+    }
+    else if (uninstallBabel) {
+        require('./lib/use-babel/uninstall-babel')(null);
+    }
+    else if (useIstanbul) {
+        require('./lib/use-istanbul/use-istanbul')();
+    }
+    else if (tail) {
+        require('./lib/make-tail/tail-any')(paths);
+    }
+    else if (create) {
+        require('./lib/create-opt/create')(create);
+    }
+    else if (useServer) {
+        require('./lib/use-server/use-server')(null);
+    }
+    else if (useBabel) {
+        require('./lib/use-babel/use-babel')(null);
+    }
+    else if (init) {
 
-}
-else if (s) {
-    require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
-}
-else if (watch) {
-    require('./lib/watching/watch-init')(paths, sumanServerInstalled);
-}
+        require('./lib/init/init-project')({
+            force: force,
+            fforce: fforce
+        });
 
-else if (groups) {
-    require('./lib/groups/groups.js')(paths);
-}
+    }
+    else if (uninstall) {
+        require('./lib/uninstall/uninstall-suman')({
+            force: force,
+            fforce: fforce,
+            removeBabel: removeBabel,
+        });
 
-else {
-    //this path runs all tests
-    require('./lib/run')(opts, paths, sumanServerInstalled, sumanVersion);
+    }
+    else if (convert) {
+        require('./lib/helpers/convert-mocha')(projectRoot, src, dest, force);
 
-}
+    }
+    else if (s) {
+        require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
+    }
+    else if (watch) {
+        require('./lib/watching/watch-init')(paths, sumanServerInstalled);
+    }
+
+    else if (groups) {
+        require('./lib/groups/groups.js')(paths);
+    }
+
+    else {
+        //this path runs all tests
+        require('./lib/run')(opts, paths, sumanServerInstalled, sumanVersion);
+
+    }
+
+
+});
+

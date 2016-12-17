@@ -30,6 +30,9 @@ const debugPostinstall = debug('s:postinstall', {
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 const deps = Object.freeze({
+    'slack': {
+        'slack': 'latest'
+    },
     'babel': {
         'webpack': 'latest',
         'babel-cli': 'latest',
@@ -58,7 +61,7 @@ const deps = Object.freeze({
     'istanbul': {
         'istanbul': 'latest',
     },
-    'nyc':{
+    'nyc': {
         'nyc': 'latest'
     }
 });
@@ -345,7 +348,7 @@ async.map(installs, function (item, cb) {
                         const then = new Date(String(data).trim());
                         console.log(colors.green.bold(' => Existing date in lock file => '), colors.yellow.bold(then));
                         if (now - then > 300000) {
-                           fs.unlink(queueWorkerLock, makeWorker);
+                            fs.unlink(queueWorkerLock, makeWorker);
                         }
                     }
                     else {
