@@ -17,4 +17,25 @@
 // console.log('fd:',fd);
 // console.log('fdTerm:',fdTerm);
 
-console.log(Date.now());
+// console.log(Date.now());
+
+
+const cp = require('child_process');
+
+const n = cp.spawn('node').on('error', function(e){
+    console.error(e.stack || e);
+});
+
+n.stdin.setEncoding('utf-8');
+n.stdin.write("\n console.log(require('util').inspect({zim:'zam'}));\n\n");   // <<< key part
+
+// n.stdin.write("\n throw new Error('bob')\n\n");
+
+n.stdin.end();
+
+n.stdout.setEncoding('utf8');
+
+n.stdout.on('data', function(d){
+    console.log('data => ', d);
+});
+

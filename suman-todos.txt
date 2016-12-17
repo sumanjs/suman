@@ -49,11 +49,25 @@ https://github.com/nodejs/help/issues/363#issuecomment-260213843
 
 ////////
 
+http://stackoverflow.com/questions/31578446/running-a-script-inside-a-docker-container-using-shell-script
+http://timmurphy.org/2015/02/27/running-multiple-programs-in-a-docker-container-from-the-command-line/
+
 suman.groups.js =>
+
+if container:
+
+1. script =>
+
+2. getPathToScript =>
+
+3. run
+   build
 
 choose either getPathToScript, or getListOfTestFiles
 => either suman will just run the script in a container, or suman will autogenerate a script file
 then run that in a container, based off of the list of test files
+
+use kubernetes to run tests on different nodes in a cluster
 
 /////////
 
