@@ -489,6 +489,7 @@ const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
 
 if (optCheck.length > 1) {
     console.error('\t => Too many options, pick one from  { --convert, --init, --server, --use-babel, --uninstall --tail-test, --tail-runner }');
+    console.error('\t => Current options used were => ', util.inspect(optCheck));
     console.error('\t => Use --help for more information.\n');
     console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
