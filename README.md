@@ -7,12 +7,21 @@
 ![alt text](https://raw.githubusercontent.com/ORESoftware/suman/master/images/suman.png "Suman Primary Logo")
 
 
+ ## DOCUMENTATION
  >   Suman documentation => [oresoftware.github.io/suman](http://oresoftware.github.io/suman "Suman Docs")  
+ 
+ This readme file contains information that you will not find in the docs and vice-versa; they will
+ serve as complementary information sources.
 
  ---
  ---
 
-#  Suman is a superior next-gen test runner and test reporter for Node.js servers and applications
+#  Suman is a superior test runner and test reporter for Node.js servers and applications.
+
+### It is designed for maximu test performance for enterprise backend applications, via careful parallelization at almost every juncture in the testing 
+### process. If your team is interested in speeding up their testing cycle, Suman is the absolute right place to look for
+### answers.
+
 
 ###  Suman = ( AVA + Mocha + Lab )
 ###  It is primarily designed to supercede Mocha, and rival AVA
@@ -21,9 +30,15 @@
 
 ### Disclaimers: 
 >
->=> Suman is in beta, despite the current version number.
->=> Suman supports Node versions >= 4.0.
->=> Windows support is on the roadmap, but is not ready yet.
+> => Suman is in beta, despite the current version number.
+>
+> => Suman supports Node versions >= 4.0.0.
+>
+> => Windows support is on the roadmap, will not be ready anytime soon.
+>
+> => Suman does not currently support the browser directly, but you can write a browser test with Mocha or Tape, and Suman
+>   can run that file as part of the test suite. (When running multiple tests with Suman, Suman runs each in a child
+>   process for speed and isolation, you can just slip in a Mocha or Tape test and everything works.)
 >
 
 ---
@@ -33,14 +48,12 @@
 
 <br>
 <i> => For command line tools:</i>
-## ```$ npm install -g suman```
+# ```$ npm install -g suman```
 <br>
 <i> => For test suites in your project:</i>
-## ```$ suman --init```
+# ```$ cd <your-project-root> && suman --init```
 
-=> (You should run  ```$ suman --init```  in your <i>project root</i> after installing Suman as a global module)*
-
-* for an advanced installation method, to avoid global NPM modules see: "Local installations only"
+* for an advanced installation method (to avoid global NPM modules) see: "Local installations only"
 
 => to convert a Mocha test or whole directory(s) of Mocha tests to Suman tests use <br>
 ```$ suman --convert --src=<src-file/src-dir> --dest=<dest-dir>```
@@ -68,9 +81,9 @@ The primary aims are:
 
 * Developer experience and test debuggability are above all else
 * Provide a beautiful and intuitive API
-* Solve all major and minor problems in the Mocha API
+* Solve all major and minor problems in the Mocha API specifically
 * Make tests run faster by leveraging async I/O and separate Node.js processes
-* _Isolate_ tests by running them in separate processes, so that they cannot interact
+* _Isolate_ tests by running them in separate processes, so they do not share memory nor interact directly
 * Make tests _independent_, so that you can easily run one test at a time (damn you Mocha).
 * Make debugging your test files easier; this is achieved by allowing for the running of tests with the plain-old node executable,
 this makes Suman tests "node-able"
@@ -78,11 +91,12 @@ this makes Suman tests "node-able"
 achieved by using child processes and ignoring stdout.
 * Add the missing features from Mocha, Tape and AVA, while simplifying portions of the Mocha API and doing
 away with (implicit) global variables.
-* Stick closely to the popular Mocha API, so that automatic conversion is possible from Mocha to Suman
+* Stick closely to the popular Mocha API, so that automatic conversion is possible from Mocha to Suman,
+ and that transition is as seamless as possible for the developer - you do *not* have to learn a whole new API!
+* Allow for maximum dynamicism so that Suman can match all use cases of users.
 
 
 # &#9658; Test Framework Comparison
-
 
 ## The Table of Goodness
 
@@ -189,6 +203,13 @@ both powerful and intuitive to use over the long-run.
     * Suman watcher processes run your tests and pipe stdout/stderr to log files which you tail with a terminal or browser window
     * Running tests on the fly is a major portion of the optimal Suman workflow, and makes it all the more fun.
        
+
+* <b> Dynamicism
+    * If there's anything you want to do with a test runner, you can do it with Suman
+    * Test files themselves allow for all sorts of dynamic behavior, dynamic and asynchronous test case generation, etc
+    * You can call tests programmatically and use them as macros
+    * Suman tests can create child processes which call Suman tests, etc etc.
+    
        
 * <b> Use suman.once.js to run hooks before the test runner starts </b>
     * these hooks can be used to start the services necessary for any given test file to run successfully; they only run once no matter how many tests are run, are only run
@@ -204,6 +225,7 @@ both powerful and intuitive to use over the long-run.
    *  DI is used throughout the library, and relieves the burden on the developer to remember order of parameters
    *  Inject network values, test dependencies and library dependencies
     
+    
 * <b> Test runner tuning </b>
     *  Add contraints to prevent any given pair of tests from running at the same time
     *  Cap the total number of processes running at the same time
@@ -216,11 +238,16 @@ both powerful and intuitive to use over the long-run.
     *  solid command line tools and better grep facilities than predecessors
     *  skip/only also work like Mocha
     
+    
 * <b> Optional but first-rate transpilation features </b>
-    * Suman support for tranpilation is first-rate, as supporting transpilation is quite fun to do
-    * Suman allows you to use "babel-register" to transpile your sources on the fly
-    * However, the recommended way to incorporate Babel in your testing is to simply transpile your entire "test" directory to "test-target"
+    * Suman support for tranpilation is first-rate
+    * Suman allows you to use "babel-register" to transpile your sources on the fly or transpile a src directory to a target directory
+    * If you have less than ~20 tests, the recommended way to incorporate Babel in your testing is to simply transpile your entire "test" directory to "test-target"
     * Using a "test-target" directory instead of "babel-register" allows for better debugging, performance and transparency in your testing system
+    * If you have more than 20 tests, Suman does not recommend transpilation, due to the performance penalty.
+    * For enterprise usage, we don't expect many teams to use transpilation features anyway; it's more likely individual developers who may
+    wish to use Babel to transpile tests for a library.
+
 
 * <b> Log files help you debug </b>
 
