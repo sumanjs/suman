@@ -298,56 +298,59 @@ if (opts.babel_register && opts.no_babel_register) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-if (init) {
-    global.usingDefaultConfig = true;
-    sumanConfig = global.sumanConfig = {};
-}
-else {
-    try {
-        //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
-        pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
-        sumanConfig = global.sumanConfig = require(pth);
-        if (opts.verbose) {  //default to true
-            console.log(' => Suman verbose message => Suman config used: ' + pth);
-        }
+try {
+    //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
+    pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
+    sumanConfig = global.sumanConfig = require(pth);
+    if (opts.verbose) {  //default to true
+        console.log(' => Suman verbose message => Suman config used: ' + pth);
+    }
 
+}
+catch (err) {
+
+    console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
+    console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
+
+    try {
+        pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
+        sumanConfig = global.sumanConfig = require(pth);
+        if (!opts.sparse) {  //default to true
+            console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
+        }
     }
     catch (err) {
 
-        console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
-        console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
+        // if (!uninstall) {
+        //     if (!String(err.stack || err).match(/Cannot find module\.*suman\.conf\.js/)) {
+        //         throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
+        //             'found in the root of your project.\n  ' + (err.stack || err));
+        //     }
+        //     else {
+        //         throw new Error(colors.red(' => Suman usage error => There was an error loading your suman.conf.js file =>')
+        //             + '\n ' + (err.stack || err));
+        //     }
 
-        try {
-            pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
-            sumanConfig = global.sumanConfig = require(pth);
-            if (!opts.sparse) {  //default to true
-                console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
-            }
-        }
-        catch (err) {
+        sumanConfig = global.sumanConfig = require('./lib/default-conf-files/suman.default.conf');
 
-            if (!uninstall) {
-                if (String(err.stack || err).match(/Cannot find module\.*suman\.conf\.js/)) {
-                    throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
-                        'found in the root of your project.\n  ' + (err.stack || err));
-                }
-                else {
-                    throw new Error(colors.red(' => Suman usage error => There was an error loading your suman.conf.js file =>')
-                        + '\n ' + (err.stack || err));
-                }
+        // }
+        // else {
+        //     // if we read in the default config, then package.json is not resolved correctly
+        //     // we need to provide some default values though
+        //     sumanConfig = global.sumanConfig = {
+        //         sumanHelpersDir: 'suman'
+        //     };
+        // }
 
-            }
-            else {
-                // if we read in the default config, then package.json is not resolved correctly
-                // we need to provide some default values though
-                sumanConfig = global.sumanConfig = {
-                    sumanHelpersDir: 'suman'
-                };
-            }
-
-            // note that we used to use to fallback on default configuration, but now we don't anymore
-        }
+        // note that we used to use to fallback on default configuration, but now we don't anymore
     }
+
+}
+
+if (init) {
+    global.usingDefaultConfig = true;
+    // TODO: force empty config if --init option given?
+    sumanConfig = global.sumanConfig = global.sumanConfig || {};
 }
 
 debug([' => Suman configuration (suman.conf.js) => ', sumanConfig]);
@@ -468,7 +471,7 @@ const preOptCheck = {
     useIstanbul: useIstanbul,
     init: init,
     uninstall: uninstall,
-    convert : convert,
+    convert: convert,
     groups: groups,
     s: s,
     tailTest: tailTest,
@@ -486,7 +489,7 @@ const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
     }
     return value;
 
-}).map(function(key){
+}).map(function (key) {
     const value = preOptCheck[key];
     const obj = {};
     obj[key] = value;
@@ -529,7 +532,7 @@ if (opts.verbose) {
 ////////// slack message ///////////////
 
 //TODO: also can load any deps that are needed (babel, instanbul, suman-inquirer, etc), here, instead of elsewhere
-require('./lib/helpers/slack-integration.js')({optCheck:optCheck},function(){
+require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () {
 
     if (interactive) {
         require('./lib/interactive');
