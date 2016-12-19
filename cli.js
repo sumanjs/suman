@@ -341,7 +341,6 @@ catch (err) {
         //         sumanHelpersDir: 'suman'
         //     };
         // }
-
         // note that we used to use to fallback on default configuration, but now we don't anymore
     }
 
@@ -352,15 +351,14 @@ if (init) {
     // TODO: force empty config if --init option given?
     sumanConfig = global.sumanConfig = global.sumanConfig || {};
 }
-
-debug([' => Suman configuration (suman.conf.js) => ', sumanConfig]);
-
-if (!init) {
+else{
     const installObj = require('./lib/helpers/determine-if-suman-is-installed')(sumanConfig, opts);
     sumanInstalledAtAll = installObj.sumanInstalledAtAll;
     sumanServerInstalled = installObj.sumanServerInstalled;
     sumanInstalledLocally = installObj.sumanInstalledLocally;
 }
+
+debug(' => Suman configuration (suman.conf.js) => ', sumanConfig);
 
 const sumanPaths = require('./lib/helpers/resolve-shared-dirs')(sumanConfig, projectRoot);
 const sumanObj = require('./lib/helpers/load-shared-objects')(sumanPaths, projectRoot);
