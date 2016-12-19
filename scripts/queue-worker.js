@@ -69,9 +69,21 @@ function unlock(cb) {
     });
 }
 
+
+const obj = {
+    stale: 19000,
+    wait: 20000,
+    pollPeriod: 110,
+    retries: 300,
+    retryWait: 150
+};
+
+
+//////////////////////////////////////////////////////////////////
+
 module.exports = function work(cb) {
 
-    lockFile.lock(lock, {}, function (err) {
+    lockFile.lock(lock, obj, function (err) {
 
         if (err) {
             return unlock(cb);
@@ -84,7 +96,7 @@ module.exports = function work(cb) {
             }
             else {
 
-                const lines = String(data).split('\n').filter(function(l){
+                const lines = String(data).split('\n').filter(function (l) {
                     // filter out empty lines
                     return String(l).trim().length > 0;
                 });

@@ -521,6 +521,7 @@ if (opts.verbose) {
 
 ////////// slack message ///////////////
 
+//TODO: also can load any deps that are needed (babel, instanbul, suman-inquirer, etc), here, instead of elsewhere
 require('./lib/helpers/slack-integration.js')({optCheck:optCheck},function(){
 
     if (interactive) {
