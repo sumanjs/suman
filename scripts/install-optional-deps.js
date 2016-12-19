@@ -11,7 +11,6 @@ const lockfile = require('lockfile');
 const async = require('async');
 const semver = require('semver');
 const ijson = require('siamese');
-const debug = require('suman-debug');
 const queueWorkerLock = path.resolve(process.env.HOME + '/.suman/queue-worker.lock');
 const installQueueLock = path.resolve(process.env.HOME + '/.suman/install-queue.lock');
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
@@ -23,13 +22,16 @@ const queueWorker = require('./queue-worker');
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-const debugPostinstall = debug('s:postinstall', {
+const debug = require('suman-debug')('s:postinstall', {
     fg: 'cyan'
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 const deps = Object.freeze({
+    'slack': {
+        'slack': 'latest'
+    },
     'babel': {
         'webpack': 'latest',
         'babel-cli': 'latest',
@@ -58,7 +60,7 @@ const deps = Object.freeze({
     'istanbul': {
         'istanbul': 'latest',
     },
-    'nyc':{
+    'nyc': {
         'nyc': 'latest'
     }
 });
@@ -67,12 +69,13 @@ const bd = process.env.BASE_DIRECTORY;
 const dirs = ['HOME', 'USERS'];
 
 //if base directory is not home or users, then we are installing globally, so always install all
+//TODO: regarding above, but what about NVM?
 const alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace(path.sep, '')) < 0;
 
 const cwd = process.cwd();
-debugPostinstall(' => cwd in postinstall script =>', cwd);
+debug(' => cwd in postinstall script =>', cwd);
 const projectRoot = residence.findProjectRoot(cwd);
-debugPostinstall('project root => ', projectRoot);
+debug('project root => ', projectRoot);
 
 
 // semver.gt('1.2.3', '9.8.7') // false
@@ -104,6 +107,8 @@ catch (err) {
 //always install latest for now
 var installs = [];
 
+installs = installs.concat(Object.keys(deps.slack));
+
 if (sumanConf.useBabel || alwaysInstall || alwaysInstallDueToGlobal) {
     installs = installs.concat(Object.keys(deps.babel));
 }
@@ -130,11 +135,20 @@ const to = setTimeout(function () {
 }, 2000000);
 
 
-debugPostinstall('=> Installs =>', installs);
+debug('=> Installs =>', installs);
 const fd = fs.openSync(debugLog, 'a');
 // const fdstderr =fs.openSync(debugLog, 'a');
 
 const time = Date.now();
+
+const obj = {
+    stale: 19000,
+    wait: 20000,
+    pollPeriod: 110,
+    retries: 300,
+    retryWait: 150
+};
+
 
 
 async.map(installs, function (item, cb) {
@@ -155,18 +169,19 @@ async.map(installs, function (item, cb) {
         },
         stats: function (cb) {
 
-            fs.readFile(path.resolve(p + '/package.json'), 'utf8', function (err, data) {
+            const pkg = path.resolve(p + '/package.json');
+
+            fs.readFile(pkg, 'utf8', function (err, data) {
                 if (err) {
                     cb(null, {version: null});
                 }
                 else {
                     ijson.parse(data).then(function (val) {
-
                         if (!val || !val.version) {
                             console.error(' val is not defined for item => ', item);
                         }
                         cb(null, {
-                            version: val.version
+                            version: val && val.version
                         })
                     }, cb);
 
@@ -180,7 +195,8 @@ async.map(installs, function (item, cb) {
             return cb(err);
         }
 
-        debugPostinstall([' item => ' + item, 'view version:' + results.view.version, 'stats version:' + results.stats.version].join(', '));
+        debug([' item => ' + item, 'view version:'
+        + results.view.version, 'stats version:' + results.stats.version].join(', '));
 
         if (!results.stats.version) {
             results.view.action = 'install';
@@ -222,7 +238,7 @@ async.map(installs, function (item, cb) {
 
     async.eachSeries(results, function (result, cb) {
 
-        debugPostinstall(' result => ', util.inspect(result));
+        debug(' result => ', util.inspect(result));
         const item = result.name;
         const action = result.action;
 
@@ -247,10 +263,9 @@ async.map(installs, function (item, cb) {
         }
 
         args = args.join(' ').trim();
-
         runWorker = true;
 
-        lockfile.lock(installQueueLock, function (err) {
+        lockfile.lock(installQueueLock, obj, function (err) {
 
             if (err) {
                 return cb(err);
@@ -258,7 +273,9 @@ async.map(installs, function (item, cb) {
 
             fs.readFile(queue, 'utf8', function (err, data) {
                 if (err) {
-                    cb(err);
+                    lockfile.unlock(installQueueLock, function () {
+                        cb(err);
+                    });
                 }
                 else {
                     const lines = String(data).split('\n');
@@ -331,10 +348,12 @@ async.map(installs, function (item, cb) {
         fs.writeFile(queueWorkerLock, String(new Date()), {flag: 'wx', flags: 'wx'}, function (err) {
 
             if (err && !String(err.stack || err).match(/EEXIST/i)) {
+                //if error does not match EEXIST, then it's an error we consider actually problematic
                 console.error(err.stack || err);
                 return process.exit(1);
             }
             else if (err) {
+                // file already EXISTS, so let's see if it's stale being reading the date in it
                 fs.readFile(queueWorkerLock, function (err, data) {
                     //ignore err
                     if (err) {
@@ -345,15 +364,14 @@ async.map(installs, function (item, cb) {
                         const then = new Date(String(data).trim());
                         console.log(colors.green.bold(' => Existing date in lock file => '), colors.yellow.bold(then));
                         if (now - then > 300000) {
-                           fs.unlink(queueWorkerLock, makeWorker);
+                            fs.unlink(queueWorkerLock, makeWorker);
                         }
                     }
                     else {
                         console.error(new Error(' => No data returned from readFile call to queueWorkerLock file.'));
                         return process.exit(1);
                     }
-
-                })
+                });
 
             }
             else {

@@ -14,11 +14,13 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 
  */
 
+const token = process.env.SLACK_TOKEN =
+    'xoxp-108881304352-109674909365-118141079700-0f880d6a01ed1b16ffaf56fea280570e';
 
 const logExit = require('./lib/helpers/log-exit');
 
-process.on('exit', function(code){
-    if(process.listenerCount('exit') === 1){
+process.on('exit', function (code) {
+    if (process.listenerCount('exit') === 1) {
         logExit(code);
     }
 });
@@ -217,7 +219,7 @@ const serverName = opts.server_name;
 const convert = opts.convert;
 const src = opts.src;
 const dest = opts.dest;
-const init = !!opts.init;
+const init = opts.init;
 const uninstall = opts.uninstall;
 const force = opts.force;
 const fforce = opts.fforce;
@@ -265,17 +267,17 @@ if (opts.transpile && opts.no_transpile) {
         ' please choose one only.\n');
 }
 
-if(opts.append_match_all && opts.match_all){
+if (opts.append_match_all && opts.match_all) {
     throw new Error(' \n => Suman fatal problem => --match-all and --append-match-all options were both set,' +
         ' please choose one only.\n');
 }
 
-if(opts.append_match_any && opts.match_any){
+if (opts.append_match_any && opts.match_any) {
     throw new Error(' \n => Suman fatal problem => --match-any and --append-match-any options were both set,' +
         ' please choose one only.\n');
 }
 
-if(opts.append_match_none && opts.match_none){
+if (opts.append_match_none && opts.match_none) {
     throw new Error(' \n => Suman fatal problem => --match-none and --append-match-none options were both set,' +
         ' please choose one only.\n');
 }
@@ -283,79 +285,80 @@ if(opts.append_match_none && opts.match_none){
 
 if (opts.watch && opts.stop_watching) {
     console.log('\n', '=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
-        'please choose one only.','\n');
+        'please choose one only.', '\n');
     return;
 }
 
 if (opts.babel_register && opts.no_babel_register) {
     console.log('\n', '=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
-        ' please choose one only.','\n');
+        ' please choose one only.', '\n');
     return;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-if (init) {
-    global.usingDefaultConfig = true;
-    sumanConfig = global.sumanConfig = {};
-}
-else {
-    try {
-        //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
-        pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
-        sumanConfig = global.sumanConfig = require(pth);
-        if (opts.verbose) {  //default to true
-            console.log(' => Suman verbose message => Suman config used: ' + pth);
-        }
+try {
+    //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
+    pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
+    sumanConfig = global.sumanConfig = require(pth);
+    if (opts.verbose) {  //default to true
+        console.log(' => Suman verbose message => Suman config used: ' + pth);
+    }
 
+}
+catch (err) {
+
+    console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
+    console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
+
+    try {
+        pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
+        sumanConfig = global.sumanConfig = require(pth);
+        if (!opts.sparse) {  //default to true
+            console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
+        }
     }
     catch (err) {
 
-        console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
-        console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
+        // if (!uninstall) {
+        //     if (!String(err.stack || err).match(/Cannot find module\.*suman\.conf\.js/)) {
+        //         throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
+        //             'found in the root of your project.\n  ' + (err.stack || err));
+        //     }
+        //     else {
+        //         throw new Error(colors.red(' => Suman usage error => There was an error loading your suman.conf.js file =>')
+        //             + '\n ' + (err.stack || err));
+        //     }
 
-        try {
-            pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
-            sumanConfig = global.sumanConfig = require(pth);
-            if (!opts.sparse) {  //default to true
-                console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
-            }
-        }
-        catch (err) {
+        sumanConfig = global.sumanConfig = require('./lib/default-conf-files/suman.default.conf');
 
-            if (!uninstall) {
-                if (String(err.stack || err).match(/Cannot find module\.*suman\.conf\.js/)) {
-                    throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
-                        'found in the root of your project.\n  ' + (err.stack || err));
-                }
-                else {
-                    throw new Error(colors.red(' => Suman usage error => There was an error loading your suman.conf.js file =>')
-                        + '\n ' + (err.stack || err));
-                }
-
-            }
-            else {
-                // if we read in the default config, then package.json is not resolved correctly
-                // we need to provide some default values though
-                sumanConfig = global.sumanConfig = {
-                    sumanHelpersDir: 'suman'
-                };
-            }
-
-            // note that we used to use to fallback on default configuration, but now we don't anymore
-        }
+        // }
+        // else {
+        //     // if we read in the default config, then package.json is not resolved correctly
+        //     // we need to provide some default values though
+        //     sumanConfig = global.sumanConfig = {
+        //         sumanHelpersDir: 'suman'
+        //     };
+        // }
+        // note that we used to use to fallback on default configuration, but now we don't anymore
     }
+
 }
 
-debug([' => Suman configuration (suman.conf.js) => ', sumanConfig]);
-
-if (!init) {
+if (init) {
+    global.usingDefaultConfig = true;
+    // TODO: force empty config if --init option given?
+    sumanConfig = global.sumanConfig = global.sumanConfig || {};
+}
+else{
     const installObj = require('./lib/helpers/determine-if-suman-is-installed')(sumanConfig, opts);
     sumanInstalledAtAll = installObj.sumanInstalledAtAll;
     sumanServerInstalled = installObj.sumanServerInstalled;
     sumanInstalledLocally = installObj.sumanInstalledLocally;
 }
+
+debug(' => Suman configuration (suman.conf.js) => ', sumanConfig);
 
 const sumanPaths = require('./lib/helpers/resolve-shared-dirs')(sumanConfig, projectRoot);
 const sumanObj = require('./lib/helpers/load-shared-objects')(sumanPaths, projectRoot);
@@ -423,7 +426,7 @@ else {
     debug([' => "babelRegister" opt => ', babelRegister]);
     debug([' => "noBabelRegister" opt => ', noBabelRegister]);
 
-    const useBabelRegister = (babelRegister || (!noBabelRegister && sumanConfig.useBabelRegister));
+    const useBabelRegister = opts.transpile && (babelRegister || (!noBabelRegister && sumanConfig.useBabelRegister));
 
     if (useBabelRegister) {
         opts.useBabelRegister = true;
@@ -457,30 +460,43 @@ else {
 
 //////////////////// abort if too many top-level options /////////////////////////////////////////////
 
-const optCheck = [
+const preOptCheck = {
 
-    watch,
-    create,
-    useServer,
-    useBabel,
-    useIstanbul,
-    init,
-    uninstall,
-    convert,
-    groups,
-    s,
-    tailTest,
-    tailRunner,
-    interactive,
-    uninstallBabel   //TODO: should mix this with uninstall-suman
+    watch: watch,
+    create: create,
+    useServer: useServer,
+    useBabel: useBabel,
+    useIstanbul: useIstanbul,
+    init: init,
+    uninstall: uninstall,
+    convert: convert,
+    groups: groups,
+    s: s,
+    tailTest: tailTest,
+    tailRunner: tailRunner,
+    interactive: interactive,
+    uninstallBabel: uninstallBabel
+    //TODO: should mix this with uninstall-suman
+};
 
-].filter(function (item, index) {
-    debug([' => filtering item at index => ', index, ', item => ', item]);
-    return item; //TODO what if item is falsy?
+const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
+
+    const value = preOptCheck[key];
+    if (value) {
+        debug(' => filtering item at index => ', index, ', item => ', value);
+    }
+    return value;
+
+}).map(function (key) {
+    const value = preOptCheck[key];
+    const obj = {};
+    obj[key] = value;
+    return obj;
 });
 
 if (optCheck.length > 1) {
     console.error('\t => Too many options, pick one from  { --convert, --init, --server, --use-babel, --uninstall --tail-test, --tail-runner }');
+    console.error('\t => Current options used were => ', util.inspect(optCheck));
     console.error('\t => Use --help for more information.\n');
     console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
@@ -490,7 +506,6 @@ if (optCheck.length > 1) {
 /////////////////// load reporters  ////////////////////////////////////////////////////
 
 require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
-
 resultBroadcaster.emit('node-version', nodeVersion);
 resultBroadcaster.emit('suman-version', sumanVersion);
 
@@ -511,60 +526,70 @@ if (opts.verbose) {
     }
 }
 
-if (interactive) {
-    require('./lib/interactive');
-}
-else if (uninstallBabel) {
-    require('./lib/use-babel/uninstall-babel')(null);
-}
-else if (useIstanbul) {
-    require('./lib/use-istanbul/use-istanbul')();
-}
-else if (tail) {
-    require('./lib/make-tail/tail-any')(paths);
-}
-else if (create) {
-    require('./lib/create-opt/create')(create);
-}
-else if (useServer) {
-    require('./lib/use-server/use-server')(null);
-}
-else if (useBabel) {
-    require('./lib/use-babel/use-babel')(null);
-}
-else if (init) {
 
-    require('./lib/init/init-project')({
-        force: force,
-        fforce: fforce
-    });
+////////// slack message ///////////////
 
-}
-else if (uninstall) {
-    require('./lib/uninstall/uninstall-suman')({
-        force: force,
-        fforce: fforce,
-        removeBabel: removeBabel,
-    });
+//TODO: also can load any deps that are needed (babel, instanbul, suman-inquirer, etc), here, instead of elsewhere
+require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () {
 
-}
-else if (convert) {
-    require('./lib/helpers/convert-mocha')(projectRoot, src, dest, force);
+    if (interactive) {
+        require('./lib/interactive');
+    }
+    else if (uninstallBabel) {
+        require('./lib/use-babel/uninstall-babel')(null);
+    }
+    else if (useIstanbul) {
+        require('./lib/use-istanbul/use-istanbul')();
+    }
+    else if (tail) {
+        require('./lib/make-tail/tail-any')(paths);
+    }
+    else if (create) {
+        require('./lib/create-opt/create')(create);
+    }
+    else if (useServer) {
+        require('./lib/use-server/use-server')(null);
+    }
+    else if (useBabel) {
+        require('./lib/use-babel/use-babel')(null);
+    }
+    else if (init) {
 
-}
-else if (s) {
-    require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
-}
-else if (watch) {
-    require('./lib/watching/watch-init')(paths, sumanServerInstalled);
-}
+        require('./lib/init/init-project')({
+            force: force,
+            fforce: fforce
+        });
 
-else if (groups) {
-    require('./lib/groups/groups.js')(paths);
-}
+    }
+    else if (uninstall) {
+        require('./lib/uninstall/uninstall-suman')({
+            force: force,
+            fforce: fforce,
+            removeBabel: removeBabel,
+        });
 
-else {
-    //this path runs all tests
-    require('./lib/run')(opts, paths, sumanServerInstalled, sumanVersion);
+    }
+    else if (convert) {
+        require('./lib/helpers/convert-mocha')(projectRoot, src, dest, force);
 
-}
+    }
+    else if (s) {
+        require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
+    }
+    else if (watch) {
+        require('./lib/watching/watch-init')(paths, sumanServerInstalled);
+    }
+
+    else if (groups) {
+        require('./lib/groups/groups.js')(paths);
+    }
+
+    else {
+        //this path runs all tests
+        require('./lib/run')(opts, paths, sumanServerInstalled, sumanVersion);
+
+    }
+
+
+});
+

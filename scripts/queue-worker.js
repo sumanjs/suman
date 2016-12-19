@@ -69,9 +69,21 @@ function unlock(cb) {
     });
 }
 
+
+const obj = {
+    stale: 19000,
+    wait: 20000,
+    pollPeriod: 110,
+    retries: 300,
+    retryWait: 150
+};
+
+
+//////////////////////////////////////////////////////////////////
+
 module.exports = function work(cb) {
 
-    lockFile.lock(lock, {}, function (err) {
+    lockFile.lock(lock, obj, function (err) {
 
         if (err) {
             return unlock(cb);
@@ -84,7 +96,7 @@ module.exports = function work(cb) {
             }
             else {
 
-                const lines = String(data).split('\n').filter(function(l){
+                const lines = String(data).split('\n').filter(function (l) {
                     // filter out empty lines
                     return String(l).trim().length > 0;
                 });
@@ -102,10 +114,15 @@ module.exports = function work(cb) {
                     const d = lines.filter(function (l) {
                         // remove the first line, and any duplicate lines in the queue
                         return String(l).trim() !== String(first).trim();
+                    });
+
+                    // filter out any non-unique values
+                    const uniqueList = d.filter(function(elem, pos) {
+                        return lines.indexOf(elem) == pos;
                     }).join('\n');
 
 
-                    fs.writeFile(queue, d, {}, function (err) {
+                    fs.writeFile(queue, uniqueList, {}, function (err) {
 
                         if (err) {
                             console.error(err.stack || err);
