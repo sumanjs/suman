@@ -1,3 +1,13 @@
+
+////
+
+add do's and do not's to readme
+
+////
+
+run mocha tests in browser - use child process
+=> browser tests should be => test.browser.js
+
 ////
 
 http://www.thegeekstuff.com/2010/11/50-linux-commands/

@@ -40,6 +40,9 @@
 >   can run that file as part of the test suite. (When running multiple tests with Suman, Suman runs each in a child
 >   process for speed and isolation, you can just slip in a Mocha or Tape test and everything works.)
 >
+> => Suman is currently Javascript and shell scripting centric. Currently Suman supports any scripting language: just
+>   but a hashbang in the entry point file. In the future, however, Suman will have improved support for different 
+>   languages beyond shell scripting and JS.
 
 ---
 
@@ -94,6 +97,26 @@ away with (implicit) global variables.
 * Stick closely to the popular Mocha API, so that automatic conversion is possible from Mocha to Suman,
  and that transition is as seamless as possible for the developer - you do *not* have to learn a whole new API!
 * Allow for maximum dynamicism so that Suman can match all use cases of users.
+* Allow users to create tests with different frameworks as needed (Mocha or Tape for browser testing), 
+and even in different languages, especially shell scripting, but also Java, Golang, etc.
+
+## On lack of browser support
+
+Suman firmly believes in integration and system testing as being more bang-for-your-buck than unit testing.
+Node.js is for fast iteration, prototyping and just getting stuff done; it also makes things "easier
+to change", since there is just less code to change. If you change a unit of code, your unit test may break
+without adding any value, but your system test or integration test will likely not break and your system may still work as intended.
+In other words, when your system test breaks - something is definitely wrong - when your unit test breaks, it's probably
+just because you changed some of your code. You tell me then - which test was more valuable?
+Suman recommends writing unit tests for only the complex methods and functions in your codebase. Beyond that,
+we recommend end-to-end testing of diferent features in your system.
+
+Chances are, JavaScript developers will already be familiar with a browser testing library or framework. You can point Suman
+to the entry point of your test and the Suman runner will execute your tests and incorporate the result. Suman
+will not be able to run much analysis on your non-Suman test process, but all it _really_ needs to be accurate is to
+use the exit code of whatever child process your test is in. As stated, you can write your browser tests using any
+library you wish. Using headless browser testing with Phantom.js or Nightmare.js is a very real possibility, and probably
+a better use of your time than writing unit tests that run in the browser.
 
 
 # &#9658; Test Framework Comparison
@@ -118,10 +141,10 @@ away with (implicit) global variables.
 | Jasmine | Yes              | No                                                 | Yes                                                                   | Yes                                                                                                       | Yes                    |
 | Tape    | No               | Yes                                                | No                                                                    | Yes                                                                                                       | Yes                    |
 | AVA     | No               | Yes                                                | No                                                                    | ?                                                                                                         | No                     |
-| Suman   | Nope             | Nope, Suman prefers the Node.js core assert module | Nope, Suman greatly simplifies the context puzzle that Mocha provided | Nope, Suman runner uses silent option with child_process so your output doesn't mix with the test results | Nope                   |
+| Suman   | Nope             | Nope, Suman is completely assertion-lib agnostic   | Nope, Suman greatly simplifies the context puzzle that Mocha provided | Nope, Suman runner uses silent option with child_process so your output doesn't mix with the test results | Nope                   |
 
 
-### The reasons why Mocha and its peers need a replacement are clear:
+## The reasons why Mocha and its peers need a replacement are clear:
 
 * In Mocha, Tape and Jasmine test files were not run in separate processes (necessary for isolation, speed and independence of test results)
 * Using Mocha, Tape and Jasmine, not only was everything run in a single process, but all test cases and hooks were also run in series, which takes unnecessary amounts of time for tests utilizing async I/O
@@ -163,18 +186,18 @@ both powerful and intuitive to use over the long-run.
 * Details matter*
 
 
-# &#9658; Suman features:
+# &#9658; Suman features in detail:
 
 * <b> basics </b>
-    * => tdd/bdd interfaces
+    * => tdd/bdd interfaces 
     * => easy migration from Mocha (it's automated using the --convert option)
-    * => extremely powerful features, while aiming to be straightforward, clean, concise, consistent and accurate
-    * => designed with ES6 and ES7 in mind, including Promises, async/await and generators
+    * => extremely powerful features, while aiming to be straightforward, clean, concise, consistent and accurate; 
+    * => designed with ES6 and ES7 in mind, including Promises, generators and async/await 
 
 
 * <b> Improved mechanics, syntax and semantics </b>
     * singular param (t) is used for all hooks and test cases, in the style of AVA
-    * Pass data from test cases directly to hooks using the value option of a test case
+    * Pass data from test cases directly to hooks using the t.value option of a test case
     * Pass data from hooks directly to test cases using the t.data value
     (neither are possible with Mocha, and are very much a missing feature)
     * encapsulation and immutability are utilized much more effectively than with Mocha etc
@@ -480,7 +503,8 @@ only pertains to running a single test file (usually when developing a particula
  Suman is simply more powerful and richer in features than AVA. 
  
  * AVA test are not "node-able" - you *cannot* run them with node directly; Suman tests are node-able, which makes 
- debugging so much easier!
+ debugging so much easier and intuitive! Note that Suman does make is easy for developers to debug child processes.,
+ giving them built-in tools to do so.
  
  ![alt text](https://github.com/ORESoftware/suman-private/blob/dev/images/ava-prob.png)
  
@@ -488,27 +512,29 @@ only pertains to running a single test file (usually when developing a particula
  * AVA does not handle errors thrown in asynchronous code gracefully, Suman is much better in this regard.
  * AVA does not feature the nested describes of Mocha or Suman, which limits the expressiveness of the library
  tremendously
- * AVA expects you to use its assertion library, whereas Suman will accept usage of any assertion library
+ * AVA expects you to use its assertion library, whereas Suman will accept usage of any assertion library that
+ you are already familiar with.
  * Furthermore, AVA does not prescribe solutions to common test problems -
  
         * registering dynamic test cases (given a dynamic value acquired asynchronously)
-        * starting up necessary services, using pre-test asynchronous (not bash) hooks
+        * starting up necessary services before running tests
         * injecting different dependencies into test files
         
  
  Alternatively, with Suman:
 
- *Suman has nested describe blocks (aka, nested suites), which are imperative for non-trivial tests; a simple example is a before hook that you want
- to run only for a certain set of tests in your test suite. The before hook and tests would go in a nested describe block.
+ *Suman has nested describe blocks, which are imperative for non-trivial tests; a simple but common example is a before hook that you want
+ to run only for a certain subset of tests in your test file. The before hook and tests would go in a nested describe block.
  *Babel transpilation is totally optional - you can achieve the async/await pattern with generators and promises alone, you don't need ES7 for this
- *Suman uses domains to correctly map runtime/assertion errors to test cases and hooks, which provides a much more reliable and well designed piece of software because it can
- handle any error that gets thrown, not just assertion errors.
+ *Suman uses domains to correctly map runtime/assertion errors to test cases and hooks, 
+ which provides a much more reliable and well-designed piece of software because it can handle any error that gets thrown, not just assertion errors.
  
 
-### Testing and pull requests
+### Contributing - Testing and pull requests
+ 
+ (Please see contributing.md)
  
  Suman uses itself to test itself :)
- 
  The right way to do this is as follows:
  
  ```
@@ -524,7 +550,6 @@ only pertains to running a single test file (usually when developing a particula
 If you are familiar with Mocha and enjoy both its power and simplicity, you may prefer Suman over Ava,
 and Suman provides the simplest migration path from Mocha. As was stated AVA draws more from Tape and Suman draws more from Mocha. 
 Suman was designed to make the transition from Mocha to be as seamless as possible.
-
 
 ** dependency arrays of strings exist so that during minification we can still know where to inject dependencies, that's why Angular and RequireJS have deps arrays of strings - they don't get
 corrupted by minification/uglification. But for backend testing frameworks, it is very unlikely we need to minify, so we don't need the dependency array.
