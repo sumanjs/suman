@@ -219,7 +219,7 @@ const serverName = opts.server_name;
 const convert = opts.convert;
 const src = opts.src;
 const dest = opts.dest;
-const init = !!opts.init;
+const init = opts.init;
 const uninstall = opts.uninstall;
 const force = opts.force;
 const fforce = opts.fforce;
@@ -479,12 +479,18 @@ const preOptCheck = {
 };
 
 const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
+
     const value = preOptCheck[key];
-    if(value){
+    if (value) {
         debug(' => filtering item at index => ', index, ', item => ', value);
     }
-    //handle if item is falsy
-    return value !== undefined;
+    return value;
+
+}).map(function(key){
+    const value = preOptCheck[key];
+    const obj = {};
+    obj[key] = value;
+    return obj;
 });
 
 if (optCheck.length > 1) {
