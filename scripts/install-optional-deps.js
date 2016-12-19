@@ -141,6 +141,15 @@ const fd = fs.openSync(debugLog, 'a');
 
 const time = Date.now();
 
+const obj = {
+    stale: 19000,
+    wait: 20000,
+    pollPeriod: 110,
+    retries: 300,
+    retryWait: 150
+};
+
+
 
 async.map(installs, function (item, cb) {
 
@@ -254,10 +263,9 @@ async.map(installs, function (item, cb) {
         }
 
         args = args.join(' ').trim();
-
         runWorker = true;
 
-        lockfile.lock(installQueueLock, function (err) {
+        lockfile.lock(installQueueLock, obj, function (err) {
 
             if (err) {
                 return cb(err);
@@ -340,10 +348,12 @@ async.map(installs, function (item, cb) {
         fs.writeFile(queueWorkerLock, String(new Date()), {flag: 'wx', flags: 'wx'}, function (err) {
 
             if (err && !String(err.stack || err).match(/EEXIST/i)) {
+                //if error does not match EEXIST, then it's an error we consider actually problematic
                 console.error(err.stack || err);
                 return process.exit(1);
             }
             else if (err) {
+                // file already EXISTS, so let's see if it's stale being reading the date in it
                 fs.readFile(queueWorkerLock, function (err, data) {
                     //ignore err
                     if (err) {

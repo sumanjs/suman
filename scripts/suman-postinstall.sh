@@ -3,7 +3,7 @@
 
 SUMAN_DEBUG="$(echo -e "${SUMAN_DEBUG}" | tr -d '[:space:]')"
 
-if [ ! -z $SUMAN_DEBUG} ]; then
+if [ ! -z ${SUMAN_DEBUG} ]; then
 echo " => SUMAN_DEBUG => '$SUMAN_DEBUG'"
 fi
 
