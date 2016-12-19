@@ -14,5 +14,5 @@ npm test &&
 
 EXIT=$?
 echo "bash exit code => $?" &&
-./open-subl.js
+`dirname $0`/open-subl.js
 exit ${EXIT}
