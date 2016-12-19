@@ -114,10 +114,15 @@ module.exports = function work(cb) {
                     const d = lines.filter(function (l) {
                         // remove the first line, and any duplicate lines in the queue
                         return String(l).trim() !== String(first).trim();
+                    });
+
+                    // filter out any non-unique values
+                    const uniqueList = d.filter(function(elem, pos) {
+                        return lines.indexOf(elem) == pos;
                     }).join('\n');
 
 
-                    fs.writeFile(queue, d, {}, function (err) {
+                    fs.writeFile(queue, uniqueList, {}, function (err) {
 
                         if (err) {
                             console.error(err.stack || err);
