@@ -160,18 +160,19 @@ async.map(installs, function (item, cb) {
         },
         stats: function (cb) {
 
-            fs.readFile(path.resolve(p + '/package.json'), 'utf8', function (err, data) {
+            const pkg = path.resolve(p + '/package.json');
+
+            fs.readFile(pkg, 'utf8', function (err, data) {
                 if (err) {
                     cb(null, {version: null});
                 }
                 else {
                     ijson.parse(data).then(function (val) {
-
                         if (!val || !val.version) {
                             console.error(' val is not defined for item => ', item);
                         }
                         cb(null, {
-                            version: val.version
+                            version: val && val.version
                         })
                     }, cb);
 
@@ -185,7 +186,8 @@ async.map(installs, function (item, cb) {
             return cb(err);
         }
 
-        debug([' item => ' + item, 'view version:' + results.view.version, 'stats version:' + results.stats.version].join(', '));
+        debug([' item => ' + item, 'view version:'
+        + results.view.version, 'stats version:' + results.stats.version].join(', '));
 
         if (!results.stats.version) {
             results.view.action = 'install';
@@ -359,8 +361,7 @@ async.map(installs, function (item, cb) {
                         console.error(new Error(' => No data returned from readFile call to queueWorkerLock file.'));
                         return process.exit(1);
                     }
-
-                })
+                });
 
             }
             else {

@@ -10,6 +10,10 @@ and if not, we install them on the fly
 
 /////
 
+suman-test-projects => should work suman#dev and suman#staging and suman#master
+
+////
+
 websockets in java
 https://github.com/firebase/TubeSock
 
