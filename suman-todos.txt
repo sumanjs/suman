@@ -5,6 +5,11 @@ http://www.thegeekstuff.com/2010/08/ipcs-command-examples/
 
 /////
 
+instead of use-server, use-babel, use-whatever, we try to use require.resolve(),
+and if not, we install them on the fly
+
+/////
+
 websockets in java
 https://github.com/firebase/TubeSock
 
