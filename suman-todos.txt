@@ -61,7 +61,15 @@ java / spark / go / python
 
 SUMAN_SINGLE_PROCESS needs to forbid non-js file
 
-///////
+//////////
+
+ =>
+        *default
+
+ =>
+        { host: '127.0.0.1', port: 6969 }
+
+//////////
 
 debugging with node debug <pid> etc
 https://github.com/nodejs/help/issues/363#issuecomment-260213843

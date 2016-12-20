@@ -39,7 +39,7 @@ function getPathToScript() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const defaults = Object.freeze({
-    allowReuseImage: true,
+    allowReuseImage: false,
     useContainer: false,
     build: build,
     getPathToScript: getPathToScript,
