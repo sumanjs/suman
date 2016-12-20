@@ -377,7 +377,7 @@ if (sumanConfig.transpile === true && sumanConfig.useBabelRegister === true && o
 
 if ('concurrency' in opts) {
     assert(Number.isInteger(opts.concurrency) && Number(opts.concurrency) > 0,
-        colors.red(' => Suman error => "--concurrency" option value should be an integer greater than 0.'));
+        colors.red(' => Suman usage error => "--concurrency" option value should be an integer greater than 0.'));
 }
 
 global.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
