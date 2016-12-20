@@ -16,7 +16,7 @@ module.exports = Object.freeze({
     matchNone: [/fixture/, /correct-exit-codes/, /.*target/],
     // matchAny: [],                              //recommended regex for "matchAny" => [/\.test\.js$/],
     // matchNone: [/fixture/, /.*target/],        //recommended regex for "matchNone" => [/fixture/],
-    matchAll: [/\.test\.js$/],                 //recommended regex for "matchAll" => [],
+    matchAll: [],                 //recommended regex for "matchAll" => [],
 
     //string
     testDir: 'test',
@@ -29,7 +29,7 @@ module.exports = Object.freeze({
     //boolean
     errorsOnly: false,
     replayErrorsAtRunnerEnd: true,
-    allowArrowFunctionsForTestSuites: false,
+    allowArrowFunctionsForTestSuites: true,
     alwaysUseRunner: false,                     //always run your individual tests in child process
     enforceGlobalInstallationOnly: false,
     enforceLocalInstallationOnly: false,
