@@ -100,7 +100,6 @@ module.exports = data => {
 
         groups: groups.map(function (item) {
             const def = _.defaults({},data, item);
-            // console.log(' def => ',util.inspect(def));
             const val = Object.assign({}, defaults, def);
             console.log('\n val => \n',util.inspect(val));
             return val;

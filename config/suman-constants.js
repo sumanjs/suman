@@ -64,6 +64,9 @@ module.exports = Object.freeze({
 
     CORE_MODULE_LIST: require('builtin-modules'),
 
+    CLI_EXIT_CODES: {
+        NO_GROUP_NAME_MATCHED_COMMAND_LINE_INPUT: 20,
+    },
     RUNNER_EXIT_CODES: {
         NO_TEST_FILE_OR_DIR_SPECIFIED: 30,
         ERROR_INVOKING_NETWORK_LOG_IN_RUNNER: 31,
