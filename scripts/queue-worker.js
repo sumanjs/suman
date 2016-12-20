@@ -109,7 +109,8 @@ module.exports = function work(cb) {
                 }
                 else {
 
-                    console.log(' => number of npm install lines remaining => ', lines.length, ' item => ', first);
+                    console.log(' => Line / command to be run next => ', first);
+                    console.log(' => number of npm install lines remaining before de-duping => ', lines.length);
 
                     const d = lines.filter(function (l) {
                         // remove the first line, and any duplicate lines in the queue
@@ -120,6 +121,8 @@ module.exports = function work(cb) {
                     const uniqueList = d.filter(function(elem, pos) {
                         return lines.indexOf(elem) == pos;
                     }).join('\n');
+
+                    console.log(' => number of npm install lines remaining *after* de-duping => ', uniqueList.length, ' item => ', first);
 
 
                     fs.writeFile(queue, uniqueList, {}, function (err) {
