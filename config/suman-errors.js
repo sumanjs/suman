@@ -51,7 +51,7 @@ function filter(suman, isFatal, err) {
 
     var type = isFatal ? 'FATAL' : 'NON_FATAL_ERR';
 
-    fatalRequestReply({
+    return fatalRequestReply({
         type: type,
         data: {
             msg: stack
