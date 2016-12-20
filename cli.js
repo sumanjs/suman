@@ -331,6 +331,8 @@ catch (err) {
         //             + '\n ' + (err.stack || err));
         //     }
 
+        global.usingDefaultConfig = true;
+        console.log(' => Suman warning => Using default configuration file, please create your suman.conf.js file using suman --init.');
         sumanConfig = global.sumanConfig = require('./lib/default-conf-files/suman.default.conf');
 
         // }
@@ -347,11 +349,11 @@ catch (err) {
 }
 
 if (init) {
-    global.usingDefaultConfig = true;
+    console.log('\n',colors.magenta(' => "suman --init" is running.'),'\n');
     // TODO: force empty config if --init option given?
     sumanConfig = global.sumanConfig = global.sumanConfig || {};
 }
-else{
+else {
     const installObj = require('./lib/helpers/determine-if-suman-is-installed')(sumanConfig, opts);
     sumanInstalledAtAll = installObj.sumanInstalledAtAll;
     sumanServerInstalled = installObj.sumanServerInstalled;
@@ -423,8 +425,8 @@ else {
     }
 
 
-    debug([' => "babelRegister" opt => ', babelRegister]);
-    debug([' => "noBabelRegister" opt => ', noBabelRegister]);
+    debug(' => "babelRegister" opt => ', babelRegister);
+    debug(' => "noBabelRegister" opt => ', noBabelRegister);
 
     const useBabelRegister = opts.transpile && (babelRegister || (!noBabelRegister && sumanConfig.useBabelRegister));
 
