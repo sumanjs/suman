@@ -7,6 +7,13 @@ if [ ! -z ${SUMAN_DEBUG} ]; then
 echo " => SUMAN_DEBUG => '$SUMAN_DEBUG'"
 fi
 
+IN_CONTAINER=false;
+
+if [[ "lxc" = "${container}" ]]; then
+IN_CONTAINER=true;
+echo " => Suman says => We are in a (Docker) container! "
+fi
+
 ./scripts/create-suman-dir.js &&
 
 DOT_SUMAN_DIR=$(cd ~/.suman && pwd)
@@ -70,6 +77,9 @@ if [[ ( "no" = "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
     ./scripts/install-suman-home.sh &&
     ./scripts/on-install-success.js
 else
-    ./scripts/install-suman-home.sh > ${LOG_PATH} 2>&1 & echo " => Suman optional deps being installed as daemon.\n"
+    ./scripts/install-suman-home.sh > ${LOG_PATH} 2>&1 &
+    echo " " &
+    echo " => Suman optional deps being installed as daemon." &
+    echo " "
 fi
 
