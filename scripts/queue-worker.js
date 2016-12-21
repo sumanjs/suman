@@ -122,7 +122,8 @@ module.exports = function work(cb) {
                         return lines.indexOf(elem) == pos;
                     }).join('\n');
 
-                    console.log(' => number of npm install lines remaining *after* de-duping => ', uniqueList.length, ' item => ', first);
+                    console.log(' => number of npm install lines remaining *after* de-duping => ', uniqueList.length,
+                        '\n',' first item => ', first);
 
 
                     fs.writeFile(queue, uniqueList, {}, function (err) {
