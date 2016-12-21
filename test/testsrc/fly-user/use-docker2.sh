@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+############################################################
 
 echo "NODE_PATH => $NODE_PATH"
 cd # cd to home dir
@@ -10,9 +11,9 @@ rm -rf suman-test-projects &&
 git clone https://github.com/sumanjs/suman-test-projects.git &&
 cd suman-test-projects &&
 git checkout -b test_branch &&
-suman --groups parallel-installs-of-suman &&
-# npm test > output.log 2>&1 &&
+suman --groups "$1"
 
+##############################################################
 EXIT=$?
 echo "bash exit code => $EXIT" &&
 exit ${EXIT}

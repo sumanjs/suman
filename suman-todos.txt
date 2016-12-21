@@ -99,6 +99,7 @@ http://kubernetes.io/docs/getting-started-guides/minikube/
 
 /////////
 
+TODO: incorporate nyc also as example, make sure it works
 todo: make coverage take one argument --coverage istanbul --coverage nyc
 
 /////////

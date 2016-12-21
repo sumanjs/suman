@@ -11,11 +11,11 @@ RESULT=$(find "$DIR" -maxdepth 1 -name package.json);
 if [ ! -z "$RESULT" ]; then break; fi;
  done
 
-echo "DIR WITH package.json is => $DIR"
-FILES=$(find $(dirname "$DIR")/**/**/*.js -maxdepth 8 -type f -not -path "*/babel/*" -not -path "*/examples/*");
-#echo "FILES => "; echo "$FILES"
 
-find $(dirname "$DIR")/**/**/*.js -maxdepth 8 -type f  -not -path "*/node_modules/*" \
+IFS=$'\n' # set this so that find command works for files with spaces in the path
+echo "DIR WITH package.json is => $DIR"
+
+find $(dirname "$DIR") -maxdepth 8 -type f  -path "*.js" -not -path "*/node_modules/*" \
 -not -path "*/node_modules/*" -not -path "*/babel/*" -not -path "*/examples/*" | while read line; do
 # try to compile all .js files
 (node -c ${line} && echo " processed file $line") || ( echo "file could not be compiled => $line")
