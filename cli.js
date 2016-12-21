@@ -333,6 +333,7 @@ catch (err) {
 
         global.usingDefaultConfig = true;
         console.log(' => Suman warning => Using default configuration file, please create your suman.conf.js file using suman --init.');
+
         sumanConfig = global.sumanConfig = require('./lib/default-conf-files/suman.default.conf');
 
         // }
@@ -354,6 +355,7 @@ if (init) {
     sumanConfig = global.sumanConfig = global.sumanConfig || {};
 }
 else {
+
     const installObj = require('./lib/helpers/determine-if-suman-is-installed')(sumanConfig, opts);
     sumanInstalledAtAll = installObj.sumanInstalledAtAll;
     sumanServerInstalled = installObj.sumanServerInstalled;

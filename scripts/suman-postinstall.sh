@@ -7,12 +7,14 @@ if [ ! -z ${SUMAN_DEBUG} ]; then
 echo " => SUMAN_DEBUG => '$SUMAN_DEBUG'"
 fi
 
+
 IN_CONTAINER=false;
 
 if [[ "lxc" = "${container}" ]]; then
 IN_CONTAINER=true;
 echo " => Suman says => We are in a (Docker) container! "
 fi
+
 
 ./scripts/create-suman-dir.js &&
 
