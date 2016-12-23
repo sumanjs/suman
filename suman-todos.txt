@@ -1,6 +1,19 @@
 
 ////
 
+need to accumulate errors and show them at the end, whether it's the runner or with suman
+
+////
+
+if you point the suman runner to directories, and the directory has suman_test.sh, suman will run that?
+no, just point suman to suman_test.sh, yourself!
+
+////
+
+incorporate suman.order.js with suman.groups.js
+
+////
+
 use suman-server for suman optional dependencies install mutex, in place of lockfile
 
 ////
@@ -13,6 +26,8 @@ add do's and do not's to readme
 // list of checks
 
 1. testSrcDir and testTargetDir need to be same level
+
+2. if suman or suman/logs does not exist, need to tell user to install suman (or suman should create if they don't exist)
 
 /////
 
@@ -151,7 +166,7 @@ even though master and staging should never be different
 
 /////
 
-suman-to-tap => just like suman-troubleshoot, will distill output to only the tap output
+suman-to-tap => just like suman-troubleshoot, will distill/translate output to only the tap output (?)
 
 ////
 
@@ -162,20 +177,11 @@ if it is present, only install deps declared as foreground process
 
 ////
 
-https://travis-ci.org/ORESoftware/suman/jobs/181600112
-
-/////
-
 test-errors should be created whenever suman is run
 
 /////
 
 top level dependencies in package.json could be auto sourced in callback function
-
-////
-
-allow arrow functions for describe blocks
-allowArrowFunctionsForTestSuites:false
 
 ////
 
@@ -208,11 +214,6 @@ http://stackoverflow.com/questions/1951742/how-to-symlink-a-file-in-linux
 
 ///////
 
-in case suman gets installed more than once in someone's project, need to make sure the postinstall script
-doesn't run twice?
-
-///////
-
 ~/suman/test_results are still being written out
 
 ///////
@@ -224,6 +225,8 @@ doesn't run twice?
 we can use npm link to link ~/.suman/node_modules
 this *may* install the binaries from ~/.suman/node_modules to the local project (?)
 only need those if the user wants to run them
+
+not a good idea beacuse if user deletes node_modules dir, then we will have to call npm link again
 
 /////
 
@@ -239,10 +242,6 @@ pnpm, ied => https://github.com/tapjs/node-tap/issues/333#issuecomment-264680790
 
 ///////
 
-https://github.com/tunnckoCore/charlike
-
-////////
-
 TODO: when running require('suman'), it will try to load suman.conf.js, which is bad when trying to run init!
 it will throw an error if suman.conf.js does not exist
 
@@ -252,6 +251,10 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-o
 
 ////////
 
+https://semver.npmjs.com/
+
+///////////
+
 https://medium.com/@mbostock/prereleases-and-npm-e778fc5e2420#.v7sfbacbc
 
 /////////
@@ -259,11 +262,6 @@ https://medium.com/@mbostock/prereleases-and-npm-e778fc5e2420#.v7sfbacbc
 http://stackoverflow.com/questions/40902445/using-variable-interpolation-in-string-in-docker/40903689#40903689
 
 /////////
-
-http://stackoverflow.com/questions/9268259/how-do-you-prevent-install-of-devdependencies-npm-modules-for-node-js-package
-
-////////
-
 
 => suman should write out .suman-babelrc always ?
 we need babel to support different paths to .babelrc files
@@ -277,11 +275,11 @@ http://www.thegeekstuff.com/2009/09/multitail-to-view-tail-f-output-of-multiple-
 
 => load suman-inquirer and suman-inquirer-directory from NPM instead of installing first
 
-/////////
-
-http://stackoverflow.com/questions/40906381/use-only-one-write-stream-in-parent-process-for-multiple-child-processes/40908503#40908503
-
 ///////
+
+=> Cache dependencies => https://docs.npmjs.com/cli/cache, instead of writing them to .suman/node_modules
+
+/////////
 
 creating documentation site:
 https://code.google.com/p/gitiles/
@@ -899,34 +897,27 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 
 //https://github.com/maxogden/hexbin/tree/gh-pages/hexagons
 // t.plan/t.confirm for hooks?
+
 //--concurrency option should just be "--processes"
-//TODO: need exit code in overall stats table
-//TODO: user could say $ suman -w [dirs] --then "suman " or --on-change ""
-//TODO: Suman server needs to handle multiple projects, or one server per project? Lame
+
+
+
 //TODO: rename test-stderr.log to test-debug.log and runner-debug.log, along with server.log
 //TODO: suman test results table for individual file should have date started as metric
 //TODO: for chokidar watcher, need to worry about nested directories using **/* etc, see build-tests
 //TODO: when running the runner against the entire test-target dir, the runner hangs, so we need a list of cps that have not exited yet after 30 seconds or whatever
 //...special keystrokes should kill all currently running cps and then just collect the best results possible
 //TODO: allow suman.once.js and suman.ioc.js to handle generator fns
-//TODO: turn grep into match
-//TODO: make skip.cb and cb.skip interchangeable
-//TODO: as opposed to arrow fns, generator fns and async fns, is there an accepted term for "traditional" JS functions?
 //TODO: could try "brew install sqlite3" if it's not already installed and running
 //TODO: warn if test or hook does not return anything if there is no callback
 //TODO: make sure that generator functions get recognized when transpiling isGenerator() check needs to work correctly
 //TODO: hook into stdout with node to write to test-stdout.log - https://gist.github.com/pguillory/729616
 //TODO: http://krasimirtsonev.com/blog/article/debugging-with-node
-//TODO: http://justjs.com/posts/npm-link-developing-your-own-npm-modules-without-tears
-//Todo: https://nodejs.org/en/blog/npm/npm-1-0-link/
-//TODO: https://github.com/paulmillr/chokidar
-//TODO: init should install istanbul globally? should install suman globally?
 //TODO: https://babeljs.io/docs/usage/options/
 //TODO: https://www.sitepoint.com/solve-global-npm-module-dependency-problem/
 //TODO: CLI-TABLE https://www.npmjs.com/package/cli-table
 //TODO: check to verify that transpilation with babel works
 //TODO: general rules - if test suite < 10 files, speed up your slowest test, if not, speed up all tests
-//TODO: suman does not come with babel out of the box, to use babel, run suman --use-babel and suman will install babel for you the correct way
 //TODO: babel-core register - http://stackoverflow.com/questions/35040978/babel-unexpected-token-import-when-running-mocha-tests
 //TODO: suman::test gets logged twice when running test-dest/integration/hook.err.js
 //TODO: before/after/beforeEach/afterEach need to be this.x even when the second match is not made
@@ -934,22 +925,16 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: t.state = 'passed'/'failed' etc.
 //TODO: in a hook "this" should be converted to 't'
 //TODO: this.suite from Mocha should be defined
-//TODO: babel should be optional to install, takes too long otherwise
 //TODO: change Test to _Test in conversion proc
 //TODO: this.timeout() needs to be t.timeout();
 //eg: this.describe('port', function (done) {
 //TODO: this.timeout in rootsuite and child suites etc.
 //TODO: check to see if first arg to done can be any non-null value
 //TODO: convert + --debug = put var _d = process.domain() in each hook / test case
-//TODO: don't always want to put suman at the top of every .js file, some .js files are not tests
 //TODO: https://www.npmjs.com/browse/star
-//TODO: stdout should not be inherited by runner?
 //TODO: bash completion with dashdash
 //TODO: store "former mocha project" in suman dir, and then run runner from root directory instead of test file dir
 //TODO: need to put should at top of test file as mocha uses --require in opts to load should, we could do that too
-//TODO: sudo chmod -R 777 suman in a project
-//TODO: if suman or suman/logs does not exist, need to tell user to install suman (or suman should create if they don't exist)
-//TODO: assert title/desc.lenght of root test suite is > 0
 //TODO: fatal error in hook should have hook name if it exists
 //TODO: outputDir: path.resolve(process.env[(process.platform === 'win32' ? 'USERPROFILE' : 'HOME')] + '/suman/suman_results')
 //TODO: need to add chmod to suman_results and/or suman dirs
@@ -967,9 +952,7 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: if a promise or non-undefined value is returned, but cb mode is on, add warning
 //TODO: using t.assert etc can help prevent errors not being assigned to tests
 //TODO: add support for observables
-//TODO: node -c flag to check file for syntax errors
 //TODO: tap: https://github.com/TestAnything/testanything.github.io/pull/36
-//TODO: implement t.plan/t.timeout
 //TODO: mocha and ava are concentric circles inside Suman
 //TODO: run tests from current directory when using runner
 //TODO: add exit code for hook timeout besides 1
@@ -982,7 +965,6 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: if using local server and SQLite, then each cp should save data directly to db. however, if remote server, then
 // should only the parent process (runner) make the network connection? Possibly remove network code from suman file
 //TODO: running with bare node executable should make no network connections and only save to local db if it exists
-//TODO: fork() is just a wrapper around spawn(). You can open the file with fs.open(), then pass the file descriptor in the options as { stdio: ['inherit', fd, fd] }
 //TODO: https://hellocoding.wordpress.com/2015/01/19/delete-all-commit-history-github/
 //TODO: did you forget to call done? should become "did you forget to call fail/pass?" etc under right conditions
 //TODO: implement Test.on('end') or Test.on('completed');
@@ -999,8 +981,6 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: http://stackoverflow.com/questions/10753288/how-to-specify-test-directory-for-mocha
 //TODO: need to test skip and only thoroughly
 //TODO: hooks after suman runs (opposite of suman.once.js) could be for collecting code/test coverage
-//TODO: whatever is returned in a beforeEach hook should be assigned to each test (?) NO, multiple hooks would overwrite ret
-//TODO: suman postinstall script
 //TODO: add hyperlinks to terminal window for table output
 //TODO: give ability to users to provide shell scripts to launch individual mocha tests, that way they can provide environment
 // settings for child_process, shell scripts should be in a directory called sh in the same directory as the test
@@ -1014,14 +994,11 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: https://github.com/mochajs/mocha/issues/492
 //TODO: https://www.npmjs.com/package/tap-mocha-reporter
 //TODO: need to make sure to make suman_results readable/writable (move to sqlite3)
-//TODO: need to figure out way to grep suite name without having to run the test
 //TODO: readme needs to have examples by ES5, ES6, ES7
 //TODO: default configuration should provide default values using lodash defaults / underscore defaults
 //TODO: switch from underscore to lodash
 //TODO: special key combo (ctrl+save+r) will run tests after a change, using gulp file watchers?
 //TODO: https://nodejs.org/en/blog/uncategorized/profiling-node-js/
-//TODO: npm i babel -g, then babel-node --stage 0 myapp.js
-//TODO: https://github.com/nodejs/node/issues/5252
 //TODO: need a suman server stop command at the command line
 //TODO, along with options {plan:3}, {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an (async) error...
 //TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
@@ -1066,7 +1043,7 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 
 //TODO: note: https://www.npmjs.com/package/gulp-mocha
 //TODO: use Object.defineProperties for read-only
-//TODO:  Future development - suman.groups.js / observable support
+//TODO: observable support
 
 
 //TODO: https://sumanjs.slack.com/services/109528432339?updated=1

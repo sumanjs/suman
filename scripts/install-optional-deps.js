@@ -252,11 +252,11 @@ async.map(installs, function (item, cb) {
                 return;
             case 'install':
                 console.log(' => Installing => ', item, ' at path => ', sumanHome);
-                args = ['npm', 'install', item + '@latest', '--force', '--loglevel=error', '--silent', '--progress=false'];
+                args = ['npm', 'install', item + '@latest', '--only=production', '--force', '--loglevel=error', '--silent', '--progress=false'];
                 break;
             case 'update':
                 console.log(' => Updating => ', item, ' at path => ', sumanHome);
-                args = ['npm', 'update', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
+                args = ['npm', 'update', item + '@latest', '--only=production', '--loglevel=error', '--silent', '--progress=false'];
                 break;
             default:
                 throw new Error(' => Switch statement fallthrough.');
