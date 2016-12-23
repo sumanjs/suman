@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Higher Level Overview</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Higher Level Overview</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Higher Level Overview</h2>
+</header>
+
+<article>
+    <p>Suman was designed to greatly improve Mocha. It uses the same pattern of nested describe blocks (&quot;suite-blocks&quot; in Suman parlance), as this is a good pattern
+allowing for fine-grain control of different sections of the same test suite - something which Tape and AVA probably will always lack.
+Nested describes/suites allow us to organize our tests, create separate scopes as well as having different options/settings for each scope, and running different hooks in each block. 
+Having these nested blocks is something that Tape and AVA will surely and sorely miss.</p>
+<p>For those who are familiar with Mocha and Jasmine, the most apparent difference between Suman and the former are the fact that there are no 
+globally defined functions and that 'this' is used to access the Suman API once you are within the root suite of a Suman test.
+Using 'this' for the API makes sense, for a few reasons.</p>
+<ol>
+<li>'this' cannot be reassigned</li>
+<li>'this' appears 'for free' and stays out of sight if you don't need it.</li>
+<li>We already need some context for the callbacks, so we might as well use that same context to access the API, and with that, simplify the entire API</li>
+</ol>
+<p>Suman simplifies the way contexts are bound; in Mocha, contexts were genuinely confusing, even to those who used Mocha for a long time. 
+The number of &quot;hidden&quot; contexts in a Suman test suite is exactly equal to the number of describe statements. By hidden contexts,
+we mean the context binding that takes place behind the scenes in the internal Suman API. 
+Note that Suman does face the same problem with Mocha with regard to binding new contexts to describe blocks: 
+You cannot use arrow functions, generators and async functions with describe callbacks. You can use these anywhere you want using Suman,
+<em>except</em> you must use traditional functions for describe hooks. The reason, as you probably already know, is that Suman binds a new context to the describe hooks,
+and as aforementioned, this is the only instance where a new context is created using Suman, that the user must interact with.</p>
+<p><br>
+<br></p>
+<h2>Suman uses a simple pattern to determine if a test or hook needs a callback function to fire in order to continue</h2><h4>Suman borrows this pattern from AVA, and we belive it's a better pattern than the one that Mocha uses.</h4><h5>The question - is .cb() called?</h5><p><b> Yes? </b> Then the return value is ignored and we wait for a callback to fire (done,fail,pass,ctn,fatal) are the five available callbacks functions
+in Suman and each has a purpose. {done, fail, pass} are availble in tests hooks. {done, ctn, fatal} are available in
+before/after/beforeEach/afterEach hooks. If you are really smart you may have a guess as to what they do.*</p>
+<p><b>No?  </b> If no callback function is named, Promise.resolve() is called on the return value for every hook in Suman, including tests.
+This goes for generator functions, async/await and functions that of course just return a Promise, without using generators or async/await.</p>
+<p>That's pretty much it! What it means actually, is that all tests in Suman are effectively async. Even if you were to do this:</p>
+<pre class="prettyprint source lang-js"><code>this.it.cb('callback immediately', t => {
+
+       t.done();
+
+});</code></pre><p>internally, process.nextTick() is called after done is fired, so that things end up remainging async. This keeps the internals of the library
+running smoothly and predictably.</p>
+<p>likewise if you do this:</p>
+<pre class="prettyprint source lang-js"><code>this.it.cb('callback immediately', t => {
+
+       return 'bunnies';
+
+});</code></pre><p><code>Promise.resolve('bunnies').then()</code> is what is going to end up happening, so this is async also.</p>
+<p>With Mocha and Jasmine if your callback function had done as a parameter, these test frameworks would know to wait 
+for that callback for fire before a test case or hook was finished. With Suman, you tell the library that you want to wait for a callback to fire by registering the 
+.cb() function. The AVA/Suman pattern allows us to simplify the API by always having a singular param (t) for all hooks and test cases. </p>
+<p>First we will talk about how basic callback arguments, like done, allow us to run test cases and hooks asynchronously. Along with standard callbacks,
+Suman handles returned Promises, generators.</p>
+<p><u><b>Mocha</b></u></p>
+<pre class="prettyprint source lang-js"><code>before(function(done){
+
+// no matter what happens, until done is called, we cannot continue
+
+});</code></pre><p><u><b>Suman</b></u><br>
+We use the same pattern, and now have additional callback options, for use with Promises, event emitters</p>
+<pre class="prettyprint source lang-js"><code>this.before.cb(t => {
+
+// if we call t.done(), it's the exact same as Mocha's done()
+// the t.ctn function, short for &quot;continue&quot;, is exactly like done, except it's not an error-first callback, which is useful 
+// for fulfilled/resolved promises, event emitters, and other non-error first callbacks 
+// calling t.fatal() will bail on the overall test suite, no matter what arguments are passed to it, so this is a programmatic way to bail
+// if any of t.done, t.ctn, or t.fatal or called, the hook is exited
+
+});</code></pre><h3>example</h3><pre class="prettyprint source lang-js"><code>this.beforeEach.cb(t => {
+
+ fs.createReadStream('/dev/null').pipe(fs.createWriteStream('/dev/null'))
+                                                .on('finish',t.ctn).on('error', t.fatal);
+
+});</code></pre><p>This keeps our code flat, and for anyone coding Node long enough, knows that these extra functions
+along with done will be convenient.</p>
+<p>However, we don't need to use callbacks exclusively anymore for asynchronous code.
+Promises, generators, streams/event emitters, and ES7 async functions allow us alternatives.
+Observables will supported in a coming version of Suman.</p>
+<p>In Suman, just like Mocha, all test cases and hooks are actually operated on asynchronously, and this is because
+<code>Promise.resolve()</code> is called on the return value of every callback.</p>
+<p><code>Promise.resolve()</code> is used to resolve hooks that return Promises, or hooks that are generators or async functions.</p>
+<p>Hooks that utilize streams and event emitters will probably need to use traditional callbacks. It is best to keep code
+explicit in some cases. See the fs.createReadStream/fs.createWriteStream example above to see how callbacks can be used
+with streams (all streams are event emitters). If you use Gulp, you can return streams from tasks, and Gulp knows how to handle that,
+so that you don't need callbacks. One improvement Suman might make later on is to handle streams more automatically (without callbacks), at least 
+if they are fs-style streams. But for now, you don't have to return the stream, and you will need to use callbacks so that the hook
+will wait for it to complete.</p>
+<h3>What about test cases?</h3><p>Mocha</p>
+<pre class="prettyprint source lang-js"><code>
+it('test case', function(done){  
+
+
+
+});</code></pre><p><u><b>Suman</b></u><br>
+Just like with hooks, test cases have some more callbacks available to them; you don't have to use them all,
+but they are available to be injected in the callback if you name them.</p>
+<pre class="prettyprint source lang-js"><code>
+this.it.cb('test case', t => {  
+
+ // t.done is exact same as Mocha's done
+ // t.pass is analogous with the t.ctn function in hooks, it is a non-error-first callback
+ // t.fail is a function that will fail your test no matter what the t.fail function is passed
+ // only one function needs to be called to exit the test case, as would be expected
+
+});</code></pre><h3>example with Promises</h3><pre class="prettyprint source lang-js"><code>
+this.it('test case', t => {    // we don't need any callbacks, and Suman handles thrown errors inside Promises properly
+
+ return doSomethingAysnc().then(function(val){
+      assert(typeof val === 'object');
+ });
+
+});</code></pre><h3>examples with Streams/EventEmitters</h3><pre class="prettyprint source lang-js"><code>
+this.it.cb('test case', t => {    
+
+  new MyEventEmitter(t.data).startDoingBusiness().on('error',t.fail).on('success',t.pass);
+
+});</code></pre>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-00-about.html">About Suman</a></li><li><a href="tutorial-01-getting-started.html">Getting Started with Suman</a></li><li><a href="tutorial-02-simple-examples.html">Simple Examples</a></li><li><a href="tutorial-03-high-level-overview.html">Higher Level Overview</a></li><li><a href="tutorial-04-command-line-options.html">Command line options</a></li><li><a href="tutorial-05-advanced-use.html">Advanced Use</a></li><li><a href="tutorial-07-suman-patterns-and-recipes.html">Suman Patterns and Recipes</a></li><li><a href="tutorial-08-suman-anti-patterns.html">Suman Anti-Patterns</a></li><li><a href="tutorial-09-suman-reporters.html">Suman reporters and creating custom reporters</a></li><li><a href="tutorial-11-advanced-installation.html">Advanced installation of Suman</a></li><li><a href="tutorial-12-using-suman-with-babel.html">Using Suman with Babel</a></li><li><a href="tutorial-13-test-dir-organization.html">How to organize your test directory</a></li><li><a href="tutorial-14-debugging-suman.html">How to debug Suman tests</a></li><li><a href="tutorial-15-testing-child-processes-with-suman.html">Testing and debugging processes that spawn child processes</a></li><li><a href="tutorial-16-using-spies-with-suman.html">Using test spies with Suman</a></li><li><a href="tutorial-17-suman-server-and-web-reporter.html">About Suman server and built-in web reporter</a></li><li><a href="tutorial-18-tips-and-tricks.html">Tips and tricks</a></li><li><a href="tutorial-19-converting-from-mocha.html">Converting from Mocha to Suman</a></li><li><a href="tutorial-27-suman-best-practices.html">Best practices with Suman</a></li><li><a href="tutorial-30-anatomy-of-suman-suite.html">Anatomy of Suman Test Suites</a></li><li><a href="tutorial-31-workflows-with-suman.html">Workflows with Suman => Watchers and transpilation</a></li><li><a href="tutorial-40-integrating-with-ci-cd.html">Integrating with CI/CD</a></li><li><a href="tutorial-41-suman-exit-codes.html">List of Suman exit codes</a></li><li><a href="tutorial-42-hidden-secret-features.html">Some secret / hidden features of Suman</a></li><li><a href="tutorial-50-suman-parallelism.html">Complete explanation of Suman parallelism</a></li><li><a href="tutorial-60-usage-with-gulp.html">Usage with Gulp.js</a></li><li><a href="tutorial-70-usage-with-code-coverage-tools.html">Usage with code coverage tools (namely Istanbul)</a></li><li><a href="tutorial-90-roadmap.html">Suman roadmap and upcoming efforts</a></li><li><a href="tutorial-99-faq.html">FAQ</a></li><li><a href="tutorial-advanced-parallelization-2.html">advanced-parallelization-2</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Thu Oct 20 2016 13:34:20 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

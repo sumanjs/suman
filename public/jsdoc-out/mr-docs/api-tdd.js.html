@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>TDD interface</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>TDD interface</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li class="active"><a href="api-tdd.js.html">api-tdd.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#suman"><i class="alert alert-success"></i><span>suman</span></a>
+              </li>
+              <li><a href="#init"><i class="alert alert-info"></i><span>init</span></a>
+              </li>
+              <li><a href="#suite"><i class="alert alert-info"></i><span>suite</span></a>
+              </li>
+              <li><a href="#TestSuite"><i class="alert alert-success"></i><span>TestSuite</span></a>
+              </li>
+              <li><a href="#suite"><i class="alert alert-info"></i><span>suite</span></a>
+              </li>
+              <li><a href="#setup"><i class="alert alert-info"></i><span>setup</span></a>
+              </li>
+              <li><a href="#teardown"><i class="alert alert-info"></i><span>teardown</span></a>
+              </li>
+              <li><a href="#setupTest"><i class="alert alert-info"></i><span>setupTest</span></a>
+              </li>
+              <li><a href="#teardownTest"><i class="alert alert-info"></i><span>teardownTest</span></a>
+              </li>
+              <li><a href="#test"><i class="alert alert-info"></i><span>test</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="suman">
+            <h1>suman</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>suman</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>CommonJS require syntax</p></div>
+          <pre><code class="language-javascript">const suman = require('suman');</code></pre>
+          <div class="description"><p>equivalent ES6 module syntax</p></div>
+          <pre><code class="language-javascript">import * as suman from 'suman';</code></pre>
+          <section id="init">
+            <h1>init</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>suman.init()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>module</td>
+                <td>Object</td>
+                <td><p>local CommonJS module</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td><p>Available options are [integrants {Array}, interface {String}, export {Boolean}]</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td><p>Test singleton containing suite factory fn</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Create an array of all the right files in the source dir</p></div>
+          <pre><code class="language-javascript">suman.init = function init(module, options) {
+
+    return {
+        suite: function(description, options, callback){
+            // this is the skeleton of the way suman is structured, this suite function is technically different
+            // than the suite function on the TestSuiteBase prototype. Both suite functions
+            // have the same signature and return type (undefined). The primary difference is that this
+            // suite is the top-level suite and defines the entire Suite and
+            // the available injected values in the callback differ.
+        }
+    }
+};
+
+
+// Usage Example
+
+
+const Test = suman.init(module, {}); // We initialize suman in a test suite file
+// (Test is a singleton on which suite is a factory function, as you can see above)</code></pre>
+          <section id="suite">
+            <h1>suite</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>Test.suite()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Description of Suite</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates our test suite, should be called once per file</p></div>
+          <pre><code class="language-javascript">Test.suite = function suite(description, options, callback){
+
+    //Test.suite fits the factory pattern and creates test suites
+    //bound context of callback is a new TestSuite instance
+    //whichever params are included in callback signature will be injected via your suman.ioc.js file
+    //additionally, all core modules are available as well as Suman internal values &quot;delay&quot; and &quot;suite&quot;
+    //context of callback is a new TestSuite instance
+    //one important thing to note is that the callback must be a traditional JavaScript function,
+    //it cannot be an arrow function, generator function, async function etc.
+
+};
+
+
+// Usage example:
+
+//we initialize Test
+const Test = suman.init(module, {});
+
+//now we call suite, which is our top level suite, which represents entire Suite
+//the timeout option let's us fail the suite if all test cases and hooks have not completed before timeout
+Test.suite('Our Suite', {parallel:true, timeout:25000}, function(assert, fs, http){
+
+    //unlike the suite function on the TestSuite prototype,
+    //this callback can request core modules as well as any value listed in your suman.ioc.js file
+
+});</code></pre>
+          <section id="TestSuite">
+            <h1>TestSuite</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">constructor</div><span>&nbsp;</span><span>TestSuite()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>opts</td>
+                <td>Object</td>
+                <td><p>Options.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an instance of TestSuite. Constructor not exposed to user.</p></div>
+          <pre><code class="language-javascript">function TestSuite(options) {
+    // this constructor is internal to Suman and you don't need to call it, but it's here for context
+}</code></pre>
+          <section id="suite">
+            <h1>suite</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.suite()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>The desired diameter of the circle.</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td><p>The desired diameter of the circle.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The desired diameter of the circle.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a new instance of TestSuite as a child and binds new TestSuite to callback.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.suite = function suite(description, options, callback) {
+
+    //context of callback is a new TestSuite instance
+    //one important thing to note is that the callback must be a traditional JavaScript function,
+    //it cannot be an arrow function, generator function, async function etc.
+
+};
+
+
+// Usage example
+
+// 'this' context is the TestSuite in scope
+this.suite('test all network calls to smartconnect', {parallel:false}, function(){
+
+
+});</code></pre>
+          <section id="setup">
+            <h1>setup</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.setup()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a setup hook which runs once before any test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.setup = function setup(description, callback) {
+
+// This is a description of the setup function inside
+
+
+};</code></pre>
+          <section id="teardown">
+            <h1>teardown</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.teardown()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an after hook which runs once after all test cases beneath it are run.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.teardown = function teardown(description, callback) {
+
+
+};</code></pre>
+          <section id="setupTest">
+            <h1>setupTest</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.setupTest()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a setupTest hook which runs immediately before each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.setupTest = function setupTest(description, callback) {
+
+
+};</code></pre>
+          <section id="teardownTest">
+            <h1>teardownTest</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.teardownTest()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Optional description of hook (for debugging).</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates an teardownTest hook which runs immediately after each test case that exists beneath the call.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.teardownTest = function teardownTest(description, callback) {
+
+
+};</code></pre>
+          <section id="test">
+            <h1>test</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>TestSuite.prototype.test()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>description</td>
+                <td>String</td>
+                <td><p>Required description of test case</p></td>
+              </tr>
+              <tr>
+                <td>opts</td>
+                <td>Object</td>
+                <td><p>Optional options object.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>The function which acts as the hook.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a test case.</p></div>
+          <pre><code class="language-javascript">TestSuite.prototype.test = function test(description, options, callback) {
+
+
+};</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>

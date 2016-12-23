@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Using Suman with Babel</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Using Suman with Babel</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Using Suman with Babel</h2>
+</header>
+
+<article>
+    <h1>Using Suman with Babel</h1><p>Using Babel may be very cool, but first I want to temper/curb your enthusiam for using Babel
+in any serious/mission critical development environment. </p>
+<p>In effect, we wish to dissuade you from transpiling tests before you run them,
+because this adds a big layer of complexity, which makes debugging even harder and sets yourself up 
+for some weird transpilation related problems, no doubt.</p>
+<p>Let's say that again - it's probably a bad idea to use Babel to transpile tests. Here are our reasons:</p>
+<ol>
+<li>Babel slows down development of tests, because running an individual test through Babel takes a lot more time. </li>
+<li>If you need to transpile a Suman test file, you obviously can't just run it with the node executable,
+which is inconvenient at best. You will have to transpile it first, then run it with node, (again, if you wish to use plain node to execute a test, which makes debugging super easy).</li>
+<li>Intriguingly, the ES7 async/await construct can be achieved directly via ES6 generators + Promises, so we recommend just using &quot;plain-old&quot; generator functions until ES7 is finalized and part of Node itself.*</li>
+<li>Not all Babel features will make it into official ECMAScript versions, so there is some risk there.</li>
+<li>As library authors, maintaining Suman to be compatible with future versions of node (aka, Babel features), 
+is difficult and we simply cannot guarantee smooth sailing, in the same way we can with current versions of Node.</li>
+<li>Let's face it, how many times have you accidentally edited the transpiled file instead of the src file, 
+or tried to run the src file instead of the transpiled file? Yeah, me too.
+(Webstorm does have a nice feature to help prevent this, see &quot;Webstorm: mark as excluded&quot;)</li>
+</ol>
+<p>*Here is a description of how async/await can be achieved via generators:
+<a href="https://www.promisejs.org/generators/"> (Promises + Generators) = async/await </a></p>
+<h2>Now, if you really want to run your Suman tests through Babel, even if it's just for experimentation, Suman supports this as a primary feature:</h2><h3>The simpler and recommended way:</h3><p>   Use this methodology if you want to:</p>
+<pre class="prettyprint source"><code>* transpile any or every .js file in your test directory
+* run tests upon a change to a test fixture</code></pre><ol>
+<li>run <code>$ suman --use-babel</code> in your project root, this will install the correct Babel dependencies, as they are not included with the basic Suman installation, to save disk space.</li>
+<li>either set <code>transpile:true</code> in your suman.conf.js file, or use the <code>--transpile</code> option at the command line, we will assume latter for now</li>
+<li>ensure that the value for testDir in your suman.conf.js file, matches the top level directory that contains all of your test data, fixtures and test.js files.</li>
+<li>run <code>$ suman --transpile --all</code> or <code>suman -t -a</code> </li>
+</ol>
+<p>This will transpile/copy all the files in your test directory (specified by the testDir property in your suman.conf.js file, the default is &quot;test&quot;) and move them to the testDirCopyDir value, by default this is &quot;test-target&quot;, a top-level directory
+in your project. After transpiling, it will execute all the test files in the test-target dir! 
+In order to transpile only, and not execute the tests, you would use the --no-run flag, like so:</p>
+<p><code>suman -t -a --no-run</code> </p>
+<p>Now you may be asking, ok, so that allows me to transpile once, but what if I want to transpile everytime I change a test file, or any file for that matter,
+in the test directory?</p>
+<p>You would issue this command:</p>
+<p><code>suman -t -a --watch --no-run</code> or <code>suman -t -a -w --no-run</code> </p>
+<p>The --watch option incorporates the Suman server which will watch for changes to your files and transpile them on demand.
+Transpilation of one file is quick, so if you manually run the test file after using the -w and --no-run option, it should be transpiled,
+however this does represent a race condition between human and computer; not sure how to mitigate this, but something to be aware of.</p>
+<p>If you wish to run a test each time you save a change, then forgo the --no-run option, and use Suman like so:</p>
+<p><code>suman -t -a -w</code> </p>
+<h3>The more complicated, but possibly cleaner way (not recommended):</h3><p>Use this method if you</p>
+<pre class="prettyprint source"><code>* have a lot of files in your test directory
+* don't want yet another directory in the root of your project (this methodology allows us to move test-target out of the root of
+the project)</code></pre><ol>
+<li>run <code>$ suman --use-babel</code> in your project root, this will install the correct Babel dependencies, as they are not included with the basic Suman installation.</li>
+<li>either set transpile:true in your suman.conf.js file, or use the --transpile option at the command line, we will assume latter for now</li>
+<li>ensure that the value for testDir in your suman.conf.js file, matches the top level directory that contains all of your test data, fixtures and test.js files.</li>
+<li>Structure your test directory like so:</li>
+</ol>
+<p>--test
+  --/fixtures
+  --/helpers
+  --/src</p>
+<p> =&gt; fixtures contains all your test data (.json files etc), and static assets for testing.<br> =&gt; helpers contains JS files that are not actually to be run as tests
+ =&gt; src contains all your .js test files, nested directories are allowed; anything that needs to be transpiled should go in here
+ =&gt; as you may have figured out, we are only going to transpile contents from the test/src directory to test/target</p>
+<ol>
+<li>run <code>$ suman --transpile test/src/baz.test.js</code> or <code>$ suman -t test/src/baz.test.js</code></li>
+</ol>
+<p>What this will do is create a new directory at the same level as test/src, called test/target, and put the single transpiled baz.test.js file therein.</p>
+<p>so your directory was like this before:</p>
+<p>--test
+  --/fixtures
+  --/helpers
+  --/src
+    --one.test.js
+    --two.test.js
+    --baz.test.js</p>
+<p>and now it looks like:</p>
+<p>--test
+  --/fixtures
+  --/helpers
+  --/src
+    --one.test.js
+    --two.test.js
+    --baz.test.js
+  --/target          &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; new dir, yay
+    --baz.test.js    &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; we only transpiled one file, saving us some time</p>
+<p> It's imperative that you structure your test directory properly, and the above structure is advised. 
+ Otherwise, use the easier transpilation option when first trying out transpilation with Suman, using the --all option.</p>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-00-about.html">About Suman</a></li><li><a href="tutorial-01-getting-started.html">Getting Started with Suman</a></li><li><a href="tutorial-02-simple-examples.html">Simple Examples</a></li><li><a href="tutorial-03-high-level-overview.html">Higher Level Overview</a></li><li><a href="tutorial-04-command-line-options.html">Command line options</a></li><li><a href="tutorial-05-advanced-use.html">Advanced Use</a></li><li><a href="tutorial-07-suman-patterns-and-recipes.html">Suman Patterns and Recipes</a></li><li><a href="tutorial-08-suman-anti-patterns.html">Suman Anti-Patterns</a></li><li><a href="tutorial-09-suman-reporters.html">Suman reporters and creating custom reporters</a></li><li><a href="tutorial-11-advanced-installation.html">Advanced installation of Suman</a></li><li><a href="tutorial-12-using-suman-with-babel.html">Using Suman with Babel</a></li><li><a href="tutorial-13-test-dir-organization.html">How to organize your test directory</a></li><li><a href="tutorial-14-debugging-suman.html">How to debug Suman tests</a></li><li><a href="tutorial-15-testing-child-processes-with-suman.html">Testing and debugging processes that spawn child processes</a></li><li><a href="tutorial-16-using-spies-with-suman.html">Using test spies with Suman</a></li><li><a href="tutorial-17-suman-server-and-web-reporter.html">About Suman server and built-in web reporter</a></li><li><a href="tutorial-18-tips-and-tricks.html">Tips and tricks</a></li><li><a href="tutorial-19-converting-from-mocha.html">Converting from Mocha to Suman</a></li><li><a href="tutorial-27-suman-best-practices.html">Best practices with Suman</a></li><li><a href="tutorial-30-anatomy-of-suman-suite.html">Anatomy of Suman Test Suites</a></li><li><a href="tutorial-31-workflows-with-suman.html">Workflows with Suman => Watchers and transpilation</a></li><li><a href="tutorial-40-integrating-with-ci-cd.html">Integrating with CI/CD</a></li><li><a href="tutorial-41-suman-exit-codes.html">List of Suman exit codes</a></li><li><a href="tutorial-42-hidden-secret-features.html">Some secret / hidden features of Suman</a></li><li><a href="tutorial-50-suman-parallelism.html">Complete explanation of Suman parallelism</a></li><li><a href="tutorial-60-usage-with-gulp.html">Usage with Gulp.js</a></li><li><a href="tutorial-70-usage-with-code-coverage-tools.html">Usage with code coverage tools (namely Istanbul)</a></li><li><a href="tutorial-90-roadmap.html">Suman roadmap and upcoming efforts</a></li><li><a href="tutorial-99-faq.html">FAQ</a></li><li><a href="tutorial-advanced-parallelization-2.html">advanced-parallelization-2</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Thu Oct 20 2016 13:34:20 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

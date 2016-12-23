@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Getting Started with Suman</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Getting Started with Suman</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Getting Started with Suman</h2>
+</header>
+
+<article>
+    <h3>:: Installation ::</h3><ol>
+<li><p>Run <span style="background-color:#ffdb99">&nbsp;<code>$ npm install -g suman</code></span></p>
+</li>
+<li><p>=&gt; cd into the project where you want to use Suman to power your tests</p>
+</li>
+<li><p>Run <span style="background-color:#ffdb99">&nbsp;<code>$ suman --init</code></span></p>
+</li>
+</ol>
+<p><strong> note: advanced users who wish to avoid global installations, or those who use NVM, please see here.</strong></p>
+<p>You have installed Suman, and now you will see that you have some new files in your project. 
+You have a <span style="background-color:#DCDCDC"><code>suman.conf.js</code></span> file at the root of your project. This file must remain at the root of your project.
+You also have a directory called suman at the root of your project which contains several files and folders, <span style="background-color:#DCDCDC"><code>suman.once.js</code></span>, <span style="background-color:#DCDCDC"><code>suman.order.js</code></span>,
+<span style="background-color:#DCDCDC"><code>suman.ioc.js</code></span>. If you want to find out what these files are for, go to the Advanced Usage section from the home page, 
+but for now, if you are brand new to suman you can ignore those and come back to them later. If you wish to move the suman directory away from the root directory of your project, we recommend putting
+the suman folder in your test directory. Note that once you run <code>$ suman --init</code> for your project and commit the code to source control,
+you won't have to run it again later on in your CI/CD pipeline, so there is no need to install suman globally on any machine but a dev box. In order to use Babel with Suman, please
+see the using Babel section. Babel is not included with the standard install because it is too heavy.</p>
+<h2>Alright, let's run a test</h2><p>Individual test suite files can be run with either <span style="background-color:#9ACD32">&nbsp;<code>$ node path/to/your-test.js</code></span> 
+or <span style="background-color:#9ACD32">&nbsp;<code>$ suman path/to/your-test.js</code></span>,
+the result is the same, if you don't use any other command line options.</p>
+<p>To use the Suman runner with a single test, you use <span style="background-color:#9ACD32">&nbsp;<code>$ suman --rnr path/to/your-test.js</code></span>  If suman is run against a folder with multiple test files, like so: <span style="background-color:#9ACD32">&nbsp;<code>$ suman path/to/tests/folder</code></span>
+suman will use the runner, as Suman always uses the Suman runner with multiple files. As you may have figured out, 
+if you point Suman at an individual test file, you the developer have the choice about whether to use the runner or not, using the <span style="background-color:#9ACD32"><code>--rnr</code></span> flag.
+The Suman runner is designed to manage and orchestrate the execution of all your tests in separate processes, and basically do central control.</p>
+<blockquote>
+<p>   Advantages of using the Suman runner for a single test</p>
+<ul>
+<li><p>The biggest advantage of using the runner with a <em>single test file</em> is that the runner can suppress your
+console.log/debugging output, making it easier to see the actual results of the test.</p>
+<p>Disadvantages of runner for a single test</p>
+</li>
+<li><p>50-300ms slower to finish for a single test</p>
+</li>
+<li>Harder to debug</li>
+</ul>
+</blockquote>
+<p>Suman doesn't make any assumptions about your project structure. Most NPM projects have a test directory, which is very standard practice.
+After installing Suman, you will have a directory called<code>&quot;suman&quot;</code> at the root of your project. We highly recommend you move that directory into your
+test directory (or whatever your have called your test directory), like so: </p>
+<p>In bash that would be:</p>
+<p><code>$ mv suman test/_suman</code> </p>
+<p>After doing that you will have to edit your <code>suman.conf.js</code> file, like so:</p>
+<pre class="prettyprint source"><code>{
+
+ // sumanHelpersDir: 'suman',     change this line to the below line
+ sumanHelpersDir: 'test/_suman'
+
+}</code></pre><p>Here is a simple test file you can use to try Suman out, put the code in any .js file and run it with one of the above commands.</p>
+<p><br>
+Save the file in some directory as simple-test.js and then run, <code>$ node simple-test.js</code>
+So simple, and it should feel great to be able to just run a test with node instead of some funky foreign command line app :)
+<br></p>
+<pre class="prettyprint source lang-js"><code></code></pre><p>here's some gist (add a github gist if necessary)</p>
+<script src="https://gist.github.com/ORESoftware/0c772aedd3630bb54f27.js"></script>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-00-about.html">About Suman</a></li><li><a href="tutorial-01-getting-started.html">Getting Started with Suman</a></li><li><a href="tutorial-02-simple-examples.html">Simple Examples</a></li><li><a href="tutorial-03-high-level-overview.html">Higher Level Overview</a></li><li><a href="tutorial-04-command-line-options.html">Command line options</a></li><li><a href="tutorial-05-advanced-use.html">Advanced Use</a></li><li><a href="tutorial-07-suman-patterns-and-recipes.html">Suman Patterns and Recipes</a></li><li><a href="tutorial-08-suman-anti-patterns.html">Suman Anti-Patterns</a></li><li><a href="tutorial-09-suman-reporters.html">Suman reporters and creating custom reporters</a></li><li><a href="tutorial-11-advanced-installation.html">Advanced installation of Suman</a></li><li><a href="tutorial-12-using-suman-with-babel.html">Using Suman with Babel</a></li><li><a href="tutorial-13-test-dir-organization.html">How to organize your test directory</a></li><li><a href="tutorial-14-debugging-suman.html">How to debug Suman tests</a></li><li><a href="tutorial-15-testing-child-processes-with-suman.html">Testing and debugging processes that spawn child processes</a></li><li><a href="tutorial-16-using-spies-with-suman.html">Using test spies with Suman</a></li><li><a href="tutorial-17-suman-server-and-web-reporter.html">About Suman server and built-in web reporter</a></li><li><a href="tutorial-18-tips-and-tricks.html">Tips and tricks</a></li><li><a href="tutorial-19-converting-from-mocha.html">Converting from Mocha to Suman</a></li><li><a href="tutorial-27-suman-best-practices.html">Best practices with Suman</a></li><li><a href="tutorial-30-anatomy-of-suman-suite.html">Anatomy of Suman Test Suites</a></li><li><a href="tutorial-31-workflows-with-suman.html">Workflows with Suman => Watchers and transpilation</a></li><li><a href="tutorial-40-integrating-with-ci-cd.html">Integrating with CI/CD</a></li><li><a href="tutorial-41-suman-exit-codes.html">List of Suman exit codes</a></li><li><a href="tutorial-42-hidden-secret-features.html">Some secret / hidden features of Suman</a></li><li><a href="tutorial-50-suman-parallelism.html">Complete explanation of Suman parallelism</a></li><li><a href="tutorial-60-usage-with-gulp.html">Usage with Gulp.js</a></li><li><a href="tutorial-70-usage-with-code-coverage-tools.html">Usage with code coverage tools (namely Istanbul)</a></li><li><a href="tutorial-90-roadmap.html">Suman roadmap and upcoming efforts</a></li><li><a href="tutorial-99-faq.html">FAQ</a></li><li><a href="tutorial-advanced-parallelization-2.html">advanced-parallelization-2</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Thu Oct 20 2016 13:34:20 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+
+http://www.fusioncharts.com/blog/2014/06/extend-jsdoc-api-documentation-through-tutorials/
+
+
+////////
+=> Close and reopen your terminal to start using nvm / Suman
+
+> http://stackoverflow.com/questions/36782467/set-subdirectory-as-website-root-on-github-pages
+> https://gist.github.com/cobyism/4730490
+
+instructions on how to generate docs
+
+
+1. jsdoc examples -u examples -d jsdoc-out
+2. mr-doc -s examples/bdd-api -o mr-docs -n "BDD interface"
+3. mr-doc -s examples/tdd-api -o mr-docs -n "TDD interface"
+4. cut/copy mr-doc directory into jsdoc-out dir
+5. add this to jsdoc-out/index.html, under the tutorial block
+
+    <h3>Docs</h3>
+    <ul>
+        <li><a href="jsdoc-out/mr-docs/api-bdd.js.html">BDD interface</a></li>
+        <li><a href="jsdoc-out/mr-docs/api-tdd.js.html">TDD interface</a></li>
+    </ul>
+    <h3>FAQ</h3>
+    <ul>
+        <li><a href="jsdoc-out/tutorial-99-faq.html">FAQ</a></li>
+    </ul>
+
+
+6.
+stick this into jsdoc-out/mr-docs/api-bdd.js.html and jsdoc-out/mr-docs/api-tdd.js.html
+
+         <div class="row">
+              <div class="col-md-2">
+                  <img height="40%" width="40%" src='/suman/images/suman.png'>
+              </div>
+              <div class="col-md-8">
+                  <h1> BDD interface</h1>
+              </div>
+              <p class="lead"></p>
+          </div>
+
+
+7.  in jsdoc-out/mr-docs/api-bdd.js.html and jsdoc-out/mr-docs/api-tdd.js.html
+
+change Main to Home =>
+
+ <li><a href="index.html">Main</a></li>
+
+ becomes
+
+  <li><a href="/suman/index.html">Home</a></li>
+
+
+
+  8. cut/copy jsdoc-out/index.html to root of project
+
+
+
+  9. add this to the main div in the new index.html file
+
+  <div id="main">
+
+
+      <img src="/suman/images/suman.png">
+
+
+      <h1 class="page-title">Suman</h1>
+      <h2 class="page-title"> > Superior test runner for Node.js</h2>
+      <h3> > A successor to Mocha, Tape and Jasmine </h3>
+
+
+  </div>
