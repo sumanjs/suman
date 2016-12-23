@@ -1,3 +1,6 @@
+////
+
+cd suman-test/suman-test-projects && suman $(find subprojects -mindepth 2 -maxdepth 2 -name "test.sh" | xargs ) --concurrency=1
 
 ////
 

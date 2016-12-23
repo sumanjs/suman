@@ -99,6 +99,7 @@ away with (implicit) global variables.
 * Allow for maximum dynamicism so that Suman can match all use cases of users.
 * Allow users to create tests with different frameworks as needed (Mocha or Tape for browser testing), 
 and even in different languages, especially shell scripting, but also Java, Golang, etc.
+* Composiablity - suman tests should be able to run suman tests as child processes, ad inifitem, without hiccups.
 
 ## On lack of browser support
 
