@@ -95,6 +95,8 @@ catch (err) {
 var sumanConf = {};
 var alwaysInstall = false;
 
+var installBabel
+
 try {
     require(path.resolve(projectRoot + '/suman.conf.js'));
 }
@@ -109,7 +111,7 @@ var installs = [];
 
 installs = installs.concat(Object.keys(deps.slack));
 
-if (sumanConf.useBabel || alwaysInstall || alwaysInstallDueToGlobal) {
+if (sumanConf.transpile || alwaysInstall || alwaysInstallDueToGlobal) {
     installs = installs.concat(Object.keys(deps.babel));
 }
 
@@ -141,14 +143,13 @@ const fd = fs.openSync(debugLog, 'a');
 
 const time = Date.now();
 
-const obj = {
+const lockfileOptionsObj = {
     stale: 19000,
     wait: 20000,
     pollPeriod: 110,
     retries: 300,
     retryWait: 150
 };
-
 
 
 async.map(installs, function (item, cb) {
@@ -236,7 +237,8 @@ async.map(installs, function (item, cb) {
 
     var runWorker = false;
 
-    async.eachSeries(results, function (result, cb) {
+    const linesToAdd = [];
+    results.forEach(function (result) {
 
         debug(' result => ', util.inspect(result));
         const item = result.name;
@@ -247,7 +249,7 @@ async.map(installs, function (item, cb) {
         switch (action) {
             case 'do-nothing':
                 // local version is up-to-date with latest in npm registry
-                return process.nextTick(cb);
+                return;
             case 'install':
                 console.log(' => Installing => ', item, ' at path => ', sumanHome);
                 args = ['npm', 'install', item + '@latest', '--force', '--loglevel=error', '--silent', '--progress=false'];
@@ -257,79 +259,79 @@ async.map(installs, function (item, cb) {
                 args = ['npm', 'update', item + '@latest', '--loglevel=error', '--silent', '--progress=false'];
                 break;
             default:
-                return process.nextTick(function () {
-                    cb(new Error(' => Switch statement fallthrough.'));
-                });
+                throw new Error(' => Switch statement fallthrough.');
+
         }
 
         args = args.join(' ').trim();
+        linesToAdd.push(args);
         runWorker = true;
 
-        lockfile.lock(installQueueLock, obj, function (err) {
+    });
 
-            if (err) {
-                return cb(err);
-            }
+    /*
 
-            fs.readFile(queue, 'utf8', function (err, data) {
-                if (err) {
-                    lockfile.unlock(installQueueLock, function () {
-                        cb(err);
-                    });
-                }
-                else {
-                    const lines = String(data).split('\n');
-                    lines.push(args);
-                    fs.writeFile(queue, lines.join('\n'), function ($err) {
-                        lockfile.unlock(installQueueLock, function (err) {
-                            cb($err || err);
-                        });
-                    });
+     opts.wait
+     A number of milliseconds to wait for locks to expire before giving up.
+     Only used by lockFile.lock. Poll for opts.wait ms. If the lock is not cleared by the time the wait expires,
+     then it returns with the original error.
 
-                }
-            });
+     opts.pollPeriod
+     When using opts.wait, this is the period in ms in which it polls to check if the lock has expired.
+     Defaults to 100.
 
-        });
+     opts.stale
+     A number of milliseconds before locks are considered to have expired.
 
+     opts.retries
+     Used by lock and lockSync. Retry n number of times before giving up.
 
-        // const n = cp.spawn('npm', args, {
-        //     cwd: sumanHome,
-        //     stdio: ['ignore', fd, fd]
-        // });
-        //
-        // n.on('close', cb);
+     opts.retryWait
+     Used by lock. Wait n milliseconds before retrying.
 
-    }, function (err) {
+     */
+
+    if (!runWorker) {
+        debug(' => Did not need to run postinsall queue worker because no items matched.');
+        return process.exit(0);
+    }
+
+    lockfile.lock(installQueueLock, lockfileOptionsObj, function (err) {
 
         if (err) {
-            console.error(err.stack || err);
-            return process.exit(1);
+            return run(err);
         }
 
-        /*
+        fs.readFile(queue, 'utf8', function (err, data) {
+            if (err) {
+                lockfile.unlock(installQueueLock, function () {
+                    run(err);
+                });
+            }
+            else {
+                var lines = String(data).split('\n');
+                lines = lines.concat(linesToAdd);
+                lines = lines.filter(function (l) {
+                    // trim removes newline characters from beginning and end of strings
+                    return String(l).trim().length > 0;
+                });
+                fs.writeFile(queue, lines.join('\n'), function ($err) {
+                    lockfile.unlock(installQueueLock, function (err) {
+                        run($err || err);
+                    });
+                });
 
-         opts.wait
-         A number of milliseconds to wait for locks to expire before giving up.
-         Only used by lockFile.lock. Poll for opts.wait ms. If the lock is not cleared by the time the wait expires,
-         then it returns with the original error.
+            }
+        });
 
-         opts.pollPeriod
-         When using opts.wait, this is the period in ms in which it polls to check if the lock has expired.
-         Defaults to 100.
+    });
 
-         opts.stale
-         A number of milliseconds before locks are considered to have expired.
+    function run(err) {
 
-         opts.retries
-         Used by lock and lockSync. Retry n number of times before giving up.
-
-         opts.retryWait
-         Used by lock. Wait n milliseconds before retrying.
-
-         */
-
-        if (!runWorker) {
-            return process.exit(0);
+        if (err) {
+            console.error(err.stack);
+            debug(err.stack);
+            return process.exit(1);
         }
 
         function makeWorker() {
@@ -363,16 +365,18 @@ async.map(installs, function (item, cb) {
                         const then = new Date(String(data).trim());
                         console.log(colors.green.bold(' => Existing date in lock file => '), colors.yellow.bold(then));
                         if (now - then > 300000) {
-                            console.log(' => Lock is old, we will unlink at start processing queue.');
+                            console.log(' => Lock is old, we will unlink and start processing queue.');
                             fs.unlink(queueWorkerLock, makeWorker);
                         }
-                        else{
-                            console.log(' => Lock is still young, we will let the current worker do its thing.');
+                        else {
+                            debug(' => Lock is still young, we will let the current worker do its thing.');
                             process.exit(0);
                         }
                     }
                     else {
-                        console.error(new Error(' => No data returned from readFile call to queueWorkerLock file.'));
+                        const e = new Error(' => No data returned from readFile call to queueWorkerLock file.');
+                        console.error('\n', e.stack, '\n');
+                        debug(e.stack);
                         return process.exit(1);
                     }
                 });
@@ -384,34 +388,8 @@ async.map(installs, function (item, cb) {
 
         });
 
-        // lockfile.lock(queueWorkerLock, {
-        //
-        //     wait: 10000,
-        //     stale: 500000,
-        //     retries: 40000,
-        //     retryWait: 100
-        //
-        // }, function (err) {
-        //
-        //     if (err) {
-        //         console.error(err.stack || err);
-        //         return process.exit(1);
-        //     }
-        //     else {
-        //         queueWorker(function () {
-        //             console.log(' => Done with queue-worker, now unlocking queueWorkerLock...');
-        //             lockfile.unlock(queueWorkerLock, function () {
-        //                 clearTimeout(to);
-        //                 console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));
-        //                 process.exit(0);
-        //             });
-        //
-        //         });
-        //     }
-        //
-        // });
 
-    });
+    }
 
 
 });

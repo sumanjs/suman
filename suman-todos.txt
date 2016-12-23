@@ -9,8 +9,14 @@ add do's and do not's to readme
 
 ////
 
-http://www.2ality.com/2015/03/no-promises.html
+//TODO: create suman --diagnostics option at command line to check for common problems with both project and test suites
+// list of checks
 
+1. testSrcDir and testTargetDir need to be same level
+
+/////
+
+http://www.2ality.com/2015/03/no-promises.html
 
 /////
 
@@ -144,10 +150,6 @@ right now we have an npm publish script which might make staging the published b
 even though master and staging should never be different
 
 /////
-
-//TODO: should pass sumanOpts from runner to child processes
-
-////
 
 suman-to-tap => just like suman-troubleshoot, will distill output to only the tap output
 
@@ -1003,11 +1005,9 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: give ability to users to provide shell scripts to launch individual mocha tests, that way they can provide environment
 // settings for child_process, shell scripts should be in a directory called sh in the same directory as the test
 //  see ./bash/a and ./bash/b
-//TODO: bail needs to be implemented for runner as well as individual tests
 //TODO: bail + hooks https://github.com/mochajs/mocha/issues/690
 //TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense
 //TODO: conversion, this.title needs to work for a describe block (same as this.desc)
-//TODO: add support question to gulp github to see if we can use special key combo with gulp for below item
 //TODO: add suman.gulp.js => watches with special key combo will transpile tests
 //TODO: need to add ability to kill test runner after it's started - https://gist.github.com/tedmiston/5935757
 //TODO: nice docs => https://cdnjs.com/libraries/backbone.js/tutorials/organizing-backbone-using-modules
@@ -1015,24 +1015,17 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: https://www.npmjs.com/package/tap-mocha-reporter
 //TODO: need to make sure to make suman_results readable/writable (move to sqlite3)
 //TODO: need to figure out way to grep suite name without having to run the test
-//TODO: need to implement  -b, --bail   => bail after first test failure
-//TODO: suman command line input should allow for a file and directory combination
 //TODO: readme needs to have examples by ES5, ES6, ES7
 //TODO: default configuration should provide default values using lodash defaults / underscore defaults
 //TODO: switch from underscore to lodash
-//TODO: get it to work with Istanbul/NYC
 //TODO: special key combo (ctrl+save+r) will run tests after a change, using gulp file watchers?
 //TODO: https://nodejs.org/en/blog/uncategorized/profiling-node-js/
 //TODO: npm i babel -g, then babel-node --stage 0 myapp.js
 //TODO: https://github.com/nodejs/node/issues/5252
 //TODO: need a suman server stop command at the command line
 //TODO, along with options {plan:3}, {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an (async) error...
-//TODO: if error is thrown after test is completed (in a setTimeout, for example) do we handle that?
 //TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
 //TODO: randomize test runs as per https://github.com/sindresorhus/ava/issues/595
-//TODO: steal unicode chars from existing projects
-//TODO: does babel-node work with child_processes?
-//TODO: create suman --diagnostics option at command line to check for common problems with both project and test suites
 //TODO: write metadata file out along with txt files
 //TODO  need to add a delay option for tests running in a loop (why? => google github issue)
 //TODO: https://github.com/nodejs/node/issues/5252#issuecomment-212784934
