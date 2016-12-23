@@ -2,7 +2,7 @@
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$BRANCH" != "dev" && "$BRANCH" != "dev_integration" ]]; then
-    echo 'Aborting script because you are not on the right git branch (dev).';
+    echo 'Aborting script because you are not on the right git branch (dev or dev_integration).';
     exit 1;
 fi
 
