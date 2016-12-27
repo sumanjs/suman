@@ -1,5 +1,14 @@
 ////
 
+=> have to ask npm why if we run npm test in child process, that the process.send doesn't work
+
+/////
+
+runner stdio => if you choose to "pipe", then runner results will be piped parent
+if you choose file => then runner results will be sent to file
+
+////
+
 cd suman-test/suman-test-projects && suman $(find subprojects -mindepth 2 -maxdepth 2 -name "test.sh" | xargs ) --concurrency=1
 
 ////
