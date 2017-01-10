@@ -350,7 +350,7 @@ catch (err) {
 }
 
 if (init) {
-    console.log('\n',colors.magenta(' => "suman --init" is running.'),'\n');
+    console.log(colors.magenta(' => "suman --init" is running.'));
     // TODO: force empty config if --init option given?
     sumanConfig = global.sumanConfig = global.sumanConfig || {};
 }

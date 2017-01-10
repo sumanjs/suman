@@ -1,11 +1,69 @@
+
+///
+
+if path does not exist, check to see if path exists directly in test/test-src
+
+create auto-complete after typing with suman to test-src dir, so user does not have to type
+
+test/test-src all the time
+
+///
+
+data from pre should be separate from ioc data - that way if the user requests the pre data, but did not
+use any pre: [] options, an error will be thrown or at least a warning will be logged
+
+////
+
+guarantee that suman.once.pre.js callbacks are run in series in the order in which they are declared
+
+///
+
+we should maintain that series block which forces tests to run in series, that way multiple devs
+working on the same project know that it will be ok to make things async if the series block is already there
+
+///
+
+assert that a test takes a certain amount of time, if the test runs too fast, it is likely running
+synchronously, or some async feature is not working correctly
+
+///
+
+DI should work suman.hooks.js, so you can inject suite, before, after, etc
+
+///
+
+should have hook for each root suite, so we can inject ids
+
+////
+
+ add the ability to make an after hook the last hook, or first hook, despite the order in which it was registered,
+ same with before hook (make it run first or last)
+
+///
+
+npm de-dupe => https://docs.npmjs.com/cli/dedupe
+
+////
+
+closure compiler:
+https://developers.google.com/closure/compiler/
+
+////
+
+set -e at top of bash script
+https://www.quora.com/When-writing-a-shell-script-how-do-you-verify-that-a-command-completes-successfully
+
+////
+
+git.io shortlinks / tinyurls, as in (https://git.io/vMUyr)
+
 ////
 
 => have to ask npm why if we run npm test in child process, that the process.send doesn't work
 
 /////
 
-runner stdio => if you choose to "pipe", then runner results will be piped parent
-if you choose file => then runner results will be sent to file
+runner stdio =>  pipe results to parent
 
 ////
 

@@ -29,7 +29,7 @@ module.exports = Object.freeze({
     //boolean
     errorsOnly: false,
     replayErrorsAtRunnerEnd: true,
-    allowArrowFunctionsForTestSuites: true,
+    allowArrowFunctionsForTestBlocks: true,
     alwaysUseRunner: false,                     //always run your individual tests in child process
     enforceGlobalInstallationOnly: false,
     enforceLocalInstallationOnly: false,

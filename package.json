@@ -46,7 +46,10 @@
   "directories": {
     "test": "test"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "moment": "^2.17.1",
+    "rxjs": "^5.0.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ORESoftware/suman.git"

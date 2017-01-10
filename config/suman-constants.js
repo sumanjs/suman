@@ -134,11 +134,15 @@ module.exports = Object.freeze({
     },
 
     ERROR_MESSAGES: {
-        INVALID_FUNCTION_TYPE_USAGE: ' => Suman fatal error => You cannot use arrow functions, geneators or async/await with describe callbacks; however, you may these functions everywhere else.\n' +
-        'The reason is because every describe call creates a new nested test instance, and "this" is bound to that instance; \nfurthermore describe function callbacks need to register' +
-        ' all hooks and test cases synchronously, which is why generator functions and async/await are not permitted either. \n\nBottom line: For every describe call, you ' +
-        'need a regular function as a callback. \nIf you dont understand why, read up on how arrow functions bind "this" ' +
-        'to lexical scope, and why they cant just be used everywhere.'
+        INVALID_FUNCTION_TYPE_USAGE: ' => Suman fatal error => Note that by default Suman does not allow you to use arrow ' +
+        'functions with test blocks.\n' +
+        '\n => You can change this by setting "allowArrowFunctionsForTestBlocks" to true in your suman.conf.js file.\n' +
+        '\n => In any case, you cannot use generators or async/await with test block callbacks.\n' +
+        'This is because test block callbacks need to register' +
+        ' all hooks and test cases synchronously,\nwhich is why generator functions and async/await ' +
+        'are not permitted.\nNote that if you choose to use arrow functions with test blocks, the expected value for "this" will not be bound correctly,\n'  +
+        'so as an alternative it is best practice to simply inject the "suite" value which would be the same value for "this".\n' +
+        'Please see: xxx.'
     },
 
     runner_message_type: {
