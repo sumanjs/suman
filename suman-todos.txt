@@ -1,6 +1,35 @@
 
 ///
 
+proper plugin system for suman
+https://github.com/substack/tape/issues/341#issuecomment-273993725
+
+////
+
+end-to-end front-end testing:
+https://twitter.com/mpjme/status/811184862954737665
+
+/////
+
+https://github.com/nodejs/help/issues/389
+
+////
+
+var timesFunction = function(callback) {
+    if (typeof callback !== 'function' ) {
+        throw new TypeError('Callback is not a function');
+    } else if( isNaN(parseInt(Number(this.valueOf()))) ) {
+        throw new TypeError('Object is not a valid number');
+    }
+    for (var i = 0; i < Number(this.valueOf()); i++) {
+        callback(i);
+    }
+};
+
+Number.prototype.times = timesFunction;
+
+//////
+
 if path does not exist, check to see if path exists directly in test/test-src
 
 create auto-complete after typing with suman to test-src dir, so user does not have to type
