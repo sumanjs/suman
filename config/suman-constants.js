@@ -43,6 +43,7 @@ module.exports = Object.freeze({
         'beforeEach',
         'afterEach',
         'it',
+        'inject',
 
         //tdd
         'suite',
