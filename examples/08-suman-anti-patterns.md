@@ -358,3 +358,23 @@ instead, do this:
     
 ```
     
+    
+[11.] Anti-pattern
+
+```js
+
+  // returning a promise from a callback mode function means any promise related errors will not get caught
+  
+  it.cb('yes', {timeout: 30000}, t => {
+
+        return Client.create(conf).then(c => {
+            c.lock('z', function (err) {
+                if (err) return t(err);
+                c.unlock('z', t);
+            });
+        });
+
+     
+    });
+
+```

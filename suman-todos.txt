@@ -1,6 +1,19 @@
 
 ///
 
+use child unref after all children have exited in suman runner
+
+By default, the parent will wait for the detached child to exit. To prevent the parent from waiting for a given child,
+use the child.unref() method. Doing so will cause the parent's event loop to not include the child in its reference count,
+allowing the parent to exit independently of the child, unless there is an established IPC channel between the child and parent.
+
+///
+
+top-level can see IOC injections, other describe blocks can only see inject functions,
+thus, no conflict
+
+///
+
 proper plugin system for suman
 https://github.com/substack/tape/issues/341#issuecomment-273993725
 
