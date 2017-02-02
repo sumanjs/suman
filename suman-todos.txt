@@ -1,6 +1,10 @@
 
 ///
 
+http://stackoverflow.com/a/34703425/1223975
+
+///
+
 use child unref after all children have exited in suman runner
 
 By default, the parent will wait for the detached child to exit. To prevent the parent from waiting for a given child,

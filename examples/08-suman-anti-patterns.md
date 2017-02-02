@@ -378,3 +378,37 @@ instead, do this:
     });
 
 ```
+
+[12.]  Anti-pattern with promises
+
+```js
+
+ // - if you implement your own error-handler - the framework won't see the error and the test will pass - a false result
+
+    it('works', t => {
+
+        return images.upload('https://images-na.ssl-images-amazon.com/eage.jpg')
+        .then(function(val){
+            console.log(val);
+        }, function(err){
+            console.error(err.stack || err);
+        });
+
+    });
+
+    // to fix this, use Promise.reject => 
+    it('works', t => {
+
+        return images.upload('https://images-na.ssl-images-amazon.com/eage.jpg')
+        .then(function(val){
+            console.log(val);
+        }, function(err){
+            console.error(err.stack || err);
+            return Promise.reject(err);  // <<<<<<<<<<<<<
+        });
+
+    });
+
+```
+
+
