@@ -3,7 +3,6 @@ const Test = suman.init(module, {});
 
 Test.create('example', function (before, describe, inject) {
 
-
     inject(t => {
 
         return {
