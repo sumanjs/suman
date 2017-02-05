@@ -10,7 +10,7 @@ Test.describe('b', {}, function (assert) {
     });
 
     this.before(t => {
-        console.error('before a');
+        console.log('before a');
     });
 
     this.beforeEach.cb({}, t => {
@@ -28,7 +28,7 @@ Test.describe('b', {}, function (assert) {
 
 
     this.after(t => {
-        console.error('after a');
+        console.log('after a');
     });
 
 
@@ -59,7 +59,7 @@ Test.describe('b', {}, function (assert) {
             });
 
             this.it('c', t => {
-                console.error('test passed');
+                console.log('test passed');
                 assert(true);
             });
 

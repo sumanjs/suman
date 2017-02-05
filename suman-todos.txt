@@ -1,6 +1,10 @@
 
 ///
 
+if using runner, stderr from test fails should still be written
+
+///
+
 http://stackoverflow.com/a/34703425/1223975
 
 ///

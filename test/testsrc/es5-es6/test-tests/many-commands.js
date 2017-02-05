@@ -3,14 +3,11 @@ const Test = suman.init(module, {});
 
 Test.describe('Run many different options with Suman', {}, function (child_process) {   // we define the root suite
 
-
-    const exec = child_process.exec;
+    const {exec} = child_process;
 
     this.describe('child suite A', {parallel:true}, function () {  //calling 'this.describe' creates a child suite
 
-
         this.it.cb('shakes babies', {mode: 'parallel'}, t => {
-
 
             exec('node cli.js --tail runner', {
                 cwd: global.projectRoot
@@ -52,7 +49,7 @@ Test.describe('Run many different options with Suman', {}, function (child_proce
         this.it.cb('booty',{mode: 'parallel'}, t => {
 
 
-            exec('node cli.js test/build-tests/test6.test.js', {
+            exec('node cli.js test/testsrc/es5-es6', {
 
                 cwd: global.projectRoot
 

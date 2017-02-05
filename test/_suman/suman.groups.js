@@ -56,7 +56,7 @@ module.exports = data => {
 
             // dockerfilePath: path.resolve(r + '/' + item + '/Dockerfile'),
 
-            dockerfilePath: path.resolve(r  + '/Dockerfile'),
+            dockerfilePath: path.resolve(r + '/Dockerfile'),
 
             build: function () {
                 return 'cd ' + this.cwd + ' &&  docker build --file='
