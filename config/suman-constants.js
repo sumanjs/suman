@@ -175,7 +175,7 @@ module.exports = Object.freeze({
             default: '(!!error!!)'
         },
         ROOT_SUITE_NAME: {
-            name: 'Root Suite Name',
+            name: 'Name',
             default: '(unknown)'
         },
         SUITE_COUNT: {

@@ -5,6 +5,19 @@ http://stackoverflow.com/a/34703425/1223975
 
 ///
 
+https://docs.docker.com/swarm/reference/swarm/
+
+////
+
+if there are any test errors or warnings, print out a link
+to the relavent log files
+if there is one test error, pass the exact link to that file
+if there are multiple errors, just print a link to test/_suman/logs/tests directory
+
+if there is no stderr for a test, we should delete the file in the /tests directory
+
+////
+
 use child unref after all children have exited in suman runner
 
 By default, the parent will wait for the detached child to exit. To prevent the parent from waiting for a given child,

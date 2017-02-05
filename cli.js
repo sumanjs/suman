@@ -591,9 +591,7 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
     else {
         //this path runs all tests
         require('./lib/run')(opts, paths, sumanServerInstalled, sumanVersion);
-
     }
-
 
 });
 
