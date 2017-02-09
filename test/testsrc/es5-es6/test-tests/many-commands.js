@@ -5,6 +5,8 @@ Test.describe('Run many different options with Suman', {}, function (child_proce
 
     const {exec} = child_process;
 
+    return;
+
     this.describe('child suite A', {parallel:true}, function () {  //calling 'this.describe' creates a child suite
 
         this.it.cb('shakes babies', {mode: 'parallel'}, t => {

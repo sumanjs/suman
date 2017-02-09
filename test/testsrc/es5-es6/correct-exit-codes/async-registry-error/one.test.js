@@ -25,8 +25,6 @@ Test.create('SimpleTest', {parallel: false}, function (assert, fs, http, os) {
 
 Test.create.only('Complex test', {parallel: false}, function (assert, fs, http, os) {
 
-
-
   this.it('is great', t => {
 
     this.it('is great', t => {

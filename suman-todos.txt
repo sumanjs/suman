@@ -1,7 +1,55 @@
 
 ///
 
-if using runner, stderr from test fails should still be written
+To ask Henry:
+
+DI pattern from SO / Codereview
+
+parallel sourcing of deps - how to call shared fns only once
+
+///
+
+ add a propaganda link in the Suman docs - showing:
+
+ the difference!
+
+ 1:1 process to test file
+
+
+
+///
+
+ TODO: improve delay/resume so that it works with inject
+
+///
+
+  if using macro and more than 1 Test.create, all of those will be called.
+
+///
+
+  => DI =>
+
+  for create:
+
+  source userData from suman.once.pre.js / arguments passed via macros -
+  $ioc, $pre and $macro should be reserved
+  source inject/before/after, etc
+  source ioc,
+  then, if allow top-level-deps, then source those
+  finally core modules,
+  if no match, throw error
+
+  for describe:
+
+  source inject/before/after, etc
+  source injections  (check to ensure that injections are not reserved keywords)
+  source top-level
+  source core-modules
+
+
+///
+
+if using runner, stderr from test case fails should still be written
 
 ///
 
@@ -65,7 +113,6 @@ Number.prototype.times = timesFunction;
 //////
 
 if path does not exist, check to see if path exists directly in test/test-src
-
 create auto-complete after typing with suman to test-src dir, so user does not have to type
 
 test/test-src all the time
@@ -205,7 +252,6 @@ use pkill to kills suman procs
 /////
 
 npm install material-ui@next
-
 npm @next vs @latest
 
 /////

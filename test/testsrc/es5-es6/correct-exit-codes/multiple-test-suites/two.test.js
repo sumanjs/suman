@@ -8,7 +8,7 @@ const Test = suman.init(module, {
 });
 
 
-Test.describe('1', {}, function (assert) {
+Test.create('1', {}, function (assert) {
 
     this.before(t => {
         console.log('before a');
@@ -24,9 +24,7 @@ Test.describe('1', {}, function (assert) {
 });
 
 
-Test.describe('2', {}, function (assert) {
-
-    throw new Error('Test suite 2 error');
+Test.create('2', {}, function (assert) {
 
     this.it.cb('set timeout', t => {
         setTimeout(function(){
