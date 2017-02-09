@@ -15,11 +15,13 @@ parallel sourcing of deps - how to call shared fns only once
 
  1:1 process to test file
 
-
-
 ///
 
  TODO: improve delay/resume so that it works with inject
+
+///
+
+  => support x.spec.js =>, testsrc might be project root
 
 ///
 
