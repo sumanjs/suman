@@ -61,10 +61,8 @@
     "nodejs",
     "node.js",
     "test",
-    "framework",
     "unit",
     "testing",
-    "test",
     "tdd",
     "bdd",
     "ava",
@@ -73,7 +71,7 @@
     "tap"
   ],
   "bugs": {
-    "url": "https://github.com/ORESoftware/suman/issues"
+    "url": "https://github.com/sumanjs/suman/issues"
   },
   "bin": {
     "suman": "cli/cli.sh",
@@ -83,6 +81,6 @@
     "suman-inspect": "cli/cli-inspect.sh",
     "suman-troubleshoot": "cli/cli-troubleshoot.js"
   },
-  "homepage": "https://github.com/ORESoftware/suman#readme",
-  "description": "Suman is a next-generation Node.js test runner designed to supercede Mocha and rival AVA"
+  "homepage": "https://github.com/sumanjs/suman#readme",
+  "description": "Suman is an advanced, singular, Node.js test runner designed to supercede Mocha and rival AVA"
 }
