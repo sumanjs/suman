@@ -15,6 +15,7 @@ parallel sourcing of deps - how to call shared fns only once
 
  1:1 process to test file
 
+
 ///
 
  TODO: improve delay/resume so that it works with inject
@@ -58,6 +59,23 @@ if using runner, stderr from test case fails should still be written
 http://stackoverflow.com/a/34703425/1223975
 
 ///
+
+https://docs.docker.com/swarm/reference/swarm/
+
+////
+
+if there are any test errors or warnings, print out a link
+to the relavent log files
+if there is one test error, pass the exact link to that file
+if there are multiple errors, just print a link to test/_suman/logs/tests directory
+
+if there is no stderr for a test, we should delete the file in the /tests directory
+
+////
+
+use child unref after all children have exited in suman runner
+
+=======
 
 https://docs.docker.com/swarm/reference/swarm/
 
