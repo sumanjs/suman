@@ -4,7 +4,7 @@
 #http://stackoverflow.com/questions/27701930/add-user-to-docker-container
 
 # start with this image as a base
-FROM node:5
+FROM node:6
 
 RUN npm cache clean
 

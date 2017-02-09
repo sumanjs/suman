@@ -145,9 +145,9 @@ const time = Date.now();
 
 const lockfileOptionsObj = {
     stale: 19000,
-    wait: 20000,
+    wait: 200,
     pollPeriod: 110,
-    retries: 300,
+    retries: 3000,
     retryWait: 150
 };
 

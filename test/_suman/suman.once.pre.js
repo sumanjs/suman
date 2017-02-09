@@ -7,10 +7,6 @@
 // tests will run in separate processes, but you can use code sharing (not memory sharing) to share setup between tests, which is actually pretty cool
 // ****************************************************************************************************************************************
 
-
-// const gulp = require('./gulpfile');
-
-
 module.exports = () => {  //load async deps for any of your suman tests
 
 	return {

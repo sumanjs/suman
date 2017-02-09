@@ -8,7 +8,7 @@ const Test = suman.init(module, {
 });
 
 
-Test.describe('1', {}, function (assert) {
+Test.create('1', {}, function (assert) {
 
     this.before(t => {
         console.log('before a');
@@ -24,7 +24,7 @@ Test.describe('1', {}, function (assert) {
 });
 
 
-Test.describe('2', {}, function (assert) {
+Test.create('2', {}, function (assert) {
 
     this.before.cb(t => {
         console.log('before a');

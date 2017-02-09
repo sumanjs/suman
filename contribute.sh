@@ -4,4 +4,4 @@
 
 git checkout dev_squash &&
 git checkout staging &&
-git checkout dev         # you should work off dev branch
+git checkout dev_integration  # you should work off dev branch

@@ -11,7 +11,7 @@
 // tests will run in separate processes, but you can use code sharing (not memory sharing) to share setup between tests, which is actually pretty cool
 // ****************************************************************************************************************************************
 
-module.exports = () => {  //load async deps for any of your suman tests
+module.exports = $pre => {  //load async deps for any of your suman tests
 
     return {
 
@@ -36,7 +36,7 @@ module.exports = () => {  //load async deps for any of your suman tests
 
             return new Promise(function (resolve, reject) {
                 setTimeout(resolve, 100);
-            })
+            });
 
         },
 
@@ -44,7 +44,7 @@ module.exports = () => {  //load async deps for any of your suman tests
 
             return new Promise(function (resolve, reject) {
                 setTimeout(resolve, 100);
-            })
+            });
 
         }
 

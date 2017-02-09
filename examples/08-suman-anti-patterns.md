@@ -358,3 +358,57 @@ instead, do this:
     
 ```
     
+    
+[11.] Anti-pattern
+
+```js
+
+  // returning a promise from a callback mode function means any promise related errors will not get caught
+  
+  it.cb('yes', {timeout: 30000}, t => {
+
+        return Client.create(conf).then(c => {
+            c.lock('z', function (err) {
+                if (err) return t(err);
+                c.unlock('z', t);
+            });
+        });
+
+     
+    });
+
+```
+
+[12.]  Anti-pattern with promises
+
+```js
+
+ // - if you implement your own error-handler - the framework won't see the error and the test will pass - a false result
+
+    it('works', t => {
+
+        return images.upload('https://images-na.ssl-images-amazon.com/eage.jpg')
+        .then(function(val){
+            console.log(val);
+        }, function(err){
+            console.error(err.stack || err);
+        });
+
+    });
+
+    // to fix this, use Promise.reject => 
+    it('works', t => {
+
+        return images.upload('https://images-na.ssl-images-amazon.com/eage.jpg')
+        .then(function(val){
+            console.log(val);
+        }, function(err){
+            console.error(err.stack || err);
+            return Promise.reject(err);  // <<<<<<<<<<<<<
+        });
+
+    });
+
+```
+
+
