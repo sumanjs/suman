@@ -139,6 +139,9 @@ console.log(' => [pid] => ', process.pid);
 
 ////////////////////////////////////////////////////////////////////
 
+// all global config options reside here
+global._suman = {};
+
 const cwd = process.cwd();
 
 ////////////////////////////////////////////////////////////////////
@@ -227,6 +230,7 @@ const matchAll = opts.match_all;
 const matchNone = opts.match_none;
 const uninstallBabel = opts.uninstall_babel;
 const groups = opts.groups;
+const useTAPOutput = opts.use_tap_output;
 
 //re-assignable
 var babelRegister = opts.babel_register;
@@ -327,7 +331,6 @@ catch (err) {
     //         sumanHelpersDir: 'suman'
     //     };
     // }
-    // note that we used to use to fallback on default configuration, but now we don't anymore
   }
 
 }
@@ -366,7 +369,8 @@ if ('concurrency' in opts) {
     colors.red(' => Suman usage error => "--concurrency" option value should be an integer greater than 0.'));
 }
 
-global.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
+global._suman.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
+global._suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
 
 /////////////////////// matching ///////////////////////////////////////
 

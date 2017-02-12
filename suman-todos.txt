@@ -7,7 +7,12 @@ DI pattern from SO / Codereview
 
 parallel sourcing of deps - how to call shared fns only once
 
-///
+////
+
+suman_software @twitter
+upon new release, send out tweet
+
+////
 
  add a propaganda link in the Suman docs - showing:
 
@@ -15,6 +20,10 @@ parallel sourcing of deps - how to call shared fns only once
 
  1:1 process to test file
 
+
+///
+
+ Add TapJS and Tape to list of test runners
 
 ///
 

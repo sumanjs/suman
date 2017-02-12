@@ -27,6 +27,7 @@ module.exports = Object.freeze({
     browser: 'Firefox',                 // browser to open test results with
 
     //boolean
+    useTAPOutput: false,
     errorsOnly: false,
     replayErrorsAtRunnerEnd: true,
     allowArrowFunctionsForTestBlocks: true,
@@ -98,7 +99,7 @@ module.exports = Object.freeze({
     },
 
     reporters: {
-        'tap': 'suman/reporters/tap'
+        'tap': 'node_modules/suman/lib/reporters/tap-reporter'
     },
 
     // servers: {                           // list of servers to output test result data to, with the os.hostname() as the key
