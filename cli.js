@@ -8,7 +8,7 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 
 /*
 
- For the reader: Suman uses dashdash to parse command line arguments
+ Note for the reader: Suman uses dashdash to parse command line arguments
  We found dashdash to be a better alternative to existing tools like commander
  => https://github.com/trentm/node-dashdash
 
@@ -105,19 +105,19 @@ const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
 const _ = require('lodash');
+const events = require('suman-events');
 const debug = require('suman-debug')('s:cli');
 
 //project
-
 const constants = require('./config/suman-constants');
 const sumanUtils = require('suman-utils/utils');
 
-////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 debug([' => Suman started with the following command:', process.argv]);
 debug([' => $NODE_PATH is as follows:', process.env.NODE_PATH]);
 
-////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
@@ -493,8 +493,8 @@ if (optCheck.length > 1) {
 /////////////////// load reporters  ////////////////////////////////////////////////////
 
 require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
-resultBroadcaster.emit('node-version', nodeVersion);
-resultBroadcaster.emit('suman-version', sumanVersion);
+resultBroadcaster.emit(events.NODE_VERSION, nodeVersion);
+resultBroadcaster.emit(events.SUMAN_VERSION, sumanVersion);
 
 //note: whatever args are remaining are assumed to be file or directory paths to tests
 const paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
