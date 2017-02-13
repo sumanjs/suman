@@ -107,6 +107,7 @@ const async = require('async');
 const _ = require('lodash');
 const events = require('suman-events');
 const debug = require('suman-debug')('s:cli');
+const uuid = require('uuid/v4');
 
 //project
 const constants = require('./config/suman-constants');
@@ -140,8 +141,7 @@ console.log(' => [pid] => ', process.pid);
 ////////////////////////////////////////////////////////////////////
 
 // all global config options reside here
-global._suman = {};
-
+const _suman = global._suman = (global._suman || {});
 const cwd = process.cwd();
 
 ////////////////////////////////////////////////////////////////////
@@ -194,9 +194,8 @@ else {
   }
 }
 
-const viaSuman = global.viaSuman = true;
-const resultBroadcaster = global.resultBroadcaster = global.resultBroadcaster || new EE();
-
+const viaSuman = _suman.viaSuman = true;
+const resultBroadcaster = global.resultBroadcaster = (global.resultBroadcaster || new EE());
 /////////////////////////////////////////////////////////////////////
 
 var sumanConfig, pth;
@@ -296,8 +295,10 @@ try {
 }
 catch (err) {
 
-  console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
-  console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
+  console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file ' +
+    'in your current working directory or given by --cfg at the command line...'));
+  console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ' +
+    '...now looking for a config file at the root of your project...'));
 
   try {
     pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
@@ -319,7 +320,8 @@ catch (err) {
     //     }
 
     global.usingDefaultConfig = true;
-    console.log(' => Suman warning => Using default configuration file, please create your suman.conf.js file using suman --init.');
+    console.log(' => Suman warning => Using default configuration file, please create your suman.conf.js ' +
+      'file using suman --init.');
 
     sumanConfig = global.sumanConfig = require('./lib/default-conf-files/suman.default.conf');
 
@@ -369,10 +371,10 @@ if ('concurrency' in opts) {
     colors.red(' => Suman usage error => "--concurrency" option value should be an integer greater than 0.'));
 }
 
-global._suman.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
-global._suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
+_suman.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
+sumanOpts.useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
 
-/////////////////////// matching ///////////////////////////////////////
+/////////////////////////////////// matching ///////////////////////////////////////
 
 // if matchAny is passed it overwrites anything in suman.conf.js, same goes for matchAll, matchNone
 // however, if appendMatchAny is passed, then it will append to the values in suman.conf.js
@@ -445,7 +447,7 @@ else {
   }
 }
 
-//////////////////// abort if too many top-level options /////////////////////////////////////////////
+/////////////////////////////// abort if too many top-level options /////////////////////////////////////////////
 
 const preOptCheck = {
 
@@ -490,9 +492,12 @@ if (optCheck.length > 1) {
   return;
 }
 
-/////////////////// load reporters  ////////////////////////////////////////////////////
+//////////////////////////////////////// load reporters  ////////////////////////////////
 
-require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
+require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 resultBroadcaster.emit(events.NODE_VERSION, nodeVersion);
 resultBroadcaster.emit(events.SUMAN_VERSION, sumanVersion);
 

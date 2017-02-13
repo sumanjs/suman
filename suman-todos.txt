@@ -1,6 +1,10 @@
 
 ///
 
+  autodelete suman tests that are older than 1 hour
+
+///
+
 To ask Henry:
 
 DI pattern from SO / Codereview

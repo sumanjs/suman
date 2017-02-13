@@ -1,6 +1,5 @@
 const path = require('path');
 
-const p1 = path.normalize('/test/a/b/c/');
-const p2 = path.normalize('/test/a/b/c');
+const d = [1,2,3,4,5];
 
-console.log(p1, p2);
+console.log(d.splice(0,2));
