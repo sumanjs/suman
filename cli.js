@@ -8,7 +8,7 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 
 /*
 
- For the reader: Suman uses dashdash to parse command line arguments
+ Note for the reader: Suman uses dashdash to parse command line arguments
  We found dashdash to be a better alternative to existing tools like commander
  => https://github.com/trentm/node-dashdash
 
@@ -105,19 +105,20 @@ const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
 const _ = require('lodash');
+const events = require('suman-events');
 const debug = require('suman-debug')('s:cli');
+const uuid = require('uuid/v4');
 
 //project
-
 const constants = require('./config/suman-constants');
 const sumanUtils = require('suman-utils/utils');
 
-////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 debug([' => Suman started with the following command:', process.argv]);
 debug([' => $NODE_PATH is as follows:', process.env.NODE_PATH]);
 
-////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
@@ -139,6 +140,8 @@ console.log(' => [pid] => ', process.pid);
 
 ////////////////////////////////////////////////////////////////////
 
+// all global config options reside here
+const _suman = global._suman = (global._suman || {});
 const cwd = process.cwd();
 
 ////////////////////////////////////////////////////////////////////
@@ -191,9 +194,8 @@ else {
   }
 }
 
-const viaSuman = global.viaSuman = true;
-const resultBroadcaster = global.resultBroadcaster = global.resultBroadcaster || new EE();
-
+const viaSuman = _suman.viaSuman = true;
+const resultBroadcaster = global.resultBroadcaster = (global.resultBroadcaster || new EE());
 /////////////////////////////////////////////////////////////////////
 
 var sumanConfig, pth;
@@ -227,6 +229,7 @@ const matchAll = opts.match_all;
 const matchNone = opts.match_none;
 const uninstallBabel = opts.uninstall_babel;
 const groups = opts.groups;
+const useTAPOutput = opts.use_tap_output;
 
 //re-assignable
 var babelRegister = opts.babel_register;
@@ -292,8 +295,10 @@ try {
 }
 catch (err) {
 
-  console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file in your current working directory or given by --cfg at the command line...'));
-  console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ...now looking for a config file at the root of your project...'));
+  console.log(colors.bgBlack.yellow(' => Suman warning => Could not find path to your config file ' +
+    'in your current working directory or given by --cfg at the command line...'));
+  console.log(colors.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ' +
+    '...now looking for a config file at the root of your project...'));
 
   try {
     pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
@@ -315,7 +320,8 @@ catch (err) {
     //     }
 
     global.usingDefaultConfig = true;
-    console.log(' => Suman warning => Using default configuration file, please create your suman.conf.js file using suman --init.');
+    console.log(' => Suman warning => Using default configuration file, please create your suman.conf.js ' +
+      'file using suman --init.');
 
     sumanConfig = global.sumanConfig = require('./lib/default-conf-files/suman.default.conf');
 
@@ -327,7 +333,6 @@ catch (err) {
     //         sumanHelpersDir: 'suman'
     //     };
     // }
-    // note that we used to use to fallback on default configuration, but now we don't anymore
   }
 
 }
@@ -366,9 +371,10 @@ if ('concurrency' in opts) {
     colors.red(' => Suman usage error => "--concurrency" option value should be an integer greater than 0.'));
 }
 
-global.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
+_suman.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
+sumanOpts.useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
 
-/////////////////////// matching ///////////////////////////////////////
+/////////////////////////////////// matching ///////////////////////////////////////
 
 // if matchAny is passed it overwrites anything in suman.conf.js, same goes for matchAll, matchNone
 // however, if appendMatchAny is passed, then it will append to the values in suman.conf.js
@@ -441,7 +447,7 @@ else {
   }
 }
 
-//////////////////// abort if too many top-level options /////////////////////////////////////////////
+/////////////////////////////// abort if too many top-level options /////////////////////////////////////////////
 
 const preOptCheck = {
 
@@ -486,11 +492,14 @@ if (optCheck.length > 1) {
   return;
 }
 
-/////////////////// load reporters  ////////////////////////////////////////////////////
+//////////////////////////////////////// load reporters  ////////////////////////////////
 
-require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig, resultBroadcaster);
-resultBroadcaster.emit('node-version', nodeVersion);
-resultBroadcaster.emit('suman-version', sumanVersion);
+require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+resultBroadcaster.emit(events.NODE_VERSION, nodeVersion);
+resultBroadcaster.emit(events.SUMAN_VERSION, sumanVersion);
 
 //note: whatever args are remaining are assumed to be file or directory paths to tests
 const paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
