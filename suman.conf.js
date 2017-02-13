@@ -14,8 +14,6 @@ module.exports = Object.freeze({
     //regex
     matchAny: [/.js$/, /.sh$/],              //recommended =>  match: ['.test.js'],
     matchNone: [/fixture/, /correct-exit-codes/, /.*target/],
-    // matchAny: [],                              //recommended regex for "matchAny" => [/\.test\.js$/],
-    // matchNone: [/fixture/, /.*target/],        //recommended regex for "matchNone" => [/fixture/],
     matchAll: [],                 //recommended regex for "matchAll" => [],
 
     //string
@@ -27,6 +25,7 @@ module.exports = Object.freeze({
     browser: 'Firefox',                 // browser to open test results with
 
     //boolean
+    useTAPOutput: false,
     errorsOnly: false,
     replayErrorsAtRunnerEnd: true,
     allowArrowFunctionsForTestBlocks: true,
@@ -37,10 +36,10 @@ module.exports = Object.freeze({
     enforceTestCaseNames: true,
     enforceBlockNames: true,
     enforceHookNames: false,
-    bail: true,                     // when running one file, bail will bail test at first test failure
-    bailRunner: true,               // when using the runner, bail will bail runner at first test failure in any file
+    bail: true,                        // when running one file, bail will bail test at first test failure
+    bailRunner: true,                  // when using the runner, bail will bail runner at first test failure in any file
     transpile: false,                      // transpile is false by default, can be overridden with command line also
-    executeRunnerCWDAtTestFile: true,   // if false, CWD for runner will be project root dir
+    executeRunnerCWDAtTestFile: true,  // if false, CWD for runner will be project root dir
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
     ultraSafe: false,                   //if true, Suman reads files before executing any supposed test file and makes sure it's a suman test before running
@@ -98,7 +97,7 @@ module.exports = Object.freeze({
     },
 
     reporters: {
-        'tap': 'suman/reporters/tap'
+        'tap': 'node_modules/suman/lib/reporters/tap-reporter'
     },
 
     // servers: {                           // list of servers to output test result data to, with the os.hostname() as the key
