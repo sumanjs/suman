@@ -22,7 +22,7 @@ fi
 RELEASE_BRANCH_NAME=staging_`date +%s%N`
 echo "RELEASE_BRANCH_NAME => '${RELEASE_BRANCH_NAME}'"
 
-if [ "$2" = "publish" ]; then
+if [ "$2" == "publish" ]; then
    npm version patch --force -m "Upgrade for several reasons" &&    # bump version
    echo "bumped version"
 else
@@ -73,7 +73,7 @@ git commit --allow-empty -am "pub/rel:$GIT_COMMIT_MSG" &&
 git push origin HEAD:${RELEASE_BRANCH_NAME} ||
 { echo "could not push to staging branch, investigate the temp branch before re-running" ; exit 1; }
 
-if [ "$2" = "publish" ]; then
+if [ "$2" == "publish" ]; then
    npm publish .  &&    # bump version
    echo "published suman to NPM"
 fi

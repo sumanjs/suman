@@ -13,7 +13,7 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
-if [ "$2" = "publish" ]; then
+if [ "$2" == "publish" ]; then
    npm version patch --force -m "Upgrade for several reasons" &&    # bump version
    echo "bumped version"
 else
@@ -53,7 +53,7 @@ git commit --allow-empty -am "publish/release:$GIT_COMMIT_MSG" &&
 #git merge -Xours --squash origin/staging &&
 git push origin HEAD:staging -f &&
 
-if [ "$2" = "publish" ]; then
+if [ "$2" == "publish" ]; then
    npm publish .  &&    # bump version
    echo "published suman to NPM"
 fi
