@@ -8,7 +8,7 @@ function foo() {
      #echo $(jobs -l)
      for job in `jobs -p`; do
          echo "PID => ${job}"
-         wait ${job} ||  echo "At least one test failed with exit code => $?" ; EXIT_CODE=1
+         wait ${job} || { echo "At least one test failed with exit code => $?" ; EXIT_CODE=1 }
      done
 }
 
