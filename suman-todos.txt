@@ -1,14 +1,17 @@
 
 ///
 
-  autodelete suman tests that are older than 1 hour
+  => test stack traces, filter out anything with node_modules
+
+///
+
+  list failed tests at the end - even with suman --no-runner table
 
 ///
 
 To ask Henry:
 
 DI pattern from SO / Codereview
-
 parallel sourcing of deps - how to call shared fns only once
 
 ////
