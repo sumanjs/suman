@@ -196,6 +196,7 @@ else {
 
 const viaSuman = _suman.viaSuman = true;
 const resultBroadcaster = global.resultBroadcaster = (global.resultBroadcaster || new EE());
+
 /////////////////////////////////////////////////////////////////////
 
 var sumanConfig, pth;
@@ -230,6 +231,7 @@ const matchNone = opts.match_none;
 const uninstallBabel = opts.uninstall_babel;
 const groups = opts.groups;
 const useTAPOutput = opts.use_tap_output;
+const fullStackTraces = opts.full_stack_traces;
 
 //re-assignable
 var babelRegister = opts.babel_register;
@@ -237,9 +239,11 @@ var noBabelRegister = opts.no_babel_register;
 const originalTranspileOption = opts.transpile = !!opts.transpile;
 
 //////////////////////////////////
+
 var sumanInstalledLocally = null;
 var sumanInstalledAtAll = null;
 var sumanServerInstalled = null;
+
 ///////////////////////////////////
 
 if (opts.version) {
@@ -373,11 +377,16 @@ if ('concurrency' in opts) {
 
 _suman.maxProcs = opts.concurrency || sumanConfig.maxParallelProcesses || 15;
 sumanOpts.useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
+sumanOpts.full_stack_traces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 
 /////////////////////////////////// matching ///////////////////////////////////////
 
-// if matchAny is passed it overwrites anything in suman.conf.js, same goes for matchAll, matchNone
-// however, if appendMatchAny is passed, then it will append to the values in suman.conf.js
+/*
+
+if matchAny is passed it overwrites anything in suman.conf.js, same goes for matchAll, matchNone
+ however, if appendMatchAny is passed, then it will append to the values in suman.conf.js
+
+ */
 const sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
   .map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
@@ -386,7 +395,7 @@ if (sumanMatchesAny.length < 1) {
   sumanMatchesAny.push(/\.js$/);
 }
 
-//http://stackoverflow.com/questions/1723182/a-regex-that-will-never-be-matched-by-anything
+
 const sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appendMatchNone || []))
   .map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
@@ -397,7 +406,8 @@ global.sumanMatchesAny = _.uniqBy(sumanMatchesAny, item => item);
 global.sumanMatchesNone = _.uniqBy(sumanMatchesNone, item => item);
 global.sumanMatchesAll = _.uniqBy(sumanMatchesAll, item => item);
 
-/////////// override transpile ///////////
+
+////////////////////////////// override transpile /////////////////////////////////////////////////
 
 if (opts.no_transpile) {
   opts.transpile = false;

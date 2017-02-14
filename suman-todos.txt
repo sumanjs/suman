@@ -1,11 +1,15 @@
 
 ///
 
+  => gracefulExit(err) => gracefulExit({msg: 'unique', err: originalError})
+
+///
+
   => test stack traces, filter out anything with node_modules
 
 ///
 
-  list failed tests at the end - even with suman --no-runner table
+  list failed tests at the end - even with suman single-js-file table
 
 ///
 
