@@ -10,7 +10,7 @@ fi
 
 IN_CONTAINER=false;
 
-if [[ "lxc" = "${container}" ]]; then
+if [[ "lxc" == "${container}" ]]; then
 IN_CONTAINER=true;
 echo " => Suman says => We are in a (Docker) container! "
 fi
@@ -60,11 +60,11 @@ fi
 
 WE_ARE_GLOBAL=true;
 
-if [[ "home" = "${BASE_DIRECTORY}" ]]; then
+if [[ "home" == "${BASE_DIRECTORY}" ]]; then
     WE_ARE_GLOBAL=false;
 fi
 
-if [[ "Users" = "${BASE_DIRECTORY}" ]]; then
+if [[ "Users" == "${BASE_DIRECTORY}" ]]; then
     WE_ARE_GLOBAL=false;
 fi
 
@@ -85,7 +85,7 @@ fi
 
 
 # if suman.conf.js exists, then we run things in "foreground", otherwise run as daemon
-if [[ ( "no" = "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
+if [[ ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
   || ( ( WE_ARE_GLOBAL = false ) \
   && ( "yes" != "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
   &&  SUMAN_CONF_JS_FOUND ) ]]; then

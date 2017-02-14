@@ -20,7 +20,7 @@ export NODE_PATH=`echo -n $NODE_PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%
 PATH=$(printf %s "$PATH" \
      | awk -vRS=: -vORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }' )
 
-if [ "${LOCAL_SUMAN_ALREADY_FOUND}" = "yes" ]; then
+if [ "${LOCAL_SUMAN_ALREADY_FOUND}" == "yes" ]; then
     # we know that this directory contains the local version of suman we want to use
     SUMAN_EXTRANEOUS_EXECUTABLE=yes node ${X}/cli.js "$@"
 

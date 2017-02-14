@@ -6,7 +6,7 @@ mkdir suman-test
 cd suman-test &&
 rm -rf suman-installation-test-project &&
 # rmdir suman-installation-test-project &&
-git clone git@github.com:sumanjs/suman-installation-test-project.git &&
+git clone --depth 1 git@github.com:sumanjs/suman-installation-test-project.git &&
 cd suman-installation-test-project &&
 npm link suman &&
 ./node_modules/.bin/suman --init -f &&
