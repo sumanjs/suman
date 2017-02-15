@@ -106,7 +106,7 @@ module.exports = function work (cb) {
         else {
 
           console.log(' => Line / command to be run next => ', first);
-          console.log(' => number of npm install lines remaining before de-duping => ', lines.length);
+          console.log(' => number of npm install lines remaining before de-duping => ', lines.length,'\n');
 
           const d = lines.filter(function (l) {
             // remove the first line, and any duplicate lines in the queue
@@ -121,14 +121,15 @@ module.exports = function work (cb) {
               return true;
             }
             else {
-              console.log(' => Suman postinstall message => Filtering out the following duplicate item from queue => \n', colors.magenta(elem));
+              console.log(' => Suman postinstall message => Filtering out the following duplicate item from queue => \n',
+                colors.magenta(elem),'\n');
             }
           });
 
           data = uniqueList.join('\n');
 
           console.log(' => Suman postinstall message => number of npm install lines remaining *after* de-duping => ', uniqueList.length,
-            '\n', ' first item => ', first);
+            '\n', ' first item => ', first,'\n');
 
           fs.writeFile(queue, data, {}, function (err) {
 

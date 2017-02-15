@@ -7,7 +7,7 @@ mkdir suman_project_test_dir  # might already exist
 cd suman_project_test_dir &&
 npm init -f &&
 SUMAN_POSTINSTALL_IS_DAEMON=yes npm install -D --loglevel=warn \
---progress=false github:oresoftware/suman#dev &&
+--progress=false github:oresoftware/suman#dev_integration &&
 
 echo "...Making test directory..." &&
 mkdir test &&
