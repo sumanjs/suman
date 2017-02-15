@@ -56,7 +56,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ORESoftware/suman.git"
+    "url": "git+https://github.com/sumanjs/suman.git"
   },
   "keywords": [
     "nodejs",
