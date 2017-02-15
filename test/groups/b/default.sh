@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 cd  &&  # cd to $HOME
-echo ${PWD} &&
 rm -rf suman_project_test_dir &&
 mkdir suman_project_test_dir  # might already exist
 cd suman_project_test_dir &&

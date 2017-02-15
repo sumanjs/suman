@@ -22,9 +22,9 @@ function __handle_global_suman {
 
         # $1 is the node exec args (inspect/debug etc), $2 is the original user args
         # we work with the first argument passed to this function
-        local ref="$1[@]";
+        local ref1="$1[@]";
         shift
-         node "${!ref}" "${X}/cli.js" ${2};
+        node "${!ref1}" "${X}/cli.js" $@;
     fi
 }
 
