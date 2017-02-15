@@ -111,7 +111,7 @@ module.exports = function work (cb) {
             unlock();
 
             const n = cp.spawn('bash', [], {
-              cwd: sumanHome
+              cwd: globalDir
             });
 
             n.stdin.write('\n' + first + '\n');
