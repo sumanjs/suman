@@ -21,6 +21,7 @@ const sumanClis = path.resolve(sumanHome + '/suman-clis.sh');
 const findProjectRootDest = path.resolve(sumanHome + '/find-project-root.js');
 const sumanDebugLog = path.resolve(sumanHome + '/suman-debug.log');
 const dbPath = path.resolve(sumanHome + '/database/exec_db');
+const createTables = path.resolve(__dirname + '/create-tables.sh');
 
 ///////////////////////////////////////////////////
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
@@ -125,7 +126,7 @@ fs.mkdir(sumanHome, function (err) {
     }
     else {
 
-      const n = cp.spawn('./create-tables.sh', [], {
+      const n = cp.spawn('createTables', [], {
         env: Object.assign({}, process.env, {
           SUMAN_DATABASE_PATH: dbPath
         })
