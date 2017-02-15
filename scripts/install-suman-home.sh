@@ -7,11 +7,11 @@ SUMAN_DEBUG_LOG_PATH=$HOME/.suman/suman-debug.log
 if [ -z "${YARN}" ]; then
 #    npm install -g yarn &&
     if [ ! -z "${SUMAN_DEBUG}" ]; then
-        echo "need SUDO to install yarn installed successfully" >> SUMAN_DEBUG_LOG_PATH;
+        echo "need SUDO to install yarn installed successfully" >> ${SUMAN_DEBUG_LOG_PATH};
      fi
 else
     if [ ! -z "${SUMAN_DEBUG}" ]; then
-        echo "yarn already installed here => $YARN" >> SUMAN_DEBUG_LOG_PATH;
+        echo "yarn already installed here => $YARN" >> ${SUMAN_DEBUG_LOG_PATH};
     fi
 fi
 
@@ -23,5 +23,5 @@ if [ ! -z "${SUMAN_DEBUG}" ]; then
     echo "BASE_DIRECTORY of PWD => $BASE_DIRECTORY" ;
 fi
 
-node $(dirname "$0")/install-optional-deps.js >> SUMAN_DEBUG_LOG_PATH 2>&1
+node $(dirname "$0")/install-optional-deps.js >> ${SUMAN_DEBUG_LOG_PATH} 2>&1
 

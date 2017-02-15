@@ -3,10 +3,8 @@
 //core
 const path = require('path');
 const fs = require('fs');
-const cp = require('child_process');
 
 //npm
-//
 const async = require('async');
 
 //project
@@ -49,7 +47,7 @@ fs.mkdir(sumanHome, function (err) {
           cb(err);
         }
         else {
-          fs.writeFile(sumanClis, data, {flag: 'w', flags: 'w'}, cb);
+          fs.writeFile(sumanClis, data, cb);
         }
       });
 
@@ -61,17 +59,19 @@ fs.mkdir(sumanHome, function (err) {
           cb(err);
         }
         else {
-          fs.writeFile(findSumanExec, data, {flag: 'w', flags: 'w'}, cb);
+          // default flag is 'w'
+          fs.writeFile(findSumanExec, data, cb);
         }
       });
 
     },
     function (cb) {
       fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
-        + ', from directory (cwd) => ' + cwd, {flag: 'a', flags:'a'}, cb);
+        + ', from directory (cwd) => ' + cwd, cb);
     },
     function (cb) {
       // assume we want to create the file if it doesn't exist, and just write empty string
+      // default flag is 'a'
       fs.appendFile(queue, '', cb);
     },
     function (cb) {
@@ -80,7 +80,8 @@ fs.mkdir(sumanHome, function (err) {
           cb(err);
         }
         else {
-          fs.writeFile(findProjectRootDest, data, {flag: 'w', flags: 'w'}, cb);
+          // default flag is 'w'
+          fs.writeFile(findProjectRootDest, data, cb);
         }
       });
 
@@ -100,17 +101,22 @@ fs.mkdir(sumanHome, function (err) {
     }
     else {
 
-      if (fs.existsSync(sumanHome)) {
-        debug(' => ~/.suman dir exists!');
-        process.exit(0);
+      try{
+        if (fs.existsSync(sumanHome)) {
+          process.exit(0);
+        }
+        else {
+          console.error(' => Warning => ~/.suman dir does not exist!');
+          process.exit(1)
+        }
       }
-      else {
-        debug(' => Warning => ~/.suman dir does not exist!');
-        process.exit(1)
+      catch(err){
+        console.error(err.stack || err);
+        process.exit(1);
       }
 
     }
 
-  })
+  });
 
 });
