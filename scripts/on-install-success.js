@@ -9,3 +9,4 @@ const debug = require('suman-debug');
 const debugPostinstall = debug('s:postinstall');
 
 debugPostinstall(' => Suman post-install script succeeded');
+
