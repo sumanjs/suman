@@ -23,5 +23,5 @@ if [ ! -z "${SUMAN_DEBUG}" ]; then
     echo "BASE_DIRECTORY of PWD => $BASE_DIRECTORY" ;
 fi
 
-node $(dirname "$0")/install-optional-deps.js
+node $(dirname "$0")/install-optional-deps.js >> SUMAN_DEBUG_LOG_PATH 2>&1
 

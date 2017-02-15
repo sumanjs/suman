@@ -78,9 +78,9 @@ const dirs = ['HOME', 'USERS'];
 const alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace(path.sep, '')) < 0;
 
 const cwd = process.cwd();
-debug(' => cwd in postinstall script =>', cwd);
+console.log(' => cwd in postinstall script =>', cwd);
 const projectRoot = residence.findProjectRoot(cwd);
-debug('project root => ', projectRoot);
+console.log('project root => ', projectRoot);
 
 // semver.gt('1.2.3', '9.8.7') // false
 
@@ -91,10 +91,8 @@ try {
   pkgDotJSON = require(pth);
 }
 catch (err) {
-  const msg = ['\n', ' => Suman postinstall warning => \n',
-    'Could not find package.json located here => ', pth, '\n'].join('');
-  fs.appendFileSync(debugLog, msg);
-  console.error(msg);
+  console.error('\n', ' => Suman postinstall warning => \n',
+    'Could not find package.json located here => ', pth, '\n');
 }
 
 var sumanConf = {};
@@ -138,7 +136,7 @@ const to = setTimeout(function () {
   process.exit(1);
 }, 2000000);
 
-debug('=> Installs =>', installs);
+console.log('=> Installs =>', installs);
 const time = Date.now();
 
 const lockfileOptionsObj = {
@@ -176,7 +174,7 @@ async.map(installs, function (item, cb) {
         else {
           ijson.parse(data).then(function (val) {
             if (!val || !val.version) {
-              fs.appendFileSync(debugLog, ' val is not defined for item => ' + item);
+              console.log(' val is not defined for item => ' + item);
             }
             cb(null, {
               version: val && val.version
@@ -193,8 +191,8 @@ async.map(installs, function (item, cb) {
       return cb(err);
     }
 
-    debug([' item => ' + item, 'view version:'
-    + results.view.version, 'stats version:' + results.stats.version].join(', '));
+    console.log(' item => ' + item, 'view version:'
+    + results.view.version, 'stats version:' + results.stats.version);
 
     if (!results.stats.version) {
       results.view.action = 'install';
@@ -234,7 +232,6 @@ async.map(installs, function (item, cb) {
 
   results.forEach(function (result) {
 
-    debug(' result => ', util.inspect(result));
     const item = result.name;
     const action = result.action;
 
@@ -245,11 +242,11 @@ async.map(installs, function (item, cb) {
         // local version is up-to-date with latest in npm registry
         return;
       case 'install':
-        fs.appendFileSync(debugLog, [' => Installing => ', item, ' at path => ', sumanHome].join(''));
+        fs.appendFileSync(debugLog, [' => Installing => ', item, ' at path => ', sumanHome,'\n'].join(''));
         args = ['npm', 'install', item + '@latest', '--only=production', '--force', '--loglevel=error', '--silent', '--progress=false'];
         break;
       case 'update':
-        fs.appendFileSync(debugLog, [' => Updating => ', item, ' at path => ', sumanHome].join(''));
+        fs.appendFileSync(debugLog, [' => Updating => ', item, ' at path => ', sumanHome,'\n'].join(''));
         args = ['npm', 'update', item + '@latest', '--only=production', '--loglevel=error', '--silent', '--progress=false'];
         break;
       default:
@@ -286,7 +283,7 @@ async.map(installs, function (item, cb) {
    */
 
   if (!runWorker) {
-    fs.appendFileSync(debugLog, ' => Did not need to run postinsall queue worker because no items matched.');
+    console.log(' => Did not need to run postinsall queue worker because no items matched.');
     return process.exit(0);
   }
 
@@ -324,8 +321,6 @@ async.map(installs, function (item, cb) {
 
     if (err) {
       console.error(err.stack || err);
-      debug(err.stack || err);
-      fs.appendFileSync(debugLog, err.stack || err);
       return process.exit(1);
     }
 
@@ -345,7 +340,6 @@ async.map(installs, function (item, cb) {
       if (err && !String(err.stack || err).match(/EEXIST/i)) {
         //if error does not match EEXIST, then it's an error we consider actually problematic
         console.error(err.stack || err);
-        fs.appendFileSync(debugLog, (err.stack || err));
         return process.exit(1);
       }
       else if (err) {
@@ -353,19 +347,18 @@ async.map(installs, function (item, cb) {
         fs.readFile(queueWorkerLock, function (err, data) {
           //ignore err
           if (err) {
-            console.error(err.stack || err);
-            fs.appendFileSync(debugLog, (err.stack || err));
+            console.error('\n',err.stack || err,'\n');
           }
           if (data) {
             const now = new Date();
             const then = new Date(String(data).trim());
             fs.appendFileSync(debugLog, ' => Existing date in lock file => ' + then);
             if (now - then > 300000) {
-              fs.appendFileSync(debugLog, ' => Lock is old, we will unlink and start processing queue.');
+              console.log(' => Lock is old, we will unlink and start processing queue.');
               fs.unlink(queueWorkerLock, makeWorker);
             }
             else {
-              fs.appendFileSync(debugLog, ' => Lock is still young, we will let the current worker do its thing.');
+              console.log(' => Lock is still young, we will let the current worker do its thing.');
               process.exit(0);
             }
           }
@@ -373,7 +366,6 @@ async.map(installs, function (item, cb) {
             const e = new Error(' => No data returned from readFile call to queueWorkerLock file.');
             console.error('\n', e.stack, '\n');
             debug(e.stack);
-            fs.appendFileSync(debugLog, e.stack);
             return process.exit(1);
           }
         });
