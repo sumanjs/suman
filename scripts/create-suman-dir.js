@@ -126,7 +126,7 @@ fs.mkdir(sumanHome, function (err) {
     }
     else {
 
-      const n = cp.spawn('createTables', [], {
+      const n = cp.spawn('bash', [createTables], {
         env: Object.assign({}, process.env, {
           SUMAN_DATABASE_PATH: dbPath
         })
