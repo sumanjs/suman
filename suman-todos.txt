@@ -1,11 +1,25 @@
 
 ///
 
+ add a command to fix postinstall if it didn't work or something
+
+ suman --post-install
+
+///
+
+d.on('error') => d.once('error')
+
+///
+
+  => gracefulExit(err) => gracefulExit({msg: 'unique', err: originalError})
+
+///
+
   => test stack traces, filter out anything with node_modules
 
 ///
 
-  list failed tests at the end - even with suman --no-runner table
+  list failed tests at the end - even with suman single-js-file table
 
 ///
 
@@ -30,7 +44,7 @@ upon new release, send out tweet
 
 ///
 
- Add TapJS and Tape to list of test runners
+ Add TapJS and Lab to list of test runners
 
 ///
 
@@ -126,6 +140,7 @@ https://github.com/substack/tape/issues/341#issuecomment-273993725
 
 end-to-end front-end testing:
 https://twitter.com/mpjme/status/811184862954737665
+nightwatch.js, cypress.io, selenium/cucumber
 
 /////
 
