@@ -15,7 +15,7 @@ MYPATH="$DIRN/$EXECDIR";
 X=$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})
 
 
-NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
 # remove duplicate entries according to http://linuxg.net/oneliners-for-removing-the-duplicates-in-your-path/
 export NODE_PATH=`echo -n $NODE_PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 
