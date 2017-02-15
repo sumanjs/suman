@@ -1,5 +1,5 @@
 const path = require('path');
-const p = path.resolve(process.env.HOME + '/.suman/node_modules/sqlite3');
+const p = path.resolve(process.env.HOME + '/.suman/global/node_modules/sqlite3');
 
 const dbPth = path.resolve(process.env.HOME + '/.suman/db');
 

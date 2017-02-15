@@ -13,6 +13,7 @@ const colors = require('colors/safe');
 ///////////////////////////////////////////////////////////////
 
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
+const globalDir = path.resolve(sumanHome + '/global');
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
 const lock = path.resolve(process.env.HOME + '/.suman/install-queue.lock');
 const debug = require('suman-debug')('s:postinstall');

@@ -98,8 +98,6 @@ catch (err) {
 var sumanConf = {};
 var alwaysInstall = false;
 
-var installBabel
-
 try {
   require(path.resolve(projectRoot + '/suman.conf.js'));
 }

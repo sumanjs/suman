@@ -18,7 +18,7 @@ function __handle_global_suman {
         EXECDIR=$(dirname $(dirname "$RL"));
         MYPATH="$DIRN/$EXECDIR";
         X="$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})"
-        export NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+        export NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
 
         # $1 is the node exec args (inspect/debug etc), $2 is the original user args
         # we work with the first argument passed to this function
@@ -34,7 +34,7 @@ function suman {
     echo " => Using 'suman' alias in suman-clis.sh..."
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
 
-    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
     # remove duplicate entries according to http://linuxg.net/oneliners-for-removing-the-duplicates-in-your-path/
     export NODE_PATH=`echo -n $NODE_PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 
@@ -54,7 +54,7 @@ function suman-inspect {
 #    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-inspect);
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
 
-    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
     # remove duplicate entries according to http://linuxg.net/oneliners-for-removing-the-duplicates-in-your-path/
     export NODE_PATH=`echo -n $NODE_PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 
@@ -76,7 +76,7 @@ function suman-debug {
 #    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman-debug);
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
 
-    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
     # remove duplicate entries according to http://linuxg.net/oneliners-for-removing-the-duplicates-in-your-path/
     export NODE_PATH=`echo -n $NODE_PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 
@@ -97,7 +97,7 @@ function suman--debug {
 #    LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js --exec-name suman--debug);
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
 
-    NODE_PATH=${NODE_PATH}:~/.suman/node_modules
+    NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
     # remove duplicate entries according to http://linuxg.net/oneliners-for-removing-the-duplicates-in-your-path/
     export NODE_PATH=`echo -n $NODE_PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 

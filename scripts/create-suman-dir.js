@@ -42,6 +42,12 @@ fs.mkdir(sumanHome, function (err) {
 
     function (cb) {
       //always want to update this file to the latest version, so always overwrite
+      const globalDir = path.resolve(sumanHome + '/global');
+      fs.mkdir(globalDir, cb);
+    },
+
+    function (cb) {
+      //always want to update this file to the latest version, so always overwrite
       fs.readFile(require.resolve('./suman-clis.sh'), function (err, data) {
         if (err) {
           cb(err);
@@ -70,7 +76,7 @@ fs.mkdir(sumanHome, function (err) {
         + ', from directory (cwd) => ' + cwd, cb);
     },
     function (cb) {
-      // assume we want to create the file if it doesn't exist, and just write empty string
+      // we want to create the file if it doesn't exist, and just write empty string either way
       // default flag is 'a'
       fs.appendFile(queue, '', cb);
     },
