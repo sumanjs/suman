@@ -43,7 +43,12 @@ fs.mkdir(sumanHome, function (err) {
     function (cb) {
       //always want to update this file to the latest version, so always overwrite
       const globalDir = path.resolve(sumanHome + '/global');
-      fs.mkdir(globalDir, cb);
+      fs.mkdir(globalDir, function(err){
+          if(err && !String(err).match(/EEXIST/)){
+            return cb(err);
+          }
+          cb(null);
+      });
     },
 
     function (cb) {
