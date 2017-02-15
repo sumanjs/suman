@@ -112,6 +112,7 @@ catch (err) {
 var installs = [];
 
 installs = installs.concat(Object.keys(deps.slack));
+installs = installs.concat(Object.keys(deps.sqlite3));
 
 if (sumanConf.transpile || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.babel));
@@ -132,7 +133,6 @@ if (sumanConf.useIstanbul || alwaysInstall || alwaysInstallDueToGlobal) {
 //200 second timeout...
 const to = setTimeout(function () {
   console.error(' => Suman postinstall process timed out.');
-  fs.appendFileSync(debugLog, ' => Suman postinstall process timed out.');
   process.exit(1);
 }, 2000000);
 
@@ -182,8 +182,7 @@ async.map(installs, function (item, cb) {
           }, cb);
 
         }
-
-      })
+      });
 
     }
   }, function (err, results) {
@@ -227,7 +226,6 @@ async.map(installs, function (item, cb) {
   }
 
   var runWorker = false;
-
   const linesToAdd = [];
 
   results.forEach(function (result) {
@@ -242,11 +240,11 @@ async.map(installs, function (item, cb) {
         // local version is up-to-date with latest in npm registry
         return;
       case 'install':
-        fs.appendFileSync(debugLog, [' => Installing => ', item, ' at path => ', sumanHome,'\n'].join(''));
+        console.log(' => Installing => ', item, ' at path => ', sumanHome,'\n');
         args = ['npm', 'install', item + '@latest', '--only=production', '--force', '--loglevel=error', '--silent', '--progress=false'];
         break;
       case 'update':
-        fs.appendFileSync(debugLog, [' => Updating => ', item, ' at path => ', sumanHome,'\n'].join(''));
+        console.log(' => Updating => ', item, ' at path => ', sumanHome,'\n');
         args = ['npm', 'update', item + '@latest', '--only=production', '--loglevel=error', '--silent', '--progress=false'];
         break;
       default:
@@ -326,10 +324,10 @@ async.map(installs, function (item, cb) {
 
     function makeWorker () {
       queueWorker(function () {
-        fs.appendFileSync(debugLog, ' => Done with queue-worker, now unlocking queueWorkerLock...');
+        console.log(' => Done with queue-worker, now unlocking queueWorkerLock...');
         fs.unlink(queueWorkerLock, function () {
           clearTimeout(to);
-          fs.appendFileSync([' => Total suman postinstall optional deps time => ', String(Date.now() - time)].join(''));
+          console.log(' => Total suman postinstall optional deps time => ', String(Date.now() - time));
           process.exit(0);
         });
       });
@@ -338,21 +336,20 @@ async.map(installs, function (item, cb) {
     fs.writeFile(queueWorkerLock, String(new Date()), {flag: 'wx', flags: 'wx'}, function (err) {
 
       if (err && !String(err.stack || err).match(/EEXIST/i)) {
-        //if error does not match EEXIST, then it's an error we consider actually problematic
         console.error(err.stack || err);
         return process.exit(1);
       }
       else if (err) {
         // file already EXISTS, so let's see if it's stale being reading the date in it
         fs.readFile(queueWorkerLock, function (err, data) {
-          //ignore err
           if (err) {
+            //ignore err
             console.error('\n',err.stack || err,'\n');
           }
           if (data) {
             const now = new Date();
             const then = new Date(String(data).trim());
-            fs.appendFileSync(debugLog, ' => Existing date in lock file => ' + then);
+            console.log(' => Existing date in lock file =>',then);
             if (now - then > 300000) {
               console.log(' => Lock is old, we will unlink and start processing queue.');
               fs.unlink(queueWorkerLock, makeWorker);
@@ -365,7 +362,6 @@ async.map(installs, function (item, cb) {
           else {
             const e = new Error(' => No data returned from readFile call to queueWorkerLock file.');
             console.error('\n', e.stack, '\n');
-            debug(e.stack);
             return process.exit(1);
           }
         });

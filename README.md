@@ -38,6 +38,16 @@ every juncture in the testing process/pipeline.
 
 ---
 
+You need:
+
+NPM
+bash
+SQLite3
+Node.js
+
+___
+
+
 ### &#9658; Disclaimers: 
 >
 > Suman is in beta, despite the current version number.

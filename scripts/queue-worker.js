@@ -25,37 +25,7 @@ const debug = require('suman-debug')('s:postinstall');
 
 const debugLog = path.resolve(sumanHome + '/suman-debug.log');
 
-//200 second timeout...
-// const to = setTimeout(function () {
-//     console.error(' => Suman postinstall queue worker timed out.');
-//     process.exit(1);
-// }, 200000);
-
-const fd = fs.openSync(debugLog, 'a');
-
 ///////////////////////////////////////////////////////////////
-
-/*
-
- opts.wait
- A number of milliseconds to wait for locks to expire before giving up.
- Only used by lockFile.lock. Poll for opts.wait ms. If the lock is not cleared by the time the wait expires,
- then it returns with the original error.
-
- opts.pollPeriod
- When using opts.wait, this is the period in ms in which it polls to check if the lock has expired.
- Defaults to 100.
-
- opts.stale
- A number of milliseconds before locks are considered to have expired.
-
- opts.retries
- Used by lock and lockSync. Retry n number of times before giving up.
-
- opts.retryWait
- Used by lock. Wait n milliseconds before retrying.
-
- */
 
 function unlock (cb) {
   lockFile.unlock(lock, function (err) {
