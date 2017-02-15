@@ -1,10 +1,13 @@
 
 [![NPM version][npm-image]][npm-url]
-[![Build Status](https://travis-ci.org/ORESoftware/suman.svg?branch=master)](https://travis-ci.org/ORESoftware/suman)
-[![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
-[npm-url]:https://npmjs.org/package/proper-lockfile
 
-![alt text](https://raw.githubusercontent.com/ORESoftware/suman/master/images/suman.png "Suman Primary Logo")
+[![Build Status](https://travis-ci.org/ORESoftware/suman.svg?branch=master)](https://travis-ci.org/ORESoftware/suman)
+
+[![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
+
+[npm-url]:https://www.npmjs.com/package/suman
+
+![alt text](https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman.png "Suman Primary Logo")
 
 Note that because Suman should be installed as a devDependency, it won't show up as being used in the standard
 NPM badge:
@@ -18,7 +21,7 @@ NPM badge:
 
 ## &#9658; Documentation
 
- >   Suman documentation => [sumanjs.github.io/suman-docs](http://sumanjs.github.io/suman-docs "Suman Docs")  
+ >   Suman documentation => [sumanjs.github.io](http://sumanjs.github.io/suman-docs "Suman Docs")  
  
  ---
 
@@ -613,7 +616,7 @@ only pertains to running a single test file (usually when developing a particula
  The right way to do this is as follows:
  
  ```
- git clone https://github.com/ORESoftware/suman.git &&
+ git clone https://github.com/sumanjs/suman.git &&
  npm install &&
  npm link . &&
  npm link suman &&
