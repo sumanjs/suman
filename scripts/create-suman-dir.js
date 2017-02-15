@@ -3,6 +3,7 @@
 //core
 const path = require('path');
 const fs = require('fs');
+const cp = require('child_process');
 
 //npm
 const async = require('async');
@@ -19,6 +20,7 @@ const findSumanExec = path.resolve(sumanHome + '/find-local-suman-executable.js'
 const sumanClis = path.resolve(sumanHome + '/suman-clis.sh');
 const findProjectRootDest = path.resolve(sumanHome + '/find-project-root.js');
 const sumanDebugLog = path.resolve(sumanHome + '/suman-debug.log');
+const dbPath = path.resolve(sumanHome + '/database/exec_db');
 
 ///////////////////////////////////////////////////
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
@@ -42,12 +44,23 @@ fs.mkdir(sumanHome, function (err) {
 
     function (cb) {
       //always want to update this file to the latest version, so always overwrite
+      const dbDir = path.resolve(sumanHome + '/database');
+      fs.mkdir(dbDir, function (err) {
+        if (err && !String(err).match(/EEXIST/)) {
+          return cb(err);
+        }
+        cb(null);
+      });
+    },
+
+    function (cb) {
+      //always want to update this file to the latest version, so always overwrite
       const globalDir = path.resolve(sumanHome + '/global');
-      fs.mkdir(globalDir, function(err){
-          if(err && !String(err).match(/EEXIST/)){
-            return cb(err);
-          }
-          cb(null);
+      fs.mkdir(globalDir, function (err) {
+        if (err && !String(err).match(/EEXIST/)) {
+          return cb(err);
+        }
+        cb(null);
       });
     },
 
@@ -101,10 +114,10 @@ fs.mkdir(sumanHome, function (err) {
   ], function (err) {
 
     if (err) {
-      try{
+      try {
         fs.appendFileSync(sumanDebugLog, '\n => Suman post-install script failed with error => \n' + (err.stack || err));
       }
-      catch(err){
+      catch (err) {
         //ignore
       }
       console.error(err.stack || err);
@@ -112,19 +125,40 @@ fs.mkdir(sumanHome, function (err) {
     }
     else {
 
-      try{
-        if (fs.existsSync(sumanHome)) {
-          process.exit(0);
+      const n = cp.spawn('./create-tables.sh', [], {
+        env: Object.assign({}, process.env, {
+          SUMAN_DATABASE_PATH: dbPath
+        })
+      });
+
+      n.stderr.on('data', function (d) {
+        fs.appendFileSync(sumanDebugLog, d);
+      });
+
+      n.once('close', function (code) {
+
+        n.unref();
+
+        if (code > 0) {
+          process.exit(1);
+          return;
         }
-        else {
-          console.error(' => Warning => ~/.suman dir does not exist!');
-          process.exit(1)
+
+        try {
+          if (fs.existsSync(sumanHome)) {
+            process.exit(0);
+          }
+          else {
+            console.error(' => Warning => ~/.suman dir does not exist!');
+            process.exit(1)
+          }
         }
-      }
-      catch(err){
-        console.error(err.stack || err);
-        process.exit(1);
-      }
+        catch (err) {
+          console.error(err.stack || err);
+          process.exit(1);
+        }
+
+      });
 
     }
 

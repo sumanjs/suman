@@ -1,6 +1,12 @@
 
 ///
 
+ add a command to fix postinstall if it didn't work or something
+
+ suman --post-install
+
+///
+
 d.on('error') => d.once('error')
 
 ///
