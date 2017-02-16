@@ -1,21 +1,15 @@
 
 ///
 
+
+runs directory needs a readme file
+
+
+///
+
  add a command to fix postinstall if it didn't work or something
 
  suman --post-install
-
-///
-
-d.on('error') => d.once('error')
-
-///
-
-  => gracefulExit(err) => gracefulExit({msg: 'unique', err: originalError})
-
-///
-
-  => test stack traces, filter out anything with node_modules
 
 ///
 
