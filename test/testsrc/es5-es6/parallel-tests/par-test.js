@@ -2,14 +2,14 @@ const suman = require('suman');
 const Test = suman.init(module, {});
 
 
-Test.describe('Zulu', {parallel: true}, function () {
+Test.create({parallel: true}, function () {
 
 
     this.beforeEach.cb(t => {
         setTimeout(function () {
             console.log('before each ' + t.desc);
             t.done();
-        }, 1000);
+        }, 100);
     });
 
 
@@ -25,7 +25,7 @@ Test.describe('Zulu', {parallel: true}, function () {
 
         setTimeout(function () {
             t.done();
-        }, 2000);
+        }, 1000);
     });
 
 
@@ -33,7 +33,7 @@ Test.describe('Zulu', {parallel: true}, function () {
 
         setTimeout(function () {
             t.done();
-        }, 3000);
+        }, 1000);
     });
 
 });
