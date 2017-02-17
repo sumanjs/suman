@@ -232,6 +232,11 @@ const uninstallBabel = opts.uninstall_babel;
 const groups = opts.groups;
 const useTAPOutput = opts.use_tap_output;
 const fullStackTraces = opts.full_stack_traces;
+const coverage = opts.coverage;
+
+if(coverage){
+  console.log(colors.magenta.bold(' => Coverage reports will be written out due to presence of --coverage flag.'));
+}
 
 //re-assignable
 var babelRegister = opts.babel_register;

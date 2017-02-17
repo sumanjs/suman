@@ -1,4 +1,19 @@
 
+//
+
+  if we aggregate coverage report at the end, we do not need lcov report per file, just need coverage.json per run
+
+//
+
+
+// get istanbul coverage working with suman-test-projects
+  //TODO: use --include-all-sources with istabul
+
+////
+
+ get nyc to work alongside istanbul
+
+////
 
 //TODO: monkey patch process.exit
 const exit = process.exit;
@@ -29,7 +44,7 @@ docker exec container_id your_command
 
 ///
 
-if user wants babel and it doesn't exist, install it <locally>, then proceed
+if user wants babel and it doesn't exist, install it <locally>, put install thing on queue, then proceed
 
 ///
 
@@ -103,7 +118,6 @@ upon new release, send out tweet
   source injections  (check to ensure that injections are not reserved keywords)
   source top-level
   source core-modules
-
 
 ///
 
