@@ -12,4 +12,5 @@ npm link suman-events -f
 npm link suman-example-reporter -f
 
 # finally we link suman
-npm link
+npm link .
+npm link suman
