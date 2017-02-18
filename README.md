@@ -18,8 +18,12 @@
 
 #  Suman is a singular test runner focused on Node.js
 
-Suman is written with Node.js, but can run tests written in any language, not just JavaScript. This is 
+Suman is written with Node.js, and is focused testing Node.js code, 
+but can run tests written in any language, not just JavaScript. This is 
 because it can run tests in child processes and collect results using TAP (Test Anything Protocol).
+Suman can run a test in any language which exposes a script with a hashbang or a binary entrypoint file (e.g. Golang or C).
+To run Java tests, where Java does not compile to binary and where you cannot put a hashbang in a .class file,
+you would need to call Java from a bash script.
 
 It is designed for maximum test performance, via careful parallelization at
 every juncture in the testing process/pipeline. 
@@ -27,7 +31,7 @@ every juncture in the testing process/pipeline.
 ## If your team is interested in speeding up your testing cycle, Suman is the absolute right place to look for answers.
 
 
-###  Suman = ( AVA + Mocha + Lab )
+##  Suman = ( AVA + Mocha + Lab )
 ###  It is primarily designed to supercede Mocha, and rival AVA
 
 ---

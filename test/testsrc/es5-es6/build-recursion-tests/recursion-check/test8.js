@@ -35,7 +35,7 @@ Test.describe('gggg', {parallel: true}, function () {
 
         this.describe('pre-moodle', function () {
 
-            this.it('is async', t => {
+            this.it.cb('is async', t => {
 
                 setTimeout(function () {
                     t.done();

@@ -1,6 +1,19 @@
 
-//
+///
 
+docker-cloud => suman_library_test_cluster
+denmanm1/ewRdik9a
+
+///
+
+docker on MacOS
+https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-using-weave-0-11/
+
+///
+
+  should Suman and Suman server be NPM peer dependencies?
+
+//
    if debugging a single test with the runner, just send all stdout and stderr to the parent process
 //
 
@@ -204,6 +217,11 @@ var timesFunction = function(callback) {
 };
 
 Number.prototype.times = timesFunction;
+
+Number(5).times(function(val){
+
+
+});
 
 //////
 
