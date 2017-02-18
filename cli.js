@@ -40,7 +40,6 @@ if (weAreDebugging) {
 /////////////////////////////////////////////////////////////////
 
 function handleExceptionsAndRejections () {
-
   if (global.sumanOpts && (global.sumanOpts.ignore_uncaught_exceptions || global.sumanOpts.ignore_unhandled_rejections)) {
     console.error('\n => uncaughtException occurred, but we are ignoring due to the ' +
       '"--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" flag(s) you passed.');
@@ -130,7 +129,7 @@ if (semver.lt(nodeVersion, oldestSupported)) {
 }
 
 console.log(' => Node.js version:', nodeVersion);
-g
+
 ////////////////////////////////////////////////////////////////////
 
 const pkgJSON = require('./package.json');
@@ -234,7 +233,7 @@ const useTAPOutput = opts.use_tap_output;
 const fullStackTraces = opts.full_stack_traces;
 const coverage = opts.coverage;
 
-if(coverage){
+if (coverage) {
   console.log(colors.magenta.bold(' => Coverage reports will be written out due to presence of --coverage flag.'));
 }
 
@@ -259,36 +258,39 @@ if (opts.version) {
 
 //////////////// check for cmd line contradictions ///////////////////////////////////
 
+function makeThrow (msg) {
+  console.log('\n\n');
+  throw msg;
+}
+
 if (opts.transpile && opts.no_transpile) {
-  throw new Error(' \n => Suman fatal problem => --transpile and --no-transpile options were both set,' +
-    ' please choose one only.\n');
+  makeThrow(' => Suman fatal problem => --transpile and --no-transpile options were both set,' +
+    ' please choose one only.');
 }
 
 if (opts.append_match_all && opts.match_all) {
-  throw new Error(' \n => Suman fatal problem => --match-all and --append-match-all options were both set,' +
-    ' please choose one only.\n');
+  makeThrow(' => Suman fatal problem => --match-all and --append-match-all options were both set,' +
+    ' please choose one only.');
 }
 
 if (opts.append_match_any && opts.match_any) {
-  throw new Error(' \n => Suman fatal problem => --match-any and --append-match-any options were both set,' +
-    ' please choose one only.\n');
+  makeThrow(' => Suman fatal problem => --match-any and --append-match-any options were both set,' +
+    ' please choose one only.');
 }
 
 if (opts.append_match_none && opts.match_none) {
-  throw new Error(' \n => Suman fatal problem => --match-none and --append-match-none options were both set,' +
-    ' please choose one only.\n');
+  makeThrow(' => Suman fatal problem => --match-none and --append-match-none options were both set,' +
+    ' please choose one only.');
 }
 
 if (opts.watch && opts.stop_watching) {
-  console.log('\n', '=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
-    'please choose one only.', '\n');
-  return;
+  makeThrow('=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
+    'please choose one only.');
 }
 
 if (opts.babel_register && opts.no_babel_register) {
-  console.log('\n', '=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
-    ' please choose one only.', '\n');
-  return;
+  makeThrow('=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
+    ' please choose one only.');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -388,29 +390,27 @@ sumanOpts.full_stack_traces = sumanConfig.fullStackTraces || sumanOpts.full_stac
 
 /*
 
-if matchAny is passed it overwrites anything in suman.conf.js, same goes for matchAll, matchNone
+ if matchAny is passed it overwrites anything in suman.conf.js, same goes for matchAll, matchNone
  however, if appendMatchAny is passed, then it will append to the values in suman.conf.js
 
  */
 const sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
-  .map(item => (item instanceof RegExp) ? item : new RegExp(item));
+.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
 if (sumanMatchesAny.length < 1) {
   // if the user does not provide anything, we default to this
   sumanMatchesAny.push(/\.js$/);
 }
 
-
 const sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appendMatchNone || []))
-  .map(item => (item instanceof RegExp) ? item : new RegExp(item));
+.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
 const sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMatchAll || []))
-  .map(item => (item instanceof RegExp) ? item : new RegExp(item));
+.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
 global.sumanMatchesAny = _.uniqBy(sumanMatchesAny, item => item);
 global.sumanMatchesNone = _.uniqBy(sumanMatchesNone, item => item);
 global.sumanMatchesAll = _.uniqBy(sumanMatchesAll, item => item);
-
 
 ////////////////////////////// override transpile /////////////////////////////////////////////////
 
