@@ -1,6 +1,24 @@
 
 ///
 
+ on MacOS:
+
+ 
+ => Suman fatal pre-run problem => Error: Command failed: readlink -f /Users/Olegzandr/.suman/global/node_modules/.bin/istanbul
+readlink: illegal option -- f
+usage: readlink [-n] [file ...]
+
+    at ChildProcess.exithandler (child_process.js:211:12)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:885:16)
+    at Socket.<anonymous> (internal/child_process.js:334:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:501:12)
+
+///
+
   need to ensure dirs exist in lib/run -> mkdirp <suman-helpers-dir>/logs/runs
 
 ///
