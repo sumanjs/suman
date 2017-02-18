@@ -130,7 +130,7 @@ if (semver.lt(nodeVersion, oldestSupported)) {
 }
 
 console.log(' => Node.js version:', nodeVersion);
-
+g
 ////////////////////////////////////////////////////////////////////
 
 const pkgJSON = require('./package.json');
