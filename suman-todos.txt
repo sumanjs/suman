@@ -1,12 +1,19 @@
 
 ///
 
+  need to ensure dirs exist in lib/run -> mkdirp <suman-helpers-dir>/logs/runs
+
+///
+
+https://docs.docker.com/engine/reference/commandline/service_logs/
+$ docker service logs [OPTIONS] SERVICE
 docker-cloud => suman_library_test_cluster
 denmanm1/ewRdik9a
 
 ///
 
 docker on MacOS
+https://docs.docker.com/swarm/install-w-machine/
 https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-using-weave-0-11/
 
 ///
