@@ -46,9 +46,30 @@ const obj = {
   retryWait: 150
 };
 
+const queueWorkerLock = path.resolve(process.env.HOME + '/.suman/queue-worker.lock');
+
+var callable = true;
+function deleteLockOnExit(){
+  if(callable){
+    callable = false;
+    process.once('exit', function(){
+      try{
+        fs.unlinkSync(queueWorkerLock);
+      }
+      catch(err){
+        console.error(err.stack || err);
+      }
+    })
+  }
+
+}
+
 //////////////////////////////////////////////////////////////////
 
+
 module.exports = function work (cb) {
+
+  deleteLockOnExit();
 
   lockFile.lock(lock, obj, function (err) {
 
@@ -120,7 +141,7 @@ module.exports = function work (cb) {
               n.stdin.end();
             });
 
-            n.on('close', function () {
+            n.once('close', function () {
               work(cb);
             });
 
