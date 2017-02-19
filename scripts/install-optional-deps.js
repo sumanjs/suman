@@ -24,6 +24,8 @@ const debugLog = path.resolve(sumanHome + '/suman-debug.log');
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+const cwd = process.cwd();
+
 const debug = require('suman-debug')('s:postinstall', {
   fg: 'cyan'
 });
@@ -71,21 +73,26 @@ const deps = Object.freeze({
 });
 
 const bd = process.env.BASE_DIRECTORY;
+
+console.log('BASE_DIRECTORY in JavaScript is => ', bd);
 const dirs = ['HOME', 'USERS'];
+
+const nvm = path.resolve(String(process.env.NPM_GLOBAL_ROOT).trim());
+console.log('BASE_DIRECTORY in JavaScript is => ', bd);
 
 //if base directory is not home or users, then we are installing globally, so always install all
 //TODO: regarding above, but what about NVM?
-const alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace(path.sep, '')) < 0;
+var alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace('/', '')) < 0;
 
-const cwd = process.cwd();
+
 console.log(' => cwd in postinstall script =>', cwd);
 const projectRoot = residence.findProjectRoot(cwd);
-console.log('project root => ', projectRoot);
+console.log(' => Project root => ', projectRoot);
 
 // semver.gt('1.2.3', '9.8.7') // false
 
 var pkgDotJSON;
-const pth = path.resolve(projectRoot + '/package.json');
+var pth = path.resolve(projectRoot + '/package.json');
 
 try {
   pkgDotJSON = require(pth);
@@ -99,7 +106,7 @@ var sumanConf = {};
 var alwaysInstall = false;
 
 try {
-  require(path.resolve(projectRoot + '/suman.conf.js'));
+  sumanConf = require(path.resolve(projectRoot + '/suman.conf.js'));
 }
 catch (err) {
   // if there is no suman.conf.js file, we install all deps, and we do it as a daemon
@@ -112,7 +119,7 @@ var installs = [];
 installs = installs.concat(Object.keys(deps.slack));
 installs = installs.concat(Object.keys(deps.sqlite3));
 
-if (sumanConf.transpile || alwaysInstall || alwaysInstallDueToGlobal) {
+if (sumanConf.transpile !== false && ( alwaysInstall || alwaysInstallDueToGlobal)) {
   installs = installs.concat(Object.keys(deps.babel));
 }
 
@@ -133,6 +140,8 @@ const to = setTimeout(function () {
   console.error(' => Suman postinstall process timed out.');
   process.exit(1);
 }, 2000000);
+
+//////////////////////////////////////////////////////
 
 console.log('=> Installs =>', installs);
 const time = Date.now();
@@ -170,12 +179,12 @@ async.map(installs, function (item, cb) {
           cb(null, {version: null});
         }
         else {
-          ijson.parse(data).then(function (val) {
-            if (!val || !val.version) {
+          ijson.parse(data).then(function (v) {
+            if (!v || !v.version) {
               console.log(' val is not defined for item => ' + item);
             }
             cb(null, {
-              version: val && val.version
+              version: v && v.version
             })
           }, cb);
 
