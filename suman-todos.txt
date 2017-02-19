@@ -2,6 +2,10 @@
 
 ///
 
+ need to make sqlite sync install
+
+///
+
 https://github.com/docker/docker/issues/30585#issuecomment-280833742
 
 ///

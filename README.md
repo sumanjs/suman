@@ -10,6 +10,16 @@
 [npm-url]:https://www.npmjs.com/package/suman
 
 
+Note that because Suman should be installed as a devDependency, it won't show up as being used in the standard
+NPM badge:
+<br>
+<br>
+[![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
+<br>
+<br>
+
+
+
 
 ## &#9658; Documentation
 
