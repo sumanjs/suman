@@ -18,9 +18,8 @@ cd suman-test &&
 rm -rf suman-test-projects &&
 git clone --depth 1 https://github.com/sumanjs/suman-test-projects.git &&
 cd suman-test-projects &&
-#git checkout -b test_branch &&
 echo "installing suman deps locally"
-SUMAN_POSTINSTALL_IS_DAEMON=yes npm install --progress=false --loglevel=warn &>/dev/null &&
+SUMAN_POSTINSTALL_IS_DAEMON=yes npm install --progress=false --loglevel=warn &&
 echo "args => $@"
 suman --concurrency=12 --groups $@
 
