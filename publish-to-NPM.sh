@@ -11,6 +11,7 @@ git fetch origin &&
 git checkout master &&
 git diff --exit-code &&
 git diff --cached --exit-code &&
-
-
-echo "done"
+npm version patch &&
+git push &&
+npm publish . &&
+echo "Suman was published successfully"
