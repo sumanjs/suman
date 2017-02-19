@@ -3,6 +3,8 @@
 # running this script assumes you have a sumanjs dir on your system which contains
 # suman-utils, suman-debug, suman-events, etc
 
+# if you aren't using NVM, then you may need sudo
+
 cd $(dirname "$0")
 rm -rf node_modules
 npm install

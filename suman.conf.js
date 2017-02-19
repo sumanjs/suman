@@ -18,8 +18,8 @@ module.exports = Object.freeze({
 
     //string
     testDir: 'test',
-    testSrcDir: 'test/testsrc',
-    testTargetDir: 'test/test-target',
+    testSrcDir: 'test/src',
+    testTargetDir: 'test/target',
     sumanHelpersDir: 'test/_suman',
     uniqueAppName: '<your-app-name-here>',
     browser: 'Firefox',                 // browser to open test results with

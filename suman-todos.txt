@@ -1,9 +1,20 @@
 
 ///
 
+  need to support typescript and babel, both in the same project, if need be
+
+///
+
+ need to create suman.once.pre.js => upon $ suman --init
+
+///
+
+ we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js etc
+
+///
+
  on MacOS:
 
- 
  => Suman fatal pre-run problem => Error: Command failed: readlink -f /Users/Olegzandr/.suman/global/node_modules/.bin/istanbul
 readlink: illegal option -- f
 usage: readlink [-n] [file ...]

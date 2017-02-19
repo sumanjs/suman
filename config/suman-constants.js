@@ -54,7 +54,8 @@ module.exports = Object.freeze({
     'teardownTest',
 
     //all
-    'deps',
+    '$core',
+    '$deps',
     'resume',
     'getResumeVal',
     'getResumeValue',

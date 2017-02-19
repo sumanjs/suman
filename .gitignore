@@ -2,9 +2,8 @@ node_modules
 .idea
 *.log
 .nyc_output
-test-target
-coverage
-benchmark-tests
-.DS_Store*
-npm-debug.log*
+coverage/
+test/target/
+*.DS_Store*
+private/
 
