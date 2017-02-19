@@ -12,7 +12,14 @@ IN_CONTAINER=false;
 
 if [[ "lxc" == "${container}" ]]; then
     IN_CONTAINER=true;
-    echo " => Suman says => We are in a (Docker) container! " >> ${SUMAN_DEBUG_LOG_PATH};
+    echo " => Suman says => We are in a (Docker) container because of the
+        container env var! " >> ${SUMAN_DEBUG_LOG_PATH}
+fi
+
+if [[ -f ~/.dockerenv ]]; then
+    IN_CONTAINER=true;
+    echo " => Suman says => We are in a (Docker)
+        container because of the presence of .dockerenv file! " >> ${SUMAN_DEBUG_LOG_PATH}
 fi
 
 ./scripts/create-suman-dir.js
@@ -21,7 +28,7 @@ DOT_SUMAN_DIR=$(cd ~/.suman && pwd)
 
 if [[ ! -d "$DOT_SUMAN_DIR" ]]; then
     echo " => Suman failed to create ~/.suman directory, exiting with 1"
-    echo " => Suman failed to create ~/.suman directory, exiting with 1" >> ${SUMAN_DEBUG_LOG_PATH};
+    echo " => Suman failed to create ~/.suman directory, exiting with 1" >> ${SUMAN_DEBUG_LOG_PATH}
     exit 1;
 fi
 
@@ -32,8 +39,6 @@ if [ ! -z "$SUMAN_DEBUG" ]; then
 fi
 
 SUMAN_CONF_JS=$(node $HOME/.suman/find-project-root.js)/suman.conf.js
-LOG_PATH=~/.suman/suman-debug.log
-
 BASE_DIRECTORY=$(echo "$PWD" | cut -d "/" -f2)
 
 echo " " >> ${SUMAN_DEBUG_LOG_PATH}
@@ -100,8 +105,9 @@ echo "SUMAN_CONF_JS_FOUND => ${SUMAN_CONF_JS_FOUND}" >> ${SUMAN_DEBUG_LOG_PATH}
 echo " " >> ${SUMAN_DEBUG_LOG_PATH}
 
 
-# if suman.conf.js exists, then we run things in "foreground", otherwise run as daemon
-if [[ ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" ) || ( ( ${WE_ARE_GLOBAL} == false ) \
+#  note: here we run things in "foreground", otherwise run as daemon
+
+if [[ ( ${IN_CONTAINER} == true ) || ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" ) || ( ( ${WE_ARE_GLOBAL} == false ) \
   && ( "yes" != "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
   &&  ${SUMAN_CONF_JS_FOUND} == true ) ]]; then
 
@@ -114,7 +120,7 @@ if [[ ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" ) || ( ( ${WE_ARE_GLOBAL} == fa
      echo " "
 
 else
-    ./scripts/install-suman-home.sh > ${SUMAN_DEBUG_LOG_PATH} 2>&1 &
+    ./scripts/install-suman-home.sh >> ${SUMAN_DEBUG_LOG_PATH} 2>&1 &
     echo " " >> ${SUMAN_DEBUG_LOG_PATH}
     echo " => Suman optional deps being installed as daemon." >> ${SUMAN_DEBUG_LOG_PATH}
     echo " " >> ${SUMAN_DEBUG_LOG_PATH}

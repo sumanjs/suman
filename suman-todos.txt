@@ -2,6 +2,11 @@
 
 ///
 
+  suman daemon should leave the item it's currently working on at the top of the list, so that if another
+  process tries to add the same, it's a dupe
+
+///
+
  need to make sqlite sync install
 
 ///
