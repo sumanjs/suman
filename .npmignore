@@ -18,4 +18,8 @@ suman.conf.js
 contribute.sh
 contributing.md
 .travis.yml
-
+.gitignore
+.github
+.gitattributes
+.editorconfig
+.coveralls.yml
