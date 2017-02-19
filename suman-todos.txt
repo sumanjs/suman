@@ -1,4 +1,24 @@
+///
 
+  need to npmignore /test dir in the pragmatik project
+
+///
+
+12      ./residence/.idea/inspectionProfiles
+52      ./residence/.idea
+
+
+///
+
+ what is node_modules/graceful-readlink
+
+///
+
+  lodash and moment are taking up way too much space - need to remove moment from suman-debug
+
+///
+
+  need to remove node_modules and .idea from suman-utils project
 
 ///
 
@@ -22,7 +42,7 @@ https://github.com/docker/docker/issues/30585#issuecomment-280833742
  need to create suman.once.pre.js => upon $ suman --init
 
 ///
-
+`   `
  we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js etc
 
 ///

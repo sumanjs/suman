@@ -103,7 +103,7 @@ const semver = require('semver');
 const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
-const _ = require('lodash');
+const uniqBy = require('lodash.uniqby');
 const events = require('suman-events');
 const debug = require('suman-debug')('s:cli');
 const uuid = require('uuid/v4');
@@ -411,9 +411,9 @@ const sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appe
 const sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMatchAll || []))
 .map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
-global.sumanMatchesAny = _.uniqBy(sumanMatchesAny, item => item);
-global.sumanMatchesNone = _.uniqBy(sumanMatchesNone, item => item);
-global.sumanMatchesAll = _.uniqBy(sumanMatchesAll, item => item);
+global.sumanMatchesAny = uniqBy(sumanMatchesAny, item => item);
+global.sumanMatchesNone = uniqBy(sumanMatchesNone, item => item);
+global.sumanMatchesAll = uniqBy(sumanMatchesAll, item => item);
 
 ////////////////////////////// override transpile /////////////////////////////////////////////////
 
