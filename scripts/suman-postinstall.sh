@@ -114,13 +114,13 @@ if [[ ( ${IN_CONTAINER} == true ) || ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" 
     echo " " >> ${SUMAN_DEBUG_LOG_PATH}
     echo " => Suman optional deps being installed in the foreground" >> ${SUMAN_DEBUG_LOG_PATH}
     echo " " >> ${SUMAN_DEBUG_LOG_PATH}
-    ./scripts/install-suman-home.sh &&
+    NPM_GLOBAL_ROOT=${NPM_GLOBAL_ROOT}  BASE_DIRECTORY=${BASE_DIRECTORY}  ./scripts/install-suman-home.sh &&
     ./scripts/on-install-success.js &&
      echo " all done installing suman global deps in the foreground " >> ${SUMAN_DEBUG_LOG_PATH}
      echo " "
 
 else
-    ./scripts/install-suman-home.sh >> ${SUMAN_DEBUG_LOG_PATH} 2>&1 &
+    NPM_GLOBAL_ROOT=${NPM_GLOBAL_ROOT}  BASE_DIRECTORY=${BASE_DIRECTORY} ./scripts/install-suman-home.sh >> ${SUMAN_DEBUG_LOG_PATH} 2>&1 &
     echo " " >> ${SUMAN_DEBUG_LOG_PATH}
     echo " => Suman optional deps being installed as daemon." >> ${SUMAN_DEBUG_LOG_PATH}
     echo " " >> ${SUMAN_DEBUG_LOG_PATH}
