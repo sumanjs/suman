@@ -119,6 +119,8 @@ debug([' => $NODE_PATH is as follows:', process.env.NODE_PATH]);
 
 //////////////////////////////////////////////////////////////////////////
 
+
+
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
 
@@ -141,6 +143,7 @@ console.log(' => [pid] => ', process.pid);
 
 // all global config options reside here
 const _suman = global._suman = (global._suman || {});
+_suman.startTime = Date.now();
 const cwd = process.cwd();
 
 ////////////////////////////////////////////////////////////////////

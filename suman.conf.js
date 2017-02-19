@@ -1,6 +1,6 @@
 // => The Suman config file, should always remain at the root of your project
 // => For more info, see =>  oresoftware.github.io/suman/conf.html
-// => If transpile is true, Suman will put your babel deps in ~/.suman/node_modules
+// => If transpile is true, Suman will put your babel deps in ~/.suman/global/node_modules
 
 
 const os = require('os');
