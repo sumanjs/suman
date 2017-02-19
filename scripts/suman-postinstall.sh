@@ -12,12 +12,16 @@ IN_CONTAINER=false;
 
 if [[ "lxc" == "${container}" ]]; then
     IN_CONTAINER=true;
+     echo " => Suman says => We are in a (Docker) container because of the
+        container env var! "
     echo " => Suman says => We are in a (Docker) container because of the
         container env var! " >> ${SUMAN_DEBUG_LOG_PATH}
 fi
 
 if [[ -f ~/.dockerenv ]]; then
     IN_CONTAINER=true;
+      echo " => Suman says => We are in a (Docker)
+        container because of the presence of .dockerenv file! "
     echo " => Suman says => We are in a (Docker)
         container because of the presence of .dockerenv file! " >> ${SUMAN_DEBUG_LOG_PATH}
 fi
