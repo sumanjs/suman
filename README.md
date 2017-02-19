@@ -5,6 +5,9 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
 
+
+[npm-url]:https://www.npmjs.com/package/suman
+
 ![alt text](https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman.png "Suman Primary Logo")
 
 [npm-url]:https://www.npmjs.com/package/suman
