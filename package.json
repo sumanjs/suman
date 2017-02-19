@@ -6,7 +6,9 @@
     "test": "./node_modules/.bin/suman test/testsrc/es5-es6/a.js",
     "postinstall": "./scripts/suman-postinstall.sh",
     "merge": "git merge -Xignore-all-space ",
-    "remove": "git rm -r --ignore-unmatch "
+    "remove": "git rm -r --ignore-unmatch ",
+    "coverage": "suman --coverage --force-cwd-to-be-project-root",
+    "report": "istanbul report --dir coverage --include **/*coverage.json"
   },
   "author": "Olegzandr Denman",
   "license": "ISC",

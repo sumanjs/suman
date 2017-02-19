@@ -18,7 +18,7 @@ echo "DIR WITH package.json is => $DIR"
 find $(dirname "$DIR") -maxdepth 8 -type f  -path "*.js" -not -path "*/node_modules/*" \
 -not -path "*/node_modules/*" -not -path "*/babel/*" -not -path "*/examples/*" | while read line; do
 # try to compile all .js files
-(node -c ${line} && echo " processed file $line") || ( echo "file could not be compiled => $line")
+node -c ${line} && echo " processed file $line" || ( echo "file could not be compiled => $line")
 done
 
 

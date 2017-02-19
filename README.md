@@ -5,17 +5,9 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
 
-[npm-url]:https://www.npmjs.com/package/suman
-
 ![alt text](https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman.png "Suman Primary Logo")
 
-Note that because Suman should be installed as a devDependency, it won't show up as being used in the standard
-NPM badge:
-<br>
-<br>
-[![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
-<br>
-<br>
+[npm-url]:https://www.npmjs.com/package/suman
 
 
 
@@ -25,53 +17,53 @@ NPM badge:
  
  ---
 
-#  Suman is a singular test runner and test reporter for Node.js servers and applications.
+#  Suman is a singular test runner focused on Node.js
 
-Suman is written with Node.js, but can run tests written in any language, not just JavaScript. This is 
+Suman is written with Node.js, and is focused testing Node.js code, 
+but can run tests written in any language, not just JavaScript. This is 
 because it can run tests in child processes and collect results using TAP (Test Anything Protocol).
+Suman can run a test in any language which exposes a script with a hashbang or a binary entrypoint file (e.g. Golang or C).
+To run Java tests, where Java does not compile to binary and where you cannot put a hashbang in a .class file,
+you would need to call Java from a bash script.
 
-It is designed for maximum test performance for enterprise backend applications, via careful parallelization at
+It is designed for maximum test performance, via careful parallelization at
 every juncture in the testing process/pipeline. 
  
->> If your team is interested in speeding up their testing cycle, Suman is the absolute right place to look for answers.
+## If your team is interested in speeding up your testing cycle, Suman is the absolute right place to look for answers.
 
 
-###  Suman = ( AVA + Mocha + Lab )
+##  Suman = ( AVA + Mocha + Lab )
 ###  It is primarily designed to supercede Mocha, and rival AVA
 
 ---
 
-You need:
+You need the following ingredients:
 
-NPM
-bash
-SQLite3
-Node.js
+* npm
+* bash
+* SQLite3
+* node.js
+* readlink
 
 ___
 
 
 ### &#9658; Disclaimers: 
 >
-> Suman is in beta, despite the current version number.
->
 > Suman supports Node versions >= 4.0.0.
 >
 > Windows support is on the roadmap, will not be ready anytime soon.
 >
-> Suman does not currently support the browser directly, but you can write a browser test with Mocha or Tape, and Suman
-> can run that file as part of the test suite. (When running multiple tests with Suman, Suman runs each in a child
-> process for speed and isolation, you can just slip in a Mocha or Tape test and everything works.)
+> Suman tests cannot be run in the browser - but you probably don't need to run tests in the browser -
+> you can unit test your front-end code with Node.js and mock window, document, etc. Better yet, use
+> selenium, nightwatch.js, etc, to do automated browser testing. Avoiding the constraints of the browser
+> allows Suman to be more featureful and to have a more robust/maintainable codebase.
 >
-> Suman is currently Javascript and shell scripting centric. Suman supports any scripting language: just
-> but a hashbang in the entry point file. In the future, however, Suman will have improved support for different 
-> languages beyond shell scripting and JS.
 
 ---
 
 
 ## &#9658; Installation
-
 
 <i> => For command line tools:</i>
 # ```$ npm install -g suman```
@@ -92,7 +84,7 @@ add a directory to your project which you can move to a location of your choosin
 ### &#9658; Local installations only => 
 
 If you wish to avoid global NPM module installations, we commend you, see: 
- [http://oresoftware.github.io/suman/tutorial-11-advanced-installation.html/](http://oresoftware.github.io/suman/tutorial-11-advanced-installation.html "Suman Docs: Advanced Installation") 
+ [http://sumanjs.github.io/tutorial-11-advanced-installation.html/](http://sumanjs.github.io/tutorial-11-advanced-installation.html "Suman Docs: Advanced Installation") 
 
 
 ## Simple example
@@ -102,22 +94,20 @@ If you wish to avoid global NPM module installations, we commend you, see:
 import * as suman from 'suman';
 const Test = suman.init(module);
 
-const uniq = 'this could be anything';
-
 Test.create('example', (baz, assert, path, http, beforeEach, describe) => {  
 
+    // Suman uses simple old-school style JavaScript DI
     // we have injected some core modules by name (http, assert, path) 
     // we have also injected a module from our own project, baz
     
      inject('bar', () => {
-         return baz(uniq).then(v => {
+         return baz().then(v => {
             return v.filter(val => val.isGreen())
          });
      });
 
      beforeEach(t => {
-     
-     
+         console.log('this runs before each test')
      });
      
      describe('foo', (bar, it) => {
@@ -139,22 +129,21 @@ Test.create('example', (baz, assert, path, http, beforeEach, describe) => {
 
 });
 
-// As you can see, we use DI pretty heavily to provide the values or methods we need, when we need them.
-
 ```
 
 
 # &#9658; Purpose
 
 The purpose of the Suman library is to provide the most sophisticated test runner in the Node.js ecosystem, with better
-features, higher performance, improved debuggability, and more expressiveness than AVA, Mocha, and Tape. Suman is a first-rate library and we hope you
-take the time to compare its capabilities with AVA, Mocha and Tape.
+features, higher performance, improved debuggability, and more expressiveness than AVA, Mocha, and Tape. 
+Suman is a first-rate library and we hope you take the time to compare its capabilities with AVA, Mocha and Tape.
 
 The primary aims are:
 
-* Developer experience and test debuggability are above all else
+* Developer experience and test debuggability are above ALL else
 * Provide a beautiful and intuitive API
-* Solve all major and minor problems in the Mocha API specifically
+* Solve all major and minor problems in the Mocha API, specifically
+* Borrow some of the best features from Mocha, AVA and Tape
 * Make tests run faster by leveraging async I/O and separate Node.js processes
 * _Isolate_ tests by running them in separate processes, so they do not share memory nor interact directly
 * Make tests _independent_, so that you can easily run one test at a time (damn you Mocha).

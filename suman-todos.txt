@@ -1,21 +1,118 @@
 
 ///
 
+  need to support typescript and babel, both in the same project, if need be
+
+///
+
+ need to create suman.once.pre.js => upon $ suman --init
+
+///
+
+ we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js etc
+
+///
+
+ on MacOS:
+
+ => Suman fatal pre-run problem => Error: Command failed: readlink -f /Users/Olegzandr/.suman/global/node_modules/.bin/istanbul
+readlink: illegal option -- f
+usage: readlink [-n] [file ...]
+
+    at ChildProcess.exithandler (child_process.js:211:12)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:885:16)
+    at Socket.<anonymous> (internal/child_process.js:334:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:501:12)
+
+///
+
+  need to ensure dirs exist in lib/run -> mkdirp <suman-helpers-dir>/logs/runs
+
+///
+
+https://docs.docker.com/engine/reference/commandline/service_logs/
+$ docker service logs [OPTIONS] SERVICE
+docker-cloud => suman_library_test_cluster
+denmanm1/ewRdik9a
+
+///
+
+docker on MacOS
+https://docs.docker.com/swarm/install-w-machine/
+https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-using-weave-0-11/
+
+///
+
+  should Suman and Suman server be NPM peer dependencies?
+
+//
+   if debugging a single test with the runner, just send all stdout and stderr to the parent process
+//
+
+//
+
+  if we aggregate coverage report at the end, we do not need lcov report per file, just need coverage.json per run
+
+//
+
+
+// get istanbul coverage working with suman-test-projects
+  //TODO: use --include-all-sources with istabul
+
+////
+
+ get nyc to work alongside istanbul
+
+////
+
+//TODO: monkey patch process.exit
+const exit = process.exit;
+process.exit = function(cb){
+ cb(function(err, code){
+     if(err){
+        exit.call(process,(code || 1));
+     }
+     else{
+        exit.call(process,(code || 0));
+     }
+  });
+};
+
+///
+
+create list of simple coding features in suman-docs (even for my own purposes)
+
+timeout
+time min/max (expect a test to take at least a certain amount of time)
+
+///
+
+https://www.quora.com/How-can-I-get-my-ssh-keys-into-a-docker-container-running-locally
+Docker copy can help you to achieve that:
+docker cp ~/.ssh {container id}:/home/root
+docker exec container_id your_command
+
+///
+
+if user wants babel and it doesn't exist, install it <locally>, put install thing on queue, then proceed
+
+///
+
+ If no name is passed to Test.create(name), then the test name should be the path from root to module.filename,
+ by default. No need to pass __filename to the test.
+
+///
+
+runs directory needs a readme file
+
+///
+
  add a command to fix postinstall if it didn't work or something
-
  suman --post-install
-
-///
-
-d.on('error') => d.once('error')
-
-///
-
-  => gracefulExit(err) => gracefulExit({msg: 'unique', err: originalError})
-
-///
-
-  => test stack traces, filter out anything with node_modules
 
 ///
 
@@ -36,11 +133,8 @@ upon new release, send out tweet
 ////
 
  add a propaganda link in the Suman docs - showing:
-
  the difference!
-
  1:1 process to test file
-
 
 ///
 
@@ -78,7 +172,6 @@ upon new release, send out tweet
   source injections  (check to ensure that injections are not reserved keywords)
   source top-level
   source core-modules
-
 
 ///
 
@@ -161,11 +254,15 @@ var timesFunction = function(callback) {
 
 Number.prototype.times = timesFunction;
 
+Number(5).times(function(val){
+
+
+});
+
 //////
 
 if path does not exist, check to see if path exists directly in test/test-src
 create auto-complete after typing with suman to test-src dir, so user does not have to type
-
 test/test-src all the time
 
 ///
@@ -224,10 +321,6 @@ git.io shortlinks / tinyurls, as in (https://git.io/vMUyr)
 
 /////
 
-runner stdio =>  pipe results to parent
-
-////
-
 cd suman-test/suman-test-projects && suman $(find subprojects -mindepth 2 -maxdepth 2 -name "test.sh" | xargs ) --concurrency=1
 
 ////
@@ -242,6 +335,8 @@ no, just point suman to suman_test.sh, yourself!
 ////
 
 incorporate suman.order.js with suman.groups.js
+note: if user doesn't want to run two tests at the same time, they should just go in different
+suman groups!!
 
 ////
 
@@ -257,7 +352,6 @@ add do's and do not's to readme
 // list of checks
 
 1. testSrcDir and testTargetDir need to be same level
-
 2. if suman or suman/logs does not exist, need to tell user to install suman (or suman should create if they don't exist)
 
 /////
@@ -317,7 +411,7 @@ https://github.com/avajs/ava/issues/1147
 
 java / spark / go / python
 
-//////
+/////////
 
 SUMAN_SINGLE_PROCESS needs to forbid non-js file
 
@@ -325,7 +419,6 @@ SUMAN_SINGLE_PROCESS needs to forbid non-js file
 
  =>
         *default
-
  =>
         { host: '127.0.0.1', port: 6969 }
 
@@ -369,11 +462,6 @@ todo: make coverage take one argument --coverage istanbul --coverage nyc
 
 ////////
 
-each language option should be a plugin, each plugin needs to have an entrypoint
-enable writing tests in any language, as long as the child process fulfills the IPC contract
-
-////////
-
 cd suman && npm install suman -f   // force
 
 /////
@@ -381,10 +469,6 @@ cd suman && npm install suman -f   // force
 refactor FILE_IS_NOT_DOT_JS   => FILE_IS_NOT_ACCEPTED_EXTENSION
 
 /////
-
-if npm root -g is in user home, maybe we can use that cache instead (probably not)
-
-////
 
 send usage data to slack (create app to track data)
 
@@ -396,10 +480,6 @@ even though master and staging should never be different
 
 /////
 
-suman-to-tap => just like suman-troubleshoot, will distill/translate output to only the tap output (?)
-
-////
-
 if not installing as daemon - should only install the deps explicitly declared in suman.conf.js
 
 in other words - if suman.conf.js is not present - install all deps as daemon,
@@ -407,17 +487,9 @@ if it is present, only install deps declared as foreground process
 
 ////
 
-test-errors should be created whenever suman is run
-
-/////
-
 top level dependencies in package.json could be auto sourced in callback function
 
 ////
-
-source modules from ~/.npm cache if we can't find them in ~/.suman/node_modules
-
-/////
 
 if project with suman as a dependency are being installed in parallel, then .suman/node_modules will be
 written to in parallel, need to mitigate this (hopefully the queue works)
@@ -464,7 +536,7 @@ if user is root, can we write .suman directory to ~/.suman?
 
 //////
 
-because Poolio depends on Suman, we might need to install suman with --production / --only-production flag
+because Poolio depends on Suman, we might need to install suman with --production / --only=production flag
 
 ///////
 
@@ -561,16 +633,10 @@ expect a 56 error for this test - or maybe    TEST_ERROR_AND_BAIL_IS_TRUE: 80,
 
 ////////
 
-suman is sending the runner the same errors twice (process.send())
-https://www.dropbox.com/s/kr6x1c0d3a5ccpg/Screenshot%202016-11-28%2014.54.55.png?dl=0
-
-////////
-
 if we use SUMAN_SINGLE_PROCESS=yes, if suman tests spawn suman tests, then those will be forced to be SSP also
 because of nature of environment vars.
 
 ////////
-
 
 https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
 
@@ -592,10 +658,6 @@ Preventing false negatives
 preventing false positives
 
 /////////
-
-expected exit codes => need to work on it
-
-////////////
 
 if user calls t.done() and there is no cb, this.test.cb, should log warnings
 
@@ -678,12 +740,7 @@ should node --inspect / suman-inspect only be for one file (not --inspecting the
 
 //////////////////////////////////////
 
-make sure falsy is ok, 0 exit codes passed to t.done() should not fail test.
-
-/////////////////
-
 if sumanOpts.strict => then we fail early if certain files don't exist, like certain suman helpers files
-
 alternatively it could be strict = !lax
 
 ///////
@@ -737,10 +794,6 @@ https://github.com/nodejs/help/issues/363#issuecomment-260213843
 TODO: passing rate => 1 stubbed, 5 passed, 6 total, passing rate is 83.33%?
 
 //////////////
-
-TODO: integrate suman once with gulp programmatically
-
-///////////
 
 https://github.com/gulpjs/gulp/issues/770#issuecomment-259282294
 
@@ -875,8 +928,6 @@ TODO: use pragmatik in the lib/index.js file so that we can work with opts.skip 
 
 ////////////
 
-
-
 change Suites skipped : 1, to Suites skipped  (at least 1)
 
 ////////////
@@ -901,20 +952,12 @@ suman --diagnostics
 
 ////////
 
-need to consolidate multiple Test.describes into one report to send back to runner
-
-////////////
-
 when running with {transpile:true} in suman.conf.js, simply "$ suman" (without -r)
 will still transpile *all* of test-src to test-target, (but still only run one file)
 
 ////////////
 
 make sure that .babelrc does not get overwritten when using suman --use-babel
-
-/////////////
-
-should always use .babelrc-suman
 
 /////////////
 
@@ -1007,10 +1050,9 @@ that way test code can continue and you can print out results/http responses any
 
 //////////
 
-sqlite = https://www.youtube.com/watch?v=P3C0iO1yqhk
+use database navigator/browser with Jetbrains products
 
-
-////////////
+//////////
 
 suman --init: if suman is already installed locally, and version is not too old, don't reinstall
 
@@ -1022,15 +1064,12 @@ https://github.com/avajs/ava/pull/402
 
 On linux you can use taskset to run node with a given CPU affinity.
 See this post for information on using the start command in Windows to do the same.
-
 http://stackoverflow.com/questions/10829974/taskset-equivalent-in-windows
-
 http://superuser.com/questions/149312/how-to-set-processor-affinity-on-os-x
 
 //////////////////////////////
 
   3 diagrams, 1 for node a.test.js, 1 for suman a.test.js, 1 for suman --runner a.test.js
-
   draw a node green arrow through a test script
 
   ///////////////////
@@ -1047,7 +1086,6 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 
 
 //TODO: "$ suman --stop-watching"
-//TODO: write test for installing suman, using containers to spin up some virtual filesystem?
 //TODO: "$ suman --convert" with the "--omit-comments"
 //TODO: https://github.com/creationix/nvm/issues/668
 //TODO: if export is set to true, then we need to exit if we are using the runner
@@ -1057,7 +1095,6 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: before/after.always
 
 //TODO: verify t.plan/t.confirm
-//TODO: monkey patch process.exit
 //TODO: in before/after hooks, we should be able to access t.data and pass that to all tests?
 //TODO: when re-initting suman and potentially overwriting existing suman files, mv the current suman folder to root and
 //TODO: draw data => picture showing ioc injecting data into multiple tests
