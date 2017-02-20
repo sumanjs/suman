@@ -7,6 +7,9 @@ if [[ "$BRANCH" == "master" ]]; then
   exit 1;
 fi
 
+git add . &&
+git add -A &&
+git commit -am "temp before NPM Publish" &&
 git fetch origin &&
 git checkout master &&
 git pull &&
@@ -14,7 +17,7 @@ npm version patch -f &&
 git add . &&
 git add -A &&
 git commit -am "Patched NPM version" &&
-{ ./test/testsrc/shell/node-c.sh && echo "compiled successfully" } || { echo " Did not compile successfully "; exit 1 } &&
+ { ./test/src/shell/node-c.sh && echo " success "; }  || { echo " Did not compile successfully "; exit 1; } &&
 git push &&
 npm publish . &&
 git checkout ${BRANCH} &&
