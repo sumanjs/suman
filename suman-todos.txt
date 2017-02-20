@@ -1,4 +1,9 @@
 
+///
+
+  typescript transpile => user needs to pass a path to tsconfig-test.json
+  for babel => user needs to pass a path to .babelrc
+
 //
 
  inject project root with $root to a test suite
@@ -40,15 +45,6 @@
 
 ///
 
-  suman daemon should leave the item it's currently working on at the top of the list, so that if another
-  process tries to add the same, it's a dupe
-
-///
-
- need to make sqlite sync install
-
-///
-
 https://github.com/docker/docker/issues/30585#issuecomment-280833742
 
 ///
@@ -60,10 +56,8 @@ https://github.com/docker/docker/issues/30585#issuecomment-280833742
  need to create suman.once.pre.js => upon $ suman --init
 
 ///
-`   `
- we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js etc
 
-///
+ we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js etc
 
 ///
 
@@ -81,6 +75,9 @@ usage: readlink [-n] [file ...]
     at emitOne (events.js:96:13)
     at Socket.emit (events.js:188:7)
     at Pipe._handle.close [as _onclose] (net.js:501:12)
+
+
+    solution - use fs.readlinkSync?
 
 ///
 
@@ -101,7 +98,7 @@ https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-usin
 
 ///
 
-  should Suman and Suman server be NPM peer dependencies?
+  ****should Suman and Suman server be NPM peer dependencies?****
 
 //
    if debugging a single test with the runner, just send all stdout and stderr to the parent process
@@ -115,7 +112,7 @@ https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-usin
 
 
 // get istanbul coverage working with suman-test-projects
-  //TODO: use --include-all-sources with istabul
+  //TODO: use --include-all-sources with istanbul
 
 ////
 
