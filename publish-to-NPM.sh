@@ -14,7 +14,7 @@ npm version patch -f &&
 git add . &&
 git add -A &&
 git commit -am "Patched NPM version" &&
-{ ./test/testsrc/shell/node-c.sh && echo "compiled successfully" } || { echo " Did not compile successfully "; exit 1 } &&
+ ./test/testsrc/shell/node-c.sh  || { echo " Did not compile successfully "; exit 1; } &&
 git push &&
 npm publish . &&
 git checkout ${BRANCH} &&
