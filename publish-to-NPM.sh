@@ -9,9 +9,13 @@ fi
 
 git fetch origin &&
 git checkout master &&
-git diff --exit-code &&
-git diff --cached --exit-code &&
-npm version patch &&
+git pull &&
+npm version patch -f &&
+git add . &&
+git add -A &&
+git commit -am "Patched NPM version" &&
+{ ./test/testsrc/shell/node-c.sh && echo "compiled successfully" } || { echo " Did not compile successfully "; exit 1 } &&
 git push &&
 npm publish . &&
+git checkout ${BRANCH} &&
 echo "Suman was published successfully"

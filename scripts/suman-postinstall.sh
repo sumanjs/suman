@@ -20,7 +20,7 @@ fi
 
 if [[ -f ~/.dockerenv ]]; then
     IN_CONTAINER=true;
-      echo " => Suman says => We are in a (Docker)
+    echo " => Suman says => We are in a (Docker)
         container because of the presence of .dockerenv file! "
     echo " => Suman says => We are in a (Docker)
         container because of the presence of .dockerenv file! " >> ${SUMAN_DEBUG_LOG_PATH}
