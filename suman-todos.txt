@@ -1,3 +1,12 @@
+
+//
+
+ inject project root with $root to a test suite
+
+///
+
+ use mkdirp with suman --create
+
 ///
 
   need to npmignore /test dir in the pragmatik project
@@ -19,6 +28,15 @@
 ///
 
   need to remove node_modules and .idea from suman-utils project
+
+///
+
+  suman daemon should leave the item it's currently working on at the top of the list, so that if another
+  process tries to add the same, it's a dupe
+
+///
+
+ need to make sqlite sync install
 
 ///
 
