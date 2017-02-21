@@ -1,4 +1,39 @@
 
+
+///
+
+NODE_PATH=`echo -n ${NODE_PATH} | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
+invalid -v option on mac
+
+///
+
+> suman@1.1.512217 postinstall /usr/local/lib/node_modules/suman
+> ./scripts/suman-postinstall.sh
+
+Error: EACCES: permission denied, open '/Users/alexamil/.suman/suman-debug.log'
+    at Error (native)
+./scripts/suman-postinstall.sh: line 48: /Users/alexamil/.suman/suman-debug.log: Permission denied
+./scripts/suman-postinstall.sh: line 49: /Users/alexamil/.suman/suman-debug.log: Permission denied
+./scripts/suman-postinstall.sh: line 51: /Users/alexamil/.suman/suman-debug.log: Permission denied
+
+////
+
+ // when npm link . (suman) is not there
+ // and when suman-clis.sh is not imported
+ // and we are using non-nvm, then suman doesn't work at command line
+
+
+alexamils-MacBook-Pro:suman alexamil$ suman
+ => Original path of Suman executable => "/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman"
+awk: invalid -v option
+
+/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 28: node: No such file or directory
+ => No local Suman executable could be found, given the current directory => /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman
+/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 33: dirname: No such file or directory
+ => Attempting to run installed version of Suman here =>
+/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 34: node: No such file or directory
+
+
 //
 
  inject project root with $root to a test suite
