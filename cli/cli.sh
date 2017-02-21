@@ -14,14 +14,12 @@ X="$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})"
 
 NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
 
-echo "NODE_PATH => $NODE_PATH"
-
 if [ "${LOCAL_SUMAN_ALREADY_FOUND}" == "yes" ]; then
     # we know that this directory contains the local version of suman we want to use
-    NODE_PATH=${NODE_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node ${X}/cli.js $@
+    NODE_PATH=${NODE_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node "${X}/cli.js" $@
 else
     # we are probably in the global install space, so let's find the local installation given pwd/cwd
-    LOCAL_SUMAN=$(node ${X}/scripts/find-local-suman-executable.js)
+    LOCAL_SUMAN="$(node ${X}/scripts/find-local-suman-executable.js)"
 
     if [ -z "$LOCAL_SUMAN" ]; then
         # no local version found, so we fallback on the version in this directory, global or not

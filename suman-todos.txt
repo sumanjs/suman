@@ -1,4 +1,7 @@
 
+///
+
+ mode: should be either "series" or "serial", both should take
 
 ///
 
