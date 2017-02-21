@@ -1,4 +1,19 @@
 
+// get rid of name column in suman runner results
+
+//
+
+ warn user when two Test.create's have the same name
+
+//
+
+  need to line wrap - or the user just needs to control+minus their screen
+
+///
+
+Squash commits based on author
+http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
+
 ///
 
  mode: should be either "series" or "serial", both should take
