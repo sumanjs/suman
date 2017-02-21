@@ -311,7 +311,7 @@ async.map(installs, function (item, cb) {
           // trim removes newline characters from beginning and end of strings
           return String(l).trim().length > 0;
         });
-        fs.writeFile(queue, lines.join('\n'), function ($err) {
+        fs.writeFile(queue, lines.join('\n'), {mode:0o777}, function ($err) {
           lockfile.unlock(installQueueLock, function (err) {
             run($err || err);
           });
@@ -340,7 +340,7 @@ async.map(installs, function (item, cb) {
       });
     }
 
-    fs.writeFile(queueWorkerLock, String(new Date()), {flag: 'wx', flags: 'wx'}, function (err) {
+    fs.writeFile(queueWorkerLock, String(new Date()), {flag: 'wx', mode:0o777}, function (err) {
 
       if (err && !String(err.stack || err).match(/EEXIST/i)) {
         console.error(err.stack || err);

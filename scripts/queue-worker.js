@@ -123,7 +123,7 @@ module.exports = function work (cb) {
           console.log(' => Suman postinstall message => number of npm install lines remaining *after* de-duping => ', uniqueList.length,
             '\n', ' first item => ', first,'\n');
 
-          fs.writeFile(queue, data, {}, function (err) {
+          fs.writeFile(queue, data,  {mode:0o777}, function (err) {
 
             if (err) {
               console.error('\n', err.stack || err, '\n');

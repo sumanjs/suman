@@ -119,8 +119,6 @@ debug([' => $NODE_PATH is as follows:', process.env.NODE_PATH]);
 
 //////////////////////////////////////////////////////////////////////////
 
-
-
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
 
@@ -157,7 +155,7 @@ if (!projectRoot) {
   if (!cwdAsRoot) {
     console.log(' => Warning => A NPM/Node.js project root could not be found given your current working directory.');
     console.log(colors.red.bold(' => cwd:', cwd, ' '));
-    console.log('\n', colors.bgRed.gray.bold('=> Please execute the suman command from within the root of your project. '), '\n');
+    console.log('\n', colors.red.bold('=> Please execute the suman command from within the root of your project. '), '\n');
     console.log('\n', colors.blue.bold('=> (Perhaps you need to run "npm init" before running "suman --init", ' +
         'which will create a package.json file for you at the root of your project.) ') + '\n');
     return process.exit(1);
