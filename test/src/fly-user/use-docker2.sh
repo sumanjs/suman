@@ -11,7 +11,6 @@ docker rm $(docker ps -a -q) -f  # remove all running containers
 
 export USE_DOCKER=yes
 export SUMAN_DEBUG=s
-echo "NODE_PATH => $NODE_PATH"
 cd # cd to home dir
 mkdir suman-test
 cd suman-test &&
