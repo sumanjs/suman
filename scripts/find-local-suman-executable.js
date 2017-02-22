@@ -27,7 +27,6 @@ catch(err){
 }
 
 const debugLogPath = path.resolve(process.env.HOME + '/.suman/suman-debug.log');
-
 fs.writeFileSync(debugLogPath, '\n\n', { flag: 'a' });
 fs.writeFileSync(debugLogPath, ' => Date run => ' + new Date().toISOString(), { flag: 'a' });
 fs.writeFileSync(debugLogPath, ' => Running find-local-suman-executable.\n', { flag: 'a' });
