@@ -42,12 +42,21 @@ every juncture in the testing process/pipeline.
 ## If your team is interested in speeding up your testing cycle, Suman is the absolute right place to look for answers.
 
 
+
 ##  Suman = ( AVA + Mocha + Lab )
 ###  It is primarily designed to supercede Mocha, and rival AVA
 
+Suman uses several intelligent pieces of setup:
+
+Global installations of Suman simply look for local installations to run. This prevents any potential 
+conflicts if there is a difference between the global/local module versions.
+
+If you use NVM and switch between Node.js versions, you can use a bash script (provided by SumanJS) which will 
+decessitate the need for any global installations of Suman at all.
+
 ---
 
-You need the following ingredients:
+To use Suman, you need the following ingredients:
 
 * npm
 * bash
@@ -78,6 +87,10 @@ ___
 <i> => For command line tools:</i>
 # ```$ npm install -g suman```
 
+=> **Please** do *not* use sudo to install suman globally; if you need to use sudo, then something is probably wrong
+=> See: https://docs.npmjs.com/getting-started/fixing-npm-permissions
+=> To avoid any problems with permissions, Suman recommends usage of NVM
+
 <i> => For test suites in your project:</i>
 # ```$ cd <your-project-root> && suman --init```
 
@@ -104,7 +117,7 @@ If you wish to avoid global NPM module installations, we commend you, see:
 import * as suman from 'suman';
 const Test = suman.init(module);
 
-Test.create('example', (baz, assert, path, http, beforeEach, describe) => {  
+Test.create('example', (baz, assert, http, beforeEach, describe) => {  
 
     // Suman uses simple old-school style JavaScript DI
     // we have injected some core modules by name (http, assert, path) 
@@ -120,7 +133,7 @@ Test.create('example', (baz, assert, path, http, beforeEach, describe) => {
          console.log('this runs before each test')
      });
      
-     describe('foo', (bar, it) => {
+     describe('foo', {mode:'series'}, (bar, it, describe) => {
        
         it('a', t => {
              assert.equal(t.title,'a');
@@ -134,6 +147,23 @@ Test.create('example', (baz, assert, path, http, beforeEach, describe) => {
              assert.equal(t.title,'c');           
         });
         
+         describe('nested child', {mode:'parallel'}, (bar, it) => {
+               
+                it('a', t => {
+                     assert.equal(t.title,'a');
+                });
+                  
+                it('b', t => {
+                     assert.equal(t.title,'b'); 
+                });
+                  
+                it('c', t => {
+                     assert.equal(t.title,'c');           
+                });
+                
+               
+             });
+        
        
      });
 
@@ -146,7 +176,7 @@ Test.create('example', (baz, assert, path, http, beforeEach, describe) => {
 
 The purpose of the Suman library is to provide the most sophisticated test runner in the Node.js ecosystem, with better
 features, higher performance, improved debuggability, and more expressiveness than AVA, Mocha, and Tape. 
-Suman is a first-rate library and we hope you take the time to compare its capabilities with AVA, Mocha and Tape.
+Suman is a first-rate library and we hope you take the time to compare its capabilities with AVA, Mocha, Tape, TapJS, etc.
 
 The primary aims are:
 
@@ -154,9 +184,9 @@ The primary aims are:
 * Provide a beautiful and intuitive API
 * Solve all major and minor problems in the Mocha API, specifically
 * Borrow some of the best features from Mocha, AVA and Tape
-* Make tests run faster by leveraging async I/O and separate Node.js processes
+* Make tests run faster by leveraging concurrency provided by async I/O *and* separate Node.js processes
 * _Isolate_ tests by running them in separate processes, so they do not share memory nor interact directly
-* Make tests _independent_, so that you can easily run one test at a time (damn you Mocha).
+* Make tests _independent_, so that you can easily run one test at a time (damn you Mocha!).
 * Make debugging your test files easier; this is achieved by allowing for the running of tests with the plain-old node executable,
 this makes Suman tests "node-able"
 * Provide cleaner output, so that developer logging output is not necessarily mixed with test result => 
@@ -390,7 +420,7 @@ import * as suman from 'suman';
 const Test = suman.init(module);
 
 
-Test.create('ES6/ES7 API Example', (baz, assert, path, http, beforeEach, it) => {   // this is our root test suite.
+Test.create('ES6/ES7 API Example', (baz, assert, path, http, beforeEach, it) => {  
 
     // we have injected some core modules by name (http, assert, path) 
     // we have also injected a module from our own project, baz

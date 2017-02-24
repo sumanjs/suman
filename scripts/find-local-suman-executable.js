@@ -1,6 +1,9 @@
+
+//core
 const path = require('path');
 const fs = require('fs');
 
+//project
 const cwd = process.cwd();
 const down = [];
 var found = false;
@@ -23,12 +26,11 @@ catch(err){
 
 }
 
-
 const debugLogPath = path.resolve(process.env.HOME + '/.suman/suman-debug.log');
-
-fs.writeFileSync(debugLogPath, '\n', { flag: 'w', flags: 'w' });
-fs.writeFileSync(debugLogPath, ' => Running find-local-suman-executable.\n', { flag: 'a', flags: 'a' });
-fs.writeFileSync(debugLogPath, ' => cwd => ' + cwd, { flag: 'a', flags: 'a' });
+fs.writeFileSync(debugLogPath, '\n\n', { flag: 'a' });
+fs.writeFileSync(debugLogPath, ' => Date run => ' + new Date().toISOString(), { flag: 'a' });
+fs.writeFileSync(debugLogPath, ' => Running find-local-suman-executable.\n', { flag: 'a' });
+fs.writeFileSync(debugLogPath, ' => cwd => ' + cwd, { flag: 'a' });
 
 var p, cd;
 
@@ -41,6 +43,7 @@ function stat (p) {
     if (!String(err.stack || err).match(/ENOENT: no such file or directory/i)) {
       throw err;
     }
+    //explicit for your pleasure
     return false;
   }
 }
