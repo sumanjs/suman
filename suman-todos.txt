@@ -1,4 +1,53 @@
 
+
+///
+
+these aren't getting written out correctly:
+
+**suman/logs**
+test-target/
+
+
+///
+
+ lodash woes
+
+ leg@xps:~/WebstormProjects/oresoftware/sumanjs/suman$ npm la lodash
+ suman@1.1.512218
+ │ /home/oleg/WebstormProjects/oresoftware/sumanjs/suman
+ │ Suman is an advanced, singular, Node.js test runner designed to supercede Mocha and rival AVA
+ │ git+https://github.com/sumanjs/suman.git
+ │ https://github.com/sumanjs/suman#readme
+ ├─┬ node-check-fast@0.0.1006
+ │ │ Run node -c as fast as possible on .js files in a project
+ │ │ git+https://github.com/ORESoftware/node-check-fast.git
+ │ │ https://github.com/ORESoftware/node-check-fast#readme
+ │ └─┬ async@2.1.5
+ │   │ Higher-order functions and common patterns for asynchronous code
+ │   │ git+https://github.com/caolan/async.git
+ │   │ https://github.com/caolan/async#readme
+ │   └── lodash@4.17.4
+ │       Lodash modular utilities.
+ │       git+https://github.com/lodash/lodash.git
+ │       https://lodash.com/
+ └─┬ suman-utils@0.0.73099
+   │ Shared module within the Suman test runner ecosystem
+   │ git+https://github.com/ORESoftware/suman-utils.git
+   │ https://github.com/ORESoftware/suman-utils#readme
+   ├─┬ async@2.1.5
+   │ │ Higher-order functions and common patterns for asynchronous code
+   │ │ git+https://github.com/caolan/async.git
+   │ │ https://github.com/caolan/async#readme
+   │ └── lodash@4.17.4
+   │     Lodash modular utilities.
+   │     git+https://github.com/lodash/lodash.git
+   │     https://lodash.com/
+   └── lodash@4.17.4
+       Lodash modular utilities.
+       git+https://github.com/lodash/lodash.git
+       https://lodash.com/
+
+
 ///
 
   typescript transpile => user needs to pass a path to tsconfig-test.json
