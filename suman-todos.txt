@@ -1,9 +1,82 @@
 
+
+//https://angular.io/docs/ts/latest/guide/dependency-injection.html
+
+// get rid of name column in suman runner results
+
 //
 
-https://github.com/sstephenson/bats
+ warn user when two Test.create's have the same name
 
 //
+
+  need to line wrap - or the user just needs to control+minus their screen
+
+///
+
+Squash commits based on author
+http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
+
+///
+
+ mode: should be either "series" or "serial", both should take
+
+
+///
+
+these aren't getting written out correctly:
+
+**suman/logs**
+test-target/
+
+
+///
+
+ lodash woes
+
+ leg@xps:~/WebstormProjects/oresoftware/sumanjs/suman$ npm la lodash
+ suman@1.1.512218
+ │ /home/oleg/WebstormProjects/oresoftware/sumanjs/suman
+ │ Suman is an advanced, singular, Node.js test runner designed to supercede Mocha and rival AVA
+ │ git+https://github.com/sumanjs/suman.git
+ │ https://github.com/sumanjs/suman#readme
+ ├─┬ node-check-fast@0.0.1006
+ │ │ Run node -c as fast as possible on .js files in a project
+ │ │ git+https://github.com/ORESoftware/node-check-fast.git
+ │ │ https://github.com/ORESoftware/node-check-fast#readme
+ │ └─┬ async@2.1.5
+ │   │ Higher-order functions and common patterns for asynchronous code
+ │   │ git+https://github.com/caolan/async.git
+ │   │ https://github.com/caolan/async#readme
+ │   └── lodash@4.17.4
+ │       Lodash modular utilities.
+ │       git+https://github.com/lodash/lodash.git
+ │       https://lodash.com/
+ └─┬ suman-utils@0.0.73099
+   │ Shared module within the Suman test runner ecosystem
+   │ git+https://github.com/ORESoftware/suman-utils.git
+   │ https://github.com/ORESoftware/suman-utils#readme
+   ├─┬ async@2.1.5
+   │ │ Higher-order functions and common patterns for asynchronous code
+   │ │ git+https://github.com/caolan/async.git
+   │ │ https://github.com/caolan/async#readme
+   │ └── lodash@4.17.4
+   │     Lodash modular utilities.
+   │     git+https://github.com/lodash/lodash.git
+   │     https://lodash.com/
+   └── lodash@4.17.4
+       Lodash modular utilities.
+       git+https://github.com/lodash/lodash.git
+       https://lodash.com/
+
+
+
+///
+
+  typescript transpile => user needs to pass a path to tsconfig-test.json
+  for babel => user needs to pass a path to .babelrc
+
+//https://angular.io/docs/ts/latest/guide/dependency-injection.html
 
 // get rid of name column in suman runner results
 
@@ -58,6 +131,68 @@ awk: invalid -v option
 /Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 34: node: No such file or directory
 
 
+>>>>>>> dce60d9f934b8088eca25befc193184a511250fe
+//
+
+https://github.com/sstephenson/bats
+
+//
+
+// get rid of name column in suman runner results
+
+//
+
+ warn user when two Test.create's have the same name
+
+//
+
+  need to line wrap - or the user just needs to control+minus their screen
+
+///
+
+Squash commits based on author
+http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
+
+///
+
+ mode: should be either "series" or "serial", both should take
+
+
+///
+
+NODE_PATH=`echo -n ${NODE_PATH} | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
+invalid -v option on mac
+
+///
+
+> suman@1.1.512217 postinstall /usr/local/lib/node_modules/suman
+> ./scripts/suman-postinstall.sh
+
+Error: EACCES: permission denied, open '/Users/alexamil/.suman/suman-debug.log'
+    at Error (native)
+./scripts/suman-postinstall.sh: line 48: /Users/alexamil/.suman/suman-debug.log: Permission denied
+./scripts/suman-postinstall.sh: line 49: /Users/alexamil/.suman/suman-debug.log: Permission denied
+./scripts/suman-postinstall.sh: line 51: /Users/alexamil/.suman/suman-debug.log: Permission denied
+
+////
+
+ // when npm link . (suman) is not there
+ // and when suman-clis.sh is not imported
+ // and we are using non-nvm, then suman doesn't work at command line
+
+
+alexamils-MacBook-Pro:suman alexamil$ suman
+ => Original path of Suman executable => "/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman"
+awk: invalid -v option
+
+/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 28: node: No such file or directory
+ => No local Suman executable could be found, given the current directory => /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman
+/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 33: dirname: No such file or directory
+ => Attempting to run installed version of Suman here =>
+/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 34: node: No such file or directory
+
+>>>>>>> 0fd50d086199f4d73fa73c0bd60d857b425da958
+
 //
 
  inject project root with $root to a test suite
@@ -99,15 +234,6 @@ awk: invalid -v option
 
 ///
 
-  suman daemon should leave the item it's currently working on at the top of the list, so that if another
-  process tries to add the same, it's a dupe
-
-///
-
- need to make sqlite sync install
-
-///
-
 https://github.com/docker/docker/issues/30585#issuecomment-280833742
 
 ///
@@ -119,10 +245,8 @@ https://github.com/docker/docker/issues/30585#issuecomment-280833742
  need to create suman.once.pre.js => upon $ suman --init
 
 ///
-`   `
- we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js etc
 
-///
+ we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js etc
 
 ///
 
@@ -140,6 +264,9 @@ usage: readlink [-n] [file ...]
     at emitOne (events.js:96:13)
     at Socket.emit (events.js:188:7)
     at Pipe._handle.close [as _onclose] (net.js:501:12)
+
+
+    solution - use fs.readlinkSync?
 
 ///
 
@@ -160,7 +287,7 @@ https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-usin
 
 ///
 
-  should Suman and Suman server be NPM peer dependencies?
+  ****should Suman and Suman server be NPM peer dependencies?****
 
 //
    if debugging a single test with the runner, just send all stdout and stderr to the parent process
@@ -174,7 +301,7 @@ https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-usin
 
 
 // get istanbul coverage working with suman-test-projects
-  //TODO: use --include-all-sources with istabul
+  //TODO: use --include-all-sources with istanbul
 
 ////
 

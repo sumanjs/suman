@@ -1,6 +1,9 @@
+
+//core
 const path = require('path');
 const fs = require('fs');
 
+//project
 const cwd = process.cwd();
 const down = [];
 var found = false;
@@ -25,7 +28,8 @@ catch(err){
 
 const debugLogPath = path.resolve(process.env.HOME + '/.suman/suman-debug.log');
 
-fs.writeFileSync(debugLogPath, '\n', { flag: 'w' });
+fs.writeFileSync(debugLogPath, '\n\n', { flag: 'a' });
+fs.writeFileSync(debugLogPath, ' => Date run => ' + new Date().toISOString(), { flag: 'a' });
 fs.writeFileSync(debugLogPath, ' => Running find-local-suman-executable.\n', { flag: 'a' });
 fs.writeFileSync(debugLogPath, ' => cwd => ' + cwd, { flag: 'a' });
 

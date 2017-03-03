@@ -12,7 +12,7 @@ git add -A &&
 git commit -am "temp before NPM Publish" &&
 git fetch origin &&
 git checkout master &&
-git pull &&
+git pull -f  || echo ""
 npm version patch -f &&
 git add . &&
 git add -A &&
