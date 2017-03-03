@@ -1,5 +1,6 @@
 *.sh
 *.ts
+.babelrc
 .idea
 node_modules
 coverage
@@ -17,3 +18,4 @@ contributing.md
 .gitattributes
 .editorconfig
 .coveralls.yml
+tsconfig*.json

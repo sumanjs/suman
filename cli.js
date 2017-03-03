@@ -7,11 +7,9 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 ///////////////////////////////////////////////////////////////////
 
 /*
-
  Note for the reader: Suman uses dashdash to parse command line arguments
  We found dashdash to be a better alternative to existing tools like commander
  => https://github.com/trentm/node-dashdash
-
  */
 
 const logExit = require('./lib/helpers/log-exit');

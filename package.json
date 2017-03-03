@@ -75,10 +75,8 @@
     "should": "^11.2.0",
     "@types/async": "^2.0.38",
     "@types/core-js": "^0.9.35",
-    "@types/immutable": "^3.8.7",
     "@types/lodash": "^4.14.50",
-    "@types/node": "^7.0.0",
-    "@types/whatwg-fetch": "0.0.33"
+    "@types/node": "^7.0.0"
   },
   "repository": {
     "type": "git",

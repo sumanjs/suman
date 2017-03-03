@@ -2,7 +2,7 @@ const suman = require('suman');
 const Test = suman.init(module, {});
 
 
-Test.describe(__filename, {}, function (assert) {
+Test.create(['dogs', 'charlie', function (assert) {
 
     this.before({fatal: false},t => {
         throw new Error('hook');
@@ -77,5 +77,4 @@ Test.describe(__filename, {}, function (assert) {
 
     });
 
-
-});
+}]);
