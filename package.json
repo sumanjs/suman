@@ -1,6 +1,14 @@
 {
   "name": "suman",
   "version": "1.1.512218",
+  "bin": {
+    "suman": "cli/cli.sh",
+    "suman-debug": "cli/cli-debug.sh",
+    "suman--debug": "cli/cli--debug.sh",
+    "suman-babel": "cli/cli-babel.sh",
+    "suman-inspect": "cli/cli-inspect.sh",
+    "suman-troubleshoot": "cli/cli-troubleshoot.js"
+  },
   "main": "lib/index.js",
   "scripts": {
     "test": "./node_modules/.bin/suman test/testsrc/es5-es6/a.js",
@@ -64,7 +72,13 @@
     "moment": "^2.17.1",
     "node-check-fast": "latest",
     "rxjs": "^5.0.3",
-    "should": "^11.2.0"
+    "should": "^11.2.0",
+    "@types/async": "^2.0.38",
+    "@types/core-js": "^0.9.35",
+    "@types/immutable": "^3.8.7",
+    "@types/lodash": "^4.14.50",
+    "@types/node": "^7.0.0",
+    "@types/whatwg-fetch": "0.0.33"
   },
   "repository": {
     "type": "git",
@@ -86,14 +100,7 @@
   "bugs": {
     "url": "https://github.com/sumanjs/suman/issues"
   },
-  "bin": {
-    "suman": "cli/cli.sh",
-    "suman-debug": "cli/cli-debug.sh",
-    "suman--debug": "cli/cli--debug.sh",
-    "suman-babel": "cli/cli-babel.sh",
-    "suman-inspect": "cli/cli-inspect.sh",
-    "suman-troubleshoot": "cli/cli-troubleshoot.js"
-  },
+
   "homepage": "https://github.com/sumanjs/suman#readme",
   "description": "Suman is an advanced, singular, Node.js test runner designed to supercede Mocha and rival AVA"
 }

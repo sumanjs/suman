@@ -110,7 +110,7 @@ const uuid = require('uuid/v4');
 
 //project
 const constants = require('./config/suman-constants');
-const sumanUtils = require('suman-utils/utils');
+const sumanUtils = require('suman-utils');
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -508,11 +508,11 @@ if (optCheck.length > 1) {
   return;
 }
 
-//////////////////////////////////////// load reporters  ////////////////////////////////
+/////////////////////////////// load reporters  ////////////////////////////////
 
 require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig);
 
-/////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 resultBroadcaster.emit(events.NODE_VERSION, nodeVersion);
 resultBroadcaster.emit(events.SUMAN_VERSION, sumanVersion);
@@ -534,7 +534,7 @@ if (opts.verbose) {
   }
 }
 
-////////// slack message ///////////////
+///////////////////////////// slack message //////////////////////////////
 
 //TODO: also can load any deps that are needed (babel, instanbul, suman-inquirer, etc), here, instead of elsewhere
 require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () {
@@ -574,7 +574,6 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
       fforce: fforce,
       removeBabel: removeBabel,
     });
-
   }
   else if (convert) {
     require('./lib/helpers/convert-mocha')(projectRoot, src, dest, force);

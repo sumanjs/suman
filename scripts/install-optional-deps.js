@@ -17,7 +17,7 @@ const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
 
 //project
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
-const sumanUtils = require('suman-utils/utils');
+const sumanUtils = require('suman-utils');
 const residence = require('residence');
 const queueWorker = require('./queue-worker');
 const debugLog = path.resolve(sumanHome + '/suman-debug.log');
