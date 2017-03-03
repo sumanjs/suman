@@ -25,6 +25,7 @@ module.exports = Object.freeze({
     browser: 'Firefox',                 // browser to open test results with
 
     //boolean
+    useUtilityPatches: true,     // "5".times, etc.
     useTAPOutput: false,
     errorsOnly: false,
     replayErrorsAtRunnerEnd: true,

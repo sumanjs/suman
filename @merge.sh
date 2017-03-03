@@ -14,12 +14,16 @@ git fetch origin &&
 git checkout dev &&
 git pull &&
 git checkout ${BRANCH} &&
-git branch -D copy_branch
+git branch -D copy_branch &&
 git checkout -b copy_branch &&
 git checkout ${BRANCH} &&
 git rebase dev &&
+echo "done with rebase"
+echo "now running reset --soft"
 git reset --soft dev &&
+echo "successfully called reset soft"
 git add . &&
 git add -A &&
 git commit -am --allow-empty "set:dev" &&
-git push
+git push &&
+echo "successfully pushed"
