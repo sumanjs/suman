@@ -9,7 +9,7 @@ const cp = require('child_process');
 const async = require('async');
 
 //project
-const sumanUtils = require('suman-utils/utils');
+const sumanUtils = require('suman-utils');
 
 ///////////////////////////////////////////////////////////////////////////
 

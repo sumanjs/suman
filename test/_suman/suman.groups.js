@@ -7,7 +7,7 @@ const assert = require('assert');
 const fs = require('fs');
 
 //npm
-const sumanUtils = require('suman-utils/utils');
+const sumanUtils = require('suman-utils');
 const _ = require('underscore');
 
 //////////////////////////////////////////////////////////////////////

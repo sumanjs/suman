@@ -6,7 +6,7 @@ const util = require('util');
 const assert = require('assert');
 
 //npm
-const sumanUtils = require('suman-utils/utils');
+const sumanUtils = require('suman-utils');
 const _ = require('underscore');
 
 //////////////////////////////////////////////////////////////////////
