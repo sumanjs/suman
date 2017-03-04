@@ -33,6 +33,7 @@ debug(' => In Suman postinstall script, cwd => ', cwd);
 debug(' => In Suman postinstall script => ', __filename);
 debug(' => Suman home dir path => ', sumanHome);
 
+
 fs.mkdir(sumanHome, function (err) {
 
   if (err && !String(err.stack || err).match(/EEXIST/)) {
@@ -72,7 +73,7 @@ fs.mkdir(sumanHome, function (err) {
           cb(err);
         }
         else {
-          fs.writeFile(sumanClis, data, cb);
+          fs.writeFile(sumanClis, data,  {mode:0o777}, cb);
         }
       });
 
@@ -85,14 +86,14 @@ fs.mkdir(sumanHome, function (err) {
         }
         else {
           // default flag is 'w'
-          fs.writeFile(findSumanExec, data, cb);
+          fs.writeFile(findSumanExec, data, {mode:0o777}, cb);
         }
       });
 
     },
     function (cb) {
       fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
-        + ', from directory (cwd) => ' + cwd, cb);
+        + ', from directory (cwd) => ' + cwd,  {mode:0o777}, cb);
     },
     function (cb) {
       // we want to create the file if it doesn't exist, and just write empty string either way
@@ -106,7 +107,7 @@ fs.mkdir(sumanHome, function (err) {
         }
         else {
           // default flag is 'w'
-          fs.writeFile(findProjectRootDest, data, cb);
+          fs.writeFile(findProjectRootDest, data,  {mode:0o777}, cb);
         }
       });
 

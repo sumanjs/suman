@@ -7,7 +7,6 @@ fi
 
 MY_DIR=$(cd $(dirname "$0") && pwd)
 
-echo "NODE_PATH => ${NODE_PATH}"
 cd # cd to home dir
 mkdir suman-test
 cd suman-test &&

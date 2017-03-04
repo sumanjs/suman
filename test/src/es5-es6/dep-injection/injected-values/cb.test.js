@@ -1,7 +1,6 @@
 const suman = require('suman');
 const Test = suman.init(module, {});
 
-const async = require('async');
 
 Test.create('example', function (before, describe, inject) {
 
@@ -13,43 +12,33 @@ Test.create('example', function (before, describe, inject) {
 
     });
 
-    describe('inner-hooks', function (before, sam) {
-
-        console.log('sam => ', sam);
+    describe.only('inner-hooks', function (before, sam) {
 
         before('makes testing fun', t => {
-
-            t.on('done', function () {
+            t.once('done', function () {
                 console.log('t is done (b1) !');
-            })
-
+            });
         });
 
         before('makes testing fun', t => {
-
             t.on('done', function () {
                 console.log('t is done (b2) !');
             });
-
         });
 
         before('makes testing fun', t => {
-
             t.on('done', function () {
                 console.log('t is done (b3) !');
             });
-
         });
     });
 
-    describe('inner', function (it) {
+    describe.only('inner', function (it) {
 
         it('makes testing fun', t => {
-
             t.on('done', function () {
                 console.log('t is done (1) !');
             })
-
         });
 
         it('makes testing fun', t => {
