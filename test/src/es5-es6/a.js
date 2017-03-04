@@ -2,7 +2,8 @@ const suman = require('suman');
 const Test = suman.init(module, {});
 
 
-Test.create({parallel: true}, ['dogs', 'charlie', function (assert, before, beforeEach, it, after) {
+Test.create({parallel: true}, ['dogs', 'charlie',
+  function (assert, before, beforeEach, it, after) {
 
   before({fatal: false}, t => {
     throw new Error('hook');

@@ -1,4 +1,11 @@
 
+// bash completion
+Bash completion has been installed to:
+  /usr/local/etc/bash_completion.d
+
+
+//https://github.com/mochajs/mocha/issues/2726
+
 // suman_single_process does not work with runner - try running it against the pragmatik project, and see
 
 // throws: true, vs throws RegExp, if true, any error is ok, or just have them use /.*/ as the regex
