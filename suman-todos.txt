@@ -1,4 +1,18 @@
+///
 
+  need to npmignore /test dir in the pragmatik project
+
+///
+
+12      ./residence/.idea/inspectionProfiles
+52      ./residence/.idea
+
+
+///
+
+ what is node_modules/graceful-readlink
+
+ ///
 // suman_single_process does not work with runner - try running it against the pragmatik project, and see
 
 // throws: true, vs throws RegExp, if true, any error is ok, or just have them use /.*/ as the regex
@@ -268,6 +282,8 @@ awk: invalid -v option
 
 ///
 
+=======
+>>>>>>> dev_integration
   lodash and moment are taking up way too much space - need to remove moment from suman-debug
 
 ///
@@ -296,7 +312,7 @@ https://github.com/docker/docker/issues/30585#issuecomment-280833742
  need to create suman.once.pre.js => upon $ suman --init
 
 ///
-
+`   `
  we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js etc
 
 ///
