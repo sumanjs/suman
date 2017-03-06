@@ -24,7 +24,7 @@
     "ansi-256-colors": "^1.1.0",
     "ansi-styles": "^2.1.0",
     "ascii-table": "0.0.8",
-    "async": "^1.5.0",
+    "async": "^2.1.5",
     "builtin-modules": "^1.1.1",
     "callsite": "^1.0.0",
     "chmodr": "^1.0.2",
@@ -75,10 +75,8 @@
     "should": "^11.2.0",
     "@types/async": "^2.0.38",
     "@types/core-js": "^0.9.35",
-    "@types/immutable": "^3.8.7",
     "@types/lodash": "^4.14.50",
-    "@types/node": "^7.0.0",
-    "@types/whatwg-fetch": "0.0.33"
+    "@types/node": "^7.0.0"
   },
   "repository": {
     "type": "git",
@@ -100,7 +98,6 @@
   "bugs": {
     "url": "https://github.com/sumanjs/suman/issues"
   },
-
   "homepage": "https://github.com/sumanjs/suman#readme",
   "description": "Suman is an advanced, singular, Node.js test runner designed to supercede Mocha and rival AVA"
 }

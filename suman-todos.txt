@@ -1,8 +1,107 @@
 
+///
+
+ suman uses a more declarative style and dependency injection for code reuse, etc.
+
+
+///
+
+$inject => use annotations to determine which values will be available on the $inject object
+or use $inject inside suman.init()
+
+///
+
+Test.create(['#parallel', '#timeout:3000', function(){
+
+
+}]);
+
+
+///
+
+  put default suman config files in separate project?
+
+///
+
+   need a way to assert that there is a test case for each - need to get list of test names
+   and match list of test names to some other list
+
+///
+
+  need to npmignore /test dir in the pragmatik project
+
+///
+
+
+// bash completion
+  Bash completion has been installed to:
+  /usr/local/etc/bash_completion.d
+
+///
+
+//https://github.com/mochajs/mocha/issues/2726
+
+///
+
+ what is node_modules/graceful-readlink
+
+ ///
+
+// suman_single_process does not work with runner - try running it against the pragmatik project, and see
+
+// throws: true, vs throws RegExp, if true, any error is ok, or just have them use /.*/ as the regex
+
+
+// why are some global suman deps being installed as dev deps?
+{
+  "name": "global",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "slack": "^8.2.0",
+    "sqlite3": "^3.1.8"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-es2016": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-preset-stage-1": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "babel-preset-stage-3": "^6.22.0",
+    "babel-register": "^6.23.0",
+    "babel-runtime": "^6.23.0",
+    "frontail": "^4.0.1",
+    "istanbul": "^0.4.5",
+    "slack": "^8.2.1",
+    "sqlite3": "^3.1.8",
+    "suman-inquirer": "0.0.101",
+    "suman-inquirer-directory": "0.0.101",
+    "suman-server": "0.0.206",
+    "webpack": "^2.2.1"
+  },
+  "description": ""
+}
+
+////
+
 
 //https://angular.io/docs/ts/latest/guide/dependency-injection.html
 
-// get rid of name column in suman runner results
+//
+
+get rid of name column in suman runner results
 
 //
 
@@ -17,12 +116,6 @@
 Squash commits based on author
 http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
 
-///
-
- mode: should be either "series" or "serial", both should take
-
-
-///
 
 these aren't getting written out correctly:
 
@@ -78,29 +171,8 @@ test-target/
 
 //https://angular.io/docs/ts/latest/guide/dependency-injection.html
 
-// get rid of name column in suman runner results
-
-//
-
- warn user when two Test.create's have the same name
-
-//
-
-  need to line wrap - or the user just needs to control+minus their screen
-
-///
-
-Squash commits based on author
-http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
-
-///
 
  mode: should be either "series" or "serial", both should take
-
-///
-
-NODE_PATH=`echo -n ${NODE_PATH} | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
-invalid -v option on mac
 
 ///
 
@@ -122,7 +194,6 @@ Error: EACCES: permission denied, open '/Users/alexamil/.suman/suman-debug.log'
 
 alexamils-MacBook-Pro:suman alexamil$ suman
  => Original path of Suman executable => "/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman"
-awk: invalid -v option
 
 /Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 28: node: No such file or directory
  => No local Suman executable could be found, given the current directory => /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman
@@ -130,8 +201,6 @@ awk: invalid -v option
  => Attempting to run installed version of Suman here =>
 /Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 34: node: No such file or directory
 
-
->>>>>>> dce60d9f934b8088eca25befc193184a511250fe
 //
 
 https://github.com/sstephenson/bats
@@ -191,25 +260,9 @@ awk: invalid -v option
  => Attempting to run installed version of Suman here =>
 /Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 34: node: No such file or directory
 
->>>>>>> 0fd50d086199f4d73fa73c0bd60d857b425da958
-
-//
+////
 
  inject project root with $root to a test suite
-
-///
-
- use mkdirp with suman --create
-
-///
-
-  need to npmignore /test dir in the pragmatik project
-
-///
-
-12      ./residence/.idea/inspectionProfiles
-52      ./residence/.idea
-
 
 ///
 
@@ -218,10 +271,6 @@ awk: invalid -v option
 ///
 
   lodash and moment are taking up way too much space - need to remove moment from suman-debug
-
-///
-
-  need to remove node_modules and .idea from suman-utils project
 
 ///
 
@@ -266,7 +315,7 @@ usage: readlink [-n] [file ...]
     at Pipe._handle.close [as _onclose] (net.js:501:12)
 
 
-    solution - use fs.readlinkSync?
+    SOLUTION - use fs.readlinkSync?
 
 ///
 
@@ -287,12 +336,10 @@ https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-usin
 
 ///
 
-  ****should Suman and Suman server be NPM peer dependencies?****
+  **** PEER deps => should Suman and Suman server be NPM peer dependencies? ****
 
 //
    if debugging a single test with the runner, just send all stdout and stderr to the parent process
-//
-
 //
 
   if we aggregate coverage report at the end, we do not need lcov report per file, just need coverage.json per run
@@ -300,8 +347,10 @@ https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-usin
 //
 
 
-// get istanbul coverage working with suman-test-projects
-  //TODO: use --include-all-sources with istanbul
+//
+
+get istanbul coverage working with suman-test-projects
+  TODO: use --include-all-sources with istanbul
 
 ////
 

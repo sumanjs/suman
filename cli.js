@@ -7,11 +7,9 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 ///////////////////////////////////////////////////////////////////
 
 /*
-
  Note for the reader: Suman uses dashdash to parse command line arguments
  We found dashdash to be a better alternative to existing tools like commander
  => https://github.com/trentm/node-dashdash
-
  */
 
 const logExit = require('./lib/helpers/log-exit');
@@ -118,6 +116,8 @@ debug([' => Suman started with the following command:', process.argv]);
 debug([' => $NODE_PATH is as follows:', process.env.NODE_PATH]);
 
 //////////////////////////////////////////////////////////////////////////
+
+
 
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;

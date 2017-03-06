@@ -1,27 +1,49 @@
 'use strict';
-var domain = require('domain');
-var util = require('util');
-var pragmatik = require('pragmatik');
-var async = require('async');
-var colors = require('colors/safe');
-var rules = require('../helpers/handle-varargs');
-var constants = require('../../config/suman-constants');
-var handleSetupComplete = require('../handle-setup-complete');
-function handleBadOptions(opts) {
+
+//core
+const domain = require('domain');
+const util = require('util');
+
+//npm
+const pragmatik = require('pragmatik');
+const async = require('async');
+const colors = require('colors/safe');
+
+//project
+
+const rules = require('../helpers/handle-varargs');
+const constants = require('../../config/suman-constants');
+const handleSetupComplete = require('../handle-setup-complete');
+
+/////////////////////////////////////////////////////////////////////
+
+function handleBadOptions(opts: IAfterOpts): void {
+
     if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
         console.error(' => Suman usage error => "plan" option is not an integer.');
         process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
         return;
     }
 }
-module.exports = function (suman, zuite) {
-    return function ($desc, $opts, $fn) {
+
+//////////////////////////// inline types  ///////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////
+
+export = function (suman: ISuman, zuite: ITestSuite): Function {
+
+    return function ($desc: string, $opts: IAfterOpts, $fn: Function): ITestSuite {
+
         handleSetupComplete(zuite);
-        var args = pragmatik.parse(arguments, rules.hookSignature, {
+
+        const args: Array<any> = pragmatik.parse(arguments, rules.hookSignature, {
             preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
         });
-        var desc = args[0], opts = args[1], fn = args[2];
+
+        // this transpiles much more nicely, rather than inlining it above
+        const [desc, opts, fn] = args;
         handleBadOptions(opts);
+
         if (opts.skip) {
             suman.numHooksSkipped++;
         }
@@ -42,6 +64,10 @@ module.exports = function (suman, zuite) {
                 warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')
             });
         }
+
         return zuite;
+
     };
+
+
 };
