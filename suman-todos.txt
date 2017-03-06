@@ -163,11 +163,11 @@ test-target/
        https://lodash.com/
 
 
-
 ///
 
   typescript transpile => user needs to pass a path to tsconfig-test.json
   for babel => user needs to pass a path to .babelrc
+
 
 //https://angular.io/docs/ts/latest/guide/dependency-injection.html
 
@@ -260,7 +260,6 @@ awk: invalid -v option
  => Attempting to run installed version of Suman here =>
 /Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 34: node: No such file or directory
 
-////
 
  inject project root with $root to a test suite
 
