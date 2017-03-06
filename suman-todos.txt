@@ -1,8 +1,11 @@
 
 ///
 
- suman uses a more declarative style and dependency injection for code reuse, etc.
+ add .ts and .sh to npmignore without ignorring .d.ts and without ignoring cli/*.sh
 
+///
+
+ suman uses a more declarative style and dependency injection for code reuse, etc.
 
 ///
 
