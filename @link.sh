@@ -6,8 +6,6 @@
 # if you aren't using NVM, then you may need sudo
 
 cd $(dirname "$0")
-rm -rf node_modules
-npm install
 
 # link dev deps
 npm link suman-utils -f

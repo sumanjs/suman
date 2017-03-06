@@ -22,6 +22,6 @@ git reset --soft dev &&
 echo "successfully called reset soft"
 git add . &&
 git add -A &&
-git commit -am --allow-empty "reset:sft" &&
+git commit --allow-empty -am "reset:sft" &&
 git push &&
 echo "successfully pushed"
