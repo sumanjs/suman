@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.512220",
+  "version": "1.1.512221",
   "bin": {
     "suman": "cli/cli.sh",
     "suman-debug": "cli/cli-debug.sh",
