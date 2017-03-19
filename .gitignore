@@ -1,9 +1,8 @@
 node_modules
 .idea
 *.log
-.nyc_output
+.nyc_output/
 coverage/
 test/target/
-*.DS_Store*
-private/
+.DS_Store
 
