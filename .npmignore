@@ -1,7 +1,7 @@
 !cli/*.sh
 !*.d.ts
-*.sh
-*.ts
+*xxx.sh
+*xxx.ts
 *.md
 *.txt
 *.log
