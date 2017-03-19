@@ -4,7 +4,10 @@ const Test = suman.init(module, {
 });
 
 
-Test.create({parallel: true}, ['dogs', 'charlie', function (assert, before, beforeEach, it, after) {
+Test.create(['parallel: true', 'parallel: true',
+  function (assert, before, beforeEach, it, after) {
+
+  console.log(this.opts);
 
   before({fatal: false}, t => {
     throw new Error('hook');
@@ -19,7 +22,7 @@ Test.create({parallel: true}, ['dogs', 'charlie', function (assert, before, befo
     setTimeout(function () {
       console.log('before each hook finished.');
       t.ctn();
-    }, 10);
+    }, 1000);
 
   });
 
@@ -33,7 +36,7 @@ Test.create({parallel: true}, ['dogs', 'charlie', function (assert, before, befo
   });
 
 
-  this.describe('nested group 1', function () {
+  this.describe('nested group 1', {parallel: true}, function () {
 
     this.before(t => {
       console.log('before b');
@@ -49,7 +52,7 @@ Test.create({parallel: true}, ['dogs', 'charlie', function (assert, before, befo
     });
 
 
-    this.describe('nested group 2', function () {
+    this.describe('nested group 2', {parallel: true}, function () {
 
       this.before(t => {
         console.log('before c & d');

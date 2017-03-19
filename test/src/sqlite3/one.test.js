@@ -1,6 +1,5 @@
 const path = require('path');
 const p = path.resolve(process.env.HOME + '/.suman/global/node_modules/sqlite3');
-
 const dbPth = path.resolve(process.env.HOME + '/.suman/db');
 
 var sqlite3 = require(p).verbose();

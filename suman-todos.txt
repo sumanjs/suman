@@ -1,8 +1,53 @@
 
 ///
 
+prove that TAP output works with all regular suman tests by turning off IPC
+
+///
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+
+///
+
+ in readme put the installation size
+
+///
+
+change verbosity scheme to numbers 1-9.
+
+dynamic tests, tests files should be minimally dynamic so as to be repeatable, knowable etc.
+to call tests programmatically, as opposed through the suman runner.
+
+you can require the test file yourself, with your own code.
+However, to pass different values to the test, it's recommend to use process.argv.
+So use a child process to run the test with your own code.
+
+///
+
+use cp.execSync to synchronously install npm deps
+
+////
+
+create gantt chart in suman-server
+https://github.com/dk8996/Gantt-Chart
+
+///
+
+  // suman --create x/js/z
+  suman.template.js
+
+///
+
+suman standard reporter should be its one module
+
+///
+
  suman uses a more declarative style and dependency injection for code reuse, etc.
 
+ ////
+
+
+ add .ts and .sh to npmignore without ignorring .d.ts and without ignoring cli/*.sh
 
 ///
 
@@ -11,11 +56,9 @@ or use $inject inside suman.init()
 
 ///
 
-Test.create(['#parallel', '#timeout:3000', function(){
-
+Test.create(['parallel:true', 'timeout:3000', function(){
 
 }]);
-
 
 ///
 
@@ -30,10 +73,8 @@ Test.create(['#parallel', '#timeout:3000', function(){
 
   need to npmignore /test dir in the pragmatik project
 
-///
-
-
 // bash completion
+
   Bash completion has been installed to:
   /usr/local/etc/bash_completion.d
 
@@ -96,12 +137,7 @@ Test.create(['#parallel', '#timeout:3000', function(){
 
 ////
 
-
-//https://angular.io/docs/ts/latest/guide/dependency-injection.html
-
-//
-
-get rid of name column in suman runner results
+ https://angular.io/docs/ts/latest/guide/dependency-injection.html
 
 //
 
@@ -109,19 +145,8 @@ get rid of name column in suman runner results
 
 //
 
-  need to line wrap - or the user just needs to control+minus their screen
-
-///
-
 Squash commits based on author
 http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
-
-
-these aren't getting written out correctly:
-
-**suman/logs**
-test-target/
-
 
 ///
 
@@ -168,13 +193,12 @@ test-target/
   typescript transpile => user needs to pass a path to tsconfig-test.json
   for babel => user needs to pass a path to .babelrc
 
+//
 
-//https://angular.io/docs/ts/latest/guide/dependency-injection.html
-
-
- mode: should be either "series" or "serial", both should take
+https://angular.io/docs/ts/latest/guide/dependency-injection.html
 
 ///
+
 
 > suman@1.1.512217 postinstall /usr/local/lib/node_modules/suman
 > ./scripts/suman-postinstall.sh
@@ -203,73 +227,11 @@ alexamils-MacBook-Pro:suman alexamil$ suman
 
 //
 
-https://github.com/sstephenson/bats
-
-//
-
-// get rid of name column in suman runner results
-
-//
-
- warn user when two Test.create's have the same name
-
-//
-
-  need to line wrap - or the user just needs to control+minus their screen
-
-///
-
-Squash commits based on author
-http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
-
-///
-
- mode: should be either "series" or "serial", both should take
-
-
-///
-
-NODE_PATH=`echo -n ${NODE_PATH} | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
-invalid -v option on mac
-
-///
-
-> suman@1.1.512217 postinstall /usr/local/lib/node_modules/suman
-> ./scripts/suman-postinstall.sh
-
-Error: EACCES: permission denied, open '/Users/alexamil/.suman/suman-debug.log'
-    at Error (native)
-./scripts/suman-postinstall.sh: line 48: /Users/alexamil/.suman/suman-debug.log: Permission denied
-./scripts/suman-postinstall.sh: line 49: /Users/alexamil/.suman/suman-debug.log: Permission denied
-./scripts/suman-postinstall.sh: line 51: /Users/alexamil/.suman/suman-debug.log: Permission denied
+ => tap + bash => https://github.com/sstephenson/bats
 
 ////
-
- // when npm link . (suman) is not there
- // and when suman-clis.sh is not imported
- // and we are using non-nvm, then suman doesn't work at command line
-
-
-alexamils-MacBook-Pro:suman alexamil$ suman
- => Original path of Suman executable => "/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman"
-awk: invalid -v option
-
-/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 28: node: No such file or directory
- => No local Suman executable could be found, given the current directory => /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman
-/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 33: dirname: No such file or directory
- => Attempting to run installed version of Suman here =>
-/Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 34: node: No such file or directory
-
-
- inject project root with $root to a test suite
-
-///
 
  what is node_modules/graceful-readlink
-
-///
-
-  lodash and moment are taking up way too much space - need to remove moment from suman-debug
 
 ///
 
@@ -278,23 +240,18 @@ awk: invalid -v option
 
 ///
 
- need to make sqlite sync install
+    https://github.com/docker/docker/issues/30585#issuecomment-280833742
 
 ///
 
-https://github.com/docker/docker/issues/30585#issuecomment-280833742
+  need to support typescript and babel, both in the same project, if need be. Just need user to point
+  to tsconfig-test.json and we can get tsc to work for testing. We can probably generate one based off their
+  suman.config. So we look for a permanent one. If the permanent file does not exist, we generate our own
+  temporary tsconfig-test.json based off their suman config.
 
 ///
 
-  need to support typescript and babel, both in the same project, if need be
-
-///
-
- need to create suman.once.pre.js => upon $ suman --init
-
-///
-
- we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js etc
+ we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js, suman.once.pre.js etc, etc
 
 ///
 
@@ -322,6 +279,10 @@ usage: readlink [-n] [file ...]
 
 ///
 
+ => move to async.autoInject for several places in the code
+
+////
+
 https://docs.docker.com/engine/reference/commandline/service_logs/
 $ docker service logs [OPTIONS] SERVICE
 docker-cloud => suman_library_test_cluster
@@ -338,13 +299,15 @@ https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-usin
   **** PEER deps => should Suman and Suman server be NPM peer dependencies? ****
 
 //
-   if debugging a single test with the runner, just send all stdout and stderr to the parent process
+
+   if debugging a single test with the runner,
+   just send all stdout and stderr to the parent process
+   the user can use the --inherit-stdio option
+
 //
 
-  if we aggregate coverage report at the end, we do not need lcov report per file, just need coverage.json per run
-
-//
-
+  if we aggregate coverage report at the end, we do not need lcov report per file,
+  just need coverage.json per run
 
 //
 
@@ -372,13 +335,6 @@ process.exit = function(cb){
 
 ///
 
-create list of simple coding features in suman-docs (even for my own purposes)
-
-timeout
-time min/max (expect a test to take at least a certain amount of time)
-
-///
-
 https://www.quora.com/How-can-I-get-my-ssh-keys-into-a-docker-container-running-locally
 Docker copy can help you to achieve that:
 docker cp ~/.ssh {container id}:/home/root
@@ -386,16 +342,18 @@ docker exec container_id your_command
 
 ///
 
-if user wants babel and it doesn't exist, install it <locally>, put install thing on queue, then proceed
+if user wants babel and it doesn't exist, (1) block and install it <locally>,
+and (2) if not in a container, then put install thing on queue, then proceed
 
 ///
 
  If no name is passed to Test.create(name), then the test name should be the path from root to module.filename,
- by default. No need to pass __filename to the test.
+ by default. No need to pass __filename to the test. However, if Test.create(function(){}) is called
+ twice in the same file, then...append a number?
 
 ///
 
-runs directory needs a readme file
+ => runs directory needs a readme file
 
 ///
 
@@ -476,7 +434,7 @@ https://docs.docker.com/swarm/reference/swarm/
 ////
 
 if there are any test errors or warnings, print out a link
-to the relavent log files
+to the relevent log files
 if there is one test error, pass the exact link to that file
 if there are multiple errors, just print a link to test/_suman/logs/tests directory
 
@@ -492,15 +450,6 @@ https://docs.docker.com/swarm/reference/swarm/
 
 ////
 
-if there are any test errors or warnings, print out a link
-to the relavent log files
-if there is one test error, pass the exact link to that file
-if there are multiple errors, just print a link to test/_suman/logs/tests directory
-
-if there is no stderr for a test, we should delete the file in the /tests directory
-
-////
-
 use child unref after all children have exited in suman runner
 
 By default, the parent will wait for the detached child to exit. To prevent the parent from waiting for a given child,
@@ -509,7 +458,7 @@ allowing the parent to exit independently of the child, unless there is an estab
 
 ///
 
-top-level can see IOC injections, other describe blocks can only see inject functions,
+top-level can see IOC injections, other describe blocks can only see $injection functions,
 thus, no conflict
 
 ///
@@ -549,12 +498,6 @@ Number(5).times(function(val){
 
 //////
 
-if path does not exist, check to see if path exists directly in test/test-src
-create auto-complete after typing with suman to test-src dir, so user does not have to type
-test/test-src all the time
-
-///
-
 data from pre should be separate from ioc data - that way if the user requests the pre data, but did not
 use any pre: [] options, an error will be thrown or at least a warning will be logged
 
@@ -571,10 +514,6 @@ working on the same project know that it will be ok to make things async if the 
 
 assert that a test takes a certain amount of time, if the test runs too fast, it is likely running
 synchronously, or some async feature is not working correctly
-
-///
-
-DI should work suman.hooks.js, so you can inject suite, before, after, etc
 
 ///
 
@@ -614,11 +553,6 @@ cd suman-test/suman-test-projects && suman $(find subprojects -mindepth 2 -maxde
 ////
 
 need to accumulate errors and show them at the end, whether it's the runner or with suman
-
-////
-
-if you point the suman runner to directories, and the directory has suman_test.sh, suman will run that?
-no, just point suman to suman_test.sh, yourself!
 
 ////
 
@@ -689,7 +623,8 @@ npm @next vs @latest
 
 /////
 
-suman-meta => uses git-clone-all-org-repos and then runs the build.sh file, which should checkout all the right branches from remote repo.
+suman-meta => uses git-clone-all-org-repos and then runs the build.sh file,
+which should checkout all the right branches from remote repo.
 
 /////
 
@@ -754,7 +689,7 @@ cd suman && npm install suman -f   // force
 
 /////
 
-refactor FILE_IS_NOT_DOT_JS   => FILE_IS_NOT_ACCEPTED_EXTENSION
+refactor FILE_IS_NOT_DOT_JS => FILE_IS_NOT_ACCEPTED_EXTENSION
 
 /////
 
@@ -858,11 +793,6 @@ we need babel to support different paths to .babelrc files
 
 ////////
 
-tail multiple files:
-http://www.thegeekstuff.com/2009/09/multitail-to-view-tail-f-output-of-multiple-log-files-in-one-terminal
-
-/////////
-
 => load suman-inquirer and suman-inquirer-directory from NPM instead of installing first
 
 ///////
@@ -939,13 +869,13 @@ http://unix.stackexchange.com/questions/34273/can-i-pipe-stdout-on-one-server-to
 utilize multiple machines in a local network, instead of running 100 tests on one machine, or whatever
 how to do this? suman code shouldn't have to change, instead, we create different bash scripts
 
-/////////
+////////////
 
 add to docs:
 Preventing false negatives
 preventing false positives
 
-/////////
+////////////
 
 if user calls t.done() and there is no cb, this.test.cb, should log warnings
 
@@ -966,7 +896,7 @@ spawn child process, make sure no_silent or whatever options are available
 implement:
 
   enforceTestCaseNames: true,
-    enforceBlockNames: true,
+  enforceBlockNames: true,
 
 ////////
 
@@ -1125,7 +1055,6 @@ function openBrowser(url) {
 }
 
 module.exports = openBrowser;
-
 
 ///////////////////
 
@@ -1506,7 +1435,6 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: place array of tests in befores/afters so we know which tests pertain to the hook
 //TODO: if a promise or non-undefined value is returned, but cb mode is on, add warning
 //TODO: using t.assert etc can help prevent errors not being assigned to tests
-//TODO: add support for observables
 //TODO: tap: https://github.com/TestAnything/testanything.github.io/pull/36
 //TODO: mocha and ava are concentric circles inside Suman
 //TODO: run tests from current directory when using runner
@@ -1525,9 +1453,7 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: implement Test.on('end') or Test.on('completed');
 //TODO: if you can get tired of using this.it, you have two options, chain them, or put them in a series/parallel block
 //TODO: need glob support for source //https://github.com/isaacs/node-glob
-//TODO: http://altamodatech.com/blogs/?p=452  //How To Use Mocha for Node Testing in Windows
 //TODO: TESTS=$(shell find test/ -name "*.test.js")
-//TODO: makefiles vs. gulp vs. plain js
 //TODO: need glob support for source
 //TODO: to be compliant with Babel transpilation, need to put context for functions in extra param
 //TODO: https://github.com/gotwarlost/istanbul/issues/596#issuecomment-208688593
@@ -1549,13 +1475,13 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: https://github.com/mochajs/mocha/issues/492
 //TODO: https://www.npmjs.com/package/tap-mocha-reporter
 //TODO: need to make sure to make suman_results readable/writable (move to sqlite3)
-//TODO: readme needs to have examples by ES5, ES6, ES7
 //TODO: default configuration should provide default values using lodash defaults / underscore defaults
 //TODO: switch from underscore to lodash
 //TODO: special key combo (ctrl+save+r) will run tests after a change, using gulp file watchers?
 //TODO: https://nodejs.org/en/blog/uncategorized/profiling-node-js/
 //TODO: need a suman server stop command at the command line
-//TODO, along with options {plan:3}, {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true}, so that we expect a test to throw an (async) error...
+//TODO, along with options {plan:3}, {timeout:true}, {parallel:true}, {delay:100} we should have {throws:true},
+so that we expect a test to throw an (async) error...
 //TODO: if suman/suman runner runs files and they are not suman suites, then suman needs to report that!!
 //TODO: randomize test runs as per https://github.com/sindresorhus/ava/issues/595
 //TODO: write metadata file out along with txt files
@@ -1635,4 +1561,14 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
  +		t.end();
  +	});
  +});
+
+
+
+// TALK
+
+
+1. async.autoInject
+2. running cp by using bash + write to stdin
+3. monkeypatch process.exit
+
 

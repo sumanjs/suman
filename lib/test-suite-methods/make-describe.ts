@@ -30,10 +30,13 @@ function handleBadOptions(opts: IDescribeOpts) {
       return;
 }
 
+// notifyParentThatChildIsComplete(self.parent.testId, self.testId
+
 
 ///////////////////////////////////////////////////////////////////////
 
-export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker, zuite: ITestSuite): Function {
+export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker,
+                   zuite: ITestSuite, notifyParentThatChildIsComplete: Function): Function {
 
   const acquireDepsFillIn = makeAcquireDepsFillIn(suman);
   const allDescribeBlocks = suman.allDescribeBlocks;
@@ -53,11 +56,39 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
       throw new Error(' => Please define either an array or callback, but not both.');
     }
 
+    let arrayDeps : Array<string>;
+
     if (arr) {
+      //note: you can't stub a test block!
       cb = arr[arr.length - 1];
       assert.equal(typeof cb, 'function', ' => Suman usage error => ' +
         'You need to pass a function as the last argument to the array.');
+      // remove last element
+      arr.splice(-1,1);
+      arrayDeps = arr.map(function(item: any){
+         return String(item);
+      });
     }
+
+    //avoid unncessary pre-assignment
+    arrayDeps = arrayDeps || [];
+
+    if(arrayDeps.length > 0){
+      const preVal : Array<string> = [];
+
+      arrayDeps.forEach(function(a){
+        if(/:/.test(a)){
+          preVal.push(a);
+        }
+      });
+
+      const toEval = ['(function(){return {', preVal.join(','),'}}()'];
+      const obj = eval(toEval.join(''));
+      //overwrite opts with values from array
+      Object.assign(opts, obj);
+    }
+
+    //////////
 
     const allowArrowFn = global.sumanConfig.allowArrowFunctionsForTestBlocks;
     const isArrow = sumanUtils.isArrowFunction(cb);
@@ -92,7 +123,6 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
 
     // note: zuite is the parent of suite
     // aka, suite is the child of zuite
-
     const suite = TestSuiteMaker({
       desc: desc,
       title: desc,
@@ -100,7 +130,6 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
     });
 
     // if parent is skipped, child is skipped,
-    // although with our new config, if parent is skipped, not child should be evaluated
     suite.skipped = opts.skip || zuite.skipped;
 
     if (!suite.only && suman.describeOnlyIsTriggered) {
@@ -108,17 +137,20 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
     }
 
     suite.parent = _.pick(zuite, 'testId', 'desc', 'title', 'parallel');
-
     zuite.getChildren().push({testId: suite.testId});
     allDescribeBlocks.push(suite);
 
     const deps = fnArgs(cb);
-    const suiteProto = Object.getPrototypeOf(suite);
+    const suiteProto : Object = Object.getPrototypeOf(suite);
 
     suiteProto._run = function run(val: any, callback: Function) {
 
       if (zuite.skipped || zuite.skippedDueToDescribeOnly) {
         //TODO: have to notify parent that child is done?
+        // if(zuite.parent){
+          //notifyParentThatChildIsComplete(self.parent.testId, self.testId, callback);
+        // }
+        throw new Error(' => Suman implementation error, this code should not be reached.');
         return process.nextTick(callback);
       }
 

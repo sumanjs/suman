@@ -18,7 +18,6 @@ interface IAfterOpts {
 
 interface IAfterHook {
 
-
 }
 
 type AfterHookCallbackMode = (h: IAfterHook) => void;

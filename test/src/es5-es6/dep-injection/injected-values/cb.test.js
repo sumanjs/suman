@@ -14,6 +14,8 @@ Test.create('example', function (before, describe, inject) {
 
     describe.only('inner-hooks', function (before, sam) {
 
+        console.log('sam => ', sam);
+
         before('makes testing fun', t => {
             t.once('done', function () {
                 console.log('t is done (b1) !');

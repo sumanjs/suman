@@ -50,7 +50,7 @@ export = function(suman: ISuman, zuite: ITestSuite) : Function {
     else {
       zuite.getInjections().push({  //TODO: add timeout option
         ctx: zuite,
-        desc: desc || fn ? fn.name : '(unknown due to stubbed function)',
+        desc: desc || (fn ? fn.name : '(unknown due to stubbed function)'),
         timeout: opts.timeout || 11000,
         cb: opts.cb || false,
         throws: opts.throws,

@@ -9,7 +9,7 @@ fi
 
 git add . &&
 git add -A &&
-git commit -am "final commit before rebase" &&
+git commit --allow-empty -am "final commit before rebase" &&
 git fetch origin &&
 git checkout dev &&
 git pull &&

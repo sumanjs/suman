@@ -1,4 +1,4 @@
-'use striiiict';
+'use strict';
 
 //core
 const path = require('path');
@@ -7,7 +7,7 @@ const cp = require('child_process');
 const util = require('util');
 
 //npm
-const lockFile = require('lockfile');
+const lf = require('lockfile');
 const colors = require('colors/safe');
 
 ///////////////////////////////////////////////////////////////
@@ -29,11 +29,10 @@ const debugLog = path.resolve(sumanHome + '/suman-debug.log');
 ///////////////////////////////////////////////////////////////
 
 function unlock (cb) {
-  lockFile.unlock(lock, function (err) {
+  lf.unlock(lock, function (err) {
     if (err) {
       console.error('\n', err.stack || err, '\n');
     }
-
     cb && cb();
   });
 }
@@ -71,7 +70,7 @@ module.exports = function work (cb) {
 
   deleteLockOnExit();
 
-  lockFile.lock(lock, obj, function (err) {
+  lf.lock(lock, obj, function (err) {
 
     if (err) {
       return unlock(cb);

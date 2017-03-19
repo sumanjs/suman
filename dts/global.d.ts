@@ -3,13 +3,10 @@
 import Global = NodeJS.Global;
 
 declare namespace SumanLib {
-
   const _suman: Object;
   const sumanConfig: Object;
   const sumanOpts: Object;
-
 }
-
 
 
 interface  GlobalSumanObj {
@@ -30,10 +27,6 @@ interface ISumanGlobalInternal {
 
 }
 
-interface ILoadOpts {
-  path: string,
-  indirect:boolean
-}
 
 interface ISumanGlobal extends Global {
   describeOnlyIsTriggered: boolean,

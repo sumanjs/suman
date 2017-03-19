@@ -34,7 +34,7 @@ but can run tests written in any language, not just JavaScript. This is
 because it can run tests in child processes and collect results using TAP (Test Anything Protocol).
 Suman can run a test in any language which exposes a script with a hashbang or a binary entrypoint file (e.g. Golang or C).
 To run Java tests, where Java does not compile to binary and where you cannot put a hashbang in a .class file,
-you would need to call Java from a bash script.
+you would need to call Java from a shell script.
 
 It is designed for maximum test performance, via careful parallelization at
 every juncture in the testing process/pipeline. 
@@ -52,7 +52,9 @@ Global installations of Suman simply look for local installations to run. This p
 conflicts if there is a difference between the global/local module versions.
 
 If you use NVM and switch between Node.js versions, you can use a bash script (provided by SumanJS) which will 
-decessitate the need for any global installations of Suman at all.
+denecessitate the need for any global installations of Suman at all.
+
+Suman is designed to interop well with the most common libraries in the ecosystem for handling asynchronous code.
 
 ---
 
@@ -174,9 +176,12 @@ Test.create('example', (baz, assert, http, beforeEach, describe) => {
 
 # &#9658; Purpose
 
-The purpose of the Suman library is to provide the most sophisticated test runner in the Node.js ecosystem, with better
-features, higher performance, improved debuggability, and more expressiveness than AVA, Mocha, and Tape. 
+The purpose of the Suman library is to provide the most sophisticated test runner in the Node.js ecosystem, 
+with a better developer experience, better features, higher performance, improved debuggability, 
+and more expressiveness than AVA, Mocha, and Tape. 
 Suman is a first-rate library and we hope you take the time to compare its capabilities with AVA, Mocha, Tape, TapJS, etc.
+One of the more exciting things about Suman is that it can run tests written in any language; all you have to do
+is output TAP (Test Anything Protocol).
 
 The primary aims are:
 
@@ -196,9 +201,10 @@ away with (implicit) global variables.
 * Stick closely to the popular Mocha API, so that automatic conversion is possible from Mocha to Suman,
  and that transition is as seamless as possible for the developer - you do *not* have to learn a whole new API!
 * Allow for maximum dynamicism so that Suman can match all use cases of users.
-* Allow users to create tests with different frameworks as needed (Mocha or Tape for browser testing), 
-and even in different languages, especially shell scripting, but also Java, Golang, etc.
-* Composiablity - suman tests should be able to run suman tests as child processes, ad inifitem, without hiccups.
+* Allow users to create Suman-runnable tests in any languages - this possibility is created by running tests in child processes.
+Writing tests in the form of shell scripts is something that almost every project could benefit from and now you can run these 
+tests through your universal test runner - Suman!
+* Composability - Suman tests should be able to run suman tests as child processes, ad inifitem, without hiccups.
 
 ## On lack of browser support
 
@@ -206,7 +212,7 @@ Suman firmly believes in integration and system testing as being more bang-for-y
 Node.js is for fast iteration, prototyping and just getting stuff done; it also makes things "easier
 to change", since there is just less code to change. If you change a unit of code, your unit test may break
 without adding any value, but your system test or integration test will likely not break and your system may still work as intended.
-In other words, when your system test breaks - something is definitely wrong - when your unit test breaks, it's probably
+In other words, when your system test breaks - something is definitely wrong - when a unit test breaks, it's probably
 just because you changed some of your code. You tell me then - which test was more valuable?
 Suman recommends writing unit tests for only the complex methods and functions in your codebase. Beyond that,
 we recommend end-to-end testing of diferent features in your system.

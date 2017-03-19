@@ -8,7 +8,7 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 
 /*
  Note for the reader: Suman uses dashdash to parse command line arguments
- We found dashdash to be a better alternative to existing tools like commander
+ We found dashdash to be a better alternative to other option parsers
  => https://github.com/trentm/node-dashdash
  */
 
@@ -37,7 +37,7 @@ if (weAreDebugging) {
 
 /////////////////////////////////////////////////////////////////
 
-function handleExceptionsAndRejections () {
+function handleExceptionsAndRejections() {
   if (global.sumanOpts && (global.sumanOpts.ignore_uncaught_exceptions || global.sumanOpts.ignore_unhandled_rejections)) {
     console.error('\n => uncaughtException occurred, but we are ignoring due to the ' +
       '"--ignore-uncaught-exceptions" / "--ignore-unhandled-rejections" flag(s) you passed.');
@@ -107,6 +107,7 @@ const debug = require('suman-debug')('s:cli');
 const uuid = require('uuid/v4');
 
 //project
+require('./lib/patches/all');
 const constants = require('./config/suman-constants');
 const sumanUtils = require('suman-utils');
 
@@ -116,8 +117,6 @@ debug([' => Suman started with the following command:', process.argv]);
 debug([' => $NODE_PATH is as follows:', process.env.NODE_PATH]);
 
 //////////////////////////////////////////////////////////////////////////
-
-
 
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
@@ -233,6 +232,9 @@ const groups = opts.groups;
 const useTAPOutput = opts.use_tap_output;
 const fullStackTraces = opts.full_stack_traces;
 const coverage = opts.coverage;
+const diagnostics = opts.diagnostics;
+const installGlobals = opts.install_globals;
+const postinstall = opts.postinstall;
 
 if (coverage) {
   console.log(colors.magenta.bold(' => Coverage reports will be written out due to presence of --coverage flag.'));
@@ -259,7 +261,7 @@ if (opts.version) {
 
 //////////////// check for cmd line contradictions ///////////////////////////////////
 
-function makeThrow (msg) {
+function makeThrow(msg) {
   console.log('\n\n');
   throw msg;
 }
@@ -396,7 +398,7 @@ sumanOpts.full_stack_traces = sumanConfig.fullStackTraces || sumanOpts.full_stac
 
  */
 const sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
-.map(item => (item instanceof RegExp) ? item : new RegExp(item));
+  .map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
 if (sumanMatchesAny.length < 1) {
   // if the user does not provide anything, we default to this
@@ -404,10 +406,10 @@ if (sumanMatchesAny.length < 1) {
 }
 
 const sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appendMatchNone || []))
-.map(item => (item instanceof RegExp) ? item : new RegExp(item));
+  .map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
 const sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMatchAll || []))
-.map(item => (item instanceof RegExp) ? item : new RegExp(item));
+  .map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
 global.sumanMatchesAny = uniqBy(sumanMatchesAny, item => item);
 global.sumanMatchesNone = uniqBy(sumanMatchesNone, item => item);
@@ -466,7 +468,6 @@ else {
 /////////////////////////////// abort if too many top-level options /////////////////////////////////////////////
 
 const preOptCheck = {
-
   watch: watch,
   create: create,
   useServer: useServer,
@@ -480,7 +481,10 @@ const preOptCheck = {
   tailTest: tailTest,
   tailRunner: tailRunner,
   interactive: interactive,
-  uninstallBabel: uninstallBabel
+  uninstallBabel: uninstallBabel,
+  diagnostics: diagnostics,
+  installGlobals: installGlobals,
+  postinstall: postinstall
   //TODO: should mix this with uninstall-suman
 };
 
@@ -514,8 +518,8 @@ require('./lib/helpers/load-reporters')(opts, projectRoot, sumanConfig);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-resultBroadcaster.emit(events.NODE_VERSION, nodeVersion);
-resultBroadcaster.emit(events.SUMAN_VERSION, sumanVersion);
+resultBroadcaster.emit(String(events.NODE_VERSION), nodeVersion);
+resultBroadcaster.emit(String(events.SUMAN_VERSION), sumanVersion);
 
 //note: whatever args are remaining are assumed to be file or directory paths to tests
 const paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
@@ -539,7 +543,16 @@ if (opts.verbose) {
 //TODO: also can load any deps that are needed (babel, instanbul, suman-inquirer, etc), here, instead of elsewhere
 require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () {
 
-  if (interactive) {
+  if (diagnostics) {
+    require('./lib/diagnostics/run-diagnostics')();
+  }
+  else if (postinstall) {
+    require('./lib/cli-commands/postinstall');
+  }
+  else if (installGlobals) {
+    require('./lib/cli-commands/install-global-deps')(paths);
+  }
+  else if (interactive) {
     require('./lib/interactive');
   }
   else if (uninstallBabel) {
