@@ -1,4 +1,7 @@
+!cli/*.sh
+!*.d.ts
 *.sh
+*.ts
 *.md
 *.txt
 *.log

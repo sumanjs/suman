@@ -68,8 +68,9 @@ export = function (suman: ISuman, zuite: ITestSuite): Function {
     if (opts.hasOwnProperty('parallel')) {
       if (opts.hasOwnProperty('mode')) {
         console.log(' => Suman warning => Used both parallel and mode options => mode will take precedence.');
-        if (opts.mode !== 'parallel' && opts.mode !== 'series') {
-          console.log(' => Suman warning => valid "môde" options are only values of "parallel" or "series".');
+        if (opts.mode !== 'parallel' && opts.mode !== 'series' && opts.mode !== 'serial') {
+          console.log(' => Suman warning => valid "môde" options are only values of "parallel" or "series" or "serial"' +
+            ' => ("serial" is an alias to "series").');
         }
       }
     }
@@ -90,7 +91,7 @@ export = function (suman: ISuman, zuite: ITestSuite): Function {
       cb: opts.cb,
       type: 'it-standard',
       timeout: opts.timeout || 20000,
-      desc: desc,
+      desc: desc || (fn ? fn.name : '(unknown due to stubbed function)'),
       fn: fn,
       warningErr: new Error('SUMAN_TEMP_WARNING_ERROR'),
       timedOut: false,

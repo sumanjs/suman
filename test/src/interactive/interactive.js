@@ -30,7 +30,7 @@ inquirer.prompt([
       }
     ],
 
-    filter: function (val) {                              // <<<< add this function
+    filter: function (val) {                // <<< add this function
       return String(val).split(',')[ 0 ];
     },
 

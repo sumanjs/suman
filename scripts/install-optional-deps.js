@@ -7,7 +7,7 @@ const util = require('util');
 
 //npm
 const colors = require('colors/safe');
-const lockfile = require('lockfile');
+const lf = require('lockfile');
 const async = require('async');
 const semver = require('semver');
 const ijson = require('siamese');
@@ -16,6 +16,7 @@ const installQueueLock = path.resolve(process.env.HOME + '/.suman/install-queue.
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
 
 //project
+const constants = require('../config/suman-constants');
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
 const sumanUtils = require('suman-utils');
 const residence = require('residence');
@@ -32,46 +33,7 @@ const debug = require('suman-debug')('s:postinstall', {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-const deps = Object.freeze({
-  sqlite3: {
-    'sqlite3': 'latest'
-  },
-  slack: {
-    'slack': 'latest'
-  },
-  babel: {
-    'webpack': 'latest',
-    'babel-cli': 'latest',
-    'babel-core': 'latest',
-    'babel-loader': 'latest',
-    'babel-polyfill': 'latest',
-    'babel-runtime': 'latest',
-    'babel-register': 'latest',
-    'babel-plugin-transform-runtime': 'latest',
-    'babel-preset-es2015': 'latest',
-    'babel-preset-es2016': 'latest',
-    'babel-preset-react': 'latest',
-    'babel-preset-stage-0': 'latest',
-    'babel-preset-stage-1': 'latest',
-    'babel-preset-stage-2': 'latest',
-    'babel-preset-stage-3': 'latest',
-  },
-  sumanServer: {
-    'frontail': 'latest',
-    'suman-server': 'latest'
-  },
-  sumanInteractive: {
-    'suman-inquirer': 'latest',
-    'suman-inquirer-directory': 'latest',
-  },
-  istanbul: {
-    'istanbul': 'latest',
-  },
-  nyc: {
-    'nyc': 'latest'
-  }
-});
-
+const deps = Object.freeze(constants.SUMAN_GLOBAL_DEPS);
 const bd = process.env.BASE_DIRECTORY;
 
 console.log('BASE_DIRECTORY in JavaScript is => ', bd);
@@ -118,6 +80,7 @@ var installs = [];
 
 installs = installs.concat(Object.keys(deps.slack));
 installs = installs.concat(Object.keys(deps.sqlite3));
+installs = installs.concat(Object.keys(deps.sumanSqliteReporter));
 
 if (sumanConf.transpile !== false && ( alwaysInstall || alwaysInstallDueToGlobal)) {
   installs = installs.concat(Object.keys(deps.babel));
@@ -133,6 +96,10 @@ if (sumanConf.useSumanInteractive || alwaysInstall || alwaysInstallDueToGlobal) 
 
 if (sumanConf.useIstanbul || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.istanbul));
+}
+
+if (sumanConf.useIstanbul || alwaysInstall || alwaysInstallDueToGlobal) {
+  installs = installs.concat(Object.keys(deps.typescript));
 }
 
 //200 second timeout...
@@ -162,12 +129,17 @@ async.map(installs, function (item, cb) {
     view: function (cb) {
       cp.exec('npm view ' + item + ' version', function (err, val) {
         if (err) {
-          return cb(err);
+          // npm might not be installed globally, what to do then?
+          console.error('\n',err.stack || err,'\n');
+           cb(null, {});
         }
-        cb(null, {
-          name: item,
-          version: String(val).replace(/\s/g, '')
-        })
+        else{
+          cb(null, {
+            name: item,
+            version: String(val).replace(/\s/g, '')
+          });
+        }
+
       });
     },
     stats: function (cb) {
@@ -181,7 +153,7 @@ async.map(installs, function (item, cb) {
         else {
           ijson.parse(data).then(function (v) {
             if (!v || !v.version) {
-              console.log(' val is not defined for item => ' + item);
+              console.log(' => NPM version is not defined for item => ' + item);
             }
             cb(null, {
               version: v && v.version
@@ -292,7 +264,7 @@ async.map(installs, function (item, cb) {
     return process.exit(0);
   }
 
-  lockfile.lock(installQueueLock, lockfileOptionsObj, function (err) {
+  lf.lock(installQueueLock, lockfileOptionsObj, function (err) {
 
     if (err) {
       return run(err);
@@ -300,7 +272,7 @@ async.map(installs, function (item, cb) {
 
     fs.readFile(queue, 'utf8', function (err, data) {
       if (err) {
-        lockfile.unlock(installQueueLock, function () {
+        lf.unlock(installQueueLock, function () {
           run(err);
         });
       }
@@ -312,7 +284,7 @@ async.map(installs, function (item, cb) {
           return String(l).trim().length > 0;
         });
         fs.writeFile(queue, lines.join('\n'), {mode:0o777}, function ($err) {
-          lockfile.unlock(installQueueLock, function (err) {
+          lf.unlock(installQueueLock, function (err) {
             run($err || err);
           });
         });

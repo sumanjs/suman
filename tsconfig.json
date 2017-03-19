@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "baseUrl": ".",
     "paths": {
     },
     "types": [
-      "node"
+      "node",
+      "async",
+      "lodash"
     ],
     "typeRoots": [
       "node_modules/@types"
@@ -23,6 +26,7 @@
   },
   "compileOnSave": false,
   "include": [
+    "dts",
     "./**/*.ts"
   ],
   "exclude": [

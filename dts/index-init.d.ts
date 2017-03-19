@@ -1,21 +1,5 @@
 
 
-interface IInitOpts {
-  export?: boolean,
-  __expectedExitCode?: number,
-  pre?: Array<string>,
-  integrants?: Array<string>,
-  series?:boolean,
-  writable?: boolean,
-  timeout?: number,
-  post?: Array<any>,
-  interface?: string,
-  iocData?:Object,
-  ioc?: Object
-
-}
-
-
 interface IIntegrantsMessage {
   data: string,
   info: string,
@@ -44,9 +28,4 @@ interface ISumanModuleExtended extends NodeModule {
   _sumanInitted: boolean
 }
 
-interface IInit {
-  (module: NodeModule, opts: IInitOpts): void,
-  $ingletonian?: any,
-  tooLate?: boolean
 
-}

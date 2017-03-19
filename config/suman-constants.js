@@ -9,69 +9,58 @@ module.exports = Object.freeze({
     value: 'yes'
   },
 
-  ACCEPTED_CHILD_FILE_EXTENSIONS: ['.sh', '.js', '.bash'],
-
-  AVAILABLE_SUMAN_INIT_OPTIONS: {
-    'pre': {
-      types: [],
-      errorMessage: ''
-    },
-    'post': {
-      types: [],
-      errorMessage: ''
-    },
-    'ioc': {
-      types: [],
-      errorMessage: ''
-    },
-    'timeout': {}
-
-  },
-
   SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
 
   GIT_IGNORE: [
     '*suman/logs/',
     'test-target/'
   ],
-  SUMAN_HARD_LIST: [
+
+  SUMAN_HARD_LIST: Object.keys({
 
     //bdd
-    'describe',
-    'before',
-    'after',
-    'beforeEach',
-    'afterEach',
-    'it',
-    'inject',
+    describe: true,
+    before: true,
+    after: true,
+    beforeEach: true,
+    afterEach: true,
+    it: true,
 
     //tdd
-    'suite',
-    'test',
-    'setup',
-    'teardown',
-    'setupTest',
-    'teardownTest',
+    suite: true,
+    test: true,
+    setup: true,
+    teardown: true,
+    setupTest: true,
+    teardownTest: true,
 
     //all
-    '$core',
-    '$deps',
-    'resume',
-    'getResumeVal',
-    'getResumeValue',
-    'extraArgs',
-    'userData',
-    'context',
-    'extra',
-    '$uda',
-    'writable'
-  ],
+    $root: true, // root of project
+    inject: true,
+    $injections: true,
+    $macro: true,
+    $ioc: true,
+    $pre: true,
+    $core: true,
+    $deps: true,
+    resume: true,
+    getResumeVal: true,
+    getResumeValue: true,
+    extraArgs: true,
+    userData: true,
+    context: true,
+    extra: true,
+    $uda: true,
+    writable: true
+
+  }),
 
   CORE_MODULE_LIST: require('builtin-modules'),
 
   CLI_EXIT_CODES: {
     NO_GROUP_NAME_MATCHED_COMMAND_LINE_INPUT: 20,
   },
+
   RUNNER_EXIT_CODES: {
     NO_TEST_FILE_OR_DIR_SPECIFIED: 30,
     ERROR_INVOKING_NETWORK_LOG_IN_RUNNER: 31,
@@ -175,10 +164,10 @@ module.exports = Object.freeze({
       name: 'SUITES => ',
       default: '(!!error!!)'
     },
-    ROOT_SUITE_NAME: {
-      name: 'Name',
-      default: '(unknown)'
-    },
+    // ROOT_SUITE_NAME: {
+    //   name: 'Name',
+    //   default: '(unknown)'
+    // },
     SUITE_COUNT: {
       name: 'total',
       default: '-'
@@ -220,13 +209,56 @@ module.exports = Object.freeze({
       name: 'millis',
       default: null
     },
-    // TEST_SUITE_MILLIS: {
-    //   name: 'suite max millis',
-    //   default: null
-    // },
     TEST_SUITE_EXIT_CODE: {
       name: 'exit-code',
       default: '-'
+    }
+  },
+
+  SUMAN_GLOBAL_DEPS: {
+
+    sqlite3: {
+      'sqlite3': 'latest'
+    },
+    sumanSqliteReporter: {
+      'suman-sqlite-reporter': 'latest',
+    },
+    slack: {
+      'slack': 'latest'
+    },
+    babel: {
+      'webpack': 'latest',
+      // 'babel-cli': 'latest',
+      'babel-core': 'latest',
+      'babel-loader': 'latest',
+      'babel-polyfill': 'latest',
+      'babel-runtime': 'latest',
+      'babel-register': 'latest',
+      'babel-plugin-transform-runtime': 'latest',
+      'babel-preset-es2015': 'latest',
+      'babel-preset-es2016': 'latest',
+      'babel-preset-react': 'latest',
+      'babel-preset-stage-0': 'latest',
+      'babel-preset-stage-1': 'latest',
+      'babel-preset-stage-2': 'latest',
+      'babel-preset-stage-3': 'latest',
+    },
+    sumanServer: {
+      'frontail': 'latest',
+      'suman-server': 'latest'
+    },
+    sumanInteractive: {
+      'suman-inquirer': 'latest',
+      'suman-inquirer-directory': 'latest',
+    },
+    istanbul: {
+      'istanbul': 'latest',
+    },
+    nyc: {
+      'nyc': 'latest'
+    },
+    typescript: {
+      'typescript': 'latest'
     }
   }
 

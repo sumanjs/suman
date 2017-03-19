@@ -1,11 +1,14 @@
 
-
-const suman = require('suman');
-const Test = suman.init(module, {
-
-});
+const x = eval('{a:"b"; m:"j"}');
+console.log('g => ',x);
 
 
-Test.create(function(){
+const o = eval('(function self(){return {a:"b"}})()');
+console.log('k => ',o.a);
 
-});
+
+const p = eval('(function self(){return {parallel:false,timeout:3000}})()');
+console.log(p);
+
+
+

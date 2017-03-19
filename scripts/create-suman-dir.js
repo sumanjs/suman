@@ -9,12 +9,12 @@ const cp = require('child_process');
 const async = require('async');
 
 //project
-const sumanUtils = require('suman-utils');
+const su = require('suman-utils');
 
 ///////////////////////////////////////////////////////////////////////////
 
 const cwd = process.cwd();
-const userHomeDir = path.resolve(sumanUtils.getHomeDir());
+const userHomeDir = path.resolve(su.getHomeDir());
 const sumanHome = path.resolve(userHomeDir + '/.suman');
 const findSumanExec = path.resolve(sumanHome + '/find-local-suman-executable.js');
 const sumanClis = path.resolve(sumanHome + '/suman-clis.sh');

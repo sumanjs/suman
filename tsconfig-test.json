@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "test/target",
     "types": [
       "node"
     ],
@@ -12,7 +13,6 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "allowJs": false,
-    "outDir": "test/target",
     "allowUnreachableCode": true,
     "lib": [
       "es2015",
@@ -22,7 +22,7 @@
     ]
   },
   "include": [
-    "./test/**/*.ts"
+    "test/src/**/*.ts"
   ],
   "exclude": [
     "node_modules"

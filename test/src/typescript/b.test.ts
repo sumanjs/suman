@@ -1,25 +1,29 @@
-const suman = require('suman');
-const Test = suman.init(module, {});
+#!/usr/bin/env node
+'use strict';
 
+import * as suman from 'suman';
+import {Ioc} from "../../../lib/index";
 
-Test.describe('b', {}, function (assert) {
+const Test = suman.init(module, {
+    ioc: {
+        b: 'far',
+        a: 'foo'
 
-    ///////////
-    this.before(t => {
+    } as Ioc
+});
 
-    });
+Test.create(function (assert) {
 
     this.before(t => {
         console.log('before a');
     });
 
-    this.beforeEach.cb({}, t => {
+    this.beforeEach.cb(t => {
         console.log('before each starting...');
         setTimeout(function () {
             console.log('before each hook finished.');
             t.ctn();
-        }, 100);
-
+        }, 2000);
     });
 
     this.it('a', t => {
@@ -59,7 +63,6 @@ Test.describe('b', {}, function (assert) {
             });
 
             this.it('c', t => {
-                console.log('test passed');
                 assert(true);
             });
 

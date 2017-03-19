@@ -25,6 +25,8 @@ const freezeExistingProps = require('./freeze-existing');
 const originalAcquireDeps = require('./acquire-deps-original');
 const startSuite = require('./test-suite-helpers/start-suite');
 const makeTestSuiteBase = require('./make-test-suite-base');
+const makeHandleBeforesAndAfters = require('./test-suite-helpers/make-handle-befores-afters');
+const makeNotifyParent = require('./test-suite-helpers/notify-parent-that-child-is-complete');
 
 // TestSuite methods
 const makeIt = require('./test-suite-methods/make-it');
@@ -49,6 +51,8 @@ function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTestSuiteMa
   const allDescribeBlocks = suman.allDescribeBlocks;
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
   const TestSuiteBase = makeTestSuiteBase(suman);
+  const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
+  const notifyParentThatChildIsComplete = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
 
   const TestSuiteMaker: TTestSuiteMaker = function (data: ITestSuiteMakerOpts): ITestSuite {
 
@@ -100,7 +104,7 @@ function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTestSuiteMa
       it = makeIt(suman, zuite);
       _interface === 'TDD' ? this.test = it : this.it = it;
 
-      describe = this.context = makeDescribe(suman, gracefulExit, TestSuiteMaker, zuite);
+      describe = this.context = makeDescribe(suman, gracefulExit, TestSuiteMaker, zuite, notifyParentThatChildIsComplete);
       _interface === 'TDD' ? this.suite = describe : this.describe = describe;
 
     };
@@ -322,7 +326,8 @@ function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTestSuiteMa
       return this;
     };
 
-    TestSuite.prototype.__startSuite = startSuite(suman, gracefulExit);
+    TestSuite.prototype.__startSuite = startSuite(suman, gracefulExit,
+      handleBeforesAndAfters, notifyParentThatChildIsComplete);
 
     freezeExistingProps(TestSuite.prototype);
     return freezeExistingProps(new TestSuite(data));
