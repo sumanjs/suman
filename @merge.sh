@@ -6,6 +6,7 @@ if [[ "$BRANCH" == "dev" && "$BRANCH" == "master" ]]; then
     exit 1;
 fi
 
+NEW_BRANCH=merge_this_branch_with_dev_$(node -e 'console.log(Date.now())')
 
 git add . &&
 git add -A &&
@@ -23,5 +24,7 @@ echo "successfully called reset soft"
 git add . &&
 git add -A &&
 git commit --allow-empty -am "reset:sft" &&
-git push &&
+git checkout -b ${NEW_BRANCH}
+git push -u origin ${NEW_BRANCH} &&
+git checkout ${BRANCH}
 echo "successfully pushed"
