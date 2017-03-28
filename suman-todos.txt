@@ -1,4 +1,31 @@
 
+/////
+
+
+suman() {
+   cd ~
+   command suman "$@"
+   cd -
+}
+
+http://stackoverflow.com/questions/43077255/command-to-cd-to-root-of-project/43077349#43077349
+
+///
+
+suman --cd  => cd to project root
+
+///
+
+ even with child exit code of 33, test runner exits with 0
+
+///
+
+ how to specify .babelrc location when transpiling
+
+///
+
+  do mocha unit tests need to be run in the browser?
+
 ///
 
 prove that TAP output works with all regular suman tests by turning off IPC
@@ -33,18 +60,18 @@ https://github.com/dk8996/Gantt-Chart
 
 ///
 
-  // suman --create x/js/z
+  suman --create x/js/z
   suman.template.js
 
 ///
 
-suman standard reporter should be its one module
+suman standard reporter should be its own module
 
 ///
 
  suman uses a more declarative style and dependency injection for code reuse, etc.
 
- ////
+////
 
 
  add .ts and .sh to npmignore without ignorring .d.ts and without ignoring cli/*.sh
@@ -73,14 +100,16 @@ Test.create(['parallel:true', 'timeout:3000', function(){
 
   need to npmignore /test dir in the pragmatik project
 
-// bash completion
+//
+
+bash completion
 
   Bash completion has been installed to:
   /usr/local/etc/bash_completion.d
 
 ///
 
-//https://github.com/mochajs/mocha/issues/2726
+ https://github.com/mochajs/mocha/issues/2726
 
 ///
 

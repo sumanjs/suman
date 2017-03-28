@@ -1,10 +1,5 @@
-/**
- * Created by denman on 3/17/2016.
- */
-
 
 module.exports = () => {
-
 
     return {
 

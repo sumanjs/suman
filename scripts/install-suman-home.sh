@@ -28,5 +28,7 @@ fi
 # we execute in a subshell so we don't actually change the current directory
 (cd $HOME/.suman/global && npm init -f )
 
+wait;
+
 node $(dirname "$0")/install-optional-deps.js >> ${SUMAN_DEBUG_LOG_PATH} 2>&1
 

@@ -12,8 +12,8 @@ const numOfCPUs = os.cpus().length || 1;
 module.exports = Object.freeze({
 
     //regex
-    matchAny: [/.js$/, /.sh$/],              //recommended =>  match: ['.test.js'],
-    matchNone: [/fixture/, /correct-exit-codes/, /.*target/],
+    matchAny: [/.js$/, /.sh$/,/.smn$/, /suman.jar$/,/.java$/,/.go/],              //recommended =>  match: ['.test.js'],
+    matchNone: [/fixture/, /correct-exit-codes/, /@transform.sh/,/@run.sh/],
     matchAll: [],                 //recommended regex for "matchAll" => [],
 
     //string
@@ -26,7 +26,7 @@ module.exports = Object.freeze({
 
     //boolean
     useUtilityPatches: true,     // "5".times, etc.
-    useTAPOutput: false,
+    useTAPOutput: true,
     errorsOnly: false,
     replayErrorsAtRunnerEnd: true,
     allowArrowFunctionsForTestBlocks: true,
