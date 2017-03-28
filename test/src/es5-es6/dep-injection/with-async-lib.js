@@ -9,19 +9,6 @@ Test.create('example', function (before, describe, inject, async) {
     }, 100);
   }
 
-  Function.prototype.adhere = function () {
-
-    let self = this;
-    let args1 = Array.from(arguments);
-
-    return function () {
-
-      let args2 = Array.from(arguments);
-      self.apply(this, args1.concat(args2));
-    }
-
-  };
-
   inject.cb('yyy', i => {
 
     async.parallel({
@@ -32,7 +19,7 @@ Test.create('example', function (before, describe, inject, async) {
 
   });
 
-  inject.cb('zzz',i => {
+  inject.cb('zzz', i => {
     i(null, {xxx: 'zoooo'})
   });
 
@@ -60,8 +47,33 @@ Test.create('example', function (before, describe, inject, async) {
 
   });
 
+  inject(i => {
 
-  describe('inner-hooks', function (before, yyy, zzz, zaul, raul) {
+    return Promise.all([
+      new Promise(function (resolve) {
+        resolve({
+          a: 'aaaaa'
+        });
+      }),
+      new Promise(function (resolve) {
+        resolve({
+          b: 'bbbb'
+        });
+      }),
+      new Promise(function (resolve) {
+        resolve({
+          c: 'cccccc'
+        });
+      })
+    ]).then(function (values) {
+      return values.mapToObject();
+    });
+
+  });
+
+  describe('inner-hooks', function (before, yyy, zzz, zaul, raul, a, b, c) {
+
+    console.log(a, b, c);
 
     // let {foo,bar,baz} = $inject;  / $injections
 

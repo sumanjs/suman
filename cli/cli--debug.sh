@@ -12,9 +12,10 @@ MYPATH="$DIRN/$EXECDIR";
 X=$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})
 
 NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
+NEW_PATH=${PATH}:~/.suman/global/node_modules/.bin
 
 if [ "${LOCAL_SUMAN_ALREADY_FOUND}" == "yes" ]; then
-    NODE_PATH=${NODE_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node --debug-brk=5858 --debug=5858 "${X}/cli.js" $@
+    NODE_PATH=${NODE_PATH}  PATH=${NEW_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node --debug-brk=5858 --debug=5858 "${X}/cli.js" $@
 else
 
 LOCAL_SUMAN="$(node ${X}/scripts/find-local-suman-executable.js)"
@@ -23,11 +24,11 @@ LOCAL_SUMAN="$(node ${X}/scripts/find-local-suman-executable.js)"
         # no local version found, so we fallback on the version in this directory, global or not
         echo " => No local Suman executable could be found, given the current directory => $PWD"
         echo " => Attempting to run installed version of Suman here => `dirname $0`"
-        NODE_PATH=${NODE_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node --debug-brk=5858 --debug=5858 "${X}/cli.js" $@
+        NODE_PATH=${NODE_PATH}  PATH=${NEW_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node --debug-brk=5858 --debug=5858 "${X}/cli.js" $@
 
     else
         # local version found, so we run it
-        NODE_PATH=${NODE_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node --debug-brk=5858 --debug=5858 "${LOCAL_SUMAN}" $@
+        NODE_PATH=${NODE_PATH}  PATH=${NEW_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node --debug-brk=5858 --debug=5858 "${LOCAL_SUMAN}" $@
     fi
 
 fi

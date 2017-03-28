@@ -109,7 +109,7 @@ const uuid = require('uuid/v4');
 //project
 require('./lib/patches/all');
 const constants = require('./config/suman-constants');
-const sumanUtils = require('suman-utils');
+const su = require('suman-utils');
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -146,7 +146,7 @@ const cwd = process.cwd();
 ////////////////////////////////////////////////////////////////////
 
 const sumanExecutablePath = global.sumanExecutablePath = process.env.SUMAN_EXECUTABLE_PATH = __filename;
-var projectRoot = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = sumanUtils.findProjectRoot(cwd);
+var projectRoot = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = su.findProjectRoot(cwd);
 
 const cwdAsRoot = process.argv.indexOf('--cwd-is-root') > -1;
 
@@ -398,7 +398,7 @@ sumanOpts.full_stack_traces = sumanConfig.fullStackTraces || sumanOpts.full_stac
 
  */
 const sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
-  .map(item => (item instanceof RegExp) ? item : new RegExp(item));
+.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
 if (sumanMatchesAny.length < 1) {
   // if the user does not provide anything, we default to this
@@ -406,10 +406,10 @@ if (sumanMatchesAny.length < 1) {
 }
 
 const sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appendMatchNone || []))
-  .map(item => (item instanceof RegExp) ? item : new RegExp(item));
+.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
 const sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMatchAll || []))
-  .map(item => (item instanceof RegExp) ? item : new RegExp(item));
+.map(item => (item instanceof RegExp) ? item : new RegExp(item));
 
 global.sumanMatchesAny = uniqBy(sumanMatchesAny, item => item);
 global.sumanMatchesNone = uniqBy(sumanMatchesNone, item => item);
@@ -434,6 +434,11 @@ else {
   debug(' => "noBabelRegister" opt => ', noBabelRegister);
 
   const useBabelRegister = opts.transpile && (babelRegister || (!noBabelRegister && sumanConfig.useBabelRegister));
+
+  if (babelRegister && !opts.transpile) {
+    console.log(colors.red.bold(' => Warning => Looks like you intend to use babel-register, ' +
+      'but the transpile flag is set to false.'));
+  }
 
   if (useBabelRegister) {
     opts.useBabelRegister = true;
@@ -544,7 +549,7 @@ if (opts.verbose) {
 require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () {
 
   if (diagnostics) {
-    require('./lib/diagnostics/run-diagnostics')();
+    require('./lib/cli-commands/run-diagnostics')();
   }
   else if (postinstall) {
     require('./lib/cli-commands/postinstall');

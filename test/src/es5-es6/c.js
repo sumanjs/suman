@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 const x = eval('{a:"b"; m:"j"}');
 console.log('g => ',x);

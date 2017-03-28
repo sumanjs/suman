@@ -291,6 +291,9 @@ if (sumanReporters.length < 1) {
   let fn: Function;
 
   if (global.sumanOpts.useTAPOutput) {
+    if(global.sumanOpts.verbosity > 7){
+      console.log(' => Using TAP reporter.');
+    }
     fn = require(path.resolve(__dirname + '/reporters/tap-reporter'));
   }
   else {
@@ -459,7 +462,7 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
     let fn: Function;
     if (fn = testSuiteQueue[testSuiteQueue.length - 1]) {
       debug(' => Running testSuiteQueue fn => ', String(fn));
-      fn.apply(null);
+      fn.call(null);
     }
     else {
       debug(' => Suman testSuiteQueue is empty.');
@@ -1123,11 +1126,11 @@ function once(fn: Function) {
 
     if (cache) {
       process.nextTick(function () {
-        cb.apply(null, [null, cache]);
+        cb.call(null, null, cache);
       });
     }
     else {
-      fn.apply(null, function (err: Error, val: any) {
+      fn.call(null, function (err: Error, val: any) {
         if (!err) {
           cache = val || {
               'Suman says': 'This is a dummy-cache val. ' +

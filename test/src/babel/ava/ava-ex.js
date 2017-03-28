@@ -1,7 +1,3 @@
-/**
- * Created by denman on 5/10/2016.
- */
-
 
 const test = require('ava');
 const fs = require('fs');

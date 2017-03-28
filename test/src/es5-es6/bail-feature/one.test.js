@@ -5,7 +5,6 @@ var Test = suman.init(module, {
     interface: 'TDD'
 });
 
-//
 
 console.log('developer debugging output');
 

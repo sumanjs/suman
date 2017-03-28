@@ -98,8 +98,12 @@ if (sumanConf.useIstanbul || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.istanbul));
 }
 
-if (sumanConf.useIstanbul || alwaysInstall || alwaysInstallDueToGlobal) {
+if (sumanConf.useTypeScript || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.typescript));
+}
+
+if (sumanConf.useNYC || alwaysInstall || alwaysInstallDueToGlobal) {
+  installs = installs.concat(Object.keys(deps.nyc));
 }
 
 //200 second timeout...
