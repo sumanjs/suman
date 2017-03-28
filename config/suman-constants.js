@@ -228,7 +228,7 @@ module.exports = Object.freeze({
     },
     babel: {
       'webpack': 'latest',
-      // 'babel-cli': 'latest',
+      'babel-cli': 'latest',
       'babel-core': 'latest',
       'babel-loader': 'latest',
       'babel-polyfill': 'latest',

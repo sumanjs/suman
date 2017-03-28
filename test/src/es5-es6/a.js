@@ -1,10 +1,12 @@
+#!/usr/bin/env node
+
 const suman = require('suman');
 const Test = suman.init(module, {
   $inject: ['abc']
 });
 
 
-Test.create(['parallel: true', 'parallel: true',
+Test.create(['parallel: false', 'parallel: false',
   function (assert, before, beforeEach, it, after) {
 
   console.log(this.opts);
@@ -22,7 +24,7 @@ Test.create(['parallel: true', 'parallel: true',
     setTimeout(function () {
       console.log('before each hook finished.');
       t.ctn();
-    }, 1000);
+    }, 10);
 
   });
 
@@ -36,50 +38,55 @@ Test.create(['parallel: true', 'parallel: true',
   });
 
 
-  this.describe('nested group 1', {parallel: true}, function () {
+  Number(5).times(num => {
 
-    this.before(t => {
-      console.log('before b');
-    });
-
-    this.it('b', t => {
-      assert(true);
-    });
-
-
-    this.after(t => {
-      console.log('after b');
-    });
-
-
-    this.describe('nested group 2', {parallel: true}, function () {
+    this.describe('nested group 1', {parallel: true}, function () {
 
       this.before(t => {
-        console.log('before c & d');
+        console.log('before b');
       });
 
-      this.beforeEach(t => {
-        console.log('before each of c & d');
-      });
-
-      this.it('c', t => {
-        console.log('test passed');
-        assert(true);
-      });
-
-
-      this.it('d', t => {
+      this.it('b', t => {
         assert(true);
       });
 
 
       this.after(t => {
-        console.log('after c & d');
+        console.log('after b');
+      });
+
+
+      this.describe('nested group 2', {parallel: true}, function () {
+
+        this.before(t => {
+          console.log('before c & d');
+        });
+
+        this.beforeEach(t => {
+          console.log('before each of c & d');
+        });
+
+
+        this.it('d', t => {
+          assert(true);
+        });
+
+        this.it('c', t => {
+          console.log('test passed');
+          assert(true);
+        });
+
+        this.after(t => {
+          console.log('after c & d');
+        });
+
       });
 
     });
 
 
   });
+
+
 
 }]);
