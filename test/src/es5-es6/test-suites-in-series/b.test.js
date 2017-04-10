@@ -4,7 +4,7 @@ const Test = suman.init(module, {
 });
 
 
-Test.create.delay(__filename, {}, function (assert) {
+Test.create('z', function (assert) {
 
   setTimeout(this.resume,2000);
 
@@ -15,7 +15,7 @@ Test.create.delay(__filename, {}, function (assert) {
   });
 });
 
-Test.create.delay(__filename, {}, function (assert) {
+Test.create.delay('a', {}, function (assert) {
   setTimeout(this.resume,2000);
 
   this.describe('B', function(){
@@ -26,7 +26,7 @@ Test.create.delay(__filename, {}, function (assert) {
 
 });
 
-Test.create.delay(__filename, {}, function (assert) {
+Test.create.delay('c', {}, function (assert) {
 
   setTimeout(this.resume,2000);
 

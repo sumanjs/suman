@@ -1,16 +1,18 @@
+
 !cli/*.sh
 !*.d.ts
 *xxx.sh
 *xxx.ts
 *.md
 *.txt
+*.md
 *.log
-.babelrc
 .idea
 node_modules
 coverage
 yarn.lock
 test/
+private/
 suman.conf.js
 .travis.yml
 .gitignore
@@ -18,5 +20,3 @@ suman.conf.js
 .gitattributes
 .editorconfig
 .coveralls.yml
-tsconfig*.json
-

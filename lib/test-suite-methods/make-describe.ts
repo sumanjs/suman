@@ -26,8 +26,8 @@ const handleInjections = require('../handle-injections');
 
 
 function handleBadOptions(opts: IDescribeOpts) {
-       // TODO
-      return;
+  // TODO
+  return;
 }
 
 // notifyParentThatChildIsComplete(self.parent.testId, self.testId
@@ -41,7 +41,9 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
   const acquireDepsFillIn = makeAcquireDepsFillIn(suman);
   const allDescribeBlocks = suman.allDescribeBlocks;
 
-  return function ($desc: string, $opts: IDescribeOpts, $arr?: Array<string | TDescribeHook>, $cb?: TDescribeHook): void {
+  return function ($desc: string, $opts: IDescribeOpts, $arr?: Array<
+                     string
+                     | TDescribeHook>, $cb?: TDescribeHook): void {
 
     handleSetupComplete(zuite);
 
@@ -56,7 +58,7 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
       throw new Error(' => Please define either an array or callback, but not both.');
     }
 
-    let arrayDeps : Array<string>;
+    let arrayDeps: Array<string>;
 
     if (arr) {
       //note: you can't stub a test block!
@@ -64,25 +66,25 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
       assert.equal(typeof cb, 'function', ' => Suman usage error => ' +
         'You need to pass a function as the last argument to the array.');
       // remove last element
-      arr.splice(-1,1);
-      arrayDeps = arr.map(function(item: any){
-         return String(item);
+      arr.splice(-1, 1);
+      arrayDeps = arr.map(function (item: any) {
+        return String(item);
       });
     }
 
     //avoid unncessary pre-assignment
     arrayDeps = arrayDeps || [];
 
-    if(arrayDeps.length > 0){
-      const preVal : Array<string> = [];
+    if (arrayDeps.length > 0) {
+      const preVal: Array<string> = [];
 
-      arrayDeps.forEach(function(a){
-        if(/:/.test(a)){
+      arrayDeps.forEach(function (a) {
+        if (/:/.test(a)) {
           preVal.push(a);
         }
       });
 
-      const toEval = ['(function(){return {', preVal.join(','),'}}()'];
+      const toEval = ['(function(){return {', preVal.join(','), '}}()'];
       const obj = eval(toEval.join(''));
       //overwrite opts with values from array
       Object.assign(opts, obj);
@@ -112,7 +114,7 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
     if (zuite.skipped) {
       let msg = ' => Suman implementation warning => Child suite entered when parent was skipped.';
       console.error(msg);
-      console.error(' => Please open an issue with the following stacktrace:','\n');
+      console.error(' => Please open an issue with the following stacktrace:', '\n');
       console.error(new Error(msg).stack);
     }
 
@@ -141,14 +143,14 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
     allDescribeBlocks.push(suite);
 
     const deps = fnArgs(cb);
-    const suiteProto : Object = Object.getPrototypeOf(suite);
+    const suiteProto: Object = Object.getPrototypeOf(suite);
 
     suiteProto._run = function run(val: any, callback: Function) {
 
       if (zuite.skipped || zuite.skippedDueToDescribeOnly) {
         //TODO: have to notify parent that child is done?
         // if(zuite.parent){
-          //notifyParentThatChildIsComplete(self.parent.testId, self.testId, callback);
+        //notifyParentThatChildIsComplete(self.parent.testId, self.testId, callback);
         // }
         throw new Error(' => Suman implementation error, this code should not be reached.');
         return process.nextTick(callback);
@@ -170,7 +172,7 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
         // note: *very important* => each describe block needs to be invoked in series, one by one,
         // so that we bind skip and only to the right suite
 
-        suite.getResumeValue = function () : any {
+        suite.getResumeValue = function (): any {
           return val;
         };
 
@@ -186,98 +188,101 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
 
             process.nextTick(function () {
 
-              acquireDepsFillIn(suite, zuite, deps, function (err: Error, $deps: Array<any>) {
+              let $deps;
 
-                if (err) {
-                  console.error(err.stack || err);
-                  return gracefulExit(err);
-                }
+              try {
+                $deps = acquireDepsFillIn(suite, zuite, deps);
+              }
+              catch (err) {
+                console.error(err.stack || err);
+                return gracefulExit(err);
+              }
 
-                suite.fatal = function (err: Error) {
-                  err = err || new Error(' => suite.fatal() was called by the developer => fatal unspecified error.');
-                  console.log(err.stack || err);
-                  err.sumanExitCode = constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION;
-                  gracefulExit(err);
+              suite.fatal = function (err: Error) {
+                err = err || new Error(' => suite.fatal() was called by the developer => fatal unspecified error.');
+                console.log(err.stack || err);
+                err.sumanExitCode = constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION;
+                gracefulExit(err);
+              };
+
+              const delayOptionElected = !!opts.delay;
+
+              if (!delayOptionElected) {
+
+                suiteProto.__resume = function () {
+                  console.error('\n', ' => Suman usage warning => suite.resume() has become a noop since delay option is falsy.');
                 };
 
-                const delayOptionElected = !!opts.delay;
+                cb.apply(suite, $deps);
 
-                if (!delayOptionElected) {
+                handleInjections(suite, function (err: Error) {
 
-                  suiteProto.__resume = function () {
-                    console.error('\n', ' => Suman usage warning => suite.resume() has become a noop since delay option is falsy.');
-                  };
+                  if (err) {
+                    console.error(err.stack || err);
+                    gracefulExit(err);
+                  }
+                  else {
+                    d.exit();
+                    suiteProto.isSetupComplete = true;
+                    process.nextTick(function () {
+                      zuite.__bindExtras();  //bind extras back to parent test
+                      suite.__invokeChildren(null, callback);
+                    });
+                  }
+                });
 
-                  cb.apply(suite, $deps);
+              }
 
-                  handleInjections(suite, function (err: Error) {
+              else {
+                suiteProto.isDelayed = true;
 
-                    if (err) {
-                      console.error(err.stack || err);
-                      gracefulExit(err);
-                    }
-                    else {
-                      d.exit();
-                      suiteProto.isSetupComplete = true;
-                      process.nextTick(function () {
-                        zuite.__bindExtras();  //bind extras back to parent test
-                        suite.__invokeChildren(null, callback);
-                      });
-                    }
+                const str = cb.toString();
+                //TODO this will not work when delay is simply commented out
+
+                if (!sumanUtils.checkForValInStr(str, /resume/g, 0)) {
+                  process.nextTick(function () {
+                    console.error(new Error(' => Suman usage error => delay option was elected, so suite.resume() ' +
+                      'method needs to be called to continue,' +
+                      ' but the resume method was never referenced in the needed location, so your test cases would ' +
+                      'never be invoked before timing out => \n\n' + str).stack);
+                    process.exit(constants.EXIT_CODES.DELAY_NOT_REFERENCED);
                   });
 
+                  return; //hard, ugly and visible
                 }
 
-                else {
-                  suiteProto.isDelayed = true;
+                const to = setTimeout(function () {
+                  console.error('\n\n => Suman fatal error => delay function was not called within alloted time.');
+                  process.exit(constants.EXIT_CODES.DELAY_FUNCTION_TIMED_OUT);
+                }, 11000);
 
-                  const str = cb.toString();
-                  //TODO this will not work when delay is simply commented out
+                let callable = true;
 
-                  if (!sumanUtils.checkForValInStr(str, /resume/g, 0)) {
+                suiteProto.__resume = function (val: any) {
+                  if (callable) {
+                    callable = false;
+                    clearTimeout(to);
+                    d.exit();
+                    //need to make sure delay is called asynchronously, but this should take care of it
                     process.nextTick(function () {
-                      console.error(new Error(' => Suman usage error => delay option was elected, so suite.resume() ' +
-                        'method needs to be called to continue,' +
-                        ' but the resume method was never referenced in the needed location, so your test cases would ' +
-                        'never be invoked before timing out => \n\n' + str).stack);
-                      process.exit(constants.EXIT_CODES.DELAY_NOT_REFERENCED);
+                      suiteProto.isSetupComplete = true; // keep this, needs to be called asynchronously
+                      zuite.__bindExtras();  //bind extras back to parent test
+                      suite.__invokeChildren(val, callback); // pass callback
                     });
-
-                    return; //hard, ugly and visible
+                  }
+                  else {
+                    let w = ' => Suman usage warning => suite.resume() was called more than once.';
+                    console.error(w);
+                    global._writeTestError(w)
                   }
 
-                  const to = setTimeout(function () {
-                    console.error('\n\n => Suman fatal error => delay function was not called within alloted time.');
-                    process.exit(constants.EXIT_CODES.DELAY_FUNCTION_TIMED_OUT);
-                  }, 11000);
+                };
 
-                  let callable = true;
+                console.log('apply deps 2');
+                cb.apply(suite, $deps);
 
-                  suiteProto.__resume = function (val: any) {
-                    if (callable) {
-                      callable = false;
-                      clearTimeout(to);
-                      d.exit();
-                      //need to make sure delay is called asynchronously, but this should take care of it
-                      process.nextTick(function () {
-                        suiteProto.isSetupComplete = true; // keep this, needs to be called asynchronously
-                        zuite.__bindExtras();  //bind extras back to parent test
-                        suite.__invokeChildren(val, callback); // pass callback
-                      });
-                    }
-                    else {
-                      let w = ' => Suman usage warning => suite.resume() was called more than once.';
-                      console.error(w);
-                      global._writeTestError(w)
-                    }
+              }
 
-                  };
-
-                  cb.apply(suite, $deps);
-
-                }
-
-              });
 
             });
           }

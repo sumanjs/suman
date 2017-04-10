@@ -1,5 +1,7 @@
 'use strict';
 
+const colors = require('colors/safe');
+
 module.exports = Object.freeze({
 
   OLDEST_SUPPORTED_NODE_VERSION: 'v4.0.0',
@@ -151,10 +153,12 @@ module.exports = Object.freeze({
   },
 
   warnings: {
-    NO_DONE_WARNING: 'Warning: no done referenced in callback',
-    RETURNED_VAL_DESPITE_CALLBACK_MODE: 'Warning: callback mode is set, but a non-null value was returned by the hook',
-    TEST_CASE_TIMED_OUT_ERROR: 'Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()?',
-    HOOK_TIMED_OUT_ERROR: 'Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()?',
+    NO_DONE_WARNING: colors.bold('Warning: no done referenced in callback'),
+    RETURNED_VAL_DESPITE_CALLBACK_MODE: colors.bold('Warning: callback mode is set, but a non-null value was returned by the hook.'),
+    TEST_CASE_TIMED_OUT_ERROR: colors.bold('Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()? ' +
+      '=> You may have forgotten to fire a callback or perhaps the timeout quantity is too short.'),
+    HOOK_TIMED_OUT_ERROR: colors.bold('Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? ' +
+      'You may have forgotten to fire a callback or perhaps the timeout quantity is too short.'),
     DELAY_TIMED_OUT_ERROR: 'Error: *timed out* - did you forget to call delay()?'
   },
 
@@ -242,6 +246,7 @@ module.exports = Object.freeze({
       'babel-preset-stage-1': 'latest',
       'babel-preset-stage-2': 'latest',
       'babel-preset-stage-3': 'latest',
+      'babel-preset-latest' : 'latest'
     },
     sumanServer: {
       'frontail': 'latest',
