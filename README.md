@@ -1,5 +1,8 @@
 
+
+[npm-url]:https://www.npmjs.com/package/suman
 [![NPM version][npm-image]][npm-url]
+
 
 [![Build Status](https://travis-ci.org/ORESoftware/suman.svg?branch=master)](https://travis-ci.org/ORESoftware/suman)
 
@@ -7,27 +10,25 @@
 
 ![alt text](https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman.png "Suman Primary Logo")
 
-[npm-url]:https://www.npmjs.com/package/suman
 
 
-Note that because Suman should be installed as a devDependency, it won't show up as being used in the standard
-NPM badge:
-<br>
-<br>
-[![NPM](https://nodei.co/npm/suman.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/suman/)
-<br>
-<br>
-
+Designed to run tests written in any language - just write TAP to stdout. 
+Intended to work with Selenium, in the browser, and to do large-scale backend system and integration testing.  
+Can handle any language, because it runs tests as child processes. 
 
 
 
 ## &#9658; Documentation
 
- >   Suman documentation => [sumanjs.github.io](http://sumanjs.github.io/suman-docs "Suman Docs")  
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/sumanjs/suman.svg)](https://greenkeeper.io/)
+
+ >   Suman documentation => [sumanjs.org](http://sumanjs.github.io "Suman Docs")  
+
  
  ---
 
-#  Suman is a singular test runner focused on Node.js
+#  Suman is a singular test runner focused on Node.js, but is generic and robust so that it is also language agnostic
 
 Suman is written with Node.js, and is focused testing Node.js code, 
 but can run tests written in any language, not just JavaScript. This is 
@@ -112,12 +113,40 @@ If you wish to avoid global NPM module installations, we commend you, see:
  [http://sumanjs.github.io/tutorial-11-advanced-installation.html/](http://sumanjs.github.io/tutorial-11-advanced-installation.html "Suman Docs: Advanced Installation") 
 
 
+
+## The Suman Story
+
+I started writing Suman in October 2015. After 6 months of working with Mocha, I was becoming very disenchanted
+ - Mocha had several major problems and 100 minor ones. Mocha is poorly designed software, and the fact that it concatenates
+ all your tests in a single process is simply not how testing should work; especially for dynamic language where the global
+ scope can be polluted by inexperienced developers.
+ 
+About 2 weeks after I started writing Suman, I discovered AVA. AVA is much better than Mocha, but it "forces" you to use transpilation
+and has its own assertion library. It's also missing some nice features from Mocha. So I decided to continue working on Suman, and essentially
+take the best from Mocha and AVA, and also borrow the best ideas from TapJS/Tape and Lab (the test runner for the Hapi framework.).
+
+Just like AVA, Suman runs tests in child processes. With Suman, you can also run any single test with just the node executable,
+something that you cannot do with AVA. A big hangup for me. Beyond the standard advantages of speed, isolation and independence, running tests
+in child processes has one other major advantage: The Suman test runner is capable of running tests in any language. While the Suman runner
+communicates with Node.js child processes through the standard IPC channel, 
+it can also parse TAP output from a child process running in any language.
+
+Suman is setup to run Node.js tests, and any test in any language that writes TAP to stdout. This is pretty awesome.
+
+Support for transpilation is also first rate - Suman supports generic transpilation/compilation for any language.
+The configuration to support transpilation is the same, no matter what language you are looking to transpile/compile.
+Over time, better and better support for incremental transpilation/compilation will be created.
+
+
+
+
+
 ## Simple example
 
 ```js
 
 import * as suman from 'suman';
-const Test = suman.init(module);
+const Test = suman.init(module)
 
 Test.create('example', (baz, assert, http, beforeEach, describe) => {  
 
@@ -128,48 +157,48 @@ Test.create('example', (baz, assert, http, beforeEach, describe) => {
      inject('bar', () => {
          return baz().then(v => {
             return v.filter(val => val.isGreen())
-         });
-     });
+         })
+     })
 
      beforeEach(t => {
          console.log('this runs before each test')
-     });
+     })
      
      describe('foo', {mode:'series'}, (bar, it, describe) => {
        
         it('a', t => {
-             assert.equal(t.title,'a');
-        });
+             assert.equal(t.title,'a')
+        })
           
         it('b', t => {
-             assert.equal(t.title,'b'); 
-        });
+             assert.equal(t.title,'b') 
+        })
           
         it('c', t => {
-             assert.equal(t.title,'c');           
-        });
+             assert.equal(t.title,'c')           
+        })
         
          describe('nested child', {mode:'parallel'}, (bar, it) => {
                
                 it('a', t => {
-                     assert.equal(t.title,'a');
-                });
+                     assert.equal(t.title,'a')
+                })
                   
                 it('b', t => {
-                     assert.equal(t.title,'b'); 
-                });
+                     assert.equal(t.title,'b') 
+                })
                   
                 it('c', t => {
-                     assert.equal(t.title,'c');           
-                });
+                     assert.equal(t.title,'c')           
+                })
                 
                
-             });
+             })
         
        
-     });
+     })
 
-});
+})
 
 ```
 
@@ -422,8 +451,8 @@ guarantee that we can pin an error to a particular test case or hook, no matter 
 
 ```js
 
-import * as suman from 'suman';
-const Test = suman.init(module);
+import * as suman from 'suman'
+const Test = suman.init(module)
 
 
 Test.create('ES6/ES7 API Example', (baz, assert, path, http, beforeEach, it) => {  
@@ -442,43 +471,43 @@ Test.create('ES6/ES7 API Example', (baz, assert, path, http, beforeEach, it) => 
            
            res.on('data', function($data){
                   data += $data;
-           });
+           })
            
            res.on('end', function(){
                   t.data.foo = data;
-                  t.done();
-           });
+                  t.done()
+           })
         
         
-        });
+        })
         
-        req.on('error', fatal);
-        req.end();
+        req.on('error', fatal)
+        req.end()
         
      
-     });
+     })
 
 
      it('detects metal', t => {
-         assert(t.moo = 'kabab');             
-     });
+         assert(t.moo = 'kabab')             
+     })
 
      
      it('ES7 is not necessary because we can achieve the same thing with generators', async t => {
      
-        const val = await baz.doSomethingAsync();  
-        assert(path.resolve(val.foo) === '/bar');
+        const val = await baz.doSomethingAsync()  
+        assert(path.resolve(val.foo) === '/bar')
          
-     });
+     })
 
      it('you dont need to transpile, because achieves the same as above', function*(t){
 
-        const val = yield baz.doSomethingAsync();
-        assert(path.resolve(val.foo) === '/bar');
+        const val = yield baz.doSomethingAsync()
+        assert(path.resolve(val.foo) === '/bar')
 
-     });
+     })
 
-});
+})
 
 
 ```
@@ -490,8 +519,8 @@ Test.create('ES6/ES7 API Example', (baz, assert, path, http, beforeEach, it) => 
 
 ```js
 
-const suman = require('suman');
-const Test = suman.init(module);  
+const suman = require('suman')
+const Test = suman.init(module)  
 
 Test.create('ES5 API Example', {mode: 'parallel'}, function(delay, assert, fs){
 
@@ -502,27 +531,27 @@ Test.create('ES5 API Example', {mode: 'parallel'}, function(delay, assert, fs){
     this.describe('child block 1', function(){     
 
         this.it('red wine', t => {
-             assert(true);
-        });
-
-        this.it('white wine', t => {
-             assert(true);
+             assert(true)
         })
 
-    });
+        this.it('white wine', t => {
+             assert(true)
+        })
+
+    })
 
     //test cases will run in parallel with child block 1,3
     this.describe('child block 2', function(){    
 
         this.it('lager', t => {
-             assert(true);
-        });
-
-        this.it('IPA', t => {
-             assert(true);
+             assert(true)
         })
 
-    });
+        this.it('IPA', t => {
+             assert(true)
+        })
+
+    })
 
 
     //test cases will run in parallel with child block 1,2
@@ -539,7 +568,7 @@ Test.create('ES5 API Example', {mode: 'parallel'}, function(delay, assert, fs){
 
 
 
-         });
+         })
 
         //test cases will run in series with child block a
         this.describe('child block b', function(){    
@@ -547,11 +576,11 @@ Test.create('ES5 API Example', {mode: 'parallel'}, function(delay, assert, fs){
 
 
 
-         });
+         })
 
-    });
+    })
 
-});
+})
 
 
 

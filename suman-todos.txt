@@ -1,5 +1,122 @@
 
+
+///
+
+  create new suman event => all test cases registered, so that we can create a progress bar
+  in the browser, showing how many tests are done
+
+///
+
+✓ supports browser
+✓ synchronous *and* asynchronous reporters!
+✓ tests run in parallel in separate processes
+✓ execute tests written in any language, use write TAP to stdout
+
+///
+
+ add .ts and .sh to npmignore without ignorring .d.ts and without ignoring cli/*.sh
+
+///
+
+ suman uses a more declarative style and dependency injection for code reuse, etc.
+
+passing rate currently includes stubbed tests -
+need to filter out stubbed and skipped tests, before calculating passing rate.
+
+
+///
+
+use typescript to remove all debugger; statements
+however, if user wants to have a debugger; statement,
+then they can use an env variable or suman.conf.js option, etc.
+
+///
+
+get TTY background color, should be possible
+
+///
+
+ --node-arg=--inspect
+
+///
+
+support snakecase and camelcase for NPM modules => FirefoxProfile or firefox_profile
+
+///
+
+passing rate currently includes stubbed tests -
+need to filter out stubbed and skipped tests, before calculating passing rate.
+
+///
+
+
+ => Suman should try its best to run all after hooks for cleanup, right now after hooks seem to be skipped
+ if there is a fatal error.
+
+///
+
+ for writing test result output to stdout, we can check to see if the previous stdout has two newline chars,
+ if not, then output a newline char beforehand, make output much cleaner!
+
+///
+
+webpack => https://github.com/AriaFallah/WebpackTutorial/tree/master/part1
+
+///
+
+https://www.w3.org/TR/webdriver/
+suman can use webdriverio => https://github.com/webdriverio/webdriverio
+
+///
+
+  support globs at command line (seems to work)
+
+///
+
+  all suman helper files should return an object
+
+///
+
+NODEOPT => https://github.com/nodejs/help/issues/556
+
+///
+
+ suman has support for asynchronous reporters -> https://github.com/mochajs/mocha/issues/2368
+
+///
+
+  https://github.com/maxogden/websocket-stream
+
+///
+
+  window.close() will close the browser.
+
+///
+
+ browser support - https://github.com/avajs/ava/issues/24
+
+///
+
+   merged namespace - https://github.com/Microsoft/TypeScript/issues/2719#issuecomment-290408640
+
+////
+
+require hooks - https://github.com/nodejs/help/issues/556#issuecomment-290241186
+https://github.com/nodejs/node/pull/12028
+
+////
+
+https://github.com/nodejs/node/issues/10843
+
 /////
+
+Run tests and hooks in c++ as separate call
+
+////
+
+ use domains - TapJS, HapiJS, Suman
+
+////
 
 
 suman() {
@@ -87,6 +204,10 @@ Test.create(['parallel:true', 'timeout:3000', function(){
 
 }]);
 
+Test.create(['parallel:true, timeout:3000', function(){
+
+}]);
+
 ///
 
   put default suman config files in separate project?
@@ -102,20 +223,11 @@ Test.create(['parallel:true', 'timeout:3000', function(){
 
 //
 
-bash completion
-
-  Bash completion has been installed to:
-  /usr/local/etc/bash_completion.d
-
-///
-
  https://github.com/mochajs/mocha/issues/2726
 
 ///
 
  what is node_modules/graceful-readlink
-
- ///
 
 // suman_single_process does not work with runner - try running it against the pragmatik project, and see
 
@@ -168,11 +280,11 @@ bash completion
 
  https://angular.io/docs/ts/latest/guide/dependency-injection.html
 
-//
+////
 
  warn user when two Test.create's have the same name
 
-//
+////
 
 Squash commits based on author
 http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
@@ -222,12 +334,11 @@ http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
   typescript transpile => user needs to pass a path to tsconfig-test.json
   for babel => user needs to pass a path to .babelrc
 
-//
+////
 
 https://angular.io/docs/ts/latest/guide/dependency-injection.html
 
 ///
-
 
 > suman@1.1.512217 postinstall /usr/local/lib/node_modules/suman
 > ./scripts/suman-postinstall.sh
@@ -254,7 +365,7 @@ alexamils-MacBook-Pro:suman alexamil$ suman
  => Attempting to run installed version of Suman here =>
 /Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 34: node: No such file or directory
 
-//
+////
 
  => tap + bash => https://github.com/sstephenson/bats
 
@@ -346,21 +457,6 @@ get istanbul coverage working with suman-test-projects
 ////
 
  get nyc to work alongside istanbul
-
-////
-
-//TODO: monkey patch process.exit
-const exit = process.exit;
-process.exit = function(cb){
- cb(function(err, code){
-     if(err){
-        exit.call(process,(code || 1));
-     }
-     else{
-        exit.call(process,(code || 0));
-     }
-  });
-};
 
 ///
 
@@ -473,7 +569,6 @@ if there is no stderr for a test, we should delete the file in the /tests direct
 
 use child unref after all children have exited in suman runner
 
-=======
 
 https://docs.docker.com/swarm/reference/swarm/
 
@@ -546,7 +641,7 @@ synchronously, or some async feature is not working correctly
 
 ///
 
-should have hook for each root suite, so we can inject ids
+ should have hook for each root suite, so we can inject ids
 
 ////
 
@@ -639,7 +734,7 @@ https://github.com/integrations/feature/continuous-integration
 
 /////
 
-ava stores the babel .cache in node_modules/.cache/ava
+>>>> ava stores the babel .cache in node_modules/.cache/ava
 
 /////
 
@@ -739,10 +834,6 @@ if it is present, only install deps declared as foreground process
 
 ////
 
-top level dependencies in package.json could be auto sourced in callback function
-
-////
-
 if project with suman as a dependency are being installed in parallel, then .suman/node_modules will be
 written to in parallel, need to mitigate this (hopefully the queue works)
 
@@ -753,6 +844,8 @@ optional deps as a daemon process.
 
 require.resolve('istanbul') - we want executable, not package.json.main
 
+put .suman/global/node_modules on $PATH, then just call "$ which X"
+
 https://github.com/nodejs/help/issues/388
 https://github.com/nodejs/help/issues/389
 https://www.npmjs.com/package/which
@@ -761,20 +854,20 @@ https://www.npmjs.com/package/which
 
 watch should be on a per terminal basis, when user closes terminal, they stop watching
 
-///////
+/////
 
 create symbolic link from ~/.suman/node_modules/.bin/istanbul to ./node_modules/.bin/istanbul
 http://stackoverflow.com/questions/1951742/how-to-symlink-a-file-in-linux
 
-///////
+/////
 
 ~/suman/test_results are still being written out
 
-///////
+/////
 
  in --interactive, on final countdown from 10, only listen for backspace event instead of all stdin keys
 
-///////
+/////
 
 we can use npm link to link ~/.suman/node_modules
 this *may* install the binaries from ~/.suman/node_modules to the local project (?)
@@ -963,11 +1056,6 @@ need to validate suman.conf.js when we read it in
 but in this cased testSrcDir is not defined
 
 /////////
-
-restore default $HOME/.suman dir, using suman --restore-default-suman-home-dir
-(probably will run create-suman-dir.js)
-
-///////////
 
 "$ which suman" will work
 https://www.dropbox.com/s/echzmuzcxjnuorw/Screenshot%202016-11-24%2018.18.47.png?dl=0

@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.512224",
+  "version": "1.1.512225",
   "engines": {
     "node": ">=4.0.0"
   },
@@ -26,11 +26,12 @@
   "license": "ISC",
   "dependencies": {
     "ansi-256-colors": "^1.1.0",
-    "ansi-styles": "^2.1.0",
-    "ascii-table": "0.0.8",
+    "ansi-styles": "^3.0.0",
+    "ascii-table": "0.0.9",
     "async": "^2.1.5",
     "builtin-modules": "^1.1.1",
     "callsite": "^1.0.0",
+    "camelcase": "^4.1.0",
     "chmodr": "^1.0.2",
     "colors": "^1.1.2",
     "dashdash": "^1.14.0",
@@ -50,13 +51,14 @@
     "make-beep": "0.0.1",
     "mkdirp": "^0.5.1",
     "pragmatik": "latest",
-    "progress": "^1.1.8",
+    "progress": "^2.0.0",
     "request": "^2.79.0",
     "require-from-string": "^1.1.0",
     "residence": "latest",
     "rimraf": "^2.5.4",
     "semver": "^5.3.0",
     "siamese": "latest",
+    "socket.io": "^1.7.3",
     "socket.io-client": "^1.4.3",
     "suman-debug": "latest",
     "suman-events": "latest",
@@ -66,7 +68,8 @@
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
     "uuid": "^3.0.1",
-    "v8flags": "^2.0.10"
+    "v8flags": "^2.0.10",
+    "websocket-stream": "^4.0.0"
   },
   "directories": {
     "test": "test"
@@ -76,11 +79,20 @@
     "@types/core-js": "^0.9.35",
     "@types/lodash": "^4.14.50",
     "@types/node": "^7.0.0",
+    "babel-loader": "^6.4.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-latest": "^6.24.0",
     "bluebird": "^3.4.7",
+    "browserify-fs": "^1.0.0",
+    "ignore-loader": "^0.1.2",
     "moment": "^2.17.1",
+    "nightmare": "^2.10.0",
     "node-check-fast": "latest",
     "rxjs": "^5.0.3",
-    "should": "^11.2.0"
+    "should": "^11.2.0",
+    "suman-browser-polyfills": "0.0.1002",
+    "systemjs-builder": "^0.16.4",
+    "webpack": "^2.3.3"
   },
   "repository": {
     "type": "git",
