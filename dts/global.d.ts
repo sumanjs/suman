@@ -19,7 +19,7 @@ interface ISumanOpts {
   ignoreUncaughtExceptions: boolean,
   useTAPOutput: boolean,
   vverbose: boolean
-
+  verbosity: number
 }
 
 interface ISumanGlobalInternal {

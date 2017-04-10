@@ -18,6 +18,7 @@ const userHomeDir = path.resolve(su.getHomeDir());
 const sumanHome = path.resolve(userHomeDir + '/.suman');
 const findSumanExec = path.resolve(sumanHome + '/find-local-suman-executable.js');
 const sumanClis = path.resolve(sumanHome + '/suman-clis.sh');
+const sumanCompletion = path.resolve(sumanHome + '/suman-completion.sh');
 const findProjectRootDest = path.resolve(sumanHome + '/find-project-root.js');
 const sumanDebugLog = path.resolve(sumanHome + '/suman-debug.log');
 const dbPath = path.resolve(sumanHome + '/database/exec_db');
@@ -74,6 +75,18 @@ fs.mkdir(sumanHome, function (err) {
         }
         else {
           fs.writeFile(sumanClis, data,  {mode:0o777}, cb);
+        }
+      });
+
+    },
+    function (cb) {
+      //always want to update this file to the latest version, so always overwrite
+      fs.readFile(require.resolve('./suman-completion.sh'), function (err, data) {
+        if (err) {
+          cb(err);
+        }
+        else {
+          fs.writeFile(sumanCompletion, data,  {mode:0o777}, cb);
         }
       });
 
