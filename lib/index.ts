@@ -6,15 +6,38 @@ if (require.main === module) {
   throw new Error('=> Suman usage error => This file is not meant to be executed directly. You must be doing something wrong.');
 }
 
+//polyfills
+const process = require('suman-browser-polyfills/modules/process');
+const global = require('suman-browser-polyfills/modules/global');
 
-const Mod = require('module');
-const req = Mod.prototype.require;
+// set it here just in case
+global.sumanOpts = global.sumanOpts || {};
 
 const util = require('util');
+const Mod = require('module');
+const req = Mod.prototype && Mod.prototype.require;
+
+let inBrowser = false;
+const _suman: ISumanGlobalInternal = global._suman = (global._suman || {});
+
+try {
+  window.module = {};
+  module.parent = module;
+  inBrowser = global._suman.inBrowser = true;
+}
+catch (err) {
+  global._suman = global._suman || {};
+  inBrowser = global._suman.inBrowser =  false;
+}
+
+if(global.sumanOpts.verbosity > 8){
+  console.log(' => Are we in browser? => ', inBrowser ? 'yes!' : 'no.');
+}
+
 
 var count = 0;
 
-Mod.prototype.require = function () {
+Mod.prototype && (Mod.prototype.require = function () {
   // console.log('count => ', count++, arguments);
 
   const args = Array.from(arguments);
@@ -37,7 +60,7 @@ Mod.prototype.require = function () {
   // };
 
   return ret;
-};
+});
 
 
 let oncePostFn: Function;
@@ -60,10 +83,10 @@ process.on('warning', function (w: Error) {
     console.error(w.stack || w);
   }
   else if (!(/deprecated/i.test(String(w)))) {
-    //there were some really useless warnings about deprecation
+    // there were some really useless warnings about deprecation
+    // if the user wants to see deprecation warnings...they can add their own process.on('warning') handler, thx
     console.error(w.stack || w);
   }
-
 });
 
 process.on('uncaughtException', function (err: SumanErrorRace) {
@@ -177,7 +200,6 @@ const path = require('path');
 const cp = require('child_process');
 const EE = require('events');
 const stream = require('stream');
-const util = require('util');
 const fs = require('fs');
 
 // npm
@@ -191,11 +213,12 @@ require('./patches/all');
 const rules = require('./helpers/handle-varargs');
 const makeSuman = require('./suman');
 const ansi = require('ansi-styles');
-const sumanUtils = require('suman-utils');
+const su = require('suman-utils');
 const acquireDeps = require('./acquire-deps');
 const acquireIntegrantsSingleProcess = require('./acquire-integrants-single-proc');
 const es = require('./exec-suite');
-const _suman: ISumanGlobalInternal = global._suman = (global._suman || {});
+const fnArgs = require('function-arguments');
+const makeIocDepInjections = require('./injection/ioc-injector');
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -213,7 +236,7 @@ const iocEmitter = global.iocEmitter = (global.iocEmitter || new EE());
 const iocContainer = global.iocContainer = (global.iocContainer || {});
 const iocProgressContainer = global.iocProgressContainer = (global.iocProgressContainer || {});
 
-// results and reporteers
+// results and reporters
 const resultBroadcaster = global.resultBroadcaster = (global.resultBroadcaster || new EE());
 const sumanReporters = global.sumanReporters = (global.sumanReporters || []);
 const suiteResultEmitter = global.suiteResultEmitter = (global.suiteResultEmitter || new EE());
@@ -242,7 +265,7 @@ if (gv = process.env.SUMAN_GLOBAL_VERSION) {
 
 const counts = require('./helpers/suman-counts');
 const cwd = process.cwd();
-const projectRoot = global.projectRoot = global.projectRoot || sumanUtils.findProjectRoot(cwd);
+const projectRoot = global.projectRoot = global.projectRoot || su.findProjectRoot(cwd) || '/';
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -291,13 +314,13 @@ if (sumanReporters.length < 1) {
   let fn: Function;
 
   if (global.sumanOpts.useTAPOutput) {
-    if(global.sumanOpts.verbosity > 7){
+    if (global.sumanOpts.verbosity > 7) {
       console.log(' => Using TAP reporter.');
     }
-    fn = require(path.resolve(__dirname + '/reporters/tap-reporter'));
+    fn = require('./reporters/tap-reporter');
   }
   else {
-    fn = require(path.resolve(__dirname + '/reporters/std-reporter'));
+    fn = require('./reporters/std-reporter');
   }
   assert(typeof fn === 'function', 'Native reporter fail.');
   global.sumanReporters.push(fn);
@@ -306,40 +329,54 @@ if (sumanReporters.length < 1) {
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-interface ILoadOpts {
-  path: string,
-  indirect: boolean
-}
+namespace suman {
 
-export interface Ioc {
-  a: string,
-  b: string
-}
+  export interface ILoadOpts {
+    path: string,
+    indirect: boolean
+  }
 
-export interface IInitOpts {
-  export?: boolean,
-  __expectedExitCode?: number,
-  pre?: Array<string>,
-  integrants?: Array<string>,
-  series?: boolean,
-  writable?: boolean,
-  timeout?: number,
-  post?: Array<any>,
-  interface?: string,
-  iocData?: Object,
-  ioc?: Object
+  export interface Ioc {
+    a: string,
+    b: string
+  }
 
-}
+  export interface IInitOpts {
+    export?: boolean,
+    __expectedExitCode?: number,
+    pre?: Array<string>,
+    integrants?: Array<string>,
+    series?: boolean,
+    writable?: boolean,
+    timeout?: number,
+    post?: Array<any>,
+    interface?: string,
+    iocData?: Object,
+    ioc?: Object
 
-export interface ICreate {
-  create: Function
-}
+  }
 
-export interface IInit {
-  (module: NodeModule, opts: IInitOpts): ICreate,
-  $ingletonian?: any,
-  tooLate?: boolean
+  export interface ICreate {
+    create: Function
+  }
 
+  export interface IInit {
+    (module: NodeModule, opts: IInitOpts): ICreate,
+    $ingletonian?: any,
+    tooLate?: boolean
+
+  }
+
+  export interface IInitExport {
+    load: Function,
+    autoPass: Function,
+    autoFail: Function
+    init: IInit,
+    constants: Object,
+    Writable: Function,
+    Transform: Function,
+    once: Function
+  }
 }
 
 
@@ -348,7 +385,7 @@ export interface IInit {
 let loaded = false;
 let moduleCount = 0;
 
-const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): IStartCreate {
+const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.IInitOpts): IStartCreate {
 
   ///////////////////////////////////
   debugger;  // leave this here forever for debugging child processes
@@ -371,7 +408,12 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
    */
   ///////////////////////////////////
 
-  global.sumanInitTime = Date.now();
+  if (init.$ingletonian) {
+    if (process.env.SUMAN_SINGLE_PROCESS !== 'yes') {
+      console.error(colors.red(' => Suman usage warning => suman.init() only needs to be called once per test file.'));
+      return init.$ingletonian;
+    }
+  }
 
   require('./handle-exit'); // handle exit here
 
@@ -379,6 +421,17 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
     console.error('\n', ' => Suman usage warning: no need to use "new" keyword with the suman.init()' +
       ' function as it is not a standard constructor');
     return init.apply(null, arguments);
+  }
+
+  try {
+    assert(($module.constructor && $module.constructor.name === 'Module'),
+      'Please pass the test file module instance as first arg to suman.init()');
+  }
+  catch (err) {
+    $opts = $module;
+    $module = {filename: 'unknown (we are in browser)'};
+    $module.parent = $module;
+    $module.filename = '/';
   }
 
   global.sumanInitCalled = true;
@@ -402,13 +455,6 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
       module.parent.parent.parent.filename);
   }
 
-  if (init.$ingletonian) {
-    if (process.env.SUMAN_SINGLE_PROCESS !== 'yes') {
-      console.error(colors.red(' => Suman usage warning => suman.init() only needs to be called once per test file.'));
-      return init.$ingletonian;
-    }
-  }
-
   // TODO: could potention figure out what original test module is via suman.init call, instead of
   // requiring that user pass it explicitly
 
@@ -419,8 +465,6 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
     //look through version control from Sunday Nov 20th for this code
   }
 
-  assert(($module.constructor && $module.constructor.name === 'Module'),
-    'Please pass the test file module instance as first arg to suman.init()');
   if ($opts) {
     assert(typeof $opts === 'object' && !Array.isArray($opts),
       'Please pass an options object as a second argument to suman.init()');
@@ -441,7 +485,7 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
     }
   }
 
-  const opts: IInitOpts = $opts || {};
+  const opts: suman.IInitOpts = $opts || {};
 
   const series = !!opts.series;
   const writable = opts.writable;
@@ -488,8 +532,11 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
   //TODO: allow users to have multiple suman.conf.js files for different tests in their project?
   // const configPath = opts.sumanConfigPath;
 
-  const integrants = opts.integrants || opts.pre || [];
+  let integrants = opts.integrants || opts.pre || [];
   assert(Array.isArray(integrants), '"integrants" must be an array type.');
+
+  // remove falsy elements, for user convenience
+  integrants = integrants.filter((i: any) => i);
 
   if (opts.__expectedExitCode !== undefined && process.env.SUMAN_SINGLE_PROCESS !== 'yes') {
     const expectedExitCode = global.expectedExitCode = global.expectedExitCode || opts.__expectedExitCode;
@@ -609,8 +656,6 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
       fs.appendFileSync(testLogPath, data);
     };
 
-    // const strm = global.testStderrStrm = fs.createWriteStream(errStrmPath, {flags: 'w'});
-
     global._writeTestError = function (data: string, ignore: boolean) {
       if (!ignore) {
         global.checkTestErrorLog = true;
@@ -670,7 +715,7 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
           if (msg.info === 'integrant-ready') {
             integrantsFromParentProcess.push(msg.data);
             oncePreVals[msg.data] = msg.val;
-            if (sumanUtils.checkForEquality(integrants, integrantsFromParentProcess)) {
+            if (su.checkForEquality(integrants, integrantsFromParentProcess)) {
               integrantsReady = true;
               if (postOnlyReady !== false) {
                 process.removeListener('message', integrantMessage);
@@ -740,7 +785,7 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
         if (process.env.SUMAN_SINGLE_PROCESS === 'yes') {
 
           acquireIntegrantsSingleProcess(integrants, integPreConfiguration,
-            sumanUtils.onceAsync(null, function (err: Error, vals: Array<any>) {
+            su.onceAsync(null, function (err: Error, vals: Array<any>) {
               d.exit();
               process.nextTick(function () {
                 if (err) {
@@ -755,8 +800,10 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
 
         }
         else {
+
           acquireDeps(integrants, integPreConfiguration,
-            sumanUtils.onceAsync(null, function (err: Error, vals: Array<any>) {
+            su.onceAsync(null, function (err: Error, vals: Array<any>) {
+
               d.exit();
               process.nextTick(function () {
                 if (err) {
@@ -781,6 +828,7 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
     function (desc: string, opts?: ICreateOpts, arr?: Array<string | TCreateHook>, cb?: TCreateHook) {
 
       //this call will validate args
+
       const args = pragmatik.parse(arguments, rules.createSignature);
 
       if (init.tooLate === true && process.env.SUMAN_SINGLE_PROCESS !== 'yes') {
@@ -825,20 +873,29 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
 
         clearTimeout(to);
 
-        if (!global.iocConfiguration || process.env.SUMAN_SINGLE_PROCESS === 'yes') {
+        if (!inBrowser && !global.iocConfiguration || process.env.SUMAN_SINGLE_PROCESS === 'yes') {
 
           iocData['suman.once.pre.js'] = vals;
           // should copy the data not directly reference it, should be stringifiable/serializable
           global.userData = JSON.parse(JSON.stringify(iocData));
 
-          //TODO: perhaps pass suman.once.pre.js data to ioc also
-          //Note that since "suman single process" mode processes each file in series,
+          // TODO: perhaps pass suman.once.pre.js data to ioc also
+          // Note that since "suman single process" mode processes each file in series,
           // we overwrite the global iocConfiguration var, dangerously
-          global.iocConfiguration = iocFn(iocData) || {};
+
+          let iocFnArgs = fnArgs(iocFn);
+          let getiocFnDeps = makeIocDepInjections(iocData);
+          let iocFnDeps = getiocFnDeps(iocFnArgs);
+          console.log('iocFnDeps => ', iocFnDeps);
+          global.iocConfiguration = iocFn.apply(null, iocFnDeps) || {};
+        }
+        else {
+          global.iocConfiguration = global.iocConfiguration || {};
         }
 
         //TODO: need to properly toggle boolean that determines whether or not to try to create dir
         makeSuman($module, _interface, true, sumanConfig, function (err: Error, suman: ISuman) {
+
 
           if (err) {
             global._writeTestError(err.stack || err);
@@ -884,16 +941,12 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
             suman._sumanEvents = sumanEvents;
             const run = es.main(suman);
 
-            if (process.domain) {
-              try {
-                process.domain.exit();
-              }
-              catch (err) {
-
-              }
+            try{
+              process.domain && process.domain.exit();
             }
+            catch(err){}
 
-            setImmediate(function () {
+            global.setImmediate(function () {
 
               // IMPORTANT: setImmediate allows for future possibility of multiple test suites referenced in the same file
               // other async "integrantsFn" probably already does this
@@ -930,7 +983,6 @@ const init: IInit = function ($module: ISumanModuleExtended, $opts: IInitOpts): 
                 }
                 else {
                   sumanEvents.emit('test', function () {
-
                     console.log('ARGUMENTS => ', arguments);
                     suman.extraArgs = Array.from(arguments);
                     run.apply(global, args);
@@ -1112,6 +1164,7 @@ function Transform(): BufferStream {
 
 function autoPass() {
   // add t.skip() type functionality // t.ignore().
+  console.log(' => Suman auto pass function passthrough recorded, this is a no-op.');
 }
 
 function autoFail() {
@@ -1143,7 +1196,7 @@ function once(fn: Function) {
   }
 }
 
-function load(opts: ILoadOpts) {
+function load(opts: suman.ILoadOpts) {
 
   if (typeof opts !== 'object') {
     throw new Error(' => Suman usage error => Please pass in an options object to the suman.load() function.')
@@ -1160,18 +1213,8 @@ function load(opts: ILoadOpts) {
   return exp;
 }
 
-export interface IInitExport {
-  load: Function,
-  autoPass: Function,
-  autoFail: Function
-  init: IInit,
-  constants: Object,
-  Writable: Function,
-  Transform: Function,
-  once: Function
-}
 
-const indexExports: IInitExport = {
+const suman: suman.IInitExport = {
   load,
   autoPass,
   autoFail,
@@ -1182,5 +1225,12 @@ const indexExports: IInitExport = {
   once
 };
 
+try {
+  window.suman = suman;
+  window.Test = init({});
+  console.log('Test and suman added to window.');
+}
+catch (err) {}
 
-export = indexExports;
+
+export = suman;

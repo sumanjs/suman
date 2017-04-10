@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "outFile": "dist/suman.js",
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+    },
+    "types": [
+      "node",
+      "async",
+      "lodash"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "target": "es5",
+    "module": "system",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "allowUnreachableCode": true,
+    "lib": [
+      "es2015",
+      "es2016",
+      "es2017",
+      "dom"
+    ]
+  },
+  "allowJs": true,
+  "compileOnSave": false,
+  "include": [
+    "lib/**/*"
+  ],
+  "exclude": [
+    "test",
+    "node_modules",
+    "dist"
+  ]
+}
