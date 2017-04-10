@@ -23,6 +23,8 @@ NPM badge:
 
 ## &#9658; Documentation
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/sumanjs/suman.svg)](https://greenkeeper.io/)
+
  >   Suman documentation => [sumanjs.github.io](http://sumanjs.github.io/suman-docs "Suman Docs")  
  
  ---
