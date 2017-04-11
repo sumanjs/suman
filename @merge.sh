@@ -10,16 +10,16 @@ NEW_BRANCH=merge_this_branch_with_dev_$(node -e 'console.log(Date.now())')
 
 git add . &&
 git add -A &&
-git commit --allow-empty -am "final commit before rebase" &&
+git commit -am "final commit before rebase"
 git fetch origin &&
 git checkout dev &&
 git add . &&
 git add -A &&
-git commit --allow-empty -am "final commit before rebase" &&
+git commit -am "final commit before rebase"
 git pull &&
 git add . &&
 git add -A &&
-git commit --allow-empty -am "final commit before rebase" &&
+git commit -am "final commit before rebase"
 git checkout ${BRANCH} &&
 git branch -D copy_branch &&
 git checkout -b copy_branch &&
@@ -29,9 +29,10 @@ git reset --soft dev &&
 echo "successfully called reset soft"
 git add . &&
 git add -A &&
-git commit --allow-empty -am "reset:sft" &&
+git commit -am "reset:sft"
 git checkout -b ${NEW_BRANCH}
 git push -u origin ${NEW_BRANCH} &&
 git checkout ${BRANCH} &&
+git branch -D ${NEW_BRANCH} &&
 git merge dev &&
 echo "successfully pushed"

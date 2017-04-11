@@ -1,11 +1,27 @@
 
+
+///
+
+   need to log which pre hooks are running, for each one
+
+///
+
+  create web reporter - add spinning circles to grid for each test, spinning circles update for each test case
+
+///
+
+ on jenkins servers, etc, we should install $HOME/.suman to the project directory /.suman
+
+///
+
+restore contents of examples directory?? look in git history
+
 //
 
 https://lodash.com/custom-builds
 
 
 //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
-
 
 ///
 
@@ -27,20 +43,6 @@ override suman config in each test as needed
 
   create new suman event => all test cases registered, so that we can create a progress bar
   in the browser, showing how many tests are done
-
-///
-
-✓ declarative style - declare (sync and async) dependencies for each test, and only load those
-✓ "nodeable test scripts" => run individual tests with the node.js executable
-✓ no global variables as part of test harness
-✓ supports browser
-✓ supports observables
-✓ synchronous *and* asynchronous reporters (!)
-✓ tests run in parallel in separate processes
-✓ execute tests written in any language, use write TAP to stdout
-✓ only 18mbs on filesystem as npm install -D
-✓ works with Selenium
-
 
 ///
 

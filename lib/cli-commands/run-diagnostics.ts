@@ -8,6 +8,7 @@ const semver = require('semver');
 const colors = require('colors/safe');
 
 //project
+const _suman = global.__suman = (global.__suman || {});
 const constants = require('../../config/suman-constants');
 
 //////////////////////////////////////////////////////////////

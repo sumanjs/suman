@@ -1,7 +1,4 @@
-/**
- * Created by denman on 1/12/16.
- */
-
+'use strict';
 
 const constants = require('./suman-constants');
 const fatalRequestReply = require('../lib/helpers/fatal-request-reply');
