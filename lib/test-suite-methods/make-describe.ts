@@ -19,6 +19,7 @@ const async = require('async');
 const colors = require('colors/safe');
 
 //project
+const _suman = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const constants = require('../../config/suman-constants');
 const sumanUtils = require('suman-utils');
@@ -97,7 +98,7 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
 
     //////////
 
-    const allowArrowFn = global.sumanConfig.allowArrowFunctionsForTestBlocks;
+    const allowArrowFn = _suman.sumanConfig.allowArrowFunctionsForTestBlocks;
     const isArrow = sumanUtils.isArrowFunction(cb);
     const isGenerator = sumanUtils.isGeneratorFn(cb);
     const isAsync = sumanUtils.isAsyncFn(cb);
@@ -164,7 +165,7 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
       const d = domain.create();
 
       d.once('error', function (err: Error) {
-        if (global.weAreDebugging) {
+        if (_suman.weAreDebugging) {
           console.error(err.stack || err);
         }
         console.log(' => Error executing test block => ', err.stack);
@@ -278,16 +279,13 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
                   else {
                     let w = ' => Suman usage warning => suite.resume() was called more than once.';
                     console.error(w);
-                    global._writeTestError(w)
+                    _suman._writeTestError(w)
                   }
 
                 };
 
-                console.log('apply deps 2');
                 cb.apply(suite, $deps);
-
               }
-
 
             });
           }

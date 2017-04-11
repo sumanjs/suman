@@ -1,10 +1,12 @@
 /* globals suman */
 
 const Test = suman.init(module, {
-  $inject: ['abc']
-}, {
-  allowArrowFunctionsForTestBlocks: true
-});
+    $inject: ['abc'],
+    pre: ['smartconnect']
+  },
+  {
+    allowArrowFunctionsForTestBlocks: true
+  });
 
 
 Test.create(['parallel: false', (before, beforeEach, it, after, describe) => {
