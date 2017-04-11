@@ -21,7 +21,7 @@ let inBrowser = false;
 const _suman: ISumanGlobalInternal = global._suman = (global._suman || {});
 
 try {
-  window.module = {};
+  window.module = {filename: '/'};
   module.parent = module;
   inBrowser = global._suman.inBrowser = true;
 }
@@ -35,7 +35,7 @@ if(global.sumanOpts.verbosity > 8){
 }
 
 
-var count = 0;
+let count = 0;
 
 Mod.prototype && (Mod.prototype.require = function () {
   // console.log('count => ', count++, arguments);
@@ -385,7 +385,7 @@ namespace suman {
 let loaded = false;
 let moduleCount = 0;
 
-const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.IInitOpts): IStartCreate {
+const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.IInitOpts, confOverride: any): IStartCreate {
 
   ///////////////////////////////////
   debugger;  // leave this here forever for debugging child processes
@@ -423,15 +423,25 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
     return init.apply(null, arguments);
   }
 
-  try {
+  if(!inBrowser){
     assert(($module.constructor && $module.constructor.name === 'Module'),
       'Please pass the test file module instance as first arg to suman.init()');
   }
-  catch (err) {
-    $opts = $module;
-    $module = {filename: 'unknown (we are in browser)'};
-    $module.parent = $module;
-    $module.filename = '/';
+
+  // if(!$module){
+  //   confOverride = $opts;
+  //   $opts = $module;
+  //   $module = {filename: 'unknown (we are in browser)'};
+  //   $module.parent = $module;
+  //   $module.filename = '/';
+  // }
+
+  debugger;
+
+  if(confOverride){
+    assert(confOverride && (typeof confOverride === 'object'), ' => Suman conf override value must be defined and an object.');
+    assert(!Array.isArray(confOverride), ' => Suman conf override value must be an object, but not an array.');
+    Object.assign(global.sumanConfig, confOverride);
   }
 
   global.sumanInitCalled = true;
@@ -886,7 +896,6 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
           let iocFnArgs = fnArgs(iocFn);
           let getiocFnDeps = makeIocDepInjections(iocData);
           let iocFnDeps = getiocFnDeps(iocFnArgs);
-          console.log('iocFnDeps => ', iocFnDeps);
           global.iocConfiguration = iocFn.apply(null, iocFnDeps) || {};
         }
         else {
@@ -1227,8 +1236,7 @@ const suman: suman.IInitExport = {
 
 try {
   window.suman = suman;
-  window.Test = init({});
-  console.log('Test and suman added to window.');
+  console.log(' => "suman" is now available as a global variable in the browser.');
 }
 catch (err) {}
 

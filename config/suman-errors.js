@@ -25,11 +25,11 @@ function control(isThrow, err) {
 
 function filter(suman, isFatal, err) {
 
-    // var stack = String(err.stack).split('\n');
+    // let stack = String(err.stack).split('\n');
 
     const stack = err.stack || err;
 
-    var firstMatch = false;
+    let firstMatch = false;
 
     // stack = stack.map(function (item, index) {
     //     if (index === 0) {
@@ -49,7 +49,7 @@ function filter(suman, isFatal, err) {
     //     return item;
     // }).join('\n').concat('\n');
 
-    var type = isFatal ? 'FATAL' : 'NON_FATAL_ERR';
+    let type = isFatal ? 'FATAL' : 'NON_FATAL_ERR';
 
     return fatalRequestReply({
         type: type,

@@ -146,7 +146,7 @@ const cwd = process.cwd();
 ////////////////////////////////////////////////////////////////////
 
 const sumanExecutablePath = global.sumanExecutablePath = process.env.SUMAN_EXECUTABLE_PATH = __filename;
-var projectRoot = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = su.findProjectRoot(cwd);
+let projectRoot = global.projectRoot = process.env.SUMAN_PROJECT_ROOT = su.findProjectRoot(cwd);
 
 const cwdAsRoot = process.argv.indexOf('--cwd-is-root') > -1;
 
@@ -198,7 +198,7 @@ const resultBroadcaster = global.resultBroadcaster = (global.resultBroadcaster |
 
 /////////////////////////////////////////////////////////////////////
 
-var sumanConfig, pth;
+let sumanConfig, pth;
 
 //TODO: use harmony destructuring args later on
 const configPath = opts.config;
@@ -241,15 +241,15 @@ if (coverage) {
 }
 
 //re-assignable
-var babelRegister = opts.babel_register;
-var noBabelRegister = opts.no_babel_register;
+let babelRegister = opts.babel_register;
+let noBabelRegister = opts.no_babel_register;
 const originalTranspileOption = opts.transpile = !!opts.transpile;
 
 //////////////////////////////////
 
-var sumanInstalledLocally = null;
-var sumanInstalledAtAll = null;
-var sumanServerInstalled = null;
+let sumanInstalledLocally = null;
+let sumanInstalledAtAll = null;
+let sumanServerInstalled = null;
 
 ///////////////////////////////////
 

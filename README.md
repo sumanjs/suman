@@ -1,8 +1,7 @@
 
+[![npm version](https://badge.fury.io/js/suman.svg)](https://badge.fury.io/js/suman)
 
-[npm-url]:https://www.npmjs.com/package/suman
-[![NPM version][npm-image]][npm-url]
-
+[![Greenkeeper badge](https://badges.greenkeeper.io/sumanjs/suman.svg)](https://greenkeeper.io/)
 
 [![Build Status](https://travis-ci.org/ORESoftware/suman.svg?branch=master)](https://travis-ci.org/ORESoftware/suman)
 
@@ -17,15 +16,10 @@ Intended to work with Selenium, in the browser, and to do large-scale backend sy
 Can handle any language, because it runs tests as child processes. 
 
 
-
 ## &#9658; Documentation
-
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/sumanjs/suman.svg)](https://greenkeeper.io/)
 
  >   Suman documentation => [sumanjs.org](http://sumanjs.github.io "Suman Docs")  
 
- 
  ---
 
 #  Suman is a singular test runner focused on Node.js, but is generic and robust so that it is also language agnostic
@@ -74,33 +68,28 @@ ___
 >
 > Suman supports Node versions >= 4.0.0.
 >
-> Windows support is on the roadmap, will not be ready anytime soon.
->
-> Suman tests cannot be run in the browser - but you probably don't need to run tests in the browser -
-> you can unit test your front-end code with Node.js and mock window, document, etc. Better yet, use
-> selenium, nightwatch.js, etc, to do automated browser testing. Avoiding the constraints of the browser
-> allows Suman to be more featureful and to have a more robust/maintainable codebase.
+> Windows support is on the roadmap, but will not be ready anytime soon.
 >
 
 ---
 
 
-## &#9658; Installation
+# &#9658; Installation
 
 <i> => For command line tools:</i>
-# ```$ npm install -g suman```
+## ```$ npm install -g suman```
 
 => **Please** do *not* use sudo to install suman globally; if you need to use sudo, then something is probably wrong
 => See: https://docs.npmjs.com/getting-started/fixing-npm-permissions
 => To avoid any problems with permissions, Suman recommends usage of NVM
 
 <i> => For test suites in your project:</i>
-# ```$ cd <your-project-root> && suman --init```
+## ```$ cd <your-project-root> && suman --init```
 
 * for an advanced installation method (to avoid global NPM modules) see: "Local installations only"
 
 => to convert a Mocha test or whole directory(s) of Mocha tests to Suman tests use <br>
-```$ suman --convert --src=<src-file/src-dir> --dest=<dest-dir>```
+### ```$ suman --convert --src=<src-file/src-dir> --dest=<dest-dir>```
 
 => to simply install Suman as dev-dependency in any project you can use ```$ npm install -D suman```, <br>
 however ```$ suman --init``` is the much preferred way to initialized suman in a given project, because it will
@@ -117,7 +106,7 @@ If you wish to avoid global NPM module installations, we commend you, see:
 ## The Suman Story
 
 I started writing Suman in October 2015. After 6 months of working with Mocha, I was becoming very disenchanted
- - Mocha had several major problems and 100 minor ones. Mocha is poorly designed software, and the fact that it concatenates
+ - Mocha had a handful of major problems and 100 minor ones. Mocha is poorly designed software, and the fact that it concatenates
  all your tests in a single process is simply not how testing should work; especially for dynamic language where the global
  scope can be polluted by inexperienced developers.
  
@@ -234,24 +223,6 @@ away with (implicit) global variables.
 Writing tests in the form of shell scripts is something that almost every project could benefit from and now you can run these 
 tests through your universal test runner - Suman!
 * Composability - Suman tests should be able to run suman tests as child processes, ad inifitem, without hiccups.
-
-## On lack of browser support
-
-Suman firmly believes in integration and system testing as being more bang-for-your-buck than unit testing.
-Node.js is for fast iteration, prototyping and just getting stuff done; it also makes things "easier
-to change", since there is just less code to change. If you change a unit of code, your unit test may break
-without adding any value, but your system test or integration test will likely not break and your system may still work as intended.
-In other words, when your system test breaks - something is definitely wrong - when a unit test breaks, it's probably
-just because you changed some of your code. You tell me then - which test was more valuable?
-Suman recommends writing unit tests for only the complex methods and functions in your codebase. Beyond that,
-we recommend end-to-end testing of diferent features in your system.
-
-Chances are, JavaScript developers will already be familiar with a browser testing library or framework. You can point Suman
-to the entry point of your test and the Suman runner will execute your tests and incorporate the result. Suman
-will not be able to run much analysis on your non-Suman test process, but all it _really_ needs to be accurate is to
-use the exit code of whatever child process your test is in. As stated, you can write your browser tests using any
-library you wish. Using headless browser testing with Phantom.js or Nightmare.js is a very real possibility, and probably
-a better use of your time than writing unit tests that run in the browser.
 
 
 # &#9658; Test Framework Comparison
@@ -467,7 +438,7 @@ Test.create('ES6/ES7 API Example', (baz, assert, path, http, beforeEach, it) => 
           hostname: 'example.com'
         }, res => {
         
-           var data = '';
+           let data = '';
            
            res.on('data', function($data){
                   data += $data;

@@ -6,10 +6,9 @@ const Test = suman.init(module, {
 });
 
 
-
 Test.create(['parallel: true',  (assert, before, beforeEach, it, after, describe) => {
 
-  console.log(this.opts);
+  console.log('this.opts',this.opts);
 
   before({fatal: false}, t => {
     throw new Error('hook');
