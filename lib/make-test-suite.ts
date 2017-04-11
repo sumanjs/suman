@@ -21,6 +21,7 @@ const async = require('async');
 const colors = require('colors/safe');
 
 //project
+const _suman = global.__suman = (global.__suman || {});
 const rules = require('./helpers/handle-varargs');
 const implementationError = require('./helpers/implementation-error');
 const constants = require('../config/suman-constants');

@@ -9,6 +9,7 @@ const fs = require('fs');
 const colors = require('colors/safe');
 
 //project
+const _suman = global.__suman = (global.__suman || {});
 const script = path.resolve(__dirname + '/../../scripts/suman-postinstall.sh');
 
 //////////////////////////////////////////////////////////////////////

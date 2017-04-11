@@ -14,7 +14,7 @@ const async = require('async');
 const colors = require('colors/safe');
 
 //project
-
+const _suman = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const constants = require('../../config/suman-constants');
 const handleSetupComplete = require('../handle-setup-complete');
@@ -37,15 +37,14 @@ export = function(suman: ISuman, zuite: ITestSuite) : Function {
       preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
     });
 
-    //TODO: when Node v4 is outdated we can move to array desctructuring
     const [desc, opts, fn] = args;
     handleBadOptions(opts);
 
     if (opts.skip) {
-      global._writeTestError(' => Warning => Inject hook was skipped.')
+      _suman._writeTestError(' => Warning => Inject hook was skipped.')
     }
     else if (!fn) {
-      global._writeTestError(' => Warning => Inject hook was stubbed.')
+      _suman._writeTestError(' => Warning => Inject hook was stubbed.')
     }
     else {
       zuite.getInjections().push({  //TODO: add timeout option

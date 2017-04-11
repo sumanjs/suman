@@ -1,19 +1,19 @@
 'use strict';
 
+////////////////////////////////////
+
 export = function freezeExistingProps(obj: any) {
 
-    try {
-        Object.keys(obj).forEach(function (key) {
-            Object.defineProperty(obj, key, {
-                writable: false
-            });
-        });
-    }
+  try {
+    Object.keys(obj).forEach(function (key) {
+      Object.defineProperty(obj, key, {
+        writable: false
+      });
+    });
+  }
 
-    catch(err){
+  catch (err) {}
 
-    }
-
-    return obj;
+  return obj;
 
 };
