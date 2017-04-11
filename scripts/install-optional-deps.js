@@ -44,7 +44,7 @@ console.log('BASE_DIRECTORY in JavaScript is => ', bd);
 
 //if base directory is not home or users, then we are installing globally, so always install all
 //TODO: regarding above, but what about NVM?
-var alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace('/', '')) < 0;
+let alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace('/', '')) < 0;
 
 
 console.log(' => cwd in postinstall script =>', cwd);
@@ -53,8 +53,8 @@ console.log(' => Project root => ', projectRoot);
 
 // semver.gt('1.2.3', '9.8.7') // false
 
-var pkgDotJSON;
-var pth = path.resolve(projectRoot + '/package.json');
+let pkgDotJSON;
+let pth = path.resolve(projectRoot + '/package.json');
 
 try {
   pkgDotJSON = require(pth);
@@ -64,8 +64,8 @@ catch (err) {
     'Could not find package.json located here => ', pth, '\n');
 }
 
-var sumanConf = {};
-var alwaysInstall = false;
+let sumanConf = {};
+let alwaysInstall = false;
 
 try {
   sumanConf = require(path.resolve(projectRoot + '/suman.conf.js'));
@@ -76,7 +76,7 @@ catch (err) {
 }
 
 //always install latest for now
-var installs = [];
+let installs = [];
 
 installs = installs.concat(Object.keys(deps.slack));
 installs = installs.concat(Object.keys(deps.sqlite3));
@@ -208,7 +208,7 @@ async.map(installs, function (item, cb) {
     return process.exit(1);
   }
 
-  var runWorker = false;
+  let runWorker = false;
   const linesToAdd = [];
 
   results.forEach(function (result) {
@@ -216,7 +216,7 @@ async.map(installs, function (item, cb) {
     const item = result.name;
     const action = result.action;
 
-    var args;
+    let args;
 
     switch (action) {
       case 'do-nothing':
@@ -281,7 +281,7 @@ async.map(installs, function (item, cb) {
         });
       }
       else {
-        var lines = String(data).split('\n');
+        let lines = String(data).split('\n');
         lines = lines.concat(linesToAdd);
         lines = lines.filter(function (l) {
           // trim removes newline characters from beginning and end of strings

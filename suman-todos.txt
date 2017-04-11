@@ -1,4 +1,27 @@
 
+//
+
+https://lodash.com/custom-builds
+
+
+//TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
+
+
+///
+
+  use arrays to wrap functions for hooks and test cases as well as describe blocks
+
+///
+
+ async.autoInjectCache for suman.once.pre.js and suman.once.post.js
+
+///
+
+https://github.com/Microsoft/TypeScript/issues/14941#issuecomment-293023423
+
+///
+
+override suman config in each test as needed
 
 ///
 
@@ -7,10 +30,17 @@
 
 ///
 
+✓ declarative style - declare (sync and async) dependencies for each test, and only load those
+✓ "nodeable test scripts" => run individual tests with the node.js executable
+✓ no global variables as part of test harness
 ✓ supports browser
-✓ synchronous *and* asynchronous reporters!
+✓ supports observables
+✓ synchronous *and* asynchronous reporters (!)
 ✓ tests run in parallel in separate processes
 ✓ execute tests written in any language, use write TAP to stdout
+✓ only 18mbs on filesystem as npm install -D
+✓ works with Selenium
+
 
 ///
 
@@ -22,7 +52,6 @@
 
 passing rate currently includes stubbed tests -
 need to filter out stubbed and skipped tests, before calculating passing rate.
-
 
 ///
 
@@ -149,6 +178,7 @@ prove that TAP output works with all regular suman tests by turning off IPC
 
 ///
 
+// proxy:
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
 
 ///
@@ -602,13 +632,13 @@ https://github.com/nodejs/help/issues/389
 
 ////
 
-var timesFunction = function(callback) {
+let timesFunction = function(callback) {
     if (typeof callback !== 'function' ) {
         throw new TypeError('Callback is not a function');
     } else if( isNaN(parseInt(Number(this.valueOf()))) ) {
         throw new TypeError('Object is not a valid number');
     }
-    for (var i = 0; i < Number(this.valueOf()); i++) {
+    for (let i = 0; i < Number(this.valueOf()); i++) {
         callback(i);
     }
 };
@@ -1143,7 +1173,7 @@ https://github.com/gulpjs/gulp/issues/770#issuecomment-259282294
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-var execSync = require('child_process').execSync;
+let execSync = require('child_process').execSync;
 var opn = require('opn');
 
 function openBrowser(url) {

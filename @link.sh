@@ -8,6 +8,7 @@
 cd $(dirname "$0")
 
 # link dev deps
+npm link suman-browser-polyfills -f
 npm link suman-utils -f
 npm link suman-debug -f
 npm link suman-events -f
