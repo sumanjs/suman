@@ -1,5 +1,9 @@
 'use strict';
 
+//polyfills
+const process = require('suman-browser-polyfills/modules/process');
+const global = require('suman-browser-polyfills/modules/global');
+
 //core
 const domain = require('domain');
 const util = require('util');
@@ -15,7 +19,7 @@ const rules = require('../helpers/handle-varargs');
 const constants = require('../../config/suman-constants');
 const handleSetupComplete = require('../handle-setup-complete');
 
-/////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
 
 function handleBadOptions(opts: IAfterOpts): void {
 
@@ -28,7 +32,9 @@ function handleBadOptions(opts: IAfterOpts): void {
 
 //////////////////////////// inline types  ///////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////
+//TODO
+
+////////////////////////////////////////////////////////////////////////////
 
 export = function (suman: ISuman, zuite: ITestSuite): Function {
 

@@ -6,8 +6,8 @@ const Test = suman.init(module, {
 });
 
 
-Test.create(['parallel: false', 'parallel: false',
-  function (assert, before, beforeEach, it, after) {
+
+Test.create(['parallel: true',  (assert, before, beforeEach, it, after, describe) => {
 
   console.log(this.opts);
 
@@ -24,9 +24,10 @@ Test.create(['parallel: false', 'parallel: false',
     setTimeout(function () {
       console.log('before each hook finished.');
       t.ctn();
-    }, 10);
-
+    }, 100);
   });
+
+  ///////////////////
 
   it('a', t => {
     assert(true);
@@ -40,7 +41,7 @@ Test.create(['parallel: false', 'parallel: false',
 
   Number(5).times(num => {
 
-    this.describe('nested group 1', {parallel: true}, function () {
+    describe('nested group 1', {parallel: true}, function () {
 
       this.before(t => {
         console.log('before b');
@@ -86,7 +87,6 @@ Test.create(['parallel: false', 'parallel: false',
 
 
   });
-
 
 
 }]);

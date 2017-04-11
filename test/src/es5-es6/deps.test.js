@@ -3,7 +3,7 @@
 const suman = require('suman');
 const Test = suman.init(module);
 
-Test.create(function (assert, $deps, async, $core, function_arguments) {
+Test.create(function (assert, $deps, async, $core, function_arguments, william) {
 
   this.it('tests deps', function(){
 
@@ -22,7 +22,9 @@ Test.create(function (assert, $deps, async, $core, function_arguments) {
 
 });
 
-Test.create(function (assert, $deps, async, $core, function_arguments) {
+Test.create(function (assert, $deps, async, $core, function_arguments, william) {
+
+  console.log('william => ', william);
 
   this.it('tests deps', function(){
 

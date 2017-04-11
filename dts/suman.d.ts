@@ -4,6 +4,9 @@ import EventEmitter = NodeJS.EventEmitter;
 
 
 
+interface ISumanGlobalInternal {
+  // defintion for global.__suman
+}
 
 
 interface ISuman {

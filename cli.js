@@ -24,7 +24,7 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
   //prevents users from f*king up by accident and getting in an infinite process-spawn
   //loop that will lock up their entire system
   console.log('Warning: attempted to require Suman index.js but this cannot be.');
-  return process.exit(1);
+  process.exit(1);
 }
 
 console.log(' => Resolved path of Suman executable =>', '"' + __filename + '"');
@@ -527,9 +527,15 @@ resultBroadcaster.emit(String(events.NODE_VERSION), nodeVersion);
 resultBroadcaster.emit(String(events.SUMAN_VERSION), sumanVersion);
 
 //note: whatever args are remaining are assumed to be file or directory paths to tests
+
+const userArgs = global._suman.userArgs = [];
+
 const paths = JSON.parse(JSON.stringify(opts._args)).filter(function (item) {
   if (String(item).indexOf('-') === 0) {
-    console.log(colors.magenta(' => Suman warning => Extra command line option "' + item + '", Suman is ignoring it.'));
+    if (opts.verbosity > 3) {
+      console.log(colors.magenta(' => Suman considers this a user argument => ', "'" + item + "'"));
+    }
+    userArgs.push(item);
     return false;
   }
   return true;
@@ -610,6 +616,18 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
 
   else {
     //this path runs all tests
+
+    if (userArgs && opts.verbosity > 4) {
+      console.log(' => User args will be passed to child processes as process.argv')
+    }
+
+    if (opts.verbosity > 4) {
+      console.log(' => Suman considers these to be runnable files/directories => ');
+      paths.forEach(function (f) {
+        console.log(' => ', f);
+      });
+    }
+
     require('./lib/run')(opts, paths, sumanServerInstalled, sumanVersion);
   }
 
