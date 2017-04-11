@@ -6,10 +6,10 @@ const fs = require('fs');
 //project
 const cwd = process.cwd();
 const down = [];
-var found = false;
+let found = false;
 
 
-var exec;
+let exec;
 const execNameIndex = process.argv.indexOf('--exec-name');
 
 if(execNameIndex < 0){
@@ -33,7 +33,7 @@ fs.writeFileSync(debugLogPath, ' => Date run => ' + new Date().toISOString(), { 
 fs.writeFileSync(debugLogPath, ' => Running find-local-suman-executable.\n', { flag: 'a' });
 fs.writeFileSync(debugLogPath, ' => cwd => ' + cwd, { flag: 'a' });
 
-var p, cd;
+let p, cd;
 
 function stat (p) {
   try {

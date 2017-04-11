@@ -1,6 +1,11 @@
 'use strict';
 // important note: "use strict" so errors get thrown if properties are modified after the fact
 
+
+//polyfills
+const process = require('suman-browser-polyfills/modules/process');
+const global = require('suman-browser-polyfills/modules/global');
+
 //core
 const domain = require('domain');
 const util = require('util');

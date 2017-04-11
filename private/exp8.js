@@ -10,7 +10,7 @@
 // console.log('O_RDWR',O_RDWR);
 // console.log('O_NOCTTY',O_NOCTTY);
 //
-// var fd = fs.openSync('/dev/tty', O_RDWR + O_NOCTTY);
+// let fd = fs.openSync('/dev/tty', O_RDWR + O_NOCTTY);
 //
 // const fdTerm = fs.openSync('/dev/ttys003','a');
 //

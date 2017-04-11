@@ -47,7 +47,7 @@ const obj = {
 
 const queueWorkerLock = path.resolve(process.env.HOME + '/.suman/queue-worker.lock');
 
-var callable = true;
+let callable = true;
 function deleteLockOnExit(){
   if(callable){
     callable = false;

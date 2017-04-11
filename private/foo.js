@@ -1,11 +1,11 @@
 
 
 function* powGenerator(){
-    var result = Math.pow(yield 'a', yield 'b');
+    let result = Math.pow(yield 'a', yield 'b');
     return result;
 }
 
-var g = powGenerator();
+let g = powGenerator();
 
 console.log((g.next().value));
 console.log((g.next(10).value));
