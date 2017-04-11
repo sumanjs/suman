@@ -208,7 +208,6 @@ const debug = require('suman-debug')('s:index');
 require('./patches/all');
 const rules = require('./helpers/handle-varargs');
 const makeSuman = require('./suman');
-const ansi = require('ansi-styles');
 const su = require('suman-utils');
 const acquireDeps = require('./acquire-deps');
 const acquireIntegrantsSingleProcess = require('./acquire-integrants-single-proc');
