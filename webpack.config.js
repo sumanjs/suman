@@ -44,10 +44,10 @@ module.exports = {
 
   node: {
     // assert: true,
-    buffer: true,
+    buffer: false,
     child_process: 'empty',
     cluster: 'empty',
-    console: true,
+    console: false,
     constants: true,
     crypto: 'empty',
     dgram: 'empty',

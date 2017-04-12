@@ -1,11 +1,11 @@
 
-!cli/*.sh
-!*.d.ts
 *xxx.sh
 *xxx.ts
+!cli/*.sh
+!scripts/*.sh
+!*.d.ts
 *.md
 *.txt
-*.md
 *.log
 .idea
 node_modules

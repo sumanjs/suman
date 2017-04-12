@@ -12,6 +12,11 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
  => https://github.com/trentm/node-dashdash
  */
 
+//polyfills
+const process = require('suman-browser-polyfills/modules/process');
+const global = require('suman-browser-polyfills/modules/global');
+
+
 const logExit = require('./lib/helpers/log-exit');
 
 process.on('exit', function (code) {
@@ -85,6 +90,8 @@ process.on('unhandledRejection', function (err) {
   }
 
 });
+
+
 
 //core
 const fs = require('fs');
@@ -367,8 +374,8 @@ else {
 
 debug(' => Suman configuration (suman.conf.js) => ', sumanConfig);
 
-const sumanPaths = require('./lib/helpers/resolve-shared-dirs')(sumanConfig, projectRoot);
-const sumanObj = require('./lib/helpers/load-shared-objects')(sumanPaths, projectRoot);
+const sumanPaths = require('./lib/helpers/resolve-shared-dirs')(sumanConfig, projectRoot, sumanOpts);
+const sumanObj = require('./lib/helpers/load-shared-objects')(sumanPaths, projectRoot, sumanOpts);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
