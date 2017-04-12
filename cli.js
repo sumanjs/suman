@@ -367,8 +367,8 @@ else {
 
 debug(' => Suman configuration (suman.conf.js) => ', sumanConfig);
 
-const sumanPaths = require('./lib/helpers/resolve-shared-dirs')(sumanConfig, projectRoot);
-const sumanObj = require('./lib/helpers/load-shared-objects')(sumanPaths, projectRoot);
+const sumanPaths = require('./lib/helpers/resolve-shared-dirs')(sumanConfig, projectRoot, sumanOpts);
+const sumanObj = require('./lib/helpers/load-shared-objects')(sumanPaths, projectRoot, sumanOpts);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 

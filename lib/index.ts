@@ -14,7 +14,8 @@ let inBrowser = false;
 const _suman: ISumanGlobalInternal = global.__suman = (global.__suman || {});
 
 // set it here just in case
-_suman.sumanOpts = _suman.sumanOpts || {};
+const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
+const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
 try {
   window.module = {filename: '/'};
@@ -22,11 +23,11 @@ try {
   inBrowser = _suman.inBrowser = true;
 }
 catch (err) {
-  inBrowser = _suman.inBrowser =  false;
+  inBrowser = _suman.inBrowser = false;
 }
 
 
-if(_suman.sumanOpts.verbosity > 8){
+if (_suman.sumanOpts.verbosity > 8) {
   console.log(' => Are we in browser? => ', inBrowser ? 'yes!' : 'no.');
 }
 
@@ -275,8 +276,6 @@ oncePostFn = require('./helpers/handle-suman-once-post');
 const singleProc = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 const isViaSumanWatch = process.env.SUMAN_WATCH === 'yes';
 const main = require.main.filename;
-const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
-const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 const usingRunner = _suman.usingRunner = (_suman.usingRunner || process.env.SUMAN_RUNNER === 'yes');
 
 //could potentially pass dynamic path to suman config here, but for now is static
@@ -290,8 +289,8 @@ if (sumanOpts.verbose && !usingRunner && !_suman.viaSuman) {
   console.log(' => Suman verbose message => Project root:', projectRoot);
 }
 
-const sumanPaths = require('./helpers/resolve-shared-dirs')(sumanConfig, projectRoot);
-const sumanObj = require('./helpers/load-shared-objects')(sumanPaths, projectRoot);
+const sumanPaths = require('./helpers/resolve-shared-dirs')(sumanConfig, projectRoot, sumanOpts);
+const sumanObj = require('./helpers/load-shared-objects')(sumanPaths, projectRoot, sumanOpts);
 
 /////////// cannot wait to use obj destruring /////////////////////////////////
 const integrantPreFn = sumanObj.integrantPreFn;
@@ -418,7 +417,7 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
     return init.apply(null, arguments);
   }
 
-  if(!inBrowser){
+  if (!inBrowser) {
     assert(($module.constructor && $module.constructor.name === 'Module'),
       'Please pass the test file module instance as first arg to suman.init()');
   }
@@ -433,7 +432,7 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
 
   debugger;
 
-  if(confOverride){
+  if (confOverride) {
     assert(confOverride && (typeof confOverride === 'object'), ' => Suman conf override value must be defined and an object.');
     assert(!Array.isArray(confOverride), ' => Suman conf override value must be an object, but not an array.');
     Object.assign(_suman.sumanConfig, confOverride);
@@ -945,10 +944,11 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
             suman._sumanEvents = sumanEvents;
             const run = es.main(suman);
 
-            try{
+            try {
               process.domain && process.domain.exit();
             }
-            catch(err){}
+            catch (err) {
+            }
 
             global.setImmediate(function () {
 
@@ -1233,7 +1233,8 @@ try {
   window.suman = suman;
   console.log(' => "suman" is now available as a global variable in the browser.');
 }
-catch (err) {}
+catch (err) {
+}
 
 
 export = suman;
