@@ -175,6 +175,7 @@ if (!projectRoot) {
 ////////////////////////////////////////////////////////////////////
 
 const sumanOpts = _suman.sumanOpts = require('./lib/parse-cmd-line-opts/parse-opts');
+console.log('!! clliiiii => ', util.inspect(_suman));
 _suman.sumanArgs = sumanOpts._args;
 
 if (sumanOpts.verbose) {
