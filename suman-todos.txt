@@ -1,4 +1,7 @@
 
+///
+
+ do suman pre hooks work with "suman x --no-runner", as opposed to node x?
 
 ///
 

@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Suman tests</title>
+  <script>
+    window.onerror = function(e){
+      console.error(e.stack || e);
+    };
+  </script>
   <script src="../../../dist/suman.js"></script>
   <script src="./one.test.js"></script>
 </head>

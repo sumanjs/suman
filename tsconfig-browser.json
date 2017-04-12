@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outFile": "dist/suman.js",
+    "outFile": "dist/suman-systemjs.js",
     "declaration": true,
     "baseUrl": ".",
     "paths": {
@@ -29,7 +29,8 @@
   "allowJs": true,
   "compileOnSave": false,
   "include": [
-    "lib/**/*"
+    "./**/*.js",
+    "./**/*.ts"
   ],
   "exclude": [
     "test",
