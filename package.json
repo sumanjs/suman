@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.512226",
+  "version": "1.1.512232",
   "engines": {
     "node": ">=4.0.0"
   },
@@ -26,7 +26,6 @@
   "license": "ISC",
   "dependencies": {
     "ansi-256-colors": "^1.1.0",
-    "ansi-styles": "^3.0.0",
     "ascii-table": "0.0.9",
     "async": "^2.1.5",
     "builtin-modules": "^1.1.1",
@@ -63,6 +62,7 @@
     "suman-debug": "latest",
     "suman-events": "latest",
     "suman-example-reporter": "latest",
+    "suman-browser-polyfills": "latest",
     "suman-utils": "latest",
     "tap-parser": "^5.3.2",
     "tcp-ping": "^0.1.1",
@@ -91,7 +91,6 @@
     "node-libs-browser": "^2.0.0",
     "rxjs": "^5.0.3",
     "should": "^11.2.0",
-    "suman-browser-polyfills": "latest",
     "systemjs-builder": "^0.16.4",
     "webpack": "^2.3.3"
   },

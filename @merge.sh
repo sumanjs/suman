@@ -34,5 +34,5 @@ git checkout -b ${NEW_BRANCH}
 git push -u origin ${NEW_BRANCH} &&
 git checkout ${BRANCH} &&
 git branch -D ${NEW_BRANCH} &&
-git merge dev &&
+#git merge dev &&
 echo "successfully pushed"
