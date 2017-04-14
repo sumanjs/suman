@@ -92,7 +92,7 @@
     "rxjs": "^5.0.3",
     "should": "^11.2.0",
     "systemjs-builder": "^0.16.4",
-    "webpack": "^2.3.3"
+    "webpack": "^2.4.0"
   },
   "repository": {
     "type": "git",
