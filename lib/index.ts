@@ -303,6 +303,9 @@ fs.writeFileSync(testLogPath, '\n => New Suman run @' + new Date(), {flag: 'w'})
 
 ////////////////////////////////////////////////////////////////////////////////
 
+console.log(' => $PATH => ', process.env.PATH);
+
+
 if (sumanReporters.length < 1) {
 
   let fn: Function;
