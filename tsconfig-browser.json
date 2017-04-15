@@ -16,7 +16,7 @@
     "target": "es5",
     "module": "system",
     "moduleResolution": "node",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "removeComments": true,
     "allowUnreachableCode": true,
     "lib": [
@@ -29,8 +29,8 @@
   "allowJs": true,
   "compileOnSave": false,
   "include": [
-    "./**/*.js",
-    "./**/*.ts"
+    "**/*.js",
+    "**/*.ts"
   ],
   "exclude": [
     "test",

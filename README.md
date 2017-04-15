@@ -7,17 +7,23 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
 
-![alt text](https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman.png "Suman Primary Logo")
+<img align="right" width="50%" height="50%" src="https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman-hex.png">
+
+# Suman: universal test runner, primarily for Node.js and front-end JavaScript
 
 
+Designed to run tests written in any language - because Suman can runs tests as child processes - just write TAP to stdout
+via the runtime of choice.  Intended to work with Selenium, in the browser, 
+and to do large-scale backend system and integration testing.  
 
-Designed to run tests written in any language - just write TAP to stdout. 
-Intended to work with Selenium, in the browser, and to do large-scale backend system and integration testing.  
+Suman is made up of two independent pieces:
 
-Can handle any language, because it runs tests as child processes. 
+1. A CLI that can run a test in any language, and is designed to handle transpilation/compilation.
+2. A test harness that can be used with JavaScript/Node.js tests
 
+<p>
 ## If your team is interested in speeding up your testing cycles, Suman is the absolute right place to look for answers.
-#  => Suman is designed to be 'better all-around' than AVA, TapJS and Mocha, etc.
+## Suman is designed to be 'better all-around' than AVA, TapJS and Mocha, etc. If there were no room for improvement, Suman would never have been written in the first place.
 
 ---
 
@@ -25,14 +31,16 @@ Can handle any language, because it runs tests as child processes.
 
 
 <p>
-
-<div> ✓ <b style="color:purple">  test isolation </b> =>  by default, each test runs in its own process </div>
+<div> ✓ <b style="color:purple">  fully asynchronous </b> => allows for easy, dynamic test case creation
+<div> ✓ <b style="color:purple">  no globals </b> =>  no global variables as part of test harness - therefore JS tests can be run with Node.js executable </div>
+<div> ✓ <b style="color:purple">  flexible, generic, robust </b> =>  CLI can run JS tests directly, or in a child process </div>
+<div> ✓ <b style="color:purple">  test isolation </b> =>  each test can run in its own process </div>
 <div> ✓ <b style="color:purple">  test independence </b> =>  easily run only one test at a time (unlike other Node.js test runners...)</div>
-<div> ✓ <b style="color:purple">  declarative style </b>  - declare (sync and async) dependencies for each test, and only load those</div>
-<div> ✓ <b style="color:purple"> "nodeable test scripts" </b> => run individual tests with the node.js executable</div>
-<div> ✓ <b style="color:purple"> no global variables </b> as part of test harness</div>
-<div> ✓ <b style="color:purple"> supports unit testing in the browser </b> (tested on Chrome and Firefox)</div>
-<div> ✓ <b style="color:purple"> supports observables (RxJS5) </b> </div>
+<div> ✓ <b style="color:purple">  declarative style </b> => declare (sync and async) dependencies for each test, and only load those</div>
+<div> ✓ <b style="color:purple">  "nodeable test scripts" </b> => run individual tests with the node.js executable</div>
+<div> ✓ <b style="color:purple">  no global variables </b> as part of test harness</div>
+<div> ✓ <b style="color:purple">  supports unit testing in the browser </b> (tested on Chrome and Firefox)</div>
+<div> ✓ <b style="color:purple">  supports observables (RxJS5) </b> </div>
 <div> ✓ synchronous <b style="color:purple">*and*</b> asynchronous reporters (!)</div>
 <div> ✓ <b style="color:purple"> tests run in parallel in separate processes </b> </div>
 <div> ✓ execute tests written in <b style="color:purple">any</b> language, use write TAP to stdout</div>
@@ -41,7 +49,6 @@ Can handle any language, because it runs tests as child processes.
 <div> ✓ Built-in watch features => Watch files, and run tests on changes </div>
 <div> ✓ Everything in Suman is parallelizable </div>
 <div> ✓ Complete control => You *can* run unit tests all in the same process for speed, as needed. </div>
-
 </p>
 
 
@@ -52,16 +59,14 @@ For more detailed feature explanations, see below.
 
 # &#9658; Documentation 
 
- ---
-
- >   Suman docs => [sumanjs.org](http://sumanjs.github.io "Suman Docs")  
+ >   The Suman docs => [sumanjs.org](http://sumanjs.org "Suman Docs")  
 
  ---
 
-##  Suman is a singular test runner focused on Node.js and front-end JavaScript, 
-## but is both generic and robust so that it can run tests in any runtime or language
+##  Suman is a singular test runner focused on Node.js and front-end JavaScript, but is both generic and robust so that it can run tests in any runtime or language
 
-Suman is written with Node.js, and is focused testing Node.js code, 
+
+Suman is written with Node.js, and is focused on testing Node.js code, 
 but can run tests written in any language, not just JavaScript. This is 
 because it can run tests in child processes and collect results using TAP (Test Anything Protocol, via stdout), IPC, or websockets.
 
@@ -95,7 +100,7 @@ ___
 >
 > Suman supports Node versions >= 4.0.0.
 >
-> Windows support is on the roadmap, but will not be ready anytime soon.
+> Windows support is on the roadmap, but will not be ready anytime soon. Currently, MacOS and *nix support only.
 >
 
 ---
@@ -111,7 +116,7 @@ ___
 => To avoid any problems with permissions, Suman recommends usage of NVM
 
 <i> For test suites in your project:</i>
-## ```$ cd <your-project-root> && suman --init```
+## ```$ cd <project-root> && suman --init``` 
 
 * To avoid global NPM modules see: "Local installations only"
 
@@ -136,7 +141,10 @@ If you wish to avoid global NPM module installations, we commend you, see:
 ```
 
 ```bash 
- suman -w project   # run all the tests
+ suman -w project   # run a set of tests when a project file changes
+```
+```bash 
+ suman -w tests   # when developing a test, run it upon changes
 ```
 
 ## The Suman Story
@@ -717,14 +725,7 @@ corrupted by minification/uglification. But for backend testing frameworks, it i
 
 
 
-<br>
-# &#9658; Even more about Suman
-<br>
-
-
-
-Note: Suman is *not* designed to and cannot be run in the browser - it is designed for maximum performance of backend testing.
-
+## Looking
 
  <br>
  <b>Looking for open source dev(s): </b>
@@ -733,21 +734,11 @@ Note: Suman is *not* designed to and cannot be run in the browser - it is design
  and who is interested in contributing to open source with the notion that it's very unlikely any monetary gains will be seen from it :)
  This project yearns for a really excellent web reporter UI and corresponding backend to support it,
  and what we have now is just the beginning when it comes to the web reporter.
- 
- Here is a screenshot of the web reporter as it is now:  https://goo.gl/LE5xLo
- 
  With some work it could prove to be indispensable for developers working with this lib. This project is very multifaceted and
  it will involve full-stack work with SQLite, Express and React. Relative newbs welcome. Thanks!
  
 <br>
 
 
-<style>
-.theBlackBackground {background-color:#000;color: red;}
-</style>
 
-<textarea id="source">
-
-class: middle, center, theBlackBackground
-# Title
-</textarea>
+![alt text](https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman.png "Suman Primary Logo")
