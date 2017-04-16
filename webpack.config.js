@@ -30,20 +30,29 @@ module.exports = {
   resolve: {
     alias: {
       fs: require.resolve('suman-browser-polyfills/modules/fs'),
-      assert: require.resolve('suman-browser-polyfills/modules/assert'),
+      // assert: require.resolve('suman-browser-polyfills/modules/assert'),
       process: require.resolve('suman-browser-polyfills/modules/process'),
     },
     extensions: ['.js']
   },
 
-  // packages: {
-  //   'ascii-table': {
-  //     main: 'index'
-  //   }
-  // },
+  packages: {
+    'suman-browser-polyfills': {
+      main: require.resolve('suman-browser-polyfills'),
+    },
+    'suman-utils': {
+      main: require.resolve('suman-utils'),
+    },
+    'suman-events': {
+      main: require.resolve('suman-events'),
+    },
+    'suman-debug': {
+      main: require.resolve('suman-debug'),
+    }
+  },
 
   node: {
-    // assert: true,
+    assert: true,
     buffer: false,
     child_process: 'empty',
     cluster: 'empty',
