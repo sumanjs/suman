@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.512232",
+  "version": "1.1.512234",
   "engines": {
     "node": ">=4.0.0"
   },
@@ -93,6 +93,9 @@
     "should": "^11.2.0",
     "systemjs-builder": "^0.16.4",
     "webpack": "^2.4.0"
+  },
+  "optionalDependencies": {
+    "suman-watch": "latest"
   },
   "repository": {
     "type": "git",

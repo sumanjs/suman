@@ -438,7 +438,7 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
   if (confOverride) {
     assert(confOverride && (typeof confOverride === 'object'), ' => Suman conf override value must be defined and an object.');
     assert(!Array.isArray(confOverride), ' => Suman conf override value must be an object, but not an array.');
-    Object.assign(_suman.sumanConfig, confOverride);
+    _suman.sumanConfig = Object.assign({}, _suman.sumanConfig, confOverride);
   }
 
   _suman.sumanInitCalled = true;
