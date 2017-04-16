@@ -1,9 +1,6 @@
 
-*xxx.sh
-*xxx.ts
-!cli/*.sh
-!scripts/*.sh
-!*.d.ts
+*.sh
+*.ts
 *.md
 *.txt
 *.log
@@ -20,3 +17,7 @@ suman.conf.js
 .gitattributes
 .editorconfig
 .coveralls.yml
+*.json
+!cli/*.sh
+!scripts/*.sh
+!*.d.ts

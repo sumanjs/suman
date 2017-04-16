@@ -1,6 +1,22 @@
 
 ///
 
+  after.always
+
+ ///
+
+ => dynamic require's
+
+///
+
+ => Ajv schema validation
+
+///
+
+ webpack options schema - https://github.com/webpack/webpack/blob/master/schemas/webpackOptionsSchema.json
+ do the same thing with suman.conf.js.
+///
+
  need to use frankenstop to avoid bad suman.conf.js files
 
 ///

@@ -2,12 +2,11 @@
 
 const Test = suman.init(module, {
     $inject: ['abc'],
-    pre: ['smartconnect']
+    pre: []
   },
   {
     allowArrowFunctionsForTestBlocks: true
   });
-
 
 Test.create(['parallel: false', (before, beforeEach, it, after, describe) => {
 
