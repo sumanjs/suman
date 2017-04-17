@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [[ "$BRANCH" == "dev" && "$BRANCH" == "master" ]]; then
-    echo 'Aborting script because you are on master or dev branch.';
+if [[ "$BRANCH" != "rebase_branch" ]]; then
+    echo 'Aborting script because you are on rebase_branch branch.';
     exit 1;
 fi
 
@@ -10,7 +10,8 @@ NEW_BRANCH=merge_this_branch_with_dev_$(node -e 'console.log(Date.now())')
 
 git add . &&
 git add -A &&
-git commit -am "final commit before rebase"
+git commit --allow-empty -am "final commit before rebase"
+git push &&
 git fetch origin &&
 git checkout dev &&
 git add . &&
@@ -29,8 +30,8 @@ git reset --soft dev &&
 echo "successfully called reset soft"
 git add . &&
 git add -A &&
-git commit -am "reset:sft"
-git checkout -b ${NEW_BRANCH}
+git commit --allow-empty -am "reset:sft" &&
+git checkout -b ${NEW_BRANCH} &&
 git push -u origin ${NEW_BRANCH} &&
 git checkout ${BRANCH} &&
 git branch -D ${NEW_BRANCH} &&
