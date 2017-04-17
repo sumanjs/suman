@@ -1,4 +1,17 @@
 
+
+///
+
+
+grep -r --exclude "./node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'global\.' . | grep -Ev 'global\.__suman' > grep.log
+
+grep -r --exclude "./node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'suman\.__suman' . > grep.log
+
+
+///
+
+  error first callback wrap
+
 ///
 
   after.always
