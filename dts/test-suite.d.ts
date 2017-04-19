@@ -1,11 +1,23 @@
+import Timer = NodeJS.Timer;
+
 type TestSuiteGetterFn <T> = () => Array<T>;
 
+interface IAssertObj {
+  num: number
+}
+
+interface ITimerObj{
+  timer: Timer
+}
 
 interface ITestDataObj {
+  didNotThrowErrorWithExpectedMessage?: string,
+  errorPlanCount: string,
   skipped?: boolean,
+  skippedDueToOnly?: boolean,
   skippedDueToItOnly?: boolean,
   testId: number,
-  error?: string,
+  error?: Error | string,
   stubbed?: boolean,
   data?: IRawTestData,
   planCountExpected?: number,
@@ -25,18 +37,51 @@ interface ITestDataObj {
   warningErr?: Error
   timedOut?: boolean,
   complete?: boolean,
+  dateStarted?: number
 }
 
+interface IHookObj {
+  desc: string,
+  warningErr?: Error,
+  errorPlanCount?: string,
+  planCountExpected: number
+  throws?: RegExp,
+  didNotThrowErrorWithExpectedMessage: string
+}
 
-interface IAfterObj {
+interface IAfterObj extends IHookObj {
   ctx: ITestSuite,
   timeout: number,
   desc: string,
   cb: boolean,
   throws: RegExp,
-  planCountExpected: number,
   fatal: boolean,
   fn: Function,
+  type: string,
+  warningErr: Error
+}
+
+interface IBeforeEachObj extends IHookObj {
+  ctx: ITestSuite,
+  timeout: number,
+  desc: string,
+  fn: Function,
+  throws: RegExp,
+  fatal: boolean,
+  cb: boolean,
+  type: string,
+  warningErr: Error
+}
+
+
+interface IAFterEachObj extends IHookObj {
+  ctx: ITestSuite,
+  timeout: number,
+  desc: string,
+  fn: Function,
+  throws: RegExp,
+  fatal: boolean,
+  cb: boolean,
   type: string,
   warningErr: Error
 }
@@ -50,9 +95,15 @@ interface ITestSuiteParent {
 
 }
 
+interface IInjectedValues {
+  [key: string]: any
+}
+
 interface ITestSuite {
 
   new (opts: ITestSuiteMakerOpts): ITestSuite;
+
+  [key: string]: any,
 
   // object
   opts: Object,
@@ -72,7 +123,7 @@ interface ITestSuite {
   desc: string,
   filename: string,
   fileName: string
-  injectedValues: Object,
+  injectedValues: IInjectedValues,
 
   // getters
   getInjections: Function,
@@ -87,11 +138,11 @@ interface ITestSuite {
 
   getBefores: TestSuiteGetterFn<any>,
 
-  getBeforeEaches: TestSuiteGetterFn<any>,
+  getBeforeEaches: TestSuiteGetterFn<IBeforeEachObj>,
 
   getAfters: TestSuiteGetterFn<IAfterObj>,
 
-  getAfterEaches: TestSuiteGetterFn<any>,
+  getAfterEaches: TestSuiteGetterFn<IAFterEachObj>,
 
   getResumeValue?: Function,
   fatal?: Function,

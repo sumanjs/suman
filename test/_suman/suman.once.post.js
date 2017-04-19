@@ -18,34 +18,30 @@ module.exports = $pre => {  //load async deps for any of your suman tests
         'charlie': function () {
             return 'charlie';
         },
+
         'smartconnect': function () {
             return Promise.resolve({
                 formica: 'not metal'
             });
 
         },
-        'dolce-vida': (cb) => {
 
+        'dolce-vida': (cb) => {
             setTimeout(function () {
                 cb(null, new Error('rub'));
             }, 10);
-
         },
 
         'judas': function () {
-
-            return new Promise(function (resolve, reject) {
+            return new Promise(function (resolve) {
                 setTimeout(resolve, 100);
             });
-
         },
 
         'ugly': function () {
-
-            return new Promise(function (resolve, reject) {
+            return new Promise(function (resolve) {
                 setTimeout(resolve, 100);
             });
-
         }
 
     }

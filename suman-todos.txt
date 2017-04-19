@@ -1,12 +1,24 @@
 
+//
+
+ => might need to use "parse-function" instead of "function-arguments"
+ https://github.com/tunnckoCore/function-arguments/pull/6
+
+//
+
+The following comamnd is so much slower than just "node test/src/es5-es6/a.js":
+NODE_PATH=$NODE_PATH:~/.suman/global/node_modules/ node cli.js  test/src/es5-es6/a.js
+
+//
+
+/// allow for cleanup SIGINT handler for bail, etc, in each test child process
+
+bash '/Applications/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'
 
 ///
 
-
-grep -r --exclude "./node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'global\.' . | grep -Ev 'global\.__suman' > grep.log
-
-grep -r --exclude "./node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'suman\.__suman' . > grep.log
-
+grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'global\.' . | grep -Ev 'global\.__suman' > grep.log
+grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'suman\.__suman' . > grep.log
 
 ///
 
@@ -16,10 +28,6 @@ grep -r --exclude "./node_modules/**" --exclude "**/node_modules/**" --exclude "
 
   after.always
 
- ///
-
- => dynamic require's
-
 ///
 
  => Ajv schema validation
@@ -28,6 +36,7 @@ grep -r --exclude "./node_modules/**" --exclude "**/node_modules/**" --exclude "
 
  webpack options schema - https://github.com/webpack/webpack/blob/master/schemas/webpackOptionsSchema.json
  do the same thing with suman.conf.js.
+
 ///
 
  need to use frankenstop to avoid bad suman.conf.js files
@@ -61,24 +70,20 @@ https://lodash.com/custom-builds
 
 ///
 
-  use arrays to wrap functions for hooks and test cases as well as describe blocks
+ use arrays to wrap functions for hooks and test cases as well as describe blocks
 
 ///
 
- async.autoInjectCache for suman.once.pre.js and suman.once.post.js
+ https://github.com/Microsoft/TypeScript/issues/14941#issuecomment-293023423
 
 ///
 
-https://github.com/Microsoft/TypeScript/issues/14941#issuecomment-293023423
+ override suman config in each test as needed
 
 ///
 
-override suman config in each test as needed
-
-///
-
-  create new suman event => all test cases registered, so that we can create a progress bar
-  in the browser, showing how many tests are done
+ create new suman event => all test cases registered, so that we can create a progress bar
+ in the browser, showing how many tests are done
 
 ///
 
@@ -115,7 +120,6 @@ passing rate currently includes stubbed tests -
 need to filter out stubbed and skipped tests, before calculating passing rate.
 
 ///
-
 
  => Suman should try its best to run all after hooks for cleanup, right now after hooks seem to be skipped
  if there is a fatal error.

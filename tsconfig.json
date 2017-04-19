@@ -9,6 +9,7 @@
       "async",
       "lodash"
     ],
+    "allowJs": true,
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -24,6 +25,7 @@
       "dom"
     ]
   },
+  "allowJs": true,
   "compileOnSave": false,
   "include": [
     "dts",

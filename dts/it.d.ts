@@ -1,19 +1,17 @@
-
-
 interface ItFn {
-    (desc:string, opts: IItOpts, fn: Function): void,
-    skip?: ItFn,
-    only?: ItFn,
-    cb?: ItFn
+  (desc: string, opts: IItOpts, fn: Function): void,
+  skip?: ItFn,
+  only?: ItFn,
+  cb?: ItFn
 }
 
 
 interface IRawTestData {
-    //empty
+  //empty
 }
 
 interface IItOpts {
-    __preParsed:boolean
+  __preParsed: boolean
 
 }
 

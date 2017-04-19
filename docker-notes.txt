@@ -1,5 +1,9 @@
 
 
+bash '/Applications/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh' # start docker stuff
+ according to: https://getcarina.com/docs/tutorials/docker-install-mac/
+
+
 docker-machine create -d virtualbox default
 
 eval "$(docker-machine env default)"

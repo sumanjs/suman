@@ -9,8 +9,9 @@ Test.create('example', function(before, describe){
   before(t => {
 
 
-
   });
+
+  console.log('here');
 
 
   describe('inner-hooks', function(before){
