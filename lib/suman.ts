@@ -57,6 +57,10 @@ interface ITableData {
   OVERALL_DESIGNATOR: string
 }
 
+interface IDefaultTableData {
+  SUITES_DESIGNATOR: string
+}
+
 
 function Suman(obj: ISumanInputs): void {
 
