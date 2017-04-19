@@ -7,7 +7,7 @@ const Test = suman.init(module, {
 Test.create('Stubbed test cases', function (assert, fs, http, os, it) {
 
 
-  this.describe('make amends');
-  this.context('whoa there', {});
+  // this.describe('make amends');
+  // this.context('whoa there', {});
 
 });

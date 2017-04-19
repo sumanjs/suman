@@ -144,7 +144,6 @@ const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
 console.log(colors.yellow.italic(' => Suman v' + sumanVersion + ' running...'));
 console.log(' => [pid] => ', process.pid);
-console.log(' => $PATH => ', process.env.PATH);
 
 ////////////////////////////////////////////////////////////////////
 
