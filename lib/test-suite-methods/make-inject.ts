@@ -3,6 +3,10 @@
 //dts
 import {IInjectOpts} from "../../dts/inject";
 
+//polyfills
+const process = require('suman-browser-polyfills/modules/process');
+const global = require('suman-browser-polyfills/modules/global');
+
 //core
 const domain = require('domain');
 const util = require('util');

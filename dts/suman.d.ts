@@ -8,6 +8,7 @@ interface ISumanGlobalInternal {
 
 interface ISuman {
 
+  filename: string,
   numHooksSkipped: number,
   numHooksStubbed: number,
   describeOnlyIsTriggered: boolean,
