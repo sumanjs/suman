@@ -68,7 +68,7 @@ interface ISumanGlobalInternal {
 
 
 interface ISumanGlobal extends Global {
-  _suman: IGlobalSumanObj
+  __suman?: IGlobalSumanObj
 }
 
 

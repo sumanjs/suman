@@ -1,4 +1,5 @@
 'use strict';
+import {IHandleError, ITestDataObj, ITestSuite} from "../../dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -62,7 +63,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
 
       let derror = false;
 
-      const handleError = function (err: IPsuedoError) {
+      const handleError : IHandleError = function (err: IPsuedoError) {
 
         /*
          note: we need to call done in same tick instead of in nextTick
@@ -156,10 +157,6 @@ export = function (suman: ISuman, gracefulExit: Function) {
           else if (test.cb === true) {
 
             t.callbackMode = true;
-
-            //if (!sumanUtils.checkForValInStr(test.fn.toString(), /done/g)) {
-            //    throw test.fn.NO_DONE;
-            //}
 
             const d = function done(err: Error) {
               if (!t.callbackMode) {

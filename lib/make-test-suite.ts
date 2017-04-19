@@ -21,7 +21,7 @@ const async = require('async');
 const colors = require('colors/safe');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('./helpers/handle-varargs');
 const implementationError = require('./helpers/implementation-error');
 const constants = require('../config/suman-constants');
@@ -50,8 +50,14 @@ function makeRunChild(val: any) {
   }
 }
 
+// interface ITestSuiteConstructor {
+//   new (opts: ITestSuiteMakerOpts): void;
+// }
 
-function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTestSuiteMaker {
+type ITestSuiteConstructor = (obj: ITestSuiteMakerOpts) => void;
+
+
+export = function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTestSuiteMaker {
 
   const allDescribeBlocks = suman.allDescribeBlocks;
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
@@ -70,7 +76,7 @@ function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTestSuiteMa
       inject: IInjectFn;
 
 
-    const TestSuite: ITestSuite = function (obj: ITestSuiteMakerOpts) {   // this fn is a constructor
+    const TestSuite : ITestSuiteConstructor = function (obj: ITestSuiteMakerOpts): void {   // this fn is a constructor
 
       this.interface = suman.interface;
       this.desc = this.title = obj.desc;
@@ -117,7 +123,6 @@ function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTestSuiteMa
     //Note: we hide many properties in the prototype
 
     TestSuite.prototype = Object.create(new TestSuiteBase(data));
-
     TestSuite.prototype.__bindExtras = function bindExtras() {
 
       const ctx = this;
@@ -285,14 +290,14 @@ function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTestSuiteMa
       // it won't matter if it's callback mode or not :)
       beforeEach.skip.cb = beforeEach.cb.skip = beforeEach.skip;
 
-      afterEach.cb = function (desc: string, opts: IAfterEachOpts, fn: AfterEachHookCallbackMode) {
+      afterEach.cb = function (desc: string, opts: IAfterEachOpts, fn: TAfterEachHookCallbackMode) {
         let args = pragmatik.parse(arguments, rules.hookSignature);
         args[1].cb = true;
         args[1].__preParsed = true;
         return afterEach.apply(ctx, args);
       };
 
-      afterEach.skip = function (desc: string, opts: IAfterEachOpts, fn: AfterEachHookRegularMode) {
+      afterEach.skip = function (desc: string, opts: IAfterEachOpts, fn: TAfterEachHookRegularMode) {
         let args = pragmatik.parse(arguments, rules.hookSignature);
         args[1].skip = true;
         args[1].__preParsed = true;
@@ -343,4 +348,3 @@ function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTestSuiteMa
 
 }
 
-module.exports = makeTestSuiteMaker;

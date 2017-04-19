@@ -1,5 +1,5 @@
-declare var _default: (suman: ISuman, allDescribeBlocks: ITestSuite[]) => {
-    getAllAfterEaches: (zuite: ITestSuite) => any;
-    getAllBeforesEaches: (zuite: ITestSuite) => any;
+declare var _default: (suman: ISuman, allDescribeBlocks: any[]) => {
+    getAllAfterEaches: (zuite: any) => any;
+    getAllBeforesEaches: (zuite: any) => any;
 };
 export = _default;

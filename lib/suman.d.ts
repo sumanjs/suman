@@ -40,6 +40,9 @@ interface ITableData {
     TEST_FILE_MILLIS: number;
     OVERALL_DESIGNATOR: string;
 }
+interface IDefaultTableData {
+    SUITES_DESIGNATOR: string;
+}
 declare function Suman(obj: ISumanInputs): void;
 declare function combine(prev: number, curr: number): number;
 declare function makeSuman($module: NodeModule, _interface: string, shouldCreateResultsDir: boolean, config: ISumanConfig, cb: Function): void;

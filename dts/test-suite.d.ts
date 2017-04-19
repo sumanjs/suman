@@ -1,4 +1,6 @@
 import Timer = NodeJS.Timer;
+import {Subscriber} from "rxjs/Subscriber";
+import {Observable} from "rxjs/Observable";
 
 type TestSuiteGetterFn <T> = () => Array<T>;
 
@@ -10,9 +12,36 @@ interface ITimerObj{
   timer: Timer
 }
 
+
+interface IHookOrTestCaseParam {
+   // either the h or t in h => {} or t => {}
+}
+
+interface IHookParam {
+    // the h in h => {}
+}
+
+interface ITestCaseParam {
+    // the t in t => {}
+}
+
+type IHandleError = (e: IPsuedoError) => void;
+
+
+type THookCallbackMode = (h: IHookOrTestCaseParam) => void;
+type HookRegularMode = (h?: IHookOrTestCaseParam) => Promise<any>;
+type HookObservableMode = (h?: IHookOrTestCaseParam) => Observable<any>;
+type HookSubscriberMode = (h?: IHookOrTestCaseParam) => Subscriber<any>;
+type HookEEMode = (h?: IHookOrTestCaseParam) => EventEmitter;
+
+type Hook = THookCallbackMode |
+  HookRegularMode | HookObservableMode
+  | HookSubscriberMode | HookEEMode
+
+
 interface ITestDataObj {
   didNotThrowErrorWithExpectedMessage?: string,
-  errorPlanCount: string,
+  errorPlanCount?: string,
   skipped?: boolean,
   skippedDueToOnly?: boolean,
   skippedDueToItOnly?: boolean,
@@ -33,11 +62,23 @@ interface ITestDataObj {
   type?: 'it-standard',
   timeout?: number,
   desc: string,
-  fn?: Function,
+  fn?: Hook,
   warningErr?: Error
   timedOut?: boolean,
   complete?: boolean,
   dateStarted?: number
+}
+
+interface IInjectionObj extends IHookObj {
+  ctx: ITestSuite,
+  timeout: number,
+  desc: string,
+  cb: boolean,
+  throws: RegExp,
+  fatal: boolean,
+  fn: Hook,
+  type: string,
+  warningErr: Error
 }
 
 interface IHookObj {
@@ -46,42 +87,50 @@ interface IHookObj {
   errorPlanCount?: string,
   planCountExpected: number
   throws?: RegExp,
-  didNotThrowErrorWithExpectedMessage: string
+  didNotThrowErrorWithExpectedMessage?: string
 }
 
-interface IAfterObj extends IHookObj {
+interface IOnceHookObj extends IHookObj {
   ctx: ITestSuite,
   timeout: number,
   desc: string,
   cb: boolean,
   throws: RegExp,
   fatal: boolean,
-  fn: Function,
+  fn: Hook,
   type: string,
   warningErr: Error
 }
 
-interface IBeforeEachObj extends IHookObj {
-  ctx: ITestSuite,
-  timeout: number,
-  desc: string,
-  fn: Function,
-  throws: RegExp,
+interface IAfterObj extends IOnceHookObj {
+
+}
+
+interface IBeforeObj extends IOnceHookObj {
+
+}
+
+
+interface IEachHookObj extends IHookObj {
   fatal: boolean,
+  timeout: number,
   cb: boolean,
+  fn: Hook,
+  ctx: ITestSuite,
+}
+
+
+interface IBeforeEachObj extends IEachHookObj {
+  desc: string,
+  throws: RegExp,
   type: string,
   warningErr: Error
 }
 
 
-interface IAFterEachObj extends IHookObj {
-  ctx: ITestSuite,
-  timeout: number,
+interface IAFterEachObj extends IEachHookObj {
   desc: string,
-  fn: Function,
   throws: RegExp,
-  fatal: boolean,
-  cb: boolean,
   type: string,
   warningErr: Error
 }
@@ -101,7 +150,7 @@ interface IInjectedValues {
 
 interface ITestSuite {
 
-  new (opts: ITestSuiteMakerOpts): ITestSuite;
+  new (opts: ITestSuiteMakerOpts): void;
 
   [key: string]: any,
 
@@ -131,19 +180,12 @@ interface ITestSuite {
 
   getTests: TestSuiteGetterFn<ITestDataObj>,
   getParallelTests: TestSuiteGetterFn<ITestDataObj>,
-
   getTestsParallel: TestSuiteGetterFn<any>,
-
   getLoopTests: TestSuiteGetterFn<any>,
-
   getBefores: TestSuiteGetterFn<any>,
-
   getBeforeEaches: TestSuiteGetterFn<IBeforeEachObj>,
-
   getAfters: TestSuiteGetterFn<IAfterObj>,
-
   getAfterEaches: TestSuiteGetterFn<IAFterEachObj>,
-
   getResumeValue?: Function,
   fatal?: Function,
   resume?: Function,
@@ -152,5 +194,20 @@ interface ITestSuite {
   _run?: Function,
   __invokeChildren?: Function,
   __bindExtras: Function
+
+}
+
+interface ITestSuiteBaseInitObjOpts {
+  skip: boolean,
+  only: boolean,
+  mode: string,
+  parallel: boolean,
+  series: boolean,
+  serial: boolean
+}
+
+
+interface ITestSuiteBaseInitObj {
+  opts: ITestSuiteBaseInitObjOpts
 
 }

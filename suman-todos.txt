@@ -1,4 +1,11 @@
 
+
+// domains => https://github.com/nodejs/nodejs.org/blob/master/locale/en/docs/guides/domain-postmortem.md
+
+//
+
+  find/grep for all files that do not have "polyfills"
+
 //
 
  => might need to use "parse-function" instead of "function-arguments"

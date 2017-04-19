@@ -1,5 +1,9 @@
 'use strict';
 
+//polyfills
+const process = require('suman-browser-polyfills/modules/process');
+const global = require('suman-browser-polyfills/modules/global');
+
 //core
 const domain = require('domain');
 const util = require('util');
@@ -33,7 +37,7 @@ function handleBadOptions(opts: IAfterEachOpts): void {
 
 export = function (suman: ISuman, zuite: ITestSuite): Function {
 
-  return function ($desc: string, $opts: IAfterEachOpts, $aAfterEach: AfterEachHook): ITestSuite {
+  return function ($desc: string, $opts: IAfterEachOpts, $aAfterEach: TAfterEachHook): ITestSuite {
 
     handleSetupComplete(zuite);
 
