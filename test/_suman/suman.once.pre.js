@@ -1,5 +1,3 @@
-
-
 //*************************************************************************************************************************************
 // this is for dependency injection, y'all
 // the purpose is to inject dependencies / values that are acquired *asynchronously*
@@ -7,41 +5,61 @@
 // tests will run in separate processes, but you can use code sharing (not memory sharing) to share setup between tests, which is actually pretty cool
 // ****************************************************************************************************************************************
 
-module.exports = () => {  //load async deps for any of your suman tests
+module.exports = ($core, $deps, $root) => {  //load async deps for any of your suman tests
 
-	return {
+  const {events, child_process} = $core;
 
-		'one': function(){
-			return 'one';
-		},
+  return {
 
-		'charlie': function () {
-			return 'charlie';
-		},
-		'smartconnect': function () {
+    dependencies: {
 
-			return Promise.resolve(JSON.stringify({
-				formica: 'not metal'
-			}));
+      'one': ['four', function (v) {
+        console.log('one v =>', v);
+        return 'one';
+      }],
 
-		},
-		'dolce-vida': cb => {
+      'two': [function (v) {
+        console.log('two v =>', v);
+        return 'two';
+      }],
 
-			setTimeout(function () {
-				cb(null, "new Error('rub')");
-			}, 10);
+      'three': ['one', 'two', 'four', function (v) {
+        console.log('three v =>', v);
+        return 'three';
+      }],
 
-		},
+      'four': ['two', function () {
+        return 'four';
+      }],
 
-		'mulch': cb => {
+      'charlie': function () {
+        return 'charlie';
+      },
 
-			setTimeout(function () {
-				cb(null, "new Error('mulch')");
-			}, 10);
+      'smartconnect': function () {
 
-		}
+        return Promise.resolve(JSON.stringify({
+          formica: 'not metal'
+        }));
 
+      },
+      'dolce-vida': (v,cb) => {
 
-	}
+        setTimeout(function () {
+          cb(null, "new Error('uuuu rub')");
+        }, 10);
+
+      },
+
+      'mulch': (v,cb) => {
+
+        setTimeout(function () {
+          cb(null, "new Error('mulch')");
+        }, 10);
+
+      }
+    }
+
+  }
 
 };

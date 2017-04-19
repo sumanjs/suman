@@ -3,7 +3,7 @@
 ////////////
 
 //load async deps for any of your suman tests
-module.exports = ($data, $iocData, $core, $deps) => {
+module.exports = ($data, $core, $deps) => {
 
   return {
 
@@ -22,12 +22,15 @@ module.exports = ($data, $iocData, $core, $deps) => {
     'should': function () {
       return Promise.resolve(require('should'));
     },
+
     'request': function () {
       return require('request');  //this is not very useful, but below we can see useful asynchronous loading of deps
     },
+
     'socket_io_client': function () {
       return require('socket.io-client');
     },
+
     'choodles': function (cb) {
 
       setTimeout(function () {
@@ -44,6 +47,7 @@ module.exports = ($data, $iocData, $core, $deps) => {
         });
       }, 100);
     },
+
     'whoa': function (cb) {
 
       setTimeout(function () {
@@ -54,6 +58,7 @@ module.exports = ($data, $iocData, $core, $deps) => {
         });
       }, 100);
     },
+
     'cherry': function (cb) {
 
       setTimeout(function () {

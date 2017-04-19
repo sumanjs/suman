@@ -16,7 +16,9 @@ interface IStartCreate {
 }
 
 interface ICreateOpts {
-
+  delay: boolean,
+  skip: boolean,
+  only: boolean
 }
 
 
