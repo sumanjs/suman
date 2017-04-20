@@ -23,7 +23,7 @@ function missingHookOrTest () {
   return mzg;
 }
 
-function planHelper (e: IPsuedoError, test: ITestDataObj, hook: IHookObj, assertCount: IAssertObj) {
+function planHelper (e: IPseudoError, test: ITestDataObj, hook: IHookObj, assertCount: IAssertObj) {
 
   const testOrHook : ITestDataObj | IHookObj = (test || hook);
 
@@ -51,7 +51,7 @@ function planHelper (e: IPsuedoError, test: ITestDataObj, hook: IHookObj, assert
 
 }
 
-function throwsHelper (err: IPsuedoError, test: ITestDataObj, hook: IHookObj) {
+function throwsHelper (err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
 
   const testOrHook : ITestDataObj | IHookObj = (test || hook);
 
@@ -112,7 +112,7 @@ export =
 
   let called = 0;
 
-  return function testAndHookCallbackHandler (err: IPsuedoError, isTimeout: boolean) {
+  return function testAndHookCallbackHandler (err: IPseudoError, isTimeout: boolean) {
 
     if (err) {
 

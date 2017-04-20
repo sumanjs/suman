@@ -117,12 +117,12 @@ const beforeExitRunOncePost =
 
 process.once('exit', onExit);
 
-process.on('error', function (err: IPsuedoError) {
+process.on('error', function (err: IPseudoError) {
   //TODO: add process.exit(special code);
   console.error(' => Whoops! Error in runner process :\n', err.stack || err);
 });
 
-process.once('uncaughtException', function (e: IPsuedoError) {
+process.once('uncaughtException', function (e: IPseudoError) {
   //TODO: add process.exit(special code);
   console.error('\n\n => Suman runner uncaughtException...\n', e.stack || e);
   process.exit(1);

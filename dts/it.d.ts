@@ -11,8 +11,12 @@ interface IRawTestData {
 }
 
 interface IItOpts {
-  __preParsed: boolean
-
+  __preParsed: boolean,
+  parallel: boolean,
+  series: boolean,
+  serial: boolean,
+  mode: string,
+  delay: number
 }
 
 interface It {

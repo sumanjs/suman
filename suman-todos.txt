@@ -1,6 +1,28 @@
 
+=> test everything with Yarn, update NPM Link Up to work with Yarn
+
+=> use ES2015 Map => https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+
+=> tmux
+
+npm i -D @types/suman  => need to produce these types for suman
+
+=> https://github.com/DefinitelyTyped/DefinitelyTyped
+
+
+
+// TS with TAPjs - https://github.com/tapjs/node-tap/pull/256/files
+
+// proxy - https://github.com/nodejs/node/blob/24ef1e67757514db9ee1aeded555d4fb336ca817/deps/v8/test/mjsunit/es6/promise-thenable-proxy.js
+
+// --force-exit --no-force-exit => allow user to choose whether to force close the node.js process or not
+
+
+ //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
 
 // domains => https://github.com/nodejs/nodejs.org/blob/master/locale/en/docs/guides/domain-postmortem.md
+
+// slow and ensure logs  => --slow-and-ensure-logs
 
 //
 
@@ -207,19 +229,7 @@ http://stackoverflow.com/questions/43077255/command-to-cd-to-root-of-project/430
 
 ///
 
-suman --cd  => cd to project root
-
-///
-
- even with child exit code of 33, test runner exits with 0
-
-///
-
  how to specify .babelrc location when transpiling
-
-///
-
-  do mocha unit tests need to be run in the browser?
 
 ///
 

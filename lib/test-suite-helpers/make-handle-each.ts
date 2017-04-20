@@ -61,7 +61,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
       const fnStr = aBeforeOrAfterEach.fn.toString(); //TODO: need to check if it's a promise instead of a function if we go that route
       let dError = false;
 
-      const handleError : IHandleError = function (err: IPsuedoError) {
+      const handleError : IHandleError = function (err: IPseudoError) {
 
         const stk = err.stack || err;
         const formatedStk = String(stk).split('\n').map(item => '\t' + item).join('\n');
@@ -110,7 +110,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
             timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 500000 : val);
           }
 
-          function handleNonCallbackMode(err: IPsuedoError) {
+          function handleNonCallbackMode(err: IPseudoError) {
             err = err ? ('Also, you have this error => ' + err.stack || err) : '';
             handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
           }
@@ -125,7 +125,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
           t.testId = test.testId;
           t.state = 'passed';
 
-          t.fatal = function fatal(err: IPsuedoError) {
+          t.fatal = function fatal(err: IPseudoError) {
             if (!t.callbackMode) {
                handleNonCallbackMode(err);
             }
@@ -151,7 +151,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
 
             t.callbackMode = true;
 
-            const d = function done(err: IPsuedoError) {
+            const d = function done(err: IPseudoError) {
               console.log('D may be applied!');
               if (!t.callbackMode) {
                  handleNonCallbackMode(err);
@@ -164,7 +164,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
 
             // t.fail = t.fatal;  // t.fail doesn't make sense since this is not a test case, semantics...
 
-            t.done = function done(err: IPsuedoError) {
+            t.done = function done(err: IPseudoError) {
               if (!t.callbackMode) {
                  handleNonCallbackMode(err);
               }
