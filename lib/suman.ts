@@ -1,4 +1,5 @@
 'use strict';
+import {ITestDataObj, ITestSuite} from "../dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -128,43 +129,6 @@ Suman.prototype.log = function (userInput, test) {
   }
 };
 
-Suman.prototype.logFatalSuite = function logFatalSuite(test) {
-
-  const data = {
-    'FATAL': {
-      testId: test.testId
-    }
-
-  };
-
-  if (_suman.usingRunner) {
-    //TODO: need to send log_data to runner so that writing to same file doesn't get corrupted? or can we avoid this if only this process writes to the file?
-    //process.send(data);
-  }
-  else {
-
-    if (this.usingLiveSumanServer) {
-      //TODO: we may want to log locally first just to make sure we have the data somewhere
-      this.networkLog.sendTestData(data);
-    }
-    else if (this.outputPath) {
-      let json = JSON.stringify(data.test);
-      fs.writeFileSync(this.outputPath, '');
-    }
-    else {
-      console.log(new Error('Suman cannot log your test result data:\n').stack);
-      //try {
-      //    let pth = path.resolve(sumanUtils.getHomeDir() + '/suman_results');
-      //    json = JSON.stringify(data);
-      //    fs.appendFileSync(pth, json += ',');
-      //}
-      //catch (err) {
-      //    console.error('Suman cannot log your test result data:\n' + err.stack);
-      //}
-
-    }
-  }
-};
 
 Suman.prototype.getTableData = function () {
   throw new Error('Suman => not yet implemente')
@@ -184,7 +148,7 @@ Suman.prototype.logFinished = function ($exitCode: number, skippedString: string
   const desc = this.rootSuiteDescription;
   const suiteName = desc.length > 50 ? '...' + desc.substring(desc.length - 50, desc.length) : desc;
   const suiteNameShortened = desc.length > 15 ? desc.substring(0, 12) + '...' : desc;
-  let delta = this.dateSuiteFinished - this.dateSuiteStarted;
+  let delta : number = this.dateSuiteFinished - this.dateSuiteStarted;
 
   const skippedSuiteNames: Array<string> = [];
   let suitesTotal = null;
@@ -413,7 +377,7 @@ Suman.prototype.logData = function logData(suite: ITestSuite) {
   }
 };
 
-Suman.prototype.logResult = function (test) : void {  //TODO: refactor to logTestResult
+Suman.prototype.logResult = function (test: ITestDataObj) : void {  //TODO: refactor to logTestResult
 
   //TODO: this function becomes just a way to log to command line, not to text DB
 
@@ -426,26 +390,11 @@ Suman.prototype.logResult = function (test) : void {  //TODO: refactor to logTes
 
   if (_suman.usingRunner && !_suman.sumanOpts.useTAPOutput) {
 
-    const _test = {
-      cb: test.cb,
-      sumanModulePath: this._sumanModulePath,
-      error: test.error ? (test.error._message || test.error.stack || test.error) : null,
-      errorDisplay: test.errorDisplay,
-      mode: test.mode,
-      plan: test.planCountExpected,
-      skip: test.skip,
-      stubbed: test.stubbed,
-      testId: test.testId,
-      only: test.only,
-      timedOut: test.timedOut,
-      desc: test.desc,
-      complete: test.complete,
-      dateStarted: test.dateStarted,
-      dateComplete: test.dateComplete
-    };
+    test.sumanModulePath = this._sumanModulePath;
+    test.error = test.error ? (test.error._message || test.error.message || test.error.stack || test.error) : null;
 
     let data = {
-      test: _test,
+      test,
       type: 'LOG_RESULT',
       outputPath: this.outputPath
     };
@@ -467,7 +416,7 @@ Suman.prototype.logResult = function (test) : void {  //TODO: refactor to logTes
 
     resultBroadcaster.emit(String(events.TEST_CASE_END), test);
 
-    if (test.errorDisplay) {
+    if (test.error || test.errorDisplay) {
       resultBroadcaster.emit(String(events.TEST_CASE_FAIL), test);
     }
     else if (test.skipped) {
@@ -483,9 +432,8 @@ Suman.prototype.logResult = function (test) : void {  //TODO: refactor to logTes
   }
 };
 
-function makeSuman($module: NodeModule, _interface: string, shouldCreateResultsDir: boolean, config: ISumanConfig, cb: Function) {
-
-  debugger;
+export = function makeSuman($module: NodeModule, _interface: string,
+                            shouldCreateResultsDir: boolean, config: ISumanConfig, cb: Function) {
 
   let liveSumanServer = false;
 
@@ -498,7 +446,7 @@ function makeSuman($module: NodeModule, _interface: string, shouldCreateResultsD
    */
 
   let timestamp: number;
-  let outputPath = null;
+  let outputPath :string = null;
   let networkLog = null;
 
   if (_suman.usingRunner) {  //using runner, obviously, so runner provides timestamp value
@@ -518,13 +466,12 @@ function makeSuman($module: NodeModule, _interface: string, shouldCreateResultsD
   }
 
   //TODO: need to properly toggle the value for 'shouldCreateResultsDir'
-  su.makeResultsDir(shouldCreateResultsDir && !_suman.usingRunner, function (err) {
+  su.makeResultsDir(shouldCreateResultsDir && !_suman.usingRunner, function (err: IPseudoError) {
 
     if (err) {
-      console.log(err.stack);
+      console.log(err.stack || err);
       return process.exit(constants.EXIT_CODES.ERROR_CREATING_RESULTS_DIR);
     }
-
 
     let server;
 
@@ -566,4 +513,4 @@ function makeSuman($module: NodeModule, _interface: string, shouldCreateResultsD
   });
 }
 
-module.exports = makeSuman;
+

@@ -191,7 +191,7 @@ export = function main(suman: ISuman) {
 
       const d = domain.create();
 
-      d.once('error', function (err: IPsuedoError) {
+      d.once('error', function (err: IPseudoError) {
         console.error(err.stack || err);
         _suman._writeTestError(err.stack || err);
 
@@ -208,7 +208,7 @@ export = function main(suman: ISuman) {
 
       d.run(function () {
 
-        originalAcquireDeps(deps, function (err: IPsuedoError, depz: IInjectionDeps) {
+        originalAcquireDeps(deps, function (err: IPseudoError, depz: IInjectionDeps) {
 
           if (err) {
             console.log(err.stack || err);
@@ -231,7 +231,7 @@ export = function main(suman: ISuman) {
 
       const d: ISumanDomain = domain.create();
 
-      d.once('error', function (err: IPsuedoError) {
+      d.once('error', function (err: IPseudoError) {
         d.exit();
         err.sumanFatal = true;
         err.sumanExitCode = constants.EXIT_CODES.ERROR_IN_ROOT_SUITE_BLOCK;
@@ -240,7 +240,7 @@ export = function main(suman: ISuman) {
 
       d.run(function () {
 
-          suite.fatal = function (err: IPsuedoError) {
+          suite.fatal = function (err: IPseudoError) {
             err = (err && typeof err === 'object') ? err : new Error('Fatal error experienced in root suite => ' + String(err));
             err.sumanExitCode = constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION;
             gracefulExit(err);
@@ -299,7 +299,7 @@ export = function main(suman: ISuman) {
             cb.apply(suite, deps);
             suite.__proto__.isSetupComplete = true;
 
-            handleInjections(suite, function (err: IPsuedoError) {
+            handleInjections(suite, function (err: IPseudoError) {
 
               if (err) {
                 console.error(err.stack || err);
@@ -331,7 +331,7 @@ export = function main(suman: ISuman) {
 
         const fn: Function = suite.parallel ? async.each : async.eachSeries;
 
-        suite.__startSuite(function (err: IPsuedoError, results: Object) {  // results are object from async.series
+        suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
           if (err) {
             console.error(' => Test error data before log:', suite);
@@ -356,7 +356,7 @@ export = function main(suman: ISuman) {
 
               runSuite(child, cb);
 
-            }, function (err: IPsuedoError) {
+            }, function (err: IPseudoError) {
               err && console.error(' => Suman implementation error => ', err.stack || err);
               process.nextTick(cb);
             });

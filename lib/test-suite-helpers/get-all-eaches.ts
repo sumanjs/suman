@@ -1,4 +1,5 @@
 'use strict';
+import {IAFterEachObj, IBeforeEachObj, ITestSuite} from "../../dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -74,7 +75,7 @@ export = function (suman: ISuman, allDescribeBlocks: Array<ITestSuite>) {
         }
       }
       else {
-        throw new Error('this should not happen...');
+        throw new Error(' => Suman implementation error => this should not happen...please report.');
       }
     }
 

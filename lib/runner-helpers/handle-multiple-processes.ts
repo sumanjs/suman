@@ -422,7 +422,7 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
 
                 }
 
-              ], function (err: IPsuedoError) {
+              ], function (err: IPseudoError) {
                 if (err) {
                   console.error(err.stack || err);
                 }

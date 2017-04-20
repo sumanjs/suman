@@ -1,6 +1,8 @@
 
 
 import {ChildProcess} from "child_process";
+import Timer = NodeJS.Timer;
+
 
 interface ISumanChildProcess extends ChildProcess {
   shortTestPath: string,
@@ -29,7 +31,8 @@ interface IRunnerRunFn {
 interface ITableRowsValue {
   tableData: Object,
   actualExitCode: number,
-  shortFilePath: string
+  shortFilePath: string,
+  defaultTableData: IDefaultTableData
 }
 
 interface ITableRows {

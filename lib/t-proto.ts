@@ -30,7 +30,7 @@ proto.wrap = function _wrap(fn: Function) {
 
 proto.wrapErrorFirst = function _wrapErrorFirstCB(fn: Function) {
   const self = this;
-  return function (err: IPsuedoError) {
+  return function (err: IPseudoError) {
     if(err){
       return self.__handle(err, false);
     }

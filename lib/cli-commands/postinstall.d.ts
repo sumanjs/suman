@@ -1,3 +1,5 @@
+declare const process: any;
+declare const global: any;
 declare const cp: any;
 declare const path: any;
 declare const fs: any;

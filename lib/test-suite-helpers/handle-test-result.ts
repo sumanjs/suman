@@ -44,7 +44,7 @@ module.exports = function makeHandleTestError (suman: ISuman) {
 
   const fileName = suman.fileName;
 
-  return function handleTestError (err: IPsuedoError, test) {
+  return function handleTestError (err: IPseudoError, test) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
       console.error(' => Suman runtime error => "UncaughtException:Triggered" => halting program.');

@@ -9,6 +9,7 @@ declare namespace SumanLib {
 
 
 interface  IGlobalSumanObj {
+  viaSuman: boolean,
   sumanHelperDirRoot: string,
   _writeTestError: Function,
   sumanRuntimeErrors: Array<Error | string>,
@@ -54,10 +55,16 @@ interface IMaxMem {
 }
 
 interface ISumanOpts {
+  reporters: string,
+  reporter_paths: Array<string>
+  strict: boolean,
+  suman_helpers_dir: boolean,
+  init: boolean,
   ignoreUncaughtExceptions: boolean,
   useTAPOutput: boolean,
   verbosity: number,
   check_memory_usage: boolean
+  errors_only: boolean
 
 }
 
@@ -73,12 +80,12 @@ interface ISumanGlobal extends Global {
 
 
 interface SumanErrorRace extends Error {
-  _alreadyHandledBySuman: boolean
+  _alreadyHandledBySuman?: boolean
 
 }
 
 
-interface IPsuedoError {
+interface IPseudoError {
   stack?: string
   message?: string,
   sumanFatal?: boolean,
