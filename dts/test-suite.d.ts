@@ -25,7 +25,7 @@ interface ITestCaseParam {
     // the t in t => {}
 }
 
-type IHandleError = (e: IPsuedoError) => void;
+type IHandleError = (e: IPseudoError) => void;
 
 
 type THookCallbackMode = (h: IHookOrTestCaseParam) => void;
@@ -40,6 +40,7 @@ type Hook = THookCallbackMode |
 
 
 interface ITestDataObj {
+  sumanModulePath?: string,
   didNotThrowErrorWithExpectedMessage?: string,
   errorPlanCount?: string,
   skipped?: boolean,
@@ -47,6 +48,7 @@ interface ITestDataObj {
   skippedDueToItOnly?: boolean,
   testId: number,
   error?: Error | string,
+  errorDisplay?: string,
   stubbed?: boolean,
   data?: IRawTestData,
   planCountExpected?: number,
@@ -57,7 +59,7 @@ interface ITestDataObj {
   throws?: RegExp,
   parallel?: boolean,
   mode?: string,
-  delay?: boolean,
+  delay?: number,
   cb?: boolean,
   type?: 'it-standard',
   timeout?: number,
@@ -66,7 +68,10 @@ interface ITestDataObj {
   warningErr?: Error
   timedOut?: boolean,
   complete?: boolean,
-  dateStarted?: number
+  dateStarted?: number,
+  dateComplete?: number,
+  skippedDueToParentSkipped?: boolean,
+  skippedDueToParentOnly?: boolean
 }
 
 interface IInjectionObj extends IHookObj {

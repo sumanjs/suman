@@ -56,7 +56,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
     //TODO: need to add more info to logging statement below and also handle if fatal:false
     let dError = false;
 
-    const handleError : IHandleError = function (err: IPsuedoError) {
+    const handleError : IHandleError = function (err: IPseudoError) {
 
       const stk = err ? (err.stack || err) : new Error('Suman error placeholder').stack;
       const formatedStk = String(stk).split('\n').map(item => '\t' + item).join('\n');
@@ -107,7 +107,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
         }
 
-        function handleNonCallbackMode(err: IPsuedoError) {
+        function handleNonCallbackMode(err: IPseudoError) {
           err = err ? ('Also, you have this error => ' + err.stack || err) : '';
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         }
@@ -118,7 +118,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
         fini.th = t;
         t.timeout = timeout;
 
-        t.fatal = function fatal(err: IPsuedoError) {
+        t.fatal = function fatal(err: IPseudoError) {
           err = err || new Error('Suman placeholder error since this function was not explicitly passed an error object as first argument.');
           fini(err);
         };
@@ -142,7 +142,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
           //    throw aBeforeOrAfter.NO_DONE;
           //}
 
-          const d = function done(err: IPsuedoError) {
+          const d = function done(err: IPseudoError) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }
@@ -151,7 +151,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
             }
           };
 
-          t.done = function done(err: IPsuedoError) {
+          t.done = function done(err: IPseudoError) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }
@@ -160,7 +160,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
             }
           };
 
-          t.ctn = function ctn(err: IPsuedoError) {
+          t.ctn = function ctn(err: IPseudoError) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }

@@ -47,7 +47,7 @@ export = function (suite: ITestSuite, cb: Function) {
       first(new Error(' => Injection hook timeout.'));
     }, weAreDebugging ? 5000000 : inj.timeout);
 
-    const first = function (err: IPsuedoError) {
+    const first = function (err: IPseudoError) {
       if (callable) {
         callable = false;
         clearTimeout(to);
@@ -60,7 +60,7 @@ export = function (suite: ITestSuite, cb: Function) {
 
     if (inj.cb) {
 
-      inj.fn.call(suite, function (err: IPsuedoError, results: IInjectionRetObj) {
+      inj.fn.call(suite, function (err: IPseudoError, results: IInjectionRetObj) {
 
         if (err) {
           return first(err);

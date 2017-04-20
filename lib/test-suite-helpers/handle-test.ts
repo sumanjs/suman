@@ -63,7 +63,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
 
       let derror = false;
 
-      const handleError : IHandleError = function (err: IPsuedoError) {
+      const handleError : IHandleError = function (err: IPseudoError) {
 
         /*
          note: we need to call done in same tick instead of in nextTick
@@ -114,7 +114,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
             }
           }
 
-          function handleNonCallbackMode(err: IPsuedoError) {
+          function handleNonCallbackMode(err: IPseudoError) {
             err = err ? ('Also, you have this error => ' + err.stack || err) : '';
             handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
           }
@@ -129,7 +129,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
 
           ////////////// note: unfortunately these fns cannot be moved to prototype /////////////////
 
-          t.fatal = function fatal(err: IPsuedoError) {
+          t.fatal = function fatal(err: IPseudoError) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }

@@ -11,7 +11,7 @@ const Mod = require('module');
 const req = Mod.prototype && Mod.prototype.require;
 
 let inBrowser = false;
-const _suman: ISumanGlobalInternal = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 // set it here just in case
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
@@ -88,7 +88,7 @@ process.on('warning', function (w: Error) {
 
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
-  if (typeof err !== 'object') {
+  if (!err || typeof err !== 'object') {
     console.log(colors.bgMagenta.black(' => Error is not an object => ', util.inspect(err)));
     err = {stack: typeof err === 'string' ? err : util.inspect(err)}
   }
@@ -483,8 +483,8 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
     }
   }
   else {  //if we run
-    if (_suman.sumanOpts.vverbose) {
-      console.log(' => Suman vverbose message => require.main.filename value:', main);
+    if (_suman.sumanOpts.verbosity > 7) {
+      console.log(' => Suman verbose message => require.main.filename value:', main);
     }
     if (main === $module.filename) {
       matches = true;
@@ -598,7 +598,7 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
 
   if (exportTests) {
     //TODO: if export is set to true, then we need to exit if we are using the runner
-    if (process.env.SUMAN_DEBUG === 'yes' || _suman.sumanOpts.vverbose) {
+    if (su.isSumanDebug() || _suman.sumanOpts.verbosity > 7) {
       console.log(colors.magenta(' => Suman message => export option set to true.'));
     }
   }
@@ -1125,7 +1125,7 @@ function Writable(type: any) {
 
 //TODO: https://gist.github.com/PaulMougel/7961469
 
-function Transform(): BufferStream {
+function Transform(): stream.Transform {
 
   //TODO: http://stackoverflow.com/questions/10355856/how-to-append-binary-data-to-a-buffer-in-node-js
 
@@ -1194,9 +1194,7 @@ function once(fn: Function) {
   return function (cb: Function) {
 
     if (cache) {
-      process.nextTick(function () {
-        cb.call(null, null, cache);
-      });
+      process.nextTick(cb, null, cache);
     }
     else {
       fn.call(null, function (err: Error, val: any) {

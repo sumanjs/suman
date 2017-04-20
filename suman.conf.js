@@ -23,6 +23,8 @@ module.exports = Object.freeze({
   browser: 'Firefox',                 // browser to open test results with
 
   //boolean
+  isLogChildStderr: true,
+  isLogChildStdout: true,
   useBabelRegister: false,
   useUtilityPatches: true, // "5".times, etc.
   coverage: false,         // collecting coverage info is expensive and we don't recommend setting this here, but instead at the command line

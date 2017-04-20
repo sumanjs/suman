@@ -39,7 +39,6 @@ Suman is made up of two independent pieces:
 <div> ✓ <b style="color:purple">  test independence </b> =>  easily run only one test at a time (unlike other Node.js test runners...)</div>
 <div> ✓ <b style="color:purple">  declarative style </b> => declare (sync and async) dependencies for each test, and only load those</div>
 <div> ✓ <b style="color:purple">  "nodeable test scripts" </b> => run individual tests with the node.js executable</div>
-<div> ✓ <b style="color:purple">  no global variables </b> as part of test harness</div>
 <div> ✓ <b style="color:purple">  supports unit testing in the browser </b> (tested on Chrome and Firefox)</div>
 <div> ✓ <b style="color:purple">  supports observables (RxJS5) </b> </div>
 <div> ✓ synchronous <b style="color:purple">*and*</b> asynchronous reporters (!)</div>
@@ -55,6 +54,10 @@ Suman is made up of two independent pieces:
 
 For more detailed feature explanations, see below.
 
+Quick list of problems with other test runners:
+
+<div> x  By default, Mocha runs all tests in a single process which has a lot of problems, including running out memory</div>
+<div> x  AVA uses Babel transpilation for all tests which also increases memory consumption heavily.</div>
 
  ---
 
@@ -79,7 +82,7 @@ It is designed for maximum test performance, via careful parallelization at
 every juncture in the testing process/pipeline. 
 
 
-# A simple mathematical equation:
+# A simple relationship:
 
 ##  Suman = ( AVA + Mocha + Lab )
 
@@ -138,20 +141,19 @@ If you wish to avoid global NPM module installations, we commend you, see:
 ## Example commands
 
 ```bash 
- suman test/src/*.spec.js --concurrency=12  # run the 45 matching tests, no more than 12 at a time.
-```
+ suman test/src/*.spec.js --concurrency=6 # run the matching tests, no more than 6 Node.js processes at a time.
 
-```bash 
  suman -w project   # run a set of tests when a project file changes
-```
-```bash 
+
  suman -w tests   # when developing a test, run it upon changes
+ 
+ 
 ```
 
 ## The Suman Story
 
 I started writing Suman in October 2015. After 6 months of working with Mocha, I started seeing many of its shortcomings.
- Mocha has a handful of major problems and 100 minor ones. Mocha is poorly designed software, and the fact that it concatenates
+ Mocha has a handful of major problems and 100 minor ones. Frankly, Mocha is poorly designed software - the fact that it concatenates
  all your tests in a single process is simply not how testing should work; especially for a dynamic language where the global
  scope can be easily polluted by inexperienced developers. Once you start writing non-trivial tests with Mocha, it becomes 
  very difficult to debug tests and run only one test at a time. 
@@ -159,8 +161,8 @@ I started writing Suman in October 2015. After 6 months of working with Mocha, I
 About 2 weeks after I started writing Suman, I discovered AVA. AVA is much better than Mocha, but it "forces" you to use transpilation
 and has its own assertion library. It's also missing some nice features from Mocha, including nested blocks. 
 So I decided to continue working on Suman, and essentially take the best from Mocha and AVA, 
-and also borrow the best ideas from TapJS/Tape and Lab (the test runner for the Hapi framework.). I have spent a lot of time
-on the issue trackers on basically every Node.js testing framework :)
+and also borrow the best ideas from TapJS/Tape and Lab (Lab is the test runner for the Hapi framework.). I have spent a lot of time
+on the issue trackers on basically every Node.js testing framework.
 
 Just like AVA, Suman runs tests in child processes. With Suman, you can also run any single test with just the node executable,
 something that you cannot do with AVA. A big hangup for me. Beyond the standard advantages of speed, isolation and independence, running tests
@@ -178,10 +180,11 @@ Over time, better and better support for incremental transpilation/compilation w
 
 ### Suman uses several intelligent pieces of setup:
 
-Global installations of Suman simply look for local installations to run. This prevents any potential 
-conflicts if there is a difference between the global/local module versions.
+Global installations of Suman simply look for local installations to run. So if you run the suman command installed via npm install -g suman, that CLI
+will just invoke the local installation of suman in any given project - this prevents any potential 
+conflicts if there is a difference between the global/local module versions. Excellent!
 
-If you use NVM and switch between Node.js versions, you can use a bash script (provided by SumanJS) which will 
+If you use NVM and switch between Node.js versions, you can use bash functions (provided by SumanJS) which will 
 denecessitate the need for any global installations of Suman at all.
 
 Suman is designed to interop well with the most common libraries in the ecosystem for handling asynchronous code.
