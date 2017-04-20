@@ -1,12 +1,53 @@
 
+=> test everything with Yarn, update NPM Link Up to work with Yarn
+
+=> use ES2015 Map => https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+
+=> tmux
+
+npm i -D @types/suman  => need to produce these types for suman
+
+=> https://github.com/DefinitelyTyped/DefinitelyTyped
+
+
+
+// TS with TAPjs - https://github.com/tapjs/node-tap/pull/256/files
+
+// proxy - https://github.com/nodejs/node/blob/24ef1e67757514db9ee1aeded555d4fb336ca817/deps/v8/test/mjsunit/es6/promise-thenable-proxy.js
+
+// --force-exit --no-force-exit => allow user to choose whether to force close the node.js process or not
+
+
+ //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
+
+// domains => https://github.com/nodejs/nodejs.org/blob/master/locale/en/docs/guides/domain-postmortem.md
+
+// slow and ensure logs  => --slow-and-ensure-logs
+
+//
+
+  find/grep for all files that do not have "polyfills"
+
+//
+
+ => might need to use "parse-function" instead of "function-arguments"
+ https://github.com/tunnckoCore/function-arguments/pull/6
+
+//
+
+The following comamnd is so much slower than just "node test/src/es5-es6/a.js":
+NODE_PATH=$NODE_PATH:~/.suman/global/node_modules/ node cli.js  test/src/es5-es6/a.js
+
+//
+
+/// allow for cleanup SIGINT handler for bail, etc, in each test child process
+
+bash '/Applications/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'
 
 ///
 
-
-grep -r --exclude "./node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'global\.' . | grep -Ev 'global\.__suman' > grep.log
-
-grep -r --exclude "./node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'suman\.__suman' . > grep.log
-
+grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'global\.' . | grep -Ev 'global\.__suman' > grep.log
+grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'suman\.__suman' . > grep.log
 
 ///
 
@@ -16,10 +57,6 @@ grep -r --exclude "./node_modules/**" --exclude "**/node_modules/**" --exclude "
 
   after.always
 
- ///
-
- => dynamic require's
-
 ///
 
  => Ajv schema validation
@@ -28,6 +65,7 @@ grep -r --exclude "./node_modules/**" --exclude "**/node_modules/**" --exclude "
 
  webpack options schema - https://github.com/webpack/webpack/blob/master/schemas/webpackOptionsSchema.json
  do the same thing with suman.conf.js.
+
 ///
 
  need to use frankenstop to avoid bad suman.conf.js files
@@ -61,24 +99,20 @@ https://lodash.com/custom-builds
 
 ///
 
-  use arrays to wrap functions for hooks and test cases as well as describe blocks
+ use arrays to wrap functions for hooks and test cases as well as describe blocks
 
 ///
 
- async.autoInjectCache for suman.once.pre.js and suman.once.post.js
+ https://github.com/Microsoft/TypeScript/issues/14941#issuecomment-293023423
 
 ///
 
-https://github.com/Microsoft/TypeScript/issues/14941#issuecomment-293023423
+ override suman config in each test as needed
 
 ///
 
-override suman config in each test as needed
-
-///
-
-  create new suman event => all test cases registered, so that we can create a progress bar
-  in the browser, showing how many tests are done
+ create new suman event => all test cases registered, so that we can create a progress bar
+ in the browser, showing how many tests are done
 
 ///
 
@@ -115,7 +149,6 @@ passing rate currently includes stubbed tests -
 need to filter out stubbed and skipped tests, before calculating passing rate.
 
 ///
-
 
  => Suman should try its best to run all after hooks for cleanup, right now after hooks seem to be skipped
  if there is a fatal error.
@@ -196,19 +229,7 @@ http://stackoverflow.com/questions/43077255/command-to-cd-to-root-of-project/430
 
 ///
 
-suman --cd  => cd to project root
-
-///
-
- even with child exit code of 33, test runner exits with 0
-
-///
-
  how to specify .babelrc location when transpiling
-
-///
-
-  do mocha unit tests need to be run in the browser?
 
 ///
 

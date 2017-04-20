@@ -11,7 +11,7 @@ const Mod = require('module');
 const req = Mod.prototype && Mod.prototype.require;
 
 let inBrowser = false;
-const _suman: ISumanGlobalInternal = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 // set it here just in case
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
@@ -88,7 +88,7 @@ process.on('warning', function (w: Error) {
 
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
-  if (typeof err !== 'object') {
+  if (!err || typeof err !== 'object') {
     console.log(colors.bgMagenta.black(' => Error is not an object => ', util.inspect(err)));
     err = {stack: typeof err === 'string' ? err : util.inspect(err)}
   }
@@ -207,12 +207,13 @@ const debug = require('suman-debug')('s:index');
 
 // project
 require('./patches/all');
+const integrantInjector = require('./injection/integrant-injector');
 const rules = require('./helpers/handle-varargs');
 const makeSuman = require('./suman');
 const su = require('suman-utils');
 const acquireDeps = require('./acquire-deps');
 const acquireIntegrantsSingleProcess = require('./acquire-integrants-single-proc');
-const es = require('./exec-suite');
+const execSuite = require('./exec-suite');
 const fnArgs = require('function-arguments');
 const makeIocDepInjections = require('./injection/ioc-injector');
 
@@ -302,8 +303,6 @@ fs.writeFileSync(testDebugLogPath, '\n', {flag: 'w'});
 fs.writeFileSync(testLogPath, '\n => New Suman run @' + new Date(), {flag: 'w'});
 
 ////////////////////////////////////////////////////////////////////////////////
-
-console.log(' => $PATH => ', process.env.PATH);
 
 
 if (sumanReporters.length < 1) {
@@ -484,8 +483,8 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
     }
   }
   else {  //if we run
-    if (_suman.sumanOpts.vverbose) {
-      console.log(' => Suman vverbose message => require.main.filename value:', main);
+    if (_suman.sumanOpts.verbosity > 7) {
+      console.log(' => Suman verbose message => require.main.filename value:', main);
     }
     if (main === $module.filename) {
       matches = true;
@@ -599,7 +598,7 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
 
   if (exportTests) {
     //TODO: if export is set to true, then we need to exit if we are using the runner
-    if (process.env.SUMAN_DEBUG === 'yes' || _suman.sumanOpts.vverbose) {
+    if (su.isSumanDebug() || _suman.sumanOpts.verbosity > 7) {
       console.log(colors.magenta(' => Suman message => export option set to true.'));
     }
   }
@@ -763,8 +762,24 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
       // we need to check if integrants are already ready
 
       //declared at top of file
-      integPreConfiguration =
-        (integPreConfiguration || integrantPreFn({temp: 'we are in suman project => lib/index.js'}));
+      if (!integPreConfiguration) {
+
+        const args = fnArgs(integrantPreFn);
+        const ret = integrantPreFn.apply(null, integrantInjector(args));
+
+        if (ret.dependencies) {
+          if (typeof ret.dependencies === 'object' && !Array.isArray(ret.dependencies)) {
+            integPreConfiguration = ret.dependencies;
+          }
+          else {
+            throw new Error(' => <suman.once.pre.js> file does not export an object with a property called "dependencies".');
+          }
+        }
+        else {
+          console.error(' => Warning, no dependencies object exported from <suman.once.pre.js> file.');
+        }
+      }
+
 
       const d = domain.create();
 
@@ -789,8 +804,7 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
 
       d.run(function () {
 
-        if (process.env.SUMAN_SINGLE_PROCESS === 'yes') {
-
+        if (su.isSumanSingleProcess()) {
           acquireIntegrantsSingleProcess(integrants, integPreConfiguration,
             su.onceAsync(null, function (err: Error, vals: Array<any>) {
               d.exit();
@@ -804,24 +818,20 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
               });
 
             }));
-
         }
         else {
 
-          acquireDeps(integrants, integPreConfiguration,
-            su.onceAsync(null, function (err: Error, vals: Array<any>) {
-
-              d.exit();
-              process.nextTick(function () {
-                if (err) {
-                  integrantsEmitter.emit('error', err);
-                }
-                else {
-                  integrantsEmitter.emit('vals', vals);
-                }
-              });
-
-            }));
+          acquireDeps(integrants, integPreConfiguration).then(function (vals: Object) {
+            d.exit();
+            process.nextTick(function () {
+              integrantsEmitter.emit('vals', vals);
+            });
+          }, function (err: Error) {
+            d.exit();
+            process.nextTick(function () {
+              integrantsEmitter.emit('error', err);
+            });
+          });
         }
 
       });
@@ -874,7 +884,7 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
       const to = setTimeout(function () {
         console.error(' => Suman usage error => Integrant acquisition timeout.');
         process.exit(constants.EXIT_CODES.INTEGRANT_ACQUISITION_TIMEOUT);
-      }, _suman.weAreDebugging ? 50000000 : 50000);
+      }, _suman.weAreDebugging ? 50000000 : 500000);
 
       function onPreVals(vals: Array<any>) {
 
@@ -945,7 +955,7 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
           else {
 
             suman._sumanEvents = sumanEvents;
-            const run = es.main(suman);
+            const run = execSuite(suman);
 
             try {
               process.domain && process.domain.exit();
@@ -990,7 +1000,6 @@ const init: suman.IInit = function ($module: ISumanModuleExtended, $opts: suman.
                 }
                 else {
                   sumanEvents.emit('test', function () {
-                    console.log('ARGUMENTS => ', arguments);
                     suman.extraArgs = Array.from(arguments);
                     run.apply(global, args);
                   });
@@ -1116,7 +1125,7 @@ function Writable(type: any) {
 
 //TODO: https://gist.github.com/PaulMougel/7961469
 
-function Transform(): BufferStream {
+function Transform(): stream.Transform {
 
   //TODO: http://stackoverflow.com/questions/10355856/how-to-append-binary-data-to-a-buffer-in-node-js
 
@@ -1185,9 +1194,7 @@ function once(fn: Function) {
   return function (cb: Function) {
 
     if (cache) {
-      process.nextTick(function () {
-        cb.call(null, null, cache);
-      });
+      process.nextTick(cb, null, cache);
     }
     else {
       fn.call(null, function (err: Error, val: any) {

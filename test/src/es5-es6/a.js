@@ -5,10 +5,11 @@ const Test = suman.init(module, {
   $inject: ['abc']
 });
 
+console.log('process.execArgv', process.execArgv);
 
-Test.create(['parallel: true',  (assert, before, beforeEach, it, after, describe) => {
+Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe) => {
 
-  console.log('this.opts',this.opts);
+  console.log('this.opts', this.opts);
 
   before({fatal: false}, t => {
     throw new Error('hook');
@@ -32,11 +33,9 @@ Test.create(['parallel: true',  (assert, before, beforeEach, it, after, describe
     assert(true);
   });
 
-
   after(t => {
     console.log('after a');
   });
-
 
   Number(5).times(num => {
 
@@ -50,11 +49,9 @@ Test.create(['parallel: true',  (assert, before, beforeEach, it, after, describe
         assert(true);
       });
 
-
       this.after(t => {
         console.log('after b');
       });
-
 
       this.describe('nested group 2', {parallel: true}, function () {
 
@@ -65,7 +62,6 @@ Test.create(['parallel: true',  (assert, before, beforeEach, it, after, describe
         this.beforeEach(t => {
           console.log('before each of c & d');
         });
-
 
         this.it('d', t => {
           assert(true);
@@ -84,8 +80,6 @@ Test.create(['parallel: true',  (assert, before, beforeEach, it, after, describe
 
     });
 
-
   });
-
 
 }]);

@@ -112,7 +112,6 @@ const async = require('async');
 const uniqBy = require('lodash.uniqby');
 const events = require('suman-events');
 const debug = require('suman-debug')('s:cli');
-const uuid = require('uuid/v4');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -144,7 +143,6 @@ const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
 console.log(colors.yellow.italic(' => Suman v' + sumanVersion + ' running...'));
 console.log(' => [pid] => ', process.pid);
-console.log(' => $PATH => ', process.env.PATH);
 
 ////////////////////////////////////////////////////////////////////
 
@@ -185,14 +183,14 @@ if (sumanOpts.verbose) {
 ////////////////////////////////////////////////////////////////////
 
 if (cwd !== projectRoot) {
-  if (!sumanOpts.vsparse) {
+  if (sumanOpts.verbosity > 1) {
     console.log(' => Note that your current working directory is not equal to the project root:');
     console.log(' => cwd:', colors.magenta(cwd));
     console.log(' => Project root:', colors.magenta(projectRoot));
   }
 }
 else {
-  if (!sumanOpts.sparse) {
+  if (sumanOpts.verbosity > 2) {
     if (cwd === projectRoot) {
       console.log(colors.gray(' => cwd:', cwd));
     }
@@ -311,7 +309,7 @@ try {
   //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
   pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
   sumanConfig = _suman.sumanConfig = require(pth);
-  if (sumanOpts.verbose) {  //default to true
+  if (sumanOpts.verbosity > 8) {  //default to true
     console.log(' => Suman verbose message => Suman config used: ' + pth);
   }
 
@@ -326,7 +324,7 @@ catch (err) {
   try {
     pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
     sumanConfig = _suman.sumanConfig = require(pth);
-    if (!sumanOpts.sparse) {  //default to true
+    if (sumanOpts.verbosity > 2) {  //default to true
       console.log(colors.cyan(' => Suman config used: ' + pth + '\n'));
     }
   }
@@ -453,7 +451,7 @@ else {
     sumanOpts.useBabelRegister = true;
     process.env.USE_BABEL_REGISTER = 'yes';
 
-    if (!sumanOpts.vsparse) {
+    if (sumanOpts.verbosity > 1) {
       if (sumanConfig.transpile === true) {
         console.log('\n ', colors.bgCyan.black.bold(' => the ' + colors.magenta('--babel-register')
             + ' flag was passed or ' + colors.magenta('useBabelRegister')
@@ -462,11 +460,11 @@ else {
             ' no transpiled files will be written out.'), '\n');
       }
       else {
-        if (babelRegister && sumanOpts.verbose) {
+        if (babelRegister && sumanOpts.verbosity > 5) {
           console.log('\n', colors.bgCyan.black.bold('=> Suman message => ' + colors.magenta('--babel-register')
               + ' flag passed or useBabelRegister is' +
               'set to true in your suman.conf.js file, so we will transpile your sources on the fly,') + '\n' +
-            colors.bgCyan.black.bold('no transpiled files will be written out.'), '\n');
+            colors.bgCyan.black.bold('no transpiled JavaScript files will be written out.'), '\n');
         }
         else if (sumanOpts.verbose) {
           console.log('\n', colors.bgCyan.black.bold(' => Suman message => "useBabelRegister" property set to true in your config,' +

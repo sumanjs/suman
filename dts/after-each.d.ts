@@ -25,6 +25,6 @@ interface IAfterEachHook {
 }
 
 
-type AfterEachHook = (h: any) => any;
-type AfterEachHookCallbackMode = (h: IAfterEachHook) => void;
-type AfterEachHookRegularMode = (h?: IAfterEachHook | undefined) => Promise<any>;
+type TAfterEachHook = (h: any) => any;
+type TAfterEachHookCallbackMode = (h: IAfterEachHook) => void;
+type TAfterEachHookRegularMode = (h?: IAfterEachHook | undefined) => Promise<any>;

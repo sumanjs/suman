@@ -1,6 +1,5 @@
-
-
 import Global = NodeJS.Global;
+import Domain = NodeJS.Domain;
 
 declare namespace SumanLib {
   const _suman: Object;
@@ -9,32 +8,21 @@ declare namespace SumanLib {
 }
 
 
-interface  GlobalSumanObj {
+interface  IGlobalSumanObj {
+  viaSuman: boolean,
+  sumanHelperDirRoot: string,
   _writeTestError: Function,
   sumanRuntimeErrors: Array<Error | string>,
-
-}
-
-interface ISumanOpts {
-  ignoreUncaughtExceptions: boolean,
-  useTAPOutput: boolean,
-  vverbose: boolean
-  verbosity: number
-}
-
-interface ISumanGlobalInternal {
-  viaSuman?: boolean
-
-}
-
-
-interface ISumanGlobal extends Global {
+  sumanOpts: ISumanOpts,
+  suiteResultEmitter: EventEmitter,
+  maxMem: IMaxMem,
+  sumanConfig: ISumanConfig,
   describeOnlyIsTriggered: boolean,
   sumanTestFile: string,
   userData: Object,
   iocConfiguration: Object,
   weAreDebugging: boolean,
-  checkTestErrorLog:boolean,
+  checkTestErrorLog: boolean,
   _writeLog: Function,
   _sumanIndirect: boolean,
   expectedExitCode: number,
@@ -48,12 +36,7 @@ interface ISumanGlobal extends Global {
   iocProgressContainer: Object,
   resultBroadcaster: EventEmitter,
   sumanReporters: Array<Object>,
-  suiteResultEmitter: EventEmitter,
   integrantsEmitter: EventEmitter,
-  _suman: ISumanGlobalInternal,
-  _writeTestError: Function,
-  sumanRuntimeErrors: Array<Error | string>,
-  sumanOpts: ISumanOpts,
   sumanUncaughtExceptionTriggered: boolean,
   projectRoot: string,
   usingRunner: boolean,
@@ -63,12 +46,126 @@ interface ISumanGlobal extends Global {
   SUMAN_TEST: string,
   sumanInitTime: number,
   expectedTimeout: number
+
 }
 
-declare var global: ISumanGlobal;
+interface IMaxMem {
+  heapTotal: number,
+  heapUsed: number
+}
+
+interface ISumanOpts {
+  reporters: string,
+  reporter_paths: Array<string>
+  strict: boolean,
+  suman_helpers_dir: boolean,
+  init: boolean,
+  ignoreUncaughtExceptions: boolean,
+  useTAPOutput: boolean,
+  verbosity: number,
+  check_memory_usage: boolean
+  errors_only: boolean
+
+}
+
+interface ISumanGlobalInternal {
+  viaSuman?: boolean
+
+}
+
+
+interface ISumanGlobal extends Global {
+  __suman?: IGlobalSumanObj
+}
 
 
 interface SumanErrorRace extends Error {
-  _alreadyHandledBySuman: boolean
+  _alreadyHandledBySuman?: boolean
+
+}
+
+
+interface IPseudoError {
+  stack?: string
+  message?: string,
+  sumanFatal?: boolean,
+  sumanExitCode?: number
+}
+
+
+interface ISumanDomain extends Domain {
+  _sumanStartWholeShebang: boolean
+  exit: Function
+}
+
+declare enum BrowserTypes {
+  Firefox,
+  Chrome,
+}
+
+
+interface ISumanConfig {
+
+  matchAny: Array<RegExp>,
+  matchNone: Array<RegExp>,
+  matchAll: Array<RegExp>,
+
+  // Object: child process logging
+  childProcessLogs: Array<number>,
+
+  //string
+  testDir: string,
+  testSrcDir: string,
+  testTargetDir: string,
+  sumanHelpersDir: string,
+  uniqueAppName: string,
+  browser: BrowserTypes,
+
+  //boolean
+  includeSumanGlobalsInPath: boolean,
+  useSumanUtilityPatches: boolean,
+  useTAPOutput: boolean,
+  errorsOnly: boolean,
+  replayErrorsAtRunnerEnd: boolean,
+  logStdoutToTestLogs: boolean,
+  allowArrowFunctionsForTestBlocks: boolean,
+  alwaysUseRunner: boolean,
+  enforceGlobalInstallationOnly: boolean,
+  enforceLocalInstallationOnly: boolean,
+  sourceTopLevelDepsInPackageDotJSON: boolean,
+  enforceTestCaseNames: boolean,
+  enforceBlockNames: boolean,
+  enforceHookNames: boolean,
+  bail: boolean,
+  bailRunner: boolean,
+  useBabelRegister: boolean,
+  transpile: boolean,
+  executeRunnerCWDAtTestFile: boolean,
+  sendStderrToSumanErrLogOnly: boolean,
+  useSuiteNameInTestCaseOutput: boolean,
+  ultraSafe: boolean,
+  verbose: boolean,
+  checkMemoryUsage: boolean,
+  fullStackTraces: boolean,
+  disableAutoOpen: boolean,
+  suppressRunnerOutput: boolean,
+  allowCollectUsageStats: boolean,
+
+  //integers
+  saveLogsForThisManyPastRuns: number,
+  verbosity: number,
+  maxParallelProcesses: number,
+  resultsCapCount: number,
+  resultsCapSize: number,
+
+  //integers in millis
+  defaultHookTimeout: number,
+  defaultTestCaseTimeout: number,
+  timeoutToSearchForAvailServer: number,
+  defaultDelayFunctionTimeout: number,
+  defaultChildProcessTimeout: number,
+  defaultTestSuiteTimeout: number,
+  expireResultsAfter: number,
+
 
 }

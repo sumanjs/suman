@@ -1,7 +1,4 @@
-
-
 import EventEmitter = NodeJS.EventEmitter;
-
 
 
 interface ISumanGlobalInternal {
@@ -11,6 +8,7 @@ interface ISumanGlobalInternal {
 
 interface ISuman {
 
+  filename: string,
   numHooksSkipped: number,
   numHooksStubbed: number,
   describeOnlyIsTriggered: boolean,
@@ -22,6 +20,14 @@ interface ISuman {
   logFinished: Function,
   _sumanEvents: EventEmitter,
   extraArgs: Array<string>
+  sumanCompleted: boolean,
+  slicedFileName: string,
+  desc: string,
+  rootSuiteDescription: string,
+  deps: string,
+  dateSuiteStarted: number,  // this is a number, not a Date,
+  dateSuiteFinished: number
+  logResult: () => void
 
 }
 
