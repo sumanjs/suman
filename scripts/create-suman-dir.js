@@ -6,6 +6,7 @@ const fs = require('fs');
 const cp = require('child_process');
 
 //npm
+const residence = require('residence');
 const async = require('async');
 
 //project
@@ -34,12 +35,69 @@ debug(' => In Suman postinstall script, cwd => ', cwd);
 debug(' => In Suman postinstall script => ', __filename);
 debug(' => Suman home dir path => ', sumanHome);
 
+function runDatabaseInstalls(err) {
+
+  let logerr = false;
+
+  if (err) {
+    try {
+      fs.appendFileSync(sumanDebugLog, '\n => Suman post-install initial routine experienced an error => \n' +
+        (err.stack || err));
+    }
+    catch (err) {
+      logerr = true;
+    }
+
+  }
+
+  const n = cp.spawn('bash', [createTables], {
+    env: Object.assign({}, process.env, {
+      SUMAN_DATABASE_PATH: dbPath
+    })
+  });
+
+  n.stderr.setEncoding('utf8');
+
+  if (!logerr) {
+    n.stderr.on('data', function (d) {
+      fs.appendFileSync(sumanDebugLog, d);
+    });
+  }
+
+  n.stderr.pipe(process.stderr);
+
+  n.once('close', function (code) {
+
+    n.unref();
+
+    if (code > 0) {
+      console.error(' => Suman SQLite routine completed with a non-zero exit code.');
+    }
+
+    try {
+      if (fs.existsSync(sumanHome)) {
+      }
+      else {
+        console.error(' => Warning => ~/.suman dir does not exist!');
+      }
+    }
+    catch (err) {
+      console.error(err.stack || err);
+    }
+    finally {
+      process.exit(0);
+    }
+
+  });
+
+}
 
 fs.mkdir(sumanHome, function (err) {
 
   if (err && !String(err.stack || err).match(/EEXIST/)) {
-    console.error(err.stack || err);
-    process.exit(1);
+    console.error(' => Suman cannot complete its normal postinstall routine, ' +
+      'but it\'s not a big deal =>\n', err.stack || err);
+    runDatabaseInstalls(err);
     return;
   }
 
@@ -49,10 +107,7 @@ fs.mkdir(sumanHome, function (err) {
       //always want to update this file to the latest version, so always overwrite
       const dbDir = path.resolve(sumanHome + '/database');
       fs.mkdir(dbDir, function (err) {
-        if (err && !String(err).match(/EEXIST/)) {
-          return cb(err);
-        }
-        cb(null);
+        cb((err && !String(err).match(/EEXIST/)) ? err : null);
       });
     },
 
@@ -60,10 +115,7 @@ fs.mkdir(sumanHome, function (err) {
       //always want to update this file to the latest version, so always overwrite
       const globalDir = path.resolve(sumanHome + '/global');
       fs.mkdir(globalDir, function (err) {
-        if (err && !String(err).match(/EEXIST/)) {
-          return cb(err);
-        }
-        cb(null);
+        cb(err && !String(err).match(/EEXIST/) ? err : null);
       });
     },
 
@@ -74,7 +126,7 @@ fs.mkdir(sumanHome, function (err) {
           cb(err);
         }
         else {
-          fs.writeFile(sumanClis, data,  {mode:0o777}, cb);
+          fs.writeFile(sumanClis, data, {mode: 0o777}, cb);
         }
       });
 
@@ -86,7 +138,7 @@ fs.mkdir(sumanHome, function (err) {
           cb(err);
         }
         else {
-          fs.writeFile(sumanCompletion, data,  {mode:0o777}, cb);
+          fs.writeFile(sumanCompletion, data, {mode: 0o777}, cb);
         }
       });
 
@@ -99,14 +151,14 @@ fs.mkdir(sumanHome, function (err) {
         }
         else {
           // default flag is 'w'
-          fs.writeFile(findSumanExec, data, {mode:0o777}, cb);
+          fs.writeFile(findSumanExec, data, {mode: 0o777}, cb);
         }
       });
 
     },
     function (cb) {
       fs.writeFile(sumanDebugLog, '\n\n => Suman post-install script run on ' + new Date()
-        + ', from directory (cwd) => ' + cwd,  {mode:0o777}, cb);
+        + ', from directory (cwd) => ' + cwd, {mode: 0o777}, cb);
     },
     function (cb) {
       // we want to create the file if it doesn't exist, and just write empty string either way
@@ -120,62 +172,67 @@ fs.mkdir(sumanHome, function (err) {
         }
         else {
           // default flag is 'w'
-          fs.writeFile(findProjectRootDest, data,  {mode:0o777}, cb);
+          fs.writeFile(findProjectRootDest, data, {mode: 0o777}, cb);
         }
       });
-
     }
 
   ], function (err) {
 
-    if (err) {
-      try {
-        fs.appendFileSync(sumanDebugLog, '\n => Suman post-install script failed with error => \n' + (err.stack || err));
-      }
-      catch (err) {
-        //ignore
-      }
-      console.error(err.stack || err);
-      process.exit(1);
-    }
-    else {
+    runDatabaseInstalls(err);
 
-      const n = cp.spawn('bash', [createTables], {
-        env: Object.assign({}, process.env, {
-          SUMAN_DATABASE_PATH: dbPath
-        })
-      });
+    /*
 
-      n.stderr.on('data', function (d) {
-        fs.appendFileSync(sumanDebugLog, d);
-      });
+     if (err) {
+     try {
+     fs.appendFileSync(sumanDebugLog, '\n => Suman post-install script failed with error => \n' + (err.stack || err));
+     }
+     catch (err) {
+     //ignore
+     }
 
-      n.once('close', function (code) {
+     console.error(err.stack || err);
+     process.exit(1);
+     }
+     else {
 
-        n.unref();
+     const n = cp.spawn('bash', [createTables], {
+     env: Object.assign({}, process.env, {
+     SUMAN_DATABASE_PATH: dbPath
+     })
+     });
 
-        if (code > 0) {
-          process.exit(1);
-          return;
-        }
+     n.stderr.on('data', function (d) {
+     fs.appendFileSync(sumanDebugLog, d);
+     });
 
-        try {
-          if (fs.existsSync(sumanHome)) {
-            process.exit(0);
-          }
-          else {
-            console.error(' => Warning => ~/.suman dir does not exist!');
-            process.exit(1)
-          }
-        }
-        catch (err) {
-          console.error(err.stack || err);
-          process.exit(1);
-        }
+     n.once('close', function (code) {
 
-      });
+     n.unref();
 
-    }
+     if (code > 0) {
+     process.exit(1);
+     return;
+     }
+
+     try {
+     if (fs.existsSync(sumanHome)) {
+     process.exit(0);
+     }
+     else {
+     console.error(' => Warning => ~/.suman dir does not exist!');
+     process.exit(1)
+     }
+     }
+     catch (err) {
+     console.error(err.stack || err);
+     process.exit(1);
+     }
+
+     });
+
+     }
+     */
 
   });
 

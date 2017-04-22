@@ -1,4 +1,5 @@
 'use strict';
+import {IAssertObj, IHookObj, ITestDataObj} from "../../dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

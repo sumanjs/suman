@@ -1,5 +1,20 @@
 
+=> injected before/after/beforeEach/afterEach
+
+=> global ctx should be set.
+
+=> the injected values should point to the current ctx, so so nice
+
+=>
+
+=> tests should not be very dynamic, but Suman allows for super-dynamic tests. Tests can be dynamic based
+off of process.argv, process.env as well as via powerful setup/"pre" hooks, especially useful for integration testing.
+
+=> add to feature list => excellent documentation, suman groups works with docker
+
+
 => test everything with Yarn, update NPM Link Up to work with Yarn
+=> Compare yarn install size with npm install size (yarn might do more de-duping)
 
 => use ES2015 Map => https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
 
@@ -8,7 +23,6 @@
 npm i -D @types/suman  => need to produce these types for suman
 
 => https://github.com/DefinitelyTyped/DefinitelyTyped
-
 
 
 // TS with TAPjs - https://github.com/tapjs/node-tap/pull/256/files
@@ -35,11 +49,6 @@ npm i -D @types/suman  => need to produce these types for suman
 
 //
 
-The following comamnd is so much slower than just "node test/src/es5-es6/a.js":
-NODE_PATH=$NODE_PATH:~/.suman/global/node_modules/ node cli.js  test/src/es5-es6/a.js
-
-//
-
 /// allow for cleanup SIGINT handler for bail, etc, in each test child process
 
 bash '/Applications/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'
@@ -51,11 +60,11 @@ grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./
 
 ///
 
-  error first callback wrap
+  error first callback wrap => put this in suman docs tips and tricks
 
 ///
 
-  after.always
+  after.always => new feature
 
 ///
 
@@ -76,7 +85,8 @@ grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./
 
 ///
 
-   need to log which pre hooks are running, for each one
+   need to log which pre hooks are running, for each one - log started/ended, so user knows which
+   are running parallel and series.
 
 ///
 
@@ -141,7 +151,7 @@ get TTY background color, should be possible
 
 ///
 
-support snakecase and camelcase for NPM modules => FirefoxProfile or firefox_profile
+support snakecase and pascalcase for NPM modules => FirefoxProfile or firefox_profile
 
 ///
 
@@ -166,10 +176,6 @@ webpack => https://github.com/AriaFallah/WebpackTutorial/tree/master/part1
 
 https://www.w3.org/TR/webdriver/
 suman can use webdriverio => https://github.com/webdriverio/webdriverio
-
-///
-
-  support globs at command line (seems to work)
 
 ///
 
@@ -217,13 +223,6 @@ Run tests and hooks in c++ as separate call
  use domains - TapJS, HapiJS, Suman
 
 ////
-
-
-suman() {
-   cd ~
-   command suman "$@"
-   cd -
-}
 
 http://stackoverflow.com/questions/43077255/command-to-cd-to-root-of-project/43077349#43077349
 

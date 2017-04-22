@@ -22,7 +22,7 @@ const makeCallback = require('./handle-callback-helper');
 const helpers = require('./handle-promise-generator');
 const freezeExistingProps = require('../freeze-existing');
 
-//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
 export = function (suman: ISuman, gracefulExit: Function) {
 
