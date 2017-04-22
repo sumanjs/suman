@@ -23,6 +23,7 @@ module.exports = Object.freeze({
   browser: 'Firefox',                 // browser to open test results with
 
   //boolean
+  installSumanGlobalsInProject: '.suman',
   isLogChildStderr: true,
   isLogChildStdout: true,
   useBabelRegister: false,

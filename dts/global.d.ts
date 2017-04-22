@@ -1,5 +1,6 @@
 import Global = NodeJS.Global;
 import Domain = NodeJS.Domain;
+import {ITestSuite} from "./test-suite";
 
 declare namespace SumanLib {
   const _suman: Object;
@@ -9,6 +10,7 @@ declare namespace SumanLib {
 
 
 interface  IGlobalSumanObj {
+  ctx: ITestSuite,
   viaSuman: boolean,
   sumanHelperDirRoot: string,
   _writeTestError: Function,

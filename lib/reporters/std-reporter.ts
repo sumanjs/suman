@@ -65,7 +65,7 @@ let count = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-module.exports = (s: EventEmitter) => {
+export = (s: EventEmitter) => {
 
   count++;
   if (count > 1) {
@@ -114,7 +114,7 @@ module.exports = (s: EventEmitter) => {
   s.on(events.TEST_CASE_PASS, function (test: ITestDataObj) {
 
     onAnyEvent('\t' +
-      colors.blue(' ' + (noColors ? '(check)' : '\u2714 ')) + ' \'' + test.desc + '\' ' +
+      colors.blue(' ' + (noColors ? '(check)' : '\u2714 ')) + ' \'' + (test.desc || test.name) + '\' ' +
       (test.dateComplete ? '(' + ((test.dateComplete - test.dateStarted) || '< 1') + 'ms)' : '') + '\n');
   });
 

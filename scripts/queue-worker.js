@@ -135,7 +135,7 @@ module.exports = function work (cb) {
             unlock();
 
             const n = cp.spawn('bash', [], {
-              cwd: globalDir
+              cwd: global.canInstallSumanGlobal ? globalDir : global.projectRoot
             });
 
             n.stdin.write('\n' + first + '\n');

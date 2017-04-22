@@ -1,4 +1,6 @@
 
+<img align="right" width="75%" height="75%" src="https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman.png">
+
 [![npm version](https://badge.fury.io/js/suman.svg)](https://badge.fury.io/js/suman)
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/sumanjs/suman.svg)](https://greenkeeper.io/)
@@ -13,7 +15,7 @@
 
 
 Designed to run tests written in any language - because Suman can runs tests as child processes - just write TAP to stdout
-via the runtime of choice.  Intended to work with Selenium, in the browser, 
+via the runtime of choice. Intended to work with Selenium, in the browser, 
 and to do large-scale backend system and integration testing.  
 
 Suman is made up of two independent pieces:
@@ -33,8 +35,11 @@ Suman is made up of two independent pieces:
 
 <p>
 <div> ✓ <b style="color:purple">  fully asynchronous </b> => allows for easy, dynamic test case creation
+<div> ✓ <b style="color:purple">  agnostic </b> => works with your favorite assertion library
+<div> ✓ <b style="color:purple">  agnostic </b> => want to learn a new language? write a test script with language X, then run the test with Suman.*
 <div> ✓ <b style="color:purple">  no globals </b> =>  no global variables as part of test harness - therefore JS tests can be run with Node.js executable </div>
 <div> ✓ <b style="color:purple">  flexible, generic, robust </b> =>  CLI can run JS tests directly, or in a child process </div>
+<div> ✓ <b style="color:purple">  flexible, generic, robust </b> =>  Composability => Suman tests can run other Suman tests (in child processes), etc, etc. </div>
 <div> ✓ <b style="color:purple">  test isolation </b> =>  each test can run in its own process </div>
 <div> ✓ <b style="color:purple">  test independence </b> =>  easily run only one test at a time (unlike other Node.js test runners...)</div>
 <div> ✓ <b style="color:purple">  declarative style </b> => declare (sync and async) dependencies for each test, and only load those</div>
@@ -61,7 +66,7 @@ Quick list of problems with other test runners:
 
  ---
 
-# &#9658; Documentation 
+# &#9658; Complete Documentation 
 
  >   The Suman docs => [sumanjs.org](http://sumanjs.org "Suman Docs")  
 
@@ -97,6 +102,7 @@ To use Suman, you need the following ingredients:
 * node.js
 * readlink
 
+If you are on MacOS or Linux, you have those, so you're good.
 ___
 
 
@@ -141,6 +147,11 @@ If you wish to avoid global NPM module installations, we commend you, see:
 ## Example commands
 
 ```bash 
+
+ suman --runner test/**/*.py   # run python tests
+ suman --runner test/**/*.rb   # run ruby tests
+ suman --runner test/**/*.sh  test/**/*.go  # run bash and golang tests
+ 
  suman test/src/*.spec.js --concurrency=6 # run the matching tests, no more than 6 Node.js processes at a time.
 
  suman -w project   # run a set of tests when a project file changes
@@ -152,15 +163,15 @@ If you wish to avoid global NPM module installations, we commend you, see:
 
 ## The Suman Story
 
-I started writing Suman in October 2015. After 6 months of working with Mocha, I started seeing many of its shortcomings.
+I started writing Suman in October 2015. After 6 months of working with Mocha, I started experiencing many of its shortcomings.
  Mocha has a handful of major problems and 100 minor ones. Frankly, Mocha is poorly designed software - the fact that it concatenates
  all your tests in a single process is simply not how testing should work; especially for a dynamic language where the global
  scope can be easily polluted by inexperienced developers. Once you start writing non-trivial tests with Mocha, it becomes 
  very difficult to debug tests and run only one test at a time. 
  
 About 2 weeks after I started writing Suman, I discovered AVA. AVA is much better than Mocha, but it "forces" you to use transpilation
-and has its own assertion library. It's also missing some nice features from Mocha, including nested blocks. 
-So I decided to continue working on Suman, and essentially take the best from Mocha and AVA, 
+and heavily depends on its own assertion library for correct functionality. Meaning - you can't use the assertion library that you already familiar with.
+It's also missing some nice features from Mocha, including nested blocks. So I decided to continue working on Suman, and essentially take the best from Mocha and AVA, 
 and also borrow the best ideas from TapJS/Tape and Lab (Lab is the test runner for the Hapi framework.). I have spent a lot of time
 on the issue trackers on basically every Node.js testing framework.
 
