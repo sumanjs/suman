@@ -1,5 +1,6 @@
 'use strict';
 import {ITestDataObj, ITestSuite} from "../dts/test-suite";
+import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -381,8 +382,6 @@ Suman.prototype.logResult = function (test: ITestDataObj) : void {  //TODO: refa
 
   //TODO: this function becomes just a way to log to command line, not to text DB
 
-  const config = _suman.sumanConfig;
-
   if (_suman.sumanOpts.errors_only && test.dateComplete) {
     // since errors only and this test has completed, we ignore and don't write out result
     return;
@@ -392,6 +391,8 @@ Suman.prototype.logResult = function (test: ITestDataObj) : void {  //TODO: refa
 
     test.sumanModulePath = this._sumanModulePath;
     test.error = test.error ? (test.error._message || test.error.message || test.error.stack || test.error) : null;
+    test.name = (test.desc || test.name);
+    test.desc = (test.desc || test.name);
 
     let data = {
       test,

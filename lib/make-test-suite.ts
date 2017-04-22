@@ -3,6 +3,9 @@
 
 //dts
 import {IInjectOpts, IInjectHookCallbackMode, IInjectHookRegularMode, IInjectFn} from "../dts/inject";
+import {IGlobalSumanObj} from "../dts/global";
+import {BeforeHookCallbackMode, BeforeHookRegularMode, IBeforeFn, IBeforeOpts} from "../dts/before";
+import {ITestSuite} from "../dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -125,7 +128,7 @@ export = function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTe
     TestSuite.prototype = Object.create(new TestSuiteBase(data));
     TestSuite.prototype.__bindExtras = function bindExtras() {
 
-      const ctx = this;
+      const ctx = _suman.ctx = this;
 
       describe.delay =
         function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {

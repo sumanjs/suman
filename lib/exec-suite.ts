@@ -30,6 +30,8 @@ import rules = require('./helpers/handle-varargs');
 import constants = require('../config/suman-constants');
 const su = require('suman-utils');
 import makeGracefulExit = require('./make-graceful-exit');
+import {ITestSuite} from "../dts/test-suite";
+import {IPseudoError, ISumanDomain} from "../dts/global";
 const originalAcquireDeps = require('./acquire-deps-original');
 const makeAcquireDepsFillIn = require('./acquire-deps-fill-in');
 const makeTestSuite = require('./make-test-suite');
@@ -267,8 +269,10 @@ export = function main(suman: ISuman) {
                 callable = false;
                 clearTimeout(to);
                 process.nextTick(function () {
+                  _suman.ctx = null; // no suite here; don't need to call __bindExtras here, because root suite has no parent
                   suite.__proto__.isSetupComplete = true; // keep this, needs be called asynchronously
-                  suite.__invokeChildren(val, start); //pass start function all the way through program until last child delay call is invoked!
+                  //pass start function all the way through program until last child delay call is invoked!
+                  suite.__invokeChildren(val, start);
                 });
               }
               else {

@@ -46,9 +46,8 @@ console.log('BASE_DIRECTORY in JavaScript is => ', bd);
 //TODO: regarding above, but what about NVM?
 let alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().replace('/', '')) < 0;
 
-
 console.log(' => cwd in postinstall script =>', cwd);
-const projectRoot = residence.findProjectRoot(cwd);
+const projectRoot = global.projectRoot = residence.findProjectRoot(cwd);
 console.log(' => Project root => ', projectRoot);
 
 // semver.gt('1.2.3', '9.8.7') // false
@@ -82,7 +81,7 @@ installs = installs.concat(Object.keys(deps.slack));
 installs = installs.concat(Object.keys(deps.sqlite3));
 installs = installs.concat(Object.keys(deps.sumanSqliteReporter));
 
-if (sumanConf.transpile !== false && ( alwaysInstall || alwaysInstallDueToGlobal)) {
+if (sumanConf.transpile === true && ( alwaysInstall || alwaysInstallDueToGlobal)) {
   installs = installs.concat(Object.keys(deps.babel));
 }
 
@@ -106,7 +105,7 @@ if (sumanConf.useNYC || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.nyc));
 }
 
-//200 second timeout...
+//2000 second timeout...
 const to = setTimeout(function () {
   console.error(' => Suman postinstall process timed out.');
   process.exit(1);
@@ -125,47 +124,74 @@ const lockfileOptionsObj = {
   retryWait: 150
 };
 
+let canInstallSumanGlobal = global.canInstallSumanGlobal = true;
+
+try {
+  fs.existsSync(process.env.HOME + '/.suman/global');
+}
+catch (err) {
+  canInstallSumanGlobal = global.canInstallSumanGlobal = false;
+}
+
 async.map(installs, function (item, cb) {
 
   const p = path.resolve(sumanHome + '/node_modules/', item);
 
   async.parallel({
     view: function (cb) {
-      cp.exec('npm view ' + item + ' version', function (err, val) {
-        if (err) {
-          // npm might not be installed globally, what to do then?
-          console.error('\n',err.stack || err,'\n');
-           cb(null, {});
-        }
-        else{
-          cb(null, {
-            name: item,
-            version: String(val).replace(/\s/g, '')
-          });
-        }
 
-      });
+      if (canInstallSumanGlobal) {
+        cp.exec('npm view ' + item + ' version', function (err, val) {
+          if (err) {
+            // npm might not be installed globally, what to do then?
+            console.error('\n', err.stack || err, '\n');
+            cb(null, {});
+          }
+          else {
+            cb(null, {
+              name: item,
+              version: String(val).replace(/\s/g, '')
+            });
+          }
+        });
+      }
+      else {
+        process.nextTick(cb, null, {
+          name: item,
+          version: 'install it because we are installing in node_modules'
+        });
+      }
+
     },
     stats: function (cb) {
 
-      const pkg = path.resolve(p + '/package.json');
+      if (canInstallSumanGlobal) {
+        const pkg = path.resolve(p + '/package.json');
 
-      fs.readFile(pkg, 'utf8', function (err, data) {
-        if (err) {
-          cb(null, {version: null});
-        }
-        else {
-          ijson.parse(data).then(function (v) {
-            if (!v || !v.version) {
-              console.log(' => NPM version is not defined for item => ' + item);
-            }
-            cb(null, {
-              version: v && v.version
-            })
-          }, cb);
+        fs.readFile(pkg, 'utf8', function (err, data) {
+          if (err) {
+            cb(null, {version: null});
+          }
+          else {
+            ijson.parse(data).then(function (v) {
+              if (!v || !v.version) {
+                console.log(' => Suman postinstall warning => NPM version is not defined for item => ' + item);
+              }
+              cb(null, {
+                version: v && v.version
+              })
+            }, cb);
 
-        }
-      });
+          }
+        });
+
+      }
+      else {
+        process.nextTick(cb, null, {
+          name: item,
+          version: 'install it because we are installing in node_modules'
+        });
+      }
 
     }
   }, function (err, results) {
@@ -173,11 +199,11 @@ async.map(installs, function (item, cb) {
       return cb(err);
     }
 
-    console.log(' item => ' + item, 'view version:'
-    + results.view.version, 'stats version:' + results.stats.version);
-
     if (!results.stats.version) {
       results.view.action = 'install';
+    }
+    else if (results.view.action === 'install it because we are installing in node_modules') {
+      results.view.action = 'install to node_modules';
     }
     else {
 
@@ -223,16 +249,15 @@ async.map(installs, function (item, cb) {
         // local version is up-to-date with latest in npm registry
         return;
       case 'install':
-        console.log(' => Installing => ', item, ' at path => ', sumanHome,'\n');
+        console.log(' => Installing => ', item, ' at path => ', sumanHome, '\n');
         args = ['npm', 'install', item + '@latest', '--only=production', '--force', '--loglevel=error', '--silent', '--progress=false'];
         break;
       case 'update':
-        console.log(' => Updating => ', item, ' at path => ', sumanHome,'\n');
+        console.log(' => Updating => ', item, ' at path => ', sumanHome, '\n');
         args = ['npm', 'update', item + '@latest', '--only=production', '--loglevel=error', '--silent', '--progress=false'];
         break;
       default:
         throw new Error(' => Switch statement fallthrough.');
-
     }
 
     args = args.join(' ').trim();
@@ -241,30 +266,8 @@ async.map(installs, function (item, cb) {
 
   });
 
-  /*
-
-   opts.wait
-   A number of milliseconds to wait for locks to expire before giving up.
-   Only used by lockFile.lock. Poll for opts.wait ms. If the lock is not cleared by the time the wait expires,
-   then it returns with the original error.
-
-   opts.pollPeriod
-   When using opts.wait, this is the period in ms in which it polls to check if the lock has expired.
-   Defaults to 100.
-
-   opts.stale
-   A number of milliseconds before locks are considered to have expired.
-
-   opts.retries
-   Used by lock and lockSync. Retry n number of times before giving up.
-
-   opts.retryWait
-   Used by lock. Wait n milliseconds before retrying.
-
-   */
-
   if (!runWorker) {
-    console.log(' => Did not need to run postinsall queue worker because no items matched.');
+    console.log(' => Suman postinstall => Did not need to run postinsall queue worker because no items matched.');
     return process.exit(0);
   }
 
@@ -287,7 +290,7 @@ async.map(installs, function (item, cb) {
           // trim removes newline characters from beginning and end of strings
           return String(l).trim().length > 0;
         });
-        fs.writeFile(queue, lines.join('\n'), {mode:0o777}, function ($err) {
+        fs.writeFile(queue, lines.join('\n'), {mode: 0o777}, function ($err) {
           lf.unlock(installQueueLock, function (err) {
             run($err || err);
           });
@@ -298,14 +301,14 @@ async.map(installs, function (item, cb) {
 
   });
 
-  function run (err) {
+  function run(err) {
 
     if (err) {
       console.error(err.stack || err);
       return process.exit(1);
     }
 
-    function makeWorker () {
+    function makeWorker() {
       queueWorker(function () {
         console.log(' => Done with queue-worker, now unlocking queueWorkerLock...');
         fs.unlink(queueWorkerLock, function () {
@@ -316,7 +319,7 @@ async.map(installs, function (item, cb) {
       });
     }
 
-    fs.writeFile(queueWorkerLock, String(new Date()), {flag: 'wx', mode:0o777}, function (err) {
+    fs.writeFile(queueWorkerLock, String(new Date()), {flag: 'wx', mode: 0o777}, function (err) {
 
       if (err && !String(err.stack || err).match(/EEXIST/i)) {
         console.error(err.stack || err);
@@ -327,12 +330,12 @@ async.map(installs, function (item, cb) {
         fs.readFile(queueWorkerLock, function (err, data) {
           if (err) {
             //ignore err
-            console.error('\n',err.stack || err,'\n');
+            console.error('\n', err.stack || err, '\n');
           }
           if (data) {
             const now = new Date();
             const then = new Date(String(data).trim());
-            console.log(' => Existing date in lock file =>',then);
+            console.log(' => Existing date in lock file =>', then);
             if (now - then > 300000) {
               console.log(' => Lock is old, we will unlink and start processing queue.');
               fs.unlink(queueWorkerLock, makeWorker);
