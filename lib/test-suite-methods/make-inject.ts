@@ -2,6 +2,8 @@
 
 //dts
 import {IInjectOpts} from "../../dts/inject";
+import {ITestSuite} from "../../dts/test-suite";
+import {ISuman} from "../../dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -20,7 +22,7 @@ const colors = require('colors/safe');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
-const constants = require('../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 const handleSetupComplete = require('../handle-setup-complete');
 
 
@@ -35,14 +37,56 @@ export = function(suman: ISuman, zuite: ITestSuite) : Function {
 
   return function ($desc: string, $opts: IInjectOpts, $fn: Function) {
 
-    handleSetupComplete(zuite);
+    handleSetupComplete(zuite, 'inject');
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
       preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
     });
 
-    const [desc, opts, fn] = args;
+    let [desc, opts, arr, fn] = args;
     handleBadOptions(opts);
+
+    if (arr && fn) {
+      throw new Error(' => Please define either an array or callback.');
+    }
+
+    let arrayDeps: Array<string>;
+
+    if (arr) {
+      //note: you can't stub a test block!
+      fn = arr[arr.length - 1];
+      assert.equal(typeof fn, 'function', ' => Suman usage error => ' +
+        'You need to pass a function as the last argument to the array.');
+      // remove last element
+      arrayDeps = arr.slice(0, -1);
+    }
+
+    //avoid unncessary pre-assignment
+    arrayDeps = arrayDeps || [];
+
+    if (arrayDeps.length > 0) {
+
+      const preVal: Array<string> = [];
+      arrayDeps.forEach(function (a) {
+        if(typeof a === 'object' && !Array.isArray(a)){
+          Object.assign(opts, a);
+        }
+        else if(typeof a === 'string'){
+          if (/:/.test(a)) {
+            preVal.push(a);
+          }
+        }
+        else{
+          throw new Error(' => Argument in array must be string or plain object, instead we have =>' +
+            '\n' + util.inspect(a));
+        }
+      });
+
+      const toEval = ['(function self(){return {', preVal.join(','), '}})()'].join('');
+      const obj = eval(toEval);
+      //overwrite opts with values from array
+      Object.assign(opts, obj);
+    }
 
     if (opts.skip) {
       _suman._writeTestError(' => Warning => Inject hook was skipped.')

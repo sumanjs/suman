@@ -1,6 +1,6 @@
 'use strict';
 
-const constants = require('./suman-constants');
+const {constants} = require('./suman-constants');
 const fatalRequestReply = require('../lib/helpers/fatal-request-reply');
 
 function SumanError() {

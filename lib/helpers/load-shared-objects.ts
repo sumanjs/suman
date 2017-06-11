@@ -1,4 +1,5 @@
 'use strict';
+import {ISumanOpts} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -16,7 +17,7 @@ const colors = require('colors/safe');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const sumanUtils = require('suman-utils');
-const constants = require('../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 
 ////////////////////////////////////////////////////////////////////////////////////
 

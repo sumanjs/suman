@@ -6,6 +6,8 @@ import {IInjectOpts, IInjectHookCallbackMode, IInjectHookRegularMode, IInjectFn}
 import {IGlobalSumanObj} from "../dts/global";
 import {BeforeHookCallbackMode, BeforeHookRegularMode, IBeforeFn, IBeforeOpts} from "../dts/before";
 import {ITestSuite} from "../dts/test-suite";
+import {ITestSuiteMakerOpts, TTestSuiteMaker} from "../dts/test-suite-maker";
+import {ISuman} from "../dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -27,11 +29,11 @@ const colors = require('colors/safe');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('./helpers/handle-varargs');
 const implementationError = require('./helpers/implementation-error');
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const sumanUtils = require('suman-utils');
 const freezeExistingProps = require('./freeze-existing');
 const originalAcquireDeps = require('./acquire-deps-original');
-const startSuite = require('./test-suite-helpers/start-suite');
+const {makeStartSuite} = require('./test-suite-helpers/make-start-suite');
 const makeTestSuiteBase = require('./make-test-suite-base');
 const makeHandleBeforesAndAfters = require('./test-suite-helpers/make-handle-befores-afters');
 const makeNotifyParent = require('./test-suite-helpers/notify-parent-that-child-is-complete');
@@ -339,7 +341,7 @@ export = function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTe
       return this;
     };
 
-    TestSuite.prototype.__startSuite = startSuite(suman, gracefulExit,
+    TestSuite.prototype.__startSuite = makeStartSuite(suman, gracefulExit,
       handleBeforesAndAfters, notifyParentThatChildIsComplete);
 
     freezeExistingProps(TestSuite.prototype);

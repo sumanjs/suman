@@ -1,4 +1,6 @@
 'use strict';
+import {IInjectionObj, ITestSuite} from "../dts/test-suite";
+import {IPseudoError} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -39,7 +41,7 @@ export = function (suite: ITestSuite, cb: Function) {
 
   const injections = suite.getInjections();
 
-  async.eachSeries(injections, function (inj: IInjectionObj, cb: Function) {
+  async.each(injections, function (inj: IInjectionObj, cb: Function) {
 
     let callable = true;
 

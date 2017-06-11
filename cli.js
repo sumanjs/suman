@@ -116,7 +116,7 @@ const debug = require('suman-debug')('s:cli');
 //project
 const _suman = global.__suman = (global.__suman || {});
 require('./lib/patches/all');
-const constants = require('./config/suman-constants');
+const {constants} = require('./config/suman-constants');
 const su = require('suman-utils');
 
 //////////////////////////////////////////////////////////////////////////

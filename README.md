@@ -141,7 +141,7 @@ add a directory to your project which you can move to a location of your choosin
 ### &#9658; Local installations only => 
 
 If you wish to avoid global NPM module installations, we commend you, see: 
- [http://sumanjs.github.io/tutorial-11-advanced-installation.html/](http://sumanjs.github.io/tutorial-11-advanced-installation.html "Suman Docs: Advanced Installation") 
+ [http://sumanjs.org/tutorial-11-advanced-installation.html/](http://sumanjs.org/tutorial-11-advanced-installation.html "Suman Docs: Advanced Installation") 
 
 
 ## Example commands

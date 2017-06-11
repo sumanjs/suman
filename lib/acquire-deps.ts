@@ -1,5 +1,6 @@
 'use strict';
 import Timer = NodeJS.Timer;
+import {IDepContainer} from "../dts/integrant-value-container";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -28,9 +29,7 @@ interface IAccum {
   [key: string]: any
 }
 
-let cachedPromises: ICachedProm = {};
-// let cachedPromises: Map<string, Promise<any>> = new Map();
-
+let cachedPromises: ICachedProm = {}; // use Map instead? Map<string, Promise<any>> = new Map();
 
 const customStringify = function (v: any) {
   let cache: Array<any> = [];
@@ -83,9 +82,11 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
     }
 
     // in case the user sets it to some weird falsey value
-    if (!Number.isInteger(timeout) || !timeout) {
-      timeout = 15000; // 15 seconds
+    if (!timeout || !Number.isInteger(timeout)) {
+      timeout = 25000; // 15 seconds
     }
+
+    console.log(' => Timeout is => ', timeout);
 
     $deps.forEach(function (d) {
       if (d === key) {
@@ -206,8 +207,6 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
     //   su.runAssertionToCheckForSerialization(depContainerObj[key]);
     // });
 
-
-    console.log(' => Deps => ', util.inspect(deps));
     return customStringify(deps);
 
   });

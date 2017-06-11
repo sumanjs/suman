@@ -1,27 +1,25 @@
 
 
-
-
 import {Subscription} from "rxjs";
 
-interface IInjectFn {
+export interface IInjectFn {
     (desc?:string, opts?: IInjectOpts, fn?: Function): void,
     cb?: IInjectFn,
     skip?: IInjectFn
 }
 
-interface IInjectOpts {
+export interface IInjectOpts {
     cb: boolean,
     __preParsed: boolean
 }
 
 
 
-interface IInjectHook {
+export interface IInjectHook {
 
 
 }
 
 
-type IInjectHookCallbackMode = (h: IInjectHook) => void;
-type IInjectHookRegularMode = (h?: IInjectHook) => Promise<any> | Subscription | undefined;
+export type IInjectHookCallbackMode = (h: IInjectHook) => void;
+export type IInjectHookRegularMode = (h?: IInjectHook) => Promise<any> | Subscription | undefined;

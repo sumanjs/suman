@@ -23,6 +23,8 @@ module.exports = Object.freeze({
   browser: 'Firefox',                 // browser to open test results with
 
   //boolean
+  logsDir: process.env.SUMAN_LOGS_DIR,
+  installSumanExtraDeps: true,
   installSumanGlobalsInProject: '.suman',
   isLogChildStderr: true,
   isLogChildStdout: true,
