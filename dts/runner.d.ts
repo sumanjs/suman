@@ -1,10 +1,10 @@
 
-
 import {ChildProcess} from "child_process";
 import Timer = NodeJS.Timer;
+import {IDefaultTableData, ITableData} from "./table-data";
 
 
-interface ISumanChildProcess extends ChildProcess {
+export interface ISumanChildProcess extends ChildProcess {
   shortTestPath: string,
   testPath: string,
   expectedExitCode: number,
@@ -14,12 +14,12 @@ interface ISumanChildProcess extends ChildProcess {
   filename: string
 }
 
-interface IRunObj {
+export interface IRunObj {
   files: Array<string>
   filesThatDidNotMatch: Array<string>
 }
 
-interface IRunnerRunFn {
+export interface IRunnerRunFn {
   (): void,
   shortTestPath: string,
   testPath: string,
@@ -28,19 +28,19 @@ interface IRunnerRunFn {
 }
 
 
-interface ITableRowsValue {
+export interface ITableRowsValue {
   tableData: Object,
   actualExitCode: number,
   shortFilePath: string,
   defaultTableData: IDefaultTableData
 }
 
-interface ITableRows {
+export interface ITableRows {
  [key: string]: ITableRowsValue
 
 }
 
-interface IHandleBlocking {
+export interface IHandleBlocking {
   releaseNextTests: Function,
   determineInitialStarters: Function,
   getStartedAndEnded: Function,
@@ -48,7 +48,7 @@ interface IHandleBlocking {
 }
 
 
-interface IRunnerObj {
+export interface IRunnerObj {
   doneCount: number,
   tableCount: number,
   listening: boolean,

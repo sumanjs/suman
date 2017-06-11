@@ -1,3 +1,4 @@
+import { ISumanConfig, ISumanOpts } from "../../dts/global";
 declare var _default: (sumanConfig: ISumanConfig, opts: ISumanOpts) => {
     sumanServerInstalled: boolean;
     sumanInstalledLocally: boolean;

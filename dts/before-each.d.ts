@@ -2,13 +2,13 @@
 
 // before
 
-interface IBeforeEachFn {
+export interface IBeforeEachFn {
     (desc:string, opts: IBeforeEachOpts, fn: Function): void,
     cb?: IBeforeEachFn,
     skip?: IBeforeEachFn
 }
 
-interface IBeforeEachOpts {
+export interface IBeforeEachOpts {
     __preParsed?: boolean,
     skip: boolean,
     timeout: number,
@@ -19,12 +19,10 @@ interface IBeforeEachOpts {
 }
 
 
-interface IBeforeEachHook {
+export interface IBeforeEachHook {
 
 
 }
 
-
-
-type BeforeEachHookCallbackMode = (h: IBeforeEachHook) => void;
-type BeforeEachHookRegularMode = (h?: IBeforeEachHook | undefined) => Promise<any>;
+export type BeforeEachHookCallbackMode = (h: IBeforeEachHook) => void;
+export type BeforeEachHookRegularMode = (h?: IBeforeEachHook | undefined) => Promise<any>;

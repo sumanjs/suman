@@ -1,3 +1,5 @@
+import { ITestSuite } from "../../dts/test-suite";
+import { ISuman } from "../../dts/suman";
 declare namespace after {
     interface IAfterFn {
         (desc: string, opts: IAfterOpts, fn: Function): void;
@@ -12,6 +14,8 @@ declare namespace after {
         cb: boolean;
         throws: RegExp;
         plan: number;
+        last: boolean;
+        always: boolean;
     }
     interface IAfterHook {
     }

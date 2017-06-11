@@ -27,12 +27,16 @@ export = function (filePath: string) {
   }
 
   callable = false;
-  const timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
-  const runId = process.env.SUMAN_RUN_ID;
 
   if (process.env.MAKE_SUMAN_LOG !== 'no') {
 
-    const f = path.resolve(_suman.sumanHelperDirRoot + '/logs/runs/' + timestamp + '-' + runId);
+    const timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
+    const runId = process.env.SUMAN_RUN_ID;
+
+    const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
+    const sumanCPLogs = path.resolve(logsDir + '/runs/');
+
+    const f = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
 
     if (process.env.SUMAN_SINGLE_PROCESS) {
       console.error('\n',
@@ -52,7 +56,6 @@ export = function (filePath: string) {
       strm.on('drain', function () {
         _suman.isStrmDrained = true;
         if (_suman.drainCallback) {
-          console.log(' => DDDDDDDDDDRAIN.');
           _suman.drainCallback(logfile);
         }
       });
@@ -60,7 +63,6 @@ export = function (filePath: string) {
       process.stderr.on('drain', function () {
         _suman.isStrmDrained = true;
         if (_suman.drainCallback) {
-          console.log(' => DDDDDDDDDDRAIN.');
           _suman.drainCallback(logfile);
         }
       });

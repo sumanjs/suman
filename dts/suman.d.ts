@@ -1,12 +1,13 @@
 import EventEmitter = NodeJS.EventEmitter;
+import {ITestSuite} from "./test-suite";
 
 
-interface ISumanGlobalInternal {
+export interface ISumanGlobalInternal {
   // defintion for global.__suman
 }
 
 
-interface ISuman {
+export interface ISuman {
 
   filename: string,
   numHooksSkipped: number,

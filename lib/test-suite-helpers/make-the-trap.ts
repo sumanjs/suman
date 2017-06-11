@@ -1,12 +1,13 @@
 'use strict';
 import {IAFterEachObj, IBeforeEachObj, ITestDataObj, ITestSuite} from "../../dts/test-suite";
+import {ISuman} from "../../dts/suman";
+import {IPseudoError} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const domain = require('domain');
 
 //npm
 const async = require('async');
@@ -21,7 +22,7 @@ const implementationError = require('../helpers/implementation-error');
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export = function makeTheTrap(suman: ISuman, gracefulExit: Function) {
+export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
 
   const allDescribeBlocks = suman.allDescribeBlocks;
   const handleTest = makeHandleTest(suman, gracefulExit);
@@ -38,12 +39,8 @@ export = function makeTheTrap(suman: ISuman, gracefulExit: Function) {
 
     let delaySum = 0; //TODO: is this correct?
 
-    //TODO: why not run only check earlier?
     if (test.skipped || test.stubbed) {
-      process.nextTick(function () {
-        cb(null, []);   //TODO: add skipped call
-      });
-      return;
+      return process.nextTick(cb, null, []);
     }
 
     const parallel = opts.parallel;
@@ -51,7 +48,8 @@ export = function makeTheTrap(suman: ISuman, gracefulExit: Function) {
     async.eachSeries(allEachesHelper.getAllBeforesEaches(self), function (aBeforeEach: IBeforeEachObj, cb: Function) {
         handleBeforeOrAfterEach(self, test, aBeforeEach, cb);
       },
-      function doneWithBeforeEaches(err: IPseudoError) {
+      function _doneWithBeforeEaches(err: IPseudoError) {
+
         implementationError(err);
 
         if (parallel) {

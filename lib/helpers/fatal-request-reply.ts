@@ -33,7 +33,6 @@ export = function(obj: Object, cb: Function){
     return process.nextTick(cb);
   }
 
-
   process.on('message', function onFatalMessageReceived(msg: any){
     const to = setTimeout(function(){
       process.removeListener('message', onFatalMessageReceived);

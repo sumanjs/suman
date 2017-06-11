@@ -1,4 +1,5 @@
 'use strict';
+import {IPseudoError} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -15,13 +16,13 @@ const debug = require('suman-debug')('s');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 process.on('uncaughtException', function (err: IPseudoError) {
 
-  if (typeof err !== 'object') {
+  if (typeof err !== 'object') { // if null or string, etc
     const val = typeof err === 'string' ? err : util.inspect(err);
     console.error(' => Warning, value passed to uncaughtException handler was not typeof "object" => ', val);
     err = {stack: val}

@@ -3,6 +3,7 @@ declare const global: any;
 declare const assert: any;
 declare const util: any;
 declare const EE: any;
+declare const colors: any;
 declare const includes: any;
 declare const fnArgs: any;
 declare const _suman: any;
