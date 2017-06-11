@@ -6,15 +6,11 @@ const Test = suman.init(module, {
   $inject: ['abc']
 });
 
-console.log('process.execArgv', process.execArgv);
-
 Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe) => {
 
-  console.log('opts', this.opts);
-
-  before({fatal: false}, t => {
+  before(['fatal:false', t => {
     throw new Error('hook');
-  });
+  }]);
 
   before(t => {
     console.log('before a');
@@ -38,23 +34,41 @@ Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe)
     console.log('after a');
   });
 
+  after.cb.last.always(t => {
+    console.log('after xxxx');
+    t.done();
+  });
+
+  after.always.cb.last(t => {
+    console.log('after yyy');
+    t.done();
+  });
+
+  after.cb(t => {
+    console.log('after ba');
+    t.done();
+  });
+
+  // late registry of hook, should cause error
+  // process.nextTick(function(){
+  //   after(t => {
+  //     console.log('after b');
+  //   });
+  // });
+
   Number(5).times(num => {
 
     describe('nested group 1', {parallel: true}, function (before) {
 
-      before(t => {
+      before([t => {
         console.log('before b');
-      });
+      }]);
 
       it('b', t => {
         assert(true);
       });
 
-      after(t => {
-        console.log('after b');
-      });
-
-      Number(5).times(num => {
+      Number(1).times(num => {
         describe('nested group 2', {parallel: true}, function (beforeEach, it) {
 
           before(t => {

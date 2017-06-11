@@ -1,3 +1,5 @@
+'use strict';
+
 //core
 const path = require('path');
 const cp = require('child_process');
@@ -16,7 +18,7 @@ const installQueueLock = path.resolve(process.env.HOME + '/.suman/install-queue.
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
 
 //project
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
 const sumanUtils = require('suman-utils');
 const residence = require('residence');
@@ -72,6 +74,11 @@ try {
 catch (err) {
   // if there is no suman.conf.js file, we install all deps, and we do it as a daemon
   alwaysInstall = true;
+}
+
+if(sumanConf.installSumanExtraDeps === false){
+  console.error(' => We will not install any suman "global" modules, because "installSumanExtraDeps" is false.');
+  process.exit(0);
 }
 
 //always install latest for now

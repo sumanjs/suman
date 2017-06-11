@@ -1,6 +1,7 @@
 'use strict';
 import {ITestDataObj, ITestSuite} from "../dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "../dts/global";
+import {ITableData} from "../dts/table-data";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -27,7 +28,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const su = require('suman-utils');
 const finalizeOutput = require('./helpers/finalize-output');
 const findSumanServer = require('./find-suman-server');
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 ///////////////////////// debugging ///////////////////////////////////////////
@@ -44,23 +45,6 @@ interface ISumanInputs {
   networkLog: string,
   outputPath: string,
   timestamp: string,
-}
-
-interface ITableData {
-  ROOT_SUITE_NAME: string,
-  SUITE_COUNT: number,
-  SUITE_SKIPPED_COUNT: number,
-  TEST_CASES_TOTAL: number,
-  TEST_CASES_FAILED: number,
-  TEST_CASES_PASSED: number,
-  TEST_CASES_SKIPPED: number,
-  TEST_CASES_STUBBED: number,
-  TEST_FILE_MILLIS: number,
-  OVERALL_DESIGNATOR: string
-}
-
-interface IDefaultTableData {
-  SUITES_DESIGNATOR: string
 }
 
 

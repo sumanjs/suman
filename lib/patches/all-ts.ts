@@ -1,4 +1,5 @@
 'use strict';
+import {IPseudoError} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -11,32 +12,23 @@ const assert = require('assert');
 //project
 const _suman = global.__suman = (global.__suman || {});
 
-/////////////////////////////////////////////
-
-export = {};
+/////////////////////////////////////////////////////
 
 interface Newable<T> {
   new (executor: Function): T;
 }
 
 const PConstructor : Newable<Promise<any>> = global.Promise;
-// global.Promise = function (fn1) {
-//   if (process.domain) {
-//     fn1 = fn1 && process.domain.bind(fn1);
-//   }
-//   pconstructor.call(this,fn1);
-// };
-//
-// global.Promise.resolve = pconstructor.resolve;
 
-const Promise = global.Promise = class PatchedPromise extends PConstructor {
-  constructor(executor: Function) {
-    if (process.domain) {
-      executor = executor && process.domain.bind(executor);
-    }
-    super(executor); // call native Promise constructor
-  }
-};
+// const Promise = global.Promise = class PatchedPromise extends PConstructor {
+//   constructor(executor: Function) {
+//     if (process.domain) {
+//       executor = executor && process.domain.bind(executor);
+//     }
+//     super(executor); // call native Promise constructor
+//   }
+// };
+
 
 const then = Promise.prototype.then;
 Promise.prototype.then = function (fn1: Function, fn2: Function) {

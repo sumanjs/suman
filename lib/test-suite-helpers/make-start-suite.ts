@@ -1,5 +1,7 @@
 'use strict';
 import {ITestDataObj} from "../../dts/test-suite";
+import {ISuman} from "../../dts/suman";
+import {IPseudoError} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -14,12 +16,13 @@ const async = require('async');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const implementationError = require('../helpers/implementation-error');
-const makeTheTrap = require('./make-the-trap');
+const {constants} = require('../../config/suman-constants');
+const {makeTheTrap} = require('./make-the-trap');
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function,
-                    notifyParentThatChildIsComplete: Function) {
+export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function,
+                                        notifyParentThatChildIsComplete: Function) {
 
   const runTheTrap = makeTheTrap(suman, gracefulExit);
 
@@ -28,11 +31,12 @@ export = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters
     const self = this;
 
     //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
-
     if (suman.describeOnlyIsTriggered && !this.only) {
       this.skippedDueToOnly = this.skipped = true;
     }
 
+    // important - push all afterAlways onto afters array
+    this.mergeAfters();
     const itOnlyIsTriggered = suman.itOnlyIsTriggered;
 
     async.series({
@@ -55,11 +59,23 @@ export = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters
       runTests: function _runTests(cb: Function) {
 
         let fn1 = self.parallel ? async.parallel : async.series;
-        let fn2 = self.parallel ? async.each : async.eachSeries;
+        let fn2 = async.eachLimit;
+        // let fn2 = self.parallel ? async.each : async.eachSeries;
+
+        let limit = 1;
+
+        if (self.parallel) {
+          if (self.limit) {
+            limit = Math.min(self.limit, 300);
+          }
+          else {
+            limit = _suman.sumanConfig.DEFAULT_PARALLEL_TEST_LIMIT || constants.DEFAULT_PARALLEL_TEST_LIMIT;
+          }
+        }
 
         fn1([
             function runPotentiallySerialTests(cb: Function) {
-              fn2(self.getTests(), function (test: ITestDataObj, cb: Function) {
+              fn2(self.getTests(), limit, function (test: ITestDataObj, cb: Function) {
                 if (self.skipped) {
                   test.skippedDueToParentSkipped = test.skipped = true;
                 }
@@ -87,8 +103,10 @@ export = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters
                 tests: Array<ITestDataObj>
               }
 
-              fn2(flattened, function ($set: ITestSet, cb: Function) { //run all parallel sets in series
-                async.each($set.tests, function (test: ITestDataObj, cb: Function) { //but individual sets of parallel tests can run in parallel
+              // => run all parallel sets in series
+              fn2(flattened, limit, function ($set: ITestSet, cb: Function) {
+                // => but individual sets of parallel tests can run in parallel
+                async.each($set.tests, function (test: ITestDataObj, cb: Function) {
                   if (self.skipped) {
                     test.skippedDueToParentSkipped = test.skipped = true;
                   }

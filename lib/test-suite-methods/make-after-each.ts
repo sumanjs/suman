@@ -1,12 +1,15 @@
 'use strict';
+import {IGlobalSumanObj} from "../../dts/global";
+import {ITestSuite} from "../../dts/test-suite";
+import {ISuman} from "../../dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const domain = require('domain');
 const util = require('util');
+const assert = require('assert');
 
 //npm
 const pragmatik = require('pragmatik');
@@ -14,10 +17,10 @@ const async = require('async');
 const colors = require('colors/safe');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const implementationError = require('../helpers/implementation-error');
-const constants = require('../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 const sumanUtils = require('suman-utils');
 const handleSetupComplete = require('../handle-setup-complete');
 
@@ -39,15 +42,48 @@ export = function (suman: ISuman, zuite: ITestSuite): Function {
 
   return function ($desc: string, $opts: IAfterEachOpts, $aAfterEach: TAfterEachHook): ITestSuite {
 
-    handleSetupComplete(zuite);
+    handleSetupComplete(zuite, 'afterEach');
 
-    const args: Array<any> = pragmatik.parse(arguments, rules.hookSignature, {
+    const args = pragmatik.parse(arguments, rules.hookSignature, {
       preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
     });
 
     // this transpiles much more nicely, as opposed to inlining it above
-    const [desc, opts, fn] = args;
+    let [desc, opts, arr, fn] = args;
     handleBadOptions(opts);
+
+    if (arr && fn) {
+      throw new Error(' => Please define either an array or callback.');
+    }
+
+    let arrayDeps: Array<string>;
+
+    if (arr) {
+      //note: you can't stub a test block!
+      fn = arr[arr.length - 1];
+      assert.equal(typeof fn, 'function', ' => Suman usage error => ' +
+        'You need to pass a function as the last argument to the array.');
+      // remove last element
+      arrayDeps = arr.slice(0, -1);
+    }
+
+    //avoid unncessary pre-assignment
+    arrayDeps = arrayDeps || [];
+
+    if (arrayDeps.length > 0) {
+
+      const preVal: Array<string> = [];
+      arrayDeps.forEach(function (a) {
+        if (/:/.test(a)) {
+          preVal.push(a);
+        }
+      });
+
+      const toEval = ['(function self(){return {', preVal.join(','), '}})()'].join('');
+      const obj = eval(toEval);
+      //overwrite opts with values from array
+      Object.assign(opts, obj);
+    }
 
     if (opts.skip) {
       suman.numHooksSkipped++;

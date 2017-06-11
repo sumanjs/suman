@@ -8,6 +8,7 @@ const global = require('suman-browser-polyfills/modules/global');
 const assert = require('assert');
 const util = require('util');
 const EE = require('events');
+const colors = require('colors/safe');
 
 //npm
 const includes = require('lodash.includes');
@@ -15,7 +16,7 @@ const fnArgs = require('function-arguments');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const iocEmitter = _suman.iocEmitter = (_suman.iocEmitter || new EE());
 const iocContainer = _suman.iocContainer = (_suman.iocContainer || {});
 const iocProgressContainer = _suman.iocProgressContainer = (_suman.iocProgressContainer || {});

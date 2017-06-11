@@ -12,7 +12,6 @@ const _suman = global.__suman = (global.__suman || {});
 
 //////////////////////////////////////////////////////////////////////////
 
-
 export = function convertMochaTests (root: string, src: string, dest: string, force: boolean) {
 
   if (!src || !dest) {

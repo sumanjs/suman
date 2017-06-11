@@ -1,5 +1,9 @@
 'use strict';
 
+import {ITestSuite} from "../dts/test-suite";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../dts/global";
+import {ISuman} from "../dts/suman";
+
 //TODO: as we know which file or directory the user is running their tests, so error stack traces should only contain those paths
 //note: http://stackoverflow.com/questions/20825157/using-spawn-function-with-node-env-production
 //TODO: plugins http://hapijs.com/tutorials/plugins
@@ -27,11 +31,9 @@ const debug = require('suman-debug')('s:index');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('./helpers/handle-varargs');
-import constants = require('../config/suman-constants');
+import {constants} from '../config/suman-constants';
 const su = require('suman-utils');
 import makeGracefulExit = require('./make-graceful-exit');
-import {ITestSuite} from "../dts/test-suite";
-import {IPseudoError, ISumanDomain} from "../dts/global";
 const originalAcquireDeps = require('./acquire-deps-original');
 const makeAcquireDepsFillIn = require('./acquire-deps-fill-in');
 const makeTestSuite = require('./make-test-suite');
@@ -233,19 +235,24 @@ export = function main(suman: ISuman) {
 
       const d: ISumanDomain = domain.create();
 
-      d.once('error', function (err: IPseudoError) {
+      d.once('error', function ($err: IPseudoError) {
         d.exit();
-        err.sumanFatal = true;
-        err.sumanExitCode = constants.EXIT_CODES.ERROR_IN_ROOT_SUITE_BLOCK;
-        process.nextTick(gracefulExit, err);
+        process.nextTick(gracefulExit, {
+          message: $err.message || $err,
+          stack: $err.stack || $err,
+          sumanFatal: true,
+          sumanExitCode: constants.EXIT_CODES.ERROR_IN_ROOT_SUITE_BLOCK
+        });
       });
 
       d.run(function () {
 
           suite.fatal = function (err: IPseudoError) {
-            err = (err && typeof err === 'object') ? err : new Error('Fatal error experienced in root suite => ' + String(err));
-            err.sumanExitCode = constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION;
-            gracefulExit(err);
+            process.nextTick(gracefulExit, {
+              message: 'Fatal error experienced in root suite => ' + (err.message || err),
+              stack: err.stack || err,
+              sumanExitCode: constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION
+            });
           };
 
           if (delayOptionElected) {
@@ -334,6 +341,8 @@ export = function main(suman: ISuman) {
         }
 
         const fn: Function = suite.parallel ? async.each : async.eachSeries;
+
+        debugger;
 
         suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 

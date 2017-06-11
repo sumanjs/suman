@@ -1,11 +1,12 @@
 // after
-interface IAfterFn {
+
+export interface IAfterFn {
   (desc: string, opts: IAfterOpts, fn: Function): void,
   cb?: IAfterFn,
   skip?: IAfterFn
 }
 
-interface IAfterOpts {
+export interface IAfterOpts {
   __preParsed?: boolean,
   skip: boolean,
   timeout: number,
@@ -16,9 +17,9 @@ interface IAfterOpts {
 }
 
 
-interface IAfterHook {
+export interface IAfterHook {
 
 }
 
-type AfterHookCallbackMode = (h: IAfterHook) => void;
-type AfterHookRegularMode = (h: IAfterHook | undefined) => Promise<any>;
+export type AfterHookCallbackMode = (h: IAfterHook) => void;
+export type AfterHookRegularMode = (h: IAfterHook | undefined) => Promise<any>;

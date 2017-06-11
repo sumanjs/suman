@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-
+START_TIME=$(date "+%s")
+SUMAN_DEBUG_LOG_PATH=$HOME/.suman/suman-debug.log
 SUMAN_DEBUG="$(echo -e "${SUMAN_DEBUG}" | tr -d '[:space:]')"
 
 if [[ ! -z ${SUMAN_DEBUG} ]]; then
@@ -14,7 +15,7 @@ if [[ "lxc" == "${container}" ]]; then
     IN_CONTAINER=true;
      echo " => Suman says => We are in a (Docker) container because of the
         container env var! "
-    echo " => Suman says => We are in a (Docker) container because of the
+     echo " => Suman says => We are in a (Docker) container because of the
         container env var! " >> ${SUMAN_DEBUG_LOG_PATH}
 fi
 
@@ -29,14 +30,14 @@ fi
 ./scripts/create-suman-dir.js
 
 DOT_SUMAN_DIR=$(cd ~/.suman && pwd)
+INSTALL_NODE_MODULES="no";
 
 if [[ ! -d "$DOT_SUMAN_DIR" ]]; then
-    echo " => Suman failed to create ~/.suman directory, exiting with 1"
-    echo " => Suman failed to create ~/.suman directory, exiting with 1" >> ${SUMAN_DEBUG_LOG_PATH}
-    exit 1;
+    echo " => Warning => Suman failed to create ~/.suman directory."
+    echo " => Suman failed to create ~/.suman directory." >> ${SUMAN_DEBUG_LOG_PATH}
+    INSTALL_NODE_MODULES="yes";
 fi
 
-SUMAN_DEBUG_LOG_PATH=$HOME/.suman/suman-debug.log
 
 if [ ! -z "$SUMAN_DEBUG" ]; then
     echo " => DOT_SUMAN_DIR (user/root) => $DOT_SUMAN_DIR" >> ${SUMAN_DEBUG_LOG_PATH};
@@ -111,7 +112,7 @@ echo " " >> ${SUMAN_DEBUG_LOG_PATH}
 
 #  note: here we run things in "foreground", otherwise run as daemon
 
-if [[ ( ${IN_CONTAINER} == true ) || ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" ) || ( ( ${WE_ARE_GLOBAL} == false ) \
+if [[ ${INSTALL_NODE_MODULES} == "yes" || ( ${IN_CONTAINER} == true ) || ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" ) || ( ( ${WE_ARE_GLOBAL} == false ) \
   && ( "yes" != "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
   &&  ${SUMAN_CONF_JS_FOUND} == true ) ]]; then
 
@@ -119,7 +120,9 @@ if [[ ( ${IN_CONTAINER} == true ) || ( "no" == "${SUMAN_POSTINSTALL_IS_DAEMON}" 
     echo " => Suman optional deps being installed in the foreground" >> ${SUMAN_DEBUG_LOG_PATH}
     echo " " >> ${SUMAN_DEBUG_LOG_PATH}
     NPM_GLOBAL_ROOT=${NPM_GLOBAL_ROOT}  BASE_DIRECTORY=${BASE_DIRECTORY}  ./scripts/install-suman-home.sh &&
-    ./scripts/on-install-success.js &&
+    END_TIME=$(date "+%s")
+    TOTAL_TIME=(${END_TIME} - ${START_TIME})
+    TOTAL_TIME=${TOTAL_TIME} ./scripts/on-install-success.js &&
      echo " all done installing suman global deps in the foreground " >> ${SUMAN_DEBUG_LOG_PATH}
      echo " "
 

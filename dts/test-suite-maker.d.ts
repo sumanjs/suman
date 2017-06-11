@@ -1,8 +1,9 @@
 
+import {ITestSuite} from "./test-suite";
 
-type TTestSuiteMaker = (data: any) => ITestSuite;
+export type TTestSuiteMaker = (data: any) => ITestSuite;
 
-interface ITestSuiteMakerOpts {
+export interface ITestSuiteMakerOpts {
     desc: string,
     title: string,
     opts: Object

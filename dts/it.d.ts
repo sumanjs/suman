@@ -1,4 +1,4 @@
-interface ItFn {
+export interface ItFn {
   (desc: string, opts: IItOpts, fn: Function): void,
   skip?: ItFn,
   only?: ItFn,
@@ -6,11 +6,11 @@ interface ItFn {
 }
 
 
-interface IRawTestData {
+export interface IRawTestData {
   //empty
 }
 
-interface IItOpts {
+export interface IItOpts {
   __preParsed: boolean,
   parallel: boolean,
   series: boolean,
@@ -19,10 +19,10 @@ interface IItOpts {
   delay: number
 }
 
-interface It {
+export interface It {
 
 }
 
 
-type ItHookCallbackMode = (t: It) => void;
-type ItHookRegularMode = (h?: It | undefined) => Promise<any>;
+export type ItHookCallbackMode = (t: It) => void;
+export type ItHookRegularMode = (h?: It | undefined) => Promise<any>;
