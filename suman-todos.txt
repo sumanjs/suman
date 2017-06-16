@@ -1,6 +1,76 @@
 
+
 //
+
+if no after.always hooks are registered, we should just skip logging this
+ => We are running after.always hooks. Any uncaught errors will be ignored as best as possible.
+
+//
+
+use macports to update readline on macos?
+sudo port -d selfupdate
+
+//
+
+https://help.github.com/articles/user-organization-and-project-pages/
+
+//
+
+http://typedoc.org/guides/installation/#task-runners
+
+//
+
+Error: table suman_run_info already exists
+Error: table suman_run_id already exists
+Error: UNIQUE constraint failed: suman_run_id.id
+
+///
+
+
+need to allow users to define timeout for suman.once.pre.js hooks
+
+Error: Suman dependency acquisition timed-out for dependency with key => 'seed-database'
+    at Timeout.<anonymous> (/usr/local/cdt-tests/node_modules/suman/lib/acquire-deps.js:96:28)
+    at ontimeout (timers.js:386:14)
+    at tryOnTimeout (timers.js:250:5)
+    at Timer.listOnTimeout (timers.js:214:5)
+
+//
+
+  we need to verify suman.once.post.js is valid before running everything else potentially
+  ok...we can't do that, since we don't know which test scripts will run until they actually do
+  aka, pre:[] will not be known for all files beforehand, the files have to execute first.
+
+//
+
+TODO: allow a command line option to not import devDeps
+
+//
+
+ generate docs via
+ https://github.com/TypeStrong/typedoc
+
+//
+
+  generate integer id for each test that runs via suman runner
+  this should come via sqlite?
+
+//
+
+https://www.npmjs.com/package/graceful-readlink
+
+//
+
+  suman.ioc.js exports object, but we need to use {dependencies: {}}
+
+//
+
+=> after.always should complete before any suman.post hooks begin
+
+//
+
 https://stackoverflow.com/questions/43422058/how-to-do-a-synchronous-require-of-webpack-build-module-from-outside-of-webpa
+
 //
 
 => What happens when t.done(null) is called more than once? Will it run callbacks more than once? break async lib?
@@ -24,11 +94,6 @@ e.g.:
  it would be nice to see:
 
   ✔  ' => PUT to acquisitions => cdt_moderator.gen' (4ms) [expected: "400"]
-
-///
-
-t.wrapErrorFirst(function (resp, body) {
-might not pass back body? always undefined, seems wrong
 
 ///
 
@@ -59,10 +124,6 @@ this is better:
     Object.keys(usernames).forEach(function (name) {
 
 ///
-
-  need to add limit - use async.mapLimit etc, default limit is 100 or whatever.
-
-////
 
  // inject stuff:
 https://docs.angularjs.org/guide/unit-testing
@@ -137,15 +198,15 @@ the following output does not show which hook (we need a file and line number) c
 (note that despite this fatal error, other test processes will continue running, as would be expected, use the --bail option, if you wish otherwise.)
 
 
-   ⚑  => Suman fatal error  => making a graceful exit =>
-   Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? You may have forgotten to fire a callback or perhaps the timeout quantity is too short.
-       at TestSuiteBase.before (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-before.js:78:29)
-       at TestSuiteBase.<anonymous> (/usr/local/cdt-tests/test/e2e/all/export.test.js:73:3)
-       at Domain.<anonymous> (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:216:24)
-       at Domain.run (domain.js:221:14)
-       at startWholeShebang (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:169:15)
-       at _combinedTickCallback (internal/process/next_tick.js:77:11)
-       at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+⚑  => Suman fatal error  => making a graceful exit =>
+Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? You may have forgotten to fire a callback or perhaps the timeout quantity is too short.
+   at TestSuiteBase.before (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-before.js:78:29)
+   at TestSuiteBase.<anonymous> (/usr/local/cdt-tests/test/e2e/all/export.test.js:73:3)
+   at Domain.<anonymous> (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:216:24)
+   at Domain.run (domain.js:221:14)
+   at startWholeShebang (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:169:15)
+   at _combinedTickCallback (internal/process/next_tick.js:77:11)
+   at process._tickDomainCallback (internal/process/next_tick.js:128:9)
 
 /////////////
 
@@ -530,9 +591,6 @@ Test.create(['parallel:true, timeout:3000', function(){
 
 ////
 
- warn user when two Test.create's have the same name
-
-////
 
 Squash commits based on author
 http://stackoverflow.com/questions/38871300/squash-commits-based-on-author

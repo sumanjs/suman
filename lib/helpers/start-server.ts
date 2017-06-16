@@ -1,4 +1,5 @@
 'use strict';
+import {IPseudoError, ISumanConfig} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

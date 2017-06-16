@@ -1,5 +1,7 @@
 'use strict';
 import {IAFterEachObj, IBeforeEachObj, ITestSuite} from "../../dts/test-suite";
+import {IGlobalSumanObj} from "../../dts/global";
+import {ISuman} from "../../dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

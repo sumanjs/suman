@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var colors = require('colors/safe');
 exports.constants = Object.freeze({
-    DEFAULT_PARALLEL_TEST_LIMIT: 20,
+    DEFAULT_PARALLEL_TOTAL_LIMIT: 30,
+    DEFAULT_PARALLEL_TEST_LIMIT: 10,
+    DEFAULT_PARALLEL_BLOCK_LIMIT: 10,
     OLDEST_SUPPORTED_NODE_VERSION: 'v4.0.0',
     DEBUGGING_ENV: {
         name: 'SUMAN_DEBUG',

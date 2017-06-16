@@ -3,6 +3,12 @@ import {ITestSuite} from "../dts/test-suite";
 import {IInjectHookCallbackMode, IInjectHookRegularMode, IInjectOpts} from "../dts/inject";
 import {BeforeHookCallbackMode, BeforeHookRegularMode, IBeforeOpts} from "../dts/before";
 import {ISuman} from "../dts/suman";
+import {IDescribeOpts, TDescribeHook} from "../dts/describe";
+import {IItOpts, ItHookCallbackMode, ItHookRegularMode} from "../dts/it";
+import {AfterHookCallbackMode, AfterHookRegularMode, IAfterOpts} from "../dts/after";
+import {BeforeEachHookCallbackMode, BeforeEachHookRegularMode, IBeforeEachOpts} from "../dts/before-each";
+import {IAfterEachOpts, TAfterEachHookCallbackMode, TAfterEachHookRegularMode} from "../dts/after-each";
+import {IInjectionDeps} from "../dts/injection";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -380,12 +386,16 @@ export = function (suman: ISuman) {
       if (dep) {
         return dep;
       }
-      else if (includes(constants.SUMAN_HARD_LIST, key)) {
+
+      if (includes(constants.SUMAN_HARD_LIST, key)) {
 
         switch (key) {
 
           case 'suite':
             return suite;
+
+          case '$pre':
+            return _suman['$pre'];
 
           case '$deps':
             return $deps;
@@ -442,21 +452,23 @@ export = function (suman: ISuman) {
         }
 
       }
-      else if (suite.isRootSuite && mappedPkgJSONDeps.indexOf(key) > -1) {
+
+      if (suite.isRootSuite && mappedPkgJSONDeps.indexOf(key) > -1) {
         return $deps[key];
       }
-      else if (parentSuite && (key in parentSuite.injectedValues)) {
+
+      if (parentSuite && (key in parentSuite.injectedValues)) {
         return parentSuite.injectedValues[key];
       }
-      else {
-        try {
-          return require(key);
-        }
-        catch (err) {
-          console.error(` => Could not require() dependency with value => "${key}", will continue optimistically.`);
-          return undefined;
-        }
+
+      try {
+        return require(key);
       }
+      catch (err) {
+        console.error(` => Could not require() dependency with value => "${key}", will continue optimistically.`);
+        return undefined;
+      }
+
 
     });
 

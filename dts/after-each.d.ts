@@ -1,7 +1,5 @@
 
 
-// before
-
 export interface IAfterEachFn {
     (desc:string, opts: IAfterEachOpts, fn: Function): void,
     cb?: IAfterEachFn,

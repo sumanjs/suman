@@ -1,3 +1,4 @@
 import { ISuman } from "../dts/suman";
-declare const _default: (suman: ISuman) => ($desc: string, $opts: any, $arr: any[], $cb: any) => any;
+import { ICreateOpts, TCreateHook } from "../dts/index-init";
+declare const _default: (suman: ISuman) => ($desc: string, $opts: ICreateOpts, $arr: any[], $cb: TCreateHook) => any;
 export = _default;

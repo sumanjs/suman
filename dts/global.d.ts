@@ -11,6 +11,10 @@ declare namespace SumanLib {
 
 
 export interface  IGlobalSumanObj {
+  logError: Function,
+  log: Function,
+  $pre: Object,
+  afterAlwaysEngaged: boolean,
   timestamp: Number,
   inBrowser: boolean,
   ctx: ITestSuite,
@@ -51,7 +55,6 @@ export interface  IGlobalSumanObj {
   SUMAN_TEST: string,
   sumanInitTime: number,
   expectedTimeout: number
-
 }
 
 export interface IMaxMem {
@@ -109,6 +112,10 @@ export declare enum BrowserTypes {
 
 
 export interface ISumanConfig {
+
+  DEFAULT_PARALLEL_TOTAL_LIMIT: number,
+  DEFAULT_PARALLEL_BLOCK_LIMIT: number,
+  DEFAULT_PARALLEL_TEST_LIMIT: number,
 
   matchAny: Array<RegExp>,
   matchNone: Array<RegExp>,

@@ -29,7 +29,6 @@
     "ascii-table": "0.0.9",
     "async": "^2.4.1",
     "builtin-modules": "^1.1.1",
-    "callsite": "^1.0.0",
     "camelcase": "^4.1.0",
     "chmodr": "^1.0.2",
     "colors": "^1.1.2",
@@ -63,7 +62,6 @@
     "suman-browser-polyfills": "latest",
     "suman-debug": "latest",
     "suman-events": "latest",
-    "suman-example-reporter": "latest",
     "suman-utils": "latest",
     "tap-parser": "^5.4.0",
     "tcp-ping": "^0.1.1",
@@ -92,7 +90,7 @@
     "node-libs-browser": "^2.0.0",
     "rxjs": "^5.0.3",
     "should": "^11.2.0",
-    "systemjs-builder": "^0.16.6",
+    "systemjs-builder": "^0.16.4",
     "webpack": "^2.4.0"
   },
   "optionalDependencies": {
