@@ -1,6 +1,7 @@
 'use strict';
 import {ITestDataObj, ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
+import {IItOpts} from "../../dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -33,7 +34,7 @@ function handleBadOptions(opts: IItOpts) {
 ///////////////////////////////////////////////////////////////////////////////
 
 
-export = function (suman: ISuman, zuite: ITestSuite): Function {
+export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
 
   return function ($desc: string, $opts: IItOpts, $fn: Function): ITestSuite {
 

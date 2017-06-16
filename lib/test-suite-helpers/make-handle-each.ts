@@ -19,7 +19,7 @@ const _suman = global.__suman = (global.__suman || {});
 const su = require('suman-utils');
 const {constants} = require('../../config/suman-constants');
 const cloneError = require('../clone-error');
-const makeHookObj = require('../t-proto-hook');
+const {makeHookObj} = require('../t-proto-hook');
 const makeCallback = require('./handle-callback-helper');
 const helpers = require('./handle-promise-generator');
 const freezeExistingProps = require('../freeze-existing');

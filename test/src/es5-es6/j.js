@@ -6,8 +6,7 @@ const Test = suman.init(module, {
 });
 
 Test.create(['parallel : false', 'timeout:3000', function (assert, before, beforeEach, it, after) {
-
-
+  
   function makePromise() {
     return new Promise(function (resolve) {
       setTimeout(resolve, 10);

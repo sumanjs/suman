@@ -1,6 +1,8 @@
 'use strict';
 import {IAfterObj, ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
+import {AfterHookCallbackMode, AfterHookRegularMode, IAfterFn, IAfterOpts} from "../../dts/after";
+
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -14,6 +16,8 @@ const assert = require('assert');
 const pragmatik = require('pragmatik');
 const async = require('async');
 const colors = require('colors/safe');
+
+//
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -32,45 +36,13 @@ function handleBadOptions(opts: IAfterOpts): void {
   }
 }
 
-//////////////////////////// inline types  ///////////////////////////////////
-
-namespace after {
-
-  // after
-  export interface IAfterFn {
-    (desc: string, opts: IAfterOpts, fn: Function): void,
-    cb?: IAfterFn,
-    skip?: IAfterFn
-  }
-
-  export interface IAfterOpts {
-    __preParsed?: boolean,
-    skip: boolean,
-    timeout: number,
-    fatal: boolean,
-    cb: boolean,
-    throws: RegExp,
-    plan: number,
-    last: boolean,
-    always: boolean
-  }
-
-
-  export interface IAfterHook {
-
-  }
-
-  export type AfterHookCallbackMode = (h: IAfterHook) => void;
-  export type AfterHookRegularMode = (h: IAfterHook | undefined) => Promise<any>;
-
-}
 
 
 ////////////////////////////////////////////////////////////////////////////
 
-function after(suman: ISuman, zuite: ITestSuite): after.IAfterFn {
+export const makeAfter = function (suman: ISuman, zuite: ITestSuite): IAfterFn {
 
-  return function ($desc: string, $opts: IAfterOpts, $fn: after.AfterHookCallbackMode | after.AfterHookRegularMode): ITestSuite {
+  return function ($desc: string, $opts: IAfterOpts, $fn: AfterHookCallbackMode | AfterHookRegularMode): ITestSuite {
 
     handleSetupComplete(zuite, 'after');
 
@@ -84,6 +56,10 @@ function after(suman: ISuman, zuite: ITestSuite): after.IAfterFn {
 
     if (arr && fn) {
       throw new Error(' => Please define either an array or callback.');
+    }
+
+    if(opts.always){
+      _suman.afterAlwaysHasBeenRegistered = true;
     }
 
     let arrayDeps: Array<string>;
@@ -138,10 +114,10 @@ function after(suman: ISuman, zuite: ITestSuite): after.IAfterFn {
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')
       };
 
-      if(opts.last){
+      if (opts.last) {
         zuite.getAftersLast().push(obj);
       }
-      else{
+      else {
         zuite.getAfters().push(obj);
       }
 
@@ -151,9 +127,8 @@ function after(suman: ISuman, zuite: ITestSuite): after.IAfterFn {
 
   };
 
-}
+};
 
-export = after;
 
 
 

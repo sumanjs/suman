@@ -11,6 +11,10 @@ export interface Ioc {
     a: string;
     b: string;
 }
+export interface IIoCData {
+    $pre?: Object;
+    [key: string]: any;
+}
 export interface IInitOpts {
     export?: boolean;
     __expectedExitCode?: number;
@@ -21,7 +25,7 @@ export interface IInitOpts {
     timeout?: number;
     post?: Array<any>;
     interface?: string;
-    iocData?: Object;
+    iocData?: IIoCData;
     ioc?: Object;
 }
 export interface IStartCreate {
@@ -38,7 +42,7 @@ export interface IInit {
 export declare const init: IInit;
 export declare function SumanWritable(type: any): Writable;
 export declare function SumanTransform(): Transform;
-export declare function autoPass(): void;
-export declare function autoFail(): void;
-export declare function once(fn: Function): (cb: Function) => void;
-export declare function load(opts: ILoadOpts): any;
+export declare const autoPass: () => void;
+export declare const autoFail: () => never;
+export declare const once: (fn: Function) => (cb: Function) => void;
+export declare const load: (opts: ILoadOpts) => any;

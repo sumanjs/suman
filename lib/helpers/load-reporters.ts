@@ -9,6 +9,7 @@ const global = require('suman-browser-polyfills/modules/global');
 const path = require('path');
 const util = require('util');
 const assert = require('assert');
+const EE = require('events');
 
 //npm
 const colors = require('colors/safe');
