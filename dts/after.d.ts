@@ -6,6 +6,12 @@ export interface IAfterFn {
   skip?: IAfterFn
 }
 
+
+export interface IAfterHook {
+
+}
+
+
 export interface IAfterOpts {
   __preParsed?: boolean,
   skip: boolean,
@@ -13,13 +19,12 @@ export interface IAfterOpts {
   fatal: boolean,
   cb: boolean,
   throws: RegExp,
-  plan: number
+  plan: number,
+  last: boolean,
+  always: boolean
 }
 
 
-export interface IAfterHook {
-
-}
 
 export type AfterHookCallbackMode = (h: IAfterHook) => void;
 export type AfterHookRegularMode = (h: IAfterHook | undefined) => Promise<any>;

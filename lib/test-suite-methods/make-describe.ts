@@ -2,6 +2,7 @@
 import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
 import {TTestSuiteMaker} from "../../dts/test-suite-maker";
+import {IDescribeOpts, TDescribeHook} from "../../dts/describe";
 // important note: "use strict" so errors get thrown if properties are modified after the fact
 
 
@@ -29,7 +30,7 @@ const sumanUtils = require('suman-utils');
 const originalAcquireDeps = require('../acquire-deps-original');
 const handleSetupComplete = require('../handle-setup-complete');
 const makeAcquireDepsFillIn = require('../acquire-deps-fill-in');
-const handleInjections = require('../handle-injections');
+const {handleInjections} = require('../handle-injections');
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -44,7 +45,7 @@ function handleBadOptions(opts: IDescribeOpts) {
 
 ///////////////////////////////////////////////////////////////////////
 
-export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker,
+export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker,
                    zuite: ITestSuite, notifyParentThatChildIsComplete: Function): Function {
 
   const acquireDepsFillIn = makeAcquireDepsFillIn(suman);

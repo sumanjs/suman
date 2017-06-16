@@ -24,18 +24,17 @@ const cloneError = require('../clone-error');
 const makeTestCase = require('../t-proto-test');
 const freezeExistingProps = require('../freeze-existing');
 
-////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 
+export const makeHandleTest =  function (suman: ISuman, gracefulExit: Function) {
 
-export = function (suman: ISuman, gracefulExit: Function) {
-
-  return function handleTest(self: ITestSuite, test: ITestDataObj, cb: Function) {
+  return function _handleTest(self: ITestSuite, test: ITestDataObj, cb: Function) {
 
     //records whether a test was actually attempted
     test.alreadyInitiated = true;
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      console.error(' => Suman runtime error => "UncaughtException:Triggered" => halting program.');
+      console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
 
@@ -67,7 +66,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
 
     let derror = false;
 
-    const handleError: IHandleError = function (err: IPseudoError) {
+    const handleErr: IHandleError = function (err: IPseudoError) {
 
       /*
        note: we need to call done in same tick instead of in nextTick
@@ -86,7 +85,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
       }
     };
 
-    d.on('error', handleError);
+    d.on('error', handleErr);
 
     d.run(function () {
 
@@ -106,7 +105,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
         }
 
         function $throw(str: any) {
-          handleError(str instanceof Error ? str : new Error(str));
+          handleErr(str instanceof Error ? str : new Error(str));
         }
 
         function handle(fn: Function) {
@@ -114,17 +113,17 @@ export = function (suman: ISuman, gracefulExit: Function) {
             fn.call(self);
           }
           catch (e) {
-            handleError(e);
+            handleErr(e);
           }
         }
 
         function handleNonCallbackMode(err: IPseudoError) {
           err = err ? ('Also, you have this error => ' + err.stack || err) : '';
-          handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
+          handleErr(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         }
 
         const TestCase = makeTestCase(test, assertCount);
-        const t = new TestCase(handleError);
+        const t = new TestCase(handleErr);
 
         fini.th = t;
         t.handleAssertions = handle;
@@ -221,3 +220,11 @@ export = function (suman: ISuman, gracefulExit: Function) {
 
   }
 };
+
+
+///////////// support node style imports //////////////////////////////////////////////////
+
+let $exports = module.exports;
+export default $exports;
+
+//////////////////////////////////////////////////////////////////////////////////////////

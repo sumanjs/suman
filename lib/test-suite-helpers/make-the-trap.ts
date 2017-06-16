@@ -2,6 +2,7 @@
 import {IAFterEachObj, IBeforeEachObj, ITestDataObj, ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
 import {IPseudoError} from "../../dts/global";
+import {IItOpts} from "../../dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -15,7 +16,7 @@ const async = require('async');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const makeHandleTestResults = require('./handle-test-result');
-const makeHandleTest = require('./handle-test');
+const {makeHandleTest} = require('./make-handle-test');
 const makeAllEaches = require('./get-all-eaches');
 const makeHandleBeforeOrAfterEach = require('./make-handle-each');
 const implementationError = require('../helpers/implementation-error');
@@ -33,7 +34,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
   return function runTheTrap(self: ITestSuite, test: ITestDataObj, opts: IItOpts, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      console.error(' => Suman runtime error => "UncaughtException:Triggered" => halting program.');
+      console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
 

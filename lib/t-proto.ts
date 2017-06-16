@@ -6,6 +6,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
+const util = require('util');
 const EE = require('events');
 
 //project

@@ -18,7 +18,7 @@ import async = require('async');
 import su from 'suman-utils';
 const helpers = require('../test-suite-helpers/handle-promise-generator');
 const cloneError = require('../clone-error');
-import makeHookObj = require('../t-proto-hook');
+import {makeHookObj} from '../t-proto-hook';
 import freezeExistingProps = require('../freeze-existing');
 import {constants} from '../../config/suman-constants';
 const _suman = global.__suman = (global.__suman || {});
@@ -42,7 +42,9 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
       'so this exception will be ignored. => ', e);
   });
 
-  console.error(' => We are running after.always hooks. Any errors will be ignored.');
+  if(_suman.afterAlwaysHasBeenRegistered){
+    console.error(' => We are running after.always hooks. Any uncaught errors will be ignored as best as possible.');
+  }
 
   async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
@@ -195,7 +197,6 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
         }
 
       });
-
 
     }, cb);
 

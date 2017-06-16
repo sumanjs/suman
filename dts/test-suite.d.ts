@@ -43,6 +43,7 @@ export type Hook = THookCallbackMode |
 
 
 export interface ITestDataObj {
+  alreadyInitiated: boolean,
   sumanModulePath?: string,
   didNotThrowErrorWithExpectedMessage?: string,
   errorPlanCount?: string,

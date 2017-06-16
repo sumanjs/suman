@@ -43,7 +43,8 @@ export = function (suman: ISuman) {
     const injections: Array<IInjectionObj> = [];
 
     this.mergeAfters = function () {
-      while (aftersLast.length) {
+      // this is for supporting after.last feature
+      while (aftersLast.length > 0) {
         afters.push(aftersLast.shift());
       }
     };
