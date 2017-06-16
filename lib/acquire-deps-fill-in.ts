@@ -2,6 +2,13 @@
 import {ITestSuite} from "../dts/test-suite";
 import {IInjectHookCallbackMode, IInjectHookRegularMode, IInjectOpts} from "../dts/inject";
 import {BeforeHookCallbackMode, BeforeHookRegularMode, IBeforeOpts} from "../dts/before";
+import {ISuman} from "../dts/suman";
+import {IDescribeOpts, TDescribeHook} from "../dts/describe";
+import {IItOpts, ItHookCallbackMode, ItHookRegularMode} from "../dts/it";
+import {AfterHookCallbackMode, AfterHookRegularMode, IAfterOpts} from "../dts/after";
+import {BeforeEachHookCallbackMode, BeforeEachHookRegularMode, IBeforeEachOpts} from "../dts/before-each";
+import {IAfterEachOpts, TAfterEachHookCallbackMode, TAfterEachHookRegularMode} from "../dts/after-each";
+import {IInjectionDeps} from "../dts/injection";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -19,15 +26,15 @@ const includes = require('lodash.includes');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const {$core, $deps, mappedPkgJSONDeps} = require('./injection/$core-n-$deps');
 const rules = require('./helpers/handle-varargs');
 
 /*///////////////////////////////////////////////////////////////////
 
- this module is responsible for +synchronously+ injecting values;
- values may be procured +asynchronously+ prior to this, but here we
- actually create the entire arguments array, all synchronously
+ this module is responsible for +++synchronously+++ injecting values;
+ => values may be procured +asynchronously+ prior to this, but here we
+ finish creating the entire arguments array, all synchronously
 
  //////////////////////////////////////////////////////////////////*/
 
@@ -70,7 +77,7 @@ container.describe.delay =
     let args = pragmatik.parse(arguments, rules.blockSignature);
     args[1].delay = true;
     args[1].__preParsed = true;
-     container.describe(...args);
+    container.describe.apply(this, args);
   };
 
 container.describe.skip =
@@ -78,7 +85,7 @@ container.describe.skip =
     let args = pragmatik.parse(arguments, rules.blockSignature);
     args[1].skip = true;
     args[1].__preParsed = true;
-    container.describe(...args);
+    container.describe.apply(this, args);
   };
 
 container.describe.only =
@@ -87,7 +94,7 @@ container.describe.only =
     let args = pragmatik.parse(arguments, rules.blockSignature);
     args[1].only = true;
     args[1].__preParsed = true;
-    container.describe(...args);
+    container.describe.apply(this, args);
   };
 
 
@@ -99,7 +106,7 @@ container.describe.only.delay = container.describe.delay.only =
     let args = pragmatik.parse(arguments, rules.blockSignature);
     args[1].only = true;
     args[1].__preParsed = true;
-    container.describe(...args);
+    container.describe.apply(this, args);
   };
 
 
@@ -108,7 +115,7 @@ container.it.skip =
     let args = pragmatik.parse(arguments, rules.testCaseSignature);
     args[1].skip = true;
     args[1].__preParsed = true;
-    return container.it(...args);
+    return container.it.apply(this, args);
   };
 
 container.it.only =
@@ -117,7 +124,7 @@ container.it.only =
     let args = pragmatik.parse(arguments, rules.testCaseSignature);
     args[1].only = true;
     args[1].__preParsed = true;
-    return container.it(...args);
+    return container.it.apply(this, args);
   };
 
 container.it.only.cb =
@@ -127,7 +134,7 @@ container.it.only.cb =
     args[1].only = true;
     args[1].cb = true;
     args[1].__preParsed = true;
-    return container.it(...args);
+    return container.it.apply(this, args);
   };
 
 container.it.skip.cb =
@@ -136,7 +143,7 @@ container.it.skip.cb =
     args[1].skip = true;
     args[1].cb = true;
     args[1].__preParsed = true;
-    return container.it(...args);
+    return container.it.apply(this, args);
   };
 
 container.it.cb =
@@ -144,7 +151,7 @@ container.it.cb =
     let args = pragmatik.parse(arguments, rules.testCaseSignature);
     args[1].cb = true;
     args[1].__preParsed = true;
-    return container.it(...args);
+    return container.it.apply(this, args);
   };
 
 container.it.cb.skip = container.it.skip.cb;
@@ -155,7 +162,7 @@ container.inject.cb =
     let args = pragmatik.parse(arguments, rules.hookSignature);
     args[1].cb = true;
     args[1].__preParsed = true;
-    return container.inject(...args);
+    return container.inject.apply(this, args);
   };
 
 container.inject.skip =
@@ -163,7 +170,7 @@ container.inject.skip =
     let args = pragmatik.parse(arguments, rules.hookSignature);
     args[1].skip = true;
     args[1].__preParsed = true;
-    return container.inject(...args);
+    return container.inject.apply(this, args);
   };
 
 // to save memory we can make this equivalence since if the hook is skipped
@@ -175,7 +182,7 @@ container.before.cb =
     let args = pragmatik.parse(arguments, rules.hookSignature);
     args[1].cb = true;
     args[1].__preParsed = true;
-    return container.before(...args);
+    return container.before.apply(this, args);
   };
 
 container.before.skip =
@@ -183,45 +190,162 @@ container.before.skip =
     let args = pragmatik.parse(arguments, rules.hookSignature);
     args[1].skip = true;
     args[1].__preParsed = true;
-    return container.before(...args);
+    return container.before.apply(this, args);
   };
 
 // to save memory we can make this equivalence since if the hook is skipped
 // it won't matter if it's callback mode or not :)
 container.before.skip.cb = container.before.cb.skip = container.before.skip;
 
-container.after.cb =
-  function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-    let args = pragmatik.parse(arguments, rules.hookSignature);
-    args[1].cb = true;
-    args[1].__preParsed = true;
-    return container.after(...args);
-  };
-
+// first four
 container.after.skip =
   function (desc: string, opts: IAfterOpts, fn: AfterHookRegularMode) {
     let args = pragmatik.parse(arguments, rules.hookSignature);
     args[1].skip = true;
     args[1].__preParsed = true;
+    return container.after.apply(this, args);
+  };
+
+container.after.last =
+  function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+    let args = pragmatik.parse(arguments, rules.hookSignature);
+    args[1].last = true;
+    args[1].__preParsed = true;
+    return container.after.apply(this, args);
+  };
+
+container.after.cb =
+  function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+    let args = pragmatik.parse(arguments, rules.hookSignature);
+    args[1].cb = true;
+    args[1].__preParsed = true;
+    return container.after.apply(this, args);
+  };
+
+container.after.always =
+  function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+    let args = pragmatik.parse(arguments, rules.hookSignature);
+    args[1].always = true;
+    args[1].__preParsed = true;
+    return container.after.apply(this, args);
+  };
+
+// after.cb 2
+
+container.after.cb.always =
+  function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+    let args = pragmatik.parse(arguments, rules.hookSignature);
+    args[1].cb = true;
+    args[1].always = true;
+    args[1].__preParsed = true;
+    return container.after.apply(this, args);
+  };
+
+container.after.cb.last =
+  function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+    let args = pragmatik.parse(arguments, rules.hookSignature);
+    args[1].cb = true;
+    args[1].last = true;
+    args[1].__preParsed = true;
+    return container.after.apply(this, args);
+  };
+
+// after.last 2
+
+container.after.last.cb =
+  function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+    let args = pragmatik.parse(arguments, rules.hookSignature);
+    args[1].cb = true;
+    args[1].last = true;
+    args[1].__preParsed = true;
+    return container.after.apply(this, args);
+  };
+
+container.after.last.always =
+  function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+    let args = pragmatik.parse(arguments, rules.hookSignature);
+    args[1].last = true;
+    args[1].always = true;
+    args[1].__preParsed = true;
+    return container.after.apply(this, args);
+  };
+
+
+// after.always 2
+
+container.after.always.cb =
+  function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+    let args = pragmatik.parse(arguments, rules.hookSignature);
+    args[1].always = true;
+    args[1].cb = true;
+    args[1].__preParsed = true;
     return container.after(...args);
   };
 
+container.after.always.last =
+  function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+    let args = pragmatik.parse(arguments, rules.hookSignature);
+    args[1].last = true;
+    args[1].always = true;
+    args[1].__preParsed = true;
+    return container.after.apply(this, args);
+  };
+
+
+// after 6
+
+container.after.cb.last.always =
+  container.after.cb.always.last =
+
+    container.after.last.cb.always =
+      container.after.last.always.cb =
+
+        container.after.always.cb.last =
+          container.after.always.last.cb =
+
+            function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+              let args = pragmatik.parse(arguments, rules.hookSignature);
+              args[1].last = true;
+              args[1].always = true;
+              args[1].cb = true;
+              args[1].__preParsed = true;
+              return container.after.apply(this, args);
+            };
+
+
 // to save memory we can make this equivalence since if the hook is skipped
 // it won't matter if it's callback mode or not :)
-container.after.skip.cb = container.after.cb.skip = container.after.skip;
+
+container.after.skip.cb =
+  container.after.cb.skip =
+    container.after.last.skip =
+      container.after.skip.last =
+        container.after.always.skip =
+          container.after.skip.always = container.after.skip;
+
+container.after.skip.cb.last =
+  container.after.skip.last.cb =
+    container.after.skip.cb.always =
+      container.after.skip.always.cb = container.after.skip;
+
+container.after.skip.cb.last.always =
+  container.after.skip.last.cb.always =
+    container.after.skip.cb.always.last =
+      container.after.skip.always.cb.last = container.after.skip;
+
 
 container.beforeEach.cb = function (desc: string, opts: IBeforeEachOpts, fn: BeforeEachHookCallbackMode) {
   let args = pragmatik.parse(arguments, rules.hookSignature);
   args[1].cb = true;
   args[1].__preParsed = true;
-  return container.beforeEach(...args);
+  return container.beforeEach.apply(this, args);
 };
 
 container.beforeEach.skip = function (desc: string, opts: IBeforeEachOpts, fn: BeforeEachHookRegularMode) {
   let args = pragmatik.parse(arguments, rules.hookSignature);
   args[1].skip = true;
   args[1].__preParsed = true;
-  return container.beforeEach(...args);
+  return container.beforeEach.apply(this, args);
 };
 
 // to save memory we can make this equivalence since if the hook is skipped
@@ -232,14 +356,14 @@ container.afterEach.cb = function (desc: string, opts: IAfterEachOpts, fn: TAfte
   let args = pragmatik.parse(arguments, rules.hookSignature);
   args[1].cb = true;
   args[1].__preParsed = true;
-  return container.afterEach(...args);
+  return container.afterEach.apply(this, args);
 };
 
 container.afterEach.skip = function (desc: string, opts: IAfterEachOpts, fn: TAfterEachHookRegularMode) {
   let args = pragmatik.parse(arguments, rules.hookSignature);
   args[1].skip = true;
   args[1].__preParsed = true;
-  return container.afterEach(...args);
+  return container.afterEach.apply(this, args);
 };
 
 // to save memory we can make this equivalence since if the hook is skipped
@@ -247,10 +371,11 @@ container.afterEach.skip = function (desc: string, opts: IAfterEachOpts, fn: TAf
 container.afterEach.skip.cb = container.afterEach.cb.skip = container.afterEach.skip;
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////
 
-export = function zoom(suman: ISuman) {
+export = function (suman: ISuman) {
 
-  // suman is unused
+  // => suman is unused
 
   return function (suite: ITestSuite, parentSuite: ITestSuite, depsObj: IInjectionDeps): Array<any> {
 
@@ -261,12 +386,16 @@ export = function zoom(suman: ISuman) {
       if (dep) {
         return dep;
       }
-      else if (includes(constants.SUMAN_HARD_LIST, key)) {
+
+      if (includes(constants.SUMAN_HARD_LIST, key)) {
 
         switch (key) {
 
           case 'suite':
             return suite;
+
+          case '$pre':
+            return _suman['$pre'];
 
           case '$deps':
             return $deps;
@@ -323,22 +452,23 @@ export = function zoom(suman: ISuman) {
         }
 
       }
-      else if (suite.isRootSuite && mappedPkgJSONDeps.indexOf(key) > -1) {
+
+      if (suite.isRootSuite && mappedPkgJSONDeps.indexOf(key) > -1) {
         return $deps[key];
       }
-      else if (parentSuite && (key in parentSuite.injectedValues)) {
+
+      if (parentSuite && (key in parentSuite.injectedValues)) {
         return parentSuite.injectedValues[key];
       }
-      else if (includes(constants.CORE_MODULE_LIST, key)) {
+
+      try {
         return require(key);
       }
-      else if (dep !== undefined) {
-        console.error(' => Suman warning => value of dependency for key ="' + key + '" may be unexpected value => ', dep);
-        return dep;
+      catch (err) {
+        console.error(` => Could not require() dependency with value => "${key}", will continue optimistically.`);
+        return undefined;
       }
-      else {
-        throw new Error(colors.red(' => Suman usage error => Dependency for the following key is undefined: "' + key + '"'));
-      }
+
 
     });
 

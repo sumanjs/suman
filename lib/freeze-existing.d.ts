@@ -1,2 +1,2 @@
-declare var _default: (obj: any) => any;
+declare const _default: (obj: any) => any;
 export = _default;

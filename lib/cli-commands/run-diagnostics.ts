@@ -13,21 +13,20 @@ const colors = require('colors/safe');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const constants = require('../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 
 //////////////////////////////////////////////////////////////
 
 export = function (cb?: Function) {
 
   console.log(' => NODE_PATH => ', process.env.NODE_PATH);
-
-  let deps : Array<string> = [];
+  let deps: Array<string> = [];
 
   Object.keys(constants.SUMAN_GLOBAL_DEPS).forEach(function (k) {
     deps = deps.concat(constants.SUMAN_GLOBAL_DEPS[k]);
   });
 
-  let reinstallThese : Array<string> = [];
+  let reinstallThese: Array<string> = [];
 
   deps.forEach(function (obj) {
 
@@ -51,9 +50,7 @@ export = function (cb?: Function) {
         }
 
       }
-
     });
-
   });
 
   console.log('\n');

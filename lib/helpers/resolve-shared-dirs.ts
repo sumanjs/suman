@@ -1,4 +1,5 @@
 'use strict';
+import {ISumanConfig, ISumanOpts} from "../../dts/global";
 
 //polyfills
 const global = require('suman-browser-polyfills/modules/global');
@@ -16,7 +17,7 @@ const colors = require('colors/safe');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const su = require('suman-utils');
-const constants = require('../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 
 ///////////////////////////////////////////////////////////////////
 
@@ -53,7 +54,7 @@ export = function (sumanConfig: ISumanConfig, projectRoot: string, sumanOpts: IS
       shd = path.resolve('./' + su.removePath(sumanHelpersDir, projectRoot));
       console.error('\n\n', colors.magenta('=> Suman could *not* locate your <suman-helpers-dir>; ' +
           'perhaps you need to update your suman.conf.js file, please see: ***'), '\n',
-        colors.cyan('sumanjs.github.io/conf.html'), '\n',
+        colors.cyan('sumanjs.org/conf.html'), '\n',
         ' => We expected to find your <suman-helpers-dir> here =>', '\n',
         colors.bgBlack.cyan(shd), '\n',
         '...We will create a temporary suman helpers directory to keep things moving.');
@@ -78,7 +79,7 @@ export = function (sumanConfig: ISumanConfig, projectRoot: string, sumanOpts: IS
           'When running "suman --init", a directory called "suman" is created at the ' +
           'root of your project.\nYou can move this directory as desired, as long as you update suman.conf.js accordingly.\n' +
           'Please see these instructions on how to remedy the situation:\n' +
-          '=> http://sumanjs.github.io/init.html');
+          '=> http://sumanjs.org/init.html');
       }
     }
     catch (err) {

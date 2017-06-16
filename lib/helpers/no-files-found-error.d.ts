@@ -1,2 +1,2 @@
-declare var _default: (dirs: string[]) => void;
+declare const _default: (dirs: string[]) => void;
 export = _default;

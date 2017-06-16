@@ -1,8 +1,3 @@
-/**
- * Created by alexamil on 4/4/17.
- */
-
-
+'use strict';
 const core = require('builtin-modules');
-
 console.log(core);

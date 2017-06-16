@@ -15,9 +15,8 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
-
-
 const logExit = require('./lib/helpers/log-exit');
+
 
 process.on('exit', function (code) {
   if (process.listenerCount('exit') === 1) {
@@ -67,13 +66,13 @@ process.on('uncaughtException', function (err) {
       '--transpile and --all options together.')
   }
 
-  if (process.listenerCount('uncaughtException') === 1) {
+  setTimeout(function () {
     if (err && !err._alreadyHandledBySuman) {
       err._alreadyHandledBySuman = true;
       console.error('\n\n => Suman "uncaughtException" event occurred =>\n', err.stack, '\n\n');
       handleExceptionsAndRejections();
     }
-  }
+  }, 500);
 
 });
 
@@ -83,15 +82,15 @@ process.on('unhandledRejection', function (err) {
     err = {stack: typeof err === 'string' ? err : util.inspect(err)}
   }
 
-  if (err && !err._alreadyHandledBySuman) {
-    err._alreadyHandledBySuman = true;
-    console.error('\n\n => Suman "unhandledRejection" event occurred =>\n', (err.stack || err), '\n\n');
-    handleExceptionsAndRejections();
-  }
+  setTimeout(function () {
+    if (err && !err._alreadyHandledBySuman) {
+      err._alreadyHandledBySuman = true;
+      console.error('\n\n => Suman "unhandledRejection" event occurred =>\n', (err.stack || err), '\n\n');
+      handleExceptionsAndRejections();
+    }
+  }, 500);
 
 });
-
-
 
 //core
 const fs = require('fs');
@@ -115,8 +114,10 @@ const debug = require('suman-debug')('s:cli');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
+require('./lib/helpers/add-suman-global-properties');
+
 require('./lib/patches/all');
-const constants = require('./config/suman-constants');
+const {constants} = require('./config/suman-constants');
 const su = require('suman-utils');
 
 //////////////////////////////////////////////////////////////////////////
@@ -135,14 +136,14 @@ if (semver.lt(nodeVersion, oldestSupported)) {
   throw new Error('Please upgrade to a newer Node.js version.');
 }
 
-console.log(' => Node.js version:', nodeVersion);
+_suman.log('Node.js version:', nodeVersion);
 
 ////////////////////////////////////////////////////////////////////
 
 const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
-console.log(colors.yellow.italic(' => Suman v' + sumanVersion + ' running...'));
-console.log(' => [pid] => ', process.pid);
+_suman.log(colors.yellow.italic(' => Suman v' + sumanVersion + ' running...'));
+_suman.log('[pid] => ', process.pid);
 
 ////////////////////////////////////////////////////////////////////
 
@@ -177,26 +178,26 @@ const sumanOpts = _suman.sumanOpts = require('./lib/parse-cmd-line-opts/parse-op
 _suman.sumanArgs = sumanOpts._args;
 
 if (sumanOpts.verbose) {
-  console.log(' => Suman verbose message => Project root:', projectRoot);
+  _suman.log(' => Suman verbose message => Project root:', projectRoot);
 }
 
 ////////////////////////////////////////////////////////////////////
 
 if (cwd !== projectRoot) {
   if (sumanOpts.verbosity > 1) {
-    console.log(' => Note that your current working directory is not equal to the project root:');
-    console.log(' => cwd:', colors.magenta(cwd));
-    console.log(' => Project root:', colors.magenta(projectRoot));
+    _suman.log(' => Note that your current working directory is not equal to the project root:');
+    _suman.log(' => cwd:', colors.magenta(cwd));
+    _suman.log(' => Project root:', colors.magenta(projectRoot));
   }
 }
 else {
   if (sumanOpts.verbosity > 2) {
     if (cwd === projectRoot) {
-      console.log(colors.gray(' => cwd:', cwd));
+      _suman.log(colors.gray(' => cwd:', cwd));
     }
   }
   if (cwd !== projectRoot) {
-    console.log(colors.magenta(' => cwd:', cwd));
+    _suman.log(colors.magenta(' => cwd:', cwd));
   }
 }
 
@@ -310,7 +311,7 @@ try {
   pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
   sumanConfig = _suman.sumanConfig = require(pth);
   if (sumanOpts.verbosity > 8) {  //default to true
-    console.log(' => Suman verbose message => Suman config used: ' + pth);
+    _suman.log(' => Suman verbose message => Suman config used: ' + pth);
   }
 
 }

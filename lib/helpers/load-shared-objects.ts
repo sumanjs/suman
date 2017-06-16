@@ -1,4 +1,5 @@
 'use strict';
+import {ISumanOpts} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -16,13 +17,13 @@ const colors = require('colors/safe');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const sumanUtils = require('suman-utils');
-const constants = require('../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 let loaded: any;
 
-export = function loadSharedObjects (pathObj: Object, projectRoot: string, sumanOpts: ISumanOpts) {
+export = function loadSharedObjects(pathObj: Object, projectRoot: string, sumanOpts: ISumanOpts) {
 
   if (loaded) {
     return loaded;
@@ -65,8 +66,7 @@ export = function loadSharedObjects (pathObj: Object, projectRoot: string, suman
     integrantPreFn = require(path.resolve(_suman.sumanHelperDirRoot + '/suman.once.pre.js'));
   }
   catch (err) {
-
-    integrantPreFn = function(){
+    integrantPreFn = function () {
       console.error(' => Could not load your integrant pre module.');
       return {};
     };
@@ -82,7 +82,6 @@ export = function loadSharedObjects (pathObj: Object, projectRoot: string, suman
     if (sumanOpts.strict) {
       process.exit(constants.EXIT_CODES.SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT);
     }
-
   }
 
   let iocFn;
@@ -93,8 +92,8 @@ export = function loadSharedObjects (pathObj: Object, projectRoot: string, suman
   catch (err) {
     try {
       iocFn = require(path.resolve(projectRoot + '/suman/suman.ioc.js'));
-
-    } catch (err) {
+    }
+    catch (err) {
       if (sumanHelpersDirLocated) {
         console.log('\n\n', colors.bgBlack.cyan('=> Suman tip => Create your own suman.ioc.js file ' +
           'instead of using the default file.'), '\n');
@@ -104,9 +103,9 @@ export = function loadSharedObjects (pathObj: Object, projectRoot: string, suman
   }
 
   try {
-    assert(((integrantPreFn === undefined) || (typeof integrantPreFn === 'function')),
+    assert(integrantPreFn === undefined || typeof integrantPreFn === 'function',
       'Your suman.once.pre.js file needs to export a function.');
-    assert((iocFn === undefined) || typeof iocFn === 'function',
+    assert(iocFn === undefined || typeof iocFn === 'function',
       ' => Your suman.ioc.js file does not export a function. Please fix this situation.');
   }
   catch (err) {

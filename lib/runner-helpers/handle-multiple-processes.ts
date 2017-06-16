@@ -23,7 +23,7 @@ const colors = require('colors/safe');
 const _suman = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
 const handleTap = require('./handle-tap');
-const constants = require('../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 

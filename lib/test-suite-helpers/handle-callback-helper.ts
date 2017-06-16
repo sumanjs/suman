@@ -1,5 +1,6 @@
 'use strict';
-import {IAssertObj, IHookObj, ITestDataObj} from "../../dts/test-suite";
+import {IAssertObj, IHookObj, ITestDataObj, ITimerObj} from "../../dts/test-suite";
+import {IPseudoError, ISumanDomain} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -11,10 +12,10 @@ const assert = require('assert');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const constants = require('../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 const cloneError = require('../clone-error');
 
-///////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 function missingHookOrTest () {
   const mzg = new Error(' => Suman implementation error, please report! ' +
@@ -41,7 +42,7 @@ function planHelper (e: IPseudoError, test: ITestDataObj, hook: IHookObj, assert
     const newErr = cloneError(testOrHook.warningErr, testOrHook.errorPlanCount);
 
     if (e) {
-      e = new Error(e.stack + '\n' + newErr.stack);
+      e = new Error((e.stack || e) + '\n' + newErr.stack);
     }
     else {
       e = newErr;
@@ -98,8 +99,8 @@ function throwsHelper (err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
 //TODO: need to remove allowFatal due to --bail option
 //TODO: this is used not just for tests but for hooks, so need to pass hook name if it exists
 
-export =
-  function makeCallback (d: ISumanDomain, assertCount: IAssertObj, test: ITestDataObj, hook: IHookObj, timerObj: ITimerObj, gracefulExit: Function, cb: Function) {
+export = function makeCallback (d: ISumanDomain, assertCount: IAssertObj, test: ITestDataObj, hook: IHookObj,
+                         timerObj: ITimerObj, gracefulExit: Function, cb: Function) {
 
   if (test && hook) {
     throw new Error(' => Suman internal implementation error => Please report this!');
@@ -224,11 +225,15 @@ export =
 
       if (called > 1 && test && !test.timedOut) {
         _suman._writeTestError('Warning: the following test callback was invoked twice by your code ' +
-          'for the following test/hook => ' + (test ? test.desc : ''));
+          'for the following test/hook with name => "' + (test ? test.desc : '') + '".');
+        _suman._writeTestError('The problematic test case can be located from this error trace => \n'+
+          cloneError(test.warningErr, 'The callback was fired more than once for this test case.').stack);
       }
       else if (called > 1 && hook) {  //TODO need to handle this case for hooks
         _suman._writeTestError('\n\nWarning: the following test callback was invoked twice by your code ' +
-          'for the following hook => ' + (hook.desc || '(hook has no description)') + '\n\n');
+          'for the following hook with name => "' + (hook.desc || '(hook has no description)') + '".\n\n');
+        _suman._writeTestError('The problematic hook can be located from this error trace => \n'+
+          cloneError(hook.warningErr, 'The callback was fired more than once for this test case.').stack);
       }
 
     }

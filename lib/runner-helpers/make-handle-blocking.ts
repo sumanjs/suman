@@ -35,8 +35,6 @@ export interface IArrayOfVals {
 }
 
 
-
-
 ////////////////////////////////////////////////////
 
 const started : Array<IArrayOfVals>= [];
@@ -61,7 +59,8 @@ if (_suman.sumanOpts && _suman.sumanOpts.verbosity > 2) {
             });
 
             if (startedButNotEnded.length > 1) {
-                console.log('\n\n', colors.bgCyan.black.bold(' => Suman message => The following processes have started but not ended yet:'),
+                console.log('\n\n', colors.bgCyan.black.bold(' => Suman message => The following test ' +
+                    'processes have started but not ended yet:'),
                     colors.cyan(startedButNotEnded));
                 console.log('\n\n');
             }

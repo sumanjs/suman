@@ -1,4 +1,5 @@
 'use strict';
+import {IGlobalSumanObj} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -13,7 +14,7 @@ const async = require('async');
 const colors = require('colors/safe');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman :IGlobalSumanObj = global.__suman = (global.__suman || {});
 const p = path.resolve(process.env.HOME + '/.suman/global');
 
 //////////////////////////////////////////////////////////////////////

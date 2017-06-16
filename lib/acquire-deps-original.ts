@@ -1,4 +1,5 @@
 'use strict';
+import {IInjectionDeps} from "../dts/injection";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -8,6 +9,7 @@ const global = require('suman-browser-polyfills/modules/global');
 const assert = require('assert');
 const util = require('util');
 const EE = require('events');
+const colors = require('colors/safe');
 
 //npm
 const includes = require('lodash.includes');
@@ -15,7 +17,7 @@ const fnArgs = require('function-arguments');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const iocEmitter = _suman.iocEmitter = (_suman.iocEmitter || new EE());
 const iocContainer = _suman.iocContainer = (_suman.iocContainer || {});
 const iocProgressContainer = _suman.iocProgressContainer = (_suman.iocProgressContainer || {});
@@ -42,23 +44,25 @@ module.exports = function acquireDepsOriginal(deps: Array<string>, cb: Function)
         '" but this is a reserved internal Suman dependency injection value.');
     }
 
-    else if (includes(constants.CORE_MODULE_LIST, dep && String(dep)) && String(dep) in _suman.iocConfiguration) {
-      console.log('Warning: you added a IoC dependency for "' + dep
-        + '" but this is a reserved Node.js core module dependency injection value.');
-      throw new Error('Warning: you added a IoC dependency for "' + dep
-        + '" but this is a reserved Node.js core module dependency injection value.');
-    }
+    // else if (includes(constants.CORE_MODULE_LIST, dep && String(dep)) && String(dep) in _suman.iocConfiguration) {
+    //   console.log('Warning: you added a IoC dependency for "' + dep
+    //     + '" but this is a reserved Node.js core module dependency injection value.');
+    //   throw new Error('Warning: you added a IoC dependency for "' + dep
+    //     + '" but this is a reserved Node.js core module dependency injection value.');
+    // }
 
     //TODO: maybe just fill these in here instead of later
-    else if (includes(constants.CORE_MODULE_LIST, dep && String(dep)) || includes(constants.SUMAN_HARD_LIST, String(dep))) {
-      //skip any dependencies
-      obj[dep] = null;
-    }
+    // else if (includes(constants.CORE_MODULE_LIST, dep && String(dep)) ||
+    //   includes(constants.SUMAN_HARD_LIST, String(dep))) {
+    //   //skip any dependencies
+    //   obj[dep] = null;
+    // }
     else {
 
       obj[dep] = _suman.iocConfiguration[dep]; //copy subset of iocConfig to test suite
 
-      if (!obj[dep] && !includes(constants.CORE_MODULE_LIST, String(dep)) && !includes(constants.SUMAN_HARD_LIST, String(dep))) {
+      if (!obj[dep] && !includes(constants.CORE_MODULE_LIST, String(dep)) &&
+        !includes(constants.SUMAN_HARD_LIST, String(dep))) {
 
         let deps = Object.keys(_suman.iocConfiguration || {}).map(function (item) {
           return ' "' + item + '" ';
@@ -176,16 +180,11 @@ module.exports = function acquireDepsOriginal(deps: Array<string>, cb: Function)
         obj[key] = deps[index];
       });
       //want to exit out of current tick
-      process.nextTick(function () {
-        cb(null, obj);
-      });
-
+      process.nextTick(cb, null, obj);
     },
     function (err) {
       console.error(err.stack || err);
       //want to exit out of current tick
-      process.nextTick(function () {
-        cb(err, {});
-      });
+      process.nextTick(cb, err, {});
     });
 };

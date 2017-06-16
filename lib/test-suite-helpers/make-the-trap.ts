@@ -1,12 +1,14 @@
 'use strict';
 import {IAFterEachObj, IBeforeEachObj, ITestDataObj, ITestSuite} from "../../dts/test-suite";
+import {ISuman} from "../../dts/suman";
+import {IPseudoError} from "../../dts/global";
+import {IItOpts} from "../../dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const domain = require('domain');
 
 //npm
 const async = require('async');
@@ -14,14 +16,14 @@ const async = require('async');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const makeHandleTestResults = require('./handle-test-result');
-const makeHandleTest = require('./handle-test');
+const {makeHandleTest} = require('./make-handle-test');
 const makeAllEaches = require('./get-all-eaches');
 const makeHandleBeforeOrAfterEach = require('./make-handle-each');
 const implementationError = require('../helpers/implementation-error');
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export = function makeTheTrap(suman: ISuman, gracefulExit: Function) {
+export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
 
   const allDescribeBlocks = suman.allDescribeBlocks;
   const handleTest = makeHandleTest(suman, gracefulExit);
@@ -32,18 +34,14 @@ export = function makeTheTrap(suman: ISuman, gracefulExit: Function) {
   return function runTheTrap(self: ITestSuite, test: ITestDataObj, opts: IItOpts, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      console.error(' => Suman runtime error => "UncaughtException:Triggered" => halting program.');
+      console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
 
     let delaySum = 0; //TODO: is this correct?
 
-    //TODO: why not run only check earlier?
     if (test.skipped || test.stubbed) {
-      process.nextTick(function () {
-        cb(null, []);   //TODO: add skipped call
-      });
-      return;
+      return process.nextTick(cb, null, []);
     }
 
     const parallel = opts.parallel;
@@ -51,7 +49,8 @@ export = function makeTheTrap(suman: ISuman, gracefulExit: Function) {
     async.eachSeries(allEachesHelper.getAllBeforesEaches(self), function (aBeforeEach: IBeforeEachObj, cb: Function) {
         handleBeforeOrAfterEach(self, test, aBeforeEach, cb);
       },
-      function doneWithBeforeEaches(err: IPseudoError) {
+      function _doneWithBeforeEaches(err: IPseudoError) {
+
         implementationError(err);
 
         if (parallel) {
