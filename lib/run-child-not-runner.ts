@@ -1,4 +1,5 @@
 'use strict';
+import {IPseudoError} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -15,55 +16,50 @@ const debug = require('suman-debug')('s');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
+const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
+const USE_BABEL_REGISTER = process.env.USE_BABEL_REGISTER === 'yes';
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 process.on('uncaughtException', function (err: IPseudoError) {
 
-  if (typeof err !== 'object') {
+  if (typeof err !== 'object') { // if null or string, etc
     const val = typeof err === 'string' ? err : util.inspect(err);
     console.error(' => Warning, value passed to uncaughtException handler was not typeof "object" => ', val);
-    err = {stack: val}
+    err = {message: val, stack: val}
   }
 
-  process.nextTick(function () {
+  setTimeout(function () {
     // we attempt to let other uncaught-exception handlers do their thing by using nextTick,
     // but if they don't take care of business, then we step in here
+
     if (err && !err._alreadyHandledBySuman) {
       console.error('\n', ' => Suman uncaught exception =>', '\n', (err.stack || err), '\n\n');
     }
 
     process.exit(constants.EXIT_CODES.UNEXPECTED_FATAL_ERROR);
-  });
+  }, 500);
 
 });
 
 const root = _suman.projectRoot || sumanUtils.findProjectRoot(process.cwd());
-const sumanConfig = _suman.sumanConfig;
-
-
 const sumanHelperDirRoot = _suman.sumanHelperDirRoot;
-if (!sumanHelperDirRoot) {
-  console.log(colors.red.bold(' => Suman helper root is falsy in run-child-not-runner.'));
-}
-else {
-  debug(' => Suman helper root dir in run-child-not-runner =>', sumanHelperDirRoot);
-}
+const sumanConfig = _suman.sumanConfig;
 
 
 try {
   require(path.resolve(sumanHelperDirRoot + '/suman.globals.js'));  //load globals
 }
 catch (err) {
-  console.error('\n\n', colors.yellow.bold(' => Suman usage warning => Could not load your suman.globals.js file =>') +
-    '\n' + (_suman.sumanOpts.verbose ? (err.stack || err) : '') + '\n');
+  console.error('\n', colors.yellow.bold(' => Suman usage warning => Could not load your suman.globals.js file.'));
+  console.error(err.stack || err);
+  console.error(' => Suman will continue optimistically, even though your suman.globals.js file could not be loaded.');
 }
 
 export = function run(files: Array<string>) {
 
-  if (process.env.USE_BABEL_REGISTER === 'yes') {
-
+  if (USE_BABEL_REGISTER) {
     console.log(colors.bgWhite.black.bold(' => Suman will use babel-register to transpile your sources on the fly, ' +
       'use the -v option for more info.'), '\n\n');
 
@@ -75,7 +71,7 @@ export = function run(files: Array<string>) {
     });
   }
 
-  if (process.env.SUMAN_SINGLE_PROCESS === 'yes') {
+  if (SUMAN_SINGLE_PROCESS) {
     console.log(' => Suman debug message => we are in SUMAN_SINGLE_PROCESS mode.');
     require('./helpers/log-stdio-of-child')('suman-single-process');
     require('./handle-single-proc')(files);

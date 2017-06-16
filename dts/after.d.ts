@@ -1,24 +1,30 @@
 // after
-interface IAfterFn {
+
+export interface IAfterFn {
   (desc: string, opts: IAfterOpts, fn: Function): void,
   cb?: IAfterFn,
   skip?: IAfterFn
 }
 
-interface IAfterOpts {
+
+export interface IAfterHook {
+
+}
+
+
+export interface IAfterOpts {
   __preParsed?: boolean,
   skip: boolean,
   timeout: number,
   fatal: boolean,
   cb: boolean,
   throws: RegExp,
-  plan: number
+  plan: number,
+  last: boolean,
+  always: boolean
 }
 
 
-interface IAfterHook {
 
-}
-
-type AfterHookCallbackMode = (h: IAfterHook) => void;
-type AfterHookRegularMode = (h: IAfterHook | undefined) => Promise<any>;
+export type AfterHookCallbackMode = (h: IAfterHook) => void;
+export type AfterHookRegularMode = (h: IAfterHook | undefined) => Promise<any>;

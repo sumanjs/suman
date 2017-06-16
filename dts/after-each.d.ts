@@ -1,14 +1,12 @@
 
 
-// before
-
-interface IAfterEachFn {
+export interface IAfterEachFn {
     (desc:string, opts: IAfterEachOpts, fn: Function): void,
     cb?: IAfterEachFn,
     skip?: IAfterEachFn
 }
 
-interface IAfterEachOpts {
+export interface IAfterEachOpts {
     __preParsed?: boolean,
     skip: boolean,
     timeout: number,
@@ -19,12 +17,12 @@ interface IAfterEachOpts {
 }
 
 
-interface IAfterEachHook {
+export interface IAfterEachHook {
 
 
 }
 
 
-type TAfterEachHook = (h: any) => any;
-type TAfterEachHookCallbackMode = (h: IAfterEachHook) => void;
-type TAfterEachHookRegularMode = (h?: IAfterEachHook | undefined) => Promise<any>;
+export type TAfterEachHook = (h: any) => any;
+export type TAfterEachHookCallbackMode = (h: IAfterEachHook) => void;
+export type TAfterEachHookRegularMode = (h?: IAfterEachHook | undefined) => Promise<any>;

@@ -1,4 +1,4 @@
-declare var _default: {
+declare const _default: {
     findPathOfRunDotSh: (p: string) => string;
     findPathOfTransformDotSh: (p: string) => string;
 };

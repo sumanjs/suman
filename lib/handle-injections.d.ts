@@ -1,2 +1,4 @@
-declare var _default: (suite: any, cb: Function) => void;
-export = _default;
+import { ITestSuite } from "../dts/test-suite";
+export declare const handleInjections: (suite: ITestSuite, cb: Function) => void;
+declare let $exports: any;
+export default $exports;

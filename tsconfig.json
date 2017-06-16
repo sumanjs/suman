@@ -9,7 +9,7 @@
       "async",
       "lodash"
     ],
-    "allowJs": true,
+    "allowJs": false,
     "typeRoots": [
       "node_modules/@types"
     ],

@@ -1,17 +1,233 @@
 
-=> injected before/after/beforeEach/afterEach
 
-=> global ctx should be set.
+//
 
-=> the injected values should point to the current ctx, so so nice
+if no after.always hooks are registered, we should just skip logging this
+ => We are running after.always hooks. Any uncaught errors will be ignored as best as possible.
 
-=>
+//
 
-=> tests should not be very dynamic, but Suman allows for super-dynamic tests. Tests can be dynamic based
+use macports to update readline on macos?
+sudo port -d selfupdate
+
+//
+
+https://help.github.com/articles/user-organization-and-project-pages/
+
+//
+
+http://typedoc.org/guides/installation/#task-runners
+
+//
+
+Error: table suman_run_info already exists
+Error: table suman_run_id already exists
+Error: UNIQUE constraint failed: suman_run_id.id
+
+///
+
+
+need to allow users to define timeout for suman.once.pre.js hooks
+
+Error: Suman dependency acquisition timed-out for dependency with key => 'seed-database'
+    at Timeout.<anonymous> (/usr/local/cdt-tests/node_modules/suman/lib/acquire-deps.js:96:28)
+    at ontimeout (timers.js:386:14)
+    at tryOnTimeout (timers.js:250:5)
+    at Timer.listOnTimeout (timers.js:214:5)
+
+//
+
+  we need to verify suman.once.post.js is valid before running everything else potentially
+  ok...we can't do that, since we don't know which test scripts will run until they actually do
+  aka, pre:[] will not be known for all files beforehand, the files have to execute first.
+
+//
+
+TODO: allow a command line option to not import devDeps
+
+//
+
+ generate docs via
+ https://github.com/TypeStrong/typedoc
+
+//
+
+  generate integer id for each test that runs via suman runner
+  this should come via sqlite?
+
+//
+
+https://www.npmjs.com/package/graceful-readlink
+
+//
+
+  suman.ioc.js exports object, but we need to use {dependencies: {}}
+
+//
+
+=> after.always should complete before any suman.post hooks begin
+
+//
+
+https://stackoverflow.com/questions/43422058/how-to-do-a-synchronous-require-of-webpack-build-module-from-outside-of-webpa
+
+//
+
+=> What happens when t.done(null) is called more than once? Will it run callbacks more than once? break async lib?
+=> Should we remove all listeners from domains to prevent memory leaks?
+
+
+=> remove tests hooks as event emitters
+  if t.cleanup is defined as a function, fire it, that's it.
+     t.on('done') is ridic
+
+///
+
+Tests skipped                 |        At least 0
+
+///
+
+put the assertion in the test title
+e.g.:
+ ✔  ' => PUT to acquisitions => cdt_moderator.gen' (4ms)
+
+ it would be nice to see:
+
+  ✔  ' => PUT to acquisitions => cdt_moderator.gen' (4ms) [expected: "400"]
+
+///
+
+Error: table suman_run_info already exists
+Error: table suman_run_id already exists
+Error: UNIQUE constraint failed: suman_run_id.id
+
+////
+
+  in series mode (everything is series), then we can log the describe titles, etc.!
+
+////
+
+  $suite title should work
+
+////
+
+best practices:
+
+ this is bad:
+
+Object.keys(usernames).forEach(function (name) {
+ describe('POST', {parallel: false}, function () {
+
+this is better:
+
+ describe('POST', {parallel: false}, function () {
+    Object.keys(usernames).forEach(function (name) {
+
+///
+
+ // inject stuff:
+https://docs.angularjs.org/guide/unit-testing
+
+/////
+
+ $pre should be injected into test.creates =>
+
+//////
+
+suman --repair # this should install missing deps in $HOME/.suman/global/node_modules
+aka, go through all, try to require them, if they cannot be required, reinstall them
+
+///////
+
+Argument is *not* required at argument index = 2, but type was wrong
+ => expected => "array"
+ => actual => "object"
+    at Object.parse (/usr/local/cdt-tests/node_modules/pragmatik/index.js:278:17)
+    at TestSuiteBase.it (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-it.js:20:30)   /// <<< it(), not describe() !!
+    at it (/usr/local/cdt-tests/node_modules/suman/lib/acquire-deps-fill-in.js:31:30)
+    at /usr/local/cdt-tests/test/e2e/user-roles.test.js:148:7
+    at Array.forEach (native)
+    at TestSuiteBase.<anonymous> (/usr/local/cdt-tests/test/e2e/user-roles.test.js:143:28)
+    at /usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-describe.js:143:36
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+
+
+  describe('use acqs', {parallel:false}, function(acqs){
+
+    assert(acqs.length > 0, 'No acqs found, length is 0.');
+    const acqId = _.sample(acqs)._id;
+    assert(acqId, 'No _id property on acqs[0] => ' + util.inspect(acqs));
+
+    Object.keys(usernames).forEach(function (name) {
+
+      let roles = usernames[name];
+      let opts = {value: {name, roles}};
+
+      it('tests cookies', {timeout: 40000}, opts, t => {
+        driver.get(`${cdthost}/#!/my-acquisitions/${acqId}`);
+        driver.wait(until.elementLocated(By.id(`acq-dropdown-item-${acqId}`)), 9000).then(function () {
+          console.log(`acq-dropdown-item-${acqId} has been located.`);
+        });
+        driver.findElement(By.id(`acq-dropdown-item-${acqId}`)).click();
+        return driver.getCurrentUrl().then(function(val){
+          assert(val === `${cdthost}/#!/my-acquisitions/${acqId}`)
+        });
+
+      });
+
+    });
+
+  });
+
+
+/////////
+
+create parent.log like console.log, which will send stdout/stderr to parent, just bits of it, through IPC
+
+/////////
+
+the following output does not show which hook (we need a file and line number) caused the problem
+
+
+ => Suman runner => there was a fatal test suite error - an error was encountered in your test code that prevents Suman
+ from continuing with a particular test suite within the following path:
+
+ => /usr/local/cdt-tests/test/e2e/all/export.test.js
+
+(note that despite this fatal error, other test processes will continue running, as would be expected, use the --bail option, if you wish otherwise.)
+
+
+⚑  => Suman fatal error  => making a graceful exit =>
+Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? You may have forgotten to fire a callback or perhaps the timeout quantity is too short.
+   at TestSuiteBase.before (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-before.js:78:29)
+   at TestSuiteBase.<anonymous> (/usr/local/cdt-tests/test/e2e/all/export.test.js:73:3)
+   at Domain.<anonymous> (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:216:24)
+   at Domain.run (domain.js:221:14)
+   at startWholeShebang (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:169:15)
+   at _combinedTickCallback (internal/process/next_tick.js:77:11)
+   at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+
+/////////////
+
+=> Allow for auto-logging of hook begin and end
+
+e.g.:
+
+=> started pre-task "x"
+=> finished sourcing deps for pre task "x"
+=> finished pre-task "x"
+
+////////////////////////////////////////////////
+
+=> inject ctx is incorrect, see cdt-now import.test.js file
+
+=>  wrapErrorFirst() does not work for injection hooks, just for test/before/afterEach hooks
+
+=> in general, tests should not be very dynamic; but Suman does allow for the most dynamic of tests. Tests can be dynamic based
 off of process.argv, process.env as well as via powerful setup/"pre" hooks, especially useful for integration testing.
 
 => add to feature list => excellent documentation, suman groups works with docker
-
 
 => test everything with Yarn, update NPM Link Up to work with Yarn
 => Compare yarn install size with npm install size (yarn might do more de-duping)
@@ -26,22 +242,18 @@ npm i -D @types/suman  => need to produce these types for suman
 
 
 // TS with TAPjs - https://github.com/tapjs/node-tap/pull/256/files
-
 // proxy - https://github.com/nodejs/node/blob/24ef1e67757514db9ee1aeded555d4fb336ca817/deps/v8/test/mjsunit/es6/promise-thenable-proxy.js
-
 // --force-exit --no-force-exit => allow user to choose whether to force close the node.js process or not
 
 
- //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
+//TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
 
 // domains => https://github.com/nodejs/nodejs.org/blob/master/locale/en/docs/guides/domain-postmortem.md
 
 // slow and ensure logs  => --slow-and-ensure-logs
 
 //
-
-  find/grep for all files that do not have "polyfills"
-
+  find/grep for all files that do not have "suman-polyfills"
 //
 
  => might need to use "parse-function" instead of "function-arguments"
@@ -64,7 +276,11 @@ grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./
 
 ///
 
-  after.always => new feature
+  before.first
+  before.last
+
+  after.first
+  after.last => new feature => put it at the end, etc.
 
 ///
 
@@ -75,6 +291,14 @@ grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./
  webpack options schema - https://github.com/webpack/webpack/blob/master/schemas/webpackOptionsSchema.json
  do the same thing with suman.conf.js.
 
+///
+
+ => dynamic require's
+
+///
+
+ webpack options schema - https://github.com/webpack/webpack/blob/master/schemas/webpackOptionsSchema.json
+ do the same thing with suman.conf.js.
 ///
 
  need to use frankenstop to avoid bad suman.conf.js files
@@ -245,8 +469,6 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 ///
 
-change verbosity scheme to numbers 1-9.
-
 dynamic tests, tests files should be minimally dynamic so as to be repeatable, knowable etc.
 to call tests programmatically, as opposed through the suman runner.
 
@@ -276,8 +498,7 @@ suman standard reporter should be its own module
 
  suman uses a more declarative style and dependency injection for code reuse, etc.
 
-////
-
+///
 
  add .ts and .sh to npmignore without ignorring .d.ts and without ignoring cli/*.sh
 
@@ -370,9 +591,6 @@ Test.create(['parallel:true, timeout:3000', function(){
 
 ////
 
- warn user when two Test.create's have the same name
-
-////
 
 Squash commits based on author
 http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
@@ -575,6 +793,10 @@ and (2) if not in a container, then put install thing on queue, then proceed
 
 ///
 
+ jasmine to write tests and karma
+
+///
+
   list failed tests at the end - even with suman single-js-file table
 
 ///
@@ -656,9 +878,6 @@ if there is no stderr for a test, we should delete the file in the /tests direct
 ////
 
 use child unref after all children have exited in suman runner
-
-
-https://docs.docker.com/swarm/reference/swarm/
 
 ////
 
@@ -756,10 +975,6 @@ git.io shortlinks / tinyurls, as in (https://git.io/vMUyr)
 
 ////
 
-=> have to ask npm why if we run npm test in child process, that the process.send doesn't work
-
-/////
-
 cd suman-test/suman-test-projects && suman $(find subprojects -mindepth 2 -maxdepth 2 -name "test.sh" | xargs ) --concurrency=1
 
 ////
@@ -823,6 +1038,7 @@ https://github.com/integrations/feature/continuous-integration
 /////
 
 >>>> ava stores the babel .cache in node_modules/.cache/ava
+https://github.com/avajs/find-cache-dir/issues/1
 
 /////
 
@@ -957,14 +1173,6 @@ http://stackoverflow.com/questions/1951742/how-to-symlink-a-file-in-linux
 
 /////
 
-we can use npm link to link ~/.suman/node_modules
-this *may* install the binaries from ~/.suman/node_modules to the local project (?)
-only need those if the user wants to run them
-
-not a good idea beacuse if user deletes node_modules dir, then we will have to call npm link again
-
-/////
-
 if user is root, can we write .suman directory to ~/.suman?
 
 //////
@@ -996,16 +1204,11 @@ https://medium.com/@mbostock/prereleases-and-npm-e778fc5e2420#.v7sfbacbc
 
 http://stackoverflow.com/questions/40902445/using-variable-interpolation-in-string-in-docker/40903689#40903689
 
-/////////
-
-=> suman should write out .suman-babelrc always ?
-we need babel to support different paths to .babelrc files
-
 ////////
 
 => load suman-inquirer and suman-inquirer-directory from NPM instead of installing first
 
-///////
+////////
 
 => Cache dependencies => https://docs.npmjs.com/cli/cache, instead of writing them to .suman/node_modules
 
@@ -1128,13 +1331,8 @@ http://stackoverflow.com/questions/40800418/resolving-path-with-bash/40800713?no
 
 /////////
 
-if Suman usage warning: no suman.once.pre.js file found
+ => if Suman usage warning: no suman.once.pre.js file found
 then if there are any integrants/pre: [], we have to throw an error
-
-//////////
-
-syntax highlighting for npm module
-(if you you ignore node_modules syntax highlighting seem to be off)
 
 //////////
 
@@ -1267,26 +1465,26 @@ no_silent option needs to be replaced with (pipe, ignore, inherit, etc)
 
 ///////////
 
-//TODO: parse (subset of?) command line opts for plain node Suman run?
+// parse (subset of?) command line opts for plain node Suman run?
 
 ///////////
 
-TODO: runner should show which order files are read, and then if --rand is chosen, the random order in which
+runner should show which order files are read, and then if --rand is chosen, the random order in which
 they will run
 
 /////////////////
 
-TODO: do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
-TODO: /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/tes-t7-start.test.js
+ do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
+ /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/tes-t7-start.test.js
 
 //////////
 
-TODO: provide expected exit-code in test file, so that when runner sees exit code, it is OK with it and says
+ provide expected exit-code in test file, so that when runner sees exit code, it is OK with it and says
 56 (expected)
 
 ////////////
 
-TODO: double check to see if bail option is always sumanOpts and also make it work with suman.conf.js too
+ double check to see if bail option is always sumanOpts and also make it work with suman.conf.js too
 
 ///////
 
@@ -1767,13 +1965,5 @@ so that we expect a test to throw an (async) error...
  +	});
  +});
 
-
-
-// TALK
-
-
-1. async.autoInject
-2. running cp by using bash + write to stdin
-3. monkeypatch process.exit
 
 

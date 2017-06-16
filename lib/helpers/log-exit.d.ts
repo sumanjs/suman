@@ -1,2 +1,2 @@
-declare var _default: (code: number) => void;
+declare const _default: (code: number) => void;
 export = _default;

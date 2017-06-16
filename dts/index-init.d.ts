@@ -1,33 +1,24 @@
 
 
-interface IIntegrantsMessage {
+export interface IIntegrantsMessage {
   data: string,
   info: string,
   val: string
 }
 
 
-interface IStartCreate {
-  (desc:string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TCreateHook): void,
-  delay?: IDescribeFn,
-  skip?: IDescribeFn,
-  only?: IDescribeFn
-
-}
-
-interface ICreateOpts {
+export interface ICreateOpts {
   delay: boolean,
   skip: boolean,
   only: boolean
 }
 
+export type TCreateHook = (...args: any[]) => void;
 
-type TCreateHook = (...args: any[]) => void;
 
-
-interface ISumanModuleExtended extends NodeModule {
+export interface ISumanModuleExtended extends NodeModule {
   testSuiteQueue?: Array<Function>,
-  _sumanInitted: boolean
+  _sumanInitted?: boolean
 }
 
 

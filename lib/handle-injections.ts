@@ -1,4 +1,6 @@
 'use strict';
+import {IInjectionObj, ITestSuite} from "../dts/test-suite";
+import {IPseudoError} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -12,6 +14,7 @@ const async = require('async');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
+const tProto = require('./t-proto');
 const freeze = require('./freeze-existing');
 const weAreDebugging = require('./helpers/we-are-debugging');
 
@@ -21,11 +24,9 @@ interface IInjectionRetObj {
   [key: string]: any
 }
 
-
 ///////////////////////////////////////////////////////////////////
 
-
-export = function (suite: ITestSuite, cb: Function) {
+export const handleInjections = function (suite: ITestSuite, cb: Function) {
 
   function addValuesToSuiteInjections(k: string, val: any) {
     if (k in suite.injectedValues) {
@@ -39,12 +40,12 @@ export = function (suite: ITestSuite, cb: Function) {
 
   const injections = suite.getInjections();
 
-  async.eachSeries(injections, function (inj: IInjectionObj, cb: Function) {
+  async.each(injections, function (inj: IInjectionObj, cb: Function) {
 
     let callable = true;
 
     const to = setTimeout(function () {
-      first(new Error(' => Injection hook timeout.'));
+      first(new Error(` => Injection hook timeout. ${inj.desc && 'For injection with name => ' + inj.desc}`));
     }, weAreDebugging ? 5000000 : inj.timeout);
 
     const first = function (err: IPseudoError) {
@@ -60,15 +61,13 @@ export = function (suite: ITestSuite, cb: Function) {
 
     if (inj.cb) {
 
-      inj.fn.call(suite, function (err: IPseudoError, results: IInjectionRetObj) {
+      let d = function (err: IPseudoError, results: IInjectionRetObj) {
 
         if (err) {
           return first(err);
         }
 
-        let p = Promise.resolve(results);
-
-        p.then(ret => {
+        Promise.resolve(results).then(ret => {
 
           if (inj.desc) {
             addValuesToSuiteInjections(inj.desc, ret);
@@ -77,59 +76,53 @@ export = function (suite: ITestSuite, cb: Function) {
             Object.keys(ret).forEach(function (k) {
               addValuesToSuiteInjections(k, freeze(ret[k]));
             });
-
           }
 
           first(undefined);
 
         }, first);
+      };
 
-      });
-
+      inj.fn.call(suite, Object.setPrototypeOf(d, tProto));
     }
 
     else {
 
-      let p = Promise.resolve(inj.fn.call(suite));
-
-      p.then(ret => {
+      Promise.resolve(inj.fn.call(suite)).then(ret => {
 
         if (inj.desc) {
           addValuesToSuiteInjections(inj.desc, freeze(ret));
-          first(undefined);
+          return first(undefined);
         }
-        else {
 
-          if (typeof ret !== 'object') {
-            throw new Error('Must return an object with keys, if no inject hook name is provided.');
-          }
+        if (typeof ret !== 'object') {
+          throw new Error('Must return an object with keys, if no inject hook name is provided.');
+        }
 
-          if (Array.isArray(ret)) {
-            throw new Error('Must return an object with named keys, if no inject hook name is provided.');
-          }
+        if (Array.isArray(ret)) {
+          throw new Error('Must return an object with named keys, if no inject hook name is provided.');
+        }
 
-          const keys = Object.keys(ret);
+        const keys = Object.keys(ret);
 
-          if (!keys.length) {
-            throw new Error('Injection hook was unnamed, but also resolved to object with no keys,\nso no name could' +
-              'be extracted for injection. Unfortunately this becomes fatal.');
-          }
+        if (!keys.length) {
+          throw new Error('Injection hook was unnamed, but also resolved to object with no keys,\nso no name could' +
+            'be extracted for injection. Unfortunately this becomes fatal.');
+        }
 
-          const potentialPromises = keys.map(function (k) {
-            return ret[k];
+        const potentialPromises = keys.map(function (k) {
+          return ret[k];
+        });
+
+        Promise.all(potentialPromises).then(function (vals) {
+
+          keys.forEach(function (k, index) {
+            addValuesToSuiteInjections(k, freeze(vals[index]));
           });
 
-          Promise.all(potentialPromises).then(function (vals) {
+          first(undefined);
 
-            keys.forEach(function (k, index) {
-              addValuesToSuiteInjections(k, freeze(vals[index]));
-            });
-
-            first(undefined);
-
-          }, first);
-
-        }
+        }, first);
 
       }, first);
 
@@ -138,3 +131,11 @@ export = function (suite: ITestSuite, cb: Function) {
   }, cb);
 
 };
+
+
+///////////// support node style imports //////////////////////////////////////////////
+
+let $exports = module.exports;
+export default $exports;
+
+////////////////////////////////////////////////////////////////////////////////////////

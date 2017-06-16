@@ -6,6 +6,17 @@ import {IInjectOpts, IInjectHookCallbackMode, IInjectHookRegularMode, IInjectFn}
 import {IGlobalSumanObj} from "../dts/global";
 import {BeforeHookCallbackMode, BeforeHookRegularMode, IBeforeFn, IBeforeOpts} from "../dts/before";
 import {ITestSuite} from "../dts/test-suite";
+import {ITestSuiteMakerOpts, TTestSuiteMaker} from "../dts/test-suite-maker";
+import {ISuman} from "../dts/suman";
+import {IItOpts, ItFn, ItHookCallbackMode, ItHookRegularMode} from "../dts/it";
+import {IDescribeFn, IDescribeOpts, TDescribeHook} from "../dts/describe";
+import {AfterHookCallbackMode, AfterHookRegularMode, IAfterFn, IAfterOpts} from "./test-suite-methods/make-after";
+import {
+  BeforeEachHookCallbackMode, BeforeEachHookRegularMode, IBeforeEachFn,
+  IBeforeEachOpts
+} from "../dts/before-each";
+
+import {IAfterEachFn, IAfterEachOpts, TAfterEachHookCallbackMode, TAfterEachHookRegularMode} from "../dts/after-each";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -27,23 +38,23 @@ const colors = require('colors/safe');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('./helpers/handle-varargs');
 const implementationError = require('./helpers/implementation-error');
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const sumanUtils = require('suman-utils');
 const freezeExistingProps = require('./freeze-existing');
 const originalAcquireDeps = require('./acquire-deps-original');
-const startSuite = require('./test-suite-helpers/start-suite');
+const {makeStartSuite} = require('./test-suite-helpers/make-start-suite');
 const makeTestSuiteBase = require('./make-test-suite-base');
 const makeHandleBeforesAndAfters = require('./test-suite-helpers/make-handle-befores-afters');
-const makeNotifyParent = require('./test-suite-helpers/notify-parent-that-child-is-complete');
+const {makeNotifyParent} = require('./test-suite-helpers/notify-parent-that-child-is-complete');
 
 // TestSuite methods
-const makeIt = require('./test-suite-methods/make-it');
-const makeAfter = require('./test-suite-methods/make-after');
-const makeAfterEach = require('./test-suite-methods/make-after-each');
-const makeBeforeEach = require('./test-suite-methods/make-before-each');
-const makeBefore = require('./test-suite-methods/make-before');
-const makeInject = require('./test-suite-methods/make-inject');
-const makeDescribe = require('./test-suite-methods/make-describe');
+const {makeIt} = require('./test-suite-methods/make-it');
+const {makeAfter} = require('./test-suite-methods/make-after');
+const {makeAfterEach} = require('./test-suite-methods/make-after-each');
+const {makeBeforeEach} = require('./test-suite-methods/make-before-each');
+const {makeBefore} = require('./test-suite-methods/make-before');
+const {makeInject} = require('./test-suite-methods/make-inject');
+const {makeDescribe} = require('./test-suite-methods/make-describe');
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,7 +90,7 @@ export = function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTe
       inject: IInjectFn;
 
 
-    const TestSuite : ITestSuiteConstructor = function (obj: ITestSuiteMakerOpts): void {   // this fn is a constructor
+    const TestSuite: ITestSuiteConstructor = function (obj: ITestSuiteMakerOpts): void {   // this fn is a constructor
 
       this.interface = suman.interface;
       this.desc = this.title = obj.desc;
@@ -339,7 +350,7 @@ export = function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTe
       return this;
     };
 
-    TestSuite.prototype.__startSuite = startSuite(suman, gracefulExit,
+    TestSuite.prototype.__startSuite = makeStartSuite(suman, gracefulExit,
       handleBeforesAndAfters, notifyParentThatChildIsComplete);
 
     freezeExistingProps(TestSuite.prototype);

@@ -1,2 +1,2 @@
-declare var _default: (files: string[]) => void;
+declare const _default: (files: string[]) => void;
 export = _default;

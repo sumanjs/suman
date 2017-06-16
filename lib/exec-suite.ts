@@ -1,5 +1,11 @@
 'use strict';
 
+import {ITestSuite} from "../dts/test-suite";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../dts/global";
+import {ISuman} from "../dts/suman";
+import {ICreateOpts, TCreateHook} from "../dts/index-init";
+import {IInjectionDeps} from "../dts/injection";
+
 //TODO: as we know which file or directory the user is running their tests, so error stack traces should only contain those paths
 //note: http://stackoverflow.com/questions/20825157/using-spawn-function-with-node-env-production
 //TODO: plugins http://hapijs.com/tutorials/plugins
@@ -27,18 +33,16 @@ const debug = require('suman-debug')('s:index');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('./helpers/handle-varargs');
-import constants = require('../config/suman-constants');
+import {constants} from '../config/suman-constants';
 const su = require('suman-utils');
 import makeGracefulExit = require('./make-graceful-exit');
-import {ITestSuite} from "../dts/test-suite";
-import {IPseudoError, ISumanDomain} from "../dts/global";
 const originalAcquireDeps = require('./acquire-deps-original');
 const makeAcquireDepsFillIn = require('./acquire-deps-fill-in');
 const makeTestSuite = require('./make-test-suite');
-const fatalRequestReply = require('./helpers/fatal-request-reply');
-const handleInjections = require('./handle-injections');
+const {fatalRequestReply} = require('./helpers/fatal-request-reply');
+const {handleInjections} = require('./handle-injections');
 
-////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 export = function main(suman: ISuman) {
 
@@ -231,21 +235,26 @@ export = function main(suman: ISuman) {
 
     function startWholeShebang(deps: Array<any>) {
 
-      const d: ISumanDomain = domain.create();
+      const d = domain.create();
 
-      d.once('error', function (err: IPseudoError) {
+      d.once('error', function ($err: IPseudoError) {
         d.exit();
-        err.sumanFatal = true;
-        err.sumanExitCode = constants.EXIT_CODES.ERROR_IN_ROOT_SUITE_BLOCK;
-        process.nextTick(gracefulExit, err);
+        process.nextTick(gracefulExit, {
+          message: $err.message || $err,
+          stack: $err.stack || $err,
+          sumanFatal: true,
+          sumanExitCode: constants.EXIT_CODES.ERROR_IN_ROOT_SUITE_BLOCK
+        });
       });
 
       d.run(function () {
 
           suite.fatal = function (err: IPseudoError) {
-            err = (err && typeof err === 'object') ? err : new Error('Fatal error experienced in root suite => ' + String(err));
-            err.sumanExitCode = constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION;
-            gracefulExit(err);
+            process.nextTick(gracefulExit, {
+              message: 'Fatal error experienced in root suite => ' + (err.message || err),
+              stack: err.stack || err,
+              sumanExitCode: constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION
+            });
           };
 
           if (delayOptionElected) {
@@ -329,11 +338,22 @@ export = function main(suman: ISuman) {
       function runSuite(suite: ITestSuite, cb: Function) {
 
         if (_suman.sumanUncaughtExceptionTriggered) {
-          console.error(' => Suman runtime error => "UncaughtException:Triggered" => halting program.');
+          console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
           return;
         }
 
-        const fn: Function = suite.parallel ? async.each : async.eachSeries;
+        const fn: Function = async.eachLimit;
+
+        let limit = 1;
+        if (suite.parallel) {
+          if (suite.limit) {
+            limit = Math.min(suite.limit, 300);
+          }
+          else {
+            limit = _suman.sumanConfig.DEFAULT_PARALLEL_BLOCK_LIMIT || constants.DEFAULT_PARALLEL_BLOCK_LIMIT;
+          }
+        }
+
 
         suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
@@ -352,7 +372,7 @@ export = function main(suman: ISuman) {
             process.nextTick(cb)
           }
           else {
-            fn(children, function (child: ITestSuite, cb: Function) {
+            fn(children, limit, function (child: ITestSuite, cb: Function) {
 
               child = _.findWhere(allDescribeBlocks, {
                 testId: child.testId
@@ -373,7 +393,7 @@ export = function main(suman: ISuman) {
         suman.dateSuiteFinished = Date.now();
 
         if (_suman.sumanUncaughtExceptionTriggered) {
-          console.error(' => Suman runtime error => "UncaughtException:Triggered" => halting program.');
+          console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
           return;
         }
 

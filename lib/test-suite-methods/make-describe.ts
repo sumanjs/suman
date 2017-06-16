@@ -1,4 +1,8 @@
 'use strict';
+import {ITestSuite} from "../../dts/test-suite";
+import {ISuman} from "../../dts/suman";
+import {TTestSuiteMaker} from "../../dts/test-suite-maker";
+import {IDescribeOpts, TDescribeHook} from "../../dts/describe";
 // important note: "use strict" so errors get thrown if properties are modified after the fact
 
 
@@ -21,12 +25,12 @@ const colors = require('colors/safe');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
-const constants = require('../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 const sumanUtils = require('suman-utils');
 const originalAcquireDeps = require('../acquire-deps-original');
 const handleSetupComplete = require('../handle-setup-complete');
 const makeAcquireDepsFillIn = require('../acquire-deps-fill-in');
-const handleInjections = require('../handle-injections');
+const {handleInjections} = require('../handle-injections');
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -41,17 +45,16 @@ function handleBadOptions(opts: IDescribeOpts) {
 
 ///////////////////////////////////////////////////////////////////////
 
-export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker,
+export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker,
                    zuite: ITestSuite, notifyParentThatChildIsComplete: Function): Function {
 
   const acquireDepsFillIn = makeAcquireDepsFillIn(suman);
   const allDescribeBlocks = suman.allDescribeBlocks;
 
-  return function ($desc: string, $opts: IDescribeOpts, $arr?: Array<
-                     string
-                     | TDescribeHook>, $cb?: TDescribeHook): void {
+  return function ($desc: string, $opts: IDescribeOpts, $arr?: Array<string
+    | TDescribeHook>, $cb?: TDescribeHook): void {
 
-    handleSetupComplete(zuite);
+    handleSetupComplete(zuite, 'describe');
 
     const args = pragmatik.parse(arguments, rules.blockSignature, {
       preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
@@ -114,7 +117,7 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
     if (zuite.parallel && opts.parallel === false) {
       console.log('\n => Suman warning => parent block ("' + zuite.desc + '") is parallel, ' +
         'so child block ("' + desc + '") will be run in parallel with other sibling blocks.');
-      console.log('\n => Suman warning => To see more info on this, visit: sumanjs.github.io\n\n');
+      console.log('\n => Suman warning => To see more info on this, visit: sumanjs.org\n\n');
     }
 
     if (zuite.skipped) {
@@ -154,12 +157,12 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
     suiteProto._run = function run(val: any, callback: Function) {
 
       if (zuite.skipped || zuite.skippedDueToDescribeOnly) {
-        //TODO: have to notify parent that child is done?
-        // if(zuite.parent){
-        //notifyParentThatChildIsComplete(self.parent.testId, self.testId, callback);
-        // }
-        throw new Error(' => Suman implementation error, this code should not be reached.');
-        return process.nextTick(callback);
+        console.error(' => Now entering dubious routine in Suman lib.');
+        //TODO: this may not be necessary
+        if (zuite.parent) {
+          notifyParentThatChildIsComplete(zuite.parent.testId, zuite.testId, callback);
+        }
+        return;
       }
 
       const d = domain.create();
@@ -246,6 +249,7 @@ export = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestS
                 //TODO this will not work when delay is simply commented out
 
                 if (!sumanUtils.checkForValInStr(str, /resume/g, 0)) {
+
                   process.nextTick(function () {
                     console.error(new Error(' => Suman usage error => delay option was elected, so suite.resume() ' +
                       'method needs to be called to continue,' +

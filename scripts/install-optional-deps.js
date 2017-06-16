@@ -1,3 +1,5 @@
+'use strict';
+
 //core
 const path = require('path');
 const cp = require('child_process');
@@ -16,7 +18,7 @@ const installQueueLock = path.resolve(process.env.HOME + '/.suman/install-queue.
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
 
 //project
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
 const sumanUtils = require('suman-utils');
 const residence = require('residence');
@@ -26,7 +28,6 @@ const debugLog = path.resolve(sumanHome + '/suman-debug.log');
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 const cwd = process.cwd();
-
 const debug = require('suman-debug')('s:postinstall', {
   fg: 'cyan'
 });
@@ -34,13 +35,13 @@ const debug = require('suman-debug')('s:postinstall', {
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 const deps = Object.freeze(constants.SUMAN_GLOBAL_DEPS);
-const bd = process.env.BASE_DIRECTORY;
+const bd = process.env['SUMAN_BASE_DIRECTORY'];
 
 console.log('BASE_DIRECTORY in JavaScript is => ', bd);
 const dirs = ['HOME', 'USERS'];
 
-const nvm = path.resolve(String(process.env.NPM_GLOBAL_ROOT).trim());
-console.log('BASE_DIRECTORY in JavaScript is => ', bd);
+const nvm = path.resolve(String(process.env['SUMAN_NPM_GLOBAL_ROOT']).trim());
+console.log('SUMAN_BASE_DIRECTORY in JavaScript is => ', bd);
 
 //if base directory is not home or users, then we are installing globally, so always install all
 //TODO: regarding above, but what about NVM?
@@ -49,8 +50,6 @@ let alwaysInstallDueToGlobal = dirs.indexOf(String(bd).trim().toUpperCase().repl
 console.log(' => cwd in postinstall script =>', cwd);
 const projectRoot = global.projectRoot = residence.findProjectRoot(cwd);
 console.log(' => Project root => ', projectRoot);
-
-// semver.gt('1.2.3', '9.8.7') // false
 
 let pkgDotJSON;
 let pth = path.resolve(projectRoot + '/package.json');
@@ -74,6 +73,11 @@ catch (err) {
   alwaysInstall = true;
 }
 
+if(sumanConf.installSumanExtraDeps === false){
+  console.error(' => We will not install any suman "global" modules, because "installSumanExtraDeps" is false.');
+  process.exit(0);
+}
+
 //always install latest for now
 let installs = [];
 
@@ -81,35 +85,37 @@ installs = installs.concat(Object.keys(deps.slack));
 installs = installs.concat(Object.keys(deps.sqlite3));
 installs = installs.concat(Object.keys(deps.sumanSqliteReporter));
 
-if (sumanConf.transpile === true && ( alwaysInstall || alwaysInstallDueToGlobal)) {
+if (sumanConf['transpile'] === true && ( alwaysInstall || alwaysInstallDueToGlobal)) {
   installs = installs.concat(Object.keys(deps.babel));
 }
 
-if (sumanConf.useSumanServer || alwaysInstall || alwaysInstallDueToGlobal) {
+if (sumanConf['useSumanServer'] || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.sumanServer));
 }
 
-if (sumanConf.useSumanInteractive || alwaysInstall || alwaysInstallDueToGlobal) {
+if (sumanConf['useSumanInteractive'] || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.sumanInteractive));
 }
 
-if (sumanConf.useIstanbul || alwaysInstall || alwaysInstallDueToGlobal) {
+if (sumanConf['useIstanbul'] || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.istanbul));
 }
 
-if (sumanConf.useTypeScript || alwaysInstall || alwaysInstallDueToGlobal) {
+if (sumanConf['useTypeScript'] || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.typescript));
 }
 
-if (sumanConf.useNYC || alwaysInstall || alwaysInstallDueToGlobal) {
+if (sumanConf['useNYC'] || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.nyc));
 }
 
 //2000 second timeout...
+let timeout = 2000000;
+
 const to = setTimeout(function () {
   console.error(' => Suman postinstall process timed out.');
   process.exit(1);
-}, 2000000);
+}, timeout);
 
 //////////////////////////////////////////////////////
 
@@ -216,6 +222,7 @@ async.map(installs, function (item, cb) {
         return cb(null, results.view);
       }
 
+      // semver.gt('1.2.3', '9.8.7') // false
       if (semver.lt(results.stats.version, results.view.version)) {
         results.view.action = 'update';
       }
@@ -250,14 +257,14 @@ async.map(installs, function (item, cb) {
         return;
       case 'install':
         console.log(' => Installing => ', item, ' at path => ', sumanHome, '\n');
-        args = ['npm', 'install', item + '@latest', '--only=production', '--force', '--loglevel=error', '--silent', '--progress=false'];
+        args = ['npm', 'install', item + '@latest', '--only=production', '--force', '--loglevel=warn', '--silent', '--progress=false'];
         break;
       case 'update':
         console.log(' => Updating => ', item, ' at path => ', sumanHome, '\n');
-        args = ['npm', 'update', item + '@latest', '--only=production', '--loglevel=error', '--silent', '--progress=false'];
+        args = ['npm', 'update', item + '@latest', '--only=production', '--loglevel=warn', '--silent', '--progress=false'];
         break;
       default:
-        throw new Error(' => Switch statement fallthrough.');
+        throw new Error(' => Suman postinstall routine - switch statement fallthrough.');
     }
 
     args = args.join(' ').trim();
@@ -336,7 +343,7 @@ async.map(installs, function (item, cb) {
             const now = new Date();
             const then = new Date(String(data).trim());
             console.log(' => Existing date in lock file =>', then);
-            if (now - then > 300000) {
+            if (now - then > 400000) {
               console.log(' => Lock is old, we will unlink and start processing queue.');
               fs.unlink(queueWorkerLock, makeWorker);
             }

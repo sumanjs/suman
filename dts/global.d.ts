@@ -1,6 +1,7 @@
 import Global = NodeJS.Global;
 import Domain = NodeJS.Domain;
 import {ITestSuite} from "./test-suite";
+import EventEmitter = NodeJS.EventEmitter;
 
 declare namespace SumanLib {
   const _suman: Object;
@@ -9,7 +10,13 @@ declare namespace SumanLib {
 }
 
 
-interface  IGlobalSumanObj {
+export interface  IGlobalSumanObj {
+  logError: Function,
+  log: Function,
+  $pre: Object,
+  afterAlwaysEngaged: boolean,
+  timestamp: Number,
+  inBrowser: boolean,
   ctx: ITestSuite,
   viaSuman: boolean,
   sumanHelperDirRoot: string,
@@ -48,15 +55,14 @@ interface  IGlobalSumanObj {
   SUMAN_TEST: string,
   sumanInitTime: number,
   expectedTimeout: number
-
 }
 
-interface IMaxMem {
+export interface IMaxMem {
   heapTotal: number,
   heapUsed: number
 }
 
-interface ISumanOpts {
+export interface ISumanOpts {
   reporters: string,
   reporter_paths: Array<string>
   strict: boolean,
@@ -70,24 +76,23 @@ interface ISumanOpts {
 
 }
 
-interface ISumanGlobalInternal {
+export interface ISumanGlobalInternal {
   viaSuman?: boolean
 
 }
 
 
-interface ISumanGlobal extends Global {
+export interface ISumanGlobal extends Global {
   __suman?: IGlobalSumanObj
 }
 
 
-interface SumanErrorRace extends Error {
+export interface SumanErrorRace extends Error {
   _alreadyHandledBySuman?: boolean
-
 }
 
 
-interface IPseudoError {
+export interface IPseudoError  {
   stack?: string
   message?: string,
   sumanFatal?: boolean,
@@ -95,18 +100,22 @@ interface IPseudoError {
 }
 
 
-interface ISumanDomain extends Domain {
+export interface ISumanDomain extends Domain {
   _sumanStartWholeShebang: boolean
   exit: Function
 }
 
-declare enum BrowserTypes {
+export declare enum BrowserTypes {
   Firefox,
   Chrome,
 }
 
 
-interface ISumanConfig {
+export interface ISumanConfig {
+
+  DEFAULT_PARALLEL_TOTAL_LIMIT: number,
+  DEFAULT_PARALLEL_BLOCK_LIMIT: number,
+  DEFAULT_PARALLEL_TEST_LIMIT: number,
 
   matchAny: Array<RegExp>,
   matchNone: Array<RegExp>,

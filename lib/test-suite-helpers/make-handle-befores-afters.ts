@@ -1,6 +1,8 @@
-import {IHandleError, IOnceHookObj} from "dts/test-suite";
-
 'use strict';
+
+import {IHandleError, IOnceHookObj} from "dts/test-suite";
+import {ISuman} from "../../dts/suman";
+import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -11,16 +13,13 @@ const domain = require('domain');
 const assert = require('assert');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 const su = require('suman-utils');
-const fnArgs = require('function-arguments');
-const debug_core = require('suman-debug')('suman:core');
-const debugSumanTest = require('suman-debug')('suman:test');
 const makeCallback = require('./handle-callback-helper');
 const helpers = require('./handle-promise-generator');
-const constants = require('../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 const cloneError = require('../clone-error');
-const makeHookObj = require('../t-proto-hook');
+const {makeHookObj} = require('../t-proto-hook');
 const freezeExistingProps = require('../freeze-existing');
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -30,9 +29,14 @@ export = function (suman: ISuman, gracefulExit: Function) {
   return function handleBeforesAndAfters(aBeforeOrAfter : IOnceHookObj, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      console.error(' => Suman runtime error => "UncaughtException:Triggered" => halting program.');
+      console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
+
+    //records whether a hook was actually attempted
+    // IMPORTANT: this should appear after the _suman.sumanUncaughtExceptionTriggered check
+    // because an after.always hook needs to run even in the presence of an uncaught exception
+    aBeforeOrAfter.alreadyInitiated = true;
 
     const timerObj = {
       timer: setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : aBeforeOrAfter.timeout)
@@ -43,8 +47,8 @@ export = function (suman: ISuman, gracefulExit: Function) {
     };
 
     const d = domain.create();
-    d._sumanBeforeAfter = true;
-    d._sumanBeforeAfterDesc = aBeforeOrAfter.desc || '(unknown)';
+    d._sumanBeforeOrAfter = true;
+    d._sumanBeforeOrAfterDesc = aBeforeOrAfter.desc || '(unknown)';
 
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfter, timerObj, gracefulExit, cb);
     const fnStr = aBeforeOrAfter.fn.toString();

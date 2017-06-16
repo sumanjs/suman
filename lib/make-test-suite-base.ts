@@ -1,4 +1,10 @@
 'use strict';
+import {
+  IAFterEachObj, IAfterObj, IBeforeEachObj, IBeforeObj, IInjectionObj, ITestDataObj,
+  ITestSuite, ITestSuiteBaseInitObj
+} from "../dts/test-suite";
+
+import {ISuman} from "../dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -10,7 +16,7 @@ const incr = require('./incrementer');
 
 ////////////////////////////////////////////////////////////////////////////
 
-export  = function (suman: ISuman) {
+export = function (suman: ISuman) {
 
   return function TestSuiteBase(obj: ITestSuiteBaseInitObj) {
 
@@ -22,16 +28,26 @@ export  = function (suman: ISuman) {
     this.only = this.opts.only || false;
     this.filename = suman.filename;
 
-    const children : Array<ITestSuite> = [];
-    const tests : Array<ITestDataObj> = [];
-    const parallelTests : Array<ITestDataObj> = [];
-    const testsParallel : Array<any> = [];
-    const loopTests : Array<any> = [];
-    const befores : Array<IBeforeObj> = [];
-    const beforeEaches : Array<IBeforeEachObj> = [];
-    const afters : Array<IAfterObj> = [];
-    const afterEaches : Array<IAFterEachObj> = [];
-    const injections : Array<IInjectionObj> = [];
+    const children: Array<ITestSuite> = [];
+    const tests: Array<ITestDataObj> = [];
+    const parallelTests: Array<ITestDataObj> = [];
+    const testsParallel: Array<any> = [];
+    const loopTests: Array<any> = [];
+    const befores: Array<IBeforeObj> = [];
+    const beforeEaches: Array<IBeforeEachObj> = [];
+
+    const afters: Array<IAfterObj> = [];
+    const aftersLast: Array<IAfterObj> = [];
+
+    const afterEaches: Array<IAFterEachObj> = [];
+    const injections: Array<IInjectionObj> = [];
+
+    this.mergeAfters = function () {
+      // this is for supporting after.last feature
+      while (aftersLast.length > 0) {
+        afters.push(aftersLast.shift());
+      }
+    };
 
     this.injectedValues = {};
 
@@ -65,6 +81,10 @@ export  = function (suman: ISuman) {
 
     this.getBeforeEaches = function () {
       return beforeEaches;
+    };
+
+    this.getAftersLast = function () {
+      return aftersLast;
     };
 
     this.getAfters = function () {

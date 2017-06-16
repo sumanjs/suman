@@ -1,6 +1,6 @@
 'use strict';
-import {ChildProcess} from "child_process";
 import {IRunnerObj, ISumanChildProcess, ITableRows} from "../dts/runner";
+import {IPseudoError} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -59,7 +59,7 @@ const debug = require('suman-debug')('s:runner');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const integrantInjector = require('./injection/integrant-injector');
-const constants = require('../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const ascii = require('./helpers/ascii');
 const su = require('suman-utils');
 import makeHandleBlocking from './runner-helpers/make-handle-blocking';
@@ -73,6 +73,7 @@ const makeBeforeExit = require('./runner-helpers/make-before-exit-once-post');
 const makeSingleProcess = require('./runner-helpers/handle-single-process');
 import makeHandleMultipleProcesses from './runner-helpers/handle-multiple-processes';
 
+
 //////////////////////////////////////////////
 
 
@@ -81,7 +82,6 @@ const projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoo
 const messages: Array<any> = [];
 const integrantHash = {};
 const integrantHashKeyValsForSumanOncePost = {};
-const userData = {}; // user will send data to runner for any/all tests, once before they exit
 const config = _suman.sumanConfig;
 const oncePosts = {};
 const allOncePostKeys: Array<string> = [];
@@ -112,7 +112,7 @@ const makeExit =
   makeMakeExit(runnerObj, tableRows);
 
 const beforeExitRunOncePost =
-  makeBeforeExit(runnerObj, oncePosts, integrantHashKeyValsForSumanOncePost, allOncePostKeys, userData);
+  makeBeforeExit(runnerObj, oncePosts, integrantHashKeyValsForSumanOncePost, allOncePostKeys);
 
 
 process.once('exit', onExit);
@@ -271,7 +271,8 @@ export = function findTestsAndRunThem(runObj: Object, runOnce: Function, $order:
       }
     }
     else {
-      console.error(' => Warning, no dependencies object exported from suman.once.pre.js file.');
+      console.error(' => Warning, no dependencies object exported from suman.once.pre.js file => \n'+
+      'here is the returned contents =>\n', util.inspect(ret));
     }
 
     resultBroadcaster.emit(String(events.RUNNER_ASCII_LOGO), ascii.suman_runner);

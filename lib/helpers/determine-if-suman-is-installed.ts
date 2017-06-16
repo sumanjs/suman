@@ -1,5 +1,7 @@
 'use strict';
 
+import {ISumanConfig, ISumanOpts} from "../../dts/global";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');

@@ -36,20 +36,20 @@ module.exports = {
     extensions: ['.js']
   },
 
-  packages: {
-    'suman-browser-polyfills': {
-      main: require.resolve('suman-browser-polyfills'),
-    },
-    'suman-utils': {
-      main: require.resolve('suman-utils'),
-    },
-    'suman-events': {
-      main: require.resolve('suman-events'),
-    },
-    'suman-debug': {
-      main: require.resolve('suman-debug'),
-    }
-  },
+  // packages: {
+  //   'suman-browser-polyfills': {
+  //     main: require.resolve('suman-browser-polyfills'),
+  //   },
+  //   'suman-utils': {
+  //     main: require.resolve('suman-utils'),
+  //   },
+  //   'suman-events': {
+  //     main: require.resolve('suman-events'),
+  //   },
+  //   'suman-debug': {
+  //     main: require.resolve('suman-debug'),
+  //   }
+  // },
 
   node: {
     assert: true,

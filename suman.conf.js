@@ -23,13 +23,15 @@ module.exports = Object.freeze({
   browser: 'Firefox',                 // browser to open test results with
 
   //boolean
+  logsDir: process.env.SUMAN_LOGS_DIR,
+  installSumanExtraDeps: true,
   installSumanGlobalsInProject: '.suman',
   isLogChildStderr: true,
   isLogChildStdout: true,
   useBabelRegister: false,
   useUtilityPatches: true, // "5".times, etc.
   coverage: false,         // collecting coverage info is expensive and we don't recommend setting this here, but instead at the command line
-  useTAPOutput: true,     // TAP output will always be written out by any process, this is cheap, and true is a good setting
+  useTAPOutput: false,     // TAP output will always be written out by any process, this is cheap, and true is a good setting
   errorsOnly: false,                // only show test errors in the console
   replayErrorsAtRunnerEnd: true,    // for big test runs, con
   allowArrowFunctionsForTestBlocks: true,

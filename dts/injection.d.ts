@@ -1,5 +1,5 @@
 
 
-interface IInjectionDeps {
+export interface IInjectionDeps {
   [key: string]: any
 }
