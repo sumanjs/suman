@@ -77,7 +77,7 @@
     "@types/async": "^2.0.38",
     "@types/core-js": "^0.9.35",
     "@types/lodash": "^4.14.50",
-    "@types/node": "^7.0.13",
+    "@types/node": "^8.0.0",
     "babel-loader": "^6.4.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.24.0",
