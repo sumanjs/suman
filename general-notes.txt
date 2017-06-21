@@ -1,0 +1,11 @@
+
+
+three SO profiles:
+
+1. alex@oresoftware.com on safari "Olegzandr"
+2. via facebook login on chrome
+3. the1mills@yahoo.com on firefox "Olegzandr Denman"
+
+
+// to send stderr and stdout to a file
+do_something 2>&1 | tee -a some_file

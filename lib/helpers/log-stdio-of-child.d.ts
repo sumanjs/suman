@@ -1,2 +1,2 @@
-declare var _default: (filePath: string) => void;
+declare const _default: (filePath: string) => void;
 export = _default;

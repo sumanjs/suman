@@ -1,8 +1,4 @@
-declare const process: any;
-declare const global: any;
-declare const util: any;
-declare const _suman: any;
-declare const su: any;
-declare const testErrors: any;
-declare const errors: any;
-declare const stckMapFn: (item: any, index: any) => any;
+import { IPseudoError } from "../../dts/global";
+import { ISuman } from "../../dts/suman";
+declare const _default: (suman: ISuman) => (err: IPseudoError, test: any) => any;
+export = _default;

@@ -12,6 +12,7 @@ const global = require('suman-browser-polyfills/modules/global');
 //core
 const domain = require('domain');
 const util = require('util');
+const assert = require('assert');
 
 //npm
 const pragmatik = require('pragmatik');
@@ -33,7 +34,7 @@ function handleBadOptions(opts: IInjectOpts) {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
-export = function(suman: ISuman, zuite: ITestSuite) : Function {
+export const makeInject = function (suman: ISuman, zuite: ITestSuite): Function {
 
   return function ($desc: string, $opts: IInjectOpts, $fn: Function) {
 
@@ -43,6 +44,7 @@ export = function(suman: ISuman, zuite: ITestSuite) : Function {
       preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
     });
 
+    // this style produces cleaner transpile code
     let [desc, opts, arr, fn] = args;
     handleBadOptions(opts);
 
@@ -68,15 +70,15 @@ export = function(suman: ISuman, zuite: ITestSuite) : Function {
 
       const preVal: Array<string> = [];
       arrayDeps.forEach(function (a) {
-        if(typeof a === 'object' && !Array.isArray(a)){
+        if (typeof a === 'object' && !Array.isArray(a)) {
           Object.assign(opts, a);
         }
-        else if(typeof a === 'string'){
+        else if (typeof a === 'string') {
           if (/:/.test(a)) {
             preVal.push(a);
           }
         }
-        else{
+        else {
           throw new Error(' => Argument in array must be string or plain object, instead we have =>' +
             '\n' + util.inspect(a));
         }
@@ -95,6 +97,7 @@ export = function(suman: ISuman, zuite: ITestSuite) : Function {
       _suman._writeTestError(' => Warning => Inject hook was stubbed.')
     }
     else {
+
       zuite.getInjections().push({  //TODO: add timeout option
         ctx: zuite,
         desc: desc || (fn ? fn.name : '(unknown due to stubbed function)'),

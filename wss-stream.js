@@ -1,7 +1,3 @@
-/**
- * Created by alexamil on 4/8/17.
- */
-
 
 let http = require('http');
 let fs = require('fs');

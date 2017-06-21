@@ -2,6 +2,7 @@
 import {IGlobalSumanObj} from "../../dts/global";
 import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
+import {IAfterEachOpts, TAfterEachHook} from "../../dts/after-each";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -38,7 +39,7 @@ function handleBadOptions(opts: IAfterEachOpts): void {
 ////////////////////////////////////////////////////////////////////////
 
 
-export = function (suman: ISuman, zuite: ITestSuite): Function {
+export const makeAfterEach = function (suman: ISuman, zuite: ITestSuite): Function {
 
   return function ($desc: string, $opts: IAfterEachOpts, $aAfterEach: TAfterEachHook): ITestSuite {
 

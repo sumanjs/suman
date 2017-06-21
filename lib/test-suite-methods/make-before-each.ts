@@ -1,6 +1,7 @@
 'use strict';
 import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
+import {IBeforeEachOpts} from "../../dts/before-each";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -26,17 +27,17 @@ function handleBadOptions(opts: IBeforeEachOpts) {
 
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
     console.error(' => Suman usage error => "plan" option is not an integer.');
-     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
-     return;
+    process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
+    return;
   }
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-export = function(suman: ISuman, zuite: ITestSuite): Function {
+export const makeBeforeEach = function (suman: ISuman, zuite: ITestSuite): Function {
 
-  return function ($desc: string, $opts: IBeforeEachOpts, $aBeforeEach: Function) : ITestSuite {
+  return function ($desc: string, $opts: IBeforeEachOpts, $aBeforeEach: Function): ITestSuite {
 
     handleSetupComplete(zuite, 'beforeEach');
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict';
 
 //polyfills
@@ -24,13 +25,6 @@ const debug = require('suman-debug')('s:postinstall');
 
 //////////////////////////////////////////////////////////////
 
-// const installOptionalDeps = require('./install-optional-deps');
-
-//////////////////////////////////////////////////////////////
-
-const debugLog = path.resolve(sumanHome + '/suman-debug.log');
-
-///////////////////////////////////////////////////////////////
 
 function unlock (cb) {
   lf.unlock(lock, function (err) {
@@ -123,8 +117,8 @@ module.exports = function work (cb) {
 
           data = uniqueList.join('\n');
 
-          console.log(' => Suman postinstall message => number of npm install lines remaining *after* de-duping => ', uniqueList.length,
-            '\n', ' first item => ', first,'\n');
+          console.log(' => Suman postinstall message => number of npm install lines remaining *after* de-duping => ',
+            uniqueList.length, '\n', ' first item => ', first,'\n');
 
           fs.writeFile(queue, data,  {mode:0o777}, function (err) {
 

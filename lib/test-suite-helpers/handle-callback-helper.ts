@@ -225,11 +225,15 @@ export = function makeCallback (d: ISumanDomain, assertCount: IAssertObj, test: 
 
       if (called > 1 && test && !test.timedOut) {
         _suman._writeTestError('Warning: the following test callback was invoked twice by your code ' +
-          'for the following test/hook => ' + (test ? test.desc : ''));
+          'for the following test/hook with name => "' + (test ? test.desc : '') + '".');
+        _suman._writeTestError('The problematic test case can be located from this error trace => \n'+
+          cloneError(test.warningErr, 'The callback was fired more than once for this test case.').stack);
       }
       else if (called > 1 && hook) {  //TODO need to handle this case for hooks
         _suman._writeTestError('\n\nWarning: the following test callback was invoked twice by your code ' +
-          'for the following hook => ' + (hook.desc || '(hook has no description)') + '\n\n');
+          'for the following hook with name => "' + (hook.desc || '(hook has no description)') + '".\n\n');
+        _suman._writeTestError('The problematic hook can be located from this error trace => \n'+
+          cloneError(hook.warningErr, 'The callback was fired more than once for this test case.').stack);
       }
 
     }

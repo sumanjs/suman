@@ -1,2 +1,2 @@
-declare var _default: (runObj: Object, runOnce: Function, $order: Object) => void;
+declare const _default: (runObj: Object, runOnce: Function, $order: Object) => void;
 export = _default;

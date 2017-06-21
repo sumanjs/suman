@@ -1,2 +1,2 @@
-declare var _default: (paths: string[]) => void;
+declare const _default: (paths: string[]) => void;
 export = _default;

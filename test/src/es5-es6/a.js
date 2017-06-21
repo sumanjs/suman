@@ -24,7 +24,6 @@ Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe)
     }, 100);
   });
 
-  ///////////////////
 
   it('a', t => {
     assert(true);
@@ -50,11 +49,11 @@ Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe)
   });
 
   // late registry of hook, should cause error
-  // process.nextTick(function(){
-  //   after(t => {
-  //     console.log('after b');
-  //   });
-  // });
+  process.nextTick(function(){
+    after(t => {
+      console.log('after b');
+    });
+  });
 
   Number(5).times(num => {
 

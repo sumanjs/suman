@@ -49,6 +49,19 @@ Promise.prototype.catch = function (fn1: Function) {
   return katch.call(this, fn1);
 };
 
+/*
+
+5..times(function (val) {
+  console.log(val);
+});
+
+
+"5".times(function (val) {
+  console.log(val);
+});
+
+*/
+
 // add a MF utility method to Number.prototype and String.prototype
 String.prototype.times = Number.prototype.times = function (callback: Function) {
   if (typeof callback !== 'function') {

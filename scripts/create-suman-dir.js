@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 
 //core
 const path = require('path');
@@ -180,59 +181,6 @@ fs.mkdir(sumanHome, function (err) {
   ], function (err) {
 
     runDatabaseInstalls(err);
-
-    /*
-
-     if (err) {
-     try {
-     fs.appendFileSync(sumanDebugLog, '\n => Suman post-install script failed with error => \n' + (err.stack || err));
-     }
-     catch (err) {
-     //ignore
-     }
-
-     console.error(err.stack || err);
-     process.exit(1);
-     }
-     else {
-
-     const n = cp.spawn('bash', [createTables], {
-     env: Object.assign({}, process.env, {
-     SUMAN_DATABASE_PATH: dbPath
-     })
-     });
-
-     n.stderr.on('data', function (d) {
-     fs.appendFileSync(sumanDebugLog, d);
-     });
-
-     n.once('close', function (code) {
-
-     n.unref();
-
-     if (code > 0) {
-     process.exit(1);
-     return;
-     }
-
-     try {
-     if (fs.existsSync(sumanHome)) {
-     process.exit(0);
-     }
-     else {
-     console.error(' => Warning => ~/.suman dir does not exist!');
-     process.exit(1)
-     }
-     }
-     catch (err) {
-     console.error(err.stack || err);
-     process.exit(1);
-     }
-
-     });
-
-     }
-     */
 
   });
 

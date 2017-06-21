@@ -1,3 +1,6 @@
 import { ISuman } from "../dts/suman";
-declare var _default: (suman: ISuman) => ($desc: string, $opts: any, $arr: any[], $cb: any) => any;
-export = _default;
+import { ICreateOpts, TCreateHook } from "../dts/index-init";
+export interface IMakeCreate {
+    (desc: string, opts: ICreateOpts, arr: Array<any>, cb: TCreateHook): void;
+}
+export declare const execSuite: (suman: ISuman) => IMakeCreate;

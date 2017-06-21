@@ -6,6 +6,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
+const util = require('util');
 const EE = require('events');
 
 //project
@@ -29,7 +30,7 @@ proto.wrap = function _wrap(fn: Function) {
   }
 };
 
-proto.wrapErrorFirst = proto.wrapErrFirst = proto.wrapErr1st = function _wrapErrFirstCB(fn: Function) {
+proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
   const self = this;
   return function (err: IPseudoError) {
     if (err) {
@@ -37,9 +38,9 @@ proto.wrapErrorFirst = proto.wrapErrFirst = proto.wrapErr1st = function _wrapErr
     }
     try {
       // remove the error-first argument
-      fn.apply(this, Array.from(arguments).slice(1));
+      return fn.apply(this, Array.from(arguments).slice(1));
     } catch (e) {
-      self.__handle(e, false);
+      return self.__handle(e, false);
     }
   }
 };
