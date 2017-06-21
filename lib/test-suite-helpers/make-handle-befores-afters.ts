@@ -164,14 +164,13 @@ export = function (suman: ISuman, gracefulExit: Function) {
             }
           };
 
-          t.ctn = function ctn(err: IPseudoError) {
+          t.ctn = t.pass = function ctn(err: IPseudoError) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }
             else {
               fini(null);
             }
-
           };
 
           arg = Object.setPrototypeOf(d, freezeExistingProps(t));

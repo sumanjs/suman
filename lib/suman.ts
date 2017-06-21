@@ -21,7 +21,7 @@ const colors = require('colors/safe');
 const AsciiTable = require('ascii-table');
 const async = require('async');
 const fnArgs = require('function-arguments');
-const events = require('suman-events');
+import {events} from 'suman-events';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -121,6 +121,11 @@ Suman.prototype.getTableData = function () {
 
 function combine(prev: number, curr: number) {
   return prev + curr;
+}
+
+export interface ITableDataCallbackObj {
+  exitCode: number,
+  tableData: Object
 }
 
 Suman.prototype.logFinished = function ($exitCode: number, skippedString: string, cb: Function) {
@@ -301,7 +306,7 @@ Suman.prototype.logFinished = function ($exitCode: number, skippedString: string
       cb(null, {
         exitCode: exitCode,
         tableData: table
-      });
+      } as ITableDataCallbackObj);
     });
 
   }
@@ -417,7 +422,7 @@ Suman.prototype.logResult = function (test: ITestDataObj) : void {  //TODO: refa
   }
 };
 
-export = function makeSuman($module: NodeModule, _interface: string,
+export default function _makeSuman($module: NodeModule, _interface: string,
                             shouldCreateResultsDir: boolean, config: ISumanConfig, cb: Function) {
 
   let liveSumanServer = false;

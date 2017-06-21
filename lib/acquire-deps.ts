@@ -1,6 +1,7 @@
 'use strict';
 import Timer = NodeJS.Timer;
 import {IDepContainer} from "../dts/integrant-value-container";
+import {IPseudoError} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -21,7 +22,6 @@ const makeGen = require('./helpers/async-gen');
 
 ////////////////////////////////////////////////////////////////////
 
-
 interface ICachedProm {
   [key: string]: Promise<any>
 }
@@ -30,7 +30,11 @@ interface IAccum {
   [key: string]: any
 }
 
+///////////////////////////////////////////////////////////////
+
 let cachedPromises: ICachedProm = {}; // use Map instead? Map<string, Promise<any>> = new Map();
+
+///////////////////////////////////////////////////////////////
 
 const customStringify = function (v: any) {
   let cache: Array<any> = [];
@@ -52,22 +56,23 @@ const customStringify = function (v: any) {
 export = function acquireDependencies(depList: Array<string>, depContainerObj: IDepContainer): Promise<any> {
 
   const verbosity = _suman.sumanOpts.verbosity || 5;
-  console.log(' => Verbosity level => ', colors.magenta(verbosity));
+  _suman.log('verbosity level => ', colors.magenta(verbosity));
+  console.log('depList => ', depList);
 
   const getAllPromises = function (key: string, $deps: Array<any>): Promise<any> {
 
-
-    if(verbosity > 3){
-      console.log(colors.cyan(` => Suman => suman.once.pre.js => Beginning to source dep with key => '${key}'`));
+    if (cachedPromises[key]) {
+      // if the promise has already been created, then just return that
+      return cachedPromises[key];
     }
 
-    let c;
-    if (c = cachedPromises[key]) {
-      return c;
+    if (verbosity > 3) {
+      // only want to log this once, that's why we check cachedPromises for the key
+      _suman.log(colors.cyan(`(suman.once.pre.js) => Beginning to source dep with key => '${key}'`));
     }
 
     const val = depContainerObj[key];
-    let subDeps : Array<string>;
+    let subDeps: Array<string>;
     let fn: Function;
     let timeout: number;  // default timeout
     let props: Array<string>;
@@ -105,7 +110,7 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
       timeout = 25000; // 15 seconds
     }
 
-    if(verbosity > 4){
+    if (verbosity > 6) {
       _suman.log(`Maximum time allocated to source dependency with key => '${key}' is => `, timeout);
     }
 
@@ -131,15 +136,20 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
     return cachedPromises[key] = Promise.all(
       subDeps.map(function (k) {
         return getAllPromises(k, $deps.slice(0)).then(function (v) {
-          acc[k] = v;
+          // acc[k] = v;
+          Object.assign(acc, v);
+          // return v;
         });
       })
     ).then(function ($$vals) {
 
+      console.log('acc =>', acc);
+      console.log('$$vals =>', $$vals);
       // ignore $$vals, use acc instead
 
-      if(verbosity > 3 && subDeps.length > 0){
-        console.log(colors.blue(` => Suman => suman.once.pre.js => Finished sourcing the dependencies ${util.inspect(subDeps)} of key => '${key}'`));
+      if (verbosity > 5 && subDeps.length > 0) {
+        _suman.log(colors.blue(`suman.once.pre.js => `
+          + `Finished sourcing the dependencies ${util.inspect(subDeps)} of key => '${key}'`));
       }
 
       let to: Timer;
@@ -150,23 +160,26 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
           reject(new Error(`Suman dependency acquisition timed-out for dependency with key => '${key}'`));
         }, _suman.weAreDebugging ? 5000000 : timeout);
 
-        if (verbosity > 3 || su.isSumanDebug()) {
-          console.log(' => Suman => suman.once.pre.js => Executing dep with key = "' + key + '"');
+        if (verbosity > 5 || su.isSumanDebug()) {
+          _suman.log('suman.once.pre.js => Executing dep with key = "' + key + '"');
         }
 
         if (typeof fn !== 'function') {
           reject({
-            key: key,
+            key,
             error: new Error(' => Suman usage error => would-be function was undefined or otherwise ' +
               'not a function => ' + String(fn))
           });
         }
         else if (fn.length > 1 && su.isGeneratorFn(fn)) {
-          reject(new Error(' => Suman usage error => function was a generator function but also took a callback' + String(fn)));
+          reject({
+            key,
+            error: new Error(' => Suman usage error => function was a generator function but also took a callback' + String(fn))
+          });
         }
         else if (su.isGeneratorFn(fn)) {
           const gen = makeGen(fn, null);
-          gen.call(undefined, acc).then(resolve, function (e: Error | string) {
+          gen.call(null, acc).then(resolve, function (e: Error | string) {
             reject({
               key: key,
               error: e
@@ -185,7 +198,8 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
               error: new Error(' => Suman usage error => Callback in your function was not present => ' + str)
             });
           }
-          fn.call(undefined, acc, function (e: Error | string, val: any) { //TODO what to use for ctx of this .apply call?
+
+          fn.call(null, acc, function (e: IPseudoError | string, val: any) {
             e ? reject({
               key: key,
               error: e
@@ -193,7 +207,7 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
           });
         }
         else {
-          Promise.resolve(fn.call(undefined, acc)).then(resolve, function (e: Error | string) {
+          Promise.resolve(fn.call(undefined, acc)).then(resolve, function (e: IPseudoError | string) {
             reject({
               key: key,
               error: e
@@ -205,12 +219,13 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
         clearTimeout(to);
 
         if (verbosity > 3 || su.isSumanDebug()) {
-          console.log(colors.green(' => Suman => suman.once.pre.js => Finsihed sourcing dep with key = "' + key + '"'));
+          _suman.log(colors.green.bold('suman.once.pre.js => Finished sourcing dep with key = "' + key + '"'));
         }
 
         return {
           [key]: val
         };
+
       }, function (err) {
         clearTimeout(to);
         return Promise.reject(err);
@@ -218,11 +233,14 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
     });
   };
 
+
   const promises = depList.map(function (key) {
     return getAllPromises(key, []);
   });
 
-  return Promise.all(_.flattenDeep(promises)).then(function (deps) {
+  // return Promise.all(_.flattenDeep(promises)).then(function (deps) {
+
+  return Promise.all(promises).then(function (deps) {
 
     // Object.keys(depContainerObj).forEach(function (key, index) {
     //   depContainerObj[key] = deps[index];
@@ -236,18 +254,21 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
     //   su.runAssertionToCheckForSerialization(depContainerObj[key]);
     // });
 
+    console.log('deps => ', deps);
+
     const obj = deps.reduce(function (prev, curr) {
       return Object.assign(prev, curr);
     }, {});
 
-    console.log(colors.green.underline.bold(' => [suman] => Finished with suman.once.pre.js dependencies.'));
+    console.log('deps obj=> ', obj);
+
+    _suman.log(colors.green.underline.bold('Finished with suman.once.pre.js dependencies.'));
 
     return customStringify(obj);
 
-  }, function(err){
+  }, function (err) {
 
-    console.error(colors.magenta(' => [suman] => ',
-      'there was an error sourcing your dependencies in suman.once.pre.js.'));
+    _suman.logError(colors.magenta('There was an error sourcing your dependencies in suman.once.pre.js.'));
     console.error(err.stack || err);
     return customStringify({});
 

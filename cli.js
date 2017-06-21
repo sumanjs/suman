@@ -32,7 +32,7 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
   process.exit(1);
 }
 
-console.log(' => Resolved path of Suman executable =>', '"' + __filename + '"');
+
 const weAreDebugging = require('./lib/helpers/we-are-debugging');
 
 if (weAreDebugging) {
@@ -109,23 +109,25 @@ const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
 const uniqBy = require('lodash.uniqby');
-const events = require('suman-events');
+const {events} = require('suman-events');
 const debug = require('suman-debug')('s:cli');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
 require('./lib/helpers/add-suman-global-properties');
-
 require('./lib/patches/all');
+
 const {constants} = require('./config/suman-constants');
 const su = require('suman-utils');
 
 //////////////////////////////////////////////////////////////////////////
 
 debug([' => Suman started with the following command:', process.argv]);
-debug([' => $NODE_PATH is as follows:', process.env.NODE_PATH]);
+debug([' => $NODE_PATH is as follows:', process.env['NODE_PATH']]);
 
 //////////////////////////////////////////////////////////////////////////
+
+_suman.log('Resolved path of Suman executable =>', '"' + __filename + '"');
 
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
@@ -142,7 +144,7 @@ _suman.log('Node.js version:', nodeVersion);
 
 const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
-_suman.log(colors.yellow.italic(' => Suman v' + sumanVersion + ' running...'));
+_suman.log(colors.yellow.italic('Suman v' + sumanVersion + ' running...'));
 _suman.log('[pid] => ', process.pid);
 
 ////////////////////////////////////////////////////////////////////
@@ -235,6 +237,7 @@ const appendMatchNone = sumanOpts.append_match_none;
 const matchAny = sumanOpts.match_any;
 const matchAll = sumanOpts.match_all;
 const matchNone = sumanOpts.match_none;
+const repair = sumanOpts.repair;
 const uninstallBabel = sumanOpts.uninstall_babel;
 const groups = sumanOpts.groups;
 const useTAPOutput = sumanOpts.use_tap_output;
@@ -243,6 +246,7 @@ const coverage = sumanOpts.coverage;
 const diagnostics = sumanOpts.diagnostics;
 const installGlobals = sumanOpts.install_globals;
 const postinstall = sumanOpts.postinstall;
+const tscMultiWatch = sumanOpts.tsc_multi_watch;
 
 if (coverage) {
   console.log(colors.magenta.bold(' => Coverage reports will be written out due to presence of --coverage flag.'));
@@ -481,6 +485,8 @@ else {
 /////////////////////////////// abort if too many top-level options /////////////////////////////////////////////
 
 const preOptCheck = {
+
+  tscMultiWatch: tscMultiWatch,
   watch: watch,
   create: create,
   useServer: useServer,
@@ -497,8 +503,9 @@ const preOptCheck = {
   uninstallBabel: uninstallBabel,
   diagnostics: diagnostics,
   installGlobals: installGlobals,
-  postinstall: postinstall
-  //TODO: should mix this with uninstall-suman
+  postinstall: postinstall,
+  repair: repair
+
 };
 
 const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
@@ -565,6 +572,12 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
   if (diagnostics) {
     require('./lib/cli-commands/run-diagnostics')();
   }
+  else if(tscMultiWatch){
+    require('./lib/cli-commands/run-tscmultiwatch').run(sumanOpts);
+  }
+  else if(repair){
+    require('./lib/cli-commands/run-repair').run(sumanOpts);
+  }
   else if (postinstall) {
     require('./lib/cli-commands/postinstall');
   }
@@ -626,13 +639,13 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
     //this path runs all tests
 
     if (userArgs && sumanOpts.verbosity > 4) {
-      console.log(' => User args will be passed to child processes as process.argv')
+      _suman.log('User args will be passed to child processes as process.argv')
     }
 
     if (sumanOpts.verbosity > 4) {
-      console.log(' => Suman considers these to be runnable files/directories => ');
+      _suman.log('Suman considers these to be runnable files/directories => ');
       paths.forEach(function (f) {
-        console.log(' => ', f);
+        console.log('\t => ', f);
       });
     }
 

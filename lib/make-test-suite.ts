@@ -10,13 +10,16 @@ import {ITestSuiteMakerOpts, TTestSuiteMaker} from "../dts/test-suite-maker";
 import {ISuman} from "../dts/suman";
 import {IItOpts, ItFn, ItHookCallbackMode, ItHookRegularMode} from "../dts/it";
 import {IDescribeFn, IDescribeOpts, TDescribeHook} from "../dts/describe";
-import {AfterHookCallbackMode, AfterHookRegularMode, IAfterFn, IAfterOpts} from "./test-suite-methods/make-after";
+
+
 import {
   BeforeEachHookCallbackMode, BeforeEachHookRegularMode, IBeforeEachFn,
   IBeforeEachOpts
 } from "../dts/before-each";
 
+
 import {IAfterEachFn, IAfterEachOpts, TAfterEachHookCallbackMode, TAfterEachHookRegularMode} from "../dts/after-each";
+import {AfterHookCallbackMode, AfterHookRegularMode, IAfterFn, IAfterOpts} from "../dts/after";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -32,18 +35,14 @@ const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
 const _ = require('underscore');
 const async = require('async');
-const colors = require('colors/safe');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('./helpers/handle-varargs');
-const implementationError = require('./helpers/implementation-error');
 const {constants} = require('../config/suman-constants');
-const sumanUtils = require('suman-utils');
+import TestSuiteBase from './test-suite-base-constructor';
 const freezeExistingProps = require('./freeze-existing');
-const originalAcquireDeps = require('./acquire-deps-original');
 const {makeStartSuite} = require('./test-suite-helpers/make-start-suite');
-const makeTestSuiteBase = require('./make-test-suite-base');
 const makeHandleBeforesAndAfters = require('./test-suite-helpers/make-handle-befores-afters');
 const {makeNotifyParent} = require('./test-suite-helpers/notify-parent-that-child-is-complete');
 
@@ -64,9 +63,6 @@ function makeRunChild(val: any) {
   }
 }
 
-// interface ITestSuiteConstructor {
-//   new (opts: ITestSuiteMakerOpts): void;
-// }
 
 type ITestSuiteConstructor = (obj: ITestSuiteMakerOpts) => void;
 
@@ -75,7 +71,6 @@ export = function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTe
 
   const allDescribeBlocks = suman.allDescribeBlocks;
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
-  const TestSuiteBase = makeTestSuiteBase(suman);
   const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
   const notifyParentThatChildIsComplete = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
 
@@ -135,8 +130,8 @@ export = function makeTestSuiteMaker(suman: ISuman, gracefulExit: Function): TTe
     };
 
     //Note: we hide many properties in the prototype
+    TestSuite.prototype = Object.create(new TestSuiteBase(data, suman));
 
-    TestSuite.prototype = Object.create(new TestSuiteBase(data));
     TestSuite.prototype.__bindExtras = function bindExtras() {
 
       const ctx = _suman.ctx = this;
