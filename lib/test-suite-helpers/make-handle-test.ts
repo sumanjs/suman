@@ -81,7 +81,10 @@ export const makeHandleTest =  function (suman: ISuman, gracefulExit: Function) 
         fini({stack});
       }
       else {
-        _suman._writeTestError(' => Suman error => Error in hook => \n' + stack);
+        // after second call to error, that's about enough
+        // d.removeAllListeners();
+        // d.exit()  should take care of removing listeners
+        _suman._writeTestError(' => Suman error => Error in test => \n' + stack);
       }
     };
 
@@ -94,7 +97,8 @@ export const makeHandleTest =  function (suman: ISuman, gracefulExit: Function) 
         let warn = false;
         let isAsyncAwait = false;
 
-        if (fnStr.indexOf('Promise') > 0 || fnStr.indexOf('async') === 0) {  //TODO: this check needs to get updated, async functions should return promises implicitly
+        if (fnStr.indexOf('Promise') > 0 || fnStr.indexOf('async') === 0) {
+          //TODO: this check needs to get updated, async functions should return promises implicitly
           warn = true;
         }
 
@@ -181,7 +185,7 @@ export const makeHandleTest =  function (suman: ISuman, gracefulExit: Function) 
             }
           };
 
-          t.pass = function pass() {
+          t.pass = t.ctn = function pass() {
             if (!t.callbackMode) {
               handleNonCallbackMode(undefined);
             }

@@ -19,7 +19,8 @@ const {constants} = require('../../config/suman-constants');
 
 export = function (dirs: Array<string>) {
 
-  console.log('\n', colors.magenta.bold('=> Suman message => No test files were found in the directories provided, ' +
+  console.log('\n');
+  _suman.log(colors.magenta.bold('No test files were found in the directories provided, ' +
       'given the following regular expressions => '), '\n\n',
     colors.magenta([
       {

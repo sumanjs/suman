@@ -9,6 +9,14 @@ module.exports = ($data, $core, $deps) => {
 
     dependencies: {
 
+      'chuck': function () {
+        return 'berry';
+      },
+
+      'mark': function (cb) {
+        cb(null, 'rutherfurd');
+      },
+
       'william': function (cb) {
         setTimeout(function () {
           cb(null, 10);

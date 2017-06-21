@@ -3,6 +3,12 @@ import EventEmitter = NodeJS.EventEmitter;
 import { Transform, Writable } from "stream";
 import { IDescribeFn, IDescribeOpts, TDescribeHook } from "../dts/describe";
 import { ISumanModuleExtended, TCreateHook } from "../dts/index-init";
+export { IBeforeFn } from '../dts/before';
+export { ITestCaseParam } from '../dts/test-suite';
+export { IHookParam } from '../dts/test-suite';
+export { IDescribeFn } from '../dts/describe';
+export { ItFn } from '../dts/it';
+import { IHookOrTestCaseParam } from "../dts/test-suite";
 export interface ILoadOpts {
     path: string;
     indirect: boolean;
@@ -42,7 +48,9 @@ export interface IInit {
 export declare const init: IInit;
 export declare function SumanWritable(type: any): Writable;
 export declare function SumanTransform(): Transform;
-export declare const autoPass: () => void;
-export declare const autoFail: () => never;
+export declare const autoPass: (t: IHookOrTestCaseParam) => void;
+export declare const autoFail: (t: IHookOrTestCaseParam) => Promise<never>;
 export declare const once: (fn: Function) => (cb: Function) => void;
 export declare const load: (opts: ILoadOpts) => any;
+declare const $exports: any;
+export default $exports;

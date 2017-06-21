@@ -1,11 +1,18 @@
 
+import {IEachHookObj} from "./test-suite";
 
-// before
 
 export interface IBeforeEachFn {
     (desc:string, opts: IBeforeEachOpts, fn: Function): void,
     cb?: IBeforeEachFn,
     skip?: IBeforeEachFn
+}
+
+export interface IBeforeEachObj extends IEachHookObj {
+    desc: string,
+    throws: RegExp,
+    type: string,
+    warningErr: Error
 }
 
 export interface IBeforeEachOpts {

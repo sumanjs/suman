@@ -23,10 +23,6 @@
 const suman = require('suman');
 const Test = suman.init(module);
 
-/**
- * Created by denmanm1 on 4/6/16.
- */
-
 
 var assert = require("assert"),
     fs = require('fs');

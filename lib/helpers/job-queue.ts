@@ -28,7 +28,7 @@ export const getQueue = function () {
     // note: we have to create the queue after loading this file, so that _suman.sumanConfig is defined.
 
     if (_suman.sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT &&
-      (envConfig = _suman.sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT)) {
+      (envConfig = Number(_suman.sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
       assert(Number.isInteger(envConfig), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
     }
 
@@ -38,9 +38,11 @@ export const getQueue = function () {
       task(callback);
     }, concurrency);
 
+
     // queue.drain = function () {
     //   console.log('all items have been processed in queue');
     // };
+
 
   }
 

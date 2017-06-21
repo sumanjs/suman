@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if ! [ -z "${LOCAL_SUMAN_ALREADY_FOUND+x}" ]; then
+if ! [[ -z "${LOCAL_SUMAN_ALREADY_FOUND+x}" ]]; then
     echo " => \$LOCAL_SUMAN_ALREADY_FOUND ? => $LOCAL_SUMAN_ALREADY_FOUND"
 fi
 
@@ -15,10 +15,12 @@ NEW_NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
 NEW_PATH=${PATH}:~/.suman/global/node_modules/.bin
 
 if [ "${LOCAL_SUMAN_ALREADY_FOUND}" == "yes" ]; then
+
     NODE_PATH=${NEW_NODE_PATH} PATH=${NEW_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node debug ${X}/cli.js $@
+
 else
 
- LOCAL_SUMAN=$(node ${X}/scripts/find-local-suman-executable.js)
+    LOCAL_SUMAN=$(node ${X}/scripts/find-local-suman-executable.js)
 
     if [ -z "${LOCAL_SUMAN}" ]; then
         # no local version found, so we fallback on the version in this directory, global or not

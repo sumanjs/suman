@@ -26,7 +26,7 @@ fi
 # create a package.json skeleton just to keep NPM from complaining
 # we can also keep track of which deps are actually installed, and their versions
 # we execute in a subshell so we don't actually change the current directory
-(cd $HOME/.suman/global && npm init -f ) &
+(cd $HOME/.suman/global && npm init -f >> ${SUMAN_DEBUG_LOG_PATH} 2>&1) &
 
 wait;
 

@@ -11,87 +11,66 @@ const global = require('suman-browser-polyfills/modules/global');
 const _ = require('underscore');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 ////////////////////////////////////////////////////////////////////
 
-export = function (suman: ISuman, allDescribeBlocks: Array<ITestSuite>) {
+export const getAllBeforesEaches = function (zuite: ITestSuite) {
 
-  function getAllBeforesEaches(zuite: ITestSuite) {
+  const beforeEaches: Array<Array<IBeforeEachObj>> = [];
+  beforeEaches.unshift(zuite.getBeforeEaches());
 
-    const beforeEaches: Array<Array<IBeforeEachObj>> = [];
-    beforeEaches.unshift(zuite.getBeforeEaches());
+  function getParentBefores(parent: ITestSuite) {
 
-    function getParentBefores(testId: number) {
-
-      let parent = null;
-
-      for (let i = 0; i < allDescribeBlocks.length; i++) {
-        let temp = allDescribeBlocks[i];
-        if (temp.testId === testId) {
-          parent = temp;
-          break;
-        }
+    if (parent) {
+      beforeEaches.unshift(parent.getBeforeEaches());
+      if (parent.parent) {
+        getParentBefores(parent.parent);
       }
-
-      if (parent) {
-        beforeEaches.unshift(parent.getBeforeEaches());
-        if (parent.parent) {
-          getParentBefores(parent.parent.testId);
-        }
-      }
-      else {
-        throw new Error(' => Suman implementation error => this should not happen...please report.');
-      }
-
+    }
+    else {
+      throw new Error(' => Suman implementation error => this should not happen...please report.');
     }
 
-    if (zuite.parent) {
-      getParentBefores(zuite.parent.testId);
-    }
-
-    return _.flatten(beforeEaches, true);
   }
 
-  function getAllAfterEaches(zuite: ITestSuite) {
-
-    const afterEaches: Array<Array<IAFterEachObj>> = [];
-    afterEaches.push(zuite.getAfterEaches());
-
-    function getParentAfters(testId: number) {
-
-      let parent = null;
-
-      for (let i = 0; i < allDescribeBlocks.length; i++) {
-        let temp = allDescribeBlocks[i];
-        if (temp.testId === testId) {
-          parent = temp;
-          break;
-        }
-      }
-
-      if (parent) {
-        afterEaches.push(parent.getAfterEaches());
-        if (parent.parent) {
-          getParentAfters(parent.parent.testId);
-        }
-      }
-      else {
-        throw new Error(' => Suman implementation error => this should not happen...please report.');
-      }
-    }
-
-    if (zuite.parent) {
-      getParentAfters(zuite.parent.testId);
-    }
-
-    return _.flatten(afterEaches, true);
+  if (zuite.parent) {
+    getParentBefores(zuite.parent);
   }
 
-  return {
-    getAllAfterEaches,
-    getAllBeforesEaches
+  return _.flatten(beforeEaches, true);
+};
+
+export const getAllAfterEaches = function (zuite: ITestSuite) {
+
+  const afterEaches: Array<Array<IAFterEachObj>> = [];
+  afterEaches.push(zuite.getAfterEaches());
+
+  function getParentAfters(parent: ITestSuite) {
+
+
+    if (parent) {
+      afterEaches.push(parent.getAfterEaches());
+      if (parent.parent) {
+        getParentAfters(parent.parent);
+      }
+    }
+    else {
+      throw new Error(' => Suman implementation error => this should not happen...please report.');
+    }
   }
-}
+
+  if (zuite.parent) {
+    getParentAfters(zuite.parent);
+  }
+
+  return _.flatten(afterEaches, true);
+};
+
+
+const $exports = module.exports;
+export default $exports;
+
+
 
 
