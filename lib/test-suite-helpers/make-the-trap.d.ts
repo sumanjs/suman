@@ -1,4 +1,4 @@
-import { ITestDataObj, ITestSuite } from "../../dts/test-suite";
+import { ITestSuite } from "../../dts/test-suite";
 import { ISuman } from "../../dts/suman";
 import { IItOpts } from "../../dts/it";
-export declare const makeTheTrap: (suman: ISuman, gracefulExit: Function) => (self: ITestSuite, test: ITestDataObj, opts: IItOpts, cb: Function) => any;
+export declare const makeTheTrap: (suman: ISuman, gracefulExit: Function) => (self: ITestSuite, test: any, opts: IItOpts, cb: Function) => any;

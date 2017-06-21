@@ -1,11 +1,18 @@
 // after
 
+import {IOnceHookObj} from "./test-suite";
+
 export interface IAfterFn {
   (desc: string, opts: IAfterOpts, fn: Function): void,
   cb?: IAfterFn,
   skip?: IAfterFn
 }
 
+
+export interface IAfterObj extends IOnceHookObj {
+  last: boolean,
+  always: boolean
+}
 
 export interface IAfterHook {
 

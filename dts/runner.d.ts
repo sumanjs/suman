@@ -1,3 +1,4 @@
+///<reference path="../node_modules/@types/node/index.d.ts"/>
 
 import {ChildProcess} from "child_process";
 import Timer = NodeJS.Timer;

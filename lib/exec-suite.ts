@@ -36,15 +36,23 @@ import rules = require('./helpers/handle-varargs');
 import {constants} from '../config/suman-constants';
 const su = require('suman-utils');
 import makeGracefulExit = require('./make-graceful-exit');
-const originalAcquireDeps = require('./acquire-deps-original');
+import acquireIoCDeps from './acquire-ioc-deps';
 const makeAcquireDepsFillIn = require('./acquire-deps-fill-in');
 const makeTestSuite = require('./make-test-suite');
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 const {handleInjections} = require('./handle-injections');
 
+
+export interface IMakeCreate {
+  (desc: string, opts: ICreateOpts, arr: Array<any>, cb: TCreateHook): void
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
-export = function main(suman: ISuman) {
+export const execSuite =  function (suman: ISuman) {
+
+  // we set this so that after.always hooks can run
+  _suman.whichSuman = suman;
 
   const onSumanCompleted = function _onSumanCompleted(code: number, msg: string) {
 
@@ -78,14 +86,18 @@ export = function main(suman: ISuman) {
   const gracefulExit = makeGracefulExit(suman);
   const mTestSuite = makeTestSuite(suman, gracefulExit);
 
-  function makeSuite($desc: string, $opts: ICreateOpts, $arr: Array<any>, $cb: TCreateHook) {
+  const  makeSuite : IMakeCreate = function() {
 
-    const args = pragmatik.parse(arguments, rules.blockSignature);
+    // const args = pragmatik.parse(arguments, rules.blockSignature);
+    const args = pragmatik.parse(arguments, rules.createSignature);
+    // the code transpiles more cleanly with args on a separate line
     let [desc, opts, arr, cb] = args;
 
     if (arr && cb) {
       throw new Error(' => Please define either an array or callback.');
     }
+
+    debugger;
 
     let arrayDeps: Array<string>;
 
@@ -214,10 +226,10 @@ export = function main(suman: ISuman) {
 
       d.run(function () {
 
-        originalAcquireDeps(deps, function (err: IPseudoError, depz: IInjectionDeps) {
+        acquireIoCDeps(deps, suite, function (err: IPseudoError, depz: IInjectionDeps) {
 
           if (err) {
-            console.log(err.stack || err);
+            _suman.logError('error acquiring IoC deps:',err.stack || err);
             return process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
 
@@ -306,7 +318,7 @@ export = function main(suman: ISuman) {
           else {
 
             suite.__proto__.__resume = function () {
-              console.error('\n', ' => Suman usage warning => suite.resume() has become a noop since delay option is falsy.');
+              _suman.logWarning('usage warning => suite.resume() has become a noop since delay option is falsy.');
             };
 
             cb.apply(suite, deps);

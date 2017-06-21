@@ -64,6 +64,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
         runTests: function _runTests(cb: Function) {
 
+
           let fn1 = self.parallel ? async.parallel : async.series;
           let fn2 = async.eachLimit;
           // let fn2 = self.parallel ? async.each : async.eachSeries;

@@ -13,23 +13,25 @@ module.exports = ($core, $deps, $root) => {  //load async deps for any of your s
 
     dependencies: {
 
+
       'one': ['four', function (v) {
         console.log('one v =>', v);
-        return 'one';
+        return 'this is one';
       }],
 
       'two': [function (v) {
         console.log('two v =>', v);
-        return 'two';
+        return 'this is two';
       }],
 
       'three': ['one', 'two', 'four', function (v) {
         console.log('three v =>', v);
-        return 'three';
+        return 'this is three';
       }],
 
-      'four': ['two', function () {
-        return 'four';
+      'four': ['two', function (v) {
+        console.log('four v =>', v);
+        return 'this is four';
       }],
 
       'charlie': function () {

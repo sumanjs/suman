@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict';
 
 //core
@@ -81,13 +82,8 @@ if(sumanConf.installSumanExtraDeps === false){
 //always install latest for now
 let installs = [];
 
-installs = installs.concat(Object.keys(deps.slack));
 installs = installs.concat(Object.keys(deps.sqlite3));
 installs = installs.concat(Object.keys(deps.sumanSqliteReporter));
-
-if (sumanConf['transpile'] === true && ( alwaysInstall || alwaysInstallDueToGlobal)) {
-  installs = installs.concat(Object.keys(deps.babel));
-}
 
 if (sumanConf['useSumanServer'] || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.sumanServer));
@@ -108,6 +104,13 @@ if (sumanConf['useTypeScript'] || alwaysInstall || alwaysInstallDueToGlobal) {
 if (sumanConf['useNYC'] || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.nyc));
 }
+
+if (sumanConf['transpile'] === true && ( alwaysInstall || alwaysInstallDueToGlobal)) {
+  installs = installs.concat(Object.keys(deps.babel));
+}
+
+installs = installs.concat(Object.keys(deps.slack));
+
 
 //2000 second timeout...
 let timeout = 2000000;
