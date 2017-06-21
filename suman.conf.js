@@ -10,7 +10,7 @@ const numOfCPUs = os.cpus().length || 1;
 module.exports = Object.freeze({
 
   //regex
-  matchAny: [/.js$/, /.sh$/, /.smn$/, /suman.jar$/, /.java$/, /.go/],      //recommended =>  match: ['.test.js'],
+  matchAny: [/.*\.js$/, /.sh$/, /.smn$/, /suman.jar$/, /.*\.java$/, /.*\.go$/, /.*\.ts$/],      //recommended =>  match: ['.test.js'],
   matchNone: [/fixture/, /correct-exit-codes/, /@transform.sh/, /@run.sh/],
   matchAll: [],                 //recommended regex for "matchAll" => [],
 

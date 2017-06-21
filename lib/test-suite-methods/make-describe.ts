@@ -5,7 +5,6 @@ import {TTestSuiteMaker} from "../../dts/test-suite-maker";
 import {IDescribeOpts, TDescribeHook} from "../../dts/describe";
 // important note: "use strict" so errors get thrown if properties are modified after the fact
 
-
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -27,7 +26,9 @@ const _suman = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const sumanUtils = require('suman-utils');
-const originalAcquireDeps = require('../acquire-deps-original');
+import acquireIoCDeps from '../acquire-ioc-deps';
+import {IInjectionDeps} from "../../dts/injection";
+import {IPseudoError} from "../../dts/global";
 const handleSetupComplete = require('../handle-setup-complete');
 const makeAcquireDepsFillIn = require('../acquire-deps-fill-in');
 const {handleInjections} = require('../handle-injections');
@@ -147,8 +148,12 @@ export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, Te
       suite.skipped = suite.skippedDueToDescribeOnly = true;
     }
 
-    suite.parent = _.pick(zuite, 'testId', 'desc', 'title', 'parallel');
-    zuite.getChildren().push({testId: suite.testId});
+    // note: we can remove the need to create two new objects here
+    // suite.parent = _.pick(zuite, 'testId', 'desc', 'title', 'parallel');
+    // zuite.getChildren().push({testId: suite.testId});
+
+    suite.parent = zuite;
+    zuite.getChildren().push(suite);
     allDescribeBlocks.push(suite);
 
     const deps = fnArgs(cb);
@@ -167,11 +172,10 @@ export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, Te
 
       const d = domain.create();
 
-      d.once('error', function (err: Error) {
-        if (_suman.weAreDebugging) {
-          console.error(err.stack || err);
-        }
-        console.log(' => Error executing test block => ', err.stack);
+      d.once('error', function (err: IPseudoError) {
+
+        console.error('\n');
+        _suman.logError('Error executing test block => \n', err.stack || err);
         err.sumanExitCode = constants.EXIT_CODES.ERROR_IN_CHILD_SUITE;
         gracefulExit(err);
       });
@@ -187,7 +191,7 @@ export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, Te
 
         suite.__bindExtras();
 
-        originalAcquireDeps(deps, function (err: Error, deps: Array<any>) {
+        acquireIoCDeps(deps, suite, function (err: Error, deps: IInjectionDeps) {
 
           if (err) {
             console.log(err.stack || err);
@@ -207,7 +211,7 @@ export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, Te
                 return gracefulExit(err);
               }
 
-              suite.fatal = function (err: Error) {
+              suite.fatal = function (err: IPseudoError) {
                 err = err || new Error(' => suite.fatal() was called by the developer => fatal unspecified error.');
                 console.log(err.stack || err);
                 err.sumanExitCode = constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION;
@@ -219,7 +223,7 @@ export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, Te
               if (!delayOptionElected) {
 
                 suiteProto.__resume = function () {
-                  console.error('\n', ' => Suman usage warning => suite.resume() has become a noop since delay option is falsy.');
+                  _suman.logWarning('usage warning => suite.resume() has become a no-op since delay option is falsy.');
                 };
 
                 cb.apply(suite, $deps);

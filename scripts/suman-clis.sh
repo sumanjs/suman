@@ -32,7 +32,7 @@ function __handle_global_suman {
 
 function suman {
 
-    echo " => Using 'suman' alias in suman-clis.sh..."
+    echo " => [suman] => Using 'suman' alias in suman-clis.sh..."
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
 
     NEW_NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
@@ -60,11 +60,11 @@ function suman-inspect {
         echo " => No local Suman executable could be found, given the present working directory => $PWD"
         echo "You can use '$ which suman-debug' to find a globally installed version."
         echo " => Warning...attempting to run a globally installed version of Suman..."
-        local -a node_exec_args=( --inspect --debug-brk )
+        local -a node_exec_args=( --inspect-brk )
         __handle_global_suman node_exec_args "$@"
     else
         echo "running node against local suman"
-        NODE_PATH=${NEW_NODE_PATH} PATH=${NEW_PATH} node --inspect --debug-brk "$LOCAL_SUMAN" $@;
+        NODE_PATH=${NEW_NODE_PATH} PATH=${NEW_PATH} node --inspect-brk "$LOCAL_SUMAN" $@;
     fi
 }
 

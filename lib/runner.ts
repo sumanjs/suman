@@ -21,13 +21,13 @@ if (false) {
   // note: this is useful for detective work to find out what might be logging unncessarily
   // das interceptor!
   const stdout = process.stdout.write;
-  process.stdout.write = function (data) {
+  process.stdout.write = function (data: String | Buffer) {
     stdout(new Error(String(data)).stack);
     stdout.apply(process.stdout, arguments);
   };
 
   const stderr = process.stderr.write;
-  process.stderr.write = function (data) {
+  process.stderr.write = function (data: String | Buffer) {
     stderr(new Error(String(data)).stack);
     stderr.apply(process.stderr, arguments);
   };
@@ -53,7 +53,7 @@ const readline = require('readline');
 const colors = require('colors/safe');
 const a8b = require('ansi-256-colors'), fg = a8b.fg, bg = a8b.bg;
 const makeBeep = require('make-beep');
-const events = require('suman-events');
+import {events} from 'suman-events';
 const debug = require('suman-debug')('s:runner');
 
 //project
@@ -263,7 +263,7 @@ export = function findTestsAndRunThem(runObj: Object, runOnce: Function, $order:
     const ret = runOnce.apply(null, integrantInjector(args));
 
     if (ret.dependencies) {
-      if (typeof ret.dependencies === 'object' && !Array.isArray(ret.dependencies)) {
+      if (su.isObject(ret.dependencies)) {
         runnerObj.depContainerObj = ret.dependencies;
       }
       else {

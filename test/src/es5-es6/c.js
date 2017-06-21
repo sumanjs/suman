@@ -24,7 +24,7 @@ d.run(function () {
 
       process.nextTick(function () {
         setTimeout(function () {
-          throw new Error('rah'); // <<<<<<<<
+          throw new Error('rah');
         }, 100);
 
       }, 100);

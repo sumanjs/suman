@@ -4,7 +4,10 @@ import {Observable} from "rxjs/Observable";
 import {IPseudoError} from "./global";
 import EventEmitter = NodeJS.EventEmitter;
 import {ITestSuiteMakerOpts} from "./test-suite-maker";
-import {IRawTestData} from "./it";
+import {ITestDataObj} from "./it";
+import {IBeforeEachObj} from "./before-each";
+import {IAfterObj} from "./after";
+import {IAFterEachObj} from "./after-each";
 
 export type TestSuiteGetterFn <T> = () => Array<T>;
 
@@ -12,71 +15,49 @@ export interface IAssertObj {
   num: number
 }
 
-export interface ITimerObj{
+export interface ITimerObj {
   timer: Timer
 }
 
-
 export interface IHookOrTestCaseParam {
-   // either the h or t in h => {} or t => {}
+  // either the h or t in h => {} or t => {}
+  slow: Function,
+  log: Function,
+  wrapErrFirst: Function,
+  wrapErrorFirst: Function,
+  wrap: Function,
+  fatal : Function
+  callbackMode: boolean,
+  timeout: Function,
+  done: Function,
+
 }
 
-export interface IHookParam {
-    // the h in h => {}
+export interface IHookParam extends IHookOrTestCaseParam {
+  // the h in h => {}
+  (err?: Error): void,
+  ctn: Function,
+
 }
 
-export interface ITestCaseParam {
-    // the t in t => {}
+export interface ITestCaseParam extends IHookOrTestCaseParam {
+  // the t in t => {}
+  (err?: Error): void
+  skip: Function,
+  pass: Function,
+  fail: Function
 }
 
 export type IHandleError = (e: IPseudoError) => void;
-
 export type THookCallbackMode = (h: IHookOrTestCaseParam) => void;
 export type HookRegularMode = (h?: IHookOrTestCaseParam) => Promise<any>;
 export type HookObservableMode = (h?: IHookOrTestCaseParam) => Observable<any>;
 export type HookSubscriberMode = (h?: IHookOrTestCaseParam) => Subscriber<any>;
 export type HookEEMode = (h?: IHookOrTestCaseParam) => EventEmitter;
 
-export type Hook = THookCallbackMode |
+export type THook = THookCallbackMode |
   HookRegularMode | HookObservableMode
   | HookSubscriberMode | HookEEMode
-
-
-export interface ITestDataObj {
-  alreadyInitiated: boolean,
-  sumanModulePath?: string,
-  didNotThrowErrorWithExpectedMessage?: string,
-  errorPlanCount?: string,
-  skipped?: boolean,
-  skippedDueToOnly?: boolean,
-  skippedDueToItOnly?: boolean,
-  testId: number,
-  error?: Error | string,
-  errorDisplay?: string,
-  stubbed?: boolean,
-  data?: IRawTestData,
-  planCountExpected?: number,
-  originalOpts?: Object,
-  only?: boolean,
-  skip?: boolean,
-  value?: Object,
-  throws?: RegExp,
-  parallel?: boolean,
-  mode?: string,
-  delay?: number,
-  cb?: boolean,
-  type?: 'it-standard',
-  timeout?: number,
-  desc: string,
-  fn?: Hook,
-  warningErr?: Error
-  timedOut?: boolean,
-  complete?: boolean,
-  dateStarted?: number,
-  dateComplete?: number,
-  skippedDueToParentSkipped?: boolean,
-  skippedDueToParentOnly?: boolean
-}
 
 export interface IInjectionObj extends IHookObj {
   ctx: ITestSuite,
@@ -85,7 +66,7 @@ export interface IInjectionObj extends IHookObj {
   cb: boolean,
   throws: RegExp,
   fatal: boolean,
-  fn: Hook,
+  fn: THook,
   type: string,
   warningErr: Error
 }
@@ -105,54 +86,13 @@ export interface IOnceHookObj extends IHookObj {
   timeout: number,
   desc: string,
   cb: boolean,
-  throws: RegExp,
   fatal: boolean,
-  fn: Hook,
+  fn: THook,
   type: string,
   warningErr: Error
 }
-
-export interface IAfterObj extends IOnceHookObj {
-  last: boolean,
-  always: boolean
-
-}
-
-export interface IBeforeObj extends IOnceHookObj {
-
-}
-
 
 export interface IEachHookObj extends IHookObj {
-  fatal: boolean,
-  timeout: number,
-  cb: boolean,
-  fn: Hook,
-  ctx: ITestSuite,
-}
-
-
-export interface IBeforeEachObj extends IEachHookObj {
-  desc: string,
-  throws: RegExp,
-  type: string,
-  warningErr: Error
-}
-
-
-export interface IAFterEachObj extends IEachHookObj {
-  desc: string,
-  throws: RegExp,
-  type: string,
-  warningErr: Error
-}
-
-
-export interface ITestSuiteParent {
-  testId: number,
-  desc: string,
-  title: string,
-  parallel: boolean
 
 }
 
@@ -160,29 +100,8 @@ export interface IInjectedValues {
   [key: string]: any
 }
 
-export interface ITestSuite {
+export interface ITestSuiteBase {
 
-  new (opts: ITestSuiteMakerOpts): void;
-  [key: string]: any,
-
-  // object
-  opts: Object,
-  parent: ITestSuiteParent,
-
-  //number
-  testId: number,
-
-  //boolean
-  skippedDueToDescribeOnly: boolean,
-  isSetupComplete: boolean,
-  parallel: boolean,
-  skipped: boolean,
-  only: boolean,
-
-  // string
-  desc: string,
-  filename: string,
-  fileName: string
   injectedValues: IInjectedValues,
 
   // getters
@@ -202,6 +121,33 @@ export interface ITestSuite {
   fatal?: Function,
   resume?: Function,
 
+}
+
+export interface ITestSuite extends ITestSuiteBase {
+
+  new (opts: ITestSuiteMakerOpts): void;
+  [key: string]: any,
+
+  // object
+  opts: Object,
+  parent: ITestSuite,
+
+  //number
+  testId: number,
+
+  //boolean
+  skippedDueToDescribeOnly: boolean,
+  isSetupComplete: boolean,
+  parallel: boolean,
+  skipped: boolean,
+  only: boolean,
+
+  // string
+  desc: string,
+  filename: string,
+  fileName: string
+
+
   // function
   _run?: Function,
   __invokeChildren?: Function,
@@ -217,7 +163,6 @@ export interface ITestSuiteBaseInitObjOpts {
   series: boolean,
   serial: boolean
 }
-
 
 export interface ITestSuiteBaseInitObj {
   opts: ITestSuiteBaseInitObjOpts

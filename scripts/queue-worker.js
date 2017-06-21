@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict';
 
 //polyfills
@@ -24,9 +25,6 @@ const debug = require('suman-debug')('s:postinstall');
 
 //////////////////////////////////////////////////////////////
 
-const debugLog = path.resolve(sumanHome + '/suman-debug.log');
-
-///////////////////////////////////////////////////////////////
 
 function unlock (cb) {
   lf.unlock(lock, function (err) {

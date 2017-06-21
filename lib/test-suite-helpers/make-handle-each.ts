@@ -88,6 +88,8 @@ export = function (suman: ISuman, gracefulExit: Function) {
         }
       }
       else {
+        // after second call to error, that's about enough
+        d.removeAllListeners();
         _suman._writeTestError(' => Suman error => Error in hook => \n' + stk);
       }
     };
@@ -165,8 +167,6 @@ export = function (suman: ISuman, gracefulExit: Function) {
             }
           };
 
-          // t.fail = t.fatal;  // t.fail doesn't make sense since this is not a test case, semantics...
-
           t.done = function done(err: IPseudoError) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
@@ -177,7 +177,7 @@ export = function (suman: ISuman, gracefulExit: Function) {
             }
           };
 
-          t.ctn = function ctn() {     // t.pass doesn't make sense since this is not a test case
+          t.ctn = t.pass = function _ctn() {     // t.pass doesn't make sense since this is not a test case
             if (!t.callbackMode) {
               handleNonCallbackMode(undefined);
             }

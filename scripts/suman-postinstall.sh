@@ -112,18 +112,18 @@ echo " " >> ${SUMAN_DEBUG_LOG_PATH}
 if [[ "${SUMAN_INSTALL_NODE_MODULES}" == "yes" || ( "${SUMAN_IN_CONTAINER}" == "yes" ) || \
   ( "${SUMAN_POSTINSTALL_IS_DAEMON}" == "no" ) || \
   (( "${SUMAN_WE_ARE_GLOBAL}" == "no" ) \
-  && ( "yes" != "${SUMAN_POSTINSTALL_IS_DAEMON}" ) \
+  && ( "${SUMAN_POSTINSTALL_IS_DAEMON}" != "yes" ) \
   &&  "${SUMAN_CONF_JS_FOUND}" == "yes" ) ]]; then
 
     echo " " >> ${SUMAN_DEBUG_LOG_PATH}
-    echo " => Suman optional deps being installed in the foreground" | tee -a  ${SUMAN_DEBUG_LOG_PATH}
+    echo " => Suman postinstall routine running in the foreground..." | tee -a  ${SUMAN_DEBUG_LOG_PATH}
     echo " " >> ${SUMAN_DEBUG_LOG_PATH}
 
     SUMAN_NPM_GLOBAL_ROOT=${SUMAN_NPM_GLOBAL_ROOT}  SUMAN_BASE_DIRECTORY=${SUMAN_BASE_DIRECTORY}  ./scripts/install-suman-home.sh &&
     SUMAN_END_TIME=$(node -e 'console.log(Date.now())')
     SUMAN_TOTAL_TIME=$(expr ${SUMAN_END_TIME} - ${SUMAN_START_TIME})
     SUMAN_TOTAL_TIME=${SUMAN_TOTAL_TIME} ./scripts/on-install-success.js &&
-     echo " => Suman => all done installing suman global deps in the foreground " | tee -a  ${SUMAN_DEBUG_LOG_PATH}
+     echo " => Suman => all done with postinstall routine. " | tee -a  ${SUMAN_DEBUG_LOG_PATH}
      echo " " | tee -a  ${SUMAN_DEBUG_LOG_PATH}
 
 else
@@ -132,7 +132,7 @@ else
     ./scripts/install-suman-home.sh >> ${SUMAN_DEBUG_LOG_PATH} 2>&1 &
 
     echo " " | tee -a  ${SUMAN_DEBUG_LOG_PATH}
-    echo " => Suman optional deps being installed as daemon." | tee -a  ${SUMAN_DEBUG_LOG_PATH}
+    echo " => Suman postinstall routine running as a daemon." | tee -a  ${SUMAN_DEBUG_LOG_PATH}
     echo " " | tee -a  ${SUMAN_DEBUG_LOG_PATH}
 
 fi

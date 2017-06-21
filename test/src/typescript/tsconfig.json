@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "outDir": "./@target",
+    "baseUrl": ".",
+    "paths": {
+    },
+    "types": [
+      "node",
+      "async",
+      "lodash"
+    ],
+    "target": "es5",
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "allowUnreachableCode": true,
+    "lib": [
+      "es2015",
+      "es2016",
+      "es2017"
+    ]
+  },
+  "include": [
+    "./**/*.ts"
+  ],
+  "exclude": [
+    "@target",
+    "test",
+    "node_modules"
+  ]
+}

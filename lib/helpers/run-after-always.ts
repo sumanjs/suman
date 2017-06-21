@@ -12,6 +12,7 @@ const global = require('suman-browser-polyfills/modules/global');
 import domain = require('domain');
 
 //npm
+import * as colors from 'colors/safe';
 import async = require('async');
 
 //project
@@ -42,9 +43,14 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
       'so this exception will be ignored. => ', e);
   });
 
+
   if(_suman.afterAlwaysHasBeenRegistered){
-    console.error(' => We are running after.always hooks. Any uncaught errors will be ignored as best as possible.');
+    _suman.logError(colors.cyan('At least one after.always hook has been registered for test with name:'),'\n\t\t',
+      colors.magenta.bold('"' + suman.desc + '"'));
+    _suman.logError(colors.yellow('We are currently running after.always hooks. Any uncaught errors ' +
+      'will be ignored as best as possible.'));
   }
+
 
   async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 

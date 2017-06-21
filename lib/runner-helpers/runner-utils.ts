@@ -10,9 +10,17 @@ const path = require('path');
 //project
 const _suman = global.__suman = (global.__suman || {});
 
-////////////////////////////////////////////////
+////////////////////////////////////////////////////
 
-function findPathOfRunDotSh(p: string): string {
+export interface IFindShFunctions {
+  (p: string): string | null
+}
+
+export const findPathOfRunDotSh: IFindShFunctions = function (p) {
+
+  if(String(p).match(/\/@target\//)){
+    return null;
+  }
 
   const root = _suman.projectRoot;
   const ln = root.length;
@@ -29,10 +37,16 @@ function findPathOfRunDotSh(p: string): string {
 
   }
 
-  return null;
-}
+  // explicit for your pleasure
+  return undefined;
+};
 
-function findPathOfTransformDotSh(p: string): string {
+
+export const findPathOfTransformDotSh: IFindShFunctions = function (p) {
+
+  if(String(p).match(/\/@target\//)){
+    return null;
+  }
 
   const root = _suman.projectRoot;
   const ln = root.length;
@@ -49,10 +63,11 @@ function findPathOfTransformDotSh(p: string): string {
 
   }
 
-  return null;
-}
+  // explicit for your pleasure
+  return undefined;
 
-export = {
-  findPathOfRunDotSh,
-  findPathOfTransformDotSh
 };
+
+
+const $exports = module.exports;
+export default $exports;

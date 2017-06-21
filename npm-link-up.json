@@ -8,11 +8,11 @@
     "/.git/"
   ],
   "list": [
+    "pragmatik",
+    "residence",
     "suman-watch",
     "suman-utils",
     "suman-events",
-    "pragmatik",
-    "residence",
     "suman-debug",
     "suman-browser-polyfills"
   ]

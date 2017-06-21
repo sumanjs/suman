@@ -72,7 +72,7 @@ export = function run(files: Array<string>) {
   }
 
   if (SUMAN_SINGLE_PROCESS) {
-    console.log(' => Suman debug message => we are in SUMAN_SINGLE_PROCESS mode.');
+    _suman.log('debug message => we are in SUMAN_SINGLE_PROCESS mode.');
     require('./helpers/log-stdio-of-child')('suman-single-process');
     require('./handle-single-proc')(files);
   }

@@ -72,11 +72,14 @@ export = function loadSharedObjects(pathObj: Object, projectRoot: string, sumanO
     };
 
     if (sumanOpts.verbosity > 2) {
-      console.error('\n', colors.magenta('=> Suman usage warning: no suman.once.pre.js file found.'), '\n');
+      console.error('\n', colors.magenta('=> Suman usage warning: no suman.once.pre.js file found.'));
     }
 
     if (sumanOpts.verbosity > 3) {
-      console.error('\n', colors.magenta(err.stack || err), '\n');
+      console.error(colors.magenta(err.stack ? err.stack.split('\n')[0] : err), '\n');
+    }
+    else{
+      console.log('\n');
     }
 
     if (sumanOpts.strict) {

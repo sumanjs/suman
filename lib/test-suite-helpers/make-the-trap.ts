@@ -17,7 +17,7 @@ const async = require('async');
 const _suman = global.__suman = (global.__suman || {});
 const makeHandleTestResults = require('./handle-test-result');
 const {makeHandleTest} = require('./make-handle-test');
-const makeAllEaches = require('./get-all-eaches');
+const allEachesHelper = require('./get-all-eaches');
 const makeHandleBeforeOrAfterEach = require('./make-handle-each');
 const implementationError = require('../helpers/implementation-error');
 
@@ -28,7 +28,6 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
   const allDescribeBlocks = suman.allDescribeBlocks;
   const handleTest = makeHandleTest(suman, gracefulExit);
   const handleTestResult = makeHandleTestResults(suman);
-  const allEachesHelper = makeAllEaches(suman, allDescribeBlocks);
   const handleBeforeOrAfterEach = makeHandleBeforeOrAfterEach(suman, gracefulExit);
 
   return function runTheTrap(self: ITestSuite, test: ITestDataObj, opts: IItOpts, cb: Function) {
