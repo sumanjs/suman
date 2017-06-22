@@ -65,7 +65,7 @@
     "suman-utils": "latest",
     "tap-parser": "^5.4.0",
     "tcp-ping": "^0.1.1",
-    "tsc-multi-watch": "0.0.1001",
+    "tsc-multi-watch": "0.0.1008",
     "underscore": "^1.8.3",
     "uuid": "^3.0.1",
     "v8flags": "^2.1.0",
