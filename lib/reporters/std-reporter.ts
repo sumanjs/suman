@@ -1,7 +1,9 @@
 'use strict';
 import {ISumanChildProcess} from "../../dts/runner";
-import {ITestDataObj} from "../../dts/test-suite";
 import EventEmitter = NodeJS.EventEmitter;
+import {ITableData} from "../../dts/table-data";
+import {IGlobalSumanObj, ISumanOpts} from "../../dts/global";
+import {ITestDataObj} from "../../dts/it";
 
 //README: note that just for reference, all events are included here; many are noop'ed because of this
 
@@ -13,10 +15,8 @@ const global = require('suman-browser-polyfills/modules/global');
 const util = require('util');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {events} from 'suman-events';
-import {ITableData} from "../../dts/table-data";
-import {ISumanOpts} from "../../dts/global";
 const su = require('suman-utils');
 const colors = require('colors/safe');
 

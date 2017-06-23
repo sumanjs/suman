@@ -1,37 +1,46 @@
+import {IEachHookObj, IHookParam} from "./test-suite";
+import {Observable} from "rxjs/Observable";
+import {Subscriber} from "rxjs/Subscriber";
+import EventEmitter = NodeJS.EventEmitter;
 
 
-import {IEachHookObj} from "./test-suite";
+type SubsetOfAfterEachOpts = Partial<IAfterEachOpts>;
+type IAfterEachFnArgTypes = SubsetOfAfterEachOpts | TAfterEachHook | Array<string | SubsetOfAfterEachOpts | TAfterEachHook>;
 
 export interface IAfterEachFn {
-    (desc:string, opts: IAfterEachOpts, fn: Function): void,
-    cb?: IAfterEachFn,
-    skip?: IAfterEachFn
+  // (desc?: string; opts?: IAfterOpts; fn?: TAfterEachHook): void;
+  (name: string, ...args: IAfterEachFnArgTypes[]): void;
+  cb?: IAfterEachFn;
+  skip?: IAfterEachFn
 }
 
 export interface IAfterEachOpts {
-    __preParsed?: boolean,
-    skip: boolean,
-    timeout: number,
-    fatal: boolean,
-    cb: boolean,
-    throws: RegExp,
-    plan: number
+  __preParsed?: boolean,
+  skip: boolean,
+  timeout: number,
+  fatal: boolean,
+  cb: boolean,
+  throws: RegExp,
+  plan: number
 }
 
 export interface IAFterEachObj extends IEachHookObj {
-    desc: string,
-    throws: RegExp,
-    type: string,
-    warningErr: Error
+  desc: string,
+  throws: RegExp,
+  type: string,
+  warningErr: Error
 }
 
+type AfterEachHookCallbackMode = (h: IHookParam) => void;
+type AfterEachHookRegularMode = (h?: IHookParam) => Promise<any>;
+type AfterEachHookObservableMode = (h?: IHookParam) => Observable<any>;
+type AfterEachHookSubscriberMode = (h?: IHookParam) => Subscriber<any>;
+type AfterEachHookEEMode = (h?: IHookParam) => EventEmitter;
 
-export interface IAfterEachHook {
+export type TAfterEachHook =
+  AfterEachHookCallbackMode |
+  AfterEachHookRegularMode |
+  AfterEachHookObservableMode |
+  AfterEachHookSubscriberMode |
+  AfterEachHookEEMode
 
-
-}
-
-
-export type TAfterEachHook = (h: any) => any;
-export type TAfterEachHookCallbackMode = (h: IAfterEachHook) => void;
-export type TAfterEachHookRegularMode = (h?: IAfterEachHook | undefined) => Promise<any>;

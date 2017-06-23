@@ -52,7 +52,7 @@ export = function makeHandleTestError (suman: ISuman) {
   return function handleTestError (err: IPseudoError, test: ITestDataObj) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
 

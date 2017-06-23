@@ -1,9 +1,10 @@
 'use strict';
+
+//typescript
 import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
 import {TTestSuiteMaker} from "../../dts/test-suite-maker";
-import {IDescribeOpts, TDescribeHook} from "../../dts/describe";
-// important note: "use strict" so errors get thrown if properties are modified after the fact
+import {IDescribeFn, IDescribeOpts, TDescribeHook} from "../../dts/describe";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -25,13 +26,15 @@ const colors = require('colors/safe');
 const _suman = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-const sumanUtils = require('suman-utils');
+import su from 'suman-utils';
 import acquireIoCDeps from '../acquire-ioc-deps';
 import {IInjectionDeps} from "../../dts/injection";
 import {IPseudoError} from "../../dts/global";
 const handleSetupComplete = require('../handle-setup-complete');
-const makeAcquireDepsFillIn = require('../acquire-deps-fill-in');
+import makeAcquireDepsFillIn from '../acquire-deps-fill-in';
 const {handleInjections} = require('../handle-injections');
+import parseArgs from '../helpers/parse-pragmatik-args';
+import evalOptions from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -41,71 +44,38 @@ function handleBadOptions(opts: IDescribeOpts) {
   return;
 }
 
-// notifyParentThatChildIsComplete(self.parent.testId, self.testId
-
-
 ///////////////////////////////////////////////////////////////////////
 
 export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker,
-                   zuite: ITestSuite, notifyParentThatChildIsComplete: Function): Function {
+                   zuite: ITestSuite, notifyParentThatChildIsComplete: Function): IDescribeFn {
 
   const acquireDepsFillIn = makeAcquireDepsFillIn(suman);
   const allDescribeBlocks = suman.allDescribeBlocks;
 
-  return function ($desc: string, $opts: IDescribeOpts, $arr?: Array<string
-    | TDescribeHook>, $cb?: TDescribeHook): void {
+  return function ($$desc: string, $opts: IDescribeOpts) {
 
     handleSetupComplete(zuite, 'describe');
 
     const args = pragmatik.parse(arguments, rules.blockSignature, {
-      preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
+      preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
-    let [desc, opts, arr, cb] = args;
+    const vetted = parseArgs(args);
+    const [desc, opts, cb] = vetted.args;
+    const arrayDeps = vetted.arrayDeps;
+
     handleBadOptions(opts);
 
-    if (arr && cb) {
-      throw new Error(' => Please define either an array or callback, but not both.');
-    }
-
-    let arrayDeps: Array<string>;
-
-    if (arr) {
-      //note: you can't stub a test block!
-      cb = arr[arr.length - 1];
-      assert.equal(typeof cb, 'function', ' => Suman usage error => ' +
-        'You need to pass a function as the last argument to the array.');
-      // remove last element
-      arr.splice(-1, 1);
-      arrayDeps = arr.map(function (item: any) {
-        return String(item);
-      });
-    }
-
-    //avoid unncessary pre-assignment
-    arrayDeps = arrayDeps || [];
-
     if (arrayDeps.length > 0) {
-      const preVal: Array<string> = [];
-
-      arrayDeps.forEach(function (a) {
-        if (/:/.test(a)) {
-          preVal.push(a);
-        }
-      });
-
-      const toEval = ['(function(){return {', preVal.join(','), '}}()'];
-      const obj = eval(toEval.join(''));
-      //overwrite opts with values from array
-      Object.assign(opts, obj);
+      evalOptions(arrayDeps,opts);
     }
 
     //////////
 
     const allowArrowFn = _suman.sumanConfig.allowArrowFunctionsForTestBlocks;
-    const isArrow = sumanUtils.isArrowFunction(cb);
-    const isGenerator = sumanUtils.isGeneratorFn(cb);
-    const isAsync = sumanUtils.isAsyncFn(cb);
+    const isArrow = su.isArrowFunction(cb);
+    const isGenerator = su.isGeneratorFn(cb);
+    const isAsync = su.isAsyncFn(cb);
 
     if ((isArrow && !allowArrowFn) || isGenerator || isAsync) { //TODO: need to check for generators or async/await as well
       const msg = constants.ERROR_MESSAGES.INVALID_FUNCTION_TYPE_USAGE;
@@ -252,7 +222,7 @@ export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, Te
                 const str = cb.toString();
                 //TODO this will not work when delay is simply commented out
 
-                if (!sumanUtils.checkForValInStr(str, /resume/g, 0)) {
+                if (!su.checkForValInStr(str, /resume/g, 0)) {
 
                   process.nextTick(function () {
                     console.error(new Error(' => Suman usage error => delay option was elected, so suite.resume() ' +

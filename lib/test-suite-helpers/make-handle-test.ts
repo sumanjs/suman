@@ -34,7 +34,7 @@ export const makeHandleTest =  function (suman: ISuman, gracefulExit: Function) 
     test.alreadyInitiated = true;
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
 

@@ -12,45 +12,104 @@
 
 # Suman: universal test runner, primarily for Node.js and front-end JavaScript
 
-Designed to run tests written in any language - because Suman can runs tests as child processes - just write TAP to stdout
-via the runtime of choice. Intended to work with Selenium, in the browser, 
-and to do large-scale backend system and integration testing.  
+Designed to run tests written in any language - because Suman runs tests as child processes - just write TAP to stdout
+via the runtime of choice (Golang, Java, Python, whatever). Intended to work with Selenium, in the browser, 
+and to do large-scale backend system, integration testing and unit testing.  Suman has support for generic transpilation and 
+compilation for any language. Originally designed for TypeScript and Babel transpilation, Suman was written to support
+compiling from source to target for any language. Suman has strong support for TypeScript. (Suman is written in TypeScript,
+for maintainability). Suman is a batteries-included test runner which encourages testing best practices through its design. 
+Starting with Suman is very easy, but you will find it has extremely powerful features, as your demands increase.
 
-Suman is made up of two independent pieces:
+# Expected official release date
 
-1. A CLI that can run a test in any language, and is designed to handle transpilation/compilation.
-2. A test harness that can be used with JavaScript/Node.js tests
+Suman is not officially released yet - expected release date ~October 2017.
+Until then, expect bugs, missing docs, etc. Proceed at your own risk :D
+
+
+### Suman is made up of two independent pieces:
+
+1. A CLI that can run a test in any language, and is designed to handle transpilation/compilation for any language as well.
+2. A super powerful test harness that can be used with JavaScript/Node.js tests
+
+The CLI can be used to run tests in any language; on the other hand, 
+the test harness, only works with Node.js and browser based JS.
 
 <p>
 
 ## If your team is interested in speeding up your testing cycles, Suman is the absolute right place to look for answers.
-## Suman is designed to be 'better all-around' than AVA, TapJS and Mocha, etc. If there were no room for improvement, Suman would never have been written in the first place.
+## Suman is designed to be 'better all-around' than AVA, TapJS and Mocha, etc. If there were no room for improvement, 
+## Suman would never have been written in the first place.
 
 ---
 
-## Quick feature list:
+## What makes Suman better and different
 
+<div> ✓ Everything about Suman is designed for parallelization. </div>
+
+Suman is not just better than test runners in Node.js and JS land - it improves on test runners written
+for other languages as well. This is primarily because the Suman CLI is built so that you can have complete control 
+over the parellization of your tests. You can select which tests should exclude each other and run in series,
+and which tests should run in parallel with each other. In the _long run_ however, all tests should run in parallel
+in their own container with their own resources. In the _long long run_, each container should run on its own hardware,
+all in the name of speed. Suman has an experimental feature called "suman groups" which will allow you to group your
+tests together and assign a group to a container. Eventually the dream is support the assignment of each container
+to its own hardware, using different cloud platforms.
+
+___
+
+
+### &#9658; Disclaimers: 
+>
+> Suman supports Node versions >= 4.0.0.
+>
+> Windows support is on the roadmap, but will not be ready anytime soon. Currently, MacOS and *nix support only.
+>
+
+---
+
+# Suman CLI features
+
+```console
+$ suman> 
+```
+
+<p>
+<div> ✓ <b style="color:purple">  tests can all run in parallel, in separate processes </b> </div>
+<div> ✓ <b style="color:purple">  agnostic </b> => want to learn a new language? write a test script with language X, then run the test with Suman.</div>
+<div> ✓ <b style="color:purple">  flexible, generic, robust </b> =>  CLI can run JS tests directly, or in a child process </div>
+<div> ✓ <b style="color:purple">  flexible, generic, robust </b> =>  Composability => Suman tests can run other Suman tests (in child processes). Sumanception! </div>
+<div> ✓ <b style="color:purple">  test isolation </b> =>  each test can run in its own process </div>
+<div> ✓ <b style="color:purple">  test independence </b> =>  easily run only one test at a time (unlike other Node.js test runners...)</div>
+<div> ✓ <b style="color:purple">  "nodeable test scripts" </b> => run individual JS tests with the node.js executable</div>
+<div> ✓ <b style="color:purple">  supports unit testing in the browser </b> (tested on Chrome and Firefox)</div>
+<div> ✓ execute tests written in <b style="color:purple">any</b> language, use write TAP to stdout</div>
+<div> ✓ synchronous <b style="color:purple">*and*</b> asynchronous reporters (!) Your reporter can be async.</div>
+<div> ✓ execute tests written in <b style="color:purple">any</b> language, use write TAP to stdout</div>
+<div> ✓ Complete control => You *can* run JS unit tests all in the same process for speed, as needed. </div>
+<div> ✓ <b style="color:purple">  bash completion is available for the Suman CLI :D </b>
+</p>
+
+
+## Suman test harness features
+
+```javascript
+import suman from 'suman';
+```
+
+These are the features for creating tests in JavaScript/TypeScript.
 
 <p>
 <div> ✓ <b style="color:purple">  fully asynchronous </b> => allows for easy, dynamic test case creation
-<div> ✓ <b style="color:purple">  agnostic </b> => works with your favorite assertion library
-<div> ✓ <b style="color:purple">  agnostic </b> => want to learn a new language? write a test script with language X, then run the test with Suman.*
+<div> ✓ <b style="color:purple">  agnostic </b> => works with your favorite assertion library; Suman is also bundled with Chai, if you wish to use that.
 <div> ✓ <b style="color:purple">  no globals </b> =>  no global variables as part of test harness - therefore JS tests can be run with Node.js executable </div>
 <div> ✓ <b style="color:purple">  flexible, generic, robust </b> =>  CLI can run JS tests directly, or in a child process </div>
-<div> ✓ <b style="color:purple">  flexible, generic, robust </b> =>  Composability => Suman tests can run other Suman tests (in child processes), etc, etc. </div>
 <div> ✓ <b style="color:purple">  test isolation </b> =>  each test can run in its own process </div>
-<div> ✓ <b style="color:purple">  test independence </b> =>  easily run only one test at a time (unlike other Node.js test runners...)</div>
 <div> ✓ <b style="color:purple">  declarative style </b> => declare (sync and async) dependencies for each test, and only load those</div>
-<div> ✓ <b style="color:purple">  "nodeable test scripts" </b> => run individual tests with the node.js executable</div>
 <div> ✓ <b style="color:purple">  supports unit testing in the browser </b> (tested on Chrome and Firefox)</div>
 <div> ✓ <b style="color:purple">  supports observables (RxJS5) </b> </div>
-<div> ✓ synchronous <b style="color:purple">*and*</b> asynchronous reporters (!)</div>
-<div> ✓ <b style="color:purple"> tests run in parallel in separate processes </b> </div>
-<div> ✓ execute tests written in <b style="color:purple">any</b> language, use write TAP to stdout</div>
 <div> ✓ only <b style="color:purple">18mbs </b> on filesystem as npm install -D</div>
 <div> ✓ works with <b style="color:purple"> Selenium </b> (use selenium-webdriver, wd, or webdriver.io)</div>
 <div> ✓ Built-in watch features => Watch files, and run tests on changes </div>
-<div> ✓ Everything in Suman is parallelizable </div>
 <div> ✓ Complete control => You *can* run unit tests all in the same process for speed, as needed. </div>
 </p>
 
@@ -64,7 +123,7 @@ Quick list of problems with other test runners:
 
  ---
 
-# &#9658; Complete Documentation 
+# &#9658; Documentation 
 
  >   The Suman docs => [sumanjs.org](http://sumanjs.org "Suman Docs")  
 
@@ -92,7 +151,7 @@ every juncture in the testing process/pipeline.
 
 ---
 
-To use Suman, you need the following ingredients:
+### To use Suman, you need the following ingredients:
 
 * npm
 * bash
@@ -100,18 +159,10 @@ To use Suman, you need the following ingredients:
 * node.js
 * readlink
 
-If you are on MacOS or Linux, you have those, so you're good.
-___
+If you are on MacOS or Linux, you have most of those, so you're good. In any case, you will want to make sure your
+CI/CD servers can support NPM. If you have trouble using NPM globally, you may wish to considering using NVM (Node Version Manager)
+to install NPM and Node.js on CI/CD servers.
 
-
-### &#9658; Disclaimers: 
->
-> Suman supports Node versions >= 4.0.0.
->
-> Windows support is on the roadmap, but will not be ready anytime soon. Currently, MacOS and *nix support only.
->
-
----
 
 
 # &#9658; Installation
@@ -161,30 +212,7 @@ If you wish to avoid global NPM module installations, we commend you, see:
 
 ## The Suman Story
 
-I started writing Suman in October 2015. After 6 months of working with Mocha, I started experiencing many of its shortcomings.
- Mocha has a handful of major problems and 100 minor ones. Frankly, Mocha is poorly designed software - the fact that it concatenates
- all your tests in a single process is simply not how testing should work; especially for a dynamic language where the global
- scope can be easily polluted by inexperienced developers. Once you start writing non-trivial tests with Mocha, it becomes 
- very difficult to debug tests and run only one test at a time. 
- 
-About 2 weeks after I started writing Suman, I discovered AVA. AVA is much better than Mocha, but it "forces" you to use transpilation
-and heavily depends on its own assertion library for correct functionality. Meaning - you can't use the assertion library that you already familiar with.
-It's also missing some nice features from Mocha, including nested blocks. So I decided to continue working on Suman, and essentially take the best from Mocha and AVA, 
-and also borrow the best ideas from TapJS/Tape and Lab (Lab is the test runner for the Hapi framework.). I have spent a lot of time
-on the issue trackers on basically every Node.js testing framework.
-
-Just like AVA, Suman runs tests in child processes. With Suman, you can also run any single test with just the node executable,
-something that you cannot do with AVA. A big hangup for me. Beyond the standard advantages of speed, isolation and independence, running tests
-in child processes has one other major advantage: The Suman test runner is capable of running tests in any language. While the Suman runner
-communicates with Node.js child processes through the standard IPC channel, 
-it can also parse TAP output from a child process running in any language.
-
-Suman is setup to run Node.js tests, and any test in any language that writes TAP to stdout. This is pretty awesome.
-
-Support for transpilation is also first rate - Suman supports generic transpilation/compilation for any language.
-The configuration to support transpilation is the same, no matter what language you are looking to transpile/compile.
-Over time, better and better support for incremental transpilation/compilation will be created.
-
+The human side of this endeavor. (A link to docs will be here soon.);
 
 
 ### Suman uses several intelligent pieces of setup:
@@ -204,7 +232,7 @@ Suman is designed to interop well with the most common libraries in the ecosyste
 ```js
 
 import * as suman from 'suman';
-const Test = suman.init(module)
+const Test = suman.init(module);
 
 Test.create('example', (baz, assert, http, beforeEach, describe, inject, foo) => {  
 

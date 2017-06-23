@@ -6,6 +6,7 @@
   },
   "bin": {
     "suman": "cli/cli.sh",
+    "suman-d": "cli/cli-d.sh",
     "suman-debug": "cli/cli-debug.sh",
     "suman--debug": "cli/cli--debug.sh",
     "suman-babel": "cli/cli-babel.sh",
@@ -24,6 +25,10 @@
   },
   "author": "Olegzandr Denman",
   "license": "ISC",
+  "npmLinkUpDeps": [
+    "suman-watch",
+    "suman-d"
+  ],
   "dependencies": {
     "ansi-256-colors": "^1.1.0",
     "ascii-table": "0.0.9",
@@ -76,6 +81,7 @@
   },
   "devDependencies": {
     "@types/async": "^2.0.38",
+    "@types/chai": "^4.0.0",
     "@types/core-js": "^0.9.35",
     "@types/lodash": "^4.14.50",
     "@types/node": "^7.0.29",

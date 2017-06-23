@@ -12,6 +12,8 @@ const colors = require('colors/safe');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
+debugger;
+
 if (!('SUMAN_INCEPTION_LEVEL' in process.env)) {
   _suman.inceptionLevel = 0;
   process.env.SUMAN_INCEPTION_LEVEL = 0;

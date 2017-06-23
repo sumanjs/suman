@@ -19,7 +19,7 @@ const su = require('suman-utils');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const handleRequestResponseWithRunner = require('./handle-runner-request-response');
 const counts = require('./suman-counts');
-const oncePostFn = require('./handle-suman-once-post');
+import oncePostFn from './handle-suman-once-post';
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 

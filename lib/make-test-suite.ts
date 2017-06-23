@@ -43,7 +43,7 @@ const {constants} = require('../config/suman-constants');
 import TestSuiteBase from './test-suite-base-constructor';
 const freezeExistingProps = require('./freeze-existing');
 const {makeStartSuite} = require('./test-suite-helpers/make-start-suite');
-const makeHandleBeforesAndAfters = require('./test-suite-helpers/make-handle-befores-afters');
+import {makeHandleBeforesAndAfters} from './test-suite-helpers/make-handle-befores-afters';
 const {makeNotifyParent} = require('./test-suite-helpers/notify-parent-that-child-is-complete');
 
 // TestSuite methods

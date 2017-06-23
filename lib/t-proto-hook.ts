@@ -7,6 +7,8 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 const assert = require('assert');
+const chai = require('chai');
+const chaiAssert = chai.assert;
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -19,7 +21,30 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj) {
   let planCalled = false;
 
   function H(handleError: IHandleError) {
+
     this.__handle = handleError;
+
+    this.assert = function () {
+      try {
+        return chaiAssert.apply(this, arguments);
+      }
+      catch (e) {
+        return this.__handle(e, false);
+      }
+    };
+
+    const self = this;
+    Object.keys(chaiAssert).forEach((key) => {
+      self.assert[key] = function () {
+        try {
+          return chaiAssert[key].apply(chaiAssert, arguments);
+        }
+        catch (e) {
+          debugger;
+          return self.__handle(e, false);
+        }
+      }
+    });
   }
 
   /*
