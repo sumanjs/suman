@@ -19,7 +19,7 @@ const oncePost = require('../once-post');
 
 let oncePostInvoked = false;
 
-export = function oncePostFn(cb: Function) {
+export default function oncePostFn(cb: Function) {
   if (!oncePostInvoked) {
     oncePostInvoked = true;
     oncePost(flattenDeep(_suman.oncePostKeys), _suman.userData, function (err: IPseudoError, results: Array<any>) {

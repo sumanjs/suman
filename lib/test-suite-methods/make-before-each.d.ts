@@ -1,3 +1,4 @@
 import { ITestSuite } from "../../dts/test-suite";
 import { ISuman } from "../../dts/suman";
-export declare const makeBeforeEach: (suman: ISuman, zuite: ITestSuite) => Function;
+import { IBeforeEachFn } from "../../dts/before-each";
+export declare const makeBeforeEach: (suman: ISuman, zuite: ITestSuite) => IBeforeEachFn;

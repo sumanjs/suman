@@ -1,7 +1,7 @@
 'use strict';
 import Timer = NodeJS.Timer;
 import {IDepContainer} from "../dts/integrant-value-container";
-import {IPseudoError} from "../dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanGlobal} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -17,7 +17,7 @@ const su = require('suman-utils');
 const colors = require('colors/safe');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const makeGen = require('./helpers/async-gen');
 
 ////////////////////////////////////////////////////////////////////
@@ -57,7 +57,6 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
 
   const verbosity = _suman.sumanOpts.verbosity || 5;
   _suman.log('verbosity level => ', colors.magenta(verbosity));
-  console.log('depList => ', depList);
 
   const getAllPromises = function (key: string, $deps: Array<any>): Promise<any> {
 
@@ -143,8 +142,8 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
       })
     ).then(function ($$vals) {
 
-      console.log('acc =>', acc);
-      console.log('$$vals =>', $$vals);
+      // console.log('acc =>', acc);
+      // console.log('$$vals =>', $$vals);
       // ignore $$vals, use acc instead
 
       if (verbosity > 5 && subDeps.length > 0) {
@@ -220,6 +219,7 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
 
         if (verbosity > 3 || su.isSumanDebug()) {
           _suman.log(colors.green.bold('suman.once.pre.js => Finished sourcing dep with key = "' + key + '"'));
+          console.log('\n');
         }
 
         return {
@@ -233,7 +233,6 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
     });
   };
 
-
   const promises = depList.map(function (key) {
     return getAllPromises(key, []);
   });
@@ -242,27 +241,18 @@ export = function acquireDependencies(depList: Array<string>, depContainerObj: I
 
   return Promise.all(promises).then(function (deps) {
 
-    // Object.keys(depContainerObj).forEach(function (key, index) {
-    //   depContainerObj[key] = deps[index];
-    //   su.runAssertionToCheckForSerialization(depContainerObj[key]);
-    // });
-
-    // const ret = {};
-
-    // Object.keys(depContainerObj).forEach(function (key, index) {
-    //   depContainerObj[key] = deps[index];
-    //   su.runAssertionToCheckForSerialization(depContainerObj[key]);
-    // });
-
-    console.log('deps => ', deps);
+    // console.log('deps => ', deps);
 
     const obj = deps.reduce(function (prev, curr) {
       return Object.assign(prev, curr);
     }, {});
 
-    console.log('deps obj=> ', obj);
+    // console.log('deps obj=> ', obj);
+    if(!_suman.processIsRunner){
+      _suman.log(colors.green.underline.bold('Finished with suman.once.pre.js dependencies.'));
+      console.log('\n');
+    }
 
-    _suman.log(colors.green.underline.bold('Finished with suman.once.pre.js dependencies.'));
 
     return customStringify(obj);
 

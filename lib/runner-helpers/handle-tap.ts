@@ -31,16 +31,14 @@ export = function getParser () {
 
     debugger;
 
-    console.log('we are emitting TAP testpoint', util.inspect(testpoint));
-
     resultBroadcaster.emit(String(events.TEST_CASE_END), testpoint);
 
     if (testpoint.skip) {
-      throw new Error('testpoint.skip');
+      // throw new Error('testpoint.skip');
       resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), testpoint);
     }
     else if (testpoint.todo) {
-      throw new Error('testpoint.todo/stubbed');
+      // throw new Error('testpoint.todo/stubbed');
       resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), testpoint);
     }
     else if (testpoint.ok) {

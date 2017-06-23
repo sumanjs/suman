@@ -14,6 +14,8 @@ declare namespace SumanLib {
 export interface  IGlobalSumanObj {
   // we should execute Suman's in series, that makes it easier to run after.always shutdown, etc
   // which suman represents which Suman is executing at a given time
+  processIsRunner?: boolean;
+  dateEverythingStarted: number;
   runId: number,
   isStrmDrained: boolean,
   drainCallback: Function,

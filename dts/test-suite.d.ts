@@ -1,3 +1,5 @@
+/// <reference path="../node_modules/@types/chai/index.d.ts" />
+
 import Timer = NodeJS.Timer;
 import {Subscriber} from "rxjs/Subscriber";
 import {Observable} from "rxjs/Observable";
@@ -8,6 +10,10 @@ import {ITestDataObj} from "./it";
 import {IBeforeEachObj} from "./before-each";
 import {IAfterObj} from "./after";
 import {IAFterEachObj} from "./after-each";
+import AssertStatic = Chai.AssertStatic;
+
+
+/////////////////////////////////////////////////////////////////////
 
 export type TestSuiteGetterFn <T> = () => Array<T>;
 
@@ -19,8 +25,14 @@ export interface ITimerObj {
   timer: Timer
 }
 
+export interface IAllOpts {
+  __preParsed: boolean
+}
+
 export interface IHookOrTestCaseParam {
   // either the h or t in h => {} or t => {}
+
+  assert: AssertStatic,
   slow: Function,
   log: Function,
   wrapErrFirst: Function,
@@ -37,7 +49,6 @@ export interface IHookParam extends IHookOrTestCaseParam {
   // the h in h => {}
   (err?: Error): void,
   ctn: Function,
-
 }
 
 export interface ITestCaseParam extends IHookOrTestCaseParam {
@@ -78,18 +89,17 @@ export interface IHookObj {
   errorPlanCount?: string,
   planCountExpected: number
   throws?: RegExp,
-  didNotThrowErrorWithExpectedMessage?: string
-}
-
-export interface IOnceHookObj extends IHookObj {
+  didNotThrowErrorWithExpectedMessage?: string,
   ctx: ITestSuite,
   timeout: number,
-  desc: string,
   cb: boolean,
   fatal: boolean,
   fn: THook,
   type: string,
-  warningErr: Error
+}
+
+export interface IOnceHookObj extends IHookObj {
+
 }
 
 export interface IEachHookObj extends IHookObj {

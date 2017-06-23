@@ -18,7 +18,7 @@ const _suman = global.__suman = (global.__suman || {});
 const makeHandleTestResults = require('./handle-test-result');
 const {makeHandleTest} = require('./make-handle-test');
 const allEachesHelper = require('./get-all-eaches');
-const makeHandleBeforeOrAfterEach = require('./make-handle-each');
+import {makeHandleBeforeOrAfterEach} from './make-handle-each';
 const implementationError = require('../helpers/implementation-error');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
   return function runTheTrap(self: ITestSuite, test: ITestDataObj, opts: IItOpts, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
 

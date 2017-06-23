@@ -2,7 +2,7 @@
 
 //dts
 import {IInjectOpts} from "../../dts/inject";
-import {ITestSuite} from "../../dts/test-suite";
+import {IAllOpts, ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
 
 //polyfills
@@ -19,9 +19,11 @@ const pragmatik = require('pragmatik');
 const _ = require('underscore');
 const async = require('async');
 const colors = require('colors/safe');
+import su from 'suman-utils';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
+import evalOptions from '../helpers/eval-options';
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const handleSetupComplete = require('../handle-setup-complete');
@@ -52,7 +54,7 @@ export const makeInject = function (suman: ISuman, zuite: ITestSuite): Function 
       throw new Error(' => Please define either an array or callback.');
     }
 
-    let arrayDeps: Array<string>;
+    let arrayDeps: Array<IAllOpts>;
 
     if (arr) {
       //note: you can't stub a test block!
@@ -67,27 +69,7 @@ export const makeInject = function (suman: ISuman, zuite: ITestSuite): Function 
     arrayDeps = arrayDeps || [];
 
     if (arrayDeps.length > 0) {
-
-      const preVal: Array<string> = [];
-      arrayDeps.forEach(function (a) {
-        if (typeof a === 'object' && !Array.isArray(a)) {
-          Object.assign(opts, a);
-        }
-        else if (typeof a === 'string') {
-          if (/:/.test(a)) {
-            preVal.push(a);
-          }
-        }
-        else {
-          throw new Error(' => Argument in array must be string or plain object, instead we have =>' +
-            '\n' + util.inspect(a));
-        }
-      });
-
-      const toEval = ['(function self(){return {', preVal.join(','), '}})()'].join('');
-      const obj = eval(toEval);
-      //overwrite opts with values from array
-      Object.assign(opts, obj);
+      evalOptions(arrayDeps,opts);
     }
 
     if (opts.skip) {

@@ -9,6 +9,8 @@ const numOfCPUs = os.cpus().length || 1;
 
 module.exports = Object.freeze({
 
+  //☺,♫
+
   //regex
   matchAny: [/.*\.js$/, /.sh$/, /.smn$/, /suman.jar$/, /.*\.java$/, /.*\.go$/, /.*\.ts$/],      //recommended =>  match: ['.test.js'],
   matchNone: [/fixture/, /correct-exit-codes/, /@transform.sh/, /@run.sh/],
@@ -21,9 +23,9 @@ module.exports = Object.freeze({
   sumanHelpersDir: 'test/_suman',
   uniqueAppName: '<your-app-name-here>',
   browser: 'Firefox',                 // browser to open test results with
+  logsDir: process.env['SUMAN_LOGS_DIR'],
 
   //boolean
-  logsDir: process.env.SUMAN_LOGS_DIR,
   installSumanExtraDeps: true,
   installSumanGlobalsInProject: '.suman',
   isLogChildStderr: true,
@@ -44,7 +46,7 @@ module.exports = Object.freeze({
   enforceHookNames: false,
   bail: true,                        // when running one file, bail will bail test at first test failure
   bailRunner: true,                  // when using the runner, bail will bail runner at first test failure in any file
-  transpile: false,                      // transpile is false by default, can be overridden with command line also
+  transpile: false,                  // transpile is false by default, can be overridden with command line also
   executeRunnerCWDAtTestFile: true,  // if false, CWD for runner will be project root dir
   sendStderrToSumanErrLogOnly: true,
   useSuiteNameInTestCaseOutput: false,

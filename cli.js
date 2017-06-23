@@ -31,6 +31,9 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
     'Set the SUMAN_EXTRANEOUS_EXECUTABLE env variable to "yes" to get around this.');
   process.exit(1);
 }
+else{
+  delete process.env['SUMAN_EXTRANEOUS_EXECUTABLE'];
+}
 
 
 const weAreDebugging = require('./lib/helpers/we-are-debugging');
@@ -247,6 +250,7 @@ const diagnostics = sumanOpts.diagnostics;
 const installGlobals = sumanOpts.install_globals;
 const postinstall = sumanOpts.postinstall;
 const tscMultiWatch = sumanOpts.tsc_multi_watch;
+const sumanD = sumanOpts.suman_d;
 
 if (coverage) {
   console.log(colors.magenta.bold(' => Coverage reports will be written out due to presence of --coverage flag.'));
@@ -504,7 +508,8 @@ const preOptCheck = {
   diagnostics: diagnostics,
   installGlobals: installGlobals,
   postinstall: postinstall,
-  repair: repair
+  repair: repair,
+  sumanD: sumanD
 
 };
 
@@ -583,6 +588,9 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
   }
   else if (installGlobals) {
     require('./lib/cli-commands/install-global-deps')(paths);
+  }
+  else if(sumanD){
+    require('./lib/cli-commands/run-suman-d').run(sumanOpts.suman_d_opts)
   }
   else if (interactive) {
     require('./lib/interactive');

@@ -1,14 +1,19 @@
 /// <reference types="node" />
+import { ISumanConfig } from "../dts/global";
 import EventEmitter = NodeJS.EventEmitter;
 import { Transform, Writable } from "stream";
 import { IDescribeFn, IDescribeOpts, TDescribeHook } from "../dts/describe";
 import { ISumanModuleExtended, TCreateHook } from "../dts/index-init";
-export { IBeforeFn } from '../dts/before';
+import { IHookOrTestCaseParam } from "../dts/test-suite";
+export declare type TConfigOverride = Partial<ISumanConfig>;
 export { ITestCaseParam } from '../dts/test-suite';
 export { IHookParam } from '../dts/test-suite';
 export { IDescribeFn } from '../dts/describe';
 export { ItFn } from '../dts/it';
-import { IHookOrTestCaseParam } from "../dts/test-suite";
+export { IBeforeFn } from '../dts/before';
+export { IBeforeEachFn } from '../dts/before-each';
+export { IAfterFn } from '../dts/after';
+export { IAfterEachFn } from '../dts/after-each';
 export interface ILoadOpts {
     path: string;
     indirect: boolean;
@@ -41,7 +46,7 @@ export interface IStartCreate {
     only?: IDescribeFn;
 }
 export interface IInit {
-    (module: ISumanModuleExtended, opts?: IInitOpts, confOverride?: any): IStartCreate;
+    (module: ISumanModuleExtended, opts?: IInitOpts, confOverride?: TConfigOverride): IStartCreate;
     $ingletonian?: any;
     tooLate?: boolean;
 }

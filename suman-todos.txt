@@ -1,4 +1,137 @@
+//
 
+  => create GIF of suman command line usage -> take a video and then convert to GIF.
+
+//
+
+   use <@target> instead of @target
+
+//
+
+//
+
+ useBabel or transpile in suman.conf.js?
+
+//
+
+ use Proxy for injecting values and renaming them
+ use Proxy for creating container of all require('x') deps
+
+//
+
+  suman.order.js should have a list of files that can't be run together
+
+  onlyOneOf, only2, limit:1, limit:2
+
+  {
+
+    exclusions: [
+     {
+       list:[]
+
+     },
+      {
+        list:[]
+
+      },
+      {
+
+
+
+      }
+
+    ]
+ }
+
+//
+
+ -nt and -ot to compare files
+https://unix.stackexchange.com/questions/372857/compare-two-file-modification-dates/372858#372858
+
+//
+
+  tsc-multi-watch => create a JSON map of files and their modification time?
+
+//
+
+  @transform.sh => check to see if target file has a modified date that is after the source file
+
+//
+
+//
+
+  uninstall request module from project, and possibly socket.io as well.
+
+//
+
+let obj = {};
+
+const proxyObj = new Proxy(obj, {
+  get(target, property, receiver) {
+    return require(property);
+  }
+});
+
+const {async, bluebird } = proxyObj;
+console.log('bluebird => ', bluebird);
+
+//
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+
+//
+
+ +++ need to fix this, it's being logged after
+
+          => [Suman runner] =>  initial set => 59 processes running 59 suites
+
+          => [Suman runner] =>  overall set => 59 processes will run 59 suites with no more than 8 running at a time.
+
+//
+
+ need to implement t.skip(); for tests
+
+//
+
+  causes a fatal error in test suite, when it should not => suman test/src/tap-output/@target
+
+//
+
+ make prepend configurable => "=> [suman] =>" user should be able to change that if they want
+
+//
+
+_suman.logError and _suman.logWarning should hook into _writeTestError, etc.
+
+//
+
+TODO: plugins http://hapijs.com/tutorials/plugins
+
+//
+
+ tslint.json  => linting typescript
+
+//
+
+nvm use 8 && node --inspect-brk test/src/es5-es6/j.js
+node test/src/es5-es6/j.js
+node --inspect-brk test/src/es5-es6/j.js
+
+//
+
+$ioc should contain all ioc deps, we can inject that and save space.
+$pre should contain all pre deps, etc
+
+const Test = suman.init(module, {
+  $inject: ['abc']
+});
+
+ we can inject "$inject" into any describe block, and it will have the ioc values attached to it
+
+//
+
+  running .ts files directly => https://github.com/avajs/ava/issues/1109
+  https://github.com/avajs/ava/issues/631
 
 //
 

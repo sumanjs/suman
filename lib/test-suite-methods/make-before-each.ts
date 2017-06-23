@@ -1,26 +1,29 @@
 'use strict';
 import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IBeforeEachOpts} from "../../dts/before-each";
+import {IBeforeEachFn, IBeforeEachOpts} from "../../dts/before-each";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const assert = require('assert');
-const util = require('util');
+import * as assert from 'assert';
+import * as util from 'util';
 
 //npm
 const pragmatik = require('pragmatik');
 const async = require('async');
 const colors = require('colors/safe');
+import su from 'suman-utils';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const handleSetupComplete = require('../handle-setup-complete');
+import parseArgs from '../helpers/parse-pragmatik-args';
+import evalOptions from '../helpers/eval-options';
 
 
 function handleBadOptions(opts: IBeforeEachOpts) {
@@ -35,50 +38,23 @@ function handleBadOptions(opts: IBeforeEachOpts) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-export const makeBeforeEach = function (suman: ISuman, zuite: ITestSuite): Function {
+export const makeBeforeEach = function (suman: ISuman, zuite: ITestSuite): IBeforeEachFn {
 
-  return function ($desc: string, $opts: IBeforeEachOpts, $aBeforeEach: Function): ITestSuite {
+  return function ($$desc: string, $opts: IBeforeEachOpts): ITestSuite {
 
     handleSetupComplete(zuite, 'beforeEach');
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
+      preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
-    let [desc, opts, arr, fn] = args;
+    const vetted = parseArgs(args);
+    const [desc, opts, fn] = vetted.args;
+    const arrayDeps = vetted.arrayDeps;
     handleBadOptions(opts);
 
-    if (arr && fn) {
-      throw new Error(' => Please define either an array or callback.');
-    }
-
-    let arrayDeps: Array<string>;
-
-    if (arr) {
-      //note: you can't stub a test block!
-      fn = arr[arr.length - 1];
-      assert.equal(typeof fn, 'function', ' => Suman usage error => ' +
-        'You need to pass a function as the last argument to the array.');
-      // remove last element
-      arrayDeps = arr.slice(0, -1);
-    }
-
-    //avoid unncessary pre-assignment
-    arrayDeps = arrayDeps || [];
-
     if (arrayDeps.length > 0) {
-
-      const preVal: Array<string> = [];
-      arrayDeps.forEach(function (a) {
-        if (/:/.test(a)) {
-          preVal.push(a);
-        }
-      });
-
-      const toEval = ['(function self(){return {', preVal.join(','), '}})()'].join('');
-      const obj = eval(toEval);
-      //overwrite opts with values from array
-      Object.assign(opts, obj);
+      evalOptions(arrayDeps,opts);
     }
 
     if (opts.skip) {
