@@ -1,4 +1,5 @@
 'use strict';
+import {IGlobalSumanObj} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -13,11 +14,10 @@ const fs = require('fs');
 const colors = require('colors/safe');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const script = path.resolve(__dirname + '/../../scripts/suman-postinstall.sh');
 
 //////////////////////////////////////////////////////////////////////
-
 
 console.log('\n');
 console.log(' => Suman will run its postinstall routine.');
@@ -29,7 +29,7 @@ k.stdout.pipe(process.stdout);
 k.stderr.pipe(process.stderr);
 
 k.once('close', function (code: number) {
-    process.exit(code || 0);
+  process.exit(code || 0);
 });
 
 

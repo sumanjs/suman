@@ -23,17 +23,16 @@ const {constants} = require('../../config/suman-constants');
 const handleSetupComplete = require('../handle-setup-complete');
 
 function handleBadOptions(opts: IBeforeOpts) {
-
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
     console.error(' => Suman usage error => "plan" option is not an integer.');
-     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
-     return;
+    process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
+    return;
   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-export = function(suman: ISuman, zuite: ITestSuite) : Function {
+export const makeBefore = function (suman: ISuman, zuite: ITestSuite): Function {
 
   return function ($desc: string, $opts: IBeforeOpts, $fn: Function) {
 
@@ -72,15 +71,15 @@ export = function(suman: ISuman, zuite: ITestSuite) : Function {
 
       const preVal: Array<string> = [];
       arrayDeps.forEach(function (a) {
-        if(typeof a === 'object' && !Array.isArray(a)){
+        if (typeof a === 'object' && !Array.isArray(a)) {
           Object.assign(opts, a);
         }
-        else if(typeof a === 'string'){
+        else if (typeof a === 'string') {
           if (/:/.test(a)) {
             preVal.push(a);
           }
         }
-        else{
+        else {
           throw new Error(' => Argument in array must be string or plain object, instead we have =>' +
             '\n' + util.inspect(a));
         }

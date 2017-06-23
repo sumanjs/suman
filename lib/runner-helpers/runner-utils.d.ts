@@ -1,5 +1,7 @@
-declare var _default: {
-    findPathOfRunDotSh: (p: string) => string;
-    findPathOfTransformDotSh: (p: string) => string;
-};
-export = _default;
+export interface IFindShFunctions {
+    (p: string): string | null;
+}
+export declare const findPathOfRunDotSh: IFindShFunctions;
+export declare const findPathOfTransformDotSh: IFindShFunctions;
+declare const $exports: any;
+export default $exports;

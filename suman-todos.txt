@@ -1,6 +1,431 @@
 
+
 //
+
+type SubsetOfIAll = Partial<IAll>;
+
+//
+
+karma with front-end tests:
+https://github.com/mochajs/mocha/issues/2756
+
+//
+
+
+// in lib/index.js
+// in SUMAN_SINGLE_PROCESS mode, this might get registered multiple times...
+  suiteResultEmitter.on('suman-completed', function () {
+
+    // we set this to null because no suman should be in progress
+    _suman.whichSuman = null;
+
+    //this code should only be invoked if we are using Test.create's in series
+    testSuiteQueue.pop();
+    let fn: Function;
+    if (fn = testSuiteQueue[testSuiteQueue.length - 1]) {
+      debug(' => Running testSuiteQueue fn => ', String(fn));
+      fn.call(null);
+    }
+    else {
+      debug(' => Suman testSuiteQueue is empty.');
+    }
+  });
+
+//
+
+monkeypatch require()?
+
+if (false) {
+
+
+  const Mod = require('module');
+  const req = Mod.prototype && Mod.prototype.require;
+  Mod.prototype && (Mod.prototype.require = function () {
+    // console.log('count => ', count++, arguments);
+
+    const args = Array.from(arguments);
+    const lastArg = args[args.length - 1];
+
+    const ret = req.apply(this, arguments);
+
+    // console.log('number of children => ', this.children.length);
+    // let arr = this.children;
+    // let len = arr.length;
+    // arr[len - 1] && (arr[len - 1].exports = function(){
+    //   throw new Error('You called this twice => ' + args[0]);
+    // });
+    // console.log('this => ', util.inspect(this));
+    // this.exports = function(){
+    //   throw new Error('You called this twice.');
+    // };
+
+    return ret;
+  });
+}
+
+//
+
+const exportEvents: EventEmitter = $module.exports = (writable || SumanTransform());
+instead, this should become:
+const exportEvents: EventEmitter = $module.exports.X = (writable || SumanTransform());
+
+//
+
+regexes get converted to objects...
+
+  SUMAN_CONFIG: '{"matchAny":[{},{},{},{},{},{},{}],"matchNone":[{},{},{},{}],"matchAll":[],"testDir":"test","testSrcDir":"test/src","testTargetDir":"test/target","sumanHelpersDir":"test/_suman","uniqueAppName":"<your-app-name-here>","browser":"Firefox","installSumanExtraDeps":true,"installSumanGlobalsInProject":".suman","isLogChildStderr":true,"isLogChildStdout":true,"useBabelRegister":false,"useUtilityPatches":true,"coverage":false,"useTAPOutput":false,"errorsOnly":false,"replayErrorsAtRunnerEnd":true,"allowArrowFunctionsForTestBlocks":true,"alwaysUseRunner":false,"enforceGlobalInstallationOnly":false,"enforceLocalInstallationOnly":false,"sourceTopLevelDepsInPackageDotJSON":false,"enforceTestCaseNames":true,"enforceBlockNames":true,"enforceHookNames":false,"bail":true,"bailRunner":true,"transpile":false,"executeRunnerCWDAtTestFile":true,"sendStderrToSumanErrLogOnly":true,"useSuiteNameInTestCaseOutput":false,"ultraSafe":false,"verbose":true,"checkMemoryUsage":false,"fullStackTraces":false,"disableAutoOpen":false,"suppressRunnerOutput":true,"allowCollectUsageStats":true,"verbosity":5,"maxParallelProcesses":8,"resultsCapCount":100,"resultsCapSize":7000,"defaultHookTimeout":5000,"defaultTestCaseTimeout":5000,"timeoutToSearchForAvailServer":2000,"defaultDelayFunctionTimeout":8000,"defaultChildProcessTimeout":8000000,"defaultTestSuiteTimeout":15000,"expireResultsAfter":10000000,"watch":{"all-tests":"./node_modules/.bin/suman","unit-tests":"./node_modules/.bin/suman test/unit/**/*.js","//tests":{"default":{"include":[],"exclude":["^test.*"]}},"//project":{"script":"./node_modules/.bin/suman","include":[],"exclude":["^test.*"],"default":{"script":"./node_modules/.bin/suman","include":[],"exclude":["^test.*"]}}},"reporters":{"tap":"node_modules/suman/lib/reporters/tap-reporter"},"babelRegisterOpts":{"ignore":{},"extensions":[".es6",".es",".jsx",".js"]}}',
+  SUMAN_OPTS: '{"runner":true,"inherit_stdio":true,"verbosity":5,"errors_only":false,"max_depth":70,"_order":[{"key":"runner","value":true,"from":"argv"},{"key":"inherit_stdio","value":true,"from":"argv"}],"_args":[],"transpile":false}',
+
+
+//
+
+ suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
+ suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
+
+
+//
+
+ good file mask => !*.log, !*.txt, !yarn*, !package*
+ !*.log, !*.txt,c test, !yarn*, !package*, !*.d.ts
+
+//
+
+  give user option to attach assertion library to t.x() in hooks
+  => see scripts/bundle-chai.js
+
+//
+
+ suman test/e2e/\@target/backend-user-roles.test.js --runner --inspect-children --inherit-stdio
+
+//
+
+ --exec-arg option should work with "suman --no-runner", because we can pass the exec args with our bash cli scripts
+
+//
+
+@transform.sh cannot be respsonsible for sending back target path, because in many cases we will
+skip running @transform.sh because "we have already transpiled.".
+
+//
+
+ set __preParsed option to true when passing Test.create()?
+
+//
+
+ => need to refactor acquireIntegrantsSingleProcess
+
+//
+
+ should send the stdout of @transform.sh to @run.sh
+
+//
+
+ use exec to run stuff at command line
+
+   else if('.sh'  === extname){
+          //   argz.unshift(file);
+          //   console.log('args => ', argz);
+          //   n = cp.spawn('exec', argz, ext);
+          // }
+//
+
+  @run.sh =>  if "/@target/" matches path, then don't look for @run.sh
+
+//
+
+--inspect-brk instead of --inspect --debug-brk
+//
+
+  n.once('exit', cb) in handle multiple processes, cb should be moved into a different file
+
+//
+
+ force TAP reporter for anything with sumanception > 0
+
+//
+
+ the emitter that I pass into suman reporters, something like this:
+
+ var ee = new EE();
+
+ var on = ee.on;
+ ee.on = function(event, fn){
+    if(process.env.SUMAN_INCEPTION_LEVEL < 1){
+     return on.apply(ee,arguments);
+    }
+ }
+
+
+//
+
+  we should inject sumanOpts into reporters, instead of using _suman.sumanOpts, etc.
+
+//
+
+  acquire-deps-original should be refactored to use just promises, not event-emitters
+
+//
+
+ how expensive is it to freeze properties?
+
+//
+
+ refactor get-all-eaches
+
+//
+
+  ioc deps should be injected only at the root suite
+  inject.cb() values should only be injected for non-root suites
+
+//
+
+  each suman process should forward message to parent, to allow for sumanception.
+  process.on('message', function(){
+     process.send({});
+  });
+
+  create an env variable
+
+  if(!process.env.SUMAN_INCEPTION_LEVEL){
+     process.env.SUMAN_INCEPTION_LEVEL=1;
+  }
+
+  => If SUMAN_INCEPTION_LEVEL > 0, then don't output test results - leave that to the top level runner
+
+//
+
+error TS5033: Could not write file '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/a.test.js': EACCES: permission denied, open '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/a.test.js'.
+error TS5033: Could not write file '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/b.test.js': EACCES: permission denied, open '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/b.test.js'.
+
+//
+
+  npm set progress=false  => faster installs
+
+//
+
+ add a force transpile option
+
+//
+
+  add an --tsc-mult-watch option, which will programmatically invoke tscmultiwatch
+
+//
+
+  create tsc -w module that runs tsc watch for all tsconfig.json files in a project
+
+//
+
+ add --transpile-all-files-first option, so that user can see if compilation/transpilation succeeded
+
+//
+
+  source matching - find files to run
+  run matching  - file types that are actually runnable
+
+//
+
+  @transform.sh => does not have to exist - will transform the code
+  @run.sh => will be run instead with list of arguments of matching files
+
+//
+
+  => do we need to pass stdout on to parent?
+  => how to check if current suman --runner has a parent suman --runner process?
+  => sumanception
+
+//
+
+  array of files (in JSON form, in comma sep form, etc), should be passed to @transform and then @run
+
+//
+
+ -f flag should allow us to run a test even if it doesn't match the regexes in suman.conf.js
+
+//
+
+ have to fix SUMAN_SINGLE_PROCESS + --runner
+
+ 	    _____ __  __ ____ ___   ____ _ ____   _  _  _____ __  __ ____   ____   ___   _____
+ 	   / ___// / / // __ `__ \ / __ `// __ \ (_)(_)/ ___// / / // __ \ / __ \ / _ \ / ___/
+ 	  (__  )/ /_/ // / / / / // /_/ // / / /_  _  / /   / /_/ // / / // / / //  __// /
+ 	 /____/ \__,_//_/ /_/ /_/ \__,_//_/ /_/(_)(_)/_/    \__,_//_/ /_//_/ /_/ \___//_/
+
+
+
+
+  => Suman files running in single process =>
+
+ 	 => four.test.js
+ 	 => five.test.js
+ 	 => one.test.js
+ 	 => six.test.js
+ 	 => three.test.js
+ 	 => two.test.js
+
+
+
+
+ 	.
+ 	||
+ 	|
+ 	 |
+ 	-|
+ 	'
+
+
+
+//
+
+  reformat output table for runner.
+
+  SUITES =>           | total | skipped | TEST CASES =>
+
+  change SUITES => to "name"
+
+  remove total and skipped,
+
+  "TEST CASES" should become "cases"
+
+//
+
+ => Suman "uncaughtException" event occurred =>
+ Error: ENOENT: no such file or directory, open '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/lib/default-conf-files/suman.default.once.js'
+
+//
+
+  support typescript for all suman modules  --town --transpile-own should transpile all suman files too?
+
+//
+
+ update suman to new version - need to write suman.conf.js to suman.conf.new.js!
+ this will be useful for upgrading our own suman based projects!
+
+
+//
+
+   change module.exports in suman.once.pre.js, suman.ioc.js to exports.default
+
+//
+
+ instead of "suman optional deps being run in foreground" say
+  "suman postinstall routine running in the foreground"
+
+//
+
+ suman --repair should make all @run.sh and @transform.sh files executable (chmod u+x ...)
+ and all @target executable but not writable
+
+//
+
+ it's likely that ~/.suman/global/node_modules will get corrupted
+ suman --repair should fix that
+ rm -rf ~/.suman/global/node_modules
+ and then reinstall
+
+//
+
+  if postinstall is daemon - always install babel deps, just do them last
+
+//
+
+ for suman.conf.js =>
+  => module.exports = {}, should become exports.default = {};
+
+//
+
+ DEFAULT_TOTAL_PARALLEL_LIMIT: 100
+
+ use async queue to do this?
+
+//
+
+after.always should complete before any suman.post hooks begin
+
+//
+
+node test/e2e/import.test.js --seed | grep -v " => \[suman\]"
+
+//
+
+  sumans (Test.creates()) should run in series. Whenever a suman starts, we set global.__suman.whichSuman.
+  when it ends, we set global.__suman.whichSuman to null.
+
+//
+
+nested data here in suman.once.pre.js =>
+=> Drop-db data =>  { 'launch-server': { 'launch-server': 'early resolve, because server is already available.' } }
+
+
+https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript
+
+//
+
+intersection types - typescript
+https://www.typescriptlang.org/docs/handbook/advanced-types.html#intersection-types
+
+//
+
+if no after.always hooks are registered, we should just skip logging this
+ => We are running after.always hooks. Any uncaught errors will be ignored as best as possible.
+
+//
+
+use macports to update readline on macos?
+sudo port -d selfupdate
+
+//
+
+https://help.github.com/articles/user-organization-and-project-pages/
+
+//
+
+http://typedoc.org/guides/installation/#task-runners
+
+//
+
+Error: table suman_run_info already exists
+Error: table suman_run_id already exists
+Error: UNIQUE constraint failed: suman_run_id.id
+
+///
+
+need to allow users to define timeout for suman.once.pre.js hooks
+
+Error: Suman dependency acquisition timed-out for dependency with key => 'seed-database'
+    at Timeout.<anonymous> (/usr/local/cdt-tests/node_modules/suman/lib/acquire-deps.js:96:28)
+    at ontimeout (timers.js:386:14)
+    at tryOnTimeout (timers.js:250:5)
+    at Timer.listOnTimeout (timers.js:214:5)
+
+//
+
+  we need to verify suman.once.post.js is valid before running everything else potentially
+  ok...we can't do that, since we don't know which test scripts will run until they actually do
+  aka, pre:[] will not be known for all files beforehand, the files have to execute first.
+
+//
+
+TODO: allow a command line option to not import devDeps
+
+//
+
+ generate docs via
+ https://github.com/TypeStrong/typedoc
+
+//
+
+
+https://www.npmjs.com/package/graceful-readlink
+
+//
+
+=> after.always should complete before any suman.post hooks begin
+>>>>>>> 6a47d3ce67ddbbf5a524e345ebf9e55df6785390
+
+//
+
 https://stackoverflow.com/questions/43422058/how-to-do-a-synchronous-require-of-webpack-build-module-from-outside-of-webpa
+
 //
 
 => What happens when t.done(null) is called more than once? Will it run callbacks more than once? break async lib?
@@ -27,18 +452,7 @@ e.g.:
 
 ///
 
-t.wrapErrorFirst(function (resp, body) {
-might not pass back body? always undefined, seems wrong
-
-///
-
-Error: table suman_run_info already exists
-Error: table suman_run_id already exists
-Error: UNIQUE constraint failed: suman_run_id.id
-
-////
-
-  in series mode (everything is series), then we can log the describe titles, etc.!
+ in series mode (everything is series), then we can log the describe titles, etc.!
 
 ////
 
@@ -59,10 +473,6 @@ this is better:
     Object.keys(usernames).forEach(function (name) {
 
 ///
-
-  need to add limit - use async.mapLimit etc, default limit is 100 or whatever.
-
-////
 
  // inject stuff:
 https://docs.angularjs.org/guide/unit-testing
@@ -137,15 +547,15 @@ the following output does not show which hook (we need a file and line number) c
 (note that despite this fatal error, other test processes will continue running, as would be expected, use the --bail option, if you wish otherwise.)
 
 
-   ⚑  => Suman fatal error  => making a graceful exit =>
-   Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? You may have forgotten to fire a callback or perhaps the timeout quantity is too short.
-       at TestSuiteBase.before (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-before.js:78:29)
-       at TestSuiteBase.<anonymous> (/usr/local/cdt-tests/test/e2e/all/export.test.js:73:3)
-       at Domain.<anonymous> (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:216:24)
-       at Domain.run (domain.js:221:14)
-       at startWholeShebang (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:169:15)
-       at _combinedTickCallback (internal/process/next_tick.js:77:11)
-       at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+⚑  => Suman fatal error  => making a graceful exit =>
+Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? You may have forgotten to fire a callback or perhaps the timeout quantity is too short.
+   at TestSuiteBase.before (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-before.js:78:29)
+   at TestSuiteBase.<anonymous> (/usr/local/cdt-tests/test/e2e/all/export.test.js:73:3)
+   at Domain.<anonymous> (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:216:24)
+   at Domain.run (domain.js:221:14)
+   at startWholeShebang (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:169:15)
+   at _combinedTickCallback (internal/process/next_tick.js:77:11)
+   at process._tickDomainCallback (internal/process/next_tick.js:128:9)
 
 /////////////
 
@@ -530,9 +940,6 @@ Test.create(['parallel:true, timeout:3000', function(){
 
 ////
 
- warn user when two Test.create's have the same name
-
-////
 
 Squash commits based on author
 http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
@@ -1255,11 +1662,6 @@ implement:
 
 ////////
 
-debugStrm
- const debugStrm = fs.createWriteStream(path.resolve(global.sumanHelperDirRoot + '/logs/suman-debug.log'));
-
-/////////
-
 how to use babel vs babel-node
 https://github.com/babel/example-node-server
 
@@ -1874,38 +2276,8 @@ so that we expect a test to throw an (async) error...
 
 //TODO: https://sumanjs.slack.com/services/109528432339?updated=1
 
-/*
 
-+test('handle throws with thrown observable', function (t) {
- +	ava(function (a) {
- +		a.plan(1);
- +
- +		var observable = new Observable(function (observer) {
- +			observer.error(new Error());
- +		});
- +		a.throws(observable);
- +	}).run().then(function (a) {
- +		t.false(a.assertError);
- +		t.end();
- +	});
- +});
- +
- +test('handle throws with long running thrown observable', function (t) {
- +	ava(function (a) {
- +		a.plan(1);
- +
- +		var observable = new Observable(function (observer) {
- +			setTimeout(function () {
- +				observer.error(new Error('abc'));
- +			}, 2000);
- +		});
- +
- +		a.throws(observable, /abc/);
- +	}).run().then(function (a) {
- +		t.false(a.assertError);
- +		t.end();
- +	});
- +});
+
 
 
 

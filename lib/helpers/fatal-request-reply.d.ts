@@ -1,2 +1,1 @@
-declare var _default: (obj: Object, cb: Function) => any;
-export = _default;
+export declare const fatalRequestReply: (obj: Object, cb: Function) => any;

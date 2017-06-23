@@ -2,6 +2,7 @@ import Global = NodeJS.Global;
 import Domain = NodeJS.Domain;
 import {ITestSuite} from "./test-suite";
 import EventEmitter = NodeJS.EventEmitter;
+import {ISuman} from "./suman";
 
 declare namespace SumanLib {
   const _suman: Object;
@@ -11,6 +12,18 @@ declare namespace SumanLib {
 
 
 export interface  IGlobalSumanObj {
+  // we should execute Suman's in series, that makes it easier to run after.always shutdown, etc
+  // which suman represents which Suman is executing at a given time
+  runId: number,
+  isStrmDrained: boolean,
+  drainCallback: Function,
+  inceptionLevel?: number,
+  whichSuman: ISuman,
+  logWarning: Function,
+  logError: Function,
+  log: Function,
+  $pre: Object,
+  afterAlwaysEngaged: boolean,
   timestamp: Number,
   inBrowser: boolean,
   ctx: ITestSuite,
@@ -51,7 +64,6 @@ export interface  IGlobalSumanObj {
   SUMAN_TEST: string,
   sumanInitTime: number,
   expectedTimeout: number
-
 }
 
 export interface IMaxMem {
@@ -60,6 +72,12 @@ export interface IMaxMem {
 }
 
 export interface ISumanOpts {
+  no_color: boolean,
+  register: boolean,
+  rand: boolean,
+  no_tables: boolean,
+  force: boolean,
+  fforce: boolean,
   reporters: string,
   reporter_paths: Array<string>
   strict: boolean,
@@ -70,7 +88,6 @@ export interface ISumanOpts {
   verbosity: number,
   check_memory_usage: boolean
   errors_only: boolean
-
 }
 
 export interface ISumanGlobalInternal {
@@ -109,6 +126,10 @@ export declare enum BrowserTypes {
 
 
 export interface ISumanConfig {
+
+  DEFAULT_PARALLEL_TOTAL_LIMIT: number,
+  DEFAULT_PARALLEL_BLOCK_LIMIT: number,
+  DEFAULT_PARALLEL_TEST_LIMIT: number,
 
   matchAny: Array<RegExp>,
   matchNone: Array<RegExp>,

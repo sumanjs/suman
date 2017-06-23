@@ -1,5 +1,9 @@
 'use strict';
 
+import {IPseudoError} from "../../dts/global";
+import {ITestDataObj} from "../../dts/test-suite";
+import {ISuman} from "../../dts/suman";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -19,7 +23,7 @@ const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 //////////////////////////////////////////////////////////
 
 
-const stckMapFn = function (item, index) {
+const stckMapFn = function (item: string, index: number) {
 
   const fst = _suman.sumanOpts.full_stack_traces;
 
@@ -31,23 +35,24 @@ const stckMapFn = function (item, index) {
     return su.padWithXSpaces(4) + item;
   }
 
-  if (String(item).match(/\//) && !String(item).match(/\/node_modules\//) && !String(item).match(/internal\/process\/next_tick.js/)) {
+  if (String(item).match(/\//) && !String(item).match(/\/node_modules\//) &&
+    !String(item).match(/internal\/process\/next_tick.js/)) {
     return su.padWithXSpaces(4) + item;
   }
 
 };
 
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 
-module.exports = function makeHandleTestError (suman: ISuman) {
+export = function makeHandleTestError (suman: ISuman) {
 
   const fileName = suman.fileName;
 
-  return function handleTestError (err: IPseudoError, test) {
+  return function handleTestError (err: IPseudoError, test: ITestDataObj) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      console.error(' => Suman runtime error => "UncaughtException:Triggered" => halting program.');
+      console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
 

@@ -1,6 +1,6 @@
 
 
-// before
+import {IEachHookObj} from "./test-suite";
 
 export interface IAfterEachFn {
     (desc:string, opts: IAfterEachOpts, fn: Function): void,
@@ -16,6 +16,13 @@ export interface IAfterEachOpts {
     cb: boolean,
     throws: RegExp,
     plan: number
+}
+
+export interface IAFterEachObj extends IEachHookObj {
+    desc: string,
+    throws: RegExp,
+    type: string,
+    warningErr: Error
 }
 
 

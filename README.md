@@ -1,5 +1,5 @@
 
-<img align="right" width="75%" height="75%" src="https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman.png">
+<img align="right" width="20%" height="20%" src="https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman-hex.png">
 
 [![npm version](https://badge.fury.io/js/suman.svg)](https://badge.fury.io/js/suman)
 
@@ -9,10 +9,8 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
 
-<img align="right" width="50%" height="50%" src="https://raw.githubusercontent.com/sumanjs/suman-docs/master/images/suman-hex.png">
 
 # Suman: universal test runner, primarily for Node.js and front-end JavaScript
-
 
 Designed to run tests written in any language - because Suman can runs tests as child processes - just write TAP to stdout
 via the runtime of choice. Intended to work with Selenium, in the browser, 

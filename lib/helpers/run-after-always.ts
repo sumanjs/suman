@@ -12,13 +12,14 @@ const global = require('suman-browser-polyfills/modules/global');
 import domain = require('domain');
 
 //npm
+import * as colors from 'colors/safe';
 import async = require('async');
 
 //project
 import su from 'suman-utils';
 const helpers = require('../test-suite-helpers/handle-promise-generator');
 const cloneError = require('../clone-error');
-import makeHookObj = require('../t-proto-hook');
+import {makeHookObj} from '../t-proto-hook';
 import freezeExistingProps = require('../freeze-existing');
 import {constants} from '../../config/suman-constants';
 const _suman = global.__suman = (global.__suman || {});
@@ -42,7 +43,14 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
       'so this exception will be ignored. => ', e);
   });
 
-  console.error(' => We are running after.always hooks. Any errors will be ignored.');
+
+  if(_suman.afterAlwaysHasBeenRegistered){
+    _suman.logError(colors.cyan('At least one after.always hook has been registered for test with name:'),'\n\t\t',
+      colors.magenta.bold('"' + suman.desc + '"'));
+    _suman.logError(colors.yellow('We are currently running after.always hooks. Any uncaught errors ' +
+      'will be ignored as best as possible.'));
+  }
+
 
   async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
@@ -195,7 +203,6 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
         }
 
       });
-
 
     }, cb);
 

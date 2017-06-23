@@ -1,6 +1,6 @@
 'use strict';
-import {ChildProcess} from "child_process";
 import {IRunnerObj, ISumanChildProcess, ITableRows} from "../dts/runner";
+import {IPseudoError} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -21,13 +21,13 @@ if (false) {
   // note: this is useful for detective work to find out what might be logging unncessarily
   // das interceptor!
   const stdout = process.stdout.write;
-  process.stdout.write = function (data) {
+  process.stdout.write = function (data: String | Buffer) {
     stdout(new Error(String(data)).stack);
     stdout.apply(process.stdout, arguments);
   };
 
   const stderr = process.stderr.write;
-  process.stderr.write = function (data) {
+  process.stderr.write = function (data: String | Buffer) {
     stderr(new Error(String(data)).stack);
     stderr.apply(process.stderr, arguments);
   };
@@ -53,7 +53,7 @@ const readline = require('readline');
 const colors = require('colors/safe');
 const a8b = require('ansi-256-colors'), fg = a8b.fg, bg = a8b.bg;
 const makeBeep = require('make-beep');
-const events = require('suman-events');
+import {events} from 'suman-events';
 const debug = require('suman-debug')('s:runner');
 
 //project
@@ -72,7 +72,7 @@ const makeHandleIntegrantInfo = require('./runner-helpers/handle-integrant-info'
 const makeBeforeExit = require('./runner-helpers/make-before-exit-once-post');
 const makeSingleProcess = require('./runner-helpers/handle-single-process');
 import makeHandleMultipleProcesses from './runner-helpers/handle-multiple-processes';
-import {IPseudoError} from "../dts/global";
+
 
 //////////////////////////////////////////////
 
@@ -82,7 +82,6 @@ const projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoo
 const messages: Array<any> = [];
 const integrantHash = {};
 const integrantHashKeyValsForSumanOncePost = {};
-const userData = {}; // user will send data to runner for any/all tests, once before they exit
 const config = _suman.sumanConfig;
 const oncePosts = {};
 const allOncePostKeys: Array<string> = [];
@@ -113,7 +112,7 @@ const makeExit =
   makeMakeExit(runnerObj, tableRows);
 
 const beforeExitRunOncePost =
-  makeBeforeExit(runnerObj, oncePosts, integrantHashKeyValsForSumanOncePost, allOncePostKeys, userData);
+  makeBeforeExit(runnerObj, oncePosts, integrantHashKeyValsForSumanOncePost, allOncePostKeys);
 
 
 process.once('exit', onExit);
@@ -264,7 +263,7 @@ export = function findTestsAndRunThem(runObj: Object, runOnce: Function, $order:
     const ret = runOnce.apply(null, integrantInjector(args));
 
     if (ret.dependencies) {
-      if (typeof ret.dependencies === 'object' && !Array.isArray(ret.dependencies)) {
+      if (su.isObject(ret.dependencies)) {
         runnerObj.depContainerObj = ret.dependencies;
       }
       else {

@@ -1,46 +1,38 @@
 const suman = require('suman');
 const Test = suman.init(module, {});
 
+Test.create({parallel: true}, function (assert, path, fs, $root) {
 
+  const source = path.resolve($root + '/test/fixtures/read-this-file.txt');
+  const dest = path.resolve($root + '/test/fixtures/write-to-this-file.txt');
 
-Test.create(__filename, {parallel:true}, function (assert, path, fs) {
+  this.it(' [writable 1] ', function () {
 
+    return fs.createReadStream(source).pipe(fs.createWriteStream(dest));
+  });
 
-    const source = path.resolve(global.projectRoot + '/test/fixtures/read-this-file.txt');
-    const dest = path.resolve(global.projectRoot + '/test/fixtures/write-to-this-file.txt');
+  this.it(' [readable] ', function () {
 
-    this.it(' [writable 1] ', function(){
+    return fs.createReadStream(source).on('data', function () {});
 
-        return fs.createReadStream(source).pipe(fs.createWriteStream(dest));
+  });
+
+  this.it(' [writable 2] ', function () {
+
+    const z = fs.createWriteStream(dest);
+    z.write('summa');
+    process.nextTick(function () {
+      z.end();
     });
+    return z;
+  });
 
-    this.it(' [readable] ', function(){
+  this.it(' [transform] ', function () {
 
-        return fs.createReadStream(source).on('data', function(){});
+  });
 
-    });
+  this.it(' [pipe] ', function () {
 
-    this.it(' [writable 2] ', function(){
-
-        const z = fs.createWriteStream(dest);
-        z.write('summa');
-        process.nextTick(function(){
-            z.end();
-        });
-        return z;
-    });
-
-    this.it(' [transform] ', function(){
-
-
-
-    });
-
-    this.it(' [pipe] ', function(){
-
-
-    });
-
-
+  });
 
 });

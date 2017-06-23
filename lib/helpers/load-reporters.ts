@@ -9,10 +9,11 @@ const global = require('suman-browser-polyfills/modules/global');
 const path = require('path');
 const util = require('util');
 const assert = require('assert');
+const EE = require('events');
 
 //npm
 const colors = require('colors/safe');
-const events = require('suman-events');
+import {events} from 'suman-events';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -51,7 +52,7 @@ export = function loadReporters (opts: ISumanOpts, projectRoot: string, sumanCon
 
     //TODO: check to see if paths of reporter paths clashes with paths from reporter names at command line (unlikely)
 
-    let fn;
+    let fn, val;
 
     if (!(item in reporterKV)) {
 
@@ -66,7 +67,7 @@ export = function loadReporters (opts: ISumanOpts, projectRoot: string, sumanCon
 
     }
     else {
-      let val = reporterKV[item];
+       val = reporterKV[item];
       if (!val) {
         throw new Error(' => Suman fatal error => no reporter with name = "' + item + '" in your suman.conf.js file.');
       }
@@ -90,27 +91,40 @@ export = function loadReporters (opts: ISumanOpts, projectRoot: string, sumanCon
 
   });
 
+   if(process.env.SUMAN_INCEPTION_LEVEL > 0 || _suman.sumanOpts.useTAPOutput){
+     let fn = require('../reporters/tap-reporter');
+     sumanReporters.push(fn);
+     reporterRets.push(fn.call(null, resultBroadcaster, _suman.sumanOpts));
+   }
+
   if (sumanReporters.length < 1) {
-    console.log(' => Using native/std reporter');
-    resultBroadcaster.emit(String(events.USING_STANDARD_REPORTER));
-    const fn = require('../reporters/std-reporter');
-    assert(typeof fn === 'function', 'Suman native reporter fail.');
-    sumanReporters.push(fn);
+    if(process.env.SUMAN_INCEPTION_LEVEL < 1){
+      _suman.log('Using native/std reporter');
+      resultBroadcaster.emit(String(events.USING_STANDARD_REPORTER));
+      const fn = require('../reporters/std-reporter');
+      assert(typeof fn === 'function', 'Suman native reporter fail.');
+      sumanReporters.push(fn);
+    }
   }
+
 
   if(false){
     try{
       sumanReporters.push(require('suman-sqlite-reporter'));
       resultBroadcaster.emit(String(events.USING_SQLITE_REPORTER));
-      console.log(' => Suman sqlite reporter was loaded.');
+      _suman.log('sqlite reporter was loaded.');
     }
     catch(err){
-      console.error(' => Suman failed to load "suman-sqlite-reporter".');
+      _suman.logError('failed to load "suman-sqlite-reporter".');
     }
   }
 
-  sumanReporters.forEach(function (reporter) {
-    reporterRets.push(reporter.call(null, resultBroadcaster));
-  });
+  if(process.env.SUMAN_INCEPTION_LEVEL < 1){
+    sumanReporters.forEach(function (reporter) {
+      reporterRets.push(reporter.call(null, resultBroadcaster, _suman.sumanOpts));
+    });
+  }
 
 };
+
+

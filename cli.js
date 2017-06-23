@@ -15,9 +15,8 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
-
-
 const logExit = require('./lib/helpers/log-exit');
+
 
 process.on('exit', function (code) {
   if (process.listenerCount('exit') === 1) {
@@ -33,7 +32,7 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
   process.exit(1);
 }
 
-console.log(' => Resolved path of Suman executable =>', '"' + __filename + '"');
+
 const weAreDebugging = require('./lib/helpers/we-are-debugging');
 
 if (weAreDebugging) {
@@ -67,13 +66,13 @@ process.on('uncaughtException', function (err) {
       '--transpile and --all options together.')
   }
 
-  if (process.listenerCount('uncaughtException') === 1) {
+  setTimeout(function () {
     if (err && !err._alreadyHandledBySuman) {
       err._alreadyHandledBySuman = true;
       console.error('\n\n => Suman "uncaughtException" event occurred =>\n', err.stack, '\n\n');
       handleExceptionsAndRejections();
     }
-  }
+  }, 500);
 
 });
 
@@ -83,15 +82,15 @@ process.on('unhandledRejection', function (err) {
     err = {stack: typeof err === 'string' ? err : util.inspect(err)}
   }
 
-  if (err && !err._alreadyHandledBySuman) {
-    err._alreadyHandledBySuman = true;
-    console.error('\n\n => Suman "unhandledRejection" event occurred =>\n', (err.stack || err), '\n\n');
-    handleExceptionsAndRejections();
-  }
+  setTimeout(function () {
+    if (err && !err._alreadyHandledBySuman) {
+      err._alreadyHandledBySuman = true;
+      console.error('\n\n => Suman "unhandledRejection" event occurred =>\n', (err.stack || err), '\n\n');
+      handleExceptionsAndRejections();
+    }
+  }, 500);
 
 });
-
-
 
 //core
 const fs = require('fs');
@@ -110,21 +109,25 @@ const dashdash = require('dashdash');
 const colors = require('colors/safe');
 const async = require('async');
 const uniqBy = require('lodash.uniqby');
-const events = require('suman-events');
+const {events} = require('suman-events');
 const debug = require('suman-debug')('s:cli');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
+require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
+
 const {constants} = require('./config/suman-constants');
 const su = require('suman-utils');
 
 //////////////////////////////////////////////////////////////////////////
 
 debug([' => Suman started with the following command:', process.argv]);
-debug([' => $NODE_PATH is as follows:', process.env.NODE_PATH]);
+debug([' => $NODE_PATH is as follows:', process.env['NODE_PATH']]);
 
 //////////////////////////////////////////////////////////////////////////
+
+_suman.log('Resolved path of Suman executable =>', '"' + __filename + '"');
 
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
@@ -135,14 +138,14 @@ if (semver.lt(nodeVersion, oldestSupported)) {
   throw new Error('Please upgrade to a newer Node.js version.');
 }
 
-console.log(' => Node.js version:', nodeVersion);
+_suman.log('Node.js version:', nodeVersion);
 
 ////////////////////////////////////////////////////////////////////
 
 const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
-console.log(colors.yellow.italic(' => Suman v' + sumanVersion + ' running...'));
-console.log(' => [pid] => ', process.pid);
+_suman.log(colors.yellow.italic('Suman v' + sumanVersion + ' running...'));
+_suman.log('[pid] => ', process.pid);
 
 ////////////////////////////////////////////////////////////////////
 
@@ -177,26 +180,26 @@ const sumanOpts = _suman.sumanOpts = require('./lib/parse-cmd-line-opts/parse-op
 _suman.sumanArgs = sumanOpts._args;
 
 if (sumanOpts.verbose) {
-  console.log(' => Suman verbose message => Project root:', projectRoot);
+  _suman.log(' => Suman verbose message => Project root:', projectRoot);
 }
 
 ////////////////////////////////////////////////////////////////////
 
 if (cwd !== projectRoot) {
   if (sumanOpts.verbosity > 1) {
-    console.log(' => Note that your current working directory is not equal to the project root:');
-    console.log(' => cwd:', colors.magenta(cwd));
-    console.log(' => Project root:', colors.magenta(projectRoot));
+    _suman.log(' => Note that your current working directory is not equal to the project root:');
+    _suman.log(' => cwd:', colors.magenta(cwd));
+    _suman.log(' => Project root:', colors.magenta(projectRoot));
   }
 }
 else {
   if (sumanOpts.verbosity > 2) {
     if (cwd === projectRoot) {
-      console.log(colors.gray(' => cwd:', cwd));
+      _suman.log(colors.gray(' => cwd:', cwd));
     }
   }
   if (cwd !== projectRoot) {
-    console.log(colors.magenta(' => cwd:', cwd));
+    _suman.log(colors.magenta(' => cwd:', cwd));
   }
 }
 
@@ -234,6 +237,7 @@ const appendMatchNone = sumanOpts.append_match_none;
 const matchAny = sumanOpts.match_any;
 const matchAll = sumanOpts.match_all;
 const matchNone = sumanOpts.match_none;
+const repair = sumanOpts.repair;
 const uninstallBabel = sumanOpts.uninstall_babel;
 const groups = sumanOpts.groups;
 const useTAPOutput = sumanOpts.use_tap_output;
@@ -242,6 +246,7 @@ const coverage = sumanOpts.coverage;
 const diagnostics = sumanOpts.diagnostics;
 const installGlobals = sumanOpts.install_globals;
 const postinstall = sumanOpts.postinstall;
+const tscMultiWatch = sumanOpts.tsc_multi_watch;
 
 if (coverage) {
   console.log(colors.magenta.bold(' => Coverage reports will be written out due to presence of --coverage flag.'));
@@ -310,7 +315,7 @@ try {
   pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
   sumanConfig = _suman.sumanConfig = require(pth);
   if (sumanOpts.verbosity > 8) {  //default to true
-    console.log(' => Suman verbose message => Suman config used: ' + pth);
+    _suman.log(' => Suman verbose message => Suman config used: ' + pth);
   }
 
 }
@@ -480,6 +485,8 @@ else {
 /////////////////////////////// abort if too many top-level options /////////////////////////////////////////////
 
 const preOptCheck = {
+
+  tscMultiWatch: tscMultiWatch,
   watch: watch,
   create: create,
   useServer: useServer,
@@ -496,8 +503,9 @@ const preOptCheck = {
   uninstallBabel: uninstallBabel,
   diagnostics: diagnostics,
   installGlobals: installGlobals,
-  postinstall: postinstall
-  //TODO: should mix this with uninstall-suman
+  postinstall: postinstall,
+  repair: repair
+
 };
 
 const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
@@ -564,6 +572,12 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
   if (diagnostics) {
     require('./lib/cli-commands/run-diagnostics')();
   }
+  else if(tscMultiWatch){
+    require('./lib/cli-commands/run-tscmultiwatch').run(sumanOpts);
+  }
+  else if(repair){
+    require('./lib/cli-commands/run-repair').run(sumanOpts);
+  }
   else if (postinstall) {
     require('./lib/cli-commands/postinstall');
   }
@@ -625,13 +639,13 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
     //this path runs all tests
 
     if (userArgs && sumanOpts.verbosity > 4) {
-      console.log(' => User args will be passed to child processes as process.argv')
+      _suman.log('User args will be passed to child processes as process.argv')
     }
 
     if (sumanOpts.verbosity > 4) {
-      console.log(' => Suman considers these to be runnable files/directories => ');
+      _suman.log('Suman considers these to be runnable files/directories => ');
       paths.forEach(function (f) {
-        console.log(' => ', f);
+        console.log('\t => ', f);
       });
     }
 

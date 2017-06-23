@@ -1,2 +1,2 @@
-declare var _default: boolean;
+declare const _default: boolean;
 export = _default;
