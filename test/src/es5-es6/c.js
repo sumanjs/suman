@@ -3,7 +3,7 @@
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
-const patch = require('../../../lib/patches/all-ts');
+const patch = require('../../../lib/patches/all');
 
 process.on('uncaughtException', function (err) {
   console.log(' This is uncaught => ', err);

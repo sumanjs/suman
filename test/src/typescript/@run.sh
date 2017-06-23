@@ -2,7 +2,7 @@
 
 cd $(dirname "$0");
 echo "we are running @run.sh"
-chmod 777 $(pwd)/@target -R
+chmod -R 777 $(pwd)/@target
 
 SUMAN_TARGET="${SUMAN_CHILD_TEST_PATH//@src/@target}"
 SUMAN_RUNNABLE=${SUMAN_TARGET%.*}.js

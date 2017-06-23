@@ -26,12 +26,12 @@ const freezeExistingProps = require('../freeze-existing');
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-export = function (suman: ISuman, gracefulExit: Function) {
+export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit: Function) {
 
   return function handleBeforeOrAfterEach(self: ITestSuite, test: ITestDataObj, aBeforeOrAfterEach: IEachHookObj, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      console.error(' => Suman runtime error => uncaughtException experienced => halting program.');
+      _suman.logError('runtime error => uncaughtException experienced => halting program.');
       return;
     }
 
@@ -144,13 +144,11 @@ export = function (suman: ISuman, gracefulExit: Function) {
         let args;
 
         if (isGeneratorFn) {
-          if (aBeforeOrAfterEach.cb) {
-            throw new Error('Generator function callback also asking for callback param => inconsistent.');
-          }
 
           const handleGenerator = helpers.makeHandleGenerator(fini);
           args = [freezeExistingProps(t)];
           handleGenerator(aBeforeOrAfterEach.fn, args, aBeforeOrAfterEach.ctx);
+
         }
         else if (aBeforeOrAfterEach.cb) {
 
@@ -185,7 +183,6 @@ export = function (suman: ISuman, gracefulExit: Function) {
               fini(null);
             }
           };
-
 
           args = Object.setPrototypeOf(d, freezeExistingProps(t));
 

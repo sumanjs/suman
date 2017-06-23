@@ -1,2 +1,1 @@
-declare const _default: (cb: Function) => void;
-export = _default;
+export default function oncePostFn(cb: Function): void;

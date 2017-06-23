@@ -16,14 +16,15 @@ const assert = require('assert');
 const pragmatik = require('pragmatik');
 const async = require('async');
 const colors = require('colors/safe');
-
-//
+import su from 'suman-utils';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const handleSetupComplete = require('../handle-setup-complete');
+import evalOptions from '../helpers/eval-options';
+import parseArgs from '../helpers/parse-pragmatik-args';
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -42,53 +43,26 @@ function handleBadOptions(opts: IAfterOpts): void {
 
 export const makeAfter = function (suman: ISuman, zuite: ITestSuite): IAfterFn {
 
-  return function ($desc: string, $opts: IAfterOpts, $fn: AfterHookCallbackMode | AfterHookRegularMode): ITestSuite {
+  return function ($desc: string, $opts: IAfterOpts): ITestSuite {
 
     handleSetupComplete(zuite, 'after');
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
+      preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
     // this transpiles much more nicely, rather than inlining it above
-    let [desc, opts, arr, fn] = args;
+    const vetted = parseArgs(args);
+    const [desc, opts, fn] = vetted.args;
+    const arrayDeps = vetted.arrayDeps;
     handleBadOptions(opts);
 
-    if (arr && fn) {
-      throw new Error(' => Please define either an array or callback.');
+    if (arrayDeps.length > 0) {
+      evalOptions(arrayDeps, opts);
     }
 
     if(opts.always){
       _suman.afterAlwaysHasBeenRegistered = true;
-    }
-
-    let arrayDeps: Array<string>;
-
-    if (arr) {
-      //note: you can't stub a test block!
-      fn = arr[arr.length - 1];
-      assert.equal(typeof fn, 'function', ' => Suman usage error => ' +
-        'You need to pass a function as the last argument to the array.');
-      // remove last element
-      arrayDeps = arr.slice(0, -1);
-    }
-
-    //avoid unncessary pre-assignment
-    arrayDeps = arrayDeps || [];
-
-    if (arrayDeps.length > 0) {
-
-      const preVal: Array<string> = [];
-      arrayDeps.forEach(function (a) {
-        if (/:/.test(a)) {
-          preVal.push(a);
-        }
-      });
-
-      const toEval = ['(function self(){return {', preVal.join(','), '}})()'].join('');
-      const obj = eval(toEval);
-      //overwrite opts with values from array
-      Object.assign(opts, obj);
     }
 
     if (opts.skip) {

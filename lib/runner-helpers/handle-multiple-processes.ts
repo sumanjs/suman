@@ -212,15 +212,13 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
 
           if (sh) {
             if (sumanOpts.coverage) {
-              console.log(colors.magenta(' => Suman warning => You wish for coverage with Istanbul/NYC,\nbut these tools' +
-                'cannot run coverage against files that cannot be run with node.js.'));
+              _suman.logWarning(colors.magenta('coverage option was set to true, but we are running your tests via @run.sh.'));
+              _suman.logWarning(colors.magenta('so in this case, you will need to run your coverage call via @run.sh.'));
             }
             _suman.log('We have found the sh file => ', sh);
             n = cp.spawn(sh, argz, cpOptions);
           }
           else {
-
-            _suman.log('We have found *not* found the sh file');
 
             if ('.js' === extname) {
 
@@ -338,21 +336,21 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
 
         if (tr) {
 
-          let okReady = function (file: string, stdout: string) {
-            runAfterAnyTransform(file, stdout);
-          };
+          // let okReady = function (file: string, stdout: string) {
+          //   runAfterAnyTransform(file, stdout);
+          // };
 
-          if (_suman.multiWatchReady && !sumanOpts.force_transpile) {
-            _suman.log(colors.cyan('we are already transpiled, great.'));
-            setImmediate(function () {
-              okReady(file, '');
-            });
-            return;
-          }
+          // if (_suman.multiWatchReady && !sumanOpts.force_transpile) {
+          //   _suman.log(colors.cyan('we are already transpiled, great.'));
+          //   setImmediate(function () {
+          //     okReady(file, '');
+          //   });
+          //   return;
+          // }
 
           let k = cp.spawn(tr, [], {
             env: Object.assign({}, process.env, {
-              SUMAN_TEST_PATH: file
+              SUMAN_CHILD_TEST_PATH: file
             })
           });
 
@@ -365,6 +363,12 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
           k.stderr.pipe(strm);
           k.stdout.pipe(strm);
 
+          if(sumanOpts.inherit_stdio){
+            k.stderr.pipe(process.stderr);
+            k.stdout.pipe(process.stdout);
+          }
+
+
           let stdout = '';
           k.stdout.on('data', function (data: string) {
             stdout += data;
@@ -373,10 +377,10 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
           k.once('close', function (code: number) {
 
             if (code > 0) {
-              cb(new Error(`@transform.sh process, for file ${file}, exitted with non-zero exit code.`));
+              cb(new Error(`the @transform.sh process, for file ${file},\nexitted with non-zero exit code. :( \n To see the stderr, use --inherit-stdio.`));
             }
             else {
-              okReady(file, stdout);
+              runAfterAnyTransform(file, stdout);
             }
 
           });

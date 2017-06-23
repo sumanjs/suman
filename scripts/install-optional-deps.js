@@ -74,19 +74,24 @@ catch (err) {
   alwaysInstall = true;
 }
 
-if(sumanConf.installSumanExtraDeps === false){
+if (sumanConf.installSumanExtraDeps === false) {
   console.error(' => We will not install any suman "global" modules, because "installSumanExtraDeps" is false.');
   process.exit(0);
 }
 
 //always install latest for now
 let installs = [];
-
 installs = installs.concat(Object.keys(deps.sqlite3));
 installs = installs.concat(Object.keys(deps.sumanSqliteReporter));
 
-if (sumanConf['useSumanServer'] || alwaysInstall || alwaysInstallDueToGlobal) {
-  installs = installs.concat(Object.keys(deps.sumanServer));
+if (true || sumanConf['useSumanWatch']) {
+  //remove true later
+  installs = installs.concat(Object.keys(deps.sumanW));
+}
+
+if (true || sumanConf['useSumanD']) {
+  // remove true later
+  installs = installs.concat(Object.keys(deps.sumanD));
 }
 
 if (sumanConf['useSumanInteractive'] || alwaysInstall || alwaysInstallDueToGlobal) {
@@ -97,20 +102,19 @@ if (sumanConf['useIstanbul'] || alwaysInstall || alwaysInstallDueToGlobal) {
   installs = installs.concat(Object.keys(deps.istanbul));
 }
 
-if (sumanConf['useTypeScript'] || alwaysInstall || alwaysInstallDueToGlobal) {
+if (sumanConf['useTypeScript'] && (alwaysInstall || alwaysInstallDueToGlobal)) {
   installs = installs.concat(Object.keys(deps.typescript));
 }
 
-if (sumanConf['useNYC'] || alwaysInstall || alwaysInstallDueToGlobal) {
+if (sumanConf['useNYC'] && (alwaysInstall || alwaysInstallDueToGlobal)) {
   installs = installs.concat(Object.keys(deps.nyc));
 }
 
-if (sumanConf['transpile'] === true && ( alwaysInstall || alwaysInstallDueToGlobal)) {
+if (sumanConf['useBabel'] && (alwaysInstall || alwaysInstallDueToGlobal)) {
   installs = installs.concat(Object.keys(deps.babel));
 }
 
 installs = installs.concat(Object.keys(deps.slack));
-
 
 //2000 second timeout...
 let timeout = 2000000;
@@ -308,7 +312,6 @@ async.map(installs, function (item, cb) {
 
       }
     });
-
   });
 
   function run(err) {

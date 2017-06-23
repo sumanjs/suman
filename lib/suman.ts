@@ -31,9 +31,6 @@ const findSumanServer = require('./find-suman-server');
 const {constants} = require('../config/suman-constants');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
-///////////////////////// debugging ///////////////////////////////////////////
-
-const weAreDebugging = require('./helpers/we-are-debugging');
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -139,6 +136,7 @@ Suman.prototype.logFinished = function ($exitCode: number, skippedString: string
   const suiteName = desc.length > 50 ? '...' + desc.substring(desc.length - 50, desc.length) : desc;
   const suiteNameShortened = desc.length > 15 ? desc.substring(0, 12) + '...' : desc;
   let delta : number = this.dateSuiteFinished - this.dateSuiteStarted;
+  let deltaTotal : number = this.dateSuiteFinished - _suman.dateEverythingStarted;
 
   const skippedSuiteNames: Array<string> = [];
   let suitesTotal = null;
@@ -236,10 +234,19 @@ Suman.prototype.logFinished = function ($exitCode: number, skippedString: string
     completionMessage = ' Test file errored out.';
   }
 
-  delta = (typeof delta === 'number' && !Number.isNaN(delta)) ? delta : 'N/A';
-  const deltaMinutes = (typeof delta === 'number' && !Number.isNaN(delta)) ? Number(delta / (1000 * 60)).toFixed(4) : 'N/A';
+  const deltaStrg : string = String((typeof delta === 'number' && !Number.isNaN(delta)) ? delta : 'N/A');
+
+  const deltaTotalStr: string = String((typeof deltaTotal === 'number' && !Number.isNaN(deltaTotal)) ? deltaTotal : 'N/A');
+
+  const deltaSeconds = (typeof delta === 'number' && !Number.isNaN(delta)) ?
+    Number(delta / 1000).toFixed(4) : 'N/A';
+
+  const deltaTotalSeconds = (typeof deltaTotal === 'number' && !Number.isNaN(deltaTotal)) ?
+    Number(deltaTotal / 1000 ).toFixed(4) : 'N/A';
+
   const passingRate = (typeof testsPassed === 'number' && typeof totalTests === 'number' && totalTests > 0) ?
     Number(100 * (testsPassed / totalTests)).toFixed(2) + '%' : 'N/A';
+
 
   if (_suman.usingRunner) {
 
@@ -252,7 +259,8 @@ Suman.prototype.logFinished = function ($exitCode: number, skippedString: string
         TEST_CASES_PASSED: testsPassed,
         TEST_CASES_SKIPPED: testsSkipped,
         TEST_CASES_STUBBED: testsStubbed,
-        TEST_FILE_MILLIS: delta,
+        TEST_SUMAN_MILLIS: deltaStrg,
+        TEST_FILE_MILLIS: deltaTotalStr,
         OVERALL_DESIGNATOR: 'received'
       };
 
@@ -292,8 +300,10 @@ Suman.prototype.logFinished = function ($exitCode: number, skippedString: string
       table.addRow('Tests total', totalTests || '-');
       table.addRow('--------------------------', '          ---', '                                 -');
       table.addRow('Passing rate', passingRate);
-      table.addRow('Total time millis (delta)', delta, '                                   -');
-      table.addRow('Total time minutes (delta)', deltaMinutes, '                                   -');
+      table.addRow('Actual time millis (delta)', deltaStrg, '                                   -');
+      table.addRow('Actual time seconds (delta)', deltaSeconds, '                                   -');
+      table.addRow('Total time millis (delta)', deltaTotalStr, '                                   -');
+      table.addRow('Total time seconds (delta)', deltaTotalSeconds, '                                   -');
     }
 
     //TODO: if root suite is skipped, it is noteworthy
@@ -422,7 +432,8 @@ Suman.prototype.logResult = function (test: ITestDataObj) : void {  //TODO: refa
   }
 };
 
-export default function _makeSuman($module: NodeModule, _interface: string,
+
+export const makeSuman = function ($module: NodeModule, _interface: string,
                             shouldCreateResultsDir: boolean, config: ISumanConfig, cb: Function) {
 
   let liveSumanServer = false;
@@ -501,6 +512,6 @@ export default function _makeSuman($module: NodeModule, _interface: string,
 
 
   });
-}
+};
 
 

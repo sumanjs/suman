@@ -1,7 +1,7 @@
 'use strict';
-import {ITestDataObj, ITestSuite} from "../../dts/test-suite";
+import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IItOpts} from "../../dts/it";
+import {IItOpts, ITestDataObj} from "../../dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -16,6 +16,7 @@ const pragmatik = require('pragmatik');
 const _ = require('underscore');
 const async = require('async');
 const colors = require('colors/safe');
+import su from 'suman-utils';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -23,7 +24,8 @@ const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const incr = require('../incrementer');
 const handleSetupComplete = require('../handle-setup-complete');
-
+import parseArgs from '../helpers/parse-pragmatik-args';
+import evalOptions from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -36,67 +38,21 @@ function handleBadOptions(opts: IItOpts) {
 
 export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
 
-  return function ($desc: string, $opts: IItOpts, $fn: Function): ITestSuite {
+  return function ($desc: string, $opts: IItOpts): ITestSuite {
 
     handleSetupComplete(zuite, 'it');
 
     const args = pragmatik.parse(arguments, rules.testCaseSignature, {
-      preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
+      preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
-    let [desc, opts, arr, fn] = args;
+    const vetted = parseArgs(args);
+    const [desc, opts, fn] = vetted.args;
+    const arrayDeps = vetted.arrayDeps;
     handleBadOptions(opts);
 
-    if (arr && fn) {
-      throw new Error(' => Please define either an array or callback.');
-    }
-
-    let arrayDeps: Array<string>;
-
-    if (arr) {
-      //note: you can't stub a test block!
-      fn = arr[arr.length - 1];
-      assert.equal(typeof fn, 'function', ' => Suman usage error => ' +
-        'You need to pass a function as the last argument to the array.');
-      // remove last element
-      arrayDeps = arr.slice(0, -1);
-    }
-
-    //avoid unncessary pre-assignment
-    arrayDeps = arrayDeps || [];
-
     if (arrayDeps.length > 0) {
-
-      const preVal: Array<string> = [];
-      arrayDeps.forEach(function (a) {
-        if (/:/.test(a)) {
-          preVal.push(a);
-        }
-      });
-
-      const toEval = ['(function self(){return {', preVal.join(','), '}})()'].join('');
-      const obj = eval(toEval);
-      //overwrite opts with values from array
-      Object.assign(opts, obj);
-    }
-
-
-    if (!fn) {
-      zuite.getTests().push({testId: incr(), desc: desc, stubbed: true});
-      return zuite;
-    }
-
-    // because we now know that fn is defined
-    desc = desc || fn.name;
-
-    if (opts.skip) {
-      zuite.getTests().push({testId: incr(), desc: desc, skipped: true});
-      return zuite;
-    }
-
-    if (suman.itOnlyIsTriggered && !opts.only) {
-      zuite.getTests().push({testId: incr(), desc: desc, skipped: true, skippedDueToItOnly: true});
-      return zuite;
+      evalOptions(arrayDeps,opts);
     }
 
     if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
@@ -115,8 +71,26 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
       }
     }
 
+
+    const inc = incr();
+
+    if (!fn) {
+      zuite.getTests().push({testId: inc, desc: desc, stubbed: true} as ITestDataObj);
+      return zuite;
+    }
+
+    if (opts.skip) {
+      zuite.getTests().push({testId: inc, desc: desc, skipped: true} as ITestDataObj);
+      return zuite;
+    }
+
+    if (suman.itOnlyIsTriggered && !opts.only) {
+      zuite.getTests().push({testId: inc, desc: desc, skipped: true, skippedDueToItOnly: true} as ITestDataObj);
+      return zuite;
+    }
+
     const testData: ITestDataObj = {
-      testId: incr(),
+      testId: inc,
       stubbed: false,
       data: {},
       planCountExpected: opts.plan,

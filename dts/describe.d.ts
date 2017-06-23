@@ -1,4 +1,5 @@
 
+import {IAllOpts} from "./test-suite";
 type IDescribeFnArgTypes = IDescribeOpts | TDescribeHook | Array<string | TDescribeHook>;
 
 export interface IDescribeFn {
@@ -8,8 +9,7 @@ export interface IDescribeFn {
     only?: IDescribeFn
 }
 
-export interface IDescribeOpts {
-    __preParsed:boolean
+export interface IDescribeOpts extends IAllOpts {
 
 }
 

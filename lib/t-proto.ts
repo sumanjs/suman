@@ -9,6 +9,9 @@ const global = require('suman-browser-polyfills/modules/global');
 const util = require('util');
 const EE = require('events');
 
+//npm
+const chai = require('chai');
+
 //project
 const _suman = global.__suman = (global.__suman || {});
 const freezeExistingProps = require('./freeze-existing');
@@ -23,9 +26,9 @@ proto.wrap = function _wrap(fn: Function) {
   const self = this;
   return function () {
     try {
-      fn.apply(this, arguments);
+      return fn.apply(this, arguments);
     } catch (e) {
-      self.__handle(e, false);
+      return self.__handle(e, false);
     }
   }
 };
@@ -51,9 +54,7 @@ proto.log = function _log() {  //TODO: update this
 };
 
 proto.slow = function _slow() {
-  debugger;
-  this.timeout = 40000;
-  console.log(util.inspect(this));
+  this.timeout(20000);
 };
 
 

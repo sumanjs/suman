@@ -14,5 +14,6 @@ export interface ITableData {
   TEST_CASES_SKIPPED: number,
   TEST_CASES_STUBBED: number,
   TEST_FILE_MILLIS: number,
+  TEST_SUMAN_MILLIS: number,
   OVERALL_DESIGNATOR: string
 }

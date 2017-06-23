@@ -6,10 +6,6 @@ import {ISuman} from "../dts/suman";
 import {ICreateOpts, TCreateHook} from "../dts/index-init";
 import {IInjectionDeps} from "../dts/injection";
 
-//TODO: as we know which file or directory the user is running their tests, so error stack traces should only contain those paths
-//note: http://stackoverflow.com/questions/20825157/using-spawn-function-with-node-env-production
-//TODO: plugins http://hapijs.com/tutorials/plugins
-
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -34,101 +30,49 @@ const debug = require('suman-debug')('s:index');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('./helpers/handle-varargs');
 import {constants} from '../config/suman-constants';
-const su = require('suman-utils');
+import su from 'suman-utils';
 import makeGracefulExit = require('./make-graceful-exit');
 import acquireIoCDeps from './acquire-ioc-deps';
-const makeAcquireDepsFillIn = require('./acquire-deps-fill-in');
+import makeAcquireDepsFillIn from './acquire-deps-fill-in';
 const makeTestSuite = require('./make-test-suite');
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 const {handleInjections} = require('./handle-injections');
+import makeOnSumanCompleted from './helpers/on-suman-completed';
+import evalOptions from './helpers/eval-options';
+import parseArgs from './helpers/parse-pragmatik-args';
+
+/*////////////// what it do ///////////////////////////////////////////////
 
 
-export interface IMakeCreate {
-  (desc: string, opts: ICreateOpts, arr: Array<any>, cb: TCreateHook): void
-}
+ */////////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////
-
-export const execSuite =  function (suman: ISuman) {
+export const execSuite = function (suman: ISuman) : Function {
 
   // we set this so that after.always hooks can run
   _suman.whichSuman = suman;
 
-  const onSumanCompleted = function _onSumanCompleted(code: number, msg: string) {
-
-    suman.sumanCompleted = true;
-
-    if (process.env.SUMAN_SINGLE_PROCESS === 'yes') {
-      suman._sumanEvents.emit('suman-test-file-complete');
-    }
-    else {
-
-      debugger;
-      suman.logFinished(code || 0, msg, function (err: Error | string, val: any) {  //TODO: val is not "any"
-
-        if (_suman.sumanOpts.check_memory_usage) {
-          let m = {
-            heapTotal: _suman.maxMem.heapTotal / 1000000,
-            heapUsed: _suman.maxMem.heapUsed / 1000000
-          };
-          process.stderr.write(' => Maximum memory usage during run => ' + util.inspect(m));
-        }
-
-        _suman.suiteResultEmitter.emit('suman-completed', val);
-      });
-
-    }
-  };
-
+  const onSumanCompleted = makeOnSumanCompleted(suman);
   const acquireDepsFillIn = makeAcquireDepsFillIn(suman);
   suman.dateSuiteStarted = Date.now();
   const allDescribeBlocks = suman.allDescribeBlocks;
   const gracefulExit = makeGracefulExit(suman);
   const mTestSuite = makeTestSuite(suman, gracefulExit);
 
-  const  makeSuite : IMakeCreate = function() {
+  return function runRootSuite() : void {
 
-    // const args = pragmatik.parse(arguments, rules.blockSignature);
     const args = pragmatik.parse(arguments, rules.createSignature);
-    // the code transpiles more cleanly with args on a separate line
-    let [desc, opts, arr, cb] = args;
+    const vetted = parseArgs(args);
+    const [$desc, opts, cb] = vetted.args;
+    const arrayDeps = vetted.arrayDeps;
 
-    if (arr && cb) {
-      throw new Error(' => Please define either an array or callback.');
-    }
-
-    debugger;
-
-    let arrayDeps: Array<string>;
-
-    if (arr) {
-      //note: you can't stub a test block!
-      cb = arr[arr.length - 1];
-      assert.equal(typeof cb, 'function', ' => Suman usage error => ' +
-        'You need to pass a function as the last argument to the array.');
-      // remove last element
-      arrayDeps = arr.slice(0, -1);
-    }
-
-    //avoid unncessary pre-assignment
-    arrayDeps = arrayDeps || [];
+    assert(opts.__preParsed, 'Suman implementation error. ' +
+      'Options should be pre-parsed at this point in the program. Please report.');
 
     if (arrayDeps.length > 0) {
-
-      const preVal: Array<string> = [];
-      arrayDeps.forEach(function (a) {
-        if (/:/.test(a)) {
-          preVal.push(a);
-        }
-      });
-
-      const toEval = ['(function self(){return {', preVal.join(','), '}})()'].join('');
-      const obj = eval(toEval);
-      //overwrite opts with values from array
-      Object.assign(opts, obj);
+      evalOptions(arrayDeps, opts);
     }
 
-    desc = (desc === '[suman-placeholder]') ? suman.slicedFileName : desc;
+    const desc = ($desc === '[suman-placeholder]') ? suman.slicedFileName : $desc;
     // suman description is the same as the description of the top level test block
     suman.desc = desc;
 
@@ -229,7 +173,7 @@ export const execSuite =  function (suman: ISuman) {
         acquireIoCDeps(deps, suite, function (err: IPseudoError, depz: IInjectionDeps) {
 
           if (err) {
-            _suman.logError('error acquiring IoC deps:',err.stack || err);
+            _suman.logError('error acquiring IoC deps:', err.stack || err);
             return process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
 
@@ -350,7 +294,7 @@ export const execSuite =  function (suman: ISuman) {
       function runSuite(suite: ITestSuite, cb: Function) {
 
         if (_suman.sumanUncaughtExceptionTriggered) {
-          console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+          _suman.logError(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
           return;
         }
 
@@ -365,7 +309,6 @@ export const execSuite =  function (suman: ISuman) {
             limit = _suman.sumanConfig.DEFAULT_PARALLEL_BLOCK_LIMIT || constants.DEFAULT_PARALLEL_BLOCK_LIMIT;
           }
         }
-
 
         suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
@@ -405,7 +348,7 @@ export const execSuite =  function (suman: ISuman) {
         suman.dateSuiteFinished = Date.now();
 
         if (_suman.sumanUncaughtExceptionTriggered) {
-          console.error(` => Suman runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+          _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
           return;
         }
 
@@ -414,8 +357,6 @@ export const execSuite =  function (suman: ISuman) {
       });
 
     }
-  }
-
-  return makeSuite;
+  };
 
 };

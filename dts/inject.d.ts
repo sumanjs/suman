@@ -1,6 +1,7 @@
 
 
 import {Subscription} from "rxjs";
+import {IAllOpts} from "./test-suite";
 
 export interface IInjectFn {
     (desc?:string, opts?: IInjectOpts, fn?: Function): void,
@@ -8,9 +9,8 @@ export interface IInjectFn {
     skip?: IInjectFn
 }
 
-export interface IInjectOpts {
-    cb: boolean,
-    __preParsed: boolean
+export interface IInjectOpts extends IAllOpts {
+    cb: boolean;
 }
 
 
