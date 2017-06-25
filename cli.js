@@ -17,7 +17,6 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 const logExit = require('./lib/helpers/log-exit');
 
-
 process.on('exit', function (code) {
   if (process.listenerCount('exit') === 1) {
     logExit(code);
@@ -31,10 +30,9 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
     'Set the SUMAN_EXTRANEOUS_EXECUTABLE env variable to "yes" to get around this.');
   process.exit(1);
 }
-else{
+else {
   delete process.env['SUMAN_EXTRANEOUS_EXECUTABLE'];
 }
-
 
 const weAreDebugging = require('./lib/helpers/we-are-debugging');
 
@@ -577,10 +575,10 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
   if (diagnostics) {
     require('./lib/cli-commands/run-diagnostics')();
   }
-  else if(tscMultiWatch){
+  else if (tscMultiWatch) {
     require('./lib/cli-commands/run-tscmultiwatch').run(sumanOpts);
   }
-  else if(repair){
+  else if (repair) {
     require('./lib/cli-commands/run-repair').run(sumanOpts);
   }
   else if (postinstall) {
@@ -589,7 +587,7 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
   else if (installGlobals) {
     require('./lib/cli-commands/install-global-deps')(paths);
   }
-  else if(sumanD){
+  else if (sumanD) {
     require('./lib/cli-commands/run-suman-d').run(sumanOpts.suman_d_opts)
   }
   else if (interactive) {
@@ -636,7 +634,7 @@ require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () 
     require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
   }
   else if (watch) {
-    require('./lib/watching/watch-init')(paths, sumanServerInstalled);
+    require('./lib/cli-commands/watching/watch-init').run(paths, sumanServerInstalled);
   }
 
   else if (groups) {

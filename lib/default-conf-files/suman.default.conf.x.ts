@@ -12,7 +12,6 @@ export interface ISumanConf {
     matchAny: any[];
     matchNone: RegExp[];
     matchAll: RegExp[];
-    childProcessLogs: number[];
     testDir: string;
     testSrcDir: string;
     testTargetDir: string;
@@ -116,9 +115,6 @@ export default {
   matchAny: [],                              //recommended regex for "matchAny" => [/\.test\.js$/],
   matchNone: [/fixture/, /.*target/],        //recommended regex for "matchNone" => [/fixture/],
   matchAll: [/\.test\.js$/],                 //recommended regex for "matchAll" => [],
-
-  // Object: child process logging
-  childProcessLogs: [0, 1, 2],
 
   //string
   testDir: 'test',
