@@ -223,6 +223,12 @@ exports.constants = Object.freeze({
             'babel-preset-stage-3': 'latest',
             'babel-preset-latest': 'latest'
         },
+        sumanD: {
+            'suman-d': 'latest'
+        },
+        sumanW: {
+            'suman-watch': 'latest'
+        },
         sumanServer: {
             'frontail': 'latest',
             'suman-server': 'latest'
