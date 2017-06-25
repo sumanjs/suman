@@ -92,13 +92,14 @@ module.exports = Object.freeze({
       script: './node_modules/.bin/suman',
       include: [],
       exclude: ['^test.*'],
-      'default': {  //run all tests when a file changes in project
-        script: './node_modules/.bin/suman',
-        include: [],
-        exclude: ['^test.*']
-      }
 
     },
+
+    'default': {  //run all tests when a file changes in project
+      script: './node_modules/.bin/suman',
+      include: [],
+      exclude: ['^test.*']
+    }
   },
 
   reporters: {

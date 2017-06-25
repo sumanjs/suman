@@ -2,7 +2,6 @@ export interface ISumanConf {
     matchAny: any[];
     matchNone: RegExp[];
     matchAll: RegExp[];
-    childProcessLogs: number[];
     testDir: string;
     testSrcDir: string;
     testTargetDir: string;
@@ -103,7 +102,6 @@ declare const _default: {
     matchAny: any[];
     matchNone: RegExp[];
     matchAll: RegExp[];
-    childProcessLogs: number[];
     testDir: string;
     testSrcDir: string;
     testTargetDir: string;

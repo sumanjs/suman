@@ -177,6 +177,12 @@ export declare const constants: Readonly<{
             'babel-preset-stage-3': string;
             'babel-preset-latest': string;
         };
+        sumanD: {
+            'suman-d': string;
+        };
+        sumanW: {
+            'suman-watch': string;
+        };
         sumanServer: {
             'frontail': string;
             'suman-server': string;

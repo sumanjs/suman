@@ -113,6 +113,10 @@ These are the features for creating tests in JavaScript/TypeScript.
 <div> ✓ Complete control => You *can* run unit tests all in the same process for speed, as needed. </div>
 </p>
 
+# Items
+* [x] Simple, powerful command creation
+* [x] Supports optional, required and variadic arguments and options
+* [x] Piped commands
 
 For more detailed feature explanations, see below.
 
@@ -160,9 +164,8 @@ every juncture in the testing process/pipeline.
 * readlink
 
 If you are on MacOS or Linux, you have most of those, so you're good. In any case, you will want to make sure your
-CI/CD servers can support NPM. If you have trouble using NPM globally, you may wish to considering using NVM (Node Version Manager)
-to install NPM and Node.js on CI/CD servers.
-
+CI/CD servers can support NPM. If you have trouble using NPM globally (that is, trouble as root user), 
+you should consider using NVM (Node Version Manager) to install NPM and Node.js on CI/CD servers.
 
 
 # &#9658; Installation
@@ -198,7 +201,9 @@ If you wish to avoid global NPM module installations, we commend you, see:
 ```bash 
 
  suman --runner test/**/*.py   # run python tests
+ 
  suman --runner test/**/*.rb   # run ruby tests
+ 
  suman --runner test/**/*.sh  test/**/*.go  # run bash and golang tests
  
  suman test/src/*.spec.js --concurrency=6 # run the matching tests, no more than 6 Node.js processes at a time.

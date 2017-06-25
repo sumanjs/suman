@@ -7,11 +7,14 @@
 function __handle_global_suman {
 
     WHICH_SUMAN=$(which suman);
-    NEW_NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
+
+    GLOBAL_MODULES=$(npm root -g);
+    NEW_NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules:${GLOBAL_MODULES}
+
     NEW_PATH=${PATH}:~/.suman/global/node_modules/.bin
 
     if [ -z "${WHICH_SUMAN}" ]; then
-        echo " => No global suman installation could be found with '\$ which suman', exitting..."
+        echo " => No global suman installation could be found with '\$ which suman', exiting..."
         return 1;
     else
 

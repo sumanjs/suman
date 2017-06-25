@@ -21,6 +21,7 @@ export interface  IGlobalSumanObj {
   drainCallback: Function,
   inceptionLevel?: number,
   whichSuman: ISuman,
+  logInfo: Function,
   logWarning: Function,
   logError: Function,
   log: Function,
@@ -74,6 +75,10 @@ export interface IMaxMem {
 }
 
 export interface ISumanOpts {
+  watch_per: string,
+  watch: boolean,
+  no_transpile: boolean,
+  no_run: boolean,
   no_color: boolean,
   register: boolean,
   rand: boolean,
@@ -126,6 +131,21 @@ export declare enum BrowserTypes {
   Chrome,
 }
 
+export interface ISumanConfWatchPerItem {
+  exec: string,
+  confOverride: Partial<ISumanConfig>,
+  include: Array<string | RegExp>,
+  exclude: Array<string | RegExp>
+}
+
+export interface ISumanConfWatchPer {
+  [key:string] : ISumanConfWatchPerItem
+}
+
+export interface ISumanConfigWatch {
+  per: ISumanConfWatchPer
+}
+
 
 export interface ISumanConfig {
 
@@ -133,12 +153,9 @@ export interface ISumanConfig {
   DEFAULT_PARALLEL_BLOCK_LIMIT: number,
   DEFAULT_PARALLEL_TEST_LIMIT: number,
 
-  matchAny: Array<RegExp>,
-  matchNone: Array<RegExp>,
-  matchAll: Array<RegExp>,
-
-  // Object: child process logging
-  childProcessLogs: Array<number>,
+  matchAny: Array<RegExp | string>,
+  matchNone: Array<RegExp | string>,
+  matchAll: Array<RegExp | string>,
 
   //string
   testDir: string,
@@ -193,6 +210,8 @@ export interface ISumanConfig {
   defaultChildProcessTimeout: number,
   defaultTestSuiteTimeout: number,
   expireResultsAfter: number,
+
+  watch: ISumanConfigWatch
 
 
 }

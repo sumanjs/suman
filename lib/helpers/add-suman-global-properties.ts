@@ -26,12 +26,12 @@ else {
 }
 
 if (_suman.inceptionLevel < 1) {
-  _suman.log = console.log.bind(console, colors.gray.bold(' => [suman] => '));
+  _suman.log = _suman.logInfo = console.log.bind(console, colors.gray.bold(' => [suman] => '));
   _suman.logWarning = console.error.bind(console, colors.yellow(' => [suman] => '));
   _suman.logError = console.error.bind(console, colors.red(' => [suman] => '));
 }
 else {
-  _suman.log = console.log.bind(console);
+  _suman.log = _suman.logInfo = console.log.bind(console);
   _suman.logWarning = console.error.bind(console);
   _suman.logError = console.error.bind(console);
 }
