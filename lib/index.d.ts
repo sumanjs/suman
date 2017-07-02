@@ -14,6 +14,9 @@ export { IBeforeFn } from '../dts/before';
 export { IBeforeEachFn } from '../dts/before-each';
 export { IAfterFn } from '../dts/after';
 export { IAfterEachFn } from '../dts/after-each';
+export interface ISumanErrorFirstCB {
+    (err: Error | undefined | null, ...args: any[]): void;
+}
 export interface ILoadOpts {
     path: string;
     indirect: boolean;
