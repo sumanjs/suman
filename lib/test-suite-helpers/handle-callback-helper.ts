@@ -1,6 +1,7 @@
 'use strict';
-import {IAssertObj, IHookObj, ITestDataObj, ITimerObj} from "../../dts/test-suite";
+import {IAssertObj, IHookObj, ITimerObj} from "../../dts/test-suite";
 import {IPseudoError, ISumanDomain} from "../../dts/global";
+import {ITestDataObj} from "../../dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -13,7 +14,8 @@ const assert = require('assert');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
-const cloneError = require('../clone-error');
+import {cloneError} from '../misc/clone-error';
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,8 +60,8 @@ function throwsHelper (err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
   const testOrHook : ITestDataObj | IHookObj = (test || hook);
 
   if (testOrHook.throws !== undefined) {
-    assert(testOrHook.throws instanceof RegExp,
-      ' => Suman usage error => "throws" option must be a RegExp.');
+
+    assert(testOrHook.throws instanceof RegExp, ' => Suman usage error => "throws" option must be a RegExp.');
 
     let z;
     if (!err) {
@@ -91,19 +93,14 @@ function throwsHelper (err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
     }
 
   }
-
   return err;
-
 }
 
-//TODO: need to remove allowFatal due to --bail option
-//TODO: this is used not just for tests but for hooks, so need to pass hook name if it exists
-
-export = function makeCallback (d: ISumanDomain, assertCount: IAssertObj, test: ITestDataObj, hook: IHookObj,
+export const makeCallback = function  (d: ISumanDomain, assertCount: IAssertObj, test: ITestDataObj, hook: IHookObj,
                          timerObj: ITimerObj, gracefulExit: Function, cb: Function) {
 
   if (test && hook) {
-    throw new Error(' => Suman internal implementation error => Please report this!');
+    throw new Error(' => Suman internal implementation error => Please report this on Github issue tracker.');
   }
   else if (!test && !hook) {
     let msg = new Error(' => Suman implementation error, please report! ' +

@@ -1,4 +1,3 @@
-
 *.sh
 *.ts
 *.md
@@ -10,13 +9,12 @@ coverage
 yarn.lock
 test/
 suman.conf.js
-.travis.yml
 .gitignore
 .github
 .gitattributes
 .editorconfig
-.coveralls.yml
 *.json
 !cli/*.sh
 !scripts/*.sh
 !*.d.ts
+*.yml

@@ -7,7 +7,11 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const util = require('util');
+import * as util from 'util';
+
+//npm
+import * as async from 'async';
+import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -27,7 +31,7 @@ process.on('SIGINT', function () {
   sigintCount++;
 
   console.log('\n');
-  _suman.logError(colors.red('SIGINT signal caught by suman process.'));
+  _suman.logError(chalk.red('SIGINT signal caught by suman process.'));
   console.log('\n');
 
   if (sigintCount === 2) {
@@ -46,7 +50,7 @@ process.on('SIGTERM', function () {
   sigtermCount++;
 
   console.log('\n');
-  _suman.logError(colors.red('SIGTERM signal caught by suman process.'));
+  _suman.logError(chalk.red('SIGTERM signal caught by suman process.'));
   console.log('\n');
 
   if (sigtermCount === 2) {
@@ -133,7 +137,7 @@ process.on('warning', function (w: Error) {
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
   if (!err || typeof err !== 'object') {
-    console.log(colors.bgMagenta.black(' => Error is not an object => ', util.inspect(err)));
+    console.log(chalk.bgMagenta.black(' => Error is not an object => ', util.inspect(err)));
     err = {stack: typeof err === 'string' ? err : util.inspect(err)}
   }
 
@@ -159,7 +163,7 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       msg = util.inspect(msg);
     }
 
-    console.error('\n\n', colors.magenta(' => Suman uncaught exception => \n' + msg));
+    console.error('\n\n', chalk.magenta(' => Suman uncaught exception => \n' + msg));
 
     if (String(msg).match(/suite is not a function/i)) {
       process.stderr.write('\n\n => Suman tip => You may be using the wrong test interface try TDD instead of BDD or vice versa;' +

@@ -1,5 +1,5 @@
 'use strict';
-import {IPseudoError} from "../dts/global";
+import {IGlobalSumanObj, IPseudoError} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -15,10 +15,9 @@ const sumanUtils = require('suman-utils');
 const debug = require('suman-debug')('s');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../config/suman-constants');
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
-const USE_BABEL_REGISTER = process.env.USE_BABEL_REGISTER === 'yes';
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -43,25 +42,26 @@ process.on('uncaughtException', function (err: IPseudoError) {
 
 });
 
-const root = _suman.projectRoot || sumanUtils.findProjectRoot(process.cwd());
+const sumanOpts = _suman.sumanOpts;
 const sumanHelperDirRoot = _suman.sumanHelperDirRoot;
 const sumanConfig = _suman.sumanConfig;
-
+const useBabelRegister = _suman.useBabelRegister = sumanOpts.$useBabelRegister;
 
 try {
   require(path.resolve(sumanHelperDirRoot + '/suman.globals.js'));  //load globals
 }
 catch (err) {
   console.error('\n', colors.yellow.bold(' => Suman usage warning => Could not load your suman.globals.js file.'));
-  console.error(err.stack || err);
+  console.error(err.message || err);
   console.error(' => Suman will continue optimistically, even though your suman.globals.js file could not be loaded.');
 }
 
-export = function run(files: Array<string>) {
+export const run = function (files: Array<string>) {
 
-  if (USE_BABEL_REGISTER) {
-    console.log(colors.bgWhite.black.bold(' => Suman will use babel-register to transpile your sources on the fly, ' +
-      'use the -v option for more info.'), '\n\n');
+  if (useBabelRegister) {
+    console.log(colors.bgWhite.black.bold(' => Suman will use babel-register to transpile your sources on the fly'));
+    console.log(colors.bgWhite.black.bold('use the -v option for more info.'));
+    console.log('\n\n');
 
     require('babel-register')({
       ignore: /node_modules/
@@ -81,6 +81,6 @@ export = function run(files: Array<string>) {
     require(files[0]);
   }
 
-}
+};
 
 

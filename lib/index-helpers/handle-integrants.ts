@@ -1,4 +1,4 @@
-
+'use strict';
 
 //typescript imports
 import {IGlobalSumanObj} from "../../dts/global";
@@ -15,24 +15,28 @@ import * as util from 'util';
 import * as EE from 'events';
 
 //npm
+import * as chalk from 'chalk';
 import * as fnArgs from 'function-arguments';
 import su from 'suman-utils';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+Object.defineProperty(_suman, 'integrantHashKeyVals', {
+  writable: false,
+  value: {}
+});
 const integrantsEmitter = _suman.integrantsEmitter = (_suman.integrantsEmitter || new EE());
 const {fatalRequestReply} = require('../helpers/fatal-request-reply');
-const acquireDeps = require('../acquire-deps');
+const {acquireDependencies} = require('../acquire-dependencies/acquire-pre-deps');
 import {constants} from '../../config/suman-constants';
-const integrantInjector = require('../injection/integrant-injector');
-const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
+import integrantInjector from '../injection/integrant-injector';
+const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 let integPreConfiguration: any = null;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-export default function(integrants: Array<string>, $oncePost: Array<string>,
-                        integrantPreFn: Function, $module: ISumanModuleExtended){
-
+export default function (integrants: Array<string>, $oncePost: Array<string>,
+                         integrantPreFn: Function, $module: ISumanModuleExtended) {
 
   let integrantsFn: Function = null;
   let integrantsReady: boolean = null;
@@ -41,7 +45,7 @@ export default function(integrants: Array<string>, $oncePost: Array<string>,
   const waitForResponseFromRunnerRegardingPostList = $oncePost.length > 0;
   const waitForIntegrantResponses = integrants.length > 0;
 
-  if (waitForIntegrantResponses || SUMAN_SINGLE_PROCESS) {
+  if (waitForIntegrantResponses || IS_SUMAN_SINGLE_PROCESS) {
     integrantsReady = false;
   }
 
@@ -68,24 +72,22 @@ export default function(integrants: Array<string>, $oncePost: Array<string>,
     integrantsFn = function () {
 
       const integrantsFromParentProcess: Array<any> = [];
-      const oncePreVals: any = {};
+      let oncePreVals: any;
 
       if (integrantsReady) {
         process.nextTick(function () {
-          integrantsEmitter.emit('vals', oncePreVals);
+          integrantsEmitter.emit('vals', {});
         });
       }
       else {
         let integrantMessage = function (msg: IIntegrantsMessage) {
-          if (msg.info === 'integrant-ready') {
-            integrantsFromParentProcess.push(msg.data);
-            oncePreVals[msg.data] = msg.val;
-            if (su.checkForEquality(integrants, integrantsFromParentProcess)) {
-              integrantsReady = true;
-              if (postOnlyReady !== false) {
-                process.removeListener('message', integrantMessage);
-                integrantsEmitter.emit('vals', oncePreVals);
-              }
+          if (msg.info === 'all-integrants-ready') {
+            oncePreVals = JSON.parse(msg.val);
+            console.error('msg.val => ', oncePreVals);
+            integrantsReady = true;
+            if (postOnlyReady !== false) {
+              process.removeListener('message', integrantMessage);
+              integrantsEmitter.emit('vals', oncePreVals);
             }
           }
           else if (msg.info === 'integrant-error') {
@@ -116,11 +118,11 @@ export default function(integrants: Array<string>, $oncePost: Array<string>,
     }
   }
   else {
+
     integrantsFn = function (emitter: EventEmitter) {
 
       //declared at top of file
       if (!integPreConfiguration) {
-
         const args = fnArgs(integrantPreFn);
         const ret = integrantPreFn.apply(null, integrantInjector(args));
 
@@ -135,35 +137,24 @@ export default function(integrants: Array<string>, $oncePost: Array<string>,
       const d = domain.create();
 
       d.once('error', function (err: Error) {
-
-        console.error(colors.magenta(' => Your test was looking to source the following integrant dependencies:\n',
-          colors.cyan(util.inspect(integrants)), '\n', 'But there was a problem.'));
+        console.error(chalk.magenta(' => Your test was looking to source the following integrant dependencies:\n',
+          chalk.cyan(util.inspect(integrants)), '\n', 'But there was a problem.'));
 
         err = new Error(' => Suman fatal error => there was a problem verifying the ' +
           'integrants listed in test file "' + $module.filename + '"\n' + (err.stack || err));
         console.error(err.stack || err);
 
-        fatalRequestReply({
-          type: constants.runner_message_type.FATAL,
-          data: {
-            msg: err,
-            stack: err
-          }
-        }, function () {
-
-          _suman._writeTestError(err.stack || err);
-          process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_FAILURE);
-        });
-
+        _suman._writeTestError(err.stack || err);
+        process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_FAILURE);
       });
 
       d.run(function () {
 
         // with suman single process, or not, we acquire integrants the same way
-        acquireDeps(integrants, integPreConfiguration).then(function (vals: Object) {
+        acquireDependencies(integrants, integPreConfiguration).then(function (vals: Object) {
           d.exit();
           process.nextTick(function () {
-            integrantsEmitter.emit('vals', vals);
+            integrantsEmitter.emit('vals', Object.freeze(vals));
           });
         }, function (err: Error) {
           d.exit();

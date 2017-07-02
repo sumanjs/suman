@@ -17,7 +17,6 @@ export interface ISuman {
   allDescribeBlocks: Array<ITestSuite>,
   interface: string,
   numBlocksSkipped: number,
-  _sumanModulePath: string,
   logFinished: Function,
   _sumanEvents: EventEmitter,
   extraArgs: Array<string>
