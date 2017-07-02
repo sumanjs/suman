@@ -1,2 +1,1 @@
-declare const _default: (paths: string[]) => void;
-export = _default;
+export declare const run: (paths: string[]) => void;
