@@ -1,6 +1,6 @@
 'use strict';
 import {IRunnerObj, ISumanChildProcess, ITableRows} from "../dts/runner";
-import {IPseudoError} from "../dts/global";
+import {IGlobalSumanObj, IPseudoError} from "../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -36,55 +36,57 @@ if (false) {
 ///////////////////////////////////////////////////
 
 //core
-const assert = require('assert');
-const util = require('util');
-const EE = require('events');
-const fs = require('fs');
-const cp = require('child_process');
-const path = require('path');
-const os = require('os');
-const domain = require('domain');
+import * as os from 'os';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as util from 'util';
+import * as assert from 'assert';
+import * as EE from 'events';
+import * as cp from 'child_process';
 
 //npm
 const fnArgs = require('function-arguments');
-const async = require('async');
 const mapValues = require('lodash.mapvalues');
-const readline = require('readline');
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 const a8b = require('ansi-256-colors'), fg = a8b.fg, bg = a8b.bg;
-const makeBeep = require('make-beep');
 import {events} from 'suman-events';
 const debug = require('suman-debug')('s:runner');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
-const integrantInjector = require('./injection/integrant-injector');
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+import integrantInjector from './injection/integrant-injector';
 const {constants} = require('../config/suman-constants');
 const ascii = require('./helpers/ascii');
-const su = require('suman-utils');
+import su from 'suman-utils';
 import makeHandleBlocking from './runner-helpers/make-handle-blocking';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const handleFatalMessage = require('./runner-helpers/handle-fatal-message');
 const logTestResult = require('./runner-helpers/log-test-result');
 const onExit = require('./runner-helpers/on-exit');
 const makeMakeExit = require('./runner-helpers/make-exit');
-const makeHandleIntegrantInfo = require('./runner-helpers/handle-integrant-info');
-const makeBeforeExit = require('./runner-helpers/make-before-exit-once-post');
+const {makeHandleIntegrantInfo} = require('./runner-helpers/handle-integrant-info');
+import {makeBeforeExit} from './runner-helpers/make-before-exit-once-post';
 const makeSingleProcess = require('./runner-helpers/handle-single-process');
-import makeHandleMultipleProcesses from './runner-helpers/handle-multiple-processes';
+import {makeHandleMultipleProcesses} from './runner-helpers/handle-multiple-processes';
+const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
+//////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////
+export interface IIntegrantHash {
+  [key: string]: any
+}
 
+export interface IOncePost {
+  [key: string]: Function | Array<string | Function>
+}
 
-const cwd = process.cwd();
-const projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(cwd);
+export type TOncePostKeys = Array<Array<string>>
+
+///////////////////////////////////////////////////////////////////////////////////////
+
 const messages: Array<any> = [];
-const integrantHash = {};
-const integrantHashKeyValsForSumanOncePost = {};
-const config = _suman.sumanConfig;
-const oncePosts = {};
-const allOncePostKeys: Array<string> = [];
+const oncePosts: IOncePost = {};
+const allOncePostKeys: TOncePostKeys = [];
 const tableRows: ITableRows = {};
 const forkedCPs: Array<ISumanChildProcess> = [];
 
@@ -105,15 +107,9 @@ const runnerObj: IRunnerObj = {
   handleBlocking: null
 };
 
-const handleIntegrantInfo =
-  makeHandleIntegrantInfo(runnerObj, allOncePostKeys, integrantHash, integrantHashKeyValsForSumanOncePost);
-
-const makeExit =
-  makeMakeExit(runnerObj, tableRows);
-
-const beforeExitRunOncePost =
-  makeBeforeExit(runnerObj, oncePosts, integrantHashKeyValsForSumanOncePost, allOncePostKeys);
-
+const handleIntegrantInfo = makeHandleIntegrantInfo(runnerObj, allOncePostKeys);
+const makeExit = makeMakeExit(runnerObj, tableRows);
+const beforeExitRunOncePost = makeBeforeExit(runnerObj, oncePosts, allOncePostKeys);
 
 process.once('exit', onExit);
 
@@ -134,7 +130,6 @@ process.on('message', function (data: any) {
     (typeof data === 'string' ? data : util.inspect(data)));
 });
 
-
 function handleTableData(n: ISumanChildProcess, data: any) {
   runnerObj.tableCount++;
   tableRows[n.shortTestPath].tableData = data;
@@ -146,7 +141,6 @@ function handleTableData(n: ISumanChildProcess, data: any) {
 function logTestData(data: any) {
   throw new Error('this should not be used currently');
 }
-
 
 function handleMessageForSingleProcess(msg: Object, n: ISumanChildProcess) {
 
@@ -167,7 +161,7 @@ function handleMessageForSingleProcess(msg: Object, n: ISumanChildProcess) {
       logTestResult(msg, n);
       break;
     case constants.runner_message_type.FATAL_SOFT:
-      console.error('\n\n' + colors.grey(' => Suman warning => ') + colors.magenta(msg.msg) + '\n');
+      console.error('\n\n' + chalk.grey(' => Suman warning => ') + chalk.magenta(msg.msg) + '\n');
       break;
     case constants.runner_message_type.FATAL:
       n.send({info: 'fatal-message-received'});
@@ -175,10 +169,10 @@ function handleMessageForSingleProcess(msg: Object, n: ISumanChildProcess) {
       handleFatalMessage(msg.data, n);
       break;
     case constants.runner_message_type.WARNING:
-      console.error('\n\n ' + colors.bgYellow('Suman warning: ' + msg.msg + '\n'));
+      console.error('\n\n ' + chalk.bgYellow('Suman warning: ' + msg.msg + '\n'));
       break;
     case constants.runner_message_type.NON_FATAL_ERR:
-      console.error('\n\n ' + colors.red('non-fatal suite error: ' + msg.msg + '\n'));
+      console.error('\n\n ' + chalk.red('non-fatal suite error: ' + msg.msg + '\n'));
       break;
     case constants.runner_message_type.CONSOLE_LOG:
       console.log(msg.msg);
@@ -208,17 +202,17 @@ function handleMessage(msg: Object, n: ISumanChildProcess) {
       logTestResult(msg, n);
       break;
     case constants.runner_message_type.FATAL_SOFT:
-      console.error('\n\n' + colors.grey(' => Suman warning => ') + colors.magenta(msg.msg) + '\n');
+      console.error('\n\n' + chalk.grey(' => Suman warning => ') + chalk.magenta(msg.msg) + '\n');
       break;
     case constants.runner_message_type.FATAL:
       n.send({info: 'fatal-message-received'});
       handleFatalMessage(msg.data, n);
       break;
     case constants.runner_message_type.WARNING:
-      console.error('\n\n ' + colors.bgYellow('Suman warning: ' + msg.msg + '\n'));
+      console.error('\n\n ' + chalk.bgYellow('Suman warning: ' + msg.msg + '\n'));
       break;
     case constants.runner_message_type.NON_FATAL_ERR:
-      console.error('\n\n ' + colors.red('non-fatal suite error: ' + msg.msg + '\n'));
+      console.error('\n\n ' + chalk.red('non-fatal suite error: ' + msg.msg + '\n'));
       break;
     case constants.runner_message_type.CONSOLE_LOG:
       console.log(msg.msg);
@@ -238,10 +232,9 @@ const runSingleOrMultipleDirs =
 const runAllTestsInSingleProcess =
   makeSingleProcess(runnerObj, handleMessageForSingleProcess, messages, beforeExitRunOncePost, makeExit);
 
-
 ///////////////
 
-export = function findTestsAndRunThem(runObj: Object, runOnce: Function, $order: Object) {
+export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, $order: Object) {
 
   debugger; // leave it here
 
@@ -251,6 +244,8 @@ export = function findTestsAndRunThem(runObj: Object, runOnce: Function, $order:
 
   //need to get rid of this property so child processes cannot require Suman index file
   delete process.env.SUMAN_EXTRANEOUS_EXECUTABLE;
+
+  const projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd());
 
   runnerObj.handleBlocking = makeHandleBlocking(mapValues($order, function (val) {
     val.testPath = path.resolve(projectRoot + '/' + val.testPath);
@@ -271,13 +266,13 @@ export = function findTestsAndRunThem(runObj: Object, runOnce: Function, $order:
       }
     }
     else {
-      console.error(' => Warning, no dependencies object exported from suman.once.pre.js file => \n'+
-      'here is the returned contents =>\n', util.inspect(ret));
+      _suman.logError('warning, no dependencies object exported from suman.once.pre.js file => \n' +
+        'here is the returned contents =>\n', util.inspect(ret));
     }
 
     resultBroadcaster.emit(String(events.RUNNER_ASCII_LOGO), ascii.suman_runner);
 
-    if (process.env.SUMAN_SINGLE_PROCESS === 'yes') {
+    if (IS_SUMAN_SINGLE_PROCESS) {
       runAllTestsInSingleProcess(runObj);
     }
     else if (runObj) {
@@ -289,7 +284,9 @@ export = function findTestsAndRunThem(runObj: Object, runOnce: Function, $order:
 
   });
 
-}
+};
 
+const $exports = module.exports;
+export default $exports;
 
 

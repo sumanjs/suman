@@ -2,7 +2,7 @@
 
 import {IAfterObj, IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IPseudoError, ISumanDomain} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -12,17 +12,17 @@ const global = require('suman-browser-polyfills/modules/global');
 import domain = require('domain');
 
 //npm
-import * as colors from 'colors/safe';
+import * as chalk from 'chalk';
 import async = require('async');
 
 //project
 import su from 'suman-utils';
 const helpers = require('../test-suite-helpers/handle-promise-generator');
-const cloneError = require('../clone-error');
-import {makeHookObj} from '../t-proto-hook';
-import freezeExistingProps = require('../freeze-existing');
+import {cloneError} from '../misc/clone-error';
+import {makeHookObj} from '../test-suite-helpers/t-proto-hook';
+import {freezeExistingProps} from 'freeze-existing-props'
 import {constants} from '../../config/suman-constants';
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,9 +45,9 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
 
 
   if(_suman.afterAlwaysHasBeenRegistered){
-    _suman.logError(colors.cyan('At least one after.always hook has been registered for test with name:'),'\n\t\t',
-      colors.magenta.bold('"' + suman.desc + '"'));
-    _suman.logError(colors.yellow('We are currently running after.always hooks. Any uncaught errors ' +
+    _suman.logError(chalk.cyan('At least one after.always hook has been registered for test with name:'),'\n\t\t',
+      chalk.magenta.bold('"' + suman.desc + '"'));
+    _suman.logError(chalk.yellow('We are currently running after.always hooks. Any uncaught errors ' +
       'will be ignored as best as possible.'));
   }
 
@@ -192,7 +192,8 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
           arg = Object.setPrototypeOf(d, freezeExistingProps(t));
 
           if (anAfter.fn.call(anAfter.ctx, arg)) {  //check to see if we have a defined return value
-            _suman._writeTestError(cloneError(anAfter.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
+            _suman._writeTestError(cloneError(anAfter.warningErr,
+              constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
 
         }

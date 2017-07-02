@@ -1,11 +1,22 @@
-import tscmultiwatch from 'tsc-multi-watch';
-import * as fs from 'fs';
-import * as path from 'path';
+
 import {ISumanOpts} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
+
+//core
+import * as domain from 'domain';
+import * as os from 'os';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as util from 'util';
+import * as assert from 'assert';
+import * as EE from 'events';
+import * as cp from 'child_process';
+
+//npm
+import tscmultiwatch from 'tsc-multi-watch';
 
 //project
 const _suman = global.__suman = (global.__suman || {});

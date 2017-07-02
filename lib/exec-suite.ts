@@ -11,16 +11,16 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import domain = require('domain');
-import path = require('path');
-import assert = require('assert');
-import EE = require('events');
-import fs = require('fs');
-import util = require('util');
+import * as domain from 'domain';
+import * as path from 'path';
+import * as assert from 'assert';
+import * as EE from 'events';
+import * as fs from 'fs';
+import * as util from 'util';
 
 //npm
 const colors = require('colors/safe');
-const async = require('async');
+import * as async from 'async';
 const _ = require('underscore');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
@@ -32,11 +32,11 @@ import rules = require('./helpers/handle-varargs');
 import {constants} from '../config/suman-constants';
 import su from 'suman-utils';
 import makeGracefulExit = require('./make-graceful-exit');
-import acquireIoCDeps from './acquire-ioc-deps';
-import makeAcquireDepsFillIn from './acquire-deps-fill-in';
-const makeTestSuite = require('./make-test-suite');
+import acquireIoCDeps from './acquire-dependencies/acquire-ioc-deps';
+import {makeBlockInjector} from './injection/make-block-injector';
+import {makeTestSuiteMaker} from './test-suite-helpers/make-test-suite';
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
-const {handleInjections} = require('./handle-injections');
+import {handleInjections} from './test-suite-helpers/handle-injections';
 import makeOnSumanCompleted from './helpers/on-suman-completed';
 import evalOptions from './helpers/eval-options';
 import parseArgs from './helpers/parse-pragmatik-args';
@@ -46,19 +46,19 @@ import parseArgs from './helpers/parse-pragmatik-args';
 
  */////////////////////////////////////////////////////////////////////////
 
-export const execSuite = function (suman: ISuman) : Function {
+export const execSuite = function (suman: ISuman): Function {
 
   // we set this so that after.always hooks can run
   _suman.whichSuman = suman;
 
   const onSumanCompleted = makeOnSumanCompleted(suman);
-  const acquireDepsFillIn = makeAcquireDepsFillIn(suman);
+  const blockInjector = makeBlockInjector(suman);
   suman.dateSuiteStarted = Date.now();
   const allDescribeBlocks = suman.allDescribeBlocks;
   const gracefulExit = makeGracefulExit(suman);
-  const mTestSuite = makeTestSuite(suman, gracefulExit);
+  const mTestSuite = makeTestSuiteMaker(suman, gracefulExit);
 
-  return function runRootSuite() : void {
+  return function runRootSuite(): void {
 
     const args = pragmatik.parse(arguments, rules.createSignature);
     const vetted = parseArgs(args);
@@ -77,11 +77,10 @@ export const execSuite = function (suman: ISuman) : Function {
     suman.desc = desc;
 
     const allowArrowFn = _suman.sumanConfig.allowArrowFunctionsForTestBlocks;
-    const isArrow = su.isArrowFunction(cb);
     const isGenerator = su.isGeneratorFn(cb);
     const isAsync = su.isAsyncFn(cb);
 
-    if ((isArrow && !allowArrowFn) || isGenerator || isAsync) {
+    if (isGenerator || isAsync) {
 
       const msg = constants.ERROR_MESSAGES.INVALID_FUNCTION_TYPE_USAGE;
       return fatalRequestReply({
@@ -140,7 +139,7 @@ export const execSuite = function (suman: ISuman) : Function {
           'file in your <suman-helpers-dir>.\n' +
           'Create the file to remove the warning.'), '\n\n');
       if (_suman.sumanOpts.verbosity > 3) {
-        console.error('\n', err.stack || err, '\n');
+        console.error('\n', err.message || err, '\n');
       }
     }
 
@@ -177,7 +176,7 @@ export const execSuite = function (suman: ISuman) : Function {
             return process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
 
-          let $deps: Array<any> = acquireDepsFillIn(suite, null, depz);
+          let $deps: Array<any> = blockInjector(suite, null, depz);
 
           d.exit();
           process.nextTick(startWholeShebang, $deps);
@@ -315,8 +314,6 @@ export const execSuite = function (suman: ISuman) : Function {
           if (err) {
             console.error(' => Test error data before log:', suite);
           }
-
-          suman.logData(suite);
 
           //TODO: this might be wrong, may need to omit filter
           const children = suite.getChildren().filter(function (child: ITestSuite) {

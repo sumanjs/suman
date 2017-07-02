@@ -8,8 +8,9 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const domain = require('domain');
-const assert = require('assert');
+import * as domain from 'domain';
+import * as assert from 'assert';
+import * as util from 'util';
 
 //npm
 const fnArgs = require('function-arguments');
@@ -18,11 +19,12 @@ const fnArgs = require('function-arguments');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 const sumanUtils = require('suman-utils');
-const makeCallback = require('./handle-callback-helper');
+import {makeCallback} from './handle-callback-helper';
 const helpers = require('./handle-promise-generator');
-const cloneError = require('../clone-error');
-const makeTestCase = require('../t-proto-test');
-const freezeExistingProps = require('../freeze-existing');
+import {cloneError} from '../misc/clone-error';
+import {makeTestCase} from './t-proto-test';
+import {freezeExistingProps} from 'freeze-existing-props'
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 
