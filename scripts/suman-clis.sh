@@ -35,7 +35,7 @@ function __handle_global_suman {
 
 function suman {
 
-    echo " => [suman] => Using 'suman' alias in suman-clis.sh..."
+    echo " => [suman] =>  Using 'suman' alias in suman-clis.sh..."
     LOCAL_SUMAN=$(node $HOME/.suman/find-local-suman-executable.js);
 
     NEW_NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules

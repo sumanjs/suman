@@ -9,7 +9,7 @@ const Test = suman.init(module, {
 Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe) => {
 
   before(['fatal:false', t => {
-    throw new Error('hook');
+    // throw new Error('hook');
   }]);
 
   before(t => {
@@ -49,11 +49,11 @@ Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe)
   });
 
   // late registry of hook, should cause error
-  process.nextTick(function(){
-    after(t => {
-      console.log('after b');
-    });
-  });
+  // process.nextTick(function(){
+  //   after(t => {
+  //     console.log('after b');
+  //   });
+  // });
 
   Number(5).times(num => {
 

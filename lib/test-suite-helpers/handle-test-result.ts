@@ -1,8 +1,8 @@
 'use strict';
 
 import {IPseudoError} from "../../dts/global";
-import {ITestDataObj} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
+import {ITestDataObj} from "../../dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

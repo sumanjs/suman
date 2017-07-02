@@ -20,6 +20,10 @@ export {IBeforeEachFn} from '../dts/before-each';
 export {IAfterFn} from '../dts/after';
 export {IAfterEachFn} from '../dts/after-each';
 
+export interface ISumanErrorFirstCB {
+  (err: Error | undefined | null, ...args: any[]): void
+}
+
 // exported declarations
 export interface ILoadOpts {
   path: string,
@@ -58,13 +62,11 @@ export interface IStartCreate {
   only?: IDescribeFn
 }
 
-
 export interface IInit {
   (module: ISumanModuleExtended, opts?: IInitOpts, confOverride?: TConfigOverride): IStartCreate,
   $ingletonian?: any,
   tooLate?: boolean
 }
-
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -72,16 +74,14 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import * as util from 'util';
-import * as os from 'os';
 import * as assert from 'assert';
 import * as path from 'path';
 import * as EE from 'events';
 import * as fs from 'fs';
-import * as domain from 'domain';
 import * as stream from 'stream';
 
 // npm
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 const pragmatik = require('pragmatik');
 const debug = require('suman-debug')('s:index');
 
@@ -136,7 +136,7 @@ import {makeSuman} from './suman';
 const su = require('suman-utils');
 const {execSuite} = require('./exec-suite');
 const fnArgs = require('function-arguments');
-const makeIocDepInjections = require('./injection/ioc-injector');
+import makeIocDepInjections from './injection/ioc-injector';
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -179,7 +179,6 @@ fs.writeFileSync(testLogPath, '\n => New Suman run @' + new Date(), {flag: 'w'})
 
 ////////////////////////////////////////////////////////////////////////////////
 
-
 let loaded = false;
 let moduleCount = 0;
 
@@ -210,7 +209,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   if (init.$ingletonian) {
     if (!SUMAN_SINGLE_PROCESS) {
-      console.error(colors.red(' => Suman usage warning => suman.init() only needs to be called once per test file.'));
+      console.error(chalk.red(' => Suman usage warning => suman.init() only needs to be called once per test file.'));
       return init.$ingletonian;
     }
   }
@@ -325,20 +324,19 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     writable: false
   });
 
-  let integrants : Array<string>;
+  let integrants: Array<string>;
 
-  try{
-    integrants = (opts.integrants || opts.pre || []).filter(function(item){
-      assert(typeof item === 'string',`once.pre item must be a string. Instead we have => ${util.inspect(item)}`);
+  try {
+    integrants = (opts.integrants || opts.pre || []).filter(function (item) {
+      assert(typeof item === 'string', `once.pre item must be a string. Instead we have => ${util.inspect(item)}`);
       // filter out empty strings, etc.
       return item;
     });
   }
-  catch(err){
+  catch (err) {
     _suman.logError('"integrants/pre" option must be an array type.');
     throw err;
   }
-
 
   // remove falsy elements, for user convenience
   integrants = integrants.filter((i: any) => i);
@@ -387,7 +385,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   if (iocData) {
     try {
       assert(typeof iocData === 'object' && !Array.isArray(iocData),
-        colors.red(' => Suman usage error => "ioc" property passed to suman.init() needs ' +
+        chalk.red(' => Suman usage error => "ioc" property passed to suman.init() needs ' +
           'to point to an object'));
     }
     catch (err) {
@@ -399,15 +397,13 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   if (exportTests) {
     //TODO: if export is set to true, then we need to exit if we are using the runner
     if (su.isSumanDebug() || sumanOpts.verbosity > 7) {
-      console.log(colors.magenta(' => Suman message => export option set to true.'));
+      console.log(chalk.magenta(' => Suman message => export option set to true.'));
     }
   }
 
   //////////////////////////////////////////////////////////////////
 
-
   setupExtraLoggers(usingRunner, testDebugLogPath, testLogPath, $module);
-
 
   const integrantsFn = handleIntegrants(integrants, $oncePost, integrantPreFn, $module);
   let integrantsInvoked = false;
@@ -451,7 +447,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     //counts for all sumans in this whole Node.js process
     counts.sumanCount++;
 
-
     const to = setTimeout(function () {
       console.error(' => Suman usage error => Integrant acquisition timeout.');
       process.exit(constants.EXIT_CODES.INTEGRANT_ACQUISITION_TIMEOUT);
@@ -476,7 +471,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
         _suman.iocConfiguration = _suman.iocConfiguration || {};
       }
 
-
       //TODO: need to properly toggle boolean that determines whether or not to try to create dir
       makeSuman($module, _interface, true, sumanConfig, function (err: Error, suman: ISuman) {
 
@@ -492,7 +486,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
           }
         }
 
-        suman._sumanModulePath = $module.filename;
 
         if (exportTests && matches) {
 
@@ -553,7 +546,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
                     sumanEvents.emit('test', fn);
                   }
                   else {
-                    console.error(colors.red.bold(' => Suman implementation error => Should not be empty.'));
+                    console.error(chalk.red.bold(' => Suman implementation error => Should not be empty.'));
                   }
 
                 });
@@ -728,17 +721,17 @@ export function SumanTransform(): Transform {
 
 export const autoPass = function (t: IHookOrTestCaseParam) {
   // add t.skip() type functionality // t.ignore().
-  if(t.callbackMode){
+  if (t.callbackMode) {
     t.done();
   }
 };
 
 export const autoFail = function (t: IHookOrTestCaseParam) {
   let err = new Error('Suman auto-fail. Perhaps flesh-out this hook or test to get it passing.');
-  if(t.callbackMode){
+  if (t.callbackMode) {
     t.done(err)
   }
-  else{
+  else {
     return Promise.reject(err);
   }
 };

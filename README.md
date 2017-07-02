@@ -7,6 +7,8 @@
 
 [![Build Status](https://travis-ci.org/ORESoftware/suman.svg?branch=master)](https://travis-ci.org/ORESoftware/suman)
 
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1072/badge)](https://bestpractices.coreinfrastructure.org/projects/1072)
+
 [![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
 
 
@@ -29,7 +31,8 @@ Until then, expect bugs, missing docs, etc. Proceed at your own risk :D
 ### Suman is made up of two independent pieces:
 
 1. A CLI that can run a test in any language, and is designed to handle transpilation/compilation for any language as well.
-2. A super powerful test harness that can be used with JavaScript/Node.js tests
+2. A super powerful test harness that can be used with JavaScript/Node.js tests. This test harness is highly recommended
+ and has strong support for TypeScript.
 
 The CLI can be used to run tests in any language; on the other hand, 
 the test harness, only works with Node.js and browser based JS.

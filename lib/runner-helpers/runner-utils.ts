@@ -5,7 +5,9 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const path = require('path');
+import * as util from 'util';
+import * as path from 'path';
+
 
 //project
 const _suman = global.__suman = (global.__suman || {});

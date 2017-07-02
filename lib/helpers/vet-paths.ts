@@ -17,7 +17,7 @@ let loaded = false;
 
 ////////////////////////////////////////////////////////////////////
 
-export = function (paths: Array<string>) {
+export const run =  function (paths: Array<string>) : void {
 
   if (loaded) {
     return;

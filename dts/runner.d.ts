@@ -42,6 +42,7 @@ export interface ITableRows {
 }
 
 export interface IHandleBlocking {
+  runNext: Function,
   releaseNextTests: Function,
   determineInitialStarters: Function,
   getStartedAndEnded: Function,

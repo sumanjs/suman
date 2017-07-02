@@ -31,8 +31,9 @@ const {constants} = require('../../config/suman-constants');
 const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-export default function (n: ISumanChildProcess,runnerObj: IRunnerObj, tableRows: ITableRows,
+export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows: ITableRows,
                          messages: Array<ISumanCPMessages>, forkedCPs: Array<ISumanChildProcess>,
                          beforeExitRunOncePost: Function, makeExit: Function) {
 
@@ -72,7 +73,6 @@ export default function (n: ISumanChildProcess,runnerObj: IRunnerObj, tableRows:
     tableRows[n.shortTestPath].actualExitCode = n.expectedExitCode !== undefined ?
       (n.expectedExitCode + '/' + originalExitCode) : originalExitCode;
 
-    //TODO: if bail, need to make that clear to user here
     if ((runnerObj.bailed = (code > 0 && _suman.sumanOpts.bail)) ||
       (runnerObj.doneCount >= forkedCPs.length && runnerObj.queuedCPs.length < 1)) {
 

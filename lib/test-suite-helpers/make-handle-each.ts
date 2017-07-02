@@ -1,15 +1,17 @@
 'use strict';
-import {IEachHookObj, IHandleError, ITestDataObj, ITestSuite} from "../../dts/test-suite";
+import {IEachHookObj, IHandleError, ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
 import {IPseudoError} from "../../dts/global";
+import {ITestDataObj} from "../../dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const domain = require('domain');
-const assert = require('assert');
+import * as domain from 'domain';
+import * as assert from 'assert';
+import * as util from 'util';
 
 //npm
 const fnArgs = require('function-arguments');
@@ -18,11 +20,11 @@ const fnArgs = require('function-arguments');
 const _suman = global.__suman = (global.__suman || {});
 const su = require('suman-utils');
 const {constants} = require('../../config/suman-constants');
-const cloneError = require('../clone-error');
-const {makeHookObj} = require('../t-proto-hook');
-const makeCallback = require('./handle-callback-helper');
+import {cloneError} from '../misc/clone-error';
+import {makeHookObj} from './t-proto-hook';
+import {makeCallback} from './handle-callback-helper';
 const helpers = require('./handle-promise-generator');
-const freezeExistingProps = require('../freeze-existing');
+import {freezeExistingProps} from 'freeze-existing-props'
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -101,8 +103,6 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       process.nextTick(function () {
 
         let isAsyncAwait = false;
-
-        // const args = fnArgs(aBeforeOrAfterEach.fn);
         const isGeneratorFn = su.isGeneratorFn(aBeforeOrAfterEach.fn);
 
         if (fnStr.indexOf('async') === 0) {

@@ -1,2 +1,1 @@
-declare const _default: (files: string[]) => void;
-export = _default;
+export declare const run: (files: string[]) => void;

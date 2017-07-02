@@ -1,9 +1,3 @@
-/**
- * Created by denman on 3/16/2016.
- */
-
-
-
 //*************************************************************************************************************************************
 // this is for dependency injection, y'all
 // the purpose is to inject dependencies / values that are acquired *asynchronously*
@@ -13,37 +7,41 @@
 
 module.exports = $pre => {  //load async deps for any of your suman tests
 
-    return {
+  return {
 
-        'charlie': function () {
-            return 'charlie';
-        },
+    dependencies: {
 
-        'smartconnect': function () {
-            return Promise.resolve({
-                formica: 'not metal'
-            });
+      'charlie': [function () {
+        return 'charlie';
+      }],
 
-        },
+      'smartconnect': function () {
+        return Promise.resolve({
+          formica: 'not metal'
+        });
 
-        'dolce-vida': (cb) => {
-            setTimeout(function () {
-                cb(null, new Error('rub'));
-            }, 10);
-        },
+      },
 
-        'judas': function () {
-            return new Promise(function (resolve) {
-                setTimeout(resolve, 100);
-            });
-        },
+      'dolce-vida': (cb) => {
+        setTimeout(function () {
+          cb(null, new Error('rub'));
+        }, 10);
+      },
 
-        'ugly': function () {
-            return new Promise(function (resolve) {
-                setTimeout(resolve, 100);
-            });
-        }
+      'judas': function () {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, 100);
+        });
+      },
+
+      'ugly': function () {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, 100);
+        });
+      }
 
     }
+
+  }
 
 };

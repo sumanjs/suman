@@ -8,11 +8,11 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const fs = require('fs');
-const path = require('path');
-const domain = require('domain');
-const EE = require('events');
-const util = require('util');
+import * as fs from 'fs';
+import * as path from 'path';
+import * as util from 'util';
+import * as assert from 'assert';
+import * as EE from 'events';
 
 //npm
 const flattenDeep = require('lodash.flattendeep');
@@ -22,15 +22,20 @@ const AsciiTable = require('ascii-table');
 const async = require('async');
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
+import su from 'suman-utils';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const su = require('suman-utils');
-const finalizeOutput = require('./helpers/finalize-output');
-const findSumanServer = require('./find-suman-server');
+import {findSumanServer, ISumanServerInfo} from './find-suman-server';
 const {constants} = require('../config/suman-constants');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
+//////////////////////////////////////////////////////////////////////////////
+
+export interface ITableDataCallbackObj {
+  exitCode: number,
+  tableData: Object
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -39,138 +44,99 @@ let sumanId = 0;
 interface ISumanInputs {
   interface: string,
   fileName: string,
-  networkLog: string,
-  outputPath: string,
-  timestamp: string,
+  timestamp: number,
+  usingLiveSumanServer: boolean
+  server: ISumanServerInfo
 }
 
+class Suman {
 
-function Suman(obj: ISumanInputs): void {
+  interface: string;
+  fileName: string;
+  slicedFileName: string;
+  timestamp: number;
+  sumanId: number;
+  allDescribeBlocks: Array<ITestSuite>;
+  describeOnlyIsTriggered: boolean;
+  deps: Array<string>;
+  usingLiveSumanServer: boolean;
+  numHooksSkipped: number;
+  numHooksStubbed: number;
+  numBlocksSkipped: number;
+  rootSuiteDescription: string;
+  dateSuiteFinished: number;
+  dateSuiteStarted: number;
 
-  const projectRoot = _suman.projectRoot;
+  ////////////////////////////////////
 
-  // via options
-  this.interface = obj.interface;
-  this.fileName = obj.fileName;
-  this.slicedFileName = obj.fileName.slice(projectRoot.length);
-  this.networkLog = obj.networkLog;
-  this.outputPath = obj.outputPath;
-  this.timestamp = obj.timestamp;
-  this.sumanId = ++sumanId;
+  constructor(obj: ISumanInputs) {
 
-  // initialize
-  this.allDescribeBlocks = [];
-  this.describeOnlyIsTriggered = false;
-  this.deps = null;
-  this.numHooksSkipped = 0;
-  this.numHooksStubbed = 0;
-  this.numBlocksSkipped = 0;
+    const projectRoot = _suman.projectRoot;
 
-}
+    // via options
+    this.interface = obj.interface;
+    this.fileName = obj.fileName;
+    this.slicedFileName = obj.fileName.slice(projectRoot.length);
+    this.timestamp = obj.timestamp;
+    this.sumanId = ++sumanId;
 
-
-Suman.prototype.log = function (userInput, test) {
-
-  let self = this;
-
-  let data = {
-    type: 'USER_LOG',
-    userOutput: true,
-    testId: test.testId,
-    data: userInput,
-    outputPath: self.outputPath
-  };
-
-  if (process.send) {
-    //process.send(data);
+    // initialize
+    this.allDescribeBlocks = [];
+    this.describeOnlyIsTriggered = false;
+    this.deps = null;
+    this.numHooksSkipped = 0;
+    this.numHooksStubbed = 0;
+    this.numBlocksSkipped = 0;
   }
-  else {
 
-    let json;
-    if (this.usingLiveSumanServer) {
-      json = JSON.stringify(data);
-      fs.appendFileSync(this.outputPath, json += ',');
-      // this.networkLog.sendTestData(data);
-    }
-    else if (this.outputPath) {
-      json = JSON.stringify(data);
-      fs.appendFileSync(this.outputPath, json += ',');
-    }
-    else {
-
-      console.log(new Error('Suman cannot log your test result data:\n').stack);
-      //try {
-      //    let pth = path.resolve(sumanUtils.getHomeDir() + '/suman_results')
-      //    json = JSON.stringify(data);
-      //    fs.appendFileSync(pth, json += ',');
-      //}
-      //catch (err) {
-      //    console.error('Suman cannot log your test result data:\n' + err.stack);
-      //}
-    }
+  getTableData() {
+    throw new Error('Suman => not yet implemente')
   }
-};
 
+  logFinished($exitCode: number, skippedString: string, cb: Function) {
 
-Suman.prototype.getTableData = function () {
-  throw new Error('Suman => not yet implemente')
-};
+    let combine = function (prev: number, curr: number) {
+      return prev + curr;
+    };
 
-function combine(prev: number, curr: number) {
-  return prev + curr;
-}
+    let exitCode = $exitCode || 999; //in case of future fall through
 
-export interface ITableDataCallbackObj {
-  exitCode: number,
-  tableData: Object
-}
+    const desc = this.rootSuiteDescription;
+    const suiteName = desc.length > 50 ? '...' + desc.substring(desc.length - 50, desc.length) : desc;
+    const suiteNameShortened = desc.length > 15 ? desc.substring(0, 12) + '...' : desc;
+    let delta: number = this.dateSuiteFinished - this.dateSuiteStarted;
+    let deltaTotal: number = this.dateSuiteFinished - _suman.dateEverythingStarted;
 
-Suman.prototype.logFinished = function ($exitCode: number, skippedString: string, cb: Function) {
+    const skippedSuiteNames: Array<string> = [];
 
-  //note: if $exitCode is defined, it should be > 0
+    let suitesTotal = null, suitesSkipped = null, testsSkipped = null, testsStubbed = null,
+      testsPassed = null, testsFailed = null, totalTests = null;
 
-  let exitCode = $exitCode || 999; //in case of future fall through
+    let completionMessage = ' (implementation error, please report) ';
 
-  // const desc = this.allDescribeBlocks[ 0 ] ? this.allDescribeBlocks[ 0 ].desc : '[unknown suite description]';
-  const desc = this.rootSuiteDescription;
-  const suiteName = desc.length > 50 ? '...' + desc.substring(desc.length - 50, desc.length) : desc;
-  const suiteNameShortened = desc.length > 15 ? desc.substring(0, 12) + '...' : desc;
-  let delta : number = this.dateSuiteFinished - this.dateSuiteStarted;
-  let deltaTotal : number = this.dateSuiteFinished - _suman.dateEverythingStarted;
+    if ($exitCode === 0 && skippedString) {
+      completionMessage = '(Test suite was skipped)';
+      exitCode = 0;
+    }
+    else if ($exitCode === 0 && !skippedString) {
 
-  const skippedSuiteNames: Array<string> = [];
-  let suitesTotal = null;
-  let suitesSkipped = null;
-  let testsSkipped = null;
-  let testsStubbed = null;
-  let testsPassed = null;
-  let testsFailed = null;
-  let totalTests = null;
+      completionMessage = 'Ran to completion';
+      suitesTotal = this.allDescribeBlocks.length;
+      suitesSkipped = this.allDescribeBlocks.filter(function (block: ITestSuite) {
+        if (block.skipped || block.skippedDueToOnly) {
+          skippedSuiteNames.push(block.desc);
+          return true;
+        }
+      }).length;
 
-  let completionMessage = ' (implementation error, please report) ';
-
-  if ($exitCode === 0 && skippedString) {
-    completionMessage = '(Test suite was skipped)';
-    exitCode = 0;
-  }
-  else if ($exitCode === 0 && !skippedString) {
-
-    completionMessage = 'Ran to completion';
-    suitesTotal = this.allDescribeBlocks.length;
-    suitesSkipped = this.allDescribeBlocks.filter(function (block: ITestSuite) {
-      if (block.skipped || block.skippedDueToOnly) {
-        skippedSuiteNames.push(block.desc);
-        return true;
+      if (suitesSkipped > 0) {
+        _suman.logError('Suman implementation warning => suites skipped was non-zero ' +
+          'outside of suman.numBlocksSkipped value.');
       }
-    }).length;
 
-    if (suitesSkipped.length) {
-      console.log(' => Suman implementation warning => suites skipped was non-zero outside of suman.numBlocksSkipped value.');
-    }
+      suitesSkipped += this.numBlocksSkipped;
 
-    suitesSkipped += this.numBlocksSkipped;
-
-    testsSkipped = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsSkipped = this.allDescribeBlocks.map(function (block: ITestSuite) {
         if (block.skipped || block.skippedDueToOnly) {
           return block.getParallelTests().concat(block.getTests()).length;
         }
@@ -183,16 +149,16 @@ Suman.prototype.logFinished = function ($exitCode: number, skippedString: string
       })
       .reduce(combine);
 
-    testsStubbed = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsStubbed = this.allDescribeBlocks.map(function (block: ITestSuite) {
 
-      return block.getParallelTests().concat(block.getTests())
+        return block.getParallelTests().concat(block.getTests())
         .filter(function (test) {
           return test.stubbed;
         }).length;
 
-    }).reduce(combine);
+      }).reduce(combine);
 
-    testsPassed = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsPassed = this.allDescribeBlocks.map(function (block: ITestSuite) {
         if (block.skipped || block.skippedDueToOnly) {
           return 0;
         }
@@ -205,7 +171,7 @@ Suman.prototype.logFinished = function ($exitCode: number, skippedString: string
       })
       .reduce(combine);
 
-    testsFailed = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsFailed = this.allDescribeBlocks.map(function (block: ITestSuite) {
         if (block.skipped || block.skippedDueToOnly) {
           return 0;
         }
@@ -217,41 +183,40 @@ Suman.prototype.logFinished = function ($exitCode: number, skippedString: string
       })
       .reduce(combine);
 
-    totalTests = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      totalTests = this.allDescribeBlocks.map(function (block: ITestSuite) {
         return block.getParallelTests().concat(block.getTests()).length;
       })
       .reduce(combine);
 
-    if (testsFailed > 0) {
-      exitCode = constants.EXIT_CODES.TEST_CASE_FAIL;
+      if (testsFailed > 0) {
+        exitCode = constants.EXIT_CODES.TEST_CASE_FAIL;
+      }
+      else {
+        exitCode = constants.EXIT_CODES.SUCCESSFUL_RUN;
+      }
+
     }
     else {
-      exitCode = constants.EXIT_CODES.SUCCESSFUL_RUN;
+      completionMessage = ' Test file errored out.';
     }
 
-  }
-  else {
-    completionMessage = ' Test file errored out.';
-  }
+    const deltaStrg: string = String((typeof delta === 'number' && !Number.isNaN(delta)) ? delta : 'N/A');
 
-  const deltaStrg : string = String((typeof delta === 'number' && !Number.isNaN(delta)) ? delta : 'N/A');
+    const deltaTotalStr: string = String((typeof deltaTotal === 'number' && !Number.isNaN(deltaTotal)) ? deltaTotal : 'N/A');
 
-  const deltaTotalStr: string = String((typeof deltaTotal === 'number' && !Number.isNaN(deltaTotal)) ? deltaTotal : 'N/A');
+    const deltaSeconds = (typeof delta === 'number' && !Number.isNaN(delta)) ?
+      Number(delta / 1000).toFixed(4) : 'N/A';
 
-  const deltaSeconds = (typeof delta === 'number' && !Number.isNaN(delta)) ?
-    Number(delta / 1000).toFixed(4) : 'N/A';
+    const deltaTotalSeconds = (typeof deltaTotal === 'number' && !Number.isNaN(deltaTotal)) ?
+      Number(deltaTotal / 1000).toFixed(4) : 'N/A';
 
-  const deltaTotalSeconds = (typeof deltaTotal === 'number' && !Number.isNaN(deltaTotal)) ?
-    Number(deltaTotal / 1000 ).toFixed(4) : 'N/A';
+    const passingRate = (typeof testsPassed === 'number' && typeof totalTests === 'number' && totalTests > 0) ?
+      Number(100 * (testsPassed / totalTests)).toFixed(2) + '%' : 'N/A';
 
-  const passingRate = (typeof testsPassed === 'number' && typeof totalTests === 'number' && totalTests > 0) ?
-    Number(100 * (testsPassed / totalTests)).toFixed(2) + '%' : 'N/A';
+    if (_suman.usingRunner) {
 
-
-  if (_suman.usingRunner) {
-
-    const d: ITableData = {
-        ROOT_SUITE_NAME : suiteNameShortened,
+      const d: ITableData = {
+        ROOT_SUITE_NAME: suiteNameShortened,
         SUITE_COUNT: suitesTotal,
         SUITE_SKIPPED_COUNT: suitesSkipped,
         TEST_CASES_TOTAL: totalTests,
@@ -264,177 +229,113 @@ Suman.prototype.logFinished = function ($exitCode: number, skippedString: string
         OVERALL_DESIGNATOR: 'received'
       };
 
-    process.nextTick(function () {
-      cb(null, {
-        exitCode: exitCode,
-        tableData: d
-      })
-    });
+      process.nextTick(function () {
+        cb(null, {
+          exitCode: exitCode,
+          tableData: d
+        })
+      });
 
-  }
-  else {
-
-    const table = new AsciiTable('Results for: ' + suiteName);
-    table.setHeading('Metric', '    Value   ', '    Comments   ');
-
-    if (skippedString) {
-      table.addRow('Status', completionMessage, skippedString);
     }
     else {
-      table.addRow('Status', completionMessage, '            ');
-      table.addRow('Num. of Unskipped Test Blocks', suitesTotal, '');
 
-      table.addRow('Test blocks skipped', suitesSkipped ? 'At least ' + suitesSkipped : '-',
-        skippedSuiteNames.length > 0 ? JSON.stringify(skippedSuiteNames) : '');
+      const table = new AsciiTable('Results for: ' + suiteName);
+      table.setHeading('Metric', '    Value   ', '    Comments   ');
 
-      table.addRow('Hooks skipped', this.numHooksSkipped ?
-        'At least ' + this.numHooksSkipped : '-', '                                 -');
+      if (skippedString) {
+        table.addRow('Status', completionMessage, skippedString);
+      }
+      else {
+        table.addRow('Status', completionMessage, '            ');
+        table.addRow('Num. of Unskipped Test Blocks', suitesTotal, '');
 
-      table.addRow('Hooks stubbed', this.numHooksStubbed ?
-        'At least ' + this.numHooksStubbed : '-', '                                 -');
-      table.addRow('--------------------------', '         ---', '                                 -');
-      table.addRow('Tests skipped', suitesSkipped ? 'At least ' + testsSkipped : (testsSkipped || '-'));
-      table.addRow('Tests stubbed', testsStubbed || '-');
-      table.addRow('Tests passed', testsPassed || '-');
-      table.addRow('Tests failed', testsFailed || '-');
-      table.addRow('Tests total', totalTests || '-');
-      table.addRow('--------------------------', '          ---', '                                 -');
-      table.addRow('Passing rate', passingRate);
-      table.addRow('Actual time millis (delta)', deltaStrg, '                                   -');
-      table.addRow('Actual time seconds (delta)', deltaSeconds, '                                   -');
-      table.addRow('Total time millis (delta)', deltaTotalStr, '                                   -');
-      table.addRow('Total time seconds (delta)', deltaTotalSeconds, '                                   -');
-    }
+        table.addRow('Test blocks skipped', suitesSkipped ? 'At least ' + suitesSkipped : '-',
+          skippedSuiteNames.length > 0 ? su.customStringify(skippedSuiteNames) : '');
 
-    //TODO: if root suite is skipped, it is noteworthy
+        table.addRow('Hooks skipped', this.numHooksSkipped ?
+          'At least ' + this.numHooksSkipped : '-', su.padWithXSpaces(33) + '-');
 
-    table.setAlign(0, AsciiTable.LEFT);
-    table.setAlign(1, AsciiTable.RIGHT);
-    table.setAlign(2, AsciiTable.RIGHT);
+        table.addRow('Hooks stubbed', this.numHooksStubbed ?
+          'At least ' + this.numHooksStubbed : '-', su.padWithXSpaces(33) + '-');
+        table.addRow('--------------------------', '         ---', su.padWithXSpaces(33) + '-');
+        table.addRow('Tests skipped', suitesSkipped ? 'At least ' + testsSkipped : (testsSkipped || '-'));
+        table.addRow('Tests stubbed', testsStubbed || '-');
+        table.addRow('Tests passed', testsPassed || '-');
+        table.addRow('Tests failed', testsFailed || '-');
+        table.addRow('Tests total', totalTests || '-');
+        table.addRow('--------------------------', su.padWithXSpaces(10) + '---', su.padWithXSpaces(33) + '-');
+        table.addRow('Passing rate', passingRate);
+        table.addRow('Actual time millis (delta)', deltaStrg, su.padWithXSpaces(33) + '-');
+        table.addRow('Actual time seconds (delta)', deltaSeconds, su.padWithXSpaces(33) + '-');
+        table.addRow('Total time millis (delta)', deltaTotalStr, su.padWithXSpaces(33) + '-');
+        table.addRow('Total time seconds (delta)', deltaTotalSeconds, su.padWithXSpaces(33) + '-');
+      }
 
-    process.nextTick(function () {
-      cb(null, {
-        exitCode: exitCode,
-        tableData: table
-      } as ITableDataCallbackObj);
-    });
+      //TODO: if root suite is skipped, it is noteworthy
 
-  }
+      table.setAlign(0, AsciiTable.LEFT);
+      table.setAlign(1, AsciiTable.RIGHT);
+      table.setAlign(2, AsciiTable.RIGHT);
 
-};
+      process.nextTick(function () {
+        cb(null, {
+          exitCode: exitCode,
+          tableData: table
+        } as ITableDataCallbackObj);
+      });
 
-Suman.prototype.logData = function logData(suite: ITestSuite) {
-
-  /// this should be used to store data in SQLite
-
-  suite.error = suite.error || null;
-
-  const result = {
-    testId: suite.testId,
-    desc: suite.desc,
-    opts: suite.opts,
-    children: suite.getChildren(),
-    tests: flattenDeep([suite.getTests(), suite.getParallelTests()])
-  };
-
-  if (_suman.usingRunner) {
-
-    let data = {
-      test: result,
-      type: 'LOG_DATA',
-      outputPath: this.outputPath
-    };
-
-    //TODO: need to send log_data to runner so that writing to same file doesn't get corrupted?
-    //TODO: or can we avoid this if only this process writes to the file?
-    //TODO: note, only one process writes to this file since it is a 1:1 process per file
-    // process.send(data);
-    try {
-      let json = JSON.stringify(data.test);
-      fs.appendFileSync(this.outputPath, json += ',');
-    }
-    catch (e) {
-      //TODO: this needs to log
-      console.error(e.stack);
-      // console.log('test data:', util.inspect(data.test));
     }
 
   }
-  else {
 
-    if (this.usingLiveSumanServer) {
-      //TODO: we may want to log locally first just to make sure we have the data somewhere
-      // this.networkLog.sendTestData(data);
-      let json = JSON.stringify(result);
-      fs.appendFileSync(this.outputPath, json += ',');
-    }
-    else if (this.outputPath && _suman.viaSuman === true) {
+  logResult(test: ITestDataObj): void {
 
-      let json = JSON.stringify(result);
-      fs.appendFileSync(this.outputPath, json += ',');
+    if (_suman.sumanOpts.errors_only && test.dateComplete) {
+      // since errors only and this test has completed, we ignore and don't write out result
+      return;
     }
 
-  }
-};
+    if (_suman.usingRunner && !_suman.sumanOpts.useTAPOutput) {
 
-Suman.prototype.logResult = function (test: ITestDataObj) : void {  //TODO: refactor to logTestResult
+      test.error = test.error ? (test.error._message || test.error.message || test.error.stack || test.error) : null;
+      test.name = (test.desc || test.name);
+      test.desc = (test.desc || test.name);
 
-  //TODO: this function becomes just a way to log to command line, not to text DB
+      let data = {
+        test,
+        type: 'LOG_RESULT',
+      };
 
-  if (_suman.sumanOpts.errors_only && test.dateComplete) {
-    // since errors only and this test has completed, we ignore and don't write out result
-    return;
-  }
+      let str = su.customStringify(data);
+      str = str.replace(/(\r\n|\n|\r)/gm, ''); ///This javascript code removes all 3 types of line breaks
+      process.send(JSON.parse(str));
 
-  if (_suman.usingRunner && !_suman.sumanOpts.useTAPOutput) {
-
-    test.sumanModulePath = this._sumanModulePath;
-    test.error = test.error ? (test.error._message || test.error.message || test.error.stack || test.error) : null;
-    test.name = (test.desc || test.name);
-    test.desc = (test.desc || test.name);
-
-    let data = {
-      test,
-      type: 'LOG_RESULT',
-      outputPath: this.outputPath
-    };
-
-    let str = JSON.stringify(data);
-    str = str.replace(/(\r\n|\n|\r)/gm, ''); ///This javascript code removes all 3 types of line breaks
-    process.send(JSON.parse(str));
-
-  }
-  else {
-
-    if (this.usingLiveSumanServer) {
-      // this.networkLog.sendTestData(data);
-    }
-    else if (this.outputPath) {
-      // let json = JSON.stringify(test);
-      // fs.appendFileSync(this.outputPath, json += ',');
-    }
-
-    resultBroadcaster.emit(String(events.TEST_CASE_END), test);
-
-    if (test.error || test.errorDisplay) {
-      resultBroadcaster.emit(String(events.TEST_CASE_FAIL), test);
-    }
-    else if (test.skipped) {
-      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
-    }
-    else if (test.stubbed) {
-      resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
     }
     else {
-      resultBroadcaster.emit(String(events.TEST_CASE_PASS), test);
+
+      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
+
+      if (test.error || test.errorDisplay) {
+        resultBroadcaster.emit(String(events.TEST_CASE_FAIL), test);
+      }
+      else if (test.skipped) {
+        resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
+      }
+      else if (test.stubbed) {
+        resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
+      }
+      else {
+        resultBroadcaster.emit(String(events.TEST_CASE_PASS), test);
+      }
+
     }
-
   }
-};
+}
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeSuman = function ($module: NodeModule, _interface: string,
-                            shouldCreateResultsDir: boolean, config: ISumanConfig, cb: Function) {
+                                   shouldCreateResultsDir: boolean, config: ISumanConfig, cb: Function) {
 
   let liveSumanServer = false;
 
@@ -447,8 +348,6 @@ export const makeSuman = function ($module: NodeModule, _interface: string,
    */
 
   let timestamp: number;
-  let outputPath :string = null;
-  let networkLog = null;
 
   if (_suman.usingRunner) {  //using runner, obviously, so runner provides timestamp value
     timestamp = _suman.timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
@@ -466,52 +365,27 @@ export const makeSuman = function ($module: NodeModule, _interface: string,
     timestamp = null;
   }
 
-  //TODO: need to properly toggle the value for 'shouldCreateResultsDir'
-  su.makeResultsDir(shouldCreateResultsDir && !_suman.usingRunner, function (err: IPseudoError) {
+  let server: ISumanServerInfo;
 
-    if (err) {
-      console.log(err.stack || err);
-      return process.exit(constants.EXIT_CODES.ERROR_CREATING_RESULTS_DIR);
-    }
+  try {
+    server = findSumanServer(null);
+  }
+  catch (err) {
+    _suman.logError(err.stack || err);
+  }
 
-    let server;
-
-    try {
-      server = findSumanServer(null);
-    }
-    catch (err) {
-      console.log(err.stack || err);
-    }
-
-    //TODO: output path name needs to be incremented somehow by test per file, if there is more than 1 test per file
-    if (timestamp) {
-      try {
-        outputPath = path.normalize(su.getHomeDir() + '/suman/test_results/'
-          + timestamp + '/' + path.basename($module.filename, '.js') + '.txt');
-      }
-      catch (err) {
-        console.log(err.stack || err);
-      }
-    }
-
-    try {
-      fs.unlinkSync(outputPath); //TODO can we remove this unlink call? I guess it's just in case the same timestamp exists..
-    }
-    catch (err) {
-    }
-
+  setImmediate(function () {
 
     cb(null, new Suman({
       fileName: path.resolve($module.filename),
-      outputPath: outputPath,
       usingLiveSumanServer: liveSumanServer,
-      networkLog: networkLog,
-      server: server,
+      server,
+      timestamp,
       interface: _interface
     }));
 
-
   });
+
 };
 
 

@@ -12,9 +12,9 @@ module.exports = Object.freeze({
   //☺,♫
 
   //regex
-  matchAny: [/.*\.js$/, /.sh$/, /.smn$/, /suman.jar$/, /.*\.java$/, /.*\.go$/, /.*\.ts$/],      //recommended =>  match: ['.test.js'],
+  matchAny: [/\.js$/, /.sh$/, /\.jar$/, /\.java$/, /\.go$/, /\.ts$/],
   matchNone: [/fixture/, /correct-exit-codes/, /@transform.sh/, /@run.sh/],
-  matchAll: [],                 //recommended regex for "matchAll" => [],
+  matchAll: [],
 
   //string
   testDir: 'test',
