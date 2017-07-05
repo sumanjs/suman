@@ -20,8 +20,8 @@ const fnArgs = require('function-arguments');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const callbackOrPromise = require('./callback-or-promise');
 import {makePostInjector} from './injection/make-post-injector';
+import {acquirePostDeps} from './acquire-dependencies/acquire-post-deps';
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -44,7 +44,10 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
     _suman.logError('\n', su.decomposeError(err), '\n\n');
   }
 
-  const oncePostKeys = _.flattenDeep($oncePostKeys);
+  const oncePostKeys = _.flattenDeep($oncePostKeys).filter(function (v, i, a) {
+    // create unique array
+    return a.indexOf(v) === i;
+  });
 
   try {
     assert(su.isObject(userDataObj), ' =>  (2) Perhaps we exited before <userDataObj> was captured.');
@@ -61,7 +64,6 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
   let oncePostModule: Function,
     oncePostModuleRet: IOncePostModuleRet,
     dependencies: IOncePostModuleRetDependencies,
-    oncePosts = {} as Partial<IOncePostModuleRetDependencies>,
     hasonlyPostKeys = oncePostKeys.length > 0;
 
   if (!hasonlyPostKeys) {
@@ -110,23 +112,25 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
     return first(null, []);
   }
 
+  const missingKeys: Array<string> = [];
+
   oncePostKeys.forEach(function (k: string) {
     //we store an integer for analysis/program verification, but only really need to store a boolean
     //for existing keys we increment by one, otherwise assign to 1
 
     if (!(k in dependencies)) {
+      missingKeys.push(k);
       console.error('\n');
-      _suman.logError(colors.red('Suman usage error => your suman.once.post.js file ' +
-        'is missing desired key ="' + k + '"'));
+      _suman.logError(chalk.red('Suman usage error => your suman.once.post.js file ' +
+        `is missing desired key = "${k}"`));
       return;
     }
 
-    const o = oncePosts[k] = dependencies[k];
 
-    if (!su.isArrayOrFunction(o)) {
+    if (!su.isArrayOrFunction(dependencies[k])) {
 
       console.error(' => Suman is about to conk out =>\n\n' +
-        ' => here is the contents return by the exported function in suman.once.post.js =>\n\n', oncePosts);
+        ' => here is the contents return by the exported function in suman.once.post.js =>\n\n', dependencies);
 
       console.error('\n');
       throw new Error(chalk.red(' => Suman usage warning => your suman.once.post.js ' +
@@ -134,37 +138,28 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
     }
   });
 
-  const keys = Object.keys(oncePosts);
 
-  if (keys.length) {
+  if (oncePostKeys.length > 0 ) {
     console.log('\n', ' => Suman message => Suman is now running the desired hooks ' +
-      'in suman.once.post.js, which include => \n\t', chalk.cyan(util.inspect(keys)));
+      'in suman.once.post.js, which include => \n\t', chalk.cyan(util.inspect(oncePostKeys)));
   }
-  else {
-    return first(new Error('Your suman.once.post.js file is missing some keys present ' +
-      'in your test file(s).'), []);
+  if (missingKeys.length > 0) {
+    _suman.logError(`Your suman.once.post.js file is missing some keys present in your test file(s).`);
+    _suman.logError(`The missing keys are as follows: ${chalk.magenta(util.inspect(missingKeys))}`);
+    console.log('\n');
   }
 
-  async.mapSeries(keys, function (k: string, cb: Function) {
 
-    callbackOrPromise(k, oncePosts, function (err: Error) {
-      cb(null, err);
-    });
+  acquirePostDeps(oncePostKeys, dependencies).then(function (val) {
+    console.log('\n');
+    _suman.log('all suman.once.post.js hooks completed successfully.\n');
+    _suman.log('suman.once.post.js results => ');
+    _suman.log(util.inspect(val));
+    process.nextTick(cb);
 
-  }, function (err: Error, results: Array<any>) {
-    if (err) {
-      console.error(err.stack || err);
-      first(err, results);
-    }
-    else {
-      console.log('\n\n', ' => Suman message => all suman.once.post.js hooks completed...exiting...');
-      if (results.filter(i => i).length) {
-        console.log('\n\n', ' => Suman message => it appears you have some errors ' +
-          'experienced in the shutdown hooks and are logged below =>', '\n\n');
-      }
-      first(null, results);
-    }
-
+  }, function (err) {
+    console.error(err.stack || err);
+    process.nextTick(cb, err);
   });
 
 };

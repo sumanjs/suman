@@ -147,12 +147,9 @@ export const constants = Object.freeze({
     FATAL: 'FATAL',
     TABLE_DATA: 'TABLE_DATA',
     INTEGRANT_INFO: 'INTEGRANT_INFO',
-    LOG_DATA: 'LOG_DATA',
     LOG_RESULT: 'LOG_RESULT',
-    FATAL_SOFT: 'FATAL_SOFT',
     WARNING: 'WARNING',
     NON_FATAL_ERR: 'NON_FATAL_ERR',
-    CONSOLE_LOG: 'CONSOLE_LOG',
     MAX_MEMORY: 'MAX_MEMORY',
     TABLE_DATA_RECEIVED: 'TABLE_DATA_RECEIVED'
   },
@@ -170,23 +167,11 @@ export const constants = Object.freeze({
   tableData: {
 
     SUITES_DESIGNATOR: {
-      name: 'SUITES => ',
-      default: '(!!error!!)'
-    },
-    // ROOT_SUITE_NAME: {
-    //   name: 'Name',
-    //   default: '(unknown)'
-    // },
-    SUITE_COUNT: {
-      name: 'total',
-      default: '-'
-    },
-    SUITE_SKIPPED_COUNT: {
-      name: 'skipped',
-      default: '-'
+      name: ' ▼ Test entry path ▼ ',
+      default: '(!! suman error !!)'
     },
     TEST_CASES_DESIGNATOR: {
-      name: 'TEST CASES =>',
+      name: 'Test cases ▶',
       default: ''
     },
     TEST_CASES_TOTAL: {
@@ -210,7 +195,7 @@ export const constants = Object.freeze({
       default: '-'
     },
     OVERALL_DESIGNATOR: {
-      name: 'OVERALL =>',
+      name: ' Overall ▶',
       default: '(not received)',
       allowEmptyString: true
     },
@@ -225,6 +210,15 @@ export const constants = Object.freeze({
   },
 
   SUMAN_GLOBAL_DEPS: {
+
+    // gantt: {
+    //   'virtual-dom-stringify': 'latest',
+    //   'gantt-chart': 'latest'
+    // },
+
+    gantt: {
+      'handlebars': 'latest'
+    },
 
     sqlite3: {
       'sqlite3': 'latest'

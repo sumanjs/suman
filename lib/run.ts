@@ -21,7 +21,7 @@ import * as cp from 'child_process';
 import * as async from 'async';
 const shuffle = require('lodash.shuffle');
 const colors = require('colors/safe');
-import su from 'suman-utils';
+import su, {IMapValue} from 'suman-utils';
 import {IGetFilePathObj} from "./runner-helpers/get-file-paths";
 import {ISumanErrorFirstCB} from "./index";
 const rimraf = require('rimraf');
@@ -36,15 +36,14 @@ const sumanHome = path.resolve(process.env.HOME + '/.suman');
 const noFilesFoundError = require('./helpers/no-files-found-error');
 const ascii = require('./helpers/ascii');
 const {constants} = require('../config/suman-constants');
-import {findSumanServer} from './find-suman-server';
+import {findSumanServer} from './helpers/find-suman-server';
 const {findFilesToRun} = require('./runner-helpers/get-file-paths');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const dbPth = path.resolve(process.env.HOME + '/.suman/database/exec_db');
-const getIstanbulPath = require('./helpers/get-istanbul-exec-path.js');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanServerInstalled, sumanVersion) {
+export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
   const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
   const sumanCPLogs = path.resolve(logsDir + '/runs');
@@ -80,7 +79,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
   let runId: number = _suman.runId = process.env.SUMAN_RUN_ID = null;
   const projectRoot = _suman.projectRoot;
   const timestamp = _suman.timestamp = process.env.SUMAN_RUNNER_TIMESTAMP = Date.now();
-  const server = _suman.server = findSumanServer(null);
+  // const server = _suman.server = findSumanServer(null);
   const testDir = process.env.TEST_DIR;
   const testSrcDir = process.env.TEST_SRC_DIR;
   const testTargerDir = process.env.TEST_TARGET_DIR;
@@ -104,7 +103,6 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
   async.autoInject({
 
     removeCoverageDir: function (cb: ISumanErrorFirstCB) {
-
       if (sumanOpts.coverage) {
         const covDir = path.resolve(_suman.projectRoot + '/coverage');
         rimraf(covDir, function () {
@@ -114,24 +112,9 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
       else {
         process.nextTick(cb);
       }
-
     },
 
-    getIstanbulPath: function (cb: ISumanErrorFirstCB) {
-      if (sumanOpts.coverage) {
-        getIstanbulPath(function (err: Error, p: string) {
-          if (err) return cb(err);
-          _suman.istanbulExecPath = p;
-          cb(null);
-        });
-      }
-      else {
-        process.nextTick(cb);
-      }
-
-    },
-
-    mkdirs: function (cb: Function) {
+    mkdirs: function (cb: AsyncResultArrayCallback<Error, Iterable<any>>) {
 
       async.series([
         function (cb: Function) {
@@ -141,10 +124,9 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
           mkdirp(path.resolve(sumanHome + '/database'), cb);
         }
       ], cb);
-
     },
 
-    rimrafLogs: function (cb: Function) {
+    rimrafLogs: function (cb: AsyncResultArrayCallback<Iterable<any>, Error>) {
 
       fs.mkdir(sumanCPLogs, function (err) {
 
@@ -154,9 +136,9 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
 
         async.parallel({
 
-          removeOld: function (cb) {
+          removeOutdated: function (cb: AsyncResultArrayCallback<Iterable<any>, Error>) {
 
-            fs.readdir(sumanCPLogs, function (err, items) {
+            fs.readdir(sumanCPLogs, function (err: Error, items) {
               if (err) {
                 return cb(err);
               }
@@ -164,7 +146,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
               // we only keep the most recent 5 items, everything else we delete
               items.sort().reverse().splice(0, Math.min(items.length, 4));
 
-              async.each(items, function (item, cb) {
+              async.each(items, function (item: string, cb: Function) {
                 const pitem = path.resolve(sumanCPLogs + '/' + item);
                 rimraf(pitem, cb); // ignore callback
               }, cb);
@@ -173,7 +155,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
 
           },
 
-          createNew: function (cb) {
+          createNew: function (cb: AsyncResultArrayCallback<Iterable<any>, Error>) {
             // let p = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
             // fs.mkdir(p, 0o777, cb);
             return process.nextTick(cb);
@@ -183,93 +165,6 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
 
       });
 
-    },
-    npmList: function (cb: ISumanErrorFirstCB) {
-
-      return process.nextTick(cb);
-
-      //TODO: this was causing problems, skip for now
-      let callable = true;
-
-      const to = setTimeout(first, 800);
-
-      function first() {
-        if (callable) {
-          clearTimeout(to);
-          callable = false;
-          cb.apply(null, arguments);
-        }
-      }
-
-      const n = cp.spawn('npm', ['view', 'suman', 'version'], {
-        stdio: ['ignore', 'pipe', 'pipe']
-      });
-
-      n.on('close', first);
-
-      n.stdout.setEncoding('utf8');
-      n.stderr.setEncoding('utf8');
-
-      n.stdout.on('data', function (data) {
-        const remoteVersion = String(data).replace(/\s+/, '');
-        const localVersion = String(sumanVersion).replace(/\s+/, '');
-        if (callable && remoteVersion !== localVersion) {
-          console.log(colors.red(' => Newest Suman version in the NPM registry:', remoteVersion, ', current version =>', localVersion));
-        }
-        else {
-          console.log(colors.red(' => Good news, your Suman version is up to date with latest version on NPM'));
-        }
-      });
-
-      n.stderr.on('data', function (data) {
-        console.error(data);
-      });
-
-    },
-
-    slack: function (cb: ISumanErrorFirstCB) {
-
-      if (!process.env.SLACK_TOKEN) {
-        return process.nextTick(cb);
-      }
-
-      let callable = true;
-      const first = function () {
-        if (callable) {
-          clearTimeout(to);
-          callable = false;
-          cb.apply(null, arguments);
-        }
-      };
-
-      const to = setTimeout(first, 200);
-
-      let slack;
-      try {
-        slack = require('slack');
-      }
-      catch (err) {
-        debug(err.stack);
-        return process.nextTick(first);
-      }
-
-      slack.chat.postMessage({
-
-        token: process.env.SLACK_TOKEN,
-        channel: '#suman-all-commands',
-        text: JSON.stringify({
-          command: process.argv,
-          config: _suman.sumanConfig
-        })
-
-      }, (err: Error) => {
-
-        clearTimeout(to);
-        if (err) {
-          debug(err.stack || err);
-        }
-        first();
-      });
     },
 
     checkIfTSCMultiWatchLock: function (cb: ISumanErrorFirstCB) {
@@ -284,37 +179,24 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
       });
     },
 
-    transpileFiles: function (cb: ISumanErrorFirstCB) {
-
-      //TODO: transpile files should be after finding files
-      if (sumanOpts.transpile && !sumanOpts.useBabelRegister) {
-        su.runTranspile(paths, sumanOpts, cb);
-      }
-      else {
-        process.nextTick(cb);
-      }
+    getFilesToRun: function (cb: ISumanErrorFirstCB) {
+      findFilesToRun(paths, cb);
     },
 
-    getFilesToRun: function (cb: ISumanErrorFirstCB) {
-      findFilesToRun(paths, function (err: Error, obj: IGetFilePathObj) {
-
-        if (err) {
-          return cb(err);
-        }
-
-        su.findSumanMarkers(['@run.sh', '@transform.sh'], testDir, obj.files, function (err: Error, map) {
+    findSumanMarkers: function (getFilesToRun: Object, cb: Function) {
+      su.findSumanMarkers(['@run.sh', '@transform.sh', '@config.json'], testDir, getFilesToRun.files,
+        function (err: Error, map: IMapValue) {
           if (err) {
             cb(err);
           }
           else {
             _suman.markersMap = map;
-            fs.writeFile(_suman.sumanHelperDirRoot + '/suman-map.json', JSON.stringify(map), function () {
-              cb(err, obj);
-            });
+            cb(null);
+            // fs.writeFile(_suman.sumanHelperDirRoot + '/suman-map.json', JSON.stringify(map), function () {
+            //   cb(err, obj);
+            // });
           }
-
         });
-      });
     },
 
     conductStaticAnalysisOfFilesForSafety: function (cb: ISumanErrorFirstCB) {
@@ -328,14 +210,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
 
     getRunId: function (cb: ISumanErrorFirstCB) {
 
-      let callable = true;
-
-      const first: ISumanErrorFirstCB = function () {
-        if (callable) {
-          callable = false;
-          cb.apply(this, arguments);
-        }
-      };
+      const first = su.once(this, cb);
 
       function createDir(runId: number) {
         let p = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
@@ -383,7 +258,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
       });
     }
 
-  }, function complete(err: Error, results) {
+  }, function complete(err: Error, results: Object) {
 
     if (err) {
       _suman.logError('fatal problem => ' + (err.stack || err), '\n');
@@ -392,7 +267,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
 
     if (su.vgt(9)) {
       //TODO: this is not ready yet
-      console.log('=> Suman verbose message => "$ npm list -g" results: ', results.npmList);
+      _suman.log('"$ npm list -g" results: ', results.npmList);
     }
 
     function changeCWDToRootOrTestDir(p: string) {
@@ -416,7 +291,8 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
     const d = domain.create();
 
     d.once('error', function (err: Error) {
-      _suman.logError(colors.magenta('fatal error => \n' + (err.stack || err) + '\n'));
+      console.error('\n');
+      _suman.logError(colors.magenta('fatal error => ' + (err.stack || err) + '\n'));
       process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
     });
 
@@ -427,9 +303,8 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>, sumanS
         'Suman will execute test files from the following locations:'), '\n', files, '\n');
     }
 
-    //TODO: if only one file is used with the runner, then there is no possible blocking,
-    // so we can ignore the suman.order.js file,
-    // and pretend it does not exist.
+    // note: if only one file is used with the runner, then there is no possible blocking,
+    // so we can ignore the suman.order.js file, and pretend it does not exist.
 
     if (IS_SUMAN_SINGLE_PROCESS && !sumanOpts.runner && !sumanOpts.coverage) {
 

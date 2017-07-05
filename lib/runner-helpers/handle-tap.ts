@@ -11,25 +11,29 @@ const util = require('util');
 //npm
 const parser = require('tap-parser');
 import {events} from 'suman-events';
-const EE = require('events');
+import * as EE from 'events';
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 ///////////////////////////////////////////////////////////////////////////
 
-export = function getParser () {
+export const getTapParser = function () {
+
+  _suman.log('we are handling TAP.');
 
   const p = parser();
 
-  p.on('complete', function(data: string){
+  p.on('complete', function (data: string) {
     resultBroadcaster.emit(String(events.TAP_COMPLETE), data);
   });
 
   p.on('assert', function (testpoint) {
 
     debugger;
+
+    console.log('testpoint:',testpoint);
 
     resultBroadcaster.emit(String(events.TEST_CASE_END), testpoint);
 

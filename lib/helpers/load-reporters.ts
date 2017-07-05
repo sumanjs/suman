@@ -12,8 +12,10 @@ const assert = require('assert');
 const EE = require('events');
 
 //npm
+import su from 'suman-utils';
 const colors = require('colors/safe');
 import {events} from 'suman-events';
+import * as _ from 'lodash';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -23,16 +25,16 @@ let loaded = false;
 
 /////////////////////////////////////////////////////////////////////////////
 
-export = function loadReporters (opts: ISumanOpts, projectRoot: string, sumanConfig: ISumanConfig) {
+export const loadReporters = function  (opts: ISumanOpts, projectRoot: string, sumanConfig: ISumanConfig) {
 
   if (loaded) {
-    console.log(' => Suman implementation check => reporters already loaded.');
     return;
   }
 
   loaded = true;
 
-  const sumanReporters = _suman.sumanReporters = (opts.reporter_paths || []).map(function (item) {
+
+  const sumanReporters = _suman.sumanReporters = _.flattenDeep([opts.reporter_paths]).map(function (item) {
     if (!path.isAbsolute(item)) {
       item = path.resolve(projectRoot + '/' + item);
     }
@@ -47,8 +49,9 @@ export = function loadReporters (opts: ISumanOpts, projectRoot: string, sumanCon
   }
 
   const reporterKV = sumanConfig.reporters || {};
+  assert(su.isObject(reporterKV),'{suman.conf.js}.reporters property must be an object.');
 
-  (opts.reporters || []).forEach(function (item) {
+  _.flattenDeep([opts.reporters]).forEach(function (item) {
 
     //TODO: check to see if paths of reporter paths clashes with paths from reporter names at command line (unlikely)
 
@@ -85,16 +88,17 @@ export = function loadReporters (opts: ISumanOpts, projectRoot: string, sumanCon
       }
     }
 
-    assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + val + '"');
+    assert(typeof fn === 'function',
+      'reporter module does not export a function, at path = "' + val + '"');
     fn.pathToReporter = val;  // val might not refer to a path...
     sumanReporters.push(fn);
 
   });
 
-   if(process.env.SUMAN_INCEPTION_LEVEL > 0 || _suman.sumanOpts.useTAPOutput){
+   if(process.env.SUMAN_INCEPTION_LEVEL > 0 || opts.useTAPOutput){
      let fn = require('../reporters/tap-reporter');
      sumanReporters.push(fn);
-     reporterRets.push(fn.call(null, resultBroadcaster, _suman.sumanOpts));
+     reporterRets.push(fn.call(null, resultBroadcaster, opts));
    }
 
   if (sumanReporters.length < 1) {
@@ -121,7 +125,7 @@ export = function loadReporters (opts: ISumanOpts, projectRoot: string, sumanCon
 
   if(process.env.SUMAN_INCEPTION_LEVEL < 1){
     sumanReporters.forEach(function (reporter) {
-      reporterRets.push(reporter.call(null, resultBroadcaster, _suman.sumanOpts));
+      reporterRets.push(reporter.call(null, resultBroadcaster, opts));
     });
   }
 

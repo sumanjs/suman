@@ -22,12 +22,13 @@ import {events} from 'suman-events';
 import su from 'suman-utils';
 import * as async from 'async';
 const noFilesFoundError = require('../helpers/no-files-found-error');
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
-const handleTap = require('./handle-tap');
+import {cpHash, socketHash} from './socket-cp-hash';
+const {getTapParser} = require('./handle-tap');
 const {constants} = require('../../config/suman-constants');
 const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
@@ -49,15 +50,16 @@ export const makeHandleMultipleProcesses =
             forkedCPs: Array<ISumanChildProcess>, handleMessage: Function,
             beforeExitRunOncePost: Function, makeExit: Function): Function {
 
-
     return function (runObj: IRunObj) {
 
       debugger;
 
+      _suman.startDateMillis = Date.now();
+
       const {sumanOpts, sumanConfig, maxProcs, projectRoot, userArgs: args} = _suman;
       const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
 
-      console.log('waitForAllTranformsToFinish => ', waitForAllTranformsToFinish);
+      _suman.log('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
 
       let queuedTestFns: Array<Function> = [];
 
@@ -82,7 +84,7 @@ export const makeHandleMultipleProcesses =
           }
         });
 
-      }, 8);
+      }, 4);
 
       if (waitForAllTranformsToFinish) {
         transpileQueue.drain = function () {
@@ -94,9 +96,9 @@ export const makeHandleMultipleProcesses =
         }
       }
 
-      if (sumanOpts.useTAPOutput) {
+      if (sumanOpts.$useTAPOutput) {
         if (sumanOpts.verbosity > 7) {
-          console.log(colors.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
+          console.log(chalk.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
             'and will not be listening for IPC messages.'));
         }
       }
@@ -117,10 +119,6 @@ export const makeHandleMultipleProcesses =
         files = shuffle(files);
       }
 
-      //TODO: need to make sure list of files is unique list, if not report that as non-fatal error
-
-      // handleBlocking.determineInitialStarters(files);
-
       runnerObj.startTime = Date.now();
 
       const fileObjArray = su.removeSharedRootPath(files);
@@ -129,13 +127,14 @@ export const makeHandleMultipleProcesses =
         SUMAN_CONFIG: JSON.stringify(sumanConfig),
         SUMAN_OPTS: JSON.stringify(sumanOpts),
         SUMAN_RUNNER: 'yes',
+        SUMAN_SOCKETIO_SERVER_PORT: _suman.socketServerPort,
         SUMAN_RUN_ID: _suman.runId,
         SUMAN_RUNNER_TIMESTAMP: _suman.timestamp,
         NPM_COLORS: process.env.NPM_COLORS || (sumanOpts.no_color ? 'no' : 'yes')
       });
 
       const execFile = path.resolve(__dirname + '/run-child.js');
-      const istanbulExecPath = _suman.istanbulExecPath;
+      const istanbulExecPath = _suman.istanbulExecPath || 'istanbul';
       const isStdoutSilent = sumanOpts.stdout_silent || sumanOpts.silent;
       const isStderrSilent = sumanOpts.stderr_silent || sumanOpts.silent;
 
@@ -173,51 +172,61 @@ export const makeHandleMultipleProcesses =
 
           transpileQueue.push(function (cb: Function) {
 
-            let k = cp.spawn(tr, [], {
-              env: Object.assign({}, process.env, {
-                SUMAN_TEST_PATHS: JSON.stringify([file])
-              })
-            });
+            su.makePathExecutable(tr, function (err: Error) {
 
-            k.once('error', cb);
+              if (err) {
+                return cb(err);
+              }
 
-            k.stderr.setEncoding('utf8');
-            k.stdout.setEncoding('utf8');
-
-            let strm = fs.createWriteStream(path.resolve(tr + '.log'));
-
-            k.stderr.pipe(strm).on('error', function (e: Error) {
-              throw e;
-            });
-
-            k.stdout.pipe(strm).on('error', function (e: Error) {
-              throw e;
-            });
-
-            if (sumanOpts.inherit_stdio) {
-
-              k.stderr.pipe(process.stderr).on('error', function (e: Error) {
-                throw e;
+              let k = cp.spawn(tr, [], {
+                env: Object.assign({}, process.env, {
+                  SUMAN_TEST_PATHS: JSON.stringify([file])
+                })
               });
 
-              k.stdout.pipe(process.stdout).on('error', function (e: Error) {
-                throw e;
+              k.once('error', cb);
+
+              k.stderr.setEncoding('utf8');
+              k.stdout.setEncoding('utf8');
+              k.stderr.pipe(pt(`${chalk.red('=> transform process stderr => ')} ${file}\n`)).pipe(process.stderr);
+              k.stdout.pipe(pt(` => transform process stdout => ${file}\n`)).pipe(process.stdout);
+
+              // let strm = fs.createWriteStream(path.resolve(tr + '.log'));
+              //
+              // k.stderr.pipe(strm).on('error', function (e: Error) {
+              //   throw e;
+              // });
+              //
+              // k.stdout.pipe(strm).on('error', function (e: Error) {
+              //   throw e;
+              // });
+
+              if (sumanOpts.inherit_stdio) {
+
+                k.stderr.pipe(process.stderr).on('error', function (e: Error) {
+                  throw e;
+                });
+
+                k.stdout.pipe(process.stdout).on('error', function (e: Error) {
+                  throw e;
+                });
+              }
+
+              let stdout = '';
+              k.stdout.on('data', function (data: string) {
+                stdout += data;
               });
-            }
 
-            let stdout = '';
-            k.stdout.on('data', function (data: string) {
-              stdout += data;
-            });
+              k.once('close', function (code: number) {
 
-            k.once('close', function (code: number) {
+                if (code > 0) {
+                  cb(new Error(`the @transform.sh process, for file ${file},\nexitted with non-zero exit code. :( \n To see the stderr, use --inherit-stdio.`));
+                }
+                else {
+                  cb(null, file, shortFile, stdout);
+                }
 
-              if (code > 0) {
-                cb(new Error(`the @transform.sh process, for file ${file},\nexitted with non-zero exit code. :( \n To see the stderr, use --inherit-stdio.`));
-              }
-              else {
-                cb(null, file, shortFile, stdout);
-              }
+              });
 
             });
 
@@ -234,6 +243,8 @@ export const makeHandleMultipleProcesses =
           });
         }
       });
+
+      let childId = 1;
 
       const outer = function (file: string, shortFile: string, stdout: string) {
 
@@ -286,7 +297,7 @@ export const makeHandleMultipleProcesses =
           const $execArgz = execArgz.filter(function (e, i) {
             // filter out duplicate command line args
             if (execArgz.indexOf(e) !== i) {
-              console.error('\n', colors.yellow(' => Warning you have duplicate items in your exec args => '),
+              console.error('\n', chalk.yellow(' => Warning you have duplicate items in your exec args => '),
                 '\n' + util.inspect(execArgz), '\n');
             }
             return true;
@@ -296,18 +307,27 @@ export const makeHandleMultipleProcesses =
 
           const extname = path.extname(shortFile);
 
+          let $childId = childId++;
+
+          const inherit = _suman.$forceInheritStdio ? 'inherit' : '';
+
+          if (inherit) {
+            _suman.log('we are inheriting stdio of child, because of sumanception.');
+          }
+
           let cpOptions = {
             cwd: sumanOpts.force_cwd_to_be_project_root ? projectRoot : path.dirname(file),
             stdio: [
               'ignore',
-              (isStdoutSilent ? 'ignore' : 'pipe'),
-              (isStderrSilent ? 'ignore' : 'pipe'),
+              inherit || (isStdoutSilent ? 'ignore' : 'pipe'),
+              inherit || (isStderrSilent ? 'ignore' : 'pipe'),
               'ipc'  //TODO: assume 'ipc' is ignored if not a .js file..
             ],
             env: Object.assign({}, sumanEnv, {
               SUMAN_CHILD_TEST_PATH: file,
               SUMAN_CHILD_TEST_PATH_TARGET: file,
-              SUMAN_TRANSFORM_STDOUT: stdout
+              SUMAN_TRANSFORM_STDOUT: stdout,
+              SUMAN_CHILD_ID: String($childId)
             }),
             detached: false
           };
@@ -316,12 +336,20 @@ export const makeHandleMultipleProcesses =
           let sh = runnerUtils.findPathOfRunDotSh(file);
 
           if (sh) {
+
+            try {
+              fs.chmodSync(sh, 0o777);
+            }
+            catch (err) {
+
+            }
+
             if (sumanOpts.coverage) {
-              _suman.logWarning(colors.magenta('coverage option was set to true, but we are running your tests via @run.sh.'));
-              _suman.logWarning(colors.magenta('so in this case, you will need to run your coverage call via @run.sh.'));
+              _suman.logWarning(chalk.magenta('coverage option was set to true, but we are running your tests via @run.sh.'));
+              _suman.logWarning(chalk.magenta('so in this case, you will need to run your coverage call via @run.sh.'));
             }
             _suman.log('We have found the sh file => ', sh);
-            n = cp.spawn(sh, argz, cpOptions);
+            n = cp.spawn(sh, argz, cpOptions) as ISumanChildProcess;
           }
           else {
 
@@ -335,13 +363,13 @@ export const makeHandleMultipleProcesses =
                 let coverageDir = path.resolve(_suman.projectRoot + '/coverage/' + String(shortFile).replace(/\//g, '-'));
                 n = cp.spawn(istanbulExecPath,
                   //'--include-all-sources'
-                  ['cover', execFile, '--dir', coverageDir, '--'].concat(args), cpOptions);
+                  ['cover', execFile, '--dir', coverageDir, '--'].concat(args), cpOptions) as ISumanChildProcess;
               }
               else {
                 argz.unshift(execFile);
 
                 let argzz = $execArgz.concat(argz); // append exec args to beginning
-                n = cp.spawn('node', argzz, cpOptions);
+                n = cp.spawn('node', argzz, cpOptions) as ISumanChildProcess;
               }
 
             }
@@ -353,6 +381,8 @@ export const makeHandleMultipleProcesses =
               n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
             }
           }
+
+          cpHash[$childId] = n;
 
           if (!_suman.weAreDebugging) {
             n.to = setTimeout(function () {
@@ -380,41 +410,43 @@ export const makeHandleMultipleProcesses =
             if (hashbang) {
               console.error('\n');
               console.error(' => The supposed test script file with the following path may not have a hashbang => ');
-              console.error(colors.magenta.bold(file));
+              console.error(chalk.magenta.bold(file));
               console.error(' => A hashbang is necessary for non-.js files and when there is no accompanying @run.sh file.');
               console.error(' => Without a hashbang, Suman (and your OS) will not know how to run the file.');
               console.error(' => See sumanjs.org for more information.');
             }
           });
 
-          if (n.stdio) {
+          if (n.stdio && n.stdout && n.stderr) {
+
+            if (inherit) {
+              _suman.logError('n.stdio is defined even though we are in sumanception territory.');
+            }
 
             n.stdout.setEncoding('utf8');
             n.stderr.setEncoding('utf8');
 
             if (sumanOpts.inherit_stdio) {
-              n.stdout.pipe(pt(colors.bold(' => [suman child stdout] => '))).pipe(process.stdout).on('error', function (e: Error) {
+              n.stdout.pipe(pt(chalk.blue(' => [suman child stdout] => '))).pipe(process.stdout).on('error', function (e: Error) {
                 throw e;
               });
-              n.stderr.pipe(pt(colors.red.bold(' => [suman child stderr] => '))).pipe(process.stderr).on('error', function (e: Error) {
+              n.stderr.pipe(pt(chalk.red.bold(' => [suman child stderr] => '))).pipe(process.stderr).on('error', function (e: Error) {
                 throw e;
               });
             }
 
-            if (sumanOpts.useTAPOutput) {
-
+            if (true || sumanOpts.$useTAPOutput) {
               n.tapOutputIsComplete = false;
-              n.stdout.pipe(handleTap())
+              n.stdout.pipe(getTapParser())
               .on('error', function (e: Error) {
-                throw e;
+                _suman.logError('error parsing TAP output => ', e.stack || e);
               })
               .once('finish', function () {
                 n.tapOutputIsComplete = true;
                 process.nextTick(function () {
                   n.emit('tap-output-is-complete', true);
                 });
-              })
-
+              });
             }
 
             n.stdio[2].setEncoding('utf-8');
@@ -442,6 +474,7 @@ export const makeHandleMultipleProcesses =
             }
           }
 
+          n.dateStartedMillis = Date.now();
           n.once('exit', onExitFn(n, runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit));
 
         };
@@ -451,7 +484,7 @@ export const makeHandleMultipleProcesses =
 
         if (handleBlocking.runNext(run)) {
           if (su.vgt(3) || su.isSumanDebug()) {
-            _suman.log('File is running =>', file);
+            _suman.log('File has just started running =>', file, '\n');
           }
         }
         else {

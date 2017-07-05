@@ -1,0 +1,12 @@
+{
+  "@run": {
+    "comment":"",
+    "plugin": {
+      "location": "npm",
+      "value": "suman-run-plugins/plugins/ts-node"
+    }
+  },
+  "@transform": {
+    "prevent": true
+  }
+}

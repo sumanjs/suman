@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var colors = require('colors/safe');
 exports.constants = Object.freeze({
+    DEFAULT_TRANSFORM_CONCURRENCY: 3,
     DEFAULT_PARALLEL_TOTAL_LIMIT: 30,
     DEFAULT_PARALLEL_TEST_LIMIT: 10,
     DEFAULT_PARALLEL_BLOCK_LIMIT: 10,
@@ -126,12 +127,9 @@ exports.constants = Object.freeze({
         FATAL: 'FATAL',
         TABLE_DATA: 'TABLE_DATA',
         INTEGRANT_INFO: 'INTEGRANT_INFO',
-        LOG_DATA: 'LOG_DATA',
         LOG_RESULT: 'LOG_RESULT',
-        FATAL_SOFT: 'FATAL_SOFT',
         WARNING: 'WARNING',
         NON_FATAL_ERR: 'NON_FATAL_ERR',
-        CONSOLE_LOG: 'CONSOLE_LOG',
         MAX_MEMORY: 'MAX_MEMORY',
         TABLE_DATA_RECEIVED: 'TABLE_DATA_RECEIVED'
     },
@@ -146,19 +144,11 @@ exports.constants = Object.freeze({
     },
     tableData: {
         SUITES_DESIGNATOR: {
-            name: 'SUITES => ',
-            default: '(!!error!!)'
-        },
-        SUITE_COUNT: {
-            name: 'total',
-            default: '-'
-        },
-        SUITE_SKIPPED_COUNT: {
-            name: 'skipped',
-            default: '-'
+            name: ' ▼ Test entry path ▼ ',
+            default: '(!! suman error !!)'
         },
         TEST_CASES_DESIGNATOR: {
-            name: 'TEST CASES =>',
+            name: 'Test cases ▶',
             default: ''
         },
         TEST_CASES_TOTAL: {
@@ -182,7 +172,7 @@ exports.constants = Object.freeze({
             default: '-'
         },
         OVERALL_DESIGNATOR: {
-            name: 'OVERALL =>',
+            name: ' Overall ▶',
             default: '(not received)',
             allowEmptyString: true
         },
@@ -196,6 +186,9 @@ exports.constants = Object.freeze({
         }
     },
     SUMAN_GLOBAL_DEPS: {
+        gantt: {
+            'handlebars': 'latest'
+        },
         sqlite3: {
             'sqlite3': 'latest'
         },

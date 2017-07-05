@@ -23,6 +23,8 @@ const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 process.on('uncaughtException', function (err: IPseudoError) {
 
+  console.log(111111);
+
   if (typeof err !== 'object') { // if null or string, etc
     const val = typeof err === 'string' ? err : util.inspect(err);
     console.error(' => Warning, value passed to uncaughtException handler was not typeof "object" => ', val);

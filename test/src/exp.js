@@ -6,10 +6,11 @@ const Test = suman.init(module);
 
 Test.create(function (assert, it, before) {
 
-  it.cb('done', t => {
+  it.cb('is true', t => {
 
     t.done();
     t.done();
+    // throw 'blah';
 
   });
 

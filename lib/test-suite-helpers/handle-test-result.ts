@@ -22,7 +22,6 @@ const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 
 //////////////////////////////////////////////////////////
 
-
 const stckMapFn = function (item: string, index: number) {
 
   const fst = _suman.sumanOpts.full_stack_traces;
@@ -31,7 +30,7 @@ const stckMapFn = function (item: string, index: number) {
     return '\t' + item;
   }
 
-  if(fst){
+  if (fst) {
     return su.padWithXSpaces(4) + item;
   }
 
@@ -42,14 +41,13 @@ const stckMapFn = function (item: string, index: number) {
 
 };
 
-
 /////////////////////////////////////////////////////////////////////////////////////
 
-export = function makeHandleTestError (suman: ISuman) {
+export const makeHandleTestResults = function (suman: ISuman) {
 
   const fileName = suman.fileName;
 
-  return function handleTestError (err: IPseudoError, test: ITestDataObj) {
+  return function handleTestError(err: IPseudoError, test: ITestDataObj) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
       _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
@@ -99,7 +97,6 @@ export = function makeHandleTestError (suman: ISuman) {
     }
 
     suman.logResult(test);
-
     return test.error;
   }
 };

@@ -1,13 +1,11 @@
-
-
 //core
 import * as util from 'util';
 
 /////////////////////////////////////////////////////////////////////
 
-export const extractVals = function(val : any){
+export const extractVals = function (val: any) {
 
-  let fn: Function, subDeps : Array<string>, props: Array<string>, timeout: number;
+  let fn: Function, subDeps: Array<string>, props: Array<string>, timeout: number;
 
   if (Array.isArray(val)) {
     fn = val[val.length - 1];
@@ -37,8 +35,7 @@ export const extractVals = function(val : any){
     fn = val;
   }
 
-
-  return{
+  return {
     timeout,
     subDeps,
     fn,

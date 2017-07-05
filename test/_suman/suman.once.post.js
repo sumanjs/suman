@@ -15,12 +15,11 @@ module.exports = $pre => {  //load async deps for any of your suman tests
         return 'charlie';
       }],
 
-      'smartconnect': function () {
+      'smartconnect': ['charlie',function () {
         return Promise.resolve({
           formica: 'not metal'
         });
-
-      },
+      }],
 
       'dolce-vida': (cb) => {
         setTimeout(function () {

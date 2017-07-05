@@ -1,5 +1,86 @@
 //
 
+D3 gantt chart
+https://github.com/dk8996/Gantt-Chart
+
+//
+
+new Test('z', function (assert) {
+
+  setTimeout(this.resume,2000);
+
+  this.describe('A', function(){
+    this.it('a', function(){
+      console.log('a');
+    });
+  });
+});
+
+//
+   create gantt chart - probably necessary to sell suman itself
+//
+
+  test-debug.log gets populated for individual tests, but not for runner, even if there are warnings
+
+//
+
+  maybe we should disallow the runner to be used if inceptionLevel > 0
+
+//
+
+ find an open port
+ https://github.com/indexzero/node-portfinder
+
+//
+
+   maximum connection attempts => 5
+   if client is not connected, we use stdout/TAP to communicate
+   it should always be an either or, never send both
+
+//
+
+   we can cross-check the accumulated test data in the child process to compare with the parent
+   they should always align, if not we should log a warning
+
+//
+
+  we may only need one tap parser instance instead of so many
+  OR - we need to create table results from each test in the runner
+  the child should not be responsible for creating the table
+  that way there is one source of truth in the runner
+
+//
+
+    If suman inception value is > x , then inherit stdio should be true.
+
+//
+
+  we could pass the file descriptor of the top most suman down to all child tests via an ENV variable,
+  and tests could then use a named pipe or IPC to send messages to grandparent/top-level process.
+
+//
+
+  should merge once-post and make-before-exit-once-post
+
+//
+
+  mkfifo - use named pipes or sockets to communicate between suman-d
+
+//
+
+  coverage information should be collected by istanbul at the end of the test (suman.once.post.js)
+
+    //create coverage info
+   const tempConverageDir = path.resolve(coverageDir + '/' + String(file[1]).replace(/\//g, '-'));
+   bash.push(['cover', file[0], '--dir', tempConverageDir, '--report', 'lcov']);
+
+    // generate coverage reports
+    const k = cp.spawn(executable, ['report', '--dir', coverageDir,'--include', '**/*coverage.json', 'lcov'], {
+      cwd: _suman.projectRoot
+    });
+
+//
+
 create suman conversion utility that will wrap a mocha test
 
 //
@@ -134,7 +215,6 @@ https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/async/index
    debug([' => Test files will *not* run if they don\'t match all of:', matchesAll], function () {
      return su.vgt(6) && matchesAll.length > 0;
    });
-
 
 ///
 
@@ -383,7 +463,6 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
  +++ need to fix this, it's being logged after
 
      => [Suman runner] =>  initial set => 59 processes running 59 suites
-
      => [Suman runner] =>  overall set => 59 processes will run 59 suites with no more than 8 running at a time.
 
 //

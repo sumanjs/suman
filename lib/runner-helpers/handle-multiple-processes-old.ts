@@ -48,7 +48,7 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
 
     const {sumanOpts, sumanConfig, maxProcs, projectRoot, userArgs: args} = _suman;
 
-    if (sumanOpts.useTAPOutput) {
+    if (sumanOpts.$useTAPOutput) {
       if (sumanOpts.verbosity > 7) {
         console.log(colors.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
           'and will not be listening for IPC messages.'));
@@ -290,7 +290,7 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
               n.stderr.pipe(pt(colors.red.bold(' => [suman child stderr] => '))).pipe(process.stderr);
             }
 
-            if (sumanOpts.useTAPOutput) {
+            if (sumanOpts.$useTAPOutput) {
 
               n.tapOutputIsComplete = false;
               n.stdout.pipe(handleTap())
