@@ -17,7 +17,7 @@ const su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const handleRequestResponseWithRunner = require('./handle-runner-request-response');
+import {handleRequestResponseWithRunner} from '../index-helpers/handle-runner-request-response';
 const counts = require('./suman-counts');
 import oncePostFn from './handle-suman-once-post';
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
@@ -67,6 +67,9 @@ suiteResultEmitter.on('suman-completed', function (obj: ITableDataCallbackObj) {
       if (err) {
         console.error(err.stack || err);
       }
+
+      // this is for testing expected test result counts
+      resultBroadcaster.emit(String(events.META_TEST_ENDED));
 
       process.exit(highestExitCode, function (cb: Function) {
 

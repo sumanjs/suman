@@ -26,17 +26,17 @@ Object.defineProperty(_suman, 'integrantHashKeyVals', {
   value: {}
 });
 const integrantsEmitter = _suman.integrantsEmitter = (_suman.integrantsEmitter || new EE());
-const {fatalRequestReply} = require('../helpers/fatal-request-reply');
 const {acquireDependencies} = require('../acquire-dependencies/acquire-pre-deps');
 import {constants} from '../../config/suman-constants';
 import integrantInjector from '../injection/integrant-injector';
 const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
+import {getClient} from './socketio-child-client';
 let integPreConfiguration: any = null;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-export default function (integrants: Array<string>, $oncePost: Array<string>,
-                         integrantPreFn: Function, $module: ISumanModuleExtended) {
+export const handleIntegrants = function (integrants: Array<string>, $oncePost: Array<string>,
+                                          integrantPreFn: Function, $module: ISumanModuleExtended) {
 
   let integrantsFn: Function = null;
   let integrantsReady: boolean = null;
@@ -69,6 +69,8 @@ export default function (integrants: Array<string>, $oncePost: Array<string>,
   }
   else if (_suman.usingRunner) {
 
+    const client = getClient();
+
     integrantsFn = function () {
 
       const integrantsFromParentProcess: Array<any> = [];
@@ -83,7 +85,6 @@ export default function (integrants: Array<string>, $oncePost: Array<string>,
         let integrantMessage = function (msg: IIntegrantsMessage) {
           if (msg.info === 'all-integrants-ready') {
             oncePreVals = JSON.parse(msg.val);
-            console.error('msg.val => ', oncePreVals);
             integrantsReady = true;
             if (postOnlyReady !== false) {
               process.removeListener('message', integrantMessage);
@@ -105,15 +106,27 @@ export default function (integrants: Array<string>, $oncePost: Array<string>,
           }
         };
 
-        process.on('message', integrantMessage);
+        const INTEGRANT_INFO = constants.runner_message_type.INTEGRANT_INFO;
+        client.on(INTEGRANT_INFO, integrantMessage);
 
-        process.send({
-          type: constants.runner_message_type.INTEGRANT_INFO,
+        client.emit(INTEGRANT_INFO, {
+          type: INTEGRANT_INFO,
           msg: integrants,
           oncePost: $oncePost,
           expectedExitCode: _suman.expectedExitCode,
-          expectedTimeout: _suman.expectedTimeout
+          expectedTimeout: _suman.expectedTimeout,
+          childId: process.env.SUMAN_CHILD_ID
         });
+
+        // process.on('message', integrantMessage);
+        //
+        // process.send({
+        //   type: constants.runner_message_type.INTEGRANT_INFO,
+        //   msg: integrants,
+        //   oncePost: $oncePost,
+        //   expectedExitCode: _suman.expectedExitCode,
+        //   expectedTimeout: _suman.expectedTimeout
+        // });
       }
     }
   }
@@ -168,4 +181,4 @@ export default function (integrants: Array<string>, $oncePost: Array<string>,
   }
 
   return integrantsFn;
-}
+};

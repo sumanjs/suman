@@ -50,25 +50,27 @@ const mapValues = require('lodash.mapvalues');
 import * as chalk from 'chalk';
 const a8b = require('ansi-256-colors'), fg = a8b.fg, bg = a8b.bg;
 import {events} from 'suman-events';
+import su from 'suman-utils';
 const debug = require('suman-debug')('s:runner');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import integrantInjector from './injection/integrant-injector';
-const {constants} = require('../config/suman-constants');
+import {constants} from '../config/suman-constants';
 const ascii = require('./helpers/ascii');
-import su from 'suman-utils';
 import makeHandleBlocking from './runner-helpers/make-handle-blocking';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const handleFatalMessage = require('./runner-helpers/handle-fatal-message');
-const logTestResult = require('./runner-helpers/log-test-result');
+import {logTestResult} from './runner-helpers/log-test-result';
 const onExit = require('./runner-helpers/on-exit');
-const makeMakeExit = require('./runner-helpers/make-exit');
+import {makeExit} from './runner-helpers/make-exit';
 const {makeHandleIntegrantInfo} = require('./runner-helpers/handle-integrant-info');
 import {makeBeforeExit} from './runner-helpers/make-before-exit-once-post';
 const makeSingleProcess = require('./runner-helpers/handle-single-process');
 import {makeHandleMultipleProcesses} from './runner-helpers/handle-multiple-processes';
 const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
+import {getSocketServer,initializeSocketServer} from './runner-helpers/socketio-server';
+import {cpHash, socketHash} from './runner-helpers/socket-cp-hash';
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -108,7 +110,7 @@ const runnerObj: IRunnerObj = {
 };
 
 const handleIntegrantInfo = makeHandleIntegrantInfo(runnerObj, allOncePostKeys);
-const makeExit = makeMakeExit(runnerObj, tableRows);
+const exit = makeExit(runnerObj, tableRows);
 const beforeExitRunOncePost = makeBeforeExit(runnerObj, oncePosts, allOncePostKeys);
 
 process.once('exit', onExit);
@@ -130,17 +132,41 @@ process.on('message', function (data: any) {
     (typeof data === 'string' ? data : util.inspect(data)));
 });
 
-function handleTableData(n: ISumanChildProcess, data: any) {
+
+
+const server = getSocketServer();
+const INTEGRANT_INFO = constants.runner_message_type.INTEGRANT_INFO;
+const TABLE_DATA = constants.runner_message_type.TABLE_DATA;
+
+function handleTableData(n: ISumanChildProcess, data: any, s: SocketIOClient.Socket) {
   runnerObj.tableCount++;
   tableRows[n.shortTestPath].tableData = data;
-  n.send({
-    info: 'table-data-received'
+
+  s.emit(TABLE_DATA, {
+      info: 'table-data-received'
   });
+  // n.send({
+  //   info: 'table-data-received'
+  // });
 }
 
-function logTestData(data: any) {
-  throw new Error('this should not be used currently');
-}
+
+server.on('connection', function (socket: SocketIOClient.Socket) {
+
+  socket.on(INTEGRANT_INFO, function (data: Object) {
+
+    let id  = data.childId;
+    let n = cpHash[id];
+    handleIntegrantInfo(data, n, socket)
+  });
+
+  socket.on(TABLE_DATA, function(msg: Object){
+    let id  = msg.childId;
+    let n = cpHash[id];
+    handleTableData(n, msg.data, socket);
+  });
+
+});
 
 function handleMessageForSingleProcess(msg: Object, n: ISumanChildProcess) {
 
@@ -150,32 +176,19 @@ function handleMessageForSingleProcess(msg: Object, n: ISumanChildProcess) {
       // handleTableData(n, msg.data);
       break;
 
-    //TODO: shouldn't integrants for single process be handled differently than multi-process?
     case constants.runner_message_type.INTEGRANT_INFO:
       handleIntegrantInfo(msg, n);
       break;
-    case constants.runner_message_type.LOG_DATA:
-      logTestData(msg);
-      break;
     case constants.runner_message_type.LOG_RESULT:
       logTestResult(msg, n);
-      break;
-    case constants.runner_message_type.FATAL_SOFT:
-      console.error('\n\n' + chalk.grey(' => Suman warning => ') + chalk.magenta(msg.msg) + '\n');
       break;
     case constants.runner_message_type.FATAL:
       n.send({info: 'fatal-message-received'});
       //TODO: need to make sure this is only called once per file
       handleFatalMessage(msg.data, n);
       break;
-    case constants.runner_message_type.WARNING:
-      console.error('\n\n ' + chalk.bgYellow('Suman warning: ' + msg.msg + '\n'));
-      break;
     case constants.runner_message_type.NON_FATAL_ERR:
       console.error('\n\n ' + chalk.red('non-fatal suite error: ' + msg.msg + '\n'));
-      break;
-    case constants.runner_message_type.CONSOLE_LOG:
-      console.log(msg.msg);
       break;
     case constants.runner_message_type.MAX_MEMORY:
       console.log('\nmax memory: ' + util.inspect(msg.msg));
@@ -188,21 +201,14 @@ function handleMessageForSingleProcess(msg: Object, n: ISumanChildProcess) {
 function handleMessage(msg: Object, n: ISumanChildProcess) {
 
   switch (msg.type) {
-
     case constants.runner_message_type.TABLE_DATA:
       handleTableData(n, msg.data);
       break;
     case constants.runner_message_type.INTEGRANT_INFO:
       handleIntegrantInfo(msg, n);
       break;
-    case constants.runner_message_type.LOG_DATA:
-      logTestData(msg);
-      break;
     case constants.runner_message_type.LOG_RESULT:
       logTestResult(msg, n);
-      break;
-    case constants.runner_message_type.FATAL_SOFT:
-      console.error('\n\n' + chalk.grey(' => Suman warning => ') + chalk.magenta(msg.msg) + '\n');
       break;
     case constants.runner_message_type.FATAL:
       n.send({info: 'fatal-message-received'});
@@ -214,23 +220,16 @@ function handleMessage(msg: Object, n: ISumanChildProcess) {
     case constants.runner_message_type.NON_FATAL_ERR:
       console.error('\n\n ' + chalk.red('non-fatal suite error: ' + msg.msg + '\n'));
       break;
-    case constants.runner_message_type.CONSOLE_LOG:
-      console.log(msg.msg);
-      break;
-    case constants.runner_message_type.MAX_MEMORY:
-      console.log('\n => Max memory: ' + util.inspect(msg.msg));
-      break;
     default:
       throw new Error(' => Suman implementation error => Bad msg.type in runner, perhaps the user sent a message with process.send?');
   }
-
 }
 
 const runSingleOrMultipleDirs =
-  makeHandleMultipleProcesses(runnerObj, tableRows, messages, forkedCPs, handleMessage, beforeExitRunOncePost, makeExit);
+  makeHandleMultipleProcesses(runnerObj, tableRows, messages, forkedCPs, handleMessage, beforeExitRunOncePost, exit);
 
 const runAllTestsInSingleProcess =
-  makeSingleProcess(runnerObj, handleMessageForSingleProcess, messages, beforeExitRunOncePost, makeExit);
+  makeSingleProcess(runnerObj, handleMessageForSingleProcess, messages, beforeExitRunOncePost, exit);
 
 ///////////////
 

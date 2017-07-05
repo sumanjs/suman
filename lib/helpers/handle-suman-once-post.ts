@@ -32,7 +32,7 @@ export default function oncePostFn(cb: Function) {
           console.error(r.stack || r);
         });
       }
-      else {
+      else if (results) {
         console.log('Results is not an array... =>', results);
       }
       process.nextTick(cb);

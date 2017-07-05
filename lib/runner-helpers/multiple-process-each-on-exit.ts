@@ -39,6 +39,11 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
 
   return function (code: number, signal: number) {
 
+
+    n.dateEndedMillis = Date.now();
+
+    n.sumanExitCode = code;
+
     const sumanOpts = _suman.sumanOpts;
     // handleBlocking gets initialized weirdly in runner.js, but we will deal for now
     const handleBlocking = runnerObj.handleBlocking;

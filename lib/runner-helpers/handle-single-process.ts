@@ -19,12 +19,12 @@ const shuffle = require('lodash.shuffle');
 const {events} = require('suman-events');
 const su = require('suman-utils');
 import pt from 'prepend-transform';
-import * as colors from 'colors/safe';
+import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const weAreDebugging = require('../helpers/we-are-debugging');
-const handleTap = require('./handle-tap');
+const {getTapParser} = require('./handle-tap');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 //////////////////////////////////////////////////////////
@@ -148,14 +148,14 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
       n.stderr.setEncoding('utf8');
 
       if (sumanOpts.inherit_stdio) {
-        n.stdout.pipe(pt(colors.bold(' => [suman child stdout] => '))).pipe(process.stdout);
-        n.stderr.pipe(pt(colors.red.bold(' => [suman child stderr] => '))).pipe(process.stderr);
+        n.stdout.pipe(pt(chalk.blue(' => [suman child stdout] => '))).pipe(process.stdout);
+        n.stderr.pipe(pt(chalk.red.bold(' => [suman child stderr] => '))).pipe(process.stderr);
       }
 
-      if (sumanOpts.useTAPOutput) {
+      if (sumanOpts.$useTAPOutput) {
 
         n.tapOutputIsComplete = false;
-        n.stdout.pipe(handleTap())
+        n.stdout.pipe(getTapParser())
           .once('finish', function () {
             n.tapOutputIsComplete = true;
             process.nextTick(function () {
@@ -193,7 +193,7 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
 
       if (SUMAN_DEBUG) {
         console.log('\n');
-        _suman.log(colors.black.bgYellow('process given by => ' + n.shortTestPath + ' exited with code: ' + code + ' '));
+        _suman.log(chalk.black.bgYellow('process given by => ' + n.shortTestPath + ' exited with code: ' + code + ' '));
         console.log('\n');
       }
 

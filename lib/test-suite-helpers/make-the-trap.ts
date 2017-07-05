@@ -1,25 +1,30 @@
 'use strict';
-import {IAFterEachObj, IBeforeEachObj, ITestDataObj, ITestSuite} from "../../dts/test-suite";
+import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
 import {IPseudoError} from "../../dts/global";
-import {IItOpts} from "../../dts/it";
+import {IItOpts, ITestDataObj} from "../../dts/it";
+import {IBeforeEachObj} from "../../dts/before-each";
+import {IAFterEachObj} from "../../dts/after-each";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
+import * as EE from 'events';
 
 //npm
-const async = require('async');
+import * as async from 'async';
+import {events} from 'suman-events';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const makeHandleTestResults = require('./handle-test-result');
+const {makeHandleTestResults} = require('./handle-test-result');
 const {makeHandleTest} = require('./make-handle-test');
 const allEachesHelper = require('./get-all-eaches');
 import {makeHandleBeforeOrAfterEach} from './make-handle-each';
 const implementationError = require('../helpers/implementation-error');
+const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +44,13 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
 
     let delaySum = 0; //TODO: is this correct?
 
-    if (test.skipped || test.stubbed) {
+    if (test.skipped) {
+      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
+      return process.nextTick(cb, null, []);
+    }
+
+    if (test.stubbed) {
+      resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
       return process.nextTick(cb, null, []);
     }
 
@@ -64,9 +75,15 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
               function handleTestContainer() {
                 handleTest(self, test, function (err: IPseudoError, result: any) {
                   implementationError(err);
-                  gracefulExit(handleTestResult(result, test), test, function () {
-                    cb(null, result);
-                  });
+                  let $result = handleTestResult(result, test);
+                  if (_suman.sumanOpts.bail) {
+                    gracefulExit($result, test, function () {
+                      cb(null, result);
+                    });
+                  }
+                  else {
+                    process.nextTick(cb, null, result);
+                  }
                 });
               }
 

@@ -2,7 +2,7 @@
 
 import {IHandleError, IOnceHookObj} from "dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -46,9 +46,7 @@ export const makeHandleBeforesAndAfters =  function (suman: ISuman, gracefulExit
       num: 0
     };
 
-    const d = domain.create();
-    d._sumanBeforeOrAfter = true;
-    d._sumanBeforeOrAfterDesc = aBeforeOrAfter.desc || '(unknown)';
+    const d = domain.create() as ISumanDomain;
 
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfter, timerObj, gracefulExit, cb);
     const fnStr = aBeforeOrAfter.fn.toString();

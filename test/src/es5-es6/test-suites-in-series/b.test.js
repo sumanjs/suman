@@ -15,6 +15,17 @@ Test.create('z', function (assert) {
   });
 });
 
+Test.create('z', function (assert) {
+
+  setTimeout(this.resume,2000);
+
+  this.describe('A', function(){
+    this.it('a', function(){
+      console.log('a');
+    });
+  });
+});
+
 Test.create.delay('a', {}, function (assert) {
   setTimeout(this.resume,2000);
 

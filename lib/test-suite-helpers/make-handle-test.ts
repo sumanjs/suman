@@ -11,24 +11,26 @@ const global = require('suman-browser-polyfills/modules/global');
 import * as domain from 'domain';
 import * as assert from 'assert';
 import * as util from 'util';
+import * as EE from 'events';
 
 //npm
 const fnArgs = require('function-arguments');
+import {events} from 'suman-events';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
-const sumanUtils = require('suman-utils');
+const su = require('suman-utils');
 import {makeCallback} from './handle-callback-helper';
 const helpers = require('./handle-promise-generator');
 import {cloneError} from '../misc/clone-error';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
-
+const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-export const makeHandleTest =  function (suman: ISuman, gracefulExit: Function) {
+export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
   return function _handleTest(self: ITestSuite, test: ITestDataObj, cb: Function) {
 
@@ -40,7 +42,13 @@ export const makeHandleTest =  function (suman: ISuman, gracefulExit: Function) 
       return;
     }
 
-    if (test.stubbed || test.skipped) {
+    if (test.stubbed) {
+      resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
+      return process.nextTick(cb);
+    }
+
+    if (test.skipped) {
+      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
       return process.nextTick(cb);
     }
 
@@ -104,7 +112,7 @@ export const makeHandleTest =  function (suman: ISuman, gracefulExit: Function) 
           warn = true;
         }
 
-        const isGeneratorFn = sumanUtils.isGeneratorFn(test.fn);
+        const isGeneratorFn = su.isGeneratorFn(test.fn);
 
         function timeout(val: number) {
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 500000 : val);
@@ -223,10 +231,8 @@ export const makeHandleTest =  function (suman: ISuman, gracefulExit: Function) 
 
     });
 
-
   }
 };
-
 
 ///////////// support node style imports //////////////////////////////////////////////////
 

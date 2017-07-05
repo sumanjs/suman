@@ -31,6 +31,7 @@ if (_suman.inceptionLevel < 1) {
   _suman.logError = console.error.bind(console, colors.red(' => [suman] => '));
 }
 else {
+  _suman.$forceInheritStdio = true;
   _suman.log = _suman.logInfo = console.log.bind(console);
   _suman.logWarning = console.error.bind(console);
   _suman.logError = console.error.bind(console);

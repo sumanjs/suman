@@ -6,6 +6,7 @@ const global = require('suman-browser-polyfills/modules/global');
 const patch = require('../../../lib/patches/all');
 
 process.on('uncaughtException', function (err) {
+  debugger;
   console.log(' This is uncaught => ', err);
 });
 

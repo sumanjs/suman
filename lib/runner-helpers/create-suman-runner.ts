@@ -21,8 +21,8 @@ const su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import runner from '../runner';
 const cwd = process.cwd();
+import {initializeSocketServer} from './socketio-server';
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -86,8 +86,14 @@ export const createRunner = function (obj: Object) {
     require('./validate-suman.order.js').run(order);
   }
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////
 
-  runner.findTestsAndRunThem(runObj, runOnce, order);
+  initializeSocketServer(function(err: Error, port: number){
+    assert(Number.isInteger(port), 'port must be an integer');
+    _suman.socketServerPort = port;
+    //NOTE: do not require('runner') until after initializing the socketio server
+    require('../runner').findTestsAndRunThem(runObj, runOnce, order);
+  });
+
 
 };

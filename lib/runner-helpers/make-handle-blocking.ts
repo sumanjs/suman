@@ -37,9 +37,13 @@ export default function (order: Object): IHandleBlocking {
   let interval = 10000;
   let timeout = 1000;
 
-  if (_suman.sumanOpts && _suman.sumanOpts.verbosity > 2) {
+  if (true || _suman.sumanOpts && _suman.sumanOpts.verbosity > 2) {
     setInterval(function () {
       setTimeout(function () {
+
+        console.log('started.length => ', started.length);
+        console.log('ended.length => ', ended.length);
+
         const startedButNotEnded = started.filter(function ($item) {
           return ended.every(function (item) {
             return (String(item.testPath) !== String($item.testPath));
@@ -48,7 +52,7 @@ export default function (order: Object): IHandleBlocking {
           return '\n  ' + item.testPath;
         });
 
-        if (startedButNotEnded.length > 1) {
+        if (startedButNotEnded.length > 0) {
           console.log('\n\n', colors.bgCyan.black.bold(' => Suman message => The following test ' +
               'processes have started but not ended yet:'),
             colors.cyan(startedButNotEnded));

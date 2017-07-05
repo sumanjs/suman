@@ -1,2 +1,1 @@
-declare const _default: () => any;
-export = _default;
+export declare const getTapParser: () => any;

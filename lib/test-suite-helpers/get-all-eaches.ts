@@ -7,8 +7,13 @@ import {ISuman} from "../../dts/suman";
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
+//core
+import * as util from 'util';
+import * as path from 'path';
+import * as assert from 'assert';
+
 //npm
-const _ = require('underscore');
+import * as _ from 'lodash';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
