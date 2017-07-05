@@ -1,3 +1,9 @@
-/**
- * Created by alexamil on 7/1/17.
- */
+
+
+
+export const run = function(){
+
+  // we should create a routine that wraps Mocha tests
+  // in the suman wrapper
+
+};

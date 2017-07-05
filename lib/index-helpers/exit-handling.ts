@@ -64,9 +64,9 @@ process.on('SIGTERM', function () {
 
 const shutdownSuman = function (msg: string) {
   async.parallel([
-    function (cb: Function) {
+    function (cb: AsyncResultArrayCallback<Dictionary<any>, Error>) {
       async.series([
-        function (cb: Function) {
+        function (cb: AsyncResultArrayCallback<Dictionary<any>, Error>) {
           if (runAfterAlways && _suman.whichSuman) {
             runAfterAlways(_suman.whichSuman, cb);
           }
@@ -75,7 +75,7 @@ const shutdownSuman = function (msg: string) {
           }
         },
 
-        function (cb: Function) {
+        function (cb: AsyncResultArrayCallback<Dictionary<any>, Error>) {
           if (oncePostFn) {
             oncePostFn(cb);
           }
@@ -141,6 +141,8 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
     err = {stack: typeof err === 'string' ? err : util.inspect(err)}
   }
 
+  console.log('UE => ', err);
+
   if (err._alreadyHandledBySuman) {
     console.error(' => Error already handled => \n', (err.stack || err));
     return;
@@ -165,17 +167,8 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 
     console.error('\n\n', chalk.magenta(' => Suman uncaught exception => \n' + msg));
 
-    if (String(msg).match(/suite is not a function/i)) {
-      process.stderr.write('\n\n => Suman tip => You may be using the wrong test interface try TDD instead of BDD or vice versa;' +
-        '\n\tsee sumanjs.org\n\n');
-    }
-    else if (String(msg).match(/describe is not a function/i)) {
-      process.stderr.write('\n\n => Suman tip => You may be using the wrong test interface try TDD instead of BDD or vice versa;' +
-        '\n\tsee sumanjs.org\n\n');
-    }
-
-    if (!_suman.sumanOpts || (_suman.sumanOpts && _suman.sumanOpts.ignoreUncaughtExceptions !== false)) {
-      _suman.sumanUncaughtExceptionTriggered = true;
+    if (!_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
+      _suman.sumanUncaughtExceptionTriggered = err;
       console.error('\n\n', ' => Given uncaught exception,' +
         ' Suman will now run suman.once.post.js shutdown hooks...');
       console.error('\n\n', ' ( => TO IGNORE UNCAUGHT EXCEPTIONS AND CONTINUE WITH YOUR TEST(S), use ' +
@@ -194,9 +187,9 @@ process.on('unhandledRejection', (reason: any, p: Promise<any>) => {
 
   console.error('\n\nUnhandled Rejection at: Promise ', p, '\n\n=> Rejection reason => ', reason, '\n\n=> stack =>', reason);
 
-  if (!_suman.sumanOpts || (_suman.sumanOpts && _suman.sumanOpts.ignoreUncaughtExceptions !== false)) {
-    _suman.sumanUncaughtExceptionTriggered = true;
+  if (_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
 
+    _suman.sumanUncaughtExceptionTriggered = reason;
     // Should call graceful exit
 
     fatalRequestReply({

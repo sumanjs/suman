@@ -1,4 +1,5 @@
 export declare const constants: Readonly<{
+    DEFAULT_TRANSFORM_CONCURRENCY: number;
     DEFAULT_PARALLEL_TOTAL_LIMIT: number;
     DEFAULT_PARALLEL_TEST_LIMIT: number;
     DEFAULT_PARALLEL_BLOCK_LIMIT: number;
@@ -82,12 +83,9 @@ export declare const constants: Readonly<{
         FATAL: string;
         TABLE_DATA: string;
         INTEGRANT_INFO: string;
-        LOG_DATA: string;
         LOG_RESULT: string;
-        FATAL_SOFT: string;
         WARNING: string;
         NON_FATAL_ERR: string;
-        CONSOLE_LOG: string;
         MAX_MEMORY: string;
         TABLE_DATA_RECEIVED: string;
     };
@@ -100,14 +98,6 @@ export declare const constants: Readonly<{
     };
     tableData: {
         SUITES_DESIGNATOR: {
-            name: string;
-            default: string;
-        };
-        SUITE_COUNT: {
-            name: string;
-            default: string;
-        };
-        SUITE_SKIPPED_COUNT: {
             name: string;
             default: string;
         };
@@ -150,6 +140,9 @@ export declare const constants: Readonly<{
         };
     };
     SUMAN_GLOBAL_DEPS: {
+        gantt: {
+            'handlebars': string;
+        };
         sqlite3: {
             'sqlite3': string;
         };

@@ -74,13 +74,13 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
 
     const inc = incr();
 
-    if (!fn) {
-      zuite.getTests().push({testId: inc, desc: desc, stubbed: true} as ITestDataObj);
+    if (opts.skip || opts.skipped) {
+      zuite.getTests().push({testId: inc, desc: desc, skipped: true} as ITestDataObj);
       return zuite;
     }
 
-    if (opts.skip) {
-      zuite.getTests().push({testId: inc, desc: desc, skipped: true} as ITestDataObj);
+    if (!fn) {
+      zuite.getTests().push({testId: inc, desc: desc, stubbed: true} as ITestDataObj);
       return zuite;
     }
 

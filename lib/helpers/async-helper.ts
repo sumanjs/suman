@@ -2,7 +2,13 @@ import su from 'suman-utils';
 import {IPseudoError} from "../../dts/global";
 import Timer = NodeJS.Timer;
 
+//core
+import * as util from 'util';
+
+//npm
 const fnArgs = require('function-arguments');
+
+//project
 const makeGen = require('./async-gen');
 
 ///////////////////////////////////////////////////////////////////////////////////////

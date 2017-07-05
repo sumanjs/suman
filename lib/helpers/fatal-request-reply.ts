@@ -18,18 +18,26 @@ let callable = true;
 
 export const fatalRequestReply = function (obj: Object, cb: Function) {
 
-  _suman.sumanUncaughtExceptionTriggered = true;
+  console.error('obj in fatal request reply => ', obj);
+  _suman.sumanUncaughtExceptionTriggered = obj;
 
   if (callable) {
     callable = false;
   }
   else {
+    console.log('callabled is false...');
     // if callable is false (we already called this function) then fire callback immediately
     return process.nextTick(cb);
   }
 
+  if(_suman.$forceInheritStdio){
+    // we need to use TAP to write test output, instead of sending via process.send
+    console.log('$forceInheritStdio');
+    return process.nextTick(cb);
+  }
+
   if (!_suman.usingRunner) {
-    debug(' => Suman warning => Not using runner in this process, so we will never get reply, firing callback now.');
+    _suman.logError('warning => Not using runner in this process, so we will never get reply, firing callback now.');
     return process.nextTick(cb);
   }
 
@@ -46,6 +54,8 @@ export const fatalRequestReply = function (obj: Object, cb: Function) {
     }
   });
 
+
+  console.log('waiting for response from runner...');
   process.send(obj);
 
 };

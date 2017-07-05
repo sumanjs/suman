@@ -58,6 +58,8 @@ function handleExceptionsAndRejections() {
 
 process.on('uncaughtException', function (err) {
 
+  debugger;
+
   if (typeof err !== 'object') {
     err = {stack: typeof err === 'string' ? err : util.inspect(err)}
   }
@@ -117,6 +119,8 @@ const debug = require('suman-debug')('s:cli');
 const _suman = global.__suman = (global.__suman || {});
 require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
+
+import {loadReporters} from './lib/helpers/load-reporters';
 
 const {constants} = require('./config/suman-constants');
 const su = require('suman-utils');
@@ -277,7 +281,8 @@ if (sumanOpts.version) {
 //////////////// check for cmd line contradictions ///////////////////////////////////
 
 function makeThrow(msg) {
-  console.log('\n\n');
+  console.log('\n');
+  console.error('\n');
   throw msg;
 }
 
@@ -355,7 +360,8 @@ if (init) {
 }
 else {
 
-  const installObj = require('./lib/helpers/determine-if-suman-is-installed')(sumanConfig, sumanOpts);
+  const {vetLocalInstallations} = require('./lib/cli-helpers/determine-if-suman-is-installed');
+  const installObj = vetLocalInstallations(sumanConfig, sumanOpts, projectRoot);
   sumanInstalledAtAll = installObj.sumanInstalledAtAll;
   sumanServerInstalled = installObj.sumanServerInstalled;
   sumanInstalledLocally = installObj.sumanInstalledLocally;
@@ -376,8 +382,7 @@ if (sumanConfig.transpile === true && sumanConfig.useBabelRegister === true && s
 }
 
 ///////////////////// Here we reconcile and merge command line args with config  ///////////////////////////
-
-// as usual, command line args take precedence over static configuration (suman.conf.js)
+////// as usual, command line args take precedence over static configuration (suman.conf.js)
 
 if ('concurrency' in sumanOpts) {
   assert(Number.isInteger(sumanOpts.concurrency) && Number(sumanOpts.concurrency) > 0,
@@ -469,7 +474,7 @@ if (optCheck.length > 1) {
 
 /////////////////////////////// load reporters  ////////////////////////////////
 
-require('./lib/helpers/load-reporters')(sumanOpts, projectRoot, sumanConfig);
+loadReporters(sumanOpts, projectRoot, sumanConfig);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -492,7 +497,7 @@ let paths = JSON.parse(JSON.stringify(sumanOpts._args)).filter(function (item) {
 });
 
 if (sumanOpts.test_paths_json) {
-  let jsonPaths = JSON.parse(sumanOpts.test_paths_json);
+  let jsonPaths = JSON.parse(String(sumanOpts.test_paths_json).trim());
   jsonPaths.forEach(function (p) {
     paths.push(p);
   });
@@ -518,7 +523,11 @@ if (sumanOpts.verbose) {
   }
 }
 
-////////////////////// dynamically call files to minimize load //////////////////////////////
+if (sumanOpts.force_inherit_stdio) {
+  _suman.$forceInheritStdio = true;
+}
+
+////////////////////// dynamically call files to minimize load, etc //////////////////////////////
 
 if (diagnostics) {
   require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
@@ -551,7 +560,7 @@ else if (tail) {
   require('./lib/make-tail/tail-any')(paths);
 }
 else if (create) {
-  require('./lib/cli-commands/create-opt/create').run(create);
+  require('./lib/cli-commands/create-opt').run(create);
 }
 else if (useServer) {
   require('./lib/use-server/use-server')(null);
@@ -574,12 +583,13 @@ else if (uninstall) {
     removeBabel: removeBabel,
   });
 }
+
 else if (convert) {
-  require('./lib/cli-commands/convert-mocha')(projectRoot, src, dest, force);
+  require('./lib/cli-commands/convert-mocha').run(projectRoot, src, dest, force);
 
 }
 else if (s) {
-  require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
+  require('./lib/cli-commands/start-suman-server')(sumanServerInstalled, sumanConfig, serverName);
 }
 else if (watch || watchPer) {
   require('./lib/cli-commands/watching').run(paths, sumanOpts, sumanConfig);

@@ -43,7 +43,10 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
       return process.nextTick(cb);
     }
 
-    const flattenedAllOncePostKeys = uniq(_.flattenDeep(allOncePostKeys));
+    const flattenedAllOncePostKeys = _.flattenDeep(allOncePostKeys).filter(function (v, i, a) {
+      // create unique array
+      return a.indexOf(v) === i;
+    });
 
     const args = fnArgs(runnerObj.oncePostModule);
     const postInjector = makePostInjector(userData, null);
@@ -66,9 +69,8 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
       }
 
       // copy only the relevant selection
-      oncePosts[k] = dependencies[k];
 
-      if (typeof oncePosts[k] !== 'function') {
+      if (!su.isArrayOrFunction(dependencies[k])) {
 
         console.error('\n');
         _suman.logError(colors.red('Suman usage error => your suman.once.post.js file ' +
@@ -88,7 +90,7 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
         '\n\t', colors.cyan(util.inspect(keys)));
     }
 
-    acquirePostDeps(keys, oncePosts).then(function () {
+    acquirePostDeps(keys, dependencies).then(function () {
       console.log('\n');
       _suman.log('all suman.once.post.js hooks completed successfully.\n\n');
       process.nextTick(cb);

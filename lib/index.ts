@@ -91,6 +91,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
+import {getClient} from './index-helpers/socketio-child-client';
 
 // set it here just in case
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
@@ -129,7 +130,7 @@ require('./index-helpers/exit-handling');
 /////////////////////////////////////////////////////////////////////
 
 // project
-import handleIntegrants from './index-helpers/handle-integrants';
+import {handleIntegrants} from './index-helpers/handle-integrants';
 import setupExtraLoggers from './index-helpers/setup-extra-loggers';
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
@@ -221,22 +222,15 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   }
 
   require('./handle-exit'); // handle exit here
-  require('./helpers/load-reporters-last-ditch');
+  require('./helpers/load-reporters-last-ditch').run();
 
+  const client = getClient();
   const {sumanOpts} = _suman;
 
   if (!inBrowser) {
     assert(($module.constructor && $module.constructor.name === 'Module'),
       'Please pass the test file module instance as first arg to suman.init()');
   }
-
-  // if(!$module){
-  //   confOverride = $opts;
-  //   $opts = $module;
-  //   $module = {filename: 'unknown (we are in browser)'};
-  //   $module.parent = $module;
-  //   $module.filename = '/';
-  // }
 
   debugger;
 
@@ -424,17 +418,14 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     const sumanEvents = SumanTransform();
 
     sumanEvents.on('test', function () {
-      debug('SUMAN EVENTS test!');
       exportEvents.emit.bind(exportEvents, 'test').apply(exportEvents, arguments);
     });
 
     sumanEvents.on('error', function () {
-      debug('SUMAN EVENTS error!');
       exportEvents.emit.bind(exportEvents, 'error').apply(exportEvents, arguments);
     });
 
     sumanEvents.on('suman-test-file-complete', function () {
-      debug('SUMAN EVENTS suman-test-file-complete!');
       exportEvents.emit.bind(exportEvents, 'suman-test-file-complete').apply(exportEvents, arguments);
     });
 

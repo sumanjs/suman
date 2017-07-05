@@ -3,6 +3,7 @@ import Domain = NodeJS.Domain;
 import {ITestSuite} from "./test-suite";
 import EventEmitter = NodeJS.EventEmitter;
 import {ISuman} from "./suman";
+import {IMapValue} from "suman-utils";
 
 declare namespace SumanLib {
   const _suman: Object;
@@ -19,6 +20,10 @@ export interface  IGlobalSumanObj {
   // we should execute Suman's in series, that makes it easier to run after.always shutdown, etc
   // which suman represents which Suman is executing at a given time
 
+  startDateMillis: number,
+  socketServerPort: number,
+  $forceInheritStdio: boolean,
+  markersMap: IMapValue,
   integrantHashKeyVals: IntegrantHashKeyVals,
   usingDefaultConfig: boolean,
   istanbulExecPath: string,
@@ -69,7 +74,7 @@ export interface  IGlobalSumanObj {
   resultBroadcaster: EventEmitter,
   sumanReporters: Array<Object>,
   integrantsEmitter: EventEmitter,
-  sumanUncaughtExceptionTriggered: boolean,
+  sumanUncaughtExceptionTriggered: Object,
   projectRoot: string,
   usingRunner: boolean,
   sumanInitCalled: boolean,
@@ -139,8 +144,7 @@ export interface IPseudoError  {
 
 
 export interface ISumanDomain extends Domain {
-  _sumanStartWholeShebang: boolean
-  exit: Function
+  _sumanStartWholeShebang?: boolean
 }
 
 export declare enum BrowserTypes {

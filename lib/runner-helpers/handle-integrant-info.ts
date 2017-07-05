@@ -21,6 +21,7 @@ import su from 'suman-utils';
 //project
 const _suman = global.__suman = (global.__suman || {});
 const weAreDebugging = require('../helpers/we-are-debugging');
+import {constants} from '../../config/suman-constants';
 const {acquireDependencies} = require('../acquire-dependencies/acquire-pre-deps');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -36,7 +37,9 @@ Object.defineProperty(_suman, 'integrantHashKeyVals', {
 export const makeHandleIntegrantInfo =
   function (runnerObj: IRunnerObj, allOncePostKeys: TOncePostKeys, integrantHashKeyVals: IIntegrantHash) {
 
-    return function handleIntegrantInfo(msg: Object, n: ISumanChildProcess) {
+    const INTEGRANT_INFO = constants.runner_message_type.INTEGRANT_INFO;
+
+    return function handleIntegrantInfo(msg: Object, n: ISumanChildProcess, s: SocketIOClient.Socket) {
 
       const oncePostKeys = msg.oncePost;
 
@@ -67,7 +70,11 @@ export const makeHandleIntegrantInfo =
       allOncePostKeys.push(oncePostKeys);
 
       process.nextTick(function () {
-        n.send({
+        // n.send({
+        //   info: 'once-post-received'
+        // });
+
+        s.emit(INTEGRANT_INFO, {
           info: 'once-post-received'
         });
       });
@@ -101,7 +108,10 @@ export const makeHandleIntegrantInfo =
           console.error(err.stack || err);
         }
 
-        n.send({info: 'all-integrants-ready', val: stringified});
+        // n.send({info: 'all-integrants-ready', val: stringified});
+        s.emit(INTEGRANT_INFO, {
+          info: 'all-integrants-ready', val: stringified
+        });
 
       }, function (err: Error) {
 

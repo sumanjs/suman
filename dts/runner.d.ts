@@ -6,6 +6,8 @@ import {IDefaultTableData, ITableData} from "./table-data";
 
 
 export interface ISumanChildProcess extends ChildProcess {
+  dateStartedMillis: number,
+  dateEndedMillis: number,
   shortTestPath: string,
   testPath: string,
   expectedExitCode: number,

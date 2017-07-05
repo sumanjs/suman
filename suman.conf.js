@@ -13,7 +13,7 @@ module.exports = Object.freeze({
 
   //regex
   matchAny: [/\.js$/, /.sh$/, /\.jar$/, /\.java$/, /\.go$/, /\.ts$/],
-  matchNone: [/fixture/, /correct-exit-codes/, /@transform.sh/, /@run.sh/],
+  matchNone: [/fixture/, /correct-exit-codes/, /@transform.sh/, /@run.sh/, /\/target\//],
   matchAll: [],
 
   //string
@@ -33,7 +33,7 @@ module.exports = Object.freeze({
   useBabelRegister: false,
   useUtilityPatches: true, // "5".times, etc.
   coverage: false,         // collecting coverage info is expensive and we don't recommend setting this here, but instead at the command line
-  useTAPOutput: false,     // TAP output will always be written out by any process, this is cheap, and true is a good setting
+  useTAPOutput: true,     // TAP output will always be written out by any process, this is cheap, and true is a good setting
   errorsOnly: false,                // only show test errors in the console
   replayErrorsAtRunnerEnd: true,    // for big test runs, con
   allowArrowFunctionsForTestBlocks: true,

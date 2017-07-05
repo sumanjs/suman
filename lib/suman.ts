@@ -1,5 +1,5 @@
 'use strict';
-import {ITestDataObj, ITestSuite} from "../dts/test-suite";
+import {ITestSuite} from "../dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "../dts/global";
 import {ITableData} from "../dts/table-data";
 
@@ -26,9 +26,11 @@ import su from 'suman-utils';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {findSumanServer, ISumanServerInfo} from './find-suman-server';
-const {constants} = require('../config/suman-constants');
+import {findSumanServer, ISumanServerInfo} from './helpers/find-suman-server';
+import {ITestDataObj} from "../dts/it";
+import {constants} from '../config/suman-constants';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+import {getClient} from './index-helpers/socketio-child-client';
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -295,40 +297,43 @@ class Suman {
       return;
     }
 
-    if (_suman.usingRunner && !_suman.sumanOpts.useTAPOutput) {
+    test.error = test.error ? (test.error._message || test.error.message || test.error.stack || test.error) : null;
+    test.name = (test.desc || test.name);
+    test.desc = (test.desc || test.name);
 
-      test.error = test.error ? (test.error._message || test.error.message || test.error.stack || test.error) : null;
-      test.name = (test.desc || test.name);
-      test.desc = (test.desc || test.name);
+    let data = {
+      test,
+      type: 'LOG_RESULT',
+    };
 
-      let data = {
-        test,
-        type: 'LOG_RESULT',
-      };
+    let str = su.customStringify(data);
+    str = str.replace(/(\r\n|\n|\r)/gm, ''); ///This javascript code removes all 3 types of line breaks
+    // process.send(JSON.parse(str));
 
-      let str = su.customStringify(data);
-      str = str.replace(/(\r\n|\n|\r)/gm, ''); ///This javascript code removes all 3 types of line breaks
-      process.send(JSON.parse(str));
+    const client = getClient();
+    const LOG_RESULT = constants.runner_message_type.LOG_RESULT;
 
+    if (global.usingBrowserEtcEtc) {
+      // TODO: note for the web browser, we need to use this
+      // client.emit(LOG_RESULT, JSON.parse(str));
+    }
+
+    // broadcast results
+    resultBroadcaster.emit(String(events.TEST_CASE_END), test);
+
+    if (test.error || test.errorDisplay) {
+      resultBroadcaster.emit(String(events.TEST_CASE_FAIL), test);
+    }
+    else if (test.skipped) {
+      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
+    }
+    else if (test.stubbed) {
+      resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
     }
     else {
-
-      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
-
-      if (test.error || test.errorDisplay) {
-        resultBroadcaster.emit(String(events.TEST_CASE_FAIL), test);
-      }
-      else if (test.skipped) {
-        resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
-      }
-      else if (test.stubbed) {
-        resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
-      }
-      else {
-        resultBroadcaster.emit(String(events.TEST_CASE_PASS), test);
-      }
-
+      resultBroadcaster.emit(String(events.TEST_CASE_PASS), test);
     }
+
   }
 }
 

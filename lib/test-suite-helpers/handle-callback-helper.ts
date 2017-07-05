@@ -8,8 +8,9 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const util = require('util');
-const assert = require('assert');
+import * as util from 'util';
+import * as path from 'path';
+import * as assert from 'assert';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
