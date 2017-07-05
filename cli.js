@@ -214,7 +214,7 @@ let sumanConfig, pth;
 //TODO: use harmony destructuring args later on
 const configPath = sumanOpts.config;
 const serverName = sumanOpts.server_name;
-const convert = sumanOpts.convert;
+const convert = sumanOpts.convert_from_mocha;
 const src = sumanOpts.src;
 const dest = sumanOpts.dest;
 const init = sumanOpts.init;
@@ -249,6 +249,7 @@ const installGlobals = sumanOpts.install_globals;
 const postinstall = sumanOpts.postinstall;
 const tscMultiWatch = sumanOpts.tsc_multi_watch;
 const sumanD = sumanOpts.suman_d;
+const watchPer = sumanOpts.watch_per;
 
 if (coverage) {
   console.log(colors.magenta.bold(' => Coverage reports will be written out due to presence of --coverage flag.'));
@@ -337,30 +338,12 @@ catch (err) {
   }
   catch (err) {
 
-    // if (!uninstall) {
-    //     if (!String(err.stack || err).match(/Cannot find module\.*suman\.conf\.js/)) {
-    //         throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
-    //             'found in the root of your project.\n  ' + (err.stack || err));
-    //     }
-    //     else {
-    //         throw new Error(colors.red(' => Suman usage error => There was an error loading your suman.conf.js file =>')
-    //             + '\n ' + (err.stack || err));
-    //     }
-
     _suman.usingDefaultConfig = true;
     console.log(' => Suman warning => Using default configuration file, please create your suman.conf.js ' +
       'file using suman --init.');
 
-    sumanConfig = _suman.sumanConfig = require('./lib/default-conf-files/suman.default.conf');
+    sumanConfig = _suman.sumanConfig = require('./lib/default-conf-files/suman.default.conf.js');
 
-    // }
-    // else {
-    //     // if we read in the default config, then package.json is not resolved correctly
-    //     // we need to provide some default values though
-    //     sumanConfig = _suman.sumanConfig = {
-    //         sumanHelpersDir: 'suman'
-    //     };
-    // }
   }
 
 }
@@ -392,7 +375,9 @@ if (sumanConfig.transpile === true && sumanConfig.useBabelRegister === true && s
 
 }
 
-///////////////////// HERE WE RECONCILE / MERGE COMMAND LINE OPTS WITH CONFIG ///////////////////////////
+///////////////////// Here we reconcile and merge command line args with config  ///////////////////////////
+
+// as usual, command line args take precedence over static configuration (suman.conf.js)
 
 if ('concurrency' in sumanOpts) {
   assert(Number.isInteger(sumanOpts.concurrency) && Number(sumanOpts.concurrency) > 0,
@@ -400,8 +385,8 @@ if ('concurrency' in sumanOpts) {
 }
 
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
-sumanOpts.useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
-sumanOpts.full_stack_traces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
+sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
+sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 
 /////////////////////////////////// matching ///////////////////////////////////////
 
@@ -416,6 +401,7 @@ const sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendM
 
 if (sumanMatchesAny.length < 1) {
   // if the user does not provide anything, we default to this
+  _suman.logWarning('no runnable file regexes available; using the default => /\.js$/');
   sumanMatchesAny.push(/\.js$/);
 }
 
@@ -429,67 +415,13 @@ _suman.sumanMatchesAny = uniqBy(sumanMatchesAny, item => item);
 _suman.sumanMatchesNone = uniqBy(sumanMatchesNone, item => item);
 _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, item => item);
 
-////////////////////////////// override transpile /////////////////////////////////////////////////
-
-if (sumanOpts.no_transpile) {
-  sumanOpts.transpile = false;
-}
-else {
-
-  if (sumanConfig.transpile === true) {
-    sumanOpts.transpile = true;
-    if (sumanOpts.verbose && !sumanOpts.watch) {
-      console.log('\n', colors.bgCyan.black.bold('=> Suman message => transpilation is the default due to ' +
-        'your configuration option => transpile:true'), '\n');
-    }
-  }
-
-  debug(' => "babelRegister" opt => ', babelRegister);
-  debug(' => "noBabelRegister" opt => ', noBabelRegister);
-
-  const useBabelRegister = sumanOpts.transpile && (babelRegister || (!noBabelRegister && sumanConfig.useBabelRegister));
-
-  if (babelRegister && !sumanOpts.transpile) {
-    console.log(colors.red.bold(' => Warning => Looks like you intend to use babel-register, ' +
-      'but the transpile flag is set to false.'));
-  }
-
-  if (useBabelRegister) {
-    sumanOpts.useBabelRegister = true;
-    process.env.USE_BABEL_REGISTER = 'yes';
-
-    if (sumanOpts.verbosity > 1) {
-      if (sumanConfig.transpile === true) {
-        console.log('\n ', colors.bgCyan.black.bold(' => the ' + colors.magenta('--babel-register')
-            + ' flag was passed or ' + colors.magenta('useBabelRegister')
-            + ' was set to true in your suman.conf.js file,') + '\n  ' +
-          colors.bgCyan.black.bold(' so we will transpile on the fly with "babel-register",' +
-            ' no transpiled files will be written out.'), '\n');
-      }
-      else {
-        if (babelRegister && sumanOpts.verbosity > 5) {
-          console.log('\n', colors.bgCyan.black.bold('=> Suman message => ' + colors.magenta('--babel-register')
-              + ' flag passed or useBabelRegister is' +
-              'set to true in your suman.conf.js file, so we will transpile your sources on the fly,') + '\n' +
-            colors.bgCyan.black.bold('no transpiled JavaScript files will be written out.'), '\n');
-        }
-        else if (sumanOpts.verbose) {
-          console.log('\n', colors.bgCyan.black.bold(' => Suman message => "useBabelRegister" property set to true in your config,' +
-              ' so we will transpile your sources on the fly.') + '\n ' +
-            colors.bgCyan.black.bold(' No transpiled files will be written out. '), '\n');
-        }
-      }
-    }
-
-  }
-}
-
-/////////////////////////////// abort if too many top-level options /////////////////////////////////////////////
+/////////////////////////////// abort if too many top-level options //////////////////////////////////////
 
 const preOptCheck = {
 
   tscMultiWatch: tscMultiWatch,
   watch: watch,
+  watchPer: watchPer,
   create: create,
   useServer: useServer,
   useBabel: useBabel,
@@ -548,7 +480,7 @@ resultBroadcaster.emit(String(events.SUMAN_VERSION), sumanVersion);
 
 const userArgs = _suman.userArgs = [];
 
-const paths = JSON.parse(JSON.stringify(sumanOpts._args)).filter(function (item) {
+let paths = JSON.parse(JSON.stringify(sumanOpts._args)).filter(function (item) {
   if (String(item).indexOf('-') === 0) {
     if (sumanOpts.verbosity > 3) {
       console.log(colors.magenta(' => Suman considers this a user argument => ', "'" + item + "'"));
@@ -559,6 +491,25 @@ const paths = JSON.parse(JSON.stringify(sumanOpts._args)).filter(function (item)
   return true;
 });
 
+if (sumanOpts.test_paths_json) {
+  let jsonPaths = JSON.parse(sumanOpts.test_paths_json);
+  jsonPaths.forEach(function (p) {
+    paths.push(p);
+  });
+}
+
+if (sumanOpts.replace_match && sumanOpts.replace_with) {
+  paths = paths.map(function (p) {
+    return String(p).replace(sumanOpts.replace_match, sumanOpts.replace_with);
+  });
+}
+
+if (sumanOpts.replace_ext_with) {
+  paths = paths.map(function (p) {
+    return String(p).substr(0, String(p).lastIndexOf('.')) + sumanOpts.replace_ext_with;
+  });
+}
+
 if (sumanOpts.verbose) {
   console.log(' => Suman verbose message => arguments assumed to be test file paths to be run:', paths);
   if (paths.length < 1) {
@@ -567,96 +518,85 @@ if (sumanOpts.verbose) {
   }
 }
 
-///////////////////////////// slack message //////////////////////////////
+////////////////////// dynamically call files to minimize load //////////////////////////////
 
-//TODO: also can load any deps that are needed (babel, instanbul, suman-inquirer, etc), here, instead of elsewhere
-require('./lib/helpers/slack-integration.js')({optCheck: optCheck}, function () {
+if (diagnostics) {
+  require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
+}
+else if (tscMultiWatch) {
+  require('./lib/cli-commands/run-tscmultiwatch').run(sumanOpts);
+}
+else if (repair) {
+  require('./lib/cli-commands/run-repair').run(sumanOpts);
+}
+else if (postinstall) {
+  require('./lib/cli-commands/postinstall').run(sumanOpts);
+}
+else if (installGlobals) {
+  require('./lib/cli-commands/install-global-deps')(paths);
+}
+else if (sumanD) {
+  require('./lib/cli-commands/run-suman-d').run(sumanOpts.suman_d_opts)
+}
+else if (interactive) {
+  require('./lib/cli-commands/run-suman-interactive').run();
+}
+else if (uninstallBabel) {
+  require('./lib/use-babel/uninstall-babel')(null);
+}
+else if (useIstanbul) {
+  require('./lib/use-istanbul/use-istanbul')();
+}
+else if (tail) {
+  require('./lib/make-tail/tail-any')(paths);
+}
+else if (create) {
+  require('./lib/cli-commands/create-opt/create').run(create);
+}
+else if (useServer) {
+  require('./lib/use-server/use-server')(null);
+}
+else if (useBabel) {
+  require('./lib/use-babel/use-babel')(null);
+}
+else if (init) {
 
-  if (diagnostics) {
-    require('./lib/cli-commands/run-diagnostics')();
-  }
-  else if (tscMultiWatch) {
-    require('./lib/cli-commands/run-tscmultiwatch').run(sumanOpts);
-  }
-  else if (repair) {
-    require('./lib/cli-commands/run-repair').run(sumanOpts);
-  }
-  else if (postinstall) {
-    require('./lib/cli-commands/postinstall');
-  }
-  else if (installGlobals) {
-    require('./lib/cli-commands/install-global-deps')(paths);
-  }
-  else if (sumanD) {
-    require('./lib/cli-commands/run-suman-d').run(sumanOpts.suman_d_opts)
-  }
-  else if (interactive) {
-    require('./lib/interactive');
-  }
-  else if (uninstallBabel) {
-    require('./lib/use-babel/uninstall-babel')(null);
-  }
-  else if (useIstanbul) {
-    require('./lib/use-istanbul/use-istanbul')();
-  }
-  else if (tail) {
-    require('./lib/make-tail/tail-any')(paths);
-  }
-  else if (create) {
-    require('./lib/create-opt/create')(create);
-  }
-  else if (useServer) {
-    require('./lib/use-server/use-server')(null);
-  }
-  else if (useBabel) {
-    require('./lib/use-babel/use-babel')(null);
-  }
-  else if (init) {
+  require('./lib/cli-commands/init-opt').run({
+    force: force,
+    fforce: fforce
+  });
 
-    require('./lib/init/init-project')({
-      force: force,
-      fforce: fforce
-    });
+}
+else if (uninstall) {
+  require('./lib/uninstall/uninstall-suman')({
+    force: force,
+    fforce: fforce,
+    removeBabel: removeBabel,
+  });
+}
+else if (convert) {
+  require('./lib/cli-commands/convert-mocha')(projectRoot, src, dest, force);
 
-  }
-  else if (uninstall) {
-    require('./lib/uninstall/uninstall-suman')({
-      force: force,
-      fforce: fforce,
-      removeBabel: removeBabel,
-    });
-  }
-  else if (convert) {
-    require('./lib/helpers/convert-mocha')(projectRoot, src, dest, force);
+}
+else if (s) {
+  require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
+}
+else if (watch || watchPer) {
+  require('./lib/cli-commands/watching').run(paths, sumanOpts, sumanConfig);
+}
 
-  }
-  else if (s) {
-    require('./lib/helpers/start-server')(sumanServerInstalled, sumanConfig, serverName);
-  }
-  else if (watch) {
-    require('./lib/cli-commands/watching/watch-init').run(paths, sumanServerInstalled);
-  }
+else if (groups) {
+  require('./lib/cli-commands/groups').run(paths);
+}
 
-  else if (groups) {
-    require('./lib/groups/groups.js')(paths);
-  }
-
-  else {
-    //this path runs all tests
-
-    if (userArgs && sumanOpts.verbosity > 4) {
-      _suman.log('User args will be passed to child processes as process.argv')
-    }
-
-    if (sumanOpts.verbosity > 4) {
-      _suman.log('Suman considers these to be runnable files/directories => ');
-      paths.forEach(function (f) {
-        console.log('\t => ', f);
-      });
-    }
-
-    require('./lib/run')(sumanOpts, paths, sumanServerInstalled, sumanVersion);
+else {
+  //this path runs all tests
+  if (userArgs && sumanOpts.verbosity > 4) {
+    _suman.log('User args will be passed to child processes as process.argv')
   }
 
-});
+  require('./lib/run').run(sumanOpts, paths, sumanServerInstalled, sumanVersion);
+}
+
+
 

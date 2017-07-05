@@ -4,6 +4,7 @@ const colors = require('colors/safe');
 
 export const constants = Object.freeze({
 
+  DEFAULT_TRANSFORM_CONCURRENCY: 3,
   DEFAULT_PARALLEL_TOTAL_LIMIT: 30,
   DEFAULT_PARALLEL_TEST_LIMIT: 10,
   DEFAULT_PARALLEL_BLOCK_LIMIT: 10,

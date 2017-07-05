@@ -7,12 +7,15 @@
 
 module.exports = ($core, $deps, $root) => {  //load async deps for any of your suman tests
 
-  const {events, child_process} = $core;
+  const {events, child_process, util} = $core;
 
   return {
 
     dependencies: {
 
+      'dog': function () {
+        return 'labrador';
+      },
 
       'one': ['four', function (v) {
         console.log('one v =>', v);
@@ -45,7 +48,7 @@ module.exports = ($core, $deps, $root) => {  //load async deps for any of your s
         }));
 
       },
-      'dolce-vida': (v,cb) => {
+      'dolce-vida': (v, cb) => {
 
         setTimeout(function () {
           cb(null, "new Error('uuuu rub')");
@@ -53,7 +56,7 @@ module.exports = ($core, $deps, $root) => {  //load async deps for any of your s
 
       },
 
-      'mulch': (v,cb) => {
+      'mulch': (v, cb) => {
 
         setTimeout(function () {
           cb(null, "new Error('mulch')");

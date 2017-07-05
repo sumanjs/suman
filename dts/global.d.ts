@@ -11,9 +11,19 @@ declare namespace SumanLib {
 }
 
 
+export interface IntegrantHashKeyVals {
+  [key: string]: any
+}
+
 export interface  IGlobalSumanObj {
   // we should execute Suman's in series, that makes it easier to run after.always shutdown, etc
   // which suman represents which Suman is executing at a given time
+
+  integrantHashKeyVals: IntegrantHashKeyVals,
+  usingDefaultConfig: boolean,
+  istanbulExecPath: string,
+  multiWatchReady: boolean,
+  sumanSingleProcessStartTime: number,
   processIsRunner?: boolean;
   dateEverythingStarted: number;
   runId: number,
@@ -41,6 +51,7 @@ export interface  IGlobalSumanObj {
   describeOnlyIsTriggered: boolean,
   sumanTestFile: string,
   userData: Object,
+  useSumanD: boolean,
   iocConfiguration: Object,
   weAreDebugging: boolean,
   checkTestErrorLog: boolean,
@@ -75,6 +86,12 @@ export interface IMaxMem {
 }
 
 export interface ISumanOpts {
+  transpile: boolean,
+
+  ///// above this line may need fixin'
+  cwd_is_root: boolean,
+  runner: boolean,
+  coverage: boolean,
   watch_per: string,
   watch: boolean,
   no_transpile: boolean,
@@ -149,6 +166,8 @@ export interface ISumanConfigWatch {
 
 export interface ISumanConfig {
 
+  [key:string]: any,
+
   DEFAULT_PARALLEL_TOTAL_LIMIT: number,
   DEFAULT_PARALLEL_BLOCK_LIMIT: number,
   DEFAULT_PARALLEL_TEST_LIMIT: number,
@@ -166,6 +185,8 @@ export interface ISumanConfig {
   browser: BrowserTypes,
 
   //boolean
+  useSumanWatch: boolean,
+  installSumanExtraDeps: boolean,
   includeSumanGlobalsInPath: boolean,
   useSumanUtilityPatches: boolean,
   useTAPOutput: boolean,

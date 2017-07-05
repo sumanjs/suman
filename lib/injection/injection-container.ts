@@ -19,26 +19,18 @@ const assert = require('assert');
 
 //npm
 const pragmatik = require('pragmatik');
-const colors = require('colors/safe');
-const path = require('path');
-const su = require('suman-utils');
-const includes = require('lodash.includes');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const {constants} = require('../../config/suman-constants');
-const {$core, $deps, mappedPkgJSONDeps} = require('./$core-n-$deps');
 const rules = require('../helpers/handle-varargs');
 
-
-/*///////////////////////////////////////////////////////////////////
+/*///////////////////// what it do //////////////////////////////////////
 
  this module is responsible for +++synchronously+++ injecting values;
  => values may be procured +asynchronously+ prior to this, but here we
  finish creating the entire arguments array, all synchronously
 
  //////////////////////////////////////////////////////////////////*/
-
 
 const container = {
 
@@ -58,7 +50,7 @@ const container = {
     return _suman.ctx.afterEach.apply(_suman.ctx, arguments);
   },
 
-  describe: function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
+  describe: function () {
     return _suman.ctx.describe.apply(_suman.ctx, arguments);
   },
 

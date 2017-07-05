@@ -13,7 +13,7 @@ const flattenDeep = require('lodash.flattendeep');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const oncePost = require('../once-post');
+import oncePost from '../once-post';
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -22,7 +22,8 @@ let oncePostInvoked = false;
 export default function oncePostFn(cb: Function) {
   if (!oncePostInvoked) {
     oncePostInvoked = true;
-    oncePost(flattenDeep(_suman.oncePostKeys), _suman.userData, function (err: IPseudoError, results: Array<any>) {
+
+    oncePost.run(_suman.oncePostKeys, _suman.userData, function (err: IPseudoError, results: Array<any>) {
       if (err) {
         console.error(err.stack || err);
       }
@@ -37,7 +38,9 @@ export default function oncePostFn(cb: Function) {
       process.nextTick(cb);
     });
   }
+
   else {
+
     process.nextTick(cb, new Error(' => Suman warning => oncePostFn was called more than once =>'));
   }
 };

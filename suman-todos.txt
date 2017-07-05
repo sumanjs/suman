@@ -1,8 +1,273 @@
+//
 
-When running a globally installed version of suman
-we have to set NODE_PATH to include the global npm modules
+create suman conversion utility that will wrap a mocha test
 
 //
+
+ slack integration?
+
+  let slack;
+  try {
+    slack = require('slack');
+  }
+  catch (err) {
+    debug(err.stack || err);
+    return first();
+  }
+
+  const to = setTimeout(first, 500);
+
+  slack.chat.postMessage({
+
+    token: process.env.SLACK_TOKEN,
+    channel: '#suman-all-commands',
+    text: JSON.stringify({
+      command: process.argv,
+      config: _suman.sumanConfig
+    })
+
+  }, function (err, data) {
+
+    clearTimeout(to);
+    if (err) {
+      console.error(err.stack || err);
+    }
+    else if (data) {
+      debug('data => ', data);
+    }
+    first();
+
+  });
+
+
+//
+
+  SUMAN_SINGLE_PROCESS should not be an env variable?
+
+//
+
+test cases are causing fatal errors =>
+
+
+ ✘   => test fail   'is meow'
+ Originating entry test path => /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/es5-es6/integration-tests/test3.js
+Error: jesus christ
+at TestSuite.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/es5-es6/integration-tests/test3.js:28:13)
+at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-test.js:150:52
+
+
+ => Suman runner => there was a fatal test suite error - an error was encountered in your test code that prevents Suman
+ from continuing with a particular test suite within the following path:
+
+ => /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/es5-es6/integration-tests/test3.js
+
+(note that despite this fatal error, other test processes will continue running, as would be expected, use the --bail option, if you wish otherwise.)
+
+
+   ⚑  => Suman fatal error  => making a graceful exit =>
+   Error: jesus christ
+       at TestSuite.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/es5-es6/integration-tests/test3.js:28:13)
+       at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-test.js:150:52
+       at _combinedTickCallback (internal/process/next_tick.js:95:7)
+       at process._tickDomainCallback (internal/process/next_tick.js:198:9)
+
+
+//
+
+=> SUMAN_DEBUG => should bind "=> SUMAN_DEBUG =>" to suman debug utility logging to make it consistent.
+
+//
+
+ create suman-daemon, whereby we can pass
+
+//
+
+merge once-post with make-before-once-exit-post?
+
+///
+
+in handle-integrants (index-helpers), if there are no integrants, then runner won't be sent message
+about expected exit code or expected timeout.
+
+///
+
+ right runner without constraints, then add constraints last, after everything else is proven
+
+//
+
+ definitely need gantt chart to confirm to stuff runs in the right order
+
+///
+
+ would you ever have to run (@run.sh) more than one file at a time?
+ we need to @transform.sh multiple files...but run multiple files?
+
+///
+
+ if we use async.queue we can choose whether to start running some tests before transpiling
+ all previous tests
+
+///
+
+ @run.sh and @transform.sh should be written with simple serial processing and not attempt to do more
+ work than 1 processor could do. This allows Suman to maximize speed by parallelizing other processses.
+
+///
+
+async lib types =>
+https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/async/index.d.ts#L112
+
+///
+
+ suman-debug sux, but here is how you use it:
+
+   debug(' => all dirs to be processed => ', dirs);
+
+   debug([' => Test files will be run if they match any of:', matchesAny], function () {
+     return su.vgt(6) && matchesAny.length > 0;
+   });
+
+   debug([' => But test files will *not* run if they match any of:', matchesNone], function () {
+     return su.vgt(6) && matchesNone.length > 0;
+   });
+
+   debug([' => Test files will *not* run if they don\'t match all of:', matchesAll], function () {
+     return su.vgt(6) && matchesAll.length > 0;
+   });
+
+
+///
+
+https://unix.stackexchange.com/questions/373597/get-exit-code-from-preceding-command-before-pipe
+<command> | tee out.txt ; test ${PIPESTATUS[0]} -eq 0
+
+///
+
+if running a single test file, but the file matches  "/@src/" then we need to run the file with the suman runner...
+see:
+
+          _   _ _  _  _   .. _/__   __/_
+        _\/_// / //_|/ / ..  / /_'_\ /
+
+
+ => Suman fatal error =>
+/Users/alexamil/WebstormProjects/oresoftware/poolio/test/e2e/@src/test-double.js:3
+import * as suman from 'suman';
+^^^^^^
+SyntaxError: Unexpected token import
+    at createScript (vm.js:56:10)
+
+///
+
+new API style:
+
+import * as suman from 'suman';
+
+const Test = suman.init(module, {
+  pre: ['make-a-bet'],
+  post: ['destroyAllPools']
+});
+
+new Test()
+.describe('@TestsPoolio1', {parallel: true}, function (suite, path, async, assert) {
+
+  this.it.cb('micro-biome', t => {
+    setTimeout(t, 100);
+  });
+
+});
+
+///
+
+  suman --reinstall=x --reinstall=y
+
+///
+
+ suman injection function({x}){}  => what will happen
+
+///
+
+ a git subtree => lib/index.d.ts can be pushed to @types/suman
+
+///
+
+CLI best practices  - login - alex@oresoftware.com
+https://bestpractices.coreinfrastructure.org/projects/new
+https://bestpractices.coreinfrastructure.org/projects/29
+
+///
+
+ it's the users responsibility to send the suman executable meaningful filepaths.
+ there should be a 1:1 corerespondence between filepaths passed and independent executables to be run.
+
+///
+
+Error: Cannot find module '/Users/alexamil/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js'
+    at Function.Module._resolveFilename (module.js:469:15)
+    at Function.Module._load (module.js:417:25)
+    at Module.require (module.js:497:17)
+    at require (internal/module.js:20:19)
+    at Object.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/run-child-not-runner.js:30:5)
+    at Module._compile (module.js:570:32)
+    at Object.Module._extensions..js (module.js:579:10)
+    at Module.load (module.js:487:32)
+    at tryModuleLoad (module.js:446:12)
+    at Function.Module._load (module.js:438:3)
+ => Suman will continue optimistically, even though your suman.globals.js file could not be loaded.
+ => Suman will use babel-register to transpile your sources on the fly, use the -v option for more info.
+
+
+ => Suman warning => Could not find the "suman.hooks.js" file in your <suman-helpers-dir>.
+Create the file to remove the warning.
+
+
+ Error: Cannot find module '/Users/alexamil/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js'
+    at Function.Module._resolveFilename (module.js:469:15)
+    at Function.Module._load (module.js:417:25)
+    at Module.require (module.js:497:17)
+    at require (internal/module.js:20:19)
+    at runRootSuite (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/exec-suite.js:89:31)
+    at Immediate.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/index.js:343:39)
+    at runCallback (timers.js:666:20)
+    at tryOnImmediate (timers.js:639:5)
+    at processImmediate [as _immediateCallback] (timers.js:611:5)
+
+worker added.
+
+
+///
+
+  stdout/stderr will be generated from @transform.sh -
+  @run.sh will be responsible for determining if the output from @transform.sh is OK
+
+///
+
+ compile ts file in memory
+ create suman-ts which can run a .ts file directly?
+ https://www.npmjs.com/package/ts-node
+
+///
+
+If you're willing to assume non-embedded Linux,
+then you can use the test external command, which is part of GNU coreutils.
+(test is another name for [ and is a builtin in most shells).
+It has nanosecond granularity (up to the precision reported by the filesystem).
+
+/usr/bin/test "$target" -nt "$source"
+The -nt operator isn't defined by POSIX, but it's present in many implementations
+including dash, bash, pdksh, mksh, ATT ksh, zsh, GNU coreutils test, and BusyBox.
+However many implementations (dash, bash, pdksh, mksh, BusyBox — tested on Debian jessie) only support 1-second granularity.
+
+But it would be a better idea to use tools dedicated to this job, such as make.
+Running a command only if a certain file is newer than some other file is the whole point of make.
+
+////
+
+  if multiple files are in the same @src directory, and we run all of them
+  we should run each @tranform.sh file only once max per run, with a list of all applicable files
+  we should also send all files as a list to the @run.sh file
+
+/////
 
   watch: {
     scripts:{
@@ -10,7 +275,7 @@ we have to set NODE_PATH to include the global npm modules
      }
   }
 
-//
+/////
 
 vorpal uses this gulpfile.js to build to dist directory:
 
@@ -40,16 +305,9 @@ gulp.task('watch', ['build'], () => {
 
 gulp.task('default', ['watch']);
 
-
 //
 
-  => create GIF of suman command line usage -> take a video and then convert to GIF.
-
-//
-
-   use <@target> instead of @target
-
-//
+ => create GIF of suman command line usage -> take a video and then convert to GIF.
 
 //
 
@@ -101,8 +359,6 @@ https://unix.stackexchange.com/questions/372857/compare-two-file-modification-da
 
 //
 
-//
-
   uninstall request module from project, and possibly socket.io as well.
 
 //
@@ -126,21 +382,14 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
  +++ need to fix this, it's being logged after
 
-          => [Suman runner] =>  initial set => 59 processes running 59 suites
+     => [Suman runner] =>  initial set => 59 processes running 59 suites
 
-          => [Suman runner] =>  overall set => 59 processes will run 59 suites with no more than 8 running at a time.
+     => [Suman runner] =>  overall set => 59 processes will run 59 suites with no more than 8 running at a time.
 
 //
 
  need to implement t.skip(); for tests
-
-//
-
   causes a fatal error in test suite, when it should not => suman test/src/tap-output/@target
-
-//
-
- make prepend configurable => "=> [suman] =>" user should be able to change that if they want
 
 //
 
@@ -169,12 +418,12 @@ const Test = suman.init(module, {
   $inject: ['abc']
 });
 
- we can inject "$inject" into any describe block, and it will have the ioc values attached to it
+we can inject "$inject" into any describe block, and it will have the ioc values attached to it
 
 //
 
-  running .ts files directly => https://github.com/avajs/ava/issues/1109
-  https://github.com/avajs/ava/issues/631
+ running .ts files directly => https://github.com/avajs/ava/issues/1109
+ https://github.com/avajs/ava/issues/631
 
 //
 
@@ -187,9 +436,8 @@ https://github.com/mochajs/mocha/issues/2756
 
 //
 
-
-// in lib/index.js
-// in SUMAN_SINGLE_PROCESS mode, this might get registered multiple times...
+in lib/index.js
+in SUMAN_SINGLE_PROCESS mode, this might get registered multiple times...
   suiteResultEmitter.on('suman-completed', function () {
 
     // we set this to null because no suman should be in progress
@@ -212,7 +460,6 @@ https://github.com/mochajs/mocha/issues/2756
 monkeypatch require()?
 
 if (false) {
-
 
   const Mod = require('module');
   const req = Mod.prototype && Mod.prototype.require;
@@ -252,12 +499,10 @@ regexes get converted to objects...
   SUMAN_CONFIG: '{"matchAny":[{},{},{},{},{},{},{}],"matchNone":[{},{},{},{}],"matchAll":[],"testDir":"test","testSrcDir":"test/src","testTargetDir":"test/target","sumanHelpersDir":"test/_suman","uniqueAppName":"<your-app-name-here>","browser":"Firefox","installSumanExtraDeps":true,"installSumanGlobalsInProject":".suman","isLogChildStderr":true,"isLogChildStdout":true,"useBabelRegister":false,"useUtilityPatches":true,"coverage":false,"useTAPOutput":false,"errorsOnly":false,"replayErrorsAtRunnerEnd":true,"allowArrowFunctionsForTestBlocks":true,"alwaysUseRunner":false,"enforceGlobalInstallationOnly":false,"enforceLocalInstallationOnly":false,"sourceTopLevelDepsInPackageDotJSON":false,"enforceTestCaseNames":true,"enforceBlockNames":true,"enforceHookNames":false,"bail":true,"bailRunner":true,"transpile":false,"executeRunnerCWDAtTestFile":true,"sendStderrToSumanErrLogOnly":true,"useSuiteNameInTestCaseOutput":false,"ultraSafe":false,"verbose":true,"checkMemoryUsage":false,"fullStackTraces":false,"disableAutoOpen":false,"suppressRunnerOutput":true,"allowCollectUsageStats":true,"verbosity":5,"maxParallelProcesses":8,"resultsCapCount":100,"resultsCapSize":7000,"defaultHookTimeout":5000,"defaultTestCaseTimeout":5000,"timeoutToSearchForAvailServer":2000,"defaultDelayFunctionTimeout":8000,"defaultChildProcessTimeout":8000000,"defaultTestSuiteTimeout":15000,"expireResultsAfter":10000000,"watch":{"all-tests":"./node_modules/.bin/suman","unit-tests":"./node_modules/.bin/suman test/unit/**/*.js","//tests":{"default":{"include":[],"exclude":["^test.*"]}},"//project":{"script":"./node_modules/.bin/suman","include":[],"exclude":["^test.*"],"default":{"script":"./node_modules/.bin/suman","include":[],"exclude":["^test.*"]}}},"reporters":{"tap":"node_modules/suman/lib/reporters/tap-reporter"},"babelRegisterOpts":{"ignore":{},"extensions":[".es6",".es",".jsx",".js"]}}',
   SUMAN_OPTS: '{"runner":true,"inherit_stdio":true,"verbosity":5,"errors_only":false,"max_depth":70,"_order":[{"key":"runner","value":true,"from":"argv"},{"key":"inherit_stdio","value":true,"from":"argv"}],"_args":[],"transpile":false}',
 
-
 //
 
  suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
  suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
-
 
 //
 
@@ -284,10 +529,6 @@ skip running @transform.sh because "we have already transpiled.".
 
 //
 
- set __preParsed option to true when passing Test.create()?
-
-//
-
  => need to refactor acquireIntegrantsSingleProcess
 
 //
@@ -296,8 +537,7 @@ skip running @transform.sh because "we have already transpiled.".
 
 //
 
- use exec to run stuff at command line
-
+   use exec to run stuff at command lines
    else if('.sh'  === extname){
           //   argz.unshift(file);
           //   console.log('args => ', argz);
@@ -310,6 +550,7 @@ skip running @transform.sh because "we have already transpiled.".
 //
 
 --inspect-brk instead of --inspect --debug-brk
+
 //
 
   n.once('exit', cb) in handle multiple processes, cb should be moved into a different file
@@ -338,15 +579,7 @@ skip running @transform.sh because "we have already transpiled.".
 
 //
 
-  acquire-deps-original should be refactored to use just promises, not event-emitters
-
-//
-
  how expensive is it to freeze properties?
-
-//
-
- refactor get-all-eaches
 
 //
 
@@ -370,12 +603,21 @@ skip running @transform.sh because "we have already transpiled.".
 
 //
 
-error TS5033: Could not write file '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/a.test.js': EACCES: permission denied, open '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/a.test.js'.
-error TS5033: Could not write file '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/b.test.js': EACCES: permission denied, open '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/b.test.js'.
+error TS5033: Could not write file
+'/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/a.test.js':
+EACCES: permission denied,
+open '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/a.test.js'.
 
 //
 
-  npm set progress=false  => faster installs
+error TS5033: Could not write file
+'/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/b.test.js':
+EACCES: permission denied,
+ open '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/b.test.js'.
+
+//
+
+ npm set progress=false  => faster installs
 
 //
 
@@ -383,11 +625,7 @@ error TS5033: Could not write file '/home/oleg/WebstormProjects/oresoftware/suma
 
 //
 
-  add an --tsc-mult-watch option, which will programmatically invoke tscmultiwatch
-
-//
-
-  create tsc -w module that runs tsc watch for all tsconfig.json files in a project
+ add an --tsc-mult-watch option, which will programmatically invoke tscmultiwatch
 
 //
 
@@ -402,16 +640,6 @@ error TS5033: Could not write file '/home/oleg/WebstormProjects/oresoftware/suma
 
   @transform.sh => does not have to exist - will transform the code
   @run.sh => will be run instead with list of arguments of matching files
-
-//
-
-  => do we need to pass stdout on to parent?
-  => how to check if current suman --runner has a parent suman --runner process?
-  => sumanception
-
-//
-
-  array of files (in JSON form, in comma sep form, etc), should be passed to @transform and then @run
 
 //
 
@@ -469,22 +697,7 @@ error TS5033: Could not write file '/home/oleg/WebstormProjects/oresoftware/suma
 
 //
 
-  support typescript for all suman modules  --town --transpile-own should transpile all suman files too?
-
-//
-
- update suman to new version - need to write suman.conf.js to suman.conf.new.js!
- this will be useful for upgrading our own suman based projects!
-
-
-//
-
-   change module.exports in suman.once.pre.js, suman.ioc.js to exports.default
-
-//
-
- instead of "suman optional deps being run in foreground" say
-  "suman postinstall routine running in the foreground"
+ change module.exports in suman.once.pre.js, suman.ioc.js to exports.default
 
 //
 
@@ -500,18 +713,12 @@ error TS5033: Could not write file '/home/oleg/WebstormProjects/oresoftware/suma
 
 //
 
-  if postinstall is daemon - always install babel deps, just do them last
+ if postinstall is daemon - always install babel deps, just do them last
 
 //
 
  for suman.conf.js =>
   => module.exports = {}, should become exports.default = {};
-
-//
-
- DEFAULT_TOTAL_PARALLEL_LIMIT: 100
-
- use async queue to do this?
 
 //
 
@@ -538,11 +745,6 @@ https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript
 
 intersection types - typescript
 https://www.typescriptlang.org/docs/handbook/advanced-types.html#intersection-types
-
-//
-
-if no after.always hooks are registered, we should just skip logging this
- => We are running after.always hooks. Any uncaught errors will be ignored as best as possible.
 
 //
 
@@ -603,9 +805,10 @@ https://stackoverflow.com/questions/43422058/how-to-do-a-synchronous-require-of-
 
 //
 
-=> What happens when t.done(null) is called more than once? Will it run callbacks more than once? break async lib?
-=> Should we remove all listeners from domains to prevent memory leaks?
+=> What happens when t.done(null)
+is called more than once? Will it run callbacks more than once? break async lib?
 
+=> Should we remove all listeners from domains to prevent memory leaks?
 
 => remove tests hooks as event emitters
   if t.cleanup is defined as a function, fire it, that's it.
@@ -707,12 +910,7 @@ Argument is *not* required at argument index = 2, but type was wrong
 
 /////////
 
-create parent.log like console.log, which will send stdout/stderr to parent, just bits of it, through IPC
-
-/////////
-
 the following output does not show which hook (we need a file and line number) caused the problem
-
 
  => Suman runner => there was a fatal test suite error - an error was encountered in your test code that prevents Suman
  from continuing with a particular test suite within the following path:
@@ -761,7 +959,6 @@ off of process.argv, process.env as well as via powerful setup/"pre" hooks, espe
 => tmux
 
 npm i -D @types/suman  => need to produce these types for suman
-
 => https://github.com/DefinitelyTyped/DefinitelyTyped
 
 
@@ -771,7 +968,6 @@ npm i -D @types/suman  => need to produce these types for suman
 
 
 //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
-
 // domains => https://github.com/nodejs/nodejs.org/blob/master/locale/en/docs/guides/domain-postmortem.md
 
 // slow and ensure logs  => --slow-and-ensure-logs
@@ -785,9 +981,13 @@ npm i -D @types/suman  => need to produce these types for suman
 
 //
 
-/// allow for cleanup SIGINT handler for bail, etc, in each test child process
+///
 
-bash '/Applications/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'
+  allow for cleanup SIGINT handler for bail, etc, in each test child process
+
+///
+
+  bash '/Applications/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'
 
 ///
 
@@ -796,7 +996,7 @@ grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./
 
 ///
 
-  error first callback wrap => put this in suman docs tips and tricks
+  => error first callback wrap => put this in suman docs tips and tricks
 
 ///
 
@@ -823,6 +1023,7 @@ grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./
 
  webpack options schema - https://github.com/webpack/webpack/blob/master/schemas/webpackOptionsSchema.json
  do the same thing with suman.conf.js.
+
 ///
 
  need to use frankenstop to avoid bad suman.conf.js files
@@ -852,12 +1053,9 @@ restore contents of examples directory?? look in git history
 
 https://lodash.com/custom-builds
 
-
-//TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
-
 ///
 
- use arrays to wrap functions for hooks and test cases as well as describe blocks
+ TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
 
 ///
 
@@ -874,11 +1072,9 @@ https://lodash.com/custom-builds
 
 ///
 
- add .ts and .sh to npmignore without ignorring .d.ts and without ignoring cli/*.sh
+ suman uses a more declarative style and dependency injection for code reuse, etc.
 
 ///
-
- suman uses a more declarative style and dependency injection for code reuse, etc.
 
 passing rate currently includes stubbed tests -
 need to filter out stubbed and skipped tests, before calculating passing rate.
@@ -927,10 +1123,6 @@ suman can use webdriverio => https://github.com/webdriverio/webdriverio
 
 ///
 
-  all suman helper files should return an object
-
-///
-
 NODEOPT => https://github.com/nodejs/help/issues/556
 
 ///
@@ -951,22 +1143,22 @@ NODEOPT => https://github.com/nodejs/help/issues/556
 
 ///
 
-   merged namespace - https://github.com/Microsoft/TypeScript/issues/2719#issuecomment-290408640
+ merged namespace - https://github.com/Microsoft/TypeScript/issues/2719#issuecomment-290408640
 
-////
+///
 
-require hooks - https://github.com/nodejs/help/issues/556#issuecomment-290241186
-https://github.com/nodejs/node/pull/12028
+ require hooks - https://github.com/nodejs/help/issues/556#issuecomment-290241186
+ https://github.com/nodejs/node/pull/12028
 
-////
+///
 
 https://github.com/nodejs/node/issues/10843
 
-/////
+///
 
 Run tests and hooks in c++ as separate call
 
-////
+///
 
  use domains - TapJS, HapiJS, Suman
 
@@ -984,7 +1176,7 @@ prove that TAP output works with all regular suman tests by turning off IPC
 
 ///
 
-// proxy:
+proxy:
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
 
 ///
@@ -1013,10 +1205,6 @@ https://github.com/dk8996/Gantt-Chart
 
   suman --create x/js/z
   suman.template.js
-
-///
-
-suman standard reporter should be its own module
 
 ///
 
@@ -1052,20 +1240,19 @@ Test.create(['parallel:true, timeout:3000', function(){
 
 ///
 
-  need to npmignore /test dir in the pragmatik project
-
-//
-
- https://github.com/mochajs/mocha/issues/2726
+https://github.com/mochajs/mocha/issues/2726
 
 ///
 
- what is node_modules/graceful-readlink
+what is node_modules/graceful-readlink
 
-// suman_single_process does not work with runner - try running it against the pragmatik project, and see
+//
 
-// throws: true, vs throws RegExp, if true, any error is ok, or just have them use /.*/ as the regex
+suman_single_process does not work with runner - try running it against the pragmatik project, and see
 
+//
+
+throws: true, vs throws RegExp, if true, any error is ok, or just have them use /.*/ as the regex
 
 // why are some global suman deps being installed as dev deps?
 {
@@ -1245,24 +1432,10 @@ usage: readlink [-n] [file ...]
 
 ///
 
-  need to ensure dirs exist in lib/run -> mkdirp <suman-helpers-dir>/logs/runs
-
-///
-
- => move to async.autoInject for several places in the code
-
-////
-
 https://docs.docker.com/engine/reference/commandline/service_logs/
 $ docker service logs [OPTIONS] SERVICE
 docker-cloud => suman_library_test_cluster
 denmanm1/ewRdik9a
-
-///
-
-docker on MacOS
-https://docs.docker.com/swarm/install-w-machine/
-https://www.weave.works/multi-host-docker-deployment-with-swarm-and-compose-using-weave-0-11/
 
 ///
 
@@ -1398,10 +1571,6 @@ if there is one test error, pass the exact link to that file
 if there are multiple errors, just print a link to test/_suman/logs/tests directory
 
 if there is no stderr for a test, we should delete the file in the /tests directory
-
-////
-
-use child unref after all children have exited in suman runner
 
 ////
 
@@ -1552,11 +1721,6 @@ suman-test-projects => should work suman#dev and suman#staging and suman#master
 
 ////
 
-websockets in java
-https://github.com/firebase/TubeSock
-
-/////
-
 https://github.com/integrations/feature/continuous-integration
 
 /////
@@ -1671,7 +1835,6 @@ optional deps as a daemon process.
 /////
 
 require.resolve('istanbul') - we want executable, not package.json.main
-
 put .suman/global/node_modules on $PATH, then just call "$ which X"
 
 https://github.com/nodejs/help/issues/388
@@ -1680,15 +1843,6 @@ https://www.npmjs.com/package/which
 
 //////
 
-watch should be on a per terminal basis, when user closes terminal, they stop watching
-
-/////
-
-create symbolic link from ~/.suman/node_modules/.bin/istanbul to ./node_modules/.bin/istanbul
-http://stackoverflow.com/questions/1951742/how-to-symlink-a-file-in-linux
-
-/////
-
 ~/suman/test_results are still being written out
 
 /////
@@ -1696,10 +1850,6 @@ http://stackoverflow.com/questions/1951742/how-to-symlink-a-file-in-linux
  in --interactive, on final countdown from 10, only listen for backspace event instead of all stdin keys
 
 /////
-
-if user is root, can we write .suman directory to ~/.suman?
-
-//////
 
 because Poolio depends on Suman, we might need to install suman with --production / --only=production flag
 
@@ -1857,7 +2007,7 @@ then if there are any integrants/pre: [], we have to throw an error
 
 need to validate suman.conf.js when we read it in
 
- AssertionError:  => Suman usage error => "testSrcDir" and "testTargetDir" must be at the same level in your project =>
+AssertionError:  => Suman usage error => "testSrcDir" and "testTargetDir" must be at the same level in your project =>
 but in this cased testSrcDir is not defined
 
 /////////
@@ -1929,11 +2079,15 @@ https://github.com/nodejs/help/issues/366#issuecomment-260749863
 https://github.com/nodejs/help/issues/363#issuecomment-260245021
 https://github.com/nodejs/help/issues/363#issuecomment-260213843
 
-////////
+////////////
 
 TODO: passing rate => 1 stubbed, 5 passed, 6 total, passing rate is 83.33%?
 
 //////////////
+
+
+
+////////////
 
 https://github.com/gulpjs/gulp/issues/770#issuecomment-259282294
 

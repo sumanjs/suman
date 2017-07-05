@@ -1,25 +1,26 @@
 'use strict';
 import {IRunnerObj, IRunnerRunFn, IRunObj, ISumanChildProcess, ITableRows} from "../../dts/runner";
 import {IPseudoError} from "../../dts/global";
-import * as fs from "fs";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const cp = require('child_process');
-const path = require('path');
-const util = require('util');
-const EE = require('events');
+import * as cp from 'child_process';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as util from 'util';
+import * as assert from 'assert';
+import * as EE from 'events';
 
 //npm
 const semver = require('semver');
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
-const su = require('suman-utils');
-const async = require('async');
+import su from 'suman-utils';
+import * as async from 'async';
 const noFilesFoundError = require('../helpers/no-files-found-error');
 const colors = require('colors/safe');
 
@@ -40,154 +41,258 @@ export interface ISumanCPMessages {
   signal: any
 }
 
-export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages: Array<ISumanCPMessages>,
-                         forkedCPs: Array<ISumanChildProcess>, handleMessage: Function,
-                         beforeExitRunOncePost: Function, makeExit: Function): Function {
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  return function runSingleOrMultipleDirs(runObj: IRunObj) {
+export const makeHandleMultipleProcesses =
 
-    const {sumanOpts, sumanConfig, maxProcs, projectRoot, userArgs: args} = _suman;
+  function (runnerObj: IRunnerObj, tableRows: ITableRows, messages: Array<ISumanCPMessages>,
+            forkedCPs: Array<ISumanChildProcess>, handleMessage: Function,
+            beforeExitRunOncePost: Function, makeExit: Function): Function {
 
-    if (sumanOpts.useTAPOutput) {
-      if (sumanOpts.verbosity > 7) {
-        console.log(colors.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
-          'and will not be listening for IPC messages.'));
-      }
-    }
 
-    // handleBlocking gets initialized weirdly in runner.js, but we will deal for now
-    const handleBlocking = runnerObj.handleBlocking;
-
-    if (_suman.usingLiveSumanServer) {
-      args.push('--live_suman_server');
-    }
-
-    let files = runObj.files;
-    const filesThatDidNotMatch = runObj.filesThatDidNotMatch;
-
-    filesThatDidNotMatch.forEach(function (val) {
-      console.log('\n', colors.bgBlack.yellow(' => Suman message =>  A file in a relevant directory ' +
-        'did not match your regular expressions => '), '\n', util.inspect(val));
-    });
-
-    //TODO: need to remove duplicate files before calling resultBroadcaster
-    resultBroadcaster.emit(String(events.RUNNER_STARTED), files.length);
-
-    if (_suman.sumanOpts.rand) {
-      files = shuffle(files);
-    }
-
-    //TODO: need to make sure list of files is unique list, if not report that as non-fatal error
-
-    handleBlocking.determineInitialStarters(files);
-    runnerObj.startTime = Date.now();
-
-    const fileObjArray = su.removeSharedRootPath(files);
-
-    const sumanEnv = Object.assign({}, process.env, {
-      SUMAN_CONFIG: JSON.stringify(sumanConfig),
-      SUMAN_OPTS: JSON.stringify(sumanOpts),
-      SUMAN_RUNNER: 'yes',
-      SUMAN_RUN_ID: _suman.runId,
-      SUMAN_RUNNER_TIMESTAMP: _suman.timestamp,
-      NPM_COLORS: process.env.NPM_COLORS || (sumanOpts.no_color ? 'no' : 'yes')
-    });
-
-    const execFile = path.resolve(__dirname + '/run-child.js');
-    const istanbulExecPath = _suman.istanbulExecPath;
-    const isStdoutSilent = sumanOpts.stdout_silent || sumanOpts.silent;
-    const isStderrSilent = sumanOpts.stderr_silent || sumanOpts.silent;
-
-    async.eachLimit(fileObjArray, 8, function (fileShortAndFull: Array<string>, cb: Function) {
-
-      // fileObjArray.forEach(function (fileShortAndFull: Array<string>, index: number) {
-
-      const file = fileShortAndFull[0];
-      const shortFile = fileShortAndFull[1];
+    return function (runObj: IRunObj) {
 
       debugger;
 
-      // const basename = path.basename(file);
-      let basename = file.length > 28 ? ' ' + String(file).substring(Math.max(0, file.length - 28)) + ' ' : file;
+      const {sumanOpts, sumanConfig, maxProcs, projectRoot, userArgs: args} = _suman;
+      const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
 
-      const m = String(basename).match(/\//g);
+      console.log('waitForAllTranformsToFinish => ', waitForAllTranformsToFinish);
 
-      if (m && m.length > 1) {
-        const arr = String(basename).split('');
-        let i = 0;
-        while (arr[i] !== '/') {
-          arr.shift();
-        }
-        basename = arr.join('');
-      }
+      let queuedTestFns: Array<Function> = [];
 
-      tableRows[shortFile] = {
-        actualExitCode: null,
-        shortFilePath: shortFile,
-        tableData: null,
-        defaultTableData: {
-          SUITES_DESIGNATOR: basename
-        }
-      };
+      const transpileQueue = async.queue(function (task: Function, cb: Function) {
 
-      const argz = JSON.parse(JSON.stringify(args));
+        task(function (err: Error, file: string, shortFile: string, stdout: string) {
 
-      const run = <IRunnerRunFn> function () {
-
-        if (runnerObj.bailed) {
-          // should not fork any more child processes if we have bailed
-          if (sumanOpts.verbosity > 4) {
-            console.log(' => Suman => "--bailed" option was passed and was tripped, ' +
-              'no more child processes will be forked.');
+          if (err) {
+            _suman.logError('tranpile error => ', err.stack || err);
           }
-          return;
-        }
 
-        const execArgz = ['--expose-gc'];
+          // when fired, this cb will start the next item in the queue
+          setImmediate(cb);
 
-        if (sumanOpts.debug_child) {
-          execArgz.push('--debug-brk');
-          execArgz.push('--debug=' + (5303 + runnerObj.processId++));
-        }
-
-        if (sumanOpts.inspect_child) {
-          if (semver.gt(process.version, '7.8.0')) {
-            execArgz.push('--inspect-brk');
+          if (waitForAllTranformsToFinish) {
+            queuedTestFns.push(function () {
+              outer(file, shortFile, stdout);
+            });
           }
           else {
-            execArgz.push('--inspect');
-            execArgz.push('--debug-brk');
+            outer(file, shortFile, stdout);
           }
-        }
-
-        let execArgs;
-
-        if (execArgs = sumanOpts.exec_arg) {
-          execArgs.forEach(function (n: string) {
-            if (n) {
-              execArgz.push(String(n).trim());
-            }
-          });
-
-          String(execArgs).split(/S+/).forEach(function (n) {
-            if (n) {
-              execArgz.push('--' + String(n).trim());
-            }
-          });
-        }
-
-        const $execArgz = execArgz.filter(function (e, i) {
-          // filter out duplicate command line args
-          if (execArgz.indexOf(e) !== i) {
-            console.error('\n', colors.yellow(' => Warning you have duplicate items in your exec args => '),
-              '\n' + util.inspect(execArgz), '\n');
-          }
-          return true;
         });
 
-        let n: ISumanChildProcess, hashbang = false;
+      }, 8);
 
-        const runAfterAnyTransform = function (file: string, stdout: string) {
+      if (waitForAllTranformsToFinish) {
+        transpileQueue.drain = function () {
+          // => execute all queued tests
+          _suman.log('all transforms complete, beginning to run first set of tests.');
+          queuedTestFns.forEach(function (fn) {
+            fn();
+          });
+        }
+      }
+
+      if (sumanOpts.useTAPOutput) {
+        if (sumanOpts.verbosity > 7) {
+          console.log(colors.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
+            'and will not be listening for IPC messages.'));
+        }
+      }
+
+      // handleBlocking gets initialized weirdly in runner.js, but we will deal for now
+      const handleBlocking = runnerObj.handleBlocking;
+
+      if (_suman.usingLiveSumanServer) {
+        args.push('--live_suman_server');
+      }
+
+      let files = runObj.files;
+
+      //TODO: need to remove duplicate files before calling resultBroadcaster
+      resultBroadcaster.emit(String(events.RUNNER_STARTED), files.length);
+
+      if (_suman.sumanOpts.rand) {
+        files = shuffle(files);
+      }
+
+      //TODO: need to make sure list of files is unique list, if not report that as non-fatal error
+
+      // handleBlocking.determineInitialStarters(files);
+
+      runnerObj.startTime = Date.now();
+
+      const fileObjArray = su.removeSharedRootPath(files);
+
+      const sumanEnv = Object.assign({}, process.env, {
+        SUMAN_CONFIG: JSON.stringify(sumanConfig),
+        SUMAN_OPTS: JSON.stringify(sumanOpts),
+        SUMAN_RUNNER: 'yes',
+        SUMAN_RUN_ID: _suman.runId,
+        SUMAN_RUNNER_TIMESTAMP: _suman.timestamp,
+        NPM_COLORS: process.env.NPM_COLORS || (sumanOpts.no_color ? 'no' : 'yes')
+      });
+
+      const execFile = path.resolve(__dirname + '/run-child.js');
+      const istanbulExecPath = _suman.istanbulExecPath;
+      const isStdoutSilent = sumanOpts.stdout_silent || sumanOpts.silent;
+      const isStderrSilent = sumanOpts.stderr_silent || sumanOpts.silent;
+
+      fileObjArray.forEach(function (fileShortAndFull: Array<Array<string>>) {
+
+        const file = fileShortAndFull[0];
+        const shortFile = fileShortAndFull[1];
+
+        // const basename = path.basename(file);
+        let basename = file.length > 28 ? ' ' + String(file).substring(Math.max(0, file.length - 28)) + ' ' : file;
+
+        const m = String(basename).match(/\//g);
+
+        if (m && m.length > 1) {
+          const arr = String(basename).split('');
+          let i = 0;
+          while (arr[i] !== '/') {
+            arr.shift();
+          }
+          basename = arr.join('');
+        }
+
+        tableRows[shortFile] = {
+          actualExitCode: null,
+          shortFilePath: shortFile,
+          tableData: null,
+          defaultTableData: {
+            SUITES_DESIGNATOR: basename
+          }
+        };
+
+        const tr = runnerUtils.findPathOfTransformDotSh(file);
+
+        if (tr) {
+
+          transpileQueue.push(function (cb: Function) {
+
+            let k = cp.spawn(tr, [], {
+              env: Object.assign({}, process.env, {
+                SUMAN_TEST_PATHS: JSON.stringify([file])
+              })
+            });
+
+            k.once('error', cb);
+
+            k.stderr.setEncoding('utf8');
+            k.stdout.setEncoding('utf8');
+
+            let strm = fs.createWriteStream(path.resolve(tr + '.log'));
+
+            k.stderr.pipe(strm).on('error', function (e: Error) {
+              throw e;
+            });
+
+            k.stdout.pipe(strm).on('error', function (e: Error) {
+              throw e;
+            });
+
+            if (sumanOpts.inherit_stdio) {
+
+              k.stderr.pipe(process.stderr).on('error', function (e: Error) {
+                throw e;
+              });
+
+              k.stdout.pipe(process.stdout).on('error', function (e: Error) {
+                throw e;
+              });
+            }
+
+            let stdout = '';
+            k.stdout.on('data', function (data: string) {
+              stdout += data;
+            });
+
+            k.once('close', function (code: number) {
+
+              if (code > 0) {
+                cb(new Error(`the @transform.sh process, for file ${file},\nexitted with non-zero exit code. :( \n To see the stderr, use --inherit-stdio.`));
+              }
+              else {
+                cb(null, file, shortFile, stdout);
+              }
+
+            });
+
+          });
+
+        }
+        else {
+          // we don't need to run any transform, so we run right away
+          transpileQueue.unshift(function (cb: Function) {
+            setImmediate(function () {
+              // there is no applicable stdout, so we pass empty string
+              cb(null, file, shortFile, '');
+            });
+          });
+        }
+      });
+
+      const outer = function (file: string, shortFile: string, stdout: string) {
+
+        const run = <IRunnerRunFn> function () {
+
+          if (runnerObj.bailed) {
+            // should not fork any more child processes if we have bailed
+            if (sumanOpts.verbosity > 4) {
+              console.log(' => Suman => "--bailed" option was passed and was tripped, ' +
+                'no more child processes will be forked.');
+            }
+            return;
+          }
+
+          const argz = JSON.parse(JSON.stringify(args));
+
+          const execArgz = ['--expose-gc'];
+
+          if (sumanOpts.debug_child) {
+            execArgz.push('--debug-brk');
+            execArgz.push('--debug=' + (5303 + runnerObj.processId++));
+          }
+
+          if (sumanOpts.inspect_child) {
+            if (semver.gt(process.version, '7.8.0')) {
+              execArgz.push('--inspect-brk');
+            }
+            else {
+              execArgz.push('--inspect');
+              execArgz.push('--debug-brk');
+            }
+          }
+
+          let execArgs;
+
+          if (execArgs = sumanOpts.exec_arg) {
+            execArgs.forEach(function (n: string) {
+              if (n) {
+                execArgz.push(String(n).trim());
+              }
+            });
+
+            String(execArgs).split(/S+/).forEach(function (n) {
+              if (n) {
+                execArgz.push('--' + String(n).trim());
+              }
+            });
+          }
+
+          const $execArgz = execArgz.filter(function (e, i) {
+            // filter out duplicate command line args
+            if (execArgz.indexOf(e) !== i) {
+              console.error('\n', colors.yellow(' => Warning you have duplicate items in your exec args => '),
+                '\n' + util.inspect(execArgz), '\n');
+            }
+            return true;
+          });
+
+          let n: ISumanChildProcess, hashbang = false;
 
           const extname = path.extname(shortFile);
 
@@ -242,8 +347,10 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
             }
             else {
               // .sh .bash .py, perl, ruby, etc
+
+              console.log('file => ', file);
               hashbang = true;
-              n = cp.spawn(file, argz, cpOptions);
+              n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
             }
           }
 
@@ -286,20 +393,28 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
             n.stderr.setEncoding('utf8');
 
             if (sumanOpts.inherit_stdio) {
-              n.stdout.pipe(pt(colors.bold(' => [suman child stdout] => '))).pipe(process.stdout);
-              n.stderr.pipe(pt(colors.red.bold(' => [suman child stderr] => '))).pipe(process.stderr);
+              n.stdout.pipe(pt(colors.bold(' => [suman child stdout] => '))).pipe(process.stdout).on('error', function (e: Error) {
+                throw e;
+              });
+              n.stderr.pipe(pt(colors.red.bold(' => [suman child stderr] => '))).pipe(process.stderr).on('error', function (e: Error) {
+                throw e;
+              });
             }
 
             if (sumanOpts.useTAPOutput) {
 
               n.tapOutputIsComplete = false;
               n.stdout.pipe(handleTap())
-                .once('finish', function () {
-                  n.tapOutputIsComplete = true;
-                  process.nextTick(function () {
-                    n.emit('tap-output-is-complete', true);
-                  });
+              .on('error', function (e: Error) {
+                throw e;
+              })
+              .once('finish', function () {
+                n.tapOutputIsComplete = true;
+                process.nextTick(function () {
+                  n.emit('tap-output-is-complete', true);
                 });
+              })
+
             }
 
             n.stdio[2].setEncoding('utf-8');
@@ -329,114 +444,47 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
 
           n.once('exit', onExitFn(n, runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit));
 
-          cb();
         };
 
-        const tr = runnerUtils.findPathOfTransformDotSh(file);
+        run.testPath = file;
+        run.shortTestPath = shortFile;
 
-        if (tr) {
-
-          // let okReady = function (file: string, stdout: string) {
-          //   runAfterAnyTransform(file, stdout);
-          // };
-
-          // if (_suman.multiWatchReady && !sumanOpts.force_transpile) {
-          //   _suman.log(colors.cyan('we are already transpiled, great.'));
-          //   setImmediate(function () {
-          //     okReady(file, '');
-          //   });
-          //   return;
-          // }
-
-          let k = cp.spawn(tr, [], {
-            env: Object.assign({}, process.env, {
-              SUMAN_CHILD_TEST_PATH: file
-            })
-          });
-
-          k.once('error', cb);
-
-          k.stderr.setEncoding('utf8');
-          k.stdout.setEncoding('utf8');
-
-          let strm = fs.createWriteStream(path.resolve(tr + '.log'));
-          k.stderr.pipe(strm);
-          k.stdout.pipe(strm);
-
-          if(sumanOpts.inherit_stdio){
-            k.stderr.pipe(process.stderr);
-            k.stdout.pipe(process.stdout);
+        if (handleBlocking.runNext(run)) {
+          if (su.vgt(3) || su.isSumanDebug()) {
+            _suman.log('File is running =>', file);
           }
-
-
-          let stdout = '';
-          k.stdout.on('data', function (data: string) {
-            stdout += data;
-          });
-
-          k.once('close', function (code: number) {
-
-            if (code > 0) {
-              cb(new Error(`the @transform.sh process, for file ${file},\nexitted with non-zero exit code. :( \n To see the stderr, use --inherit-stdio.`));
-            }
-            else {
-              runAfterAnyTransform(file, stdout);
-            }
-
-          });
-
         }
         else {
-          // we don't need to run any transform, so we run right away
-          setImmediate(function () {
-            runAfterAnyTransform(file, '');
-          });
+          runnerObj.queuedCPs.push(run);
+          _suman.log('File is blocked by Suman runner =>', file);
+          if (su.isSumanDebug()) {
+            _suman.log('File is blocked by Suman runner =>', file);
+          }
+        }
+
+        if (waitForAllTranformsToFinish) {
+
+          if (forkedCPs.length < 1 && runnerObj.queuedCPs.length > 0) {
+            throw new Error(' => Suman internal error => fatal start order algorithm error, ' +
+              'please file an issue on Github, thanks.');
+          }
+
+          if (forkedCPs.length < 1) {
+            noFilesFoundError(files);
+          }
+          else {
+            const totalCount = forkedCPs.length + runnerObj.queuedCPs.length;
+            const suites = totalCount === 1 ? 'suite' : 'suites';
+            const processes = totalCount === 1 ? 'process' : 'processes';
+            resultBroadcaster.emit(String(events.RUNNER_INITIAL_SET), forkedCPs, processes, suites);
+            const addendum = maxProcs < totalCount ? ' with no more than ' + maxProcs + ' running at a time.' : '';
+            resultBroadcaster.emit(String(events.RUNNER_OVERALL_SET), totalCount, processes, suites, addendum);
+          }
+
         }
 
       };
 
-      run.testPath = file;
-      run.shortTestPath = shortFile;
+    }
 
-      if (handleBlocking.shouldFileBeBlockedAtStart(file)) {
-        runnerObj.queuedCPs.push(run);
-        console.log(' => File is blocked by Suman runner =>', file);
-        if (su.isSumanDebug()) {
-          console.log(' => File is blocked by Suman runner =>', file);
-        }
-      }
-      else {
-        run();
-        if (su.vgt(3) || su.isSumanDebug()) {
-          _suman.log('File is running =>', file);
-        }
-      }
-
-    }, function (err: IPseudoError) {
-
-      if(err){
-        throw err;
-      }
-
-      if (forkedCPs.length < 1 && runnerObj.queuedCPs.length > 0) {
-        throw new Error(' => Suman internal error => fatal start order algorithm error, ' +
-          'please file an issue on Github, thanks.');
-      }
-
-      if (forkedCPs.length < 1) {
-        noFilesFoundError(files);
-      }
-      else {
-        const totalCount = forkedCPs.length + runnerObj.queuedCPs.length;
-        const suites = totalCount === 1 ? 'suite' : 'suites';
-        const processes = totalCount === 1 ? 'process' : 'processes';
-        resultBroadcaster.emit(String(events.RUNNER_INITIAL_SET), forkedCPs, processes, suites);
-        const addendum = maxProcs < totalCount ? ' with no more than ' + maxProcs + ' running at a time.' : '';
-        resultBroadcaster.emit(String(events.RUNNER_OVERALL_SET), totalCount, processes, suites, addendum);
-      }
-
-    });
-
-  }
-
-};
+  };

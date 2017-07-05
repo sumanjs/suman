@@ -11,9 +11,13 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const domain = require('domain');
-const util = require('util');
-const assert = require('assert');
+import * as fs from 'fs';
+import * as path from 'path';
+import * as util from 'util';
+import * as assert from 'assert';
+import * as EE from 'events';
+import * as cp from 'child_process';
+import * as domain from 'domain';
 
 //npm
 const fnArgs = require('function-arguments');
@@ -21,23 +25,22 @@ const pragmatik = require('pragmatik');
 const _ = require('underscore');
 const async = require('async');
 const colors = require('colors/safe');
+import su from 'suman-utils';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
-const {constants} = require('../../config/suman-constants');
-import su from 'suman-utils';
-import acquireIoCDeps from '../acquire-ioc-deps';
+import {constants} from '../../config/suman-constants';
+import acquireIoCDeps from '../acquire-dependencies/acquire-ioc-deps';
 import {IInjectionDeps} from "../../dts/injection";
 import {IPseudoError} from "../../dts/global";
 const handleSetupComplete = require('../handle-setup-complete');
-import makeAcquireDepsFillIn from '../acquire-deps-fill-in';
-const {handleInjections} = require('../handle-injections');
+import {makeBlockInjector} from '../injection/make-block-injector';
+import {handleInjections} from '../test-suite-helpers/handle-injections';
 import parseArgs from '../helpers/parse-pragmatik-args';
 import evalOptions from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////
-
 
 function handleBadOptions(opts: IDescribeOpts) {
   // TODO
@@ -46,10 +49,10 @@ function handleBadOptions(opts: IDescribeOpts) {
 
 ///////////////////////////////////////////////////////////////////////
 
-export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker,
-                   zuite: ITestSuite, notifyParentThatChildIsComplete: Function): IDescribeFn {
+export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker,
+                                      zuite: ITestSuite, notifyParentThatChildIsComplete: Function): IDescribeFn {
 
-  const acquireDepsFillIn = makeAcquireDepsFillIn(suman);
+  const blockInjector = makeBlockInjector(suman);
   const allDescribeBlocks = suman.allDescribeBlocks;
 
   return function ($$desc: string, $opts: IDescribeOpts) {
@@ -67,17 +70,13 @@ export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, Te
     handleBadOptions(opts);
 
     if (arrayDeps.length > 0) {
-      evalOptions(arrayDeps,opts);
+      evalOptions(arrayDeps, opts);
     }
 
-    //////////
-
-    const allowArrowFn = _suman.sumanConfig.allowArrowFunctionsForTestBlocks;
-    const isArrow = su.isArrowFunction(cb);
     const isGenerator = su.isGeneratorFn(cb);
     const isAsync = su.isAsyncFn(cb);
 
-    if ((isArrow && !allowArrowFn) || isGenerator || isAsync) { //TODO: need to check for generators or async/await as well
+    if (isGenerator || isAsync) { //TODO: need to check for generators or async/await as well
       const msg = constants.ERROR_MESSAGES.INVALID_FUNCTION_TYPE_USAGE;
       console.log('\n\n' + msg + '\n\n');
       console.error(new Error(' => Suman usage error => invalid arrow/generator function usage.').stack);
@@ -117,10 +116,6 @@ export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, Te
     if (!suite.only && suman.describeOnlyIsTriggered) {
       suite.skipped = suite.skippedDueToDescribeOnly = true;
     }
-
-    // note: we can remove the need to create two new objects here
-    // suite.parent = _.pick(zuite, 'testId', 'desc', 'title', 'parallel');
-    // zuite.getChildren().push({testId: suite.testId});
 
     suite.parent = zuite;
     zuite.getChildren().push(suite);
@@ -174,7 +169,7 @@ export const makeDescribe =  function (suman: ISuman, gracefulExit: Function, Te
               let $deps;
 
               try {
-                $deps = acquireDepsFillIn(suite, zuite, deps);
+                $deps = blockInjector(suite, zuite, deps);
               }
               catch (err) {
                 console.error(err.stack || err);

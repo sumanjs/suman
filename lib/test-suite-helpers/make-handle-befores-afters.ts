@@ -9,18 +9,18 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const domain = require('domain');
-const assert = require('assert');
+import * as domain from 'domain';
+import * as assert from 'assert';
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
-const su = require('suman-utils');
-const makeCallback = require('./handle-callback-helper');
+import su from 'suman-utils';
+import {makeCallback} from './handle-callback-helper';
 const helpers = require('./handle-promise-generator');
 const {constants} = require('../../config/suman-constants');
-const cloneError = require('../clone-error');
-const {makeHookObj} = require('../t-proto-hook');
-const freezeExistingProps = require('../freeze-existing');
+import {cloneError} from '../misc/clone-error';
+import {makeHookObj} from './t-proto-hook';
+import {freezeExistingProps} from 'freeze-existing-props';
 
 /////////////////////////////////////////////////////////////////////////////////////
 
