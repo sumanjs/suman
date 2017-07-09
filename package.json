@@ -69,7 +69,7 @@
     "suman-debug": "latest",
     "suman-events": "latest",
     "suman-utils": "latest",
-    "tap-parser": "^5.4.0",
+    "tap-parser": "^6.0.0",
     "tcp-ping": "^0.1.1",
     "tsc-multi-watch": "0.0.1001",
     "underscore": "^1.8.3",
