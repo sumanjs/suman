@@ -74,7 +74,7 @@
     "tsc-multi-watch": "0.0.1001",
     "underscore": "^1.8.3",
     "uuid": "^3.0.1",
-    "v8flags": "^2.1.0",
+    "v8flags": "^3.0.0",
     "websocket-stream": "^4.0.0"
   },
   "directories": {
