@@ -17,7 +17,7 @@ import * as semver from 'semver';
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 const {events} = require('suman-events');
-const su = require('suman-utils');
+import su = require('suman-utils');
 import pt from 'prepend-transform';
 import * as chalk from 'chalk';
 
@@ -147,12 +147,12 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
       n.stdout.setEncoding('utf8');
       n.stderr.setEncoding('utf8');
 
-      if (sumanOpts.inherit_stdio) {
+      if (sumanOpts.inherit_stdio || false) {
         n.stdout.pipe(pt(chalk.blue(' => [suman child stdout] => '))).pipe(process.stdout);
         n.stderr.pipe(pt(chalk.red.bold(' => [suman child stderr] => '))).pipe(process.stderr);
       }
 
-      if (sumanOpts.$useTAPOutput) {
+      if (true || sumanOpts.$useTAPOutput) {
 
         n.tapOutputIsComplete = false;
         n.stdout.pipe(getTapParser())

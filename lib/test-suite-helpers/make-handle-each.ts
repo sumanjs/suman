@@ -9,16 +9,16 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as domain from 'domain';
-import * as assert from 'assert';
-import * as util from 'util';
+import domain = require('domain');
+import assert = require('assert');
+import util = require('util');
 
 //npm
 const fnArgs = require('function-arguments');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const su = require('suman-utils');
+import su = require('suman-utils');
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../misc/clone-error';
 import {makeHookObj} from './t-proto-hook';
@@ -125,10 +125,11 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         fini.th = t;
         t.timeout = timeout;
         t.data = test.data;
-        t.desc = t.title = test.desc;
+        t.desc = test.desc;
         t.value = test.value;
         t.testId = test.testId;
-        t.state = 'passed';
+        t.state = 'pending';
+        t.shared = self.shared;
 
         t.fatal = function fatal(err: IPseudoError) {
           if (!t.callbackMode) {

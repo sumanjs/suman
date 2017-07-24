@@ -5,20 +5,26 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const util = require('util');
+import util = require('util');
 
 //npm
 const debug = require('suman-debug')('s:cli');
+import su = require('suman-utils');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
+import {constants} from '../../config/suman-constants';
+import {getClient} from '../index-helpers/socketio-child-client';
 let callable = true;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const fatalRequestReply = function (obj: Object, cb: Function) {
+export const fatalRequestReply = function (obj: Object, $cb: Function) {
 
-  console.error('obj in fatal request reply => ', obj);
+  // console.error('obj in fatal request reply => ', obj);
+  // console.error(new Error('msg').stack);
+
+  const cb = su.once(null, $cb);
   _suman.sumanUncaughtExceptionTriggered = obj;
 
   if (callable) {
@@ -30,7 +36,7 @@ export const fatalRequestReply = function (obj: Object, cb: Function) {
     return process.nextTick(cb);
   }
 
-  if(_suman.$forceInheritStdio){
+  if (_suman.$forceInheritStdio) {
     // we need to use TAP to write test output, instead of sending via process.send
     console.log('$forceInheritStdio');
     return process.nextTick(cb);
@@ -41,21 +47,20 @@ export const fatalRequestReply = function (obj: Object, cb: Function) {
     return process.nextTick(cb);
   }
 
-  process.on('message', function onFatalMessageReceived(msg: any) {
-    const to = setTimeout(function () {
-      process.removeListener('message', onFatalMessageReceived);
-      return process.nextTick(cb);
-    }, 3500);
+  let client = getClient();
 
-    if (msg.info = 'fatal-message-received') {
+  const FATAL = constants.runner_message_type.FATAL;
+  const FATAL_MESSAGE_RECEIVED = constants.runner_message_type.FATAL_MESSAGE_RECEIVED;
+
+  const to = setTimeout(cb, 2500);
+
+  client.once(FATAL_MESSAGE_RECEIVED, function () {
       clearTimeout(to);
-      process.removeListener('message', onFatalMessageReceived);
       process.nextTick(cb);
-    }
   });
 
-
-  console.log('waiting for response from runner...');
-  process.send(obj);
+  console.log('client sent fatal message to runner; waiting for response from runner...');
+  obj.childId = process.env.SUMAN_CHILD_ID;
+  client.emit(FATAL, obj);
 
 };

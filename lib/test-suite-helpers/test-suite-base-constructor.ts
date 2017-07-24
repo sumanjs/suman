@@ -11,7 +11,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as util from 'util';
+import util = require('util');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -28,28 +28,31 @@ export default class TestSuiteBase {
   skipped: boolean;
   only: boolean;
   filename: string;
-  mergeAfters: Function;
-  getAfters: Function;
-  getAfterEaches: Function;
-  getBefores: Function;
-  getBeforeEaches: Function;
-  injectedValues: Object;
-  getInjectedValue: Function;
-  getInjections: Function;
-  getChildren: Function;
-  getTests: Function;
-  getParallelTests: Function;
-  getTestsParallel: Function;
-  getLoopTests: Function;
-  getAftersLast: Function;
-
+  getAfterAllParentHooks: Function;
+  private mergeAfters: Function;
+  private getAfters: Function;
+  private getAfterEaches: Function;
+  private getBefores: Function;
+  private getBeforeEaches: Function;
+  private injectedValues: Object;
+  private getInjectedValue: Function;
+  private getInjections: Function;
+  private getChildren: Function;
+  private getTests: Function;
+  private getParallelTests: Function;
+  private getTestsParallel: Function;
+  private getLoopTests: Function;
+  private getAftersLast: Function;
 
   constructor(obj: ITestSuiteBaseInitObj, suman: ISuman) {
+
+    const sumanOpts = _suman.sumanOpts;
 
     this.opts = obj.opts;
     this.testId = incr();
     this.isSetupComplete = false;
-    this.parallel = (obj.opts.parallel === true || obj.opts.mode === 'parallel');
+    this.parallel = sumanOpts.parallel ||
+      (!sumanOpts.series && (obj.opts.parallel === true || obj.opts.mode === 'parallel'));
     this.skipped = this.opts.skip || false;
     this.only = this.opts.only || false;
     this.filename = suman.filename;
@@ -67,6 +70,12 @@ export default class TestSuiteBase {
 
     const afterEaches: Array<IAFterEachObj> = [];
     const injections: Array<IInjectionObj> = [];
+
+    const getAfterAllParentHooks: Array<IAfterAllParentHooks> = [];
+
+    this.getAfterAllParentHooks = function(){
+      return getAfterAllParentHooks;
+    };
 
     this.mergeAfters = function () {
       // this is for supporting after.last feature
@@ -131,6 +140,5 @@ export default class TestSuiteBase {
     };
 
   }
-
 
 }

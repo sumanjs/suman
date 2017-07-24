@@ -5,18 +5,18 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as util from 'util';
-import * as assert from 'assert';
-import * as path from 'path';
-import * as EE from 'events';
-import * as fs from 'fs';
+import util = require('util');
+import assert = require('assert');
+import path = require('path');
+import EE = require('events');
+import fs = require('fs');
 import * as stream from 'stream';
 
 
 //npm
 import su from 'suman-utils';
-const colors = require('colors/safe');
-import watch from 'suman-watch';
+import * as chalk from 'chalk';
+import {run as runWatch} from 'suman-watch';
 import {IGlobalSumanObj, ISumanConfig, ISumanOpts} from "../../../dts/global";
 
 //project
@@ -36,19 +36,19 @@ export const run = function (paths: Array<string>, sumanOpts: ISumanOpts, sumanC
 
   if (sumanOpts.watch_per) {
     assert(su.isObject(sumanConfig.watch),
-      colors.red(' => Suman usage error => suman.conf.js needs a "watch" property that is an object.'));
+      chalk.red(' => Suman usage error => suman.conf.js needs a "watch" property that is an object.'));
 
     assert(su.isObject(sumanConfig.watch.per),
-      colors.red(' => Suman usage error => suman.conf.js "watch" object, needs property called "per" that is an object.'));
+      chalk.red(' => Suman usage error => suman.conf.js "watch" object, needs property called "per" that is an object.'));
 
     watchPer = sumanConfig.watch.per[sumanOpts.watch_per];
 
     assert(su.isObject(watchPer),
-      colors.red(` => Suman usage error => key "${sumanOpts.watch_per}", 
+      chalk.red(` => Suman usage error => key "${sumanOpts.watch_per}", 
       does not exist on the {suman.conf.js}.watch.per object.`));
   }
 
-  watch.run(Object.freeze({
+  runWatch(Object.freeze({
       paths,
       watchPer,
       noTranspile: sumanOpts.no_transpile,
@@ -63,7 +63,7 @@ export const run = function (paths: Array<string>, sumanOpts: ISumanOpts, sumanC
       }
       else {
         console.log('\n');
-        _suman.logInfo(colors.underline('Suman watch successfully initialized.'));
+        _suman.logInfo(chalk.underline('Suman watch successfully initialized.'));
       }
     })
 

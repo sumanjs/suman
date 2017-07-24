@@ -60,6 +60,22 @@ to its own hardware, using different cloud platforms.
 
 ___
 
+# Top 5 reasons to use Suman, instead of Mocha or AVA
+
+1. Run tests in any language, not just JavaScript, although Node.js is the best.™
+
+2. You can run Mocha tests and AVA tests using the Suman CLI, but not the other way around!
+
+3. Easily containerize any test process in development, using `suman --ctrz x.js`
+
+4. Imagine you're a senior developer and a more junior developer joins the team, 
+and they write a new test that brings down the whole CI/CD pipeline. With Suman, tests don't directly 
+interact because they are run in separate processes; in Mocha, not so much. Avoid that fateful day.
+Using Suman, it will be clear which test process is causing the fatal problem; but with a single process
+it will not necessarily be clear that it is the junior developer's test which caused the issue.
+
+5. Suman is much faster than AVA, because Suman does not require transpilation.
+
 
 ### &#9658; Disclaimers: 
 >

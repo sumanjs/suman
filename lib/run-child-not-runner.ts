@@ -7,10 +7,10 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 const path = require('path');
-const util = require('util');
+import util = require('util');
 
 //npm
-const colors = require('colors/safe');
+import chalk = require('chalk');
 const sumanUtils = require('suman-utils');
 const debug = require('suman-debug')('s');
 
@@ -23,11 +23,14 @@ const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 process.on('uncaughtException', function (err: IPseudoError) {
 
-  console.log(111111);
+  if (!err) {
+    err = new Error('falsy value passed to uncaught exception handler.');
+  }
 
   if (typeof err !== 'object') { // if null or string, etc
     const val = typeof err === 'string' ? err : util.inspect(err);
-    console.error(' => Warning, value passed to uncaughtException handler was not typeof "object" => ', val);
+    console.error('\n\n',chalk.red(' => Implementation warning: value passed to uncaughtException handler ' +
+      'was not typeof "object" => '), val, '\n\n');
     err = {message: val, stack: val}
   }
 
@@ -53,7 +56,7 @@ try {
   require(path.resolve(sumanHelperDirRoot + '/suman.globals.js'));  //load globals
 }
 catch (err) {
-  console.error('\n', colors.yellow.bold(' => Suman usage warning => Could not load your suman.globals.js file.'));
+  console.error('\n', chalk.yellow.bold(' => Suman usage warning => Could not load your suman.globals.js file.'));
   console.error(err.message || err);
   console.error(' => Suman will continue optimistically, even though your suman.globals.js file could not be loaded.');
 }
@@ -61,8 +64,8 @@ catch (err) {
 export const run = function (files: Array<string>) {
 
   if (useBabelRegister) {
-    console.log(colors.bgWhite.black.bold(' => Suman will use babel-register to transpile your sources on the fly'));
-    console.log(colors.bgWhite.black.bold('use the -v option for more info.'));
+    console.log(chalk.bgWhite.black.bold(' => Suman will use babel-register to transpile your sources on the fly'));
+    console.log(chalk.bgWhite.black.bold('use the -v option for more info.'));
     console.log('\n\n');
 
     require('babel-register')({
@@ -75,11 +78,11 @@ export const run = function (files: Array<string>) {
 
   if (SUMAN_SINGLE_PROCESS) {
     _suman.log('debug message => we are in SUMAN_SINGLE_PROCESS mode.');
-    require('./helpers/log-stdio-of-child')('suman-single-process');
+    require('./helpers/log-stdio-of-child').run('suman-single-process');
     require('./handle-single-proc')(files);
   }
   else {
-    require('./helpers/log-stdio-of-child')(files[0]);
+    require('./helpers/log-stdio-of-child').run(files[0]);
     require(files[0]);
   }
 

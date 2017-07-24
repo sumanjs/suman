@@ -7,10 +7,10 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 const path = require('path');
-const util = require('util');
+import util = require('util');
 
 //npm
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 const sortBy = require('lodash.sortby');
 const includes = require('lodash.includes');
 const flattenDeep = require('lodash.flattendeep');
@@ -19,7 +19,7 @@ const intersection = require('lodash.intersection');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const weAreDebugging = require('../helpers/we-are-debugging');
-const su = require('suman-utils');
+import su = require('suman-utils');
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -53,9 +53,9 @@ export default function (order: Object): IHandleBlocking {
         });
 
         if (startedButNotEnded.length > 0) {
-          console.log('\n\n', colors.bgCyan.black.bold(' => Suman message => The following test ' +
+          console.log('\n\n', chalk.bgCyan.black.bold(' => Suman message => The following test ' +
               'processes have started but not ended yet:'),
-            colors.cyan(startedButNotEnded));
+            chalk.cyan(startedButNotEnded));
           console.log('\n\n');
         }
 

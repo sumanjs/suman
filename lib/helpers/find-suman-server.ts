@@ -16,7 +16,7 @@ import {events} from 'suman-events';
 //project
 const _suman = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-const SumanErrors = require('../../config/suman-errors');
+import SumanErrors from '../misc/suman-errors';
 
 ////////////////////////////////////////////////////////////////////////////////////
 

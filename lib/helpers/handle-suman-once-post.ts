@@ -6,7 +6,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const util = require('util');
+import util = require('util');
 
 //npm
 const flattenDeep = require('lodash.flattendeep');
@@ -40,7 +40,6 @@ export default function oncePostFn(cb: Function) {
   }
 
   else {
-
     process.nextTick(cb, new Error(' => Suman warning => oncePostFn was called more than once =>'));
   }
 };

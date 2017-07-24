@@ -1,5 +1,1 @@
-
-
 global.sassy = 5;
-
-

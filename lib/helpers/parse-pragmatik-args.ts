@@ -1,19 +1,24 @@
-//polyfills
+'use strict';
+
+//typesscript
 import {IAllOpts} from "../../dts/test-suite";
+
+//polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as assert from 'assert';
-import * as util from 'util';
+import assert = require('assert');
+import util = require('util');
 
 //npm
 const pragmatik = require('pragmatik');
-const async = require('async');
-const colors = require('colors/safe');
+import async = require('async');
+import * as chalk from 'chalk';
+import {IGlobalSumanObj} from "../../dts/global";
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 /*////// what it do ///////////////////////////////////////////////
 

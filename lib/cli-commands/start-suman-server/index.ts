@@ -7,7 +7,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 const os = require('os');
-const util = require('util');
+import util = require('util');
 
 //project
 const _suman = global.__suman = (global.__suman || {});

@@ -7,13 +7,13 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const util = require('util');
+import util = require('util');
 const EE = require('events');
 const fs = require('fs');
 
 //npm
 import {events} from 'suman-events';
-const su = require('suman-utils');
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

@@ -7,10 +7,10 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const assert = require('assert');
+import assert = require('assert');
 
 // npm
-const async = require('async');
+import async = require('async');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -32,24 +32,25 @@ export const getQueue = function () {
       assert(Number.isInteger(envConfig), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
     }
 
-    let concurrency = envTotal || envConfig || constants.DEFAULT_PARALLEL_TOTAL_LIMIT;
+    let concurrency = 1;
+
+    if (!_suman.sumanOpts.series) {
+      concurrency = envTotal || envConfig || constants.DEFAULT_PARALLEL_TOTAL_LIMIT;
+    }
+
+    assert(Number.isInteger(concurrency) && concurrency > 0 && concurrency < 301,
+      'DEFAULT_PARALLEL_TOTAL_LIMIT must be an integer between 1 and 300 inclusive.');
 
     queue = async.queue(function (task: Function, callback: Function) {
       task(callback);
     }, concurrency);
 
-
     // queue.drain = function () {
     //   console.log('all items have been processed in queue');
     // };
-
 
   }
 
   return queue;
 
 };
-
-
-let $exports = module.exports;
-export default $exports;

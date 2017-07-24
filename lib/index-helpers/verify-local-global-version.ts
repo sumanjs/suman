@@ -7,6 +7,9 @@ import {IGlobalSumanObj} from "../../dts/global";
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
+//npm
+import * as chalk from 'chalk';
+
 // load the suman package.json file
 const pkgDotJSON = require('../../package.json');
 
@@ -26,9 +29,9 @@ if (gv = process.env.SUMAN_GLOBAL_VERSION) {
 
   if (gv !== lv) {
     console.error('\n');
-    _suman.logError(colors.red('warning => You local version of Suman differs from the cli version of Suman.'));
-    _suman.logError(colors.cyan('Global version => '), gv);
-    _suman.logError(colors.cyan('Local version => '), lv);
+    _suman.logError(chalk.red('warning => You local version of Suman differs from the cli version of Suman.'));
+    _suman.logError(chalk.cyan('Global version => '), gv);
+    _suman.logError(chalk.cyan('Local version => '), lv);
     console.error('\n');
   }
 }

@@ -7,11 +7,11 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as util from 'util';
-import * as path from 'path';
+import util = require('util');
+import path = require('path');
 
 //npm
-const async = require('async');
+import async = require('async');
 import {freezeExistingProps as freeze} from 'freeze-existing-props';
 
 //project
