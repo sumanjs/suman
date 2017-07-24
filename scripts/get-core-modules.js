@@ -1,3 +1,3 @@
 'use strict';
-const core = require('builtin-modules');
+var core = require('builtin-modules');
 console.log(core);
