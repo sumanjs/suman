@@ -1,1 +1,1 @@
-export declare const run: () => void;
+export declare const run: (projecRoot: string, paths: string[], dest: string, isForce: boolean) => void;
