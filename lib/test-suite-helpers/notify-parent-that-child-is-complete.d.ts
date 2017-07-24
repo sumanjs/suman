@@ -1,4 +1,3 @@
 import { ISuman } from "../../dts/suman";
-export declare const makeNotifyParent: (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function) => (parentTestId: number, childTestId: number, cb: Function) => void;
-declare let $exports: any;
-export default $exports;
+import { ITestSuite } from "../../dts/test-suite";
+export declare const makeNotifyParent: (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function) => (parent: ITestSuite, child: ITestSuite, cb: Function) => void;

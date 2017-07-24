@@ -1,2 +1,1 @@
-declare const _default: (filePath: string) => void;
-export = _default;
+export declare const run: (filePath: string) => void;

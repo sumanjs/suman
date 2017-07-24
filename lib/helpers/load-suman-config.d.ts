@@ -1,2 +1,1 @@
-declare const _default: (configPath: string, opts: Object) => any;
-export = _default;
+export declare const loadSumanConfig: (configPath: string, opts: Object) => any;
