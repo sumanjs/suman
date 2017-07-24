@@ -7,10 +7,10 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as assert from 'assert';
-import * as fs from 'fs';
-import * as util from 'util';
-import * as path from 'path';
+import assert = require('assert');
+import fs = require('fs');
+import util = require('util');
+import path = require('path');
 
 //npm
 import * as chalk from 'chalk';

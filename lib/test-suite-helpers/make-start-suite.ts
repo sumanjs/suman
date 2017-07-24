@@ -1,19 +1,23 @@
 'use strict';
-import {ITestDataObj} from "../../dts/test-suite";
+import {IOnceHookObj} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
 import {IPseudoError} from "../../dts/global";
+import {ITestDataObj} from "../../dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as domain from 'domain';
-import * as assert from 'assert';
-import * as util from 'util';
+import domain = require('domain');
+import assert = require('assert');
+import util = require('util');
 
 //npm
-const async = require('async');
+import async = require('async');
+import su = require('suman-utils');
+import chalk = require('chalk');
+
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -32,6 +36,13 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
   return function startSuite(finished: Function) {
 
     const self = this;
+
+    const sumanOpts = _suman.sumanOpts;
+
+    if (sumanOpts.series) {
+      console.log('\n');
+      console.log(su.padWithXSpaces(_suman.currentPaddingCount.val), chalk.gray.bold.italic(self.desc));
+    }
 
     //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
     if (suman.describeOnlyIsTriggered && !this.only) {
@@ -57,7 +68,9 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
           }
           else {
             //TODO: can probably prevent befores from running by checking self.tests.length < 1
-            async.eachSeries(self.getBefores(), handleBeforesAndAfters, function complete(err: IPseudoError) {
+            async.eachSeries(self.getBefores(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
+              handleBeforesAndAfters(self, aBeforeOrAfter, cb);
+            }, function complete(err: IPseudoError) {
               implementationError(err);
               process.nextTick(cb);
             });
@@ -66,21 +79,22 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
         runTests: function _runTests(cb: Function) {
 
-
-          let fn1 = self.parallel ? async.parallel : async.series;
-          let fn2 = async.eachLimit;
-          // let fn2 = self.parallel ? async.each : async.eachSeries;
+          let fn1 = (self.parallel && !sumanOpts.series) ? async.parallel : async.series;
+          let fn2 = async.eachLimit; // formerly => let fn2 = self.parallel ? async.each : async.eachSeries;
 
           let limit = 1;
 
-          if (self.parallel) {
+          if (self.parallel && !sumanOpts.series) {
             if (self.limit) {
-              limit = Math.min(self.limit, 300);
+              limit = Math.min(self.limit, 90);
             }
             else {
               limit = _suman.sumanConfig.DEFAULT_PARALLEL_TEST_LIMIT || constants.DEFAULT_PARALLEL_TEST_LIMIT;
             }
           }
+
+          assert(Number.isInteger(limit) && limit > 0 && limit < 91,
+            'limit must be an integer between 1 and 90, inclusive.');
 
           fn1([
               function runPotentiallySerialTests(cb: Function) {
@@ -146,7 +160,9 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         },
         runAfters: function _runAfters(cb: Function) {
           if (self.getChildren().length < 1 && !self.skipped && !self.skippedDueToOnly) {
-            async.eachSeries(self.getAfters(), handleBeforesAndAfters, function complete(err: IPseudoError) {
+            async.eachSeries(self.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
+              handleBeforesAndAfters(self, aBeforeOrAfter, cb);
+            }, function complete(err: IPseudoError) {
               implementationError(err);
               process.nextTick(cb);
             });
@@ -158,14 +174,14 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
       }, function allDone(err: IPseudoError, results: Array<any>) {
         implementationError(err);
         if (self.getChildren().length < 1 && self.parent) {
-          notifyParentThatChildIsComplete(self.parent.testId, self.testId, function () {
-            process.nextTick(function(){
+          notifyParentThatChildIsComplete(self.parent, self, function () {
+            process.nextTick(function () {
               queueCB();
               finished();
             });
           });
         } else {
-          process.nextTick(function(){
+          process.nextTick(function () {
             queueCB();
             finished();
           });

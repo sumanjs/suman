@@ -3,7 +3,7 @@ import {IPseudoError} from "../../dts/global";
 import Timer = NodeJS.Timer;
 
 //core
-import * as util from 'util';
+import util = require('util');
 
 //npm
 const fnArgs = require('function-arguments');

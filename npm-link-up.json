@@ -8,15 +8,22 @@
     "/.git/"
   ],
   "list": [
+    "vamoot",
     "pragmatik",
     "residence",
+    "poolio",
     "suman-watch",
     "suman-d",
     "suman-utils",
     "suman-events",
+    "suman-daemon",
     "suman-debug",
     "suman-browser-polyfills",
+    "suman-run-plugins",
+    "suman-transform-plugins",
     "prepend-transform",
-    "### suman-interactive"
+    "suman-reporters",
+    "freeze-existing-props",
+    "suman-interactive"
   ]
 }

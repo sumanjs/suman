@@ -8,19 +8,19 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as domain from 'domain';
-import * as os from 'os';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
+import domain = require('domain');
+import os = require('os');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
 
 //npm
 import * as async from 'async';
 const rimraf = require('rimraf');
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 const flattenDeep = require('lodash.flattendeep');
 
 //project
@@ -66,7 +66,7 @@ export const run = function (paths: Array<string>) {
 
   if (paths && paths.length > 0) {
 
-    console.log('\n', colors.cyan(' => Suman message => Only the following groups will be run => ' +
+    console.log('\n', chalk.cyan(' => Suman message => Only the following groups will be run => ' +
       paths.map(p => '\n => "' + p + '"')), '\n');
 
     groups = groups.filter(function (g) {
@@ -80,9 +80,9 @@ export const run = function (paths: Array<string>) {
 
   if (groups.length < 1) {
     console.error('\n\n',
-      colors.red.bold(' => Suman usage error => No suman group matched a name passed at the command line.'));
+      chalk.red.bold(' => Suman usage error => No suman group matched a name passed at the command line.'));
     console.error('\n\n',
-      colors.green.bold(' => Suman message => Available suman group names are =>  \n'
+      chalk.green.bold(' => Suman message => Available suman group names are =>  \n'
         + originalGroups.map(g => '\n => "' + g.name + '"')), '\n');
 
     return process.exit(constants.CLI_EXIT_CODES.NO_GROUP_NAME_MATCHED_COMMAND_LINE_INPUT);
@@ -108,11 +108,11 @@ export const run = function (paths: Array<string>) {
       }
 
       const concurrency = sumanOpts.concurrency || 1;
-      console.log('\n', colors.cyan(' => Suman message => Running suman groups with a --concurrency of => '
+      console.log('\n', chalk.cyan(' => Suman message => Running suman groups with a --concurrency of => '
         + concurrency + ' '), '\n');
 
       if (!sumanOpts.concurrency) {
-        console.log(colors.yellow(' => You must explicitly set concurrency, using the suman groups feature, ' +
+        console.log(chalk.yellow(' => You must explicitly set concurrency, using the suman groups feature, ' +
           'otherwise it defaults to 1.'));
       }
 
@@ -128,19 +128,19 @@ export const run = function (paths: Array<string>) {
         strm.on('error', function (err: Error) {
           console.log(' => User test script error, for item => ', util.inspect(item),
             '\n',
-            colors.cyan(' Try running the script directly, if the error is not obvious.'),
+            chalk.cyan(' Try running the script directly, if the error is not obvious.'),
             '\n',
             ' => Check the logs at <suman-helpers-dir>/logs/groups',
             '\n',
-            colors.magenta(err.stack || err));
+            chalk.magenta(err.stack || err));
         });
 
         strm.write(' => Beginning of run.\n');
-        console.log(colors.bgGreen.black.bold(' => Suman message => Group name => ', item.name));
+        console.log(chalk.bgGreen.black.bold(' => Suman message => Group name => ', item.name));
 
         if (item.useContainer) {
-          console.log('\n', colors.cyan(' => Suman => using container for item => ') +
-            '\n' + colors.blue(util.inspect(item)), '\n');
+          console.log('\n', chalk.cyan(' => Suman => using container for item => ') +
+            '\n' + chalk.blue(util.inspect(item)), '\n');
           runUseContainer(strm, item, function () {
             finishedCount++;
             console.log(' => Suman groups finished count => ', finishedCount, '/', totalCount);
@@ -148,8 +148,8 @@ export const run = function (paths: Array<string>) {
           });
         }
         else {
-          console.log('\n', colors.cyan(' => Suman => running item directly => ') +
-            '\n' + colors.blue(util.inspect(item)), '\n');
+          console.log('\n', chalk.cyan(' => Suman => running item directly => ') +
+            '\n' + chalk.blue(util.inspect(item)), '\n');
           runUseSh(strm, item, function () {
             finishedCount++;
             console.log(' => Suman groups finished count => ', finishedCount, '/', totalCount);
@@ -168,7 +168,7 @@ export const run = function (paths: Array<string>) {
 
           results = flattenDeep([results]);
 
-          console.log('\n', colors.cyan(' => Suman groups results => \n' +
+          console.log('\n', chalk.cyan(' => Suman groups results => \n' +
 
               results.map(function (r) {
                 return '\n' + util.inspect(r);

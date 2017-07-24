@@ -8,10 +8,10 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as domain from 'domain';
-import * as assert from 'assert';
-import * as util from 'util';
-import * as EE from 'events';
+import domain = require('domain');
+import assert = require('assert');
+import util = require('util');
+import EE = require('events');
 
 //npm
 const fnArgs = require('function-arguments');
@@ -20,7 +20,7 @@ import {events} from 'suman-events';
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
-const su = require('suman-utils');
+import su = require('suman-utils');
 import {makeCallback} from './handle-callback-helper';
 const helpers = require('./handle-promise-generator');
 import {cloneError} from '../misc/clone-error';
@@ -43,11 +43,13 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     }
 
     if (test.stubbed) {
+      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
       resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
       return process.nextTick(cb);
     }
 
     if (test.skipped) {
+      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
       resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
       return process.nextTick(cb);
     }
@@ -143,6 +145,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         t.handleAssertions = handle;
         t.throw = $throw;
         t.timeout = timeout;
+        t.shared = self.shared;
 
         ////////////// note: unfortunately these fns cannot be moved to prototype /////////////////
 

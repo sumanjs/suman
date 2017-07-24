@@ -6,13 +6,15 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const path = require('path');
-const assert = require('assert');
-const fs = require('fs');
-const util = require('util');
+import cp = require('child_process');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
 
 //npm
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -23,7 +25,7 @@ const {constants} = require('../../config/suman-constants');
 
 let loaded: any;
 
-export = function loadSharedObjects(pathObj: Object, projectRoot: string, sumanOpts: ISumanOpts) {
+export const loadSharedObjects = function (pathObj: Object, projectRoot: string, sumanOpts: ISumanOpts) {
 
   if (loaded) {
     return loaded;
@@ -43,8 +45,8 @@ export = function loadSharedObjects(pathObj: Object, projectRoot: string, sumanO
   }
   catch (err) {
     if (sumanHelpersDirLocated) {
-      console.error('\n', colors.blue('=> Suman could successfully locate your "<suman-helpers-dir>", but...\n')
-        + colors.yellow.bold(' ...Suman could not find the <suman-helpers-dir>/logs directory...you may have accidentally deleted it, ' +
+      console.error('\n', chalk.blue('=> Suman could successfully locate your "<suman-helpers-dir>", but...\n')
+        + chalk.yellow.bold(' ...Suman could not find the <suman-helpers-dir>/logs directory...you may have accidentally deleted it, ' +
           'Suman will re-create one for you.'));
     }
 
@@ -52,7 +54,7 @@ export = function loadSharedObjects(pathObj: Object, projectRoot: string, sumanO
       fs.mkdirSync(logDir);
     }
     catch (err) {
-      console.error('\n\n', colors.red(' => Suman fatal problem => ' +
+      console.error('\n\n', chalk.red(' => Suman fatal problem => ' +
         'Could not create logs directory in your sumanHelpersDir,\n' +
         'please report this issue. Original error => \n' + (err.stack || err), '\n\n'));
       process.exit(constants.EXIT_CODES.COULD_NOT_CREATE_LOG_DIR);
@@ -72,11 +74,11 @@ export = function loadSharedObjects(pathObj: Object, projectRoot: string, sumanO
     };
 
     if (sumanOpts.verbosity > 2) {
-      console.error('\n', colors.magenta('=> Suman usage warning: no suman.once.pre.js file found.'));
+      console.error('\n', chalk.magenta('=> Suman usage warning: no suman.once.pre.js file found.'));
     }
 
     if (sumanOpts.verbosity > 3) {
-      console.error(colors.magenta(err.stack ? err.stack.split('\n')[0] : err), '\n');
+      console.error(chalk.magenta(err.stack ? err.stack.split('\n')[0] : err), '\n');
     }
     else{
       console.log('\n');
@@ -98,7 +100,7 @@ export = function loadSharedObjects(pathObj: Object, projectRoot: string, sumanO
     }
     catch (err) {
       if (sumanHelpersDirLocated) {
-        console.log('\n\n', colors.bgBlack.cyan('=> Suman tip => Create your own suman.ioc.js file ' +
+        console.log('\n\n', chalk.bgBlack.cyan('=> Suman tip => Create your own suman.ioc.js file ' +
           'instead of using the default file.'), '\n');
       }
       iocFn = require('../default-conf-files/suman.default.ioc.js');
@@ -112,7 +114,7 @@ export = function loadSharedObjects(pathObj: Object, projectRoot: string, sumanO
       ' => Your suman.ioc.js file does not export a function. Please fix this situation.');
   }
   catch (err) {
-    console.error('\n\n', colors.magenta(err.stack || err), '\n\n');
+    console.error('\n\n', chalk.magenta(err.stack || err), '\n\n');
     process.exit(constants.EXIT_CODES.SUMAN_HELPER_FILE_DOES_NOT_EXPORT_EXPECTED_FUNCTION);
   }
 

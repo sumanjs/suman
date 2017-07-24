@@ -7,14 +7,14 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //npm
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 debugger;
 
-if (!('SUMAN_INCEPTION_LEVEL' in process.env)) {
+if (!('SUMAN_INCEPTION_LEVEL' in process.env) || process.argv.indexOf('--force-inception-level-zero')) {
   _suman.inceptionLevel = 0;
   process.env.SUMAN_INCEPTION_LEVEL = 0;
 }
@@ -26,9 +26,12 @@ else {
 }
 
 if (_suman.inceptionLevel < 1) {
-  _suman.log = _suman.logInfo = console.log.bind(console, colors.gray.bold(' => [suman] => '));
-  _suman.logWarning = console.error.bind(console, colors.yellow(' => [suman] => '));
-  _suman.logError = console.error.bind(console, colors.red(' => [suman] => '));
+  _suman.log = _suman.logInfo = console.log.bind(console, chalk.gray.bold(' [suman] '));
+  _suman.logWarning = console.error.bind(console, chalk.yellow(' [suman] '));
+  _suman.logError = console.error.bind(console, chalk.red(' [suman] '));
+  // _suman.log = _suman.logInfo = console.log.bind(console, chalk.gray.bold(' => [suman] => '));
+  // _suman.logWarning = console.error.bind(console, chalk.yellow(' => [suman] => '));
+  // _suman.logError = console.error.bind(console, chalk.red(' => [suman] => '));
 }
 else {
   _suman.$forceInheritStdio = true;

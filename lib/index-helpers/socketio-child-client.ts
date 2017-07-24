@@ -9,7 +9,7 @@ import * as Client from 'socket.io-client';
 
 
 //project
-let client = null;
+let client : SocketIOClient.Socket = null;
 
 ////////////////////////////////////////////////////////////////
 
@@ -21,7 +21,7 @@ export const getClient = function () {
     client.on('connect', function () {
       console.log('client connected.');
     });
-    client.on('event', function (data) {
+    client.on('event', function (data: string) {
       console.log('event data => ', data);
     });
     client.on('disconnect', function () {

@@ -6,11 +6,12 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as path from 'path';
+import path = require('path');
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {$core, $deps, mappedPkgJSONDeps} = require('../injection/$core-n-$deps');
+import {getCoreAndDeps} from './$core-n-$deps';
+import {getProjectModule} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 
@@ -19,15 +20,19 @@ export default function (names: Array<string>) {
   return names.map(function (n) {
 
     if (n === '$core') {
-      return $core;
+      return getCoreAndDeps().$core;
     }
 
     if (n === '$deps') {
-      return $deps;
+      return getCoreAndDeps().$deps;
     }
 
-    if (n === '$root') {
+    if (n === '$root' || n === '$projectRoot') {
       return _suman.projectRoot;
+    }
+
+    if(n === '$index' || n === '$project'){
+      return getProjectModule();
     }
 
     try {

@@ -6,21 +6,24 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
 
 //npm
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
+
 const includes = require('lodash.includes');
 import * as async from 'async';
+
 const debug = require('suman-debug')('s:files');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const su = require('suman-utils');
+import su = require('suman-utils');
+
 const {constants} = require('../../config/suman-constants');
 const {events} = require('suman-events');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
@@ -60,6 +63,10 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
   assert(Array.isArray(matchesAll), ' => Suman internal error => matchesAll is not defined as array type.');
   assert(Array.isArray(matchesNone), ' => Suman internal error => matchesNone is not defined as array type.');
   assert(Array.isArray(matchesAll), ' => Suman internal error => matchesAll is not defined as array type.');
+
+  // push this because we don't ever want to run tests
+  // which are located with sumanHelpersDir.
+  matchesNone.push(new RegExp(_suman.sumanHelperDirRoot));
 
   let files: Array<string> = [];
   const filesThatDidNotMatch: Array<ISumanFilesDoNotMatch> = [];
@@ -141,6 +148,10 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
         return process.nextTick(cb);
       }
 
+      if (!path.isAbsolute(dir)) {
+        dir = path.resolve(process.cwd() + '/' + dir);
+      }
+
       fs.stat(dir, function (err, stats) {
 
         if (err) {
@@ -155,14 +166,14 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
         if (stats.isDirectory() && !countIsGreaterThanMaxDepth && !isStartingToBeRecursive) {
           fs.readdir(dir, function (err, items) {
             if (err) {
-              console.error('\n', ' ', colors.bgBlack.yellow(' => Suman presumes you wanted to run tests with/within the ' +
-                'following path => '), '\n ', colors.bgBlack.cyan(' => "' + dir + '" '));
-              console.error(' ', colors.magenta.bold(' => But this file or directory cannot be found.'));
-              console.error('\n', colors.magenta(err.stack || err), '\n\n');
+              console.error('\n', ' ', chalk.bgBlack.yellow(' => Suman presumes you wanted to run tests with/within the ' +
+                'following path => '), '\n ', chalk.bgBlack.cyan(' => "' + dir + '" '));
+              console.error(' ', chalk.magenta.bold(' => But this file or directory cannot be found.'));
+              console.error('\n', chalk.magenta(err.stack || err), '\n\n');
               return cb(err);
             }
-            items = items.map(i => path.resolve(dir + '/' + i));
-            runDirs(items, ++count, cb);
+            let mappedItems = items.map(i => path.resolve(dir + '/' + i));
+            runDirs(mappedItems, ++count, cb);
           });
 
         }
@@ -197,9 +208,9 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
           const file = path.resolve(dir);
 
           if (!sumanOpts.allow_duplicate_tests && includes(files, file)) {
-            console.log(colors.magenta(' => Suman warning => \n => The following filepath was requested to be run more' +
+            _suman.logWarning(chalk.magenta('warning => \n => The following filepath was requested to be run more' +
               ' than once, Suman will only run files once per run! =>'), '\n', file, '\n\n ' +
-              colors.underline(' => To run files more than once in the same run, use "--allow-duplicate-tests"'), '\n');
+              chalk.underline(' => To run files more than once in the same run, use "--allow-duplicate-tests"'), '\n');
           }
           else {
             files.push(file);
@@ -208,11 +219,11 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
           process.nextTick(cb);
         }
         else {
-          // console.log(' => File may be a link (symlink), currently not supported by Suman => ', colors.magenta(dir));
+          // console.log(' => File may be a link (symlink), currently not supported by Suman => ', chalk.magenta(dir));
           const msg = [
             '\n',
             ' => Suman message => You may have wanted to run tests in the following path:',
-            colors.cyan(String(dir)),
+            chalk.cyan(String(dir)),
             '...but it is either a folder or is not a .js (or accepted file type) file, or it\'s a symlink',
             'if you want to run *subfolders* you shoud use the recursive option -r',
             '...be sure to only run files that constitute Suman tests, to enforce this we',
@@ -231,7 +242,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
     if (err) {
       console.error('\n');
-      _suman.logError(colors.red.bold('Error finding runnable paths => \n' + err.stack || err));
+      _suman.logError(chalk.red.bold('Error finding runnable paths => \n' + err.stack || err));
       process.nextTick(cb, err);
     }
     else {
@@ -244,7 +255,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
       filesThatDidNotMatch.forEach(function (val) {
         console.log('\n');
-        _suman.log(colors.bgBlack.yellow(' A file in a relevant directory ' +
+        _suman.log(chalk.bgBlack.yellow(' A file in a relevant directory ' +
           'did not match your regular expressions => '), '\n', util.inspect(val));
       });
 

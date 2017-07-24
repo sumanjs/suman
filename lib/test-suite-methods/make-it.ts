@@ -8,14 +8,13 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const assert = require('assert');
-const util = require('util');
+import util = require('util');
 
 //npm
 const pragmatik = require('pragmatik');
 const _ = require('underscore');
-const async = require('async');
-const colors = require('colors/safe');
+import async = require('async');
+import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
@@ -63,9 +62,9 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
 
     if (opts.hasOwnProperty('parallel')) {
       if (opts.hasOwnProperty('mode')) {
-        console.log(' => Suman warning => Used both parallel and mode options => mode will take precedence.');
+        _suman.logWarning('warning => Used both parallel and mode options => mode will take precedence.');
         if (opts.mode !== 'parallel' && opts.mode !== 'series' && opts.mode !== 'serial') {
-          console.log(' => Suman warning => valid "môde" options are only values of "parallel" or "series" or "serial"' +
+          _suman.logWarning('warning => valid "môde" options are only values of "parallel" or "series" or "serial"' +
             ' => ("serial" is an alias to "series").');
         }
       }
@@ -73,6 +72,7 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
 
 
     const inc = incr();
+    const sumanOpts = _suman.sumanOpts;
 
     if (opts.skip || opts.skipped) {
       zuite.getTests().push({testId: inc, desc: desc, skipped: true} as ITestDataObj);
@@ -99,7 +99,7 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
       skip: opts.skip,
       value: opts.value,
       throws: opts.throws,
-      parallel: (opts.parallel === true || opts.mode === 'parallel'),
+      parallel: (!sumanOpts.series && (opts.parallel === true || opts.mode === 'parallel')),
       mode: opts.mode,
       delay: opts.delay,
       cb: opts.cb,
@@ -113,7 +113,7 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
       error: null
     };
 
-    if (opts.parallel || (zuite.parallel && opts.parallel !== false)) {
+    if (sumanOpts.parallel || (!sumanOpts.series && (opts.parallel || (zuite.parallel && opts.parallel !== false)))) {
       zuite.getParallelTests().push(testData);
     }
     else {

@@ -9,16 +9,17 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const path = require('path');
-const cp = require('child_process');
-const fs = require('fs');
-const domain = require('domain');
-const assert = require('assert');
-const util = require('util');
+import cp = require('child_process');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import domain = require('domain');
+import assert = require('assert');
+import EE = require('events');
 
 //npm
-const async = require('async');
-const colors = require('colors/safe');
+import async = require('async');
+import * as chalk from 'chalk';
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -83,7 +84,7 @@ export const runUseSh = function (strm: Writable, item, cb: Function) {
     assert(path.isAbsolute(b), ' => Path to group script must be absolute.');
 
 
-    console.log(colors.red.bold('path to script => ', b));
+    console.log(chalk.red.bold('path to script => ', b));
 
     let n = cp.spawn(b, [], {
       // stdio: ['ignore','inherit','inherit']

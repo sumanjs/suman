@@ -10,25 +10,24 @@ const fs = require('fs');
 
 //npm
 const replaceStrm = require('replacestream');
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const su = require('suman-utils');
+import su = require('suman-utils');
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 ////////////////////////////////////////////////////////////////////////////////
 
 let callable = true;
 
-export = function (filePath: string) {
+export const run = function (filePath: string) {
 
   if (!callable) {
     return;
   }
 
   callable = false;
-
 
   if (process.env.MAKE_SUMAN_LOG !== 'no') {
 
@@ -52,7 +51,7 @@ export = function (filePath: string) {
     const logfile = path.resolve(f + '/' + onlyFile + '.log');
 
     // replace control chars with empty string, \d is equivalent to [0-9]
-    const strm = replaceStrm(/\[\d{1,2}(;\d{1,2})?m/g,'').pipe(fs.createWriteStream(logfile));
+    const strm = replaceStrm(/\[\d{1,2}(;\d{1,2})?m/g, '').pipe(fs.createWriteStream(logfile));
 
     strm.on('drain', function () {
       _suman.isStrmDrained = true;

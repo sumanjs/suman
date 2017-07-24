@@ -8,16 +8,16 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
 
 //npm
 const _ = require('lodash');
 const fnArgs = require('function-arguments');
 import su from 'suman-utils';
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -50,7 +50,6 @@ export const acquirePostDeps =
 
     const depList = _.flattenDeep([$depList]);
     const verbosity = _suman.sumanOpts.verbosity || 5;
-    _suman.log('verbosity level => ', colors.magenta(verbosity));
 
     const getAllPromises = function (key: string, $deps: Array<any>): Promise<any> {
 
@@ -61,7 +60,7 @@ export const acquirePostDeps =
 
       if (verbosity > 3) {
         // only want to log this once, that's why we check cachedPromises for the key
-        _suman.log(colors.cyan(`(suman.once.post.js) => Beginning to source dep with key => '${key}'`));
+        _suman.log(chalk.cyan(`(suman.once.post.js) => Beginning to source dep with key => '${key}'`));
       }
 
       const val = depContainerObj[key];
@@ -111,7 +110,7 @@ export const acquirePostDeps =
         // we just want to store the actual val for key = x, for each key x
 
         if (verbosity > 5 && subDeps.length > 0) {
-          _suman.log(colors.blue(`suman.once.post.js => `
+          _suman.log(chalk.blue(`suman.once.post.js => `
             + `Finished sourcing the dependencies ${util.inspect(subDeps)} of key => '${key}'`));
         }
 
@@ -135,8 +134,7 @@ export const acquirePostDeps =
           clearTimeout(to);
 
           if (verbosity > 3 || su.isSumanDebug()) {
-            _suman.log(colors.green.bold('suman.once.post.js => Finished sourcing dep with key = "' + key + '"'));
-            console.log('\n');
+            _suman.log(chalk.green.bold('suman.once.post.js => Finished sourcing dep with key = "' + key + '"'));
           }
 
           // we store $pre values in this container
@@ -165,7 +163,7 @@ export const acquirePostDeps =
       }, {});
 
       if (!_suman.processIsRunner) {
-        _suman.log(colors.green.underline.bold('Finished with suman.once.post.js dependencies.'));
+        _suman.log(chalk.green.underline.bold('Finished with suman.once.post.js dependencies.'));
         console.log('\n');
       }
 
@@ -173,7 +171,7 @@ export const acquirePostDeps =
 
     }, function (err) {
 
-      _suman.logError(colors.magenta('There was an error sourcing your dependencies in suman.once.post.js.'));
+      _suman.logError(chalk.magenta('There was an error sourcing your dependencies in suman.once.post.js.'));
       _suman.logError(err.stack || err);
       return {};
 

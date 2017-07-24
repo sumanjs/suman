@@ -1,4 +1,3 @@
-
 //typescript imports
 import {IGlobalSumanObj, SumanErrorRace} from "../../dts/global";
 
@@ -7,7 +6,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as util from 'util';
+import util = require('util');
 
 //npm
 import * as async from 'async';
@@ -24,45 +23,8 @@ const weAreDebugging = require('../helpers/we-are-debugging');
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-let sigintCount = 0;
-
-process.on('SIGINT', function () {
-
-  sigintCount++;
-
-  console.log('\n');
-  _suman.logError(chalk.red('SIGINT signal caught by suman process.'));
-  console.log('\n');
-
-  if (sigintCount === 2) {
-    process.exit(1);
-  }
-  else if (sigintCount === 1) {
-    shutdownSuman('SIGINT');
-  }
-
-});
-
-let sigtermCount = 0;
-
-process.on('SIGTERM', function () {
-
-  sigtermCount++;
-
-  console.log('\n');
-  _suman.logError(chalk.red('SIGTERM signal caught by suman process.'));
-  console.log('\n');
-
-  if (sigtermCount === 2) {
-    process.exit(1);
-  }
-  else if (sigtermCount === 1) {
-    shutdownSuman('SIGINT');
-  }
-
-});
-
 const shutdownSuman = function (msg: string) {
+
   async.parallel([
     function (cb: AsyncResultArrayCallback<Dictionary<any>, Error>) {
       async.series([
@@ -102,8 +64,10 @@ const shutdownSuman = function (msg: string) {
     const results = resultz[0];
 
     if (err) {
-      console.error(err.stack || err);
+      console.error('Error in exit handler => \n', err.stack || err);
     }
+
+
     if (Array.isArray(results)) {  // once-post was actually run this time versus (see below)
       results.filter(r => r).forEach(function (r) {
         console.error(r.stack || r);
@@ -122,6 +86,46 @@ const shutdownSuman = function (msg: string) {
   });
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+let sigintCount = 0;
+
+process.on('SIGINT', function () {
+
+  sigintCount++;
+
+  console.log('\n');
+  _suman.logError(chalk.red('SIGINT signal caught by suman process.'));
+  console.log('\n');
+
+  if (sigintCount === 2) {
+    process.exit(1);
+  }
+  else if (sigintCount === 1) {
+    shutdownSuman('SIGINT received');
+  }
+
+});
+
+let sigtermCount = 0;
+
+process.on('SIGTERM', function () {
+
+  sigtermCount++;
+
+  console.log('\n');
+  _suman.logError(chalk.red('SIGTERM signal caught by suman process.'));
+  console.log('\n');
+
+  if (sigtermCount === 2) {
+    process.exit(1);
+  }
+  else if (sigtermCount === 1) {
+    shutdownSuman('SIGINT received');
+  }
+
+});
+
 process.on('warning', function (w: Error) {
   if (weAreDebugging) {
     // if we are debugging, log all warnings
@@ -136,24 +140,28 @@ process.on('warning', function (w: Error) {
 
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
-  if (!err || typeof err !== 'object') {
-    console.log(chalk.bgMagenta.black(' => Error is not an object => ', util.inspect(err)));
-    err = {stack: typeof err === 'string' ? err : util.inspect(err)}
+  if (!err) {
+    err = new Error('falsy value passed to uncaught exception handler.');
   }
 
-  console.log('UE => ', err);
+  if (typeof err !== 'object') {
+    err = {
+      name: 'uncaughtException',
+      message: typeof err === 'string' ? err : util.inspect(err),
+      stack: typeof err === 'string' ? err : util.inspect(err)
+    }
+  }
 
   if (err._alreadyHandledBySuman) {
     console.error(' => Error already handled => \n', (err.stack || err));
     return;
   }
-  else {
-    err._alreadyHandledBySuman = true;
-  }
 
+  err._alreadyHandledBySuman = true;
   sumanRuntimeErrors.push(err);
 
   if (_suman.afterAlwaysEngaged) {
+    // we are running after always hooks, and any uncaught exceptions will be ignored in this case
     return;
   }
 
@@ -165,7 +173,8 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       msg = util.inspect(msg);
     }
 
-    console.error('\n\n', chalk.magenta(' => Suman uncaught exception => \n' + msg));
+    console.error('\n');
+    console.error(chalk.magenta.bold(' => Suman uncaught exception => ', chalk.magenta(msg)));
 
     if (!_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
       _suman.sumanUncaughtExceptionTriggered = err;
@@ -174,7 +183,7 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       console.error('\n\n', ' ( => TO IGNORE UNCAUGHT EXCEPTIONS AND CONTINUE WITH YOUR TEST(S), use ' +
         'the "--ignore-uncaught-exceptions" option.)');
 
-      shutdownSuman(String(msg));
+      shutdownSuman(msg);
 
     }
 
@@ -185,7 +194,10 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 process.on('unhandledRejection', (reason: any, p: Promise<any>) => {
   reason = (reason.stack || reason);
 
-  console.error('\n\nUnhandled Rejection at: Promise ', p, '\n\n=> Rejection reason => ', reason, '\n\n=> stack =>', reason);
+  console.error('\n');
+  console.error('Unhandled Rejection at: Promise => ', p);
+  console.error('\n');
+  console.error('=> Rejection reason => ', reason);
 
   if (_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
 

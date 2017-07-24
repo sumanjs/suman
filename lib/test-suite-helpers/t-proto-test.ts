@@ -5,8 +5,8 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as assert from 'assert';
-import * as util from 'util';
+import assert = require('assert');
+import util = require('util');
 
 //npm
 const chai = require('chai');

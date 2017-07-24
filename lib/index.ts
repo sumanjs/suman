@@ -8,17 +8,21 @@ import {Stream, Transform, Writable} from "stream";
 import {IDescribeFn, IDescribeOpts, TDescribeHook} from "../dts/describe";
 import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook} from "../dts/index-init";
 import {IHookOrTestCaseParam} from "../dts/test-suite";
-export type TConfigOverride = Partial<ISumanConfig>;
 
 // exported imports
+export {ISumanOpts, IGlobalSumanObj} from '../dts/global';
 export {ITestCaseParam} from '../dts/test-suite';
 export {IHookParam} from '../dts/test-suite';
 export {IDescribeFn} from '../dts/describe';
-export {ItFn} from '../dts/it';
+export {ItFn, ITestDataObj} from '../dts/it';
 export {IBeforeFn} from '../dts/before';
 export {IBeforeEachFn} from '../dts/before-each';
 export {IAfterFn} from '../dts/after';
 export {IAfterEachFn} from '../dts/after-each';
+
+///////////////////////////////////////////////////////
+
+export type TConfigOverride = Partial<ISumanConfig>;
 
 export interface ISumanErrorFirstCB {
   (err: Error | undefined | null, ...args: any[]): void
@@ -35,8 +39,9 @@ export interface Ioc {
   b: string
 }
 
-export interface  IIoCData {
+export interface IIoCData {
   $pre?: Object,
+
   [key: string]: any
 }
 
@@ -57,6 +62,7 @@ export interface IInitOpts {
 export interface IStartCreate {
   //desc: string, opts?: ICreateOpts, arr?: Array<string | TCreateHook>, cb?: TCreateHook
   (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TCreateHook): void,
+
   delay?: IDescribeFn,
   skip?: IDescribeFn,
   only?: IDescribeFn
@@ -64,6 +70,7 @@ export interface IStartCreate {
 
 export interface IInit {
   (module: ISumanModuleExtended, opts?: IInitOpts, confOverride?: TConfigOverride): IStartCreate,
+
   $ingletonian?: any,
   tooLate?: boolean
 }
@@ -73,15 +80,16 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as util from 'util';
-import * as assert from 'assert';
-import * as path from 'path';
-import * as EE from 'events';
-import * as fs from 'fs';
+import util = require('util');
+import assert = require('assert');
+import path = require('path');
+import EE = require('events');
+import fs = require('fs');
 import * as stream from 'stream';
 
 // npm
 import * as chalk from 'chalk';
+
 const pragmatik = require('pragmatik');
 const debug = require('suman-debug')('s:index');
 
@@ -117,7 +125,7 @@ else {
 
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
-const async = require('async');
+import async = require('async');
 
 // export
 const {constants} = require('../config/suman-constants');
@@ -132,13 +140,19 @@ require('./index-helpers/exit-handling');
 // project
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import setupExtraLoggers from './index-helpers/setup-extra-loggers';
+
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
-const su = require('suman-utils');
+import su = require('suman-utils');
+
 const {execSuite} = require('./exec-suite');
 const fnArgs = require('function-arguments');
 import makeIocDepInjections from './injection/ioc-injector';
+
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
+import {loadSumanConfig} from './helpers/load-suman-config';
+import {resolveSharedDirs} from './helpers/resolve-shared-dirs';
+import {loadSharedObjects} from './helpers/load-shared-objects'
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -162,14 +176,14 @@ const main = require.main.filename;
 const usingRunner = _suman.usingRunner = (_suman.usingRunner || process.env.SUMAN_RUNNER === 'yes');
 
 //could potentially pass dynamic path to suman config here, but for now is static
-const sumanConfig = require('./helpers/load-suman-config')(null);
+const sumanConfig = loadSumanConfig(null);
 
 if (!_suman.usingRunner && !_suman.viaSuman) {
   require('./helpers/print-version-info'); // just want to run this once
 }
 
-const sumanPaths = require('./helpers/resolve-shared-dirs')(sumanConfig, projectRoot, sumanOpts);
-const sumanObj = require('./helpers/load-shared-objects')(sumanPaths, projectRoot, sumanOpts);
+const sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+const sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 
 const {integrantPreFn, iocFn} = sumanObj;
 const testDebugLogPath = sumanPaths.testDebugLogPath;
@@ -210,7 +224,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   if (init.$ingletonian) {
     if (!SUMAN_SINGLE_PROCESS) {
-      console.error(chalk.red(' => Suman usage warning => suman.init() only needs to be called once per test file.'));
+      _suman.logError(chalk.red(' => Suman usage warning => suman.init() only needs to be called once per test file.'));
       return init.$ingletonian;
     }
   }
@@ -264,9 +278,9 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       matches = true;
     }
   }
-  else {  //if we run
-    if (sumanOpts.verbosity > 7) {
-      console.log(' => Suman verbose message => require.main.filename value:', main);
+  else {
+    if (su.vgt(7)) {
+      _suman.log('require.main.filename value:', main);
     }
     if (main === $module.filename) {
       matches = true;
@@ -275,11 +289,11 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   const opts: IInitOpts = $opts || {};
 
-  const series = !!opts.series;
+  const series = Boolean(opts.series);
   const writable = opts.writable;
 
   if ($module._sumanInitted) {
-    console.error(' => Suman warning => suman.init() already called for ' +
+    _suman.logError('warning => suman.init() already called for ' +
       'this module with filename => ', $module.filename);
     return;
   }
@@ -476,7 +490,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
               'To run SUMAN_SINGLE_PROCESS mode you need to use the suman executable, not plain node.');
           }
         }
-
 
         if (exportTests && matches) {
 
@@ -740,9 +753,9 @@ export const once = function (fn: Function) {
       fn.call(null, function (err: Error, val: any) {
         if (!err) {
           cache = val || {
-              'Suman says': 'This is a dummy-cache val. ' +
-              'See => sumanjs.org/tricks-and-tips.html'
-            };
+            'Suman says': 'This is a dummy-cache val. ' +
+            'See => sumanjs.org/tricks-and-tips.html'
+          };
         }
         cb.apply(null, arguments);
       });
@@ -757,7 +770,7 @@ export const load = function (opts: ILoadOpts) {
   }
 
   const pth = opts.path;
-  const indirect = !!opts.indirect;
+  const indirect = Boolean(opts.indirect);
 
   assert(path.isAbsolute(pth), ' => Suman usage error => Please pass in an absolute path to suman.load() function.');
   // ughhh, not pretty, have to use this methodology to tell Suman to "export" tests

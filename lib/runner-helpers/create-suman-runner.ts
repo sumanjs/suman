@@ -7,17 +7,17 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as os from 'os';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
+import os = require('os');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
 
 //npm
 import * as chalk from 'chalk';
-const su = require('suman-utils');
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -75,7 +75,7 @@ export const createRunner = function (obj: Object) {
       throw new Error(' => Your suman.order.js file needs to export a function.');
     }
     else if (!_suman.usingDefaultConfig || su.isSumanDebug()) {
-      console.log(chalk.magenta(' => Suman warning => Your suman.order.js file could not be located,' +
+      _suman.logWarning(chalk.magenta('warning => Your suman.order.js file could not be located,' +
           ' given the following path to your "<suman-helpers-dir>" => ') +
         '\n' + chalk.bgBlack.cyan(_suman.sumanHelperDirRoot));
     }

@@ -8,19 +8,19 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as domain from 'domain';
-import * as os from 'os';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
+import domain = require('domain');
+import os = require('os');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
 
 //npm
 import * as async from 'async';
 const shuffle = require('lodash.shuffle');
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 import su, {IMapValue} from 'suman-utils';
 import {IGetFilePathObj} from "./runner-helpers/get-file-paths";
 import {ISumanErrorFirstCB} from "./index";
@@ -50,13 +50,14 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
   debugger;  //leave here forever so users can easily debug
 
-  let sql;
+  let sql : any;
+
   try {
     sql = require('sqlite3').verbose();
   }
   catch (err) {
     console.error('\n', err.stack, '\n');
-    console.error(colors.yellow.bold(' => Looks like Suman could not find "sqlite3" NPM dependency.'));
+    console.error(chalk.yellow.bold(' => Looks like Suman could not find "sqlite3" NPM dependency.'));
     console.error(' => Suman uses NODE_PATH to source heavier dependencies from a shared location.');
     console.error(' => If you use the suman command, NODE_PATH will be set correctly.');
 
@@ -64,7 +65,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
       _suman.logError('$NODE_PATH currently has this value => ', process.env.NODE_PATH);
     }
     else {
-      _suman.logError('$NODE_PATH is currently ' + colors.yellow('*not*') + ' defined.');
+      _suman.logError('$NODE_PATH is currently ' + chalk.yellow('*not*') + ' defined.');
     }
 
     _suman.logError('If for whatever reason you ran node against the suman cli.js file, ' +
@@ -214,7 +215,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
       function createDir(runId: number) {
         let p = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
-        fs.mkdir(p, 0o777, first);
+        mkdirp(p, 0o777, first);
       }
 
       if (!sql) {
@@ -271,7 +272,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
     }
 
     function changeCWDToRootOrTestDir(p: string) {
-      if (sumanOpts.cwd_is_root) {
+      if (sumanOpts.cwd_is_root || true) {
         process.chdir(projectRoot);
       }
       else {
@@ -292,14 +293,14 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
     d.once('error', function (err: Error) {
       console.error('\n');
-      _suman.logError(colors.magenta('fatal error => ' + (err.stack || err) + '\n'));
+      _suman.logError(chalk.magenta('fatal error => ' + (err.stack || err) + '\n'));
       process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
     });
 
     resultBroadcaster.emit(String(events.RUNNER_TEST_PATHS_CONFIRMATION), files);
 
     if (su.vgt(2)) {
-      console.log(' ', colors.bgCyan.magenta(' => Suman verbose message => ' +
+      console.log(' ', chalk.bgCyan.magenta(' => Suman verbose message => ' +
         'Suman will execute test files from the following locations:'), '\n', files, '\n');
     }
 

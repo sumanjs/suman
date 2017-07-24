@@ -1,21 +1,15 @@
 'use strict';
-import {IAfterObj, ITestSuite} from "../../dts/test-suite";
+import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {AfterHookCallbackMode, AfterHookRegularMode, IAfterFn, IAfterOpts} from "../../dts/after";
-
+import {IAfterFn, IAfterObj, IAfterOpts} from "../../dts/after";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
-//core
-const util = require('util');
-const assert = require('assert');
-
 //npm
 const pragmatik = require('pragmatik');
-const async = require('async');
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
@@ -36,8 +30,6 @@ function handleBadOptions(opts: IAfterOpts): void {
     return;
   }
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -61,7 +53,7 @@ export const makeAfter = function (suman: ISuman, zuite: ITestSuite): IAfterFn {
       evalOptions(arrayDeps, opts);
     }
 
-    if(opts.always){
+    if (opts.always) {
       _suman.afterAlwaysHasBeenRegistered = true;
     }
 
@@ -76,7 +68,7 @@ export const makeAfter = function (suman: ISuman, zuite: ITestSuite): IAfterFn {
       let obj: IAfterObj = {
         ctx: zuite,
         timeout: opts.timeout || 11000,
-        desc: desc || (fn ? fn.name : '(unknown due to stubbed function)'),
+        desc: desc || fn.name,
         cb: opts.cb || false,
         throws: opts.throws,
         always: opts.always,

@@ -8,18 +8,18 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
 
 //npm
 const flattenDeep = require('lodash.flattendeep');
 const readline = require('readline');
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 const AsciiTable = require('ascii-table');
-const async = require('async');
+import async = require('async');
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 import su from 'suman-utils';
@@ -292,7 +292,7 @@ class Suman {
 
   logResult(test: ITestDataObj): void {
 
-    if (_suman.sumanOpts.errors_only && test.dateComplete) {
+    if (false && _suman.sumanOpts.errors_only && test.dateComplete) {
       // since errors only and this test has completed, we ignore and don't write out result
       return;
     }
@@ -301,13 +301,13 @@ class Suman {
     test.name = (test.desc || test.name);
     test.desc = (test.desc || test.name);
 
-    let data = {
+    let str = su.customStringify({
+      childId: process.env.SUMAN_CHILD_ID,
       test,
       type: 'LOG_RESULT',
-    };
+    });
 
-    let str = su.customStringify(data);
-    str = str.replace(/(\r\n|\n|\r)/gm, ''); ///This javascript code removes all 3 types of line breaks
+    // str = str.replace(/(\r\n|\n|\r)/gm, ''); ///This javascript code removes all 3 types of line breaks
     // process.send(JSON.parse(str));
 
     const client = getClient();
@@ -315,7 +315,7 @@ class Suman {
 
     if (global.usingBrowserEtcEtc) {
       // TODO: note for the web browser, we need to use this
-      // client.emit(LOG_RESULT, JSON.parse(str));
+      client.emit(LOG_RESULT, JSON.parse(str));
     }
 
     // broadcast results

@@ -11,9 +11,9 @@ const os = require('os');
 const fs = require('fs');
 
 //npm
-const colors = require('colors/safe');
-const async = require('async');
-const su = require('suman-utils');
+import * as chalk from 'chalk';
+import async = require('async');
+import su = require('suman-utils');
 const mkdirp = require('mkdirp');
 
 //project
@@ -45,11 +45,11 @@ export const run = function createTestFiles(paths : Array<string>) {
   }, function (err: Error) {
     console.log('\n');
     if (err) {
-      console.error(colors.red.bold(' => Suman error => ') + colors.red(err.stack || err), '\n');
+      console.error(chalk.red.bold(' => Suman error => ') + chalk.red(err.stack || err), '\n');
       process.exit(1);
     }
     else {
-      console.log(colors.blue.bold(' => Suman message => successfully created test skeleton(s).'));
+      console.log(chalk.blue.bold(' => Suman message => successfully created test skeleton(s).'));
       process.exit(0);
     }
   });

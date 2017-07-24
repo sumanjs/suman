@@ -2,17 +2,12 @@
   "compilerOptions": {
     "declaration": true,
     "baseUrl": ".",
-    "paths": {
-    },
     "types": [
       "node",
       "async",
       "lodash"
     ],
     "allowJs": false,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "target": "es5",
     "module": "commonjs",
     "noImplicitAny": true,
