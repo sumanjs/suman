@@ -1,13 +1,33 @@
 #!/bin/bash
-exec mocha --reporter=tap --output=foo <(sed -n '/^#MOCHA_START#/,$ p' "$0")
-#MOCHA_START#
 
-const util = require('util');
-console.log(util.inspect(process.env));
 
-describe('a', function(){
+describe('alpha', function(){
 
-  it('tests', function(){
+  it('tests A', function(){
+
+  });
+
+  describe('badger', function(){
+
+    it('tests B', function(){
+
+    });
+
+  });
+
+  describe('crudeo', function(){
+
+    it('tests C', function(){
+
+    });
+
+    describe('dwarf', function(){
+
+      it('tests D', function(){
+
+      });
+
+    });
 
   });
 

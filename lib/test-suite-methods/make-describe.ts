@@ -11,21 +11,22 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
-import * as domain from 'domain';
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
+import domain = require('domain');
 
 //npm
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
 const _ = require('underscore');
-const async = require('async');
-const colors = require('colors/safe');
+import async = require('async');
+import * as chalk from 'chalk';
 import su from 'suman-utils';
+import {VamootProxy} from 'vamoot';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -85,9 +86,10 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
 
     if (zuite.parallel && opts.parallel === false) {
-      console.log('\n => Suman warning => parent block ("' + zuite.desc + '") is parallel, ' +
+      console.error('\n');
+      _suman.logWarning('warning => parent block ("' + zuite.desc + '") is parallel, ' +
         'so child block ("' + desc + '") will be run in parallel with other sibling blocks.');
-      console.log('\n => Suman warning => To see more info on this, visit: sumanjs.org\n\n');
+      _suman.logWarning('\nTo see more info on this, visit: sumanjs.org.\n');
     }
 
     if (zuite.skipped) {
@@ -102,13 +104,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       return;
     }
 
-    // note: zuite is the parent of suite
-    // aka, suite is the child of zuite
-    const suite = TestSuiteMaker({
-      desc: desc,
-      title: desc,
-      opts: opts
-    });
+    // note: zuite is the parent of suite; aka, suite is the child of zuite
+    const suite = TestSuiteMaker({desc, title: desc, opts});
 
     // if parent is skipped, child is skipped,
     suite.skipped = opts.skip || zuite.skipped;
@@ -117,9 +114,10 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       suite.skipped = suite.skippedDueToDescribeOnly = true;
     }
 
-    suite.parent = zuite;
+    Object.defineProperty(suite, 'parent', {value: zuite, writable: false});
     zuite.getChildren().push(suite);
     allDescribeBlocks.push(suite);
+
 
     const deps = fnArgs(cb);
     const suiteProto: Object = Object.getPrototypeOf(suite);
@@ -127,10 +125,9 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     suiteProto._run = function run(val: any, callback: Function) {
 
       if (zuite.skipped || zuite.skippedDueToDescribeOnly) {
-        console.error(' => Now entering dubious routine in Suman lib.');
-        //TODO: this may not be necessary
+        _suman.logWarning(' => Now entering dubious routine in Suman lib.');
         if (zuite.parent) {
-          notifyParentThatChildIsComplete(zuite.parent.testId, zuite.testId, callback);
+          notifyParentThatChildIsComplete(zuite.parent, zuite, callback);
         }
         return;
       }
@@ -138,7 +135,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       const d = domain.create();
 
       d.once('error', function (err: IPseudoError) {
-
         console.error('\n');
         _suman.logError('Error executing test block => \n', err.stack || err);
         err.sumanExitCode = constants.EXIT_CODES.ERROR_IN_CHILD_SUITE;
@@ -156,10 +152,17 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
         suite.__bindExtras();
 
+        Object.defineProperty(suite, 'shared', {
+          value: zuite.shared.clone(),
+          //Object.assign({}, zuite.shared)
+          writable: false
+        });
+
+
         acquireIoCDeps(deps, suite, function (err: Error, deps: IInjectionDeps) {
 
           if (err) {
-            console.log(err.stack || err);
+            console.log('\n', err.stack || err, '\n');
             process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
           else {
@@ -191,6 +194,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                   _suman.logWarning('usage warning => suite.resume() has become a no-op since delay option is falsy.');
                 };
 
+                // Object.freeze(suite);
+                // Object.freeze(suiteProto);
                 cb.apply(suite, $deps);
 
                 handleInjections(suite, function (err: Error) {
@@ -257,6 +262,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
                 };
 
+                // Object.freeze(suite);
+                // Object.freeze(suiteProto);
                 cb.apply(suite, $deps);
               }
 

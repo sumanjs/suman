@@ -6,14 +6,16 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const path = require('path');
-const util = require('util');
-const assert = require('assert');
-const EE = require('events');
+import cp = require('child_process');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
 
 //npm
 import su from 'suman-utils';
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 import {events} from 'suman-events';
 import * as _ from 'lodash';
 
@@ -25,7 +27,7 @@ let loaded = false;
 
 /////////////////////////////////////////////////////////////////////////////
 
-export const loadReporters = function  (opts: ISumanOpts, projectRoot: string, sumanConfig: ISumanConfig) {
+export const loadReporters = function (opts: ISumanOpts, projectRoot: string, sumanConfig: ISumanConfig) {
 
   if (loaded) {
     return;
@@ -33,8 +35,17 @@ export const loadReporters = function  (opts: ISumanOpts, projectRoot: string, s
 
   loaded = true;
 
+  _suman.currentPaddingCount = _suman.currentPaddingCount || {};
+  const optsCopy = Object.assign({}, opts);
+  optsCopy.currPadCount = _suman.currentPaddingCount;
 
-  const sumanReporters = _suman.sumanReporters = _.flattenDeep([opts.reporter_paths]).map(function (item) {
+  const sumanReporters = _suman.sumanReporters = _.flattenDeep([opts.reporter_paths || []])
+  .filter(v => {
+    if (!v) {
+      _suman.logWarning('a reporter path was undefined.');
+    }
+    return v;
+  }).map(function (item: string) {
     if (!path.isAbsolute(item)) {
       item = path.resolve(projectRoot + '/' + item);
     }
@@ -49,9 +60,15 @@ export const loadReporters = function  (opts: ISumanOpts, projectRoot: string, s
   }
 
   const reporterKV = sumanConfig.reporters || {};
-  assert(su.isObject(reporterKV),'{suman.conf.js}.reporters property must be an object.');
+  assert(su.isObject(reporterKV), '{suman.conf.js}.reporters property must be an object.');
 
-  _.flattenDeep([opts.reporters]).forEach(function (item) {
+  _.flattenDeep([opts.reporters || []]).filter(v => {
+    if (!v) {
+      _suman.logWarning('a reporter path was undefined.');
+    }
+    return v;
+  })
+  .forEach(function (item: string) {
 
     //TODO: check to see if paths of reporter paths clashes with paths from reporter names at command line (unlikely)
 
@@ -64,13 +81,13 @@ export const loadReporters = function  (opts: ISumanOpts, projectRoot: string, s
         assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + val + '"');
       }
       catch (err) {
-        throw new Error(colors.red(' => Suman fatal exception => Could not load reporter with name => "' + item + '"')
+        throw new Error(chalk.red(' => Suman fatal exception => Could not load reporter with name => "' + item + '"')
           + '\n => ' + (err.stack || err) + '\n');
       }
 
     }
     else {
-       val = reporterKV[item];
+      val = reporterKV[item];
       if (!val) {
         throw new Error(' => Suman fatal error => no reporter with name = "' + item + '" in your suman.conf.js file.');
       }
@@ -95,37 +112,43 @@ export const loadReporters = function  (opts: ISumanOpts, projectRoot: string, s
 
   });
 
-   if(process.env.SUMAN_INCEPTION_LEVEL > 0 || opts.useTAPOutput){
-     let fn = require('../reporters/tap-reporter');
-     sumanReporters.push(fn);
-     reporterRets.push(fn.call(null, resultBroadcaster, opts));
-   }
+  if (process.env.SUMAN_INCEPTION_LEVEL > 0 || opts.useTAPOutput) {
+    console.log('TAP reporter loaded.');
+    let fn = require('suman-reporters/modules/tap-reporter');
+    fn = fn.default || fn;
+    assert(typeof fn === 'function', 'Suman implementation error - reporter fail.');
+    sumanReporters.push(fn);
+    reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}, su));
+  }
+  else {
+    _suman.log('TAP reporter *not* loaded.');
+  }
 
   if (sumanReporters.length < 1) {
-    if(process.env.SUMAN_INCEPTION_LEVEL < 1){
+    if (process.env.SUMAN_INCEPTION_LEVEL < 1) {
       _suman.log('Using native/std reporter');
       resultBroadcaster.emit(String(events.USING_STANDARD_REPORTER));
-      const fn = require('../reporters/std-reporter');
-      assert(typeof fn === 'function', 'Suman native reporter fail.');
+      let fn = require('suman-reporters/modules/std-reporter');
+      fn = fn.default || fn;
+      assert(typeof fn === 'function', 'Suman implementation error - reporter fail.');
       sumanReporters.push(fn);
     }
   }
 
-
-  if(false){
-    try{
+  if (false) {
+    try {
       sumanReporters.push(require('suman-sqlite-reporter'));
       resultBroadcaster.emit(String(events.USING_SQLITE_REPORTER));
       _suman.log('sqlite reporter was loaded.');
     }
-    catch(err){
+    catch (err) {
       _suman.logError('failed to load "suman-sqlite-reporter".');
     }
   }
 
-  if(process.env.SUMAN_INCEPTION_LEVEL < 1){
+  if (process.env.SUMAN_INCEPTION_LEVEL < 1) {
     sumanReporters.forEach(function (reporter) {
-      reporterRets.push(reporter.call(null, resultBroadcaster, opts));
+      reporterRets.push((reporter.default || reporter).call(null, resultBroadcaster, optsCopy, {}, su));
     });
   }
 

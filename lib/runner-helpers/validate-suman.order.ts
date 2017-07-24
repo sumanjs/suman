@@ -6,19 +6,19 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
 
 //npm
 const includes = require('lodash.includes');
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
-const su = require('suman-utils');
+import su = require('suman-utils');
 
 ///////////////////////////////////////////////
 

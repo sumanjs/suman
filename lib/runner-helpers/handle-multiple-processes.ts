@@ -7,15 +7,15 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as cp from 'child_process';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
+import cp = require('child_process');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
 
 //npm
-const semver = require('semver');
+import semver = require('semver');
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
@@ -62,17 +62,22 @@ export const makeHandleMultipleProcesses =
       _suman.log('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
 
       let queuedTestFns: Array<Function> = [];
+      let failedTransformObjects: Array<Object> = [];
 
       const transpileQueue = async.queue(function (task: Function, cb: Function) {
 
-        task(function (err: Error, file: string, shortFile: string, stdout: string) {
+        task(function (err: Error, file: string, shortFile: string, stdout: string, stderr: string) {
+
+          setImmediate(cb);
 
           if (err) {
             _suman.logError('tranpile error => ', err.stack || err);
+            failedTransformObjects.push({
+              err, file, shortFile, stdout, stderr
+            });
+            return;
           }
 
-          // when fired, this cb will start the next item in the queue
-          setImmediate(cb);
 
           if (waitForAllTranformsToFinish) {
             queuedTestFns.push(function () {
@@ -127,11 +132,14 @@ export const makeHandleMultipleProcesses =
         SUMAN_CONFIG: JSON.stringify(sumanConfig),
         SUMAN_OPTS: JSON.stringify(sumanOpts),
         SUMAN_RUNNER: 'yes',
-        SUMAN_SOCKETIO_SERVER_PORT: _suman.socketServerPort,
         SUMAN_RUN_ID: _suman.runId,
         SUMAN_RUNNER_TIMESTAMP: _suman.timestamp,
         NPM_COLORS: process.env.NPM_COLORS || (sumanOpts.no_color ? 'no' : 'yes')
       });
+
+      if (_suman.socketServerPort > 0) {
+        sumanEnv['SUMAN_SOCKETIO_SERVER_PORT'] = _suman.socketServerPort;
+      }
 
       const execFile = path.resolve(__dirname + '/run-child.js');
       const istanbulExecPath = _suman.istanbulExecPath || 'istanbul';
@@ -166,9 +174,11 @@ export const makeHandleMultipleProcesses =
           }
         };
 
-        const tr = runnerUtils.findPathOfTransformDotSh(file);
+        const tr = (sumanOpts.no_transpile !== true) && runnerUtils.findPathOfTransformDotSh(file);
 
         if (tr) {
+
+          console.log('found tr 2 => ', tr);
 
           transpileQueue.push(function (cb: Function) {
 
@@ -179,8 +189,10 @@ export const makeHandleMultipleProcesses =
               }
 
               let k = cp.spawn(tr, [], {
+                cwd: projectRoot,
                 env: Object.assign({}, process.env, {
-                  SUMAN_TEST_PATHS: JSON.stringify([file])
+                  SUMAN_TEST_PATHS: JSON.stringify([file]),
+                  SUMAN_CHILD_TEST_PATH: file
                 })
               });
 
@@ -188,8 +200,23 @@ export const makeHandleMultipleProcesses =
 
               k.stderr.setEncoding('utf8');
               k.stdout.setEncoding('utf8');
-              k.stderr.pipe(pt(`${chalk.red('=> transform process stderr => ')} ${file}\n`)).pipe(process.stderr);
-              k.stdout.pipe(pt(` => transform process stdout => ${file}\n`)).pipe(process.stdout);
+
+
+
+              if (sumanOpts.inherit_stdio || process.env.SUMAN_INHERIT_STDIO) {
+
+                console.log('going to log stdout and stderr 222.');
+
+                let onError = function (e: Error) {
+                  console.error('\n', e.stack || e, '\n');
+                };
+
+                k.stderr.pipe(pt(`${chalk.red('=> transform process stderr => ')} ${file}\n`))
+                .on('error', onError).pipe(process.stderr).on('error', onError);
+
+                k.stdout.pipe(pt(` => transform process stdout => ${file}\n`))
+                .on('error', onError).pipe(process.stdout).on('error', onError);
+              }
 
               // let strm = fs.createWriteStream(path.resolve(tr + '.log'));
               //
@@ -201,29 +228,24 @@ export const makeHandleMultipleProcesses =
               //   throw e;
               // });
 
-              if (sumanOpts.inherit_stdio) {
-
-                k.stderr.pipe(process.stderr).on('error', function (e: Error) {
-                  throw e;
-                });
-
-                k.stdout.pipe(process.stdout).on('error', function (e: Error) {
-                  throw e;
-                });
-              }
-
               let stdout = '';
               k.stdout.on('data', function (data: string) {
                 stdout += data;
               });
 
+              let stderr = '';
+              k.stderr.on('data', function (data: string) {
+                stderr += data;
+              });
+
               k.once('close', function (code: number) {
 
                 if (code > 0) {
-                  cb(new Error(`the @transform.sh process, for file ${file},\nexitted with non-zero exit code. :( \n To see the stderr, use --inherit-stdio.`));
+                  cb(new Error(`the @transform.sh process, for file ${file},\nexitted with non-zero exit code. :( 
+                  \n To see the stderr, use --inherit-stdio.`));
                 }
                 else {
-                  cb(null, file, shortFile, stdout);
+                  cb(null, file, shortFile, stdout, stderr);
                 }
 
               });
@@ -315,8 +337,10 @@ export const makeHandleMultipleProcesses =
             _suman.log('we are inheriting stdio of child, because of sumanception.');
           }
 
+
           let cpOptions = {
-            cwd: sumanOpts.force_cwd_to_be_project_root ? projectRoot : path.dirname(file),
+            cwd: projectRoot,
+            // cwd: sumanOpts.force_cwd_to_be_project_root ? projectRoot : path.dirname(file),
             stdio: [
               'ignore',
               inherit || (isStdoutSilent ? 'ignore' : 'pipe'),
@@ -337,6 +361,12 @@ export const makeHandleMultipleProcesses =
 
           if (sh) {
 
+            //force to project root
+            cpOptions.cwd = projectRoot;
+            su.isSumanDebug(function(){
+              console.log('found sh => ', sh);
+            });
+
             try {
               fs.chmodSync(sh, 0o777);
             }
@@ -355,10 +385,6 @@ export const makeHandleMultipleProcesses =
 
             if ('.js' === extname) {
 
-              if (su.isSumanDebug()) {
-                _suman.log('we are running js file');
-              }
-
               if (sumanOpts.coverage) {
                 let coverageDir = path.resolve(_suman.projectRoot + '/coverage/' + String(shortFile).replace(/\//g, '-'));
                 n = cp.spawn(istanbulExecPath,
@@ -367,7 +393,6 @@ export const makeHandleMultipleProcesses =
               }
               else {
                 argz.unshift(execFile);
-
                 let argzz = $execArgz.concat(argz); // append exec args to beginning
                 n = cp.spawn('node', argzz, cpOptions) as ISumanChildProcess;
               }
@@ -375,8 +400,7 @@ export const makeHandleMultipleProcesses =
             }
             else {
               // .sh .bash .py, perl, ruby, etc
-
-              console.log('file => ', file);
+              console.log('perl bash python or ruby file ? => ', file);
               hashbang = true;
               n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
             }
@@ -402,7 +426,8 @@ export const makeHandleMultipleProcesses =
 
           n.on('message', function (msg) {
             //TODO: this should use handleMessage.bind(n)
-            handleMessage(msg, n);
+            throw new Error('this should be over.');
+            // handleMessage(msg, n);
           });
 
           n.on('error', function (err) {
@@ -426,13 +451,16 @@ export const makeHandleMultipleProcesses =
             n.stdout.setEncoding('utf8');
             n.stderr.setEncoding('utf8');
 
-            if (sumanOpts.inherit_stdio) {
-              n.stdout.pipe(pt(chalk.blue(' => [suman child stdout] => '))).pipe(process.stdout).on('error', function (e: Error) {
-                throw e;
-              });
-              n.stderr.pipe(pt(chalk.red.bold(' => [suman child stderr] => '))).pipe(process.stderr).on('error', function (e: Error) {
-                throw e;
-              });
+            if (false && (sumanOpts.inherit_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes')) {
+
+              let onError = function (e: Error) {
+                console.error('\n', e.stack || e, '\n');
+              };
+
+              n.stdout.pipe(pt(chalk.blue(' => [suman child stdout] => ')))
+              .on('error', onError).pipe(process.stdout).on('error', onError);
+              n.stderr.pipe(pt(chalk.red.bold(' => [suman child stderr] => ')))
+              .on('error', onError).pipe(process.stderr).on('error', onError);
             }
 
             if (true || sumanOpts.$useTAPOutput) {
@@ -469,7 +497,7 @@ export const makeHandleMultipleProcesses =
 
           }
           else {
-            if (su.vgt(6)) {
+            if (su.vgt(2)) {
               _suman.logWarning('Stdio object not available for child process.');
             }
           }

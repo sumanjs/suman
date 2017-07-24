@@ -1,3 +1,298 @@
+three SO profiles:
+
+1. alex@oresoftware.com on safari "Olegzandr"
+2. via facebook login on chrome
+3. the1mills@yahoo.com on firefox "Olegzandr Denman"
+
+//
+  use block scope
+
+   let foo;
+    {
+      let v = 2;
+     foo = v*2;
+    }
+
+
+//
+
+  suman --containerize should reference node_modules instead of re-installing
+
+//
+
+  if suman.init() is called more than once and we are not in SUMAN_SINGLE_PROCESS, we should fail right away
+
+//
+
+ create injector and block injector need to be differentiated.
+
+//
+
+    afterAllParentHooks('yes', t => {
+      console.log('after all parent hooks');
+    });
+
+//
+
+   need to switch out function arguments parsing
+
+//
+
+ include $index file, inject that into Test.create
+
+//
+
+   add flag --auto-pass, which means runner or test always exits with code 0.
+   this is useful when the place suman in a CI/CD pipeline but don't want failing to tests to unnecessarily
+   break things.
+
+//
+
+const strm = fs.createWriteStream(path.resolve(__dirname + '/../logs/stderr.log'));
+
+const stderr = process.stderr.write;
+process.stderr.write = function () {
+  let args = Array.from(arguments);
+  let firstArg = String(args[0]).replace(/\[[0-9]{1,2}m/g, '').replace(/\[[0-9]{1,2};[0-9]{1,2}m/g, '');
+  strm.write.apply(strm, [firstArg]);
+  stderr.apply(process.stderr, arguments);
+};
+
+//
+
+ => https://github.com/mochajs/mocha/issues/911
+ create a methodology to run beforeEach before any child before blocks
+
+
+ describe('Create Article', () => {
+   beforeEach(() => console.log('CLEAN DB'))
+
+   context('When Article is valid', () => {
+     let flip = true;
+     beforeEach(() => flip && (flip = false; console.log('INSERTING VALID ARTICLE')))
+
+     it('should not fail')
+     it('should have some properties')
+     it('should send an email')
+   })
+
+   context('When Article is not valid', () => {
+    let flip = true;
+     beforeEach(() => flip && (flip = false; console.log('INSERTING NOT VALID ARTICLE')))
+
+     it('should fail')
+     it('should not send an email')
+   })
+ })
+
+
+//
+
+
+https://github.com/nodejs/help/issues/735
+
+const writable = fs.createWriteStream(<file2>)
+writable.write('Test.create(function(){');
+fs.createReadStream(<file1>, {end:false})
+.pipe(new ReplaceStream('bar','star')).pipe(writable);
+writable.end('})');
+
+//
+
+ use a symlink library to follow symlinks in test directory
+ library must detect circular deps
+
+//
+
+  supports non-NPM projects (global installation)
+   => need to look for suman.conf.js and package.json, whichever comes first.
+
+//
+
+ --random/--rand should store the order in which the files were started
+
+//
+
+ we should allow people to put suman.conf.js somewhere besides project root, using some convention.
+
+//
+
+ find nearest @Dockerfile, if no @Dockerfile found, then use the built in Dockerfile in lib/dockerize
+
+//
+
+  need to test suman with bash v3.2 and bash v.4.x
+
+//
+
+ suman run, suman watch, suman
+ run is the default
+
+//
+
+ suman --containerize => should look for the nearest Dockerfile in the test dir to run
+
+///
+
+when two files are passed x.js and y.js, it still is looking in folders for files, but it shant
+
+ => [suman] =>   A file in a relevant directory did not match your regular expressions =>
+ { filename: '/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-watch/test/@config.json',
+  regexType: 'matchAny',
+  regex: 'The filename did not match any of the following regex(es) => .js$,.ts$' }
+
+//
+
+https://askubuntu.com/questions/936040/edit-compose-key-in-system-preferences-keyboard
+
+//
+
+typeof
+https://stackoverflow.com/questions/44686446/generate-typescript-interface-from-const
+
+//
+
+brew cask install osxfuse
+brew install bindfs
+
+  bindfs
+https://apple.stackexchange.com/questions/97920/mount-folder-as-a-volume-osx
+
+//
+
+ create readme file for suman helpers dir, to explain what each file is for.
+
+//
+
+  => suman-f is picking up the wrong suman.conf.js file
+
+//
+
+ give user feedback as to why callback was not a function, by letting users know the signature is
+ (data,cb) not (cb)
+
+  => [suman] =>  TypeError: callback is not a function
+     at process.nextTick (internal/process/next_tick.js:142:13)
+     at example (/Users/alexamil/WebstormProjects/cisco/cdt-now/test/_suman/suman.once.post.js:23:17)
+     at Object.exports.asyncHelper (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/helpers/async-helper.js:53:28)
+     at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/acquire-dependencies/acquire-post-deps.js:64:32
+     at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/acquire-dependencies/acquire-post-deps.js:57:20
+     at bound (domain.js:280:14)
+     at runBound (domain.js:293:12)
+     at process._tickDomainCallback (internal/process/next_tick.js:135:7)
+
+
+//
+
+ use symlinks to solve docker problem and suman.groups.js
+ symlink whole project dir into local dir for dockerfile
+
+//
+
+ => which CLI parser does Istanbul use? they have istanbul cover, istanbul report, etc.
+
+//
+
+XCompose
+https://www.quora.com/What-is-the-best-way-to-easily-generate-unicode-characters-with-one-keystroke-on-Linux/answer/Sam-Tanai?__filter__&__nsrc__=2&__snid3__=1256325862
+
+//
+
+ to send stderr and stdout to a file
+do_something 2>&1 | tee -a some_file
+
+//
+
+  if everything is in series, we can log out the results in mocha fashion
+
+//
+
+https://stackoverflow.com/questions/43433404/best-tool-for-json-file-schema-validation
+
+//
+
+// createReadStream FIFO
+https://github.com/nodejs/help/issues/719#issuecomment-314004719
+
+//
+
+http://www.brianstorti.com/stop-using-tail/
+
+//
+
+sµm∆n  => sµm∂n
+
+//
+
+  use √src or ∆src ∆target ˚src ˚target
+
+//
+
+https://github.com/mochajs/mocha/issues/2914#issuecomment-313580872
+
+///
+
+ cannot seem to run cli.sh files directly from suman project
+
+///
+
+ SUMAN_ENV=local => use suman-deamon
+
+///
+
+ take a screenshot with each test failure
+
+https://github.com/avajs/ava/issues/840
+Is there a way to get test status on afterEach() method ? #840
+
+///
+
+if suman --init is calledand there is no package.json file - should fail immediately
+
+//
+
+https://philipwalton.com/articles/learning-how-to-set-up-automated-cross-browser-javascript-unit-testing/
+
+//
+
+should shorten stack trace.
+
+   ⚑  => Suman fatal error  => making a graceful exit =>
+   Error: response status code is invalid => 503
+       at testAndHookCallbackHandler (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-helpers/handle-callback-helper.js:83:55)
+       at done (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-helpers/make-handle-befores-afters.js:100:29)
+       at Request._callback (/usr/local/cdt-tests/test/e2e/import.test.js:63:16)
+       at Request.self.callback (/usr/local/cdt-tests/node_modules/request/request.js:188:22)
+       at emitTwo (events.js:125:13)
+       at Request.emit (events.js:213:7)
+       at Request.<anonymous> (/usr/local/cdt-tests/node_modules/request/request.js:1171:10)
+       at emitOne (events.js:115:13)
+       at Request.emit (events.js:210:7)
+       at IncomingMessage.<anonymous> (/usr/local/cdt-tests/node_modules/request/request.js:1091:12)
+       at Object.onceWrapper (events.js:314:30)
+       at emitNone (events.js:110:20)
+       at IncomingMessage.emit (events.js:207:7)
+       at endReadableNT (_stream_readable.js:1047:12)
+       at _combinedTickCallback (internal/process/next_tick.js:102:11)
+       at process._tickDomainCallback (internal/process/next_tick.js:198:9)
+
+//
+
+suman --confirm flag should open up an interactive session
+and allow users to choose yes or no to run the files.
+
+//
+
+https://github.com/mochajs/mocha/issues/2914#issuecomment-313283613
+
+//
+
+ log npm version also?
+
+//
+
+ --dry-run flag will tell suman to just show what would be run, without actually running anything
+
 //
 
 D3 gantt chart
@@ -124,34 +419,6 @@ create suman conversion utility that will wrap a mocha test
 //
 
   SUMAN_SINGLE_PROCESS should not be an env variable?
-
-//
-
-test cases are causing fatal errors =>
-
-
- ✘   => test fail   'is meow'
- Originating entry test path => /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/es5-es6/integration-tests/test3.js
-Error: jesus christ
-at TestSuite.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/es5-es6/integration-tests/test3.js:28:13)
-at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-test.js:150:52
-
-
- => Suman runner => there was a fatal test suite error - an error was encountered in your test code that prevents Suman
- from continuing with a particular test suite within the following path:
-
- => /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/es5-es6/integration-tests/test3.js
-
-(note that despite this fatal error, other test processes will continue running, as would be expected, use the --bail option, if you wish otherwise.)
-
-
-   ⚑  => Suman fatal error  => making a graceful exit =>
-   Error: jesus christ
-       at TestSuite.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/es5-es6/integration-tests/test3.js:28:13)
-       at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-test.js:150:52
-       at _combinedTickCallback (internal/process/next_tick.js:95:7)
-       at process._tickDomainCallback (internal/process/next_tick.js:198:9)
-
 
 //
 
@@ -428,10 +695,6 @@ gulp.task('default', ['watch']);
 
  -nt and -ot to compare files
 https://unix.stackexchange.com/questions/372857/compare-two-file-modification-dates/372858#372858
-
-//
-
-  tsc-multi-watch => create a JSON map of files and their modification time?
 
 //
 

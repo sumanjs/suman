@@ -10,9 +10,9 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as domain from 'domain';
-import * as util from 'util';
-import * as EE from 'events';
+import domain = require('domain');
+import util = require('util');
+import EE = require('events');
 
 //npm
 import * as chalk from 'chalk';
@@ -21,10 +21,14 @@ import su from 'suman-utils';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-Object.defineProperty(_suman, 'integrantHashKeyVals', {
-  writable: false,
-  value: {}
-});
+
+if (!('integrantHashKeyVals' in _suman)) {
+  Object.defineProperty(_suman, 'integrantHashKeyVals', {
+    writable: false,
+    value: {}
+  });
+}
+
 const integrantsEmitter = _suman.integrantsEmitter = (_suman.integrantsEmitter || new EE());
 const {acquireDependencies} = require('../acquire-dependencies/acquire-pre-deps');
 import {constants} from '../../config/suman-constants';

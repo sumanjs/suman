@@ -1,6 +1,3 @@
-export interface ICoreAndDeps {
-    $core: Object;
-    $deps: Object;
-    mappedPkgJSONDeps: Array<string>;
-}
-export declare const getCoreAndDeps: () => ICoreAndDeps;
+export declare const mappedPkgJSONDeps: any[];
+export declare const $deps: {};
+export declare const $core: {};

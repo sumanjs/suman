@@ -1,2 +1,3 @@
 import { ISumanConfig, ISumanOpts } from "../../dts/global";
-export declare const resolveSharedDirs: (sumanConfig: ISumanConfig, projectRoot: string, sumanOpts: ISumanOpts) => any;
+declare const _default: (sumanConfig: ISumanConfig, projectRoot: string, sumanOpts: ISumanOpts) => any;
+export = _default;

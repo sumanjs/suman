@@ -1,21 +1,17 @@
-
-module.exports = () => {
-
+module.exports = function () {
     return {
-
         //TODO: need to add a property to these values on
-
         A: {
             testPath: 'test/integration-tests/test0.js',
-            obstructs: [/*'B','C'*/]
+            obstructs: []
         },
         B: {
             testPath: 'test/integration-tests/test1.js',
-            obstructs: [/*'C'*/]
+            obstructs: []
         },
         C: {
             testPath: 'test/integration-tests/test2.js',
-            obstructs: [/*'A'*/]
+            obstructs: []
         },
         //D: {
         //    testPath: 'test/integration-tests/test3.js',
@@ -31,17 +27,15 @@ module.exports = () => {
         //},
         Z: {
             testPath: 'test/build-tests/test7.js',
-            obstructs: [/*'B','G'*/]
+            obstructs: []
         },
         G: {
             testPath: 'test/build-tests/test8.js',
-            obstructs: [/*'A','B','H','C','Z'*/]
+            obstructs: []
         },
         H: {
             testPath: 'test/build-tests/test9.js',
-            obstructs: [/*'G'*/]
+            obstructs: []
         }
-
-    }
-
+    };
 };

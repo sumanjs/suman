@@ -3,6 +3,4 @@ node_modules/
 *.log
 .nyc_output/
 coverage/
-test/target/
 .DS_Store
-*@target*

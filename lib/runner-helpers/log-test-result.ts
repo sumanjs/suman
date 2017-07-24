@@ -6,11 +6,11 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as EE from 'events';
+import EE = require('events');
 
 //npm
 import {events} from 'suman-events';
-const su = require('suman-utils');
+import su = require('suman-utils');
 
 //project
 const _suman = global.__suman = (global.__suman || {});

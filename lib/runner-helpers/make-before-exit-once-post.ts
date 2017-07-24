@@ -6,16 +6,16 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as cp from 'child_process';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
+import cp = require('child_process');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
 
 //npm
-const async = require('async');
-const colors = require('colors/safe');
+import async = require('async');
+import * as chalk from 'chalk';
 const uniq = require('lodash.uniq');
 import * as _ from 'lodash';
 const {events} = require('suman-events');
@@ -63,7 +63,7 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
 
       if (!(k in dependencies)) {
         console.error('\n');
-        _suman.logError(colors.red('Suman usage error => your suman.once.post.js file ' +
+        _suman.logError(chalk.red('Suman usage error => your suman.once.post.js file ' +
           'is missing desired key ="' + k + '"'));
         return;
       }
@@ -73,7 +73,7 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
       if (!su.isArrayOrFunction(dependencies[k])) {
 
         console.error('\n');
-        _suman.logError(colors.red('Suman usage error => your suman.once.post.js file ' +
+        _suman.logError(chalk.red('Suman usage error => your suman.once.post.js file ' +
           'has keys whose values are not functions,\n\nthis applies to key ="' + k + '"'));
       }
     });
@@ -86,8 +86,8 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
 
     if (keys.length) {
       console.log('\n');
-      _suman.log(colors.gray.bold('Suman is now running the desired hooks in suman.once.post.js, which include =>') +
-        '\n\t', colors.cyan(util.inspect(keys)));
+      _suman.log(chalk.gray.bold('Suman is now running the desired hooks in suman.once.post.js, which include =>') +
+        '\n\t', chalk.cyan(util.inspect(keys)));
     }
 
     acquirePostDeps(keys, dependencies).then(function () {

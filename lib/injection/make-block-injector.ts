@@ -8,25 +8,28 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
 
 //npm
 const pragmatik = require('pragmatik');
-const colors = require('colors/safe');
-const su = require('suman-utils');
+import * as chalk from 'chalk';
+import su = require('suman-utils');
+
 const includes = require('lodash.includes');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import container from './injection-container';
-const {$core, $deps, mappedPkgJSONDeps} = require('./$core-n-$deps');
+import {getCoreAndDeps} from './$core-n-$deps';
+
 const rules = require('../helpers/handle-varargs');
+import {getProjectModule} from './helpers';
 
 /*///////////// => what it do ///////////////////////////////////////////////////////////////
 
@@ -34,9 +37,10 @@ const rules = require('../helpers/handle-varargs');
  => values may be procured +asynchronously+ prior to this, but here we
  finish creating the entire arguments array, all synchronously
 
+
  //////////////////////////////////////////////////////////////////////////////////////////*/
 
-export const makeBlockInjector =  function (suman: ISuman) {
+export const makeBlockInjector = function (suman: ISuman) {
 
   // => suman is unused, but just in case we need it, we will keep this functor pattern
   return function (suite: ITestSuite, parentSuite: ITestSuite, depsObj: IInjectionDeps): Array<any> {
@@ -51,16 +55,21 @@ export const makeBlockInjector =  function (suman: ISuman) {
 
       switch (key) {
 
-        case 'suite':
+        case '$block':
           return suite;
         case '$pre':
           return _suman['$pre'];
         case '$deps':
-          return $deps;
+          return getCoreAndDeps().$deps;
         case '$core':
-          return $core;
+          return getCoreAndDeps().$core;
         case '$root':
+        case '$projectRoot':
           return _suman.projectRoot;
+
+        case '$index':
+        case '$project':
+          return getProjectModule();
 
         case 'resume':
         case 'extraArgs':
@@ -71,6 +80,8 @@ export const makeBlockInjector =  function (suman: ISuman) {
           return suite[key];
 
         case 'describe':
+        case 'context':
+        case 'afterAllParentHooks':
         case 'before':
         case 'after':
         case 'beforeEach':

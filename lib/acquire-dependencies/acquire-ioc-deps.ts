@@ -8,15 +8,15 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
 
 //npm
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 const includes = require('lodash.includes');
 const fnArgs = require('function-arguments');
 
@@ -108,7 +108,7 @@ export default function acquireIocDeps(deps: Array<string>, suite: ITestSuite, c
           '"' + key + '", value => "' + util.inspect(fn) + '"'));
       }
       else if (fn.length > 1) {
-        reject(new Error(colors.red(' => Suman usage error => suman.ioc.js functions take 0 or 1 arguments, ' +
+        reject(new Error(chalk.red(' => Suman usage error => suman.ioc.js functions take 0 or 1 arguments, ' +
           'with the single argument being a callback function.')));
       }
       else if (fn.length > 0) {

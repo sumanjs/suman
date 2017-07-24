@@ -1,7 +1,7 @@
 'use strict';
 import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IPseudoError} from "../../dts/global";
+import {IPseudoError, SumanLib} from "../../dts/global";
 import {IItOpts, ITestDataObj} from "../../dts/it";
 import {IBeforeEachObj} from "../../dts/before-each";
 import {IAFterEachObj} from "../../dts/after-each";
@@ -11,7 +11,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as EE from 'events';
+import EE = require('events');
 
 //npm
 import * as async from 'async';
@@ -23,6 +23,7 @@ const {makeHandleTestResults} = require('./handle-test-result');
 const {makeHandleTest} = require('./make-handle-test');
 const allEachesHelper = require('./get-all-eaches');
 import {makeHandleBeforeOrAfterEach} from './make-handle-each';
+import sumanOpts = SumanLib.sumanOpts;
 const implementationError = require('../helpers/implementation-error');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -38,23 +39,27 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
   return function runTheTrap(self: ITestSuite, test: ITestDataObj, opts: IItOpts, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+      _suman.logError(`runtime error => "uncaughtException" event => halting program.\n[${__filename}]`);
       return;
     }
+
+    const sumanOpts = _suman.sumanOpts;
 
     let delaySum = 0; //TODO: is this correct?
 
     if (test.skipped) {
+      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
       resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
       return process.nextTick(cb, null, []);
     }
 
     if (test.stubbed) {
+      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
       resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
       return process.nextTick(cb, null, []);
     }
 
-    const parallel = opts.parallel;
+    const parallel = sumanOpts.parallel || (opts.parallel && !_suman.sumanOpts.series);
 
     async.eachSeries(allEachesHelper.getAllBeforesEaches(self), function (aBeforeEach: IBeforeEachObj, cb: Function) {
         handleBeforeOrAfterEach(self, test, aBeforeEach, cb);

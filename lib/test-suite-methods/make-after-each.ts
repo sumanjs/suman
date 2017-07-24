@@ -8,14 +8,9 @@ import {IAfterEachFn, IAfterEachOpts, TAfterEachHook} from "../../dts/after-each
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
-//core
-const util = require('util');
-const assert = require('assert');
-
 //npm
 const pragmatik = require('pragmatik');
-const async = require('async');
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
@@ -70,7 +65,7 @@ export const makeAfterEach = function (suman: ISuman, zuite: ITestSuite): IAfter
       zuite.getAfterEaches().push({
         ctx: zuite,
         timeout: opts.timeout || 11000,
-        desc: desc || (fn ? fn.name : '(unknown due to stubbed function)'),
+        desc: desc || fn.name,
         cb: opts.cb || false,
         throws: opts.throws,
         planCountExpected: opts.plan,

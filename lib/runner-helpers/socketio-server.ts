@@ -5,7 +5,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as util from 'util';
+import util = require('util');
 import * as http from 'http';
 
 //npm
@@ -30,7 +30,8 @@ export const initializeSocketServer = function (cb: Function): void {
         console.log('sumanception inacted.'); ///
       }
     };
-    return process.nextTick(cb);
+    // pass -1 as port number
+    return process.nextTick(cb, null, -1);
   }
 
   // this code could be simplified, but

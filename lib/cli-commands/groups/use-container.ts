@@ -5,19 +5,19 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
 import {Writable} from "stream";
 
 
 //npm
 import su from 'suman-utils';
-const colors = require('colors/safe');
-const async = require('async');
+import * as chalk from 'chalk';
+import async = require('async');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -166,7 +166,7 @@ export const runUseContainer = function (strm: Writable, item, cb: Function) {
       let name = data.name;
 
       if (code > 0) {
-        console.error('\n', colors.red.bold(' => Exit code of container build command was greater than zero, ' +
+        console.error('\n', chalk.red.bold(' => Exit code of container build command was greater than zero, ' +
           'so we are not running the container.'), '\n');
         return process.nextTick(function () {
           cb(null, {

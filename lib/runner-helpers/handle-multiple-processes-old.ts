@@ -10,18 +10,18 @@ const global = require('suman-browser-polyfills/modules/global');
 //core
 const cp = require('child_process');
 const path = require('path');
-const util = require('util');
+import util = require('util');
 const EE = require('events');
 
 //npm
-const semver = require('semver');
+import semver = require('semver');
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
-const su = require('suman-utils');
-const async = require('async');
+import su = require('suman-utils');
+import async = require('async');
 const noFilesFoundError = require('../helpers/no-files-found-error');
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -50,7 +50,7 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
 
     if (sumanOpts.$useTAPOutput) {
       if (sumanOpts.verbosity > 7) {
-        console.log(colors.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
+        console.log(chalk.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
           'and will not be listening for IPC messages.'));
       }
     }
@@ -66,7 +66,7 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
     const filesThatDidNotMatch = runObj.filesThatDidNotMatch;
 
     filesThatDidNotMatch.forEach(function (val) {
-      console.log('\n', colors.bgBlack.yellow(' => Suman message =>  A file in a relevant directory ' +
+      console.log('\n', chalk.bgBlack.yellow(' => Suman message =>  A file in a relevant directory ' +
         'did not match your regular expressions => '), '\n', util.inspect(val));
     });
 
@@ -179,7 +179,7 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
         const $execArgz = execArgz.filter(function (e, i) {
           // filter out duplicate command line args
           if (execArgz.indexOf(e) !== i) {
-            console.error('\n', colors.yellow(' => Warning you have duplicate items in your exec args => '),
+            console.error('\n', chalk.yellow(' => Warning you have duplicate items in your exec args => '),
               '\n' + util.inspect(execArgz), '\n');
           }
           return true;
@@ -212,8 +212,8 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
 
           if (sh) {
             if (sumanOpts.coverage) {
-              _suman.logWarning(colors.magenta('coverage option was set to true, but we are running your tests via @run.sh.'));
-              _suman.logWarning(colors.magenta('so in this case, you will need to run your coverage call via @run.sh.'));
+              _suman.logWarning(chalk.magenta('coverage option was set to true, but we are running your tests via @run.sh.'));
+              _suman.logWarning(chalk.magenta('so in this case, you will need to run your coverage call via @run.sh.'));
             }
             _suman.log('We have found the sh file => ', sh);
             n = cp.spawn(sh, argz, cpOptions);
@@ -273,7 +273,7 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
             if (hashbang) {
               console.error('\n');
               console.error(' => The supposed test script file with the following path may not have a hashbang => ');
-              console.error(colors.magenta.bold(file));
+              console.error(chalk.magenta.bold(file));
               console.error(' => A hashbang is necessary for non-.js files and when there is no accompanying @run.sh file.');
               console.error(' => Without a hashbang, Suman (and your OS) will not know how to run the file.');
               console.error(' => See sumanjs.org for more information.');
@@ -286,8 +286,8 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
             n.stderr.setEncoding('utf8');
 
             if (sumanOpts.inherit_stdio) {
-              n.stdout.pipe(pt(colors.bold(' => [suman child stdout] => '))).pipe(process.stdout);
-              n.stderr.pipe(pt(colors.red.bold(' => [suman child stderr] => '))).pipe(process.stderr);
+              n.stdout.pipe(pt(chalk.bold(' => [suman child stdout] => '))).pipe(process.stdout);
+              n.stderr.pipe(pt(chalk.red.bold(' => [suman child stderr] => '))).pipe(process.stderr);
             }
 
             if (sumanOpts.$useTAPOutput) {

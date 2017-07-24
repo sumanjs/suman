@@ -7,14 +7,16 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const assert = require('assert');
-const util = require('util');
-const domain = require('domain');
-const path = require('path');
-const EE = require('events');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import domain = require('domain');
+import assert = require('assert');
+import EE = require('events');
 
 //npm
 import {events} from 'suman-events'
+import * as chalk from 'chalk';
 import * as _ from 'lodash';
 import su from 'suman-utils';
 
@@ -27,10 +29,12 @@ const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster |
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Object.defineProperty(_suman, 'integrantHashKeyVals', {
-  writable: false,
-  value: {}
-});
+if (!('integrantHashKeyVals' in _suman)) {
+  Object.defineProperty(_suman, 'integrantHashKeyVals', {
+    writable: false,
+    value: {}
+  });
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -87,7 +91,7 @@ export const makeHandleIntegrantInfo =
           runnerObj.hasOncePostFile = true;
         }
         catch (err) {
-          console.error(colors.red(' => Suman usage warning => you have suman.once.post data defined, ' +
+          console.error(chalk.red(' => Suman usage warning => you have suman.once.post data defined, ' +
               'but no suman.once.post.js file.') + '\n' + (err.stack || err));
         }
 

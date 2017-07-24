@@ -11,7 +11,7 @@ const global = require('suman-browser-polyfills/modules/global');
 import {ChildProcess} from "child_process";
 const cp = require('child_process');
 const path = require('path');
-const util = require('util');
+import util = require('util');
 const EE = require('events');
 
 //npm
@@ -19,10 +19,10 @@ const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
 import {ISumanCPMessages} from "./handle-multiple-processes";
-const su = require('suman-utils');
-const async = require('async');
+import su = require('suman-utils');
+import async = require('async');
 const noFilesFoundError = require('../helpers/no-files-found-error');
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -55,7 +55,7 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
 
     if (su.isSumanDebug() || su.vgt(5)) {
       console.log('\n',
-        colors.black.bgYellow(' => process given by => ' +
+        chalk.black.bgYellow(' => process given by => ' +
           n.shortTestPath + ' exited with code: ' + code + ' '), '\n');
     }
 
@@ -83,8 +83,8 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
 
       if (runnerObj.bailed) {
         console.log('\n\n');
-        console.log(colors.magenta(' => Suman warning message => ' +
-          'We have ' + colors.red.bold('bailed') + ' the test runner because a child process experienced an error ' +
+        console.log(chalk.magenta(' => Suman warning message => ' +
+          'We have ' + chalk.red.bold('bailed') + ' the test runner because a child process experienced an error ' +
           'and exitted with a non-zero code.'));
         console.log(' => Since we have bailed, Suman will send a SIGTERM signal to any outstanding child processes.');
         forkedCPs.forEach(function (n: ISumanChildProcess) {
@@ -98,7 +98,7 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
 
         if (sumanOpts.verbosity > 4) {
           console.log('\n');
-          _suman.log(colors.blue.bold.underline(' All scheduled child processes have exited.'));
+          _suman.log(chalk.blue.bold.underline(' All scheduled child processes have exited.'));
           console.log('\n');
         }
       }
@@ -112,8 +112,8 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
           function (cb: Function) {
             if (_suman.sumanOpts.coverage && !_suman.sumanOpts.no_report) {
               console.log('\n');
-              console.log(colors.blue.bold(' => Suman is running the Istanbul collated report.'));
-              console.log(colors.blue.bold(' => To disable automatic report generation, use "--no-coverage-report".'));
+              console.log(chalk.blue.bold(' => Suman is running the Istanbul collated report.'));
+              console.log(chalk.blue.bold(' => To disable automatic report generation, use "--no-coverage-report".'));
               let coverageDir = path.resolve(_suman.projectRoot + '/coverage');
               const k = cp.spawn(_suman.istanbulExecPath,
                 ['report', '--dir', coverageDir, '--include', '**/*coverage.json', 'lcov'], {
