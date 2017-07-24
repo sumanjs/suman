@@ -1,20 +1,16 @@
 'use strict';
-
-const fs = require('fs');
-const path = require('path');
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var fs = require("fs");
+var path = require("path");
 (function findRoot(pth) {
-
-    let possiblePkgDotJsonPath = path.resolve(String(pth) + '/package.json');
-
+    var possiblePkgDotJsonPath = path.resolve(String(pth) + '/package.json');
     try {
         fs.statSync(possiblePkgDotJsonPath).isFile();
         console.log(pth);
         process.exit(0);
     }
     catch (err) {
-        let subPath = path.resolve(String(pth) + '/../');
+        var subPath = path.resolve(String(pth) + '/../');
         if (subPath === pth) {
             console.error(' => Cannot find path to project root.');
             process.exit(1);
@@ -23,5 +19,4 @@ const path = require('path');
             return findRoot(subPath);
         }
     }
-
 })(process.cwd());
