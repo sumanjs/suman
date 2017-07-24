@@ -8,7 +8,9 @@ const Test = suman.init(module, {
   post: ['smartconnect']
 });
 
-Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks) {
+Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks, $project) {
+
+  console.log($project);
 
   // beforeEach(t => {
   //   console.log('parent before each');

@@ -13,6 +13,9 @@ three SO profiles:
      foo = v*2;
     }
 
+//
+
+ --dry-run // --confirm
 
 //
 
