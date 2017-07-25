@@ -16,11 +16,13 @@ import EE = require('events');
 
 //npm
 import semver = require('semver');
+
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
 import su from 'suman-utils';
 import * as async from 'async';
+
 const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
 
@@ -28,6 +30,7 @@ import * as chalk from 'chalk';
 const _suman = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
 import {cpHash, socketHash} from './socket-cp-hash';
+
 const {getTapParser} = require('./handle-tap');
 const {constants} = require('../../config/suman-constants');
 const debug = require('suman-debug')('s:runner');
@@ -77,7 +80,6 @@ export const makeHandleMultipleProcesses =
             });
             return;
           }
-
 
           if (waitForAllTranformsToFinish) {
             queuedTestFns.push(function () {
@@ -178,7 +180,6 @@ export const makeHandleMultipleProcesses =
 
         if (tr) {
 
-          console.log('found tr 2 => ', tr);
 
           transpileQueue.push(function (cb: Function) {
 
@@ -200,8 +201,6 @@ export const makeHandleMultipleProcesses =
 
               k.stderr.setEncoding('utf8');
               k.stdout.setEncoding('utf8');
-
-
 
               if (sumanOpts.inherit_stdio || process.env.SUMAN_INHERIT_STDIO) {
 
@@ -337,7 +336,6 @@ export const makeHandleMultipleProcesses =
             _suman.log('we are inheriting stdio of child, because of sumanception.');
           }
 
-
           let cpOptions = {
             cwd: projectRoot,
             // cwd: sumanOpts.force_cwd_to_be_project_root ? projectRoot : path.dirname(file),
@@ -363,7 +361,7 @@ export const makeHandleMultipleProcesses =
 
             //force to project root
             cpOptions.cwd = projectRoot;
-            su.isSumanDebug(function(){
+            su.isSumanDebug(function () {
               console.log('found sh => ', sh);
             });
 

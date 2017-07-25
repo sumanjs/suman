@@ -4,9 +4,9 @@
 export SUMAN_DEBUG_LOG_PATH="$HOME/.suman/logs/suman-postinstall-debug.log"
 SUMAN_POSTINSTALL_IS_DAEMON=${SUMAN_POSTINSTALL_IS_DAEMON:-no}
 
-mkdir -p ~/.suman/logs && echo "create logs dir" || { echo " could not create logs dir"; exit 1; }
-mkdir -p ~/.suman/global && echo "created global dir" || { echo " could not create global dir"; exit 1; }
-mkdir -p ~/.suman/database && echo "created database dir" || { echo " could not create database dir"; exit 1; }
+mkdir "$HOME/.suman/logs" && echo "create logs dir" || { echo " could not create logs dir"; exit 1; }
+mkdir "$HOME/.suman/global" && echo "created global dir" || { echo " could not create global dir"; exit 1; }
+mkdir "$HOME/.suman/database" && echo "created database dir" || { echo " could not create database dir"; exit 1; }
 
 if [ -e ${SUMAN_DEBUG_LOG_PATH} ]; then
    echo "new install run" > ${SUMAN_DEBUG_LOG_PATH} && echo "created debug log file" \

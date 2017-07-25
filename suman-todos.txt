@@ -4,7 +4,18 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+
 //
+
+  need to increment test numbers, as the results come into the runner.
+
+//
+
+  use marker property with @src and @target as well as @run and @transform
+  => is @config.json the whole thing that must stick to @ paradigm?
+
+//
+
   use block scope
 
    let foo;
@@ -1842,13 +1853,6 @@ and (2) if not in a container, then put install thing on queue, then proceed
   list failed tests at the end - even with suman single-js-file table
 
 ///
-
-To ask Henry:
-
-DI pattern from SO / Codereview
-parallel sourcing of deps - how to call shared fns only once
-
-////
 
 suman_software @twitter
 upon new release, send out tweet

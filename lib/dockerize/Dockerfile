@@ -14,21 +14,22 @@ WORKDIR /usr/src/app
 
 RUN npm config --global set color false
 RUN npm --global set progress=false
+RUN npm set progress=false
 
 COPY package.json .
-RUN npm install
+RUN npm install --only=production --silent
 
 RUN echo "reinstalling 3"
 
 RUN sudo chown -R $(whoami) $(npm config get prefix)
-RUN chmod -R 777 $(npm root -g)
-RUN npm install github:sumanjs/suman#rebase_branch
+RUN sudo chmod -R 777 $(npm root -g)
+RUN sudo npm install -g github:sumanjs/suman#rebase_branch --only=production
 
 RUN echo "rebuilding 1"
 COPY . .
 
 #CMD ["node","/usr/src/app/node_modules/suman/cli.js"]
 
-ENTRYPOINT ["/usr/src/app/node_modules/suman/cli.js"]
+ENTRYPOINT ["suman"]
 
 #ENTRYPOINT ["sudo","suman"]
