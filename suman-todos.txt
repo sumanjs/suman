@@ -4,6 +4,13 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+//
+
+  suman-single-process should use vm to run in this context?
+
+//
+
+ => use suman --view-results, to view HTML rendering of results from last run
 
 //
 
