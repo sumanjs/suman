@@ -5,6 +5,10 @@ three SO profiles:
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
 //
+   print test path run if using node x.js or suman x.js
+   sometimes I just forget what test I just ran lol
+
+//
 
   suman-single-process should use vm to run in this context?
 
@@ -15,6 +19,8 @@ three SO profiles:
 //
 
   need to increment test numbers, as the results come into the runner.
+
+
 
 //
 
