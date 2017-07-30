@@ -74,7 +74,9 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
     }
 
     runnerObj.doneCount++;
-    messages.push({code: code, signal: signal});
+
+    messages.push({code, signal});
+
     tableRows[n.shortTestPath].actualExitCode = n.expectedExitCode !== undefined ?
       (n.expectedExitCode + '/' + originalExitCode) : originalExitCode;
 

@@ -24,7 +24,7 @@
 //          null, 100, null],
 //      ]);
 
-      const val = JSON.parse('[["1","mocha1.js","fail-group",1501216191259,1565324991259,null,100,null],["2","j.js","success-group",1501561791259,1566102591259,null,100,null],["3","deps.test.js","fail-group",1501820991259,1567052991259,null,100,null],["4","c.js","success-group",1502166591259,1533184191259,null,100,null],["5","b.ts","fail-group",1502684991259,1503721791259,null,100,null],["6","a.js","success-group",1502944191259,1600230591259,null,100,null]]');
+      const val = JSON.parse('[["1","regexp.js","fail-group",1502661146089,1572904346089,null,100,null]]');
 
       const mapped = val.map(function(item){
          return [item[0], item[1], item[2], new Date(item[3]), new Date(item[4]), item[5], item[6], item[7] ];

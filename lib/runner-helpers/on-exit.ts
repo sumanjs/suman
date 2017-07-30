@@ -5,11 +5,13 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const fs = require('fs');
-const path = require('path');
+import fs = require('fs');
+import path = require('path');
+import EE = require('events');
 
 //npm
 import * as chalk from 'chalk';
+
 const {events} = require('suman-events');
 const sumanUtils = require('suman-utils');
 
@@ -19,7 +21,7 @@ const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster |
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-module.exports = function onExit(code) {
+export const onExit = function (code: number) {
 
   if (code > 0) {
     //make a beep noise if a failing run

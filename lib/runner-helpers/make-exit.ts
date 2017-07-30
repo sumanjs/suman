@@ -20,8 +20,10 @@ import cp = require('child_process');
 const {events} = require('suman-events');
 const sumanUtils = require('suman-utils');
 import async = require('async');
+
 const sortBy = require('lodash.sortby');
 const AsciiTable = require('ascii-table');
+import chalk  = require('chalk');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -31,14 +33,14 @@ const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster |
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 import {createGanttChart} from './create-gantt-chart';
 
+/////////////////////////////////////////////////////////
 
-
-function mapCopy(copy) {
+const mapCopy = function (copy: Object) {
   return Object.keys(copy).map(key => {
     const val = copy[key];
     return val.value ? val.value : val.default;
   });
-}
+};
 
 //////////////////////////////////////////////////////////
 
