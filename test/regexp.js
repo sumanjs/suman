@@ -10,13 +10,6 @@ const Test = suman.init(module, {
 
 Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks, $project) {
 
-  console.log($project);
-
-  // beforeEach(t => {
-  //   console.log('parent before each');
-  //   console.log('before each hook',t.shared.get('x'));
-  // });
-
   before(t => {
     console.log('parent before');
     this.shared.set('x', 2);
@@ -24,7 +17,7 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
 
   context('foo', function () {
 
-    console.log('this.shared.x => ', this.shared);
+    console.log('this.shared.x => ', this.shared, '\n');
 
     before(t => {
       console.log('child 1 before');

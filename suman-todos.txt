@@ -5,12 +5,18 @@ three SO profiles:
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
 //
+
+  if sumanception level > 1, then we shouldn't write any TAP results
+  because stdout cannot be multiplexed, etc.
+
+//
    print test path run if using node x.js or suman x.js
    sometimes I just forget what test I just ran lol
 
 //
 
   suman-single-process should use vm to run in this context?
+  https://nodejs.org/api/vm.html#vm_script_runinthiscontext_options
 
 //
 
@@ -19,8 +25,6 @@ three SO profiles:
 //
 
   need to increment test numbers, as the results come into the runner.
-
-
 
 //
 
@@ -114,7 +118,6 @@ process.stderr.write = function () {
 
 
 //
-
 
 https://github.com/nodejs/help/issues/735
 
@@ -274,7 +277,7 @@ Is there a way to get test status on afterEach() method ? #840
 
 ///
 
-if suman --init is calledand there is no package.json file - should fail immediately
+if suman --init is called and there is no package.json file - should fail immediately
 
 //
 
@@ -347,11 +350,6 @@ new Test('z', function (assert) {
 //
 
   maybe we should disallow the runner to be used if inceptionLevel > 0
-
-//
-
- find an open port
- https://github.com/indexzero/node-portfinder
 
 //
 

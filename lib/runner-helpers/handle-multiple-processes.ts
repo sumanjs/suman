@@ -32,11 +32,13 @@ const runnerUtils = require('./runner-utils');
 import {cpHash, socketHash} from './socket-cp-hash';
 
 const {getTapParser} = require('./handle-tap');
+const {getTapJSONParser} = require('./handle-tap-json');
 const {constants} = require('../../config/suman-constants');
 const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import onExitFn from './multiple-process-each-on-exit';
 import pt from 'prepend-transform';
+const runChildPath = require.resolve(__dirname + '/run-child.js');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -131,6 +133,7 @@ export const makeHandleMultipleProcesses =
       const fileObjArray = su.removeSharedRootPath(files);
 
       const sumanEnv = Object.assign({}, process.env, {
+        SUMAN_RUN_CHILD_STATIC_PATH: runChildPath,
         SUMAN_CONFIG: JSON.stringify(sumanConfig),
         SUMAN_OPTS: JSON.stringify(sumanOpts),
         SUMAN_RUNNER: 'yes',
@@ -180,7 +183,6 @@ export const makeHandleMultipleProcesses =
 
         if (tr) {
 
-
           transpileQueue.push(function (cb: Function) {
 
             su.makePathExecutable(tr, function (err: Error) {
@@ -202,18 +204,18 @@ export const makeHandleMultipleProcesses =
               k.stderr.setEncoding('utf8');
               k.stdout.setEncoding('utf8');
 
-              if (sumanOpts.inherit_stdio || process.env.SUMAN_INHERIT_STDIO) {
+              const ln = String(_suman.projectRoot).length;
 
-                console.log('going to log stdout and stderr 222.');
+              if (sumanOpts.inherit_all_stdio || sumanOpts.inherit_transform_stdio || process.env.SUMAN_INHERIT_STDIO) {
 
                 let onError = function (e: Error) {
                   console.error('\n', e.stack || e, '\n');
                 };
 
-                k.stderr.pipe(pt(`${chalk.red('=> transform process stderr => ')} ${file}\n`))
+                k.stderr.pipe(pt(` [${chalk.red('transform process stderr:')} ${chalk.red.bold(String(file.slice(ln)))}] `))
                 .on('error', onError).pipe(process.stderr).on('error', onError);
 
-                k.stdout.pipe(pt(` => transform process stdout => ${file}\n`))
+                k.stdout.pipe(pt(` [${chalk.yellow('transform process stdout:')} ${chalk.gray.bold(String(file.slice(ln)))}] `))
                 .on('error', onError).pipe(process.stdout).on('error', onError);
               }
 
@@ -337,6 +339,7 @@ export const makeHandleMultipleProcesses =
           }
 
           let cpOptions = {
+            detached: false,
             cwd: projectRoot,
             // cwd: sumanOpts.force_cwd_to_be_project_root ? projectRoot : path.dirname(file),
             stdio: [
@@ -350,8 +353,7 @@ export const makeHandleMultipleProcesses =
               SUMAN_CHILD_TEST_PATH_TARGET: file,
               SUMAN_TRANSFORM_STDOUT: stdout,
               SUMAN_CHILD_ID: String($childId)
-            }),
-            detached: false
+            })
           };
 
           // we run the file directly, hopefully it has a hashbang
@@ -423,9 +425,7 @@ export const makeHandleMultipleProcesses =
           forkedCPs.push(n);
 
           n.on('message', function (msg) {
-            //TODO: this should use handleMessage.bind(n)
-            throw new Error('this should be over.');
-            // handleMessage(msg, n);
+            _suman.logError('Suman runner does not handle standard Node.js IPC messages.');
           });
 
           n.on('error', function (err) {
@@ -455,17 +455,31 @@ export const makeHandleMultipleProcesses =
                 console.error('\n', e.stack || e, '\n');
               };
 
-              n.stdout.pipe(pt(chalk.blue(' => [suman child stdout] => ')))
+              n.stdout.pipe(pt(chalk.cyan(' => [suman child stdout] => ')))
               .on('error', onError).pipe(process.stdout).on('error', onError);
               n.stderr.pipe(pt(chalk.red.bold(' => [suman child stderr] => ')))
               .on('error', onError).pipe(process.stderr).on('error', onError);
             }
 
+            // if (true || sumanOpts.$useTAPOutput) {
+            //   n.tapOutputIsComplete = false;
+            //   n.stdout.pipe(getTapParser())
+            //   .on('error', function (e: Error) {
+            //     _suman.logError('error parsing TAP output => ', e.stack || e);
+            //   })
+            //   .once('finish', function () {
+            //     n.tapOutputIsComplete = true;
+            //     process.nextTick(function () {
+            //       n.emit('tap-output-is-complete', true);
+            //     });
+            //   });
+            // }
+
             if (true || sumanOpts.$useTAPOutput) {
               n.tapOutputIsComplete = false;
-              n.stdout.pipe(getTapParser())
+              n.stdout.pipe(getTapJSONParser())
               .on('error', function (e: Error) {
-                _suman.logError('error parsing TAP output => ', e.stack || e);
+                _suman.logError('error parsing TAP JSON output => ', e.stack || e);
               })
               .once('finish', function () {
                 n.tapOutputIsComplete = true;

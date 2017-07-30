@@ -34,11 +34,10 @@ export const run = function () {
   optsCopy.currPadCount = _suman.currentPaddingCount;
 
   if (sumanReporters.length < 1) {
-
     let fn: Function;
     if (true || _suman.inceptionLevel > 0 || _suman.sumanOpts.useTAPOutput) {
       console.log('reporters last ditch: loading tap reporter');
-      fn = require('suman-reporters/modules/tap-reporter');
+      fn = require('suman-reporters/modules/tap-json-reporter');
       fn = fn.default || fn;
     }
     else {

@@ -31,6 +31,8 @@ export const run = function (filePath: string) {
 
   if (process.env.MAKE_SUMAN_LOG !== 'no') {
 
+    console.log('we are logging child stdout/stderr to files.');
+
     const timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
     const runId = process.env.SUMAN_RUN_ID;
     const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
@@ -40,7 +42,7 @@ export const run = function (filePath: string) {
 
     if (SUMAN_SINGLE_PROCESS) {
       console.error('\n');
-      _suman.logError('in SUMAN_SINGLE_PROCESS mode and we are not currently configured to log stdio to log file.');
+      _suman.logError('in SUMAN_SINGLE_PROCESS mode, and we are not currently configured to log stdio to log file.');
       console.error('\n');
       return;
     }
@@ -69,7 +71,7 @@ export const run = function (filePath: string) {
 
     // RM fs.writeFileSync(logfile, '');
 
-    if (_suman.sumanConfig.isLogChildStderr) {
+    if (true || _suman.sumanConfig.isLogChildStderr) {
       const stderrWrite = process.stderr.write;
       process.stderr.write = function () {
         _suman.isStrmDrained = false;
@@ -81,7 +83,7 @@ export const run = function (filePath: string) {
 
     fs.appendFileSync(logfile, ' => Beginning of debug log for test with full path => \n' + filePath + '\n');
 
-    if (_suman.sumanConfig.isLogChildStdout) {
+    if (true || _suman.sumanConfig.isLogChildStdout) {
       const stdoutWrite = process.stdout.write;
       process.stdout.write = function () {
         _suman.isStrmDrained = false;
@@ -94,7 +96,7 @@ export const run = function (filePath: string) {
     process.once('exit', function () {
       // we only delete files for which no stderr was written to them
       // the reason we delete empty log files, is because there is no reason for the user to see them
-      if (isDeleteFile) {
+      if (isDeleteFile && false) {
         try {
           fs.unlinkSync(logfile);
         }
