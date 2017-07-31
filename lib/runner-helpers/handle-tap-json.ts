@@ -26,10 +26,6 @@ let first = true;
 
 export const getTapJSONParser = function () {
 
-  if (first) {
-    _suman.log('we are handling TAP.');
-  }
-
   const p = parser();
 
   p.on('testpoint', function (testpoint: Object) {
@@ -37,7 +33,7 @@ export const getTapJSONParser = function () {
     if (first) {
       first = false;
       console.log('\n');
-      _suman.log(chalk.yellow.bold('suman we have received at least one test result via TAP.'));
+      _suman.log(chalk.yellow.bold('suman runner has received first test result via TAP.'));
       console.log('\n');
     }
 

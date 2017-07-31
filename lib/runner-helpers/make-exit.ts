@@ -7,9 +7,6 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import domain = require('domain');
-import os = require('os');
-import fs = require('fs');
 import path = require('path');
 import util = require('util');
 import assert = require('assert');
@@ -32,6 +29,7 @@ const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 import {createGanttChart} from './create-gantt-chart';
+let timeOutMillis = 15000;
 
 /////////////////////////////////////////////////////////
 
@@ -187,10 +185,17 @@ export const makeExit = function (runnerObj, tableRows) {
 
     //note: that we have intelligently patched process.exit to use a callback
 
+    let timedOut = false;
+    const to = setTimeout(function () {
+      timedOut = true;
+      _suman.logError(`runner exit routine timed out after ${timeOutMillis}ms.`);
+      process.exit(1);
+    }, timeOutMillis);
+
     async.autoInject({
 
       handleAsyncReporters: function (cb: Function) {
-        async.each(reporterRets, function (item, cb) {
+        async.each(reporterRets, function (item: Object, cb: Function) {
 
           if (!item || item.count < 1) {
             // if nothing is returned from the reporter module, we can't do anything
@@ -213,6 +218,10 @@ export const makeExit = function (runnerObj, tableRows) {
 
     }, function (err: Error) {
       err && _suman.logError(err.stack || err);
+      if (timedOut) {
+        return;
+      }
+      clearTimeout(to);
       process.exit(exitCode);
     });
 

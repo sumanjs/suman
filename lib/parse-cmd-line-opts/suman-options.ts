@@ -355,6 +355,11 @@ module.exports = [
     help: 'Use this option to tell Suman runner to *not* interpret TAP output from child process(es) stdout.'
   },
   {
+    names: ['dry-run'],
+    type: 'bool',
+    help: 'Use this option to tell Suman runner to *not* interpret TAP output from child process(es) stdout.'
+  },
+  {
     names: ['inspect-child', 'inspect-children'],
     type: 'bool',
     help: 'Use this option to aid in the debugging of child_processes.'
