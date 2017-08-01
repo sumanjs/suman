@@ -23,6 +23,7 @@ import su = require('suman-utils');
 import async = require('async');
 const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
+import {IGanttData} from "./socket-cp-hash";
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -35,14 +36,13 @@ const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster |
 
 export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows: ITableRows,
                          messages: Array<ISumanCPMessages>, forkedCPs: Array<ISumanChildProcess>,
-                         beforeExitRunOncePost: Function, makeExit: Function) {
+                         beforeExitRunOncePost: Function, makeExit: Function, gd: IGanttData) {
 
   return function (code: number, signal: number) {
 
 
-    n.dateEndedMillis = Date.now();
-
-    n.sumanExitCode = code;
+    n.dateEndedMillis = gd.endDate = Date.now();
+    n.sumanExitCode = gd.sumanExitCode = code;
 
     const sumanOpts = _suman.sumanOpts;
     // handleBlocking gets initialized weirdly in runner.js, but we will deal for now

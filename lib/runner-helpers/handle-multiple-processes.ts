@@ -29,7 +29,7 @@ import * as chalk from 'chalk';
 //project
 const _suman = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
-import {cpHash, socketHash} from './socket-cp-hash';
+import {cpHash, socketHash, ganttHash, IGanttHash, IGanttData} from './socket-cp-hash';
 
 const {getTapParser} = require('./handle-tap');
 const {getTapJSONParser} = require('./handle-tap-json');
@@ -38,7 +38,9 @@ const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import onExitFn from './multiple-process-each-on-exit';
 import pt from 'prepend-transform';
+
 const runChildPath = require.resolve(__dirname + '/run-child.js');
+import uuidV4 = require('uuid/v4');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -71,29 +73,27 @@ export const makeHandleMultipleProcesses =
 
       const transpileQueue = async.queue(function (task: Function, cb: Function) {
 
-        task(function (err: Error, file: string, shortFile: string, stdout: string, stderr: string) {
+        task(function (err: Error, file: string, shortFile: string, stdout: string, stderr: string, gd: IGanttData) {
 
           setImmediate(cb);
 
           if (err) {
             _suman.logError('tranpile error => ', err.stack || err);
-            failedTransformObjects.push({
-              err, file, shortFile, stdout, stderr
-            });
+            failedTransformObjects.push({err, file, shortFile, stdout, stderr});
             return;
           }
 
           if (waitForAllTranformsToFinish) {
             queuedTestFns.push(function () {
-              outer(file, shortFile, stdout);
+              outer(file, shortFile, stdout, gd);
             });
           }
           else {
-            outer(file, shortFile, stdout);
+            outer(file, shortFile, stdout, gd);
           }
         });
 
-      }, 4);
+      }, 3);
 
       if (waitForAllTranformsToFinish) {
         transpileQueue.drain = function () {
@@ -106,9 +106,9 @@ export const makeHandleMultipleProcesses =
       }
 
       if (sumanOpts.$useTAPOutput) {
-        if (sumanOpts.verbosity > 7) {
+        if (sumanOpts.verbosity > 4) {
           console.log(chalk.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
-            'and will not be listening for IPC messages.'));
+            'and will not be listening for websocket messages.'));
         }
       }
 
@@ -153,10 +153,11 @@ export const makeHandleMultipleProcesses =
 
       fileObjArray.forEach(function (fileShortAndFull: Array<Array<string>>) {
 
+        const uuid = String(uuidV4());
         const file = fileShortAndFull[0];
         const shortFile = fileShortAndFull[1];
+        const filePathFromProjectRoot = fileShortAndFull[2];
 
-        // const basename = path.basename(file);
         let basename = file.length > 28 ? ' ' + String(file).substring(Math.max(0, file.length - 28)) + ' ' : file;
 
         const m = String(basename).match(/\//g);
@@ -170,6 +171,7 @@ export const makeHandleMultipleProcesses =
           basename = arr.join('');
         }
 
+        //TODO: we should used uuid here instead
         tableRows[shortFile] = {
           actualExitCode: null,
           shortFilePath: shortFile,
@@ -178,6 +180,17 @@ export const makeHandleMultipleProcesses =
             SUITES_DESIGNATOR: basename
           }
         };
+
+        const gd = ganttHash[uuid] = {
+          uuid: uuid,
+          fullFilePath: String(file),
+          shortFilePath: String(shortFile),
+          filePathFromProjectRoot: String(filePathFromProjectRoot),
+          // transformStartDate: null,
+          // transformEndDate: null,
+          // startDate: null,
+          // endDate: null
+        } as any;
 
         const tr = (sumanOpts.no_transpile !== true) && runnerUtils.findPathOfTransformDotSh(file);
 
@@ -190,6 +203,8 @@ export const makeHandleMultipleProcesses =
               if (err) {
                 return cb(err);
               }
+
+              gd.transformStartDate = Date.now();
 
               let k = cp.spawn(tr, [], {
                 cwd: projectRoot,
@@ -241,12 +256,14 @@ export const makeHandleMultipleProcesses =
 
               k.once('close', function (code: number) {
 
+                gd.transformEndDate = Date.now();
+
                 if (code > 0) {
                   cb(new Error(`the @transform.sh process, for file ${file},\nexitted with non-zero exit code. :( 
                   \n To see the stderr, use --inherit-stdio.`));
                 }
                 else {
-                  cb(null, file, shortFile, stdout, stderr);
+                  cb(null, file, shortFile, stdout, stderr, gd);
                 }
 
               });
@@ -258,10 +275,12 @@ export const makeHandleMultipleProcesses =
         }
         else {
           // we don't need to run any transform, so we run right away
+          gd.transformStartDate = gd.transformEndDate = null;
+          gd.wasTransformed = false;
           transpileQueue.unshift(function (cb: Function) {
             setImmediate(function () {
-              // there is no applicable stdout, so we pass empty string
-              cb(null, file, shortFile, '');
+              // there is no applicable stdout/stderr, so we pass empty string
+              cb(null, file, shortFile, '', '', gd);
             });
           });
         }
@@ -269,7 +288,7 @@ export const makeHandleMultipleProcesses =
 
       let childId = 1;
 
-      const outer = function (file: string, shortFile: string, stdout: string) {
+      const outer = function (file: string, shortFile: string, stdout: string, gd: IGanttData) {
 
         const run = <IRunnerRunFn> function () {
 
@@ -514,8 +533,9 @@ export const makeHandleMultipleProcesses =
             }
           }
 
-          n.dateStartedMillis = Date.now();
-          n.once('exit', onExitFn(n, runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit));
+          n.dateStartedMillis = gd.startDate = Date.now();
+          n.once('exit',
+            onExitFn(n, runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit, gd));
 
         };
 

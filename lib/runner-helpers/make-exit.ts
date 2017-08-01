@@ -47,9 +47,7 @@ export const makeExit = function (runnerObj, tableRows) {
   return function (messages: Array<ISumanCPMessages>, timeDiff: number) {
 
     const sumanOpts = _suman.sumanOpts;
-
     resultBroadcaster.emit(String(events.RUNNER_ENDED), new Date().toISOString());
-
     let exitCode = 0;
 
     messages.every(function (msg) {  //use [].every hack to return more quickly
@@ -213,6 +211,7 @@ export const makeExit = function (runnerObj, tableRows) {
       },
 
       makeGanttChart: function (cb: Function) {
+        // keep it simple
         createGanttChart(cb);
       }
 

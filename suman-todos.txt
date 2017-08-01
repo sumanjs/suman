@@ -4,6 +4,24 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+///
+
+include yaml "diagnostics" as part of TAP
+
+///
+
+https://github.com/substack/tape/issues/378
+Getting a list of failing/passing tests after test suite execution
+
+//
+
+  SUCCEEDED/FAILED/KILLED/BAILED
+
+  need to add transpile/transform block before run block in gantt chart
+
+    d3 gantt chart
+    https://gist.github.com/dk8996/5449641
+
 //
 
   if sumanception level > 1, then we shouldn't write any TAP results

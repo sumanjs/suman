@@ -5,5 +5,18 @@ export interface ICpHash {
 export interface ISocketHash {
     [key: string]: SocketIOClient.Socket;
 }
+export interface IGanttData {
+    fullFilePath: string;
+    shortFilePath: string;
+    filePathFromProjectRoot: string;
+    transformStartDate: number;
+    transformEndDate: number;
+    startDate: number;
+    endDate: number;
+}
+export interface IGanttHash {
+    [key: string]: IGanttData;
+}
 export declare const cpHash: ICpHash;
 export declare const socketHash: ISocketHash;
+export declare const ganttHash: IGanttHash;
