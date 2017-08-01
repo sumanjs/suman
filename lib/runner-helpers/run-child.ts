@@ -14,6 +14,7 @@ import EE = require('events');
 
 //npm
 import * as chalk from 'chalk';
+
 const debug = require('suman-debug')('child');
 import su = require('suman-utils');
 
@@ -38,15 +39,13 @@ const usingRunner = _suman.usingRunner = true;
 const projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT;
 
 process.send = process.send || function (data) {
-    console.error(chalk.magenta('Suman implementation warning => '));
-    console.error('Runner cannot receive data because process.send was not defined');
-    console.error('(Perhaps we are using Istanbul?), we log process.send() arguments here => ');
-    console.error(chalk.yellow(typeof  data === 'string' ? data : util.inspect(data)));
-  };
+  console.error(chalk.magenta('Suman implementation warning => '));
+  console.error('process.send() was not originally defined in this process.');
+  console.error('(Perhaps we are using Istanbul?), we are logging the first argument to process.send() here => ');
+  console.error(chalk.red(typeof  data === 'string' ? data : util.inspect(data)));
+};
 
 process.on('uncaughtException', function (err: Error) {
-
-  console.log(66666666);
 
   debugger;
 
@@ -55,7 +54,7 @@ process.on('uncaughtException', function (err: Error) {
     return;
   }
 
-  if(!err){
+  if (!err) {
     err = new Error('falsy value passed to uncaught exception handler.')
   }
 

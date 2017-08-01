@@ -114,7 +114,7 @@ export const loadReporters = function (opts: ISumanOpts, projectRoot: string, su
 
   if (process.env.SUMAN_INCEPTION_LEVEL > 0 || opts.useTAPOutput) {
     console.log('TAP reporter loaded.');
-    let fn = require('suman-reporters/modules/tap-reporter');
+    let fn = require('suman-reporters/modules/tap-json-reporter');
     fn = fn.default || fn;
     assert(typeof fn === 'function', 'Suman implementation error - reporter fail.');
     sumanReporters.push(fn);

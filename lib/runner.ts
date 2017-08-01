@@ -67,7 +67,7 @@ const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster |
 const handleFatalMessage = require('./runner-helpers/handle-fatal-message');
 import {logTestResult} from './runner-helpers/log-test-result';
 
-const onExit = require('./runner-helpers/on-exit');
+const {onExit} = require('./runner-helpers/on-exit');
 import {makeExit} from './runner-helpers/make-exit';
 
 const {makeHandleIntegrantInfo} = require('./runner-helpers/handle-integrant-info');

@@ -20,11 +20,11 @@ const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 
 ////////////////////////////////////////////////////////////////////
 
-process.once('exit', function (code, signal) {
+process.once('exit', function (code: number) {
 
   if (errors.length > 0) {
     code = code || constants.EXIT_CODES.UNEXPECTED_NON_FATAL_ERROR;
-    errors.forEach(function (e) {
+    errors.forEach(function (e: Error) {
       if (_suman.usingRunner) {
         process.stderr.write(typeof e === 'string' ? e : util.inspect(e.stack || e));
       }

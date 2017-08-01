@@ -8,12 +8,7 @@ const Test = suman.init(module, {
   post: ['smartconnect']
 });
 
-Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks) {
-
-  // beforeEach(t => {
-  //   console.log('parent before each');
-  //   console.log('before each hook',t.shared.get('x'));
-  // });
+Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks, $project) {
 
   before(t => {
     console.log('parent before');
@@ -22,7 +17,7 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
 
   context('foo', function () {
 
-    console.log('this.shared.x => ', this.shared);
+    console.log('this.shared.x => ', this.shared, '\n');
 
     before(t => {
       console.log('child 1 before');
@@ -50,7 +45,7 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
 
     it('is cool', t => {
       console.log('yolo');
-
+      throw 'my fail'
     });
 
   });

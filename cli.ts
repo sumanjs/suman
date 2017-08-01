@@ -109,10 +109,12 @@ import vm = require('vm');
 
 //npm
 import semver = require('semver');
+
 const dashdash = require('dashdash');
 import * as chalk from 'chalk';
 import async = require('async');
 import su = require('suman-utils');
+
 const uniqBy = require('lodash.uniqby');
 const {events} = require('suman-events');
 const debug = require('suman-debug')('s:cli');
@@ -171,7 +173,7 @@ if (!projectRoot) {
     console.log(chalk.red.bold(' => cwd:', cwd, ' '));
     console.log('\n', chalk.red.bold('=> Please execute the suman command from within the root of your project. '), '\n');
     console.log('\n', chalk.blue.bold('=> (Perhaps you need to run "npm init" before running "suman --init", ' +
-        'which will create a package.json file for you at the root of your project.) ') + '\n');
+      'which will create a package.json file for you at the root of your project.) ') + '\n');
     process.exit(1);
   }
   else {
@@ -318,7 +320,6 @@ if (sumanOpts.babel_register && sumanOpts.no_babel_register) {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-
 try {
   //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
   pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
@@ -372,10 +373,9 @@ const sumanObj = require('./lib/helpers/load-shared-objects').loadSharedObjects(
 ///////////////////// Here we reconcile and merge command line args with config  ///////////////////////////
 //////////////////// as usual, command line args take precedence over static configuration (suman.conf.js)
 
-
-if(sumanOpts.parallel && sumanOpts.series){
+if (sumanOpts.parallel && sumanOpts.series) {
   throw chalk.red('suman usage error => "--series" and "--parallel" options were both used, ' +
-  'please choose one or neither...but not both!');
+    'please choose one or neither...but not both!');
 }
 
 if ('concurrency' in sumanOpts) {
@@ -474,7 +474,7 @@ resultBroadcaster.emit(String(events.SUMAN_VERSION), sumanVersion);
 
 //note: whatever args are remaining are assumed to be file or directory paths to tests
 
-const userArgs : Array<string> = _suman.userArgs = [];
+const userArgs: Array<string> = _suman.userArgs = [];
 
 let paths = JSON.parse(JSON.stringify(sumanOpts._args)).filter(function (item: string) {
   if (String(item).indexOf('-') === 0) {
@@ -486,8 +486,6 @@ let paths = JSON.parse(JSON.stringify(sumanOpts._args)).filter(function (item: s
   }
   return true;
 });
-
-
 
 if (sumanOpts.test_paths_json) {
   let jsonPaths = JSON.parse(String(sumanOpts.test_paths_json).trim());
