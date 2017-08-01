@@ -62,7 +62,7 @@ ___
 
 # Top 5 reasons to use Suman, instead of Mocha or AVA
 
-1. Run tests in any language, not just JavaScript, although Node.js is the best.™
+1. Run tests in any language, not just Node.js/JavaScript.
 
 2. You can run Mocha tests and AVA tests using the Suman CLI, but not the other way around!
 
