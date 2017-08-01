@@ -30,8 +30,8 @@ git branch -D copy_branch &&
 git checkout -b copy_branch &&
 git checkout ${BRANCH} &&
 git add -all &&
-git clean -f &&
-git clean -f -d &&
+#git clean -f &&
+#git clean -f -d &&
 #git reset --hard HEAD &&  # this gets rid of untracked files somehow?
 echo "now running reset --soft"
 git reset --soft dev &&
@@ -40,11 +40,14 @@ git add . &&
 git add -A &&
 git commit --allow-empty -am "reset:sft" &&
 git checkout -b ${NEW_BRANCH} &&
+git add . &&
+git add -A &&
+git commit --allow-empty -am "reset:sft" &&
 git push -u origin ${NEW_BRANCH} &&
-git clean -f &&
-git clean -f -d &&
+#git clean -f &&
+#git clean -f -d &&
 #git reset --hard HEAD &&  # this gets rid of untracked files somehow?
-git checkout ${BRANCH} &&
+git checkout ${BRANCH} -f &&
 git branch -D ${NEW_BRANCH} &&
 #git merge dev &&
 echo "successfully pushed"
