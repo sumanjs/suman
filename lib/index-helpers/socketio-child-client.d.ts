@@ -1,1 +1,1 @@
-export declare const getClient: () => SocketIOClient.Socket;
+export declare const getClient: () => any;
