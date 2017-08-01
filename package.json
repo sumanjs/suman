@@ -74,7 +74,7 @@
     "suman-debug": "latest",
     "suman-events": "latest",
     "suman-reporters": "latest",
-    "suman-run-plugins": "0.0.103",
+    "suman-run-plugins": "0.0.104",
     "suman-transform-plugins": "0.0.103",
     "suman-utils": "latest",
     "tap-parser": "^5.4.0",
