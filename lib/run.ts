@@ -299,9 +299,14 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
     resultBroadcaster.emit(String(events.RUNNER_TEST_PATHS_CONFIRMATION), files);
 
-    if (su.vgt(2)) {
+    if (su.vgt(6) || sumanOpts.dry_run) {
       console.log(' ', chalk.bgCyan.magenta(' => Suman verbose message => ' +
         'Suman will execute test files from the following locations:'), '\n', files, '\n');
+    }
+
+    if(sumanOpts.dry_run){
+      _suman.log('exitting here, because "--dry-run" option was used.');
+      return process.exit(0);
     }
 
     // note: if only one file is used with the runner, then there is no possible blocking,

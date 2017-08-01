@@ -1,6 +1,6 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-var colors = require('colors/safe');
+var chalk = require("chalk");
 exports.constants = Object.freeze({
     DEFAULT_TRANSFORM_CONCURRENCY: 3,
     DEFAULT_PARALLEL_TOTAL_LIMIT: 30,
@@ -125,6 +125,7 @@ exports.constants = Object.freeze({
     },
     runner_message_type: {
         FATAL: 'FATAL',
+        FATAL_MESSAGE_RECEIVED: 'FATAL_MESSAGE_RECEIVED',
         TABLE_DATA: 'TABLE_DATA',
         INTEGRANT_INFO: 'INTEGRANT_INFO',
         LOG_RESULT: 'LOG_RESULT',
@@ -134,11 +135,11 @@ exports.constants = Object.freeze({
         TABLE_DATA_RECEIVED: 'TABLE_DATA_RECEIVED'
     },
     warnings: {
-        NO_DONE_WARNING: colors.bold('Warning: no done referenced in callback'),
-        RETURNED_VAL_DESPITE_CALLBACK_MODE: colors.bold('Warning: callback mode is set, but a non-null value was returned by the hook.'),
-        TEST_CASE_TIMED_OUT_ERROR: colors.bold('Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()? ' +
+        NO_DONE_WARNING: chalk.bold('Warning: no done referenced in callback'),
+        RETURNED_VAL_DESPITE_CALLBACK_MODE: chalk.bold('Warning: callback mode is set, but a non-null value was returned by the hook.'),
+        TEST_CASE_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()? ' +
             '=> You may have forgotten to fire a callback or perhaps the timeout quantity is too short.'),
-        HOOK_TIMED_OUT_ERROR: colors.bold('Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? ' +
+        HOOK_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? ' +
             'You may have forgotten to fire a callback or perhaps the timeout quantity is too short.'),
         DELAY_TIMED_OUT_ERROR: 'Error: *timed out* - did you forget to call delay()?'
     },

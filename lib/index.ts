@@ -335,7 +335,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   let integrants: Array<string>;
 
   try {
-    integrants = (opts.integrants || opts.pre || []).filter(function (item) {
+    integrants = (opts.integrants || opts.pre || []).filter(i => i).map(function(item){
       assert(typeof item === 'string', `once.pre item must be a string. Instead we have => ${util.inspect(item)}`);
       // filter out empty strings, etc.
       return item;

@@ -70,6 +70,18 @@ module.exports = [
     'for simple and quick debugging.'
   },
   {
+    names: ['inherit-all-stdio'],
+    type: 'bool',
+    help: 'When using the runner, the runner (parent process) will inherit stdout/stderr from test child processes; useful' +
+    'for simple and quick debugging.'
+  },
+  {
+    names: ['inherit-transform-stdio'],
+    type: 'bool',
+    help: 'When using the runner, the runner (parent process) will inherit stdout/stderr from test child processes; useful' +
+    'for simple and quick debugging.'
+  },
+  {
     names: ['force-inherit-stdio'],
     type: 'bool',
     help: 'Force inherit stdio, which will use inherit instead of pipe.'
@@ -339,6 +351,11 @@ module.exports = [
   },
   {
     names: ['no-tap'],
+    type: 'bool',
+    help: 'Use this option to tell Suman runner to *not* interpret TAP output from child process(es) stdout.'
+  },
+  {
+    names: ['dry-run'],
     type: 'bool',
     help: 'Use this option to tell Suman runner to *not* interpret TAP output from child process(es) stdout.'
   },

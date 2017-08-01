@@ -179,7 +179,7 @@ export default function (runnerObj: IRunnerObj, tableRows: ITableRows, messages:
         const $execArgz = execArgz.filter(function (e, i) {
           // filter out duplicate command line args
           if (execArgz.indexOf(e) !== i) {
-            console.error('\n', chalk.yellow(' => Warning you have duplicate items in your exec args => '),
+            _suman.logError('\n', chalk.yellow(' => Warning you have duplicate items in your exec args => '),
               '\n' + util.inspect(execArgz), '\n');
           }
           return true;
