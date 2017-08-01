@@ -1,6 +1,6 @@
 'use strict';
 
-import {IHandleError, IOnceHookObj} from "dts/test-suite";
+import {IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
 import {ISuman} from "../../dts/suman";
 import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../../dts/global";
 
@@ -9,13 +9,14 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as domain from 'domain';
-import * as assert from 'assert';
+import domain = require('domain');
+import assert = require('assert');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su from 'suman-utils';
 import {makeCallback} from './handle-callback-helper';
+
 const helpers = require('./handle-promise-generator');
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../misc/clone-error';
@@ -24,9 +25,9 @@ import {freezeExistingProps} from 'freeze-existing-props';
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-export const makeHandleBeforesAndAfters =  function (suman: ISuman, gracefulExit: Function) {
+export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit: Function) {
 
-  return function handleBeforesAndAfters(aBeforeOrAfter : IOnceHookObj, cb: Function) {
+  return function handleBeforesAndAfters(self: ITestSuite, aBeforeOrAfter: IOnceHookObj, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
       _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
@@ -47,7 +48,6 @@ export const makeHandleBeforesAndAfters =  function (suman: ISuman, gracefulExit
     };
 
     const d = domain.create() as ISumanDomain;
-
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfter, timerObj, gracefulExit, cb);
     const fnStr = aBeforeOrAfter.fn.toString();
 
@@ -58,7 +58,7 @@ export const makeHandleBeforesAndAfters =  function (suman: ISuman, gracefulExit
     //TODO: need to add more info to logging statement below and also handle if fatal:false
     let dError = false;
 
-    const handleError : IHandleError = function (err: IPseudoError) {
+    const handleError: IHandleError = function (err: IPseudoError) {
 
       const stk = err ? (err.stack || err) : new Error('Suman error placeholder').stack;
       const formatedStk = String(stk).split('\n').map(item => '\t' + item).join('\n');
@@ -116,6 +116,8 @@ export const makeHandleBeforesAndAfters =  function (suman: ISuman, gracefulExit
 
         const HookObj = makeHookObj(aBeforeOrAfter, assertCount);
         const t = new HookObj(handleError);
+        t.shared = self.shared;
+        t.desc = aBeforeOrAfter.desc;
 
         fini.th = t;
         t.timeout = timeout;

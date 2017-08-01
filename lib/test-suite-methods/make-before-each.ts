@@ -8,13 +8,13 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as assert from 'assert';
-import * as util from 'util';
+import assert = require('assert');
+import util = require('util');
 
 //npm
 const pragmatik = require('pragmatik');
-const async = require('async');
-const colors = require('colors/safe');
+import async = require('async');
+import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
@@ -67,7 +67,7 @@ export const makeBeforeEach = function (suman: ISuman, zuite: ITestSuite): IBefo
       zuite.getBeforeEaches().push({  //TODO: add timeout option
         ctx: zuite,
         timeout: opts.timeout || 11000,
-        desc: desc || (fn ? fn.name : '(unknown due to stubbed function)'),
+        desc: desc || fn.name,
         fn: fn,
         throws: opts.throws,
         planCountExpected: opts.plan,

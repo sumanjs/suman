@@ -8,12 +8,11 @@ import {ITestDataObj} from "../../dts/it";
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
-//core
-const util = require('util');
+//npm
+import su = require('suman-utils');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const su = require('suman-utils');
 
 /////////////////////////////////////////////////////////
 

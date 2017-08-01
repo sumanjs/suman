@@ -6,12 +6,14 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const util = require('util');
+import util = require('util');
 
 //npm
+import su = require('suman-utils');
+import chalk = require('chalk');
 const parser = require('tap-parser');
 import {events} from 'suman-events';
-import * as EE from 'events';
+import EE = require('events');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -19,9 +21,13 @@ const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster |
 
 ///////////////////////////////////////////////////////////////////////////
 
+let first = true;
+
 export const getTapParser = function () {
 
-  _suman.log('we are handling TAP.');
+  if(first){
+    _suman.log('we are handling TAP.');
+  }
 
   const p = parser();
 
@@ -29,11 +35,20 @@ export const getTapParser = function () {
     resultBroadcaster.emit(String(events.TAP_COMPLETE), data);
   });
 
-  p.on('assert', function (testpoint) {
+  p.on('assert', function (testpoint: Object) {
 
     debugger;
 
-    console.log('testpoint:',testpoint);
+    if (first) {
+      first = false;
+      console.log('\n');
+      _suman.log(chalk.yellow.bold('suman we have received at least one test result via TAP.'));
+      console.log('\n');
+    }
+
+    su.isSumanDebug(function () {
+      console.log('testpoint:', testpoint);
+    });
 
     resultBroadcaster.emit(String(events.TEST_CASE_END), testpoint);
 
@@ -49,6 +64,7 @@ export const getTapParser = function () {
       resultBroadcaster.emit(String(events.TEST_CASE_PASS), testpoint);
     }
     else {
+      console.log('failed testpoint => ', util.inspect(testpoint));
       resultBroadcaster.emit(String(events.TEST_CASE_FAIL), testpoint);
     }
   });

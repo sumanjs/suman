@@ -81,6 +81,7 @@ export declare const constants: Readonly<{
     };
     runner_message_type: {
         FATAL: string;
+        FATAL_MESSAGE_RECEIVED: string;
         TABLE_DATA: string;
         INTEGRANT_INFO: string;
         LOG_RESULT: string;
@@ -90,10 +91,10 @@ export declare const constants: Readonly<{
         TABLE_DATA_RECEIVED: string;
     };
     warnings: {
-        NO_DONE_WARNING: any;
-        RETURNED_VAL_DESPITE_CALLBACK_MODE: any;
-        TEST_CASE_TIMED_OUT_ERROR: any;
-        HOOK_TIMED_OUT_ERROR: any;
+        NO_DONE_WARNING: string;
+        RETURNED_VAL_DESPITE_CALLBACK_MODE: string;
+        TEST_CASE_TIMED_OUT_ERROR: string;
+        HOOK_TIMED_OUT_ERROR: string;
         DELAY_TIMED_OUT_ERROR: string;
     };
     tableData: {

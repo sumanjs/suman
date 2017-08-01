@@ -7,15 +7,16 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
 
 //npm
 import * as async from 'async';
 import * as chalk from 'chalk';
 import su from 'suman-utils';
 import * as _ from 'lodash';
+
 const fnArgs = require('function-arguments');
 
 //project
@@ -126,7 +127,6 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
       return;
     }
 
-
     if (!su.isArrayOrFunction(dependencies[k])) {
 
       console.error(' => Suman is about to conk out =>\n\n' +
@@ -138,17 +138,20 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
     }
   });
 
-
-  if (oncePostKeys.length > 0 ) {
-    console.log('\n', ' => Suman message => Suman is now running the desired hooks ' +
-      'in suman.once.post.js, which include => \n\t', chalk.cyan(util.inspect(oncePostKeys)));
+  if (oncePostKeys.length > 0) {
+    _suman.log('Suman is now running the desired hooks ' +
+      'in suman.once.post.js, listed as follows =>');
+    oncePostKeys.forEach(function (k, index) {
+      _suman.log(`(${index + 1})`, `"${chalk.cyan(k)}"`);
+    });
+    console.log('\n');
   }
+
   if (missingKeys.length > 0) {
     _suman.logError(`Your suman.once.post.js file is missing some keys present in your test file(s).`);
     _suman.logError(`The missing keys are as follows: ${chalk.magenta(util.inspect(missingKeys))}`);
     console.log('\n');
   }
-
 
   acquirePostDeps(oncePostKeys, dependencies).then(function (val) {
     console.log('\n');

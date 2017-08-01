@@ -6,17 +6,17 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
 
 
 //npm
-const async = require('async');
-const colors = require('colors/safe');
+import async = require('async');
+import * as chalk from 'chalk';
 
 //project
 const _suman :IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -28,7 +28,7 @@ export const run = function (deps: Array<string>): void {
 
   if (deps.length < 1) {
     console.log('\n');
-    console.log(colors.magenta(' => No dependency names passed at command line.'));
+    console.log(chalk.magenta(' => No dependency names passed at command line.'));
     console.log(' => Try this instead: "$ suman --install-globals <dep-name0> <dep-name1> <dep-nameX> "');
     return process.exit(1);
   }

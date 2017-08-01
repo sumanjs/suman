@@ -8,13 +8,18 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const util = require('util');
-const assert = require('assert');
+import cp = require('child_process');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+
 
 //npm
 const pragmatik = require('pragmatik');
-const async = require('async');
-const colors = require('colors/safe');
+import async = require('async');
+import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
@@ -66,7 +71,7 @@ export const makeBefore = function (suman: ISuman, zuite: ITestSuite): IBeforeFn
 
       zuite.getBefores().push({
         ctx: zuite,
-        desc: desc || (fn ? fn.name : '(unknown due to stubbed function)'),
+        desc: desc || fn.name,
         timeout: opts.timeout || 11000,
         cb: opts.cb || false,
         throws: opts.throws,

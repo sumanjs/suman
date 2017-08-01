@@ -1,4 +1,4 @@
-
+'use strict';
 
 const suman = require('suman');
 
@@ -8,12 +8,46 @@ const Test = suman.init(module, {
   post: ['smartconnect']
 });
 
-Test.create('hotels', function(it){
+Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks, $project) {
 
-  it('is cool');
+  before(t => {
+    console.log('parent before');
+    this.shared.set('x', 2);
+  });
 
-  it('is cool', t => {
-     console.log('yolo');
+  context('foo', function () {
+
+    console.log('this.shared.x => ', this.shared, '\n');
+
+    before(t => {
+      console.log('child 1 before');
+    });
+
+    beforeEach(t => {
+      console.log('child 1 before each');
+    });
+
+  });
+
+  context('zoo', function () {
+
+    before(t => {
+      console.log('child 2 before');
+    });
+
+    afterAllParentHooks('yes', t => {
+      console.log('after all parent hooks');
+    });
+
+    beforeEach(t => {
+      console.log('child 2 before each');
+    });
+
+    it('is cool', t => {
+      console.log('yolo');
+      throw 'my fail'
+    });
+
   });
 
 });

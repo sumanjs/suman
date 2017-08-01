@@ -7,21 +7,20 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as domain from 'domain';
-import * as os from 'os';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
 
 //npm
 const {events} = require('suman-events');
 const sumanUtils = require('suman-utils');
-const async = require('async');
+import async = require('async');
+
 const sortBy = require('lodash.sortby');
 const AsciiTable = require('ascii-table');
+import chalk  = require('chalk');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -30,15 +29,16 @@ const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 import {createGanttChart} from './create-gantt-chart';
+let timeOutMillis = 15000;
 
+/////////////////////////////////////////////////////////
 
-
-function mapCopy(copy) {
+const mapCopy = function (copy: Object) {
   return Object.keys(copy).map(key => {
     const val = copy[key];
     return val.value ? val.value : val.default;
   });
-}
+};
 
 //////////////////////////////////////////////////////////
 
@@ -47,9 +47,7 @@ export const makeExit = function (runnerObj, tableRows) {
   return function (messages: Array<ISumanCPMessages>, timeDiff: number) {
 
     const sumanOpts = _suman.sumanOpts;
-
     resultBroadcaster.emit(String(events.RUNNER_ENDED), new Date().toISOString());
-
     let exitCode = 0;
 
     messages.every(function (msg) {  //use [].every hack to return more quickly
@@ -58,7 +56,7 @@ export const makeExit = function (runnerObj, tableRows) {
       const signal = msg.signal;
 
       if (!Number.isInteger(code)) {
-        _suman.logError(colors.red.bold('Suman implementation error => exit code is non-integer => '), code);
+        _suman.logError(chalk.red.bold('Suman implementation error => exit code is non-integer => '), code);
       }
 
       if (code > 0) {
@@ -185,10 +183,17 @@ export const makeExit = function (runnerObj, tableRows) {
 
     //note: that we have intelligently patched process.exit to use a callback
 
+    let timedOut = false;
+    const to = setTimeout(function () {
+      timedOut = true;
+      _suman.logError(`runner exit routine timed out after ${timeOutMillis}ms.`);
+      process.exit(1);
+    }, timeOutMillis);
+
     async.autoInject({
 
       handleAsyncReporters: function (cb: Function) {
-        async.each(reporterRets, function (item, cb) {
+        async.each(reporterRets, function (item: Object, cb: Function) {
 
           if (!item || item.count < 1) {
             // if nothing is returned from the reporter module, we can't do anything
@@ -206,11 +211,16 @@ export const makeExit = function (runnerObj, tableRows) {
       },
 
       makeGanttChart: function (cb: Function) {
+        // keep it simple
         createGanttChart(cb);
       }
 
     }, function (err: Error) {
       err && _suman.logError(err.stack || err);
+      if (timedOut) {
+        return;
+      }
+      clearTimeout(to);
       process.exit(exitCode);
     });
 

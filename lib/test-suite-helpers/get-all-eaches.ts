@@ -1,19 +1,25 @@
 'use strict';
-import {IAFterEachObj, IBeforeEachObj, ITestSuite} from "../../dts/test-suite";
+
+//dts
+import {ITestSuite} from "../../dts/test-suite";
 import {IGlobalSumanObj} from "../../dts/global";
 import {ISuman} from "../../dts/suman";
+import {IBeforeEachObj} from "../../dts/before-each";
+import {IAFterEachObj} from "../../dts/after-each";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as util from 'util';
-import * as path from 'path';
-import * as assert from 'assert';
+import util = require('util');
+import path = require('path');
+import assert = require('assert');
 
 //npm
 import * as _ from 'lodash';
+
+
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -25,6 +31,11 @@ export const getAllBeforesEaches = function (zuite: ITestSuite) {
   const beforeEaches: Array<Array<IBeforeEachObj>> = [];
   beforeEaches.unshift(zuite.getBeforeEaches());
 
+  if(!zuite.alreadyHandledAfterAllParentHooks){
+    zuite.alreadyHandledAfterAllParentHooks = true;
+    beforeEaches.unshift(zuite.getAfterAllParentHooks());
+  }
+
   function getParentBefores(parent: ITestSuite) {
 
     if (parent) {
@@ -34,7 +45,7 @@ export const getAllBeforesEaches = function (zuite: ITestSuite) {
       }
     }
     else {
-      throw new Error(' => Suman implementation error => this should not happen...please report.');
+      throw new Error(' => Suman implementation error => please report on Github.');
     }
 
   }
@@ -43,7 +54,7 @@ export const getAllBeforesEaches = function (zuite: ITestSuite) {
     getParentBefores(zuite.parent);
   }
 
-  return _.flatten(beforeEaches, true);
+  return _.flatten(beforeEaches);
 };
 
 export const getAllAfterEaches = function (zuite: ITestSuite) {
@@ -53,7 +64,6 @@ export const getAllAfterEaches = function (zuite: ITestSuite) {
 
   function getParentAfters(parent: ITestSuite) {
 
-
     if (parent) {
       afterEaches.push(parent.getAfterEaches());
       if (parent.parent) {
@@ -61,7 +71,7 @@ export const getAllAfterEaches = function (zuite: ITestSuite) {
       }
     }
     else {
-      throw new Error(' => Suman implementation error => this should not happen...please report.');
+      throw new Error(' => Suman implementation error => please report on Github.');
     }
   }
 
@@ -69,7 +79,7 @@ export const getAllAfterEaches = function (zuite: ITestSuite) {
     getParentAfters(zuite.parent);
   }
 
-  return _.flatten(afterEaches, true);
+  return _.flatten(afterEaches);
 };
 
 

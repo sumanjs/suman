@@ -11,12 +11,10 @@ import {ISuman} from "../../dts/suman";
 import {IItOpts, ItFn, ItHookCallbackMode, ItHookRegularMode} from "../../dts/it";
 import {IDescribeFn, IDescribeOpts, TDescribeHook} from "../../dts/describe";
 
-
 import {
   BeforeEachHookCallbackMode, BeforeEachHookRegularMode, IBeforeEachFn,
   IBeforeEachOpts
 } from "../../dts/before-each";
-
 
 import {IAfterEachFn, IAfterEachOpts, TAfterEachHook} from "../../dts/after-each";
 import {AfterHookCallbackMode, AfterHookRegularMode, IAfterFn, IAfterOpts} from "../../dts/after";
@@ -26,14 +24,14 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as domain from 'domain';
-import * as assert from 'assert';
-import * as util from 'util';
+import domain = require('domain');
+import assert = require('assert');
+import util = require('util');
 
 //npm
 const pragmatik = require('pragmatik');
 const _ = require('underscore');
-const async = require('async');
+import async = require('async');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -41,8 +39,10 @@ const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import TestSuiteBase from './test-suite-base-constructor';
 import {freezeExistingProps} from 'freeze-existing-props'
+
 const {makeStartSuite} = require('./make-start-suite');
 import {makeHandleBeforesAndAfters} from './make-handle-befores-afters';
+
 const {makeNotifyParent} = require('./notify-parent-that-child-is-complete');
 
 // TestSuite methods
@@ -53,6 +53,7 @@ import {makeBeforeEach} from '../test-suite-methods/make-before-each';
 import {makeBefore} from '../test-suite-methods/make-before';
 import {makeInject} from '../test-suite-methods/make-inject';
 import {makeDescribe} from '../test-suite-methods/make-describe';
+import {makeAfterAllParentHooks} from '../test-suite-methods/make-after-all-parent-hooks';
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -62,14 +63,11 @@ function makeRunChild(val: any) {
   }
 }
 
-
 type ITestSuiteConstructor = (obj: ITestSuiteMakerOpts) => void;
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-export const makeTestSuiteMaker =  function (suman: ISuman, gracefulExit: Function): TTestSuiteMaker {
+export const makeTestSuiteMaker = function (suman: ISuman, gracefulExit: Function): TTestSuiteMaker {
 
   const allDescribeBlocks = suman.allDescribeBlocks;
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
@@ -84,8 +82,8 @@ export const makeTestSuiteMaker =  function (suman: ISuman, gracefulExit: Functi
       after: IAfterFn,
       beforeEach: IBeforeEachFn,
       afterEach: IAfterEachFn,
-      inject: IInjectFn;
-
+      inject: IInjectFn,
+      afterAllParentHooks: Function;
 
     const TestSuite: ITestSuiteConstructor = function (obj: ITestSuiteMakerOpts): void {   // this fn is a constructor
 
@@ -129,6 +127,8 @@ export const makeTestSuiteMaker =  function (suman: ISuman, gracefulExit: Functi
       describe = this.context = makeDescribe(suman, gracefulExit, TestSuiteMaker, zuite, notifyParentThatChildIsComplete);
       _interface === 'TDD' ? this.suite = describe : this.describe = describe;
 
+      afterAllParentHooks = this.afterAllParentHooks = makeAfterAllParentHooks(suman, zuite);
+
     };
 
     //Note: we hide many properties in the prototype
@@ -163,7 +163,6 @@ export const makeTestSuiteMaker =  function (suman: ISuman, gracefulExit: Functi
           describe.apply(ctx, args);
         };
 
-
       describe.skip.delay = describe.delay.skip = describe.skip;
 
       describe.only.delay = describe.delay.only =
@@ -175,101 +174,90 @@ export const makeTestSuiteMaker =  function (suman: ISuman, gracefulExit: Functi
           describe.apply(ctx, args);
         };
 
+      it.skip = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
+        let args = pragmatik.parse(arguments, rules.testCaseSignature);
+        args[1].skip = true;
+        args[1].__preParsed = true;
+        return it.apply(ctx, args);
+      };
 
-      it.skip =
-        function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
-          let args = pragmatik.parse(arguments, rules.testCaseSignature);
-          args[1].skip = true;
-          args[1].__preParsed = true;
-          return it.apply(ctx, args);
-        };
+      it.only = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
+        suman.itOnlyIsTriggered = true;
+        let args = pragmatik.parse(arguments, rules.testCaseSignature);
+        args[1].only = true;
+        args[1].__preParsed = true;
+        return it.apply(ctx, args);
+      };
 
-      it.only =
-        function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
-          suman.itOnlyIsTriggered = true;
-          let args = pragmatik.parse(arguments, rules.testCaseSignature);
-          args[1].only = true;
-          args[1].__preParsed = true;
-          return it.apply(ctx, args);
-        };
+      it.only.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
+        suman.itOnlyIsTriggered = true;
+        let args = pragmatik.parse(arguments, rules.testCaseSignature);
+        args[1].only = true;
+        args[1].cb = true;
+        args[1].__preParsed = true;
+        return it.apply(ctx, args);
+      };
 
-      it.only.cb =
-        function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-          suman.itOnlyIsTriggered = true;
-          let args = pragmatik.parse(arguments, rules.testCaseSignature);
-          args[1].only = true;
-          args[1].cb = true;
-          args[1].__preParsed = true;
-          return it.apply(ctx, args);
-        };
+      it.skip.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
+        let args = pragmatik.parse(arguments, rules.testCaseSignature);
+        args[1].skip = true;
+        args[1].cb = true;
+        args[1].__preParsed = true;
+        return it.apply(ctx, args);
+      };
 
-      it.skip.cb =
-        function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-          let args = pragmatik.parse(arguments, rules.testCaseSignature);
-          args[1].skip = true;
-          args[1].cb = true;
-          args[1].__preParsed = true;
-          return it.apply(ctx, args);
-        };
-
-      it.cb =
-        function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-          let args = pragmatik.parse(arguments, rules.testCaseSignature);
-          args[1].cb = true;
-          args[1].__preParsed = true;
-          return it.apply(ctx, args);
-        };
+      it.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
+        let args = pragmatik.parse(arguments, rules.testCaseSignature);
+        args[1].cb = true;
+        args[1].__preParsed = true;
+        return it.apply(ctx, args);
+      };
 
       it.cb.skip = it.skip.cb;
       it.cb.only = it.only.cb;
 
-      inject.cb =
-        function (desc: string, opts: IInjectOpts, fn: IInjectHookCallbackMode) {
-          let args = pragmatik.parse(arguments, rules.hookSignature);
-          args[1].cb = true;
-          args[1].__preParsed = true;
-          return inject.apply(ctx, args);
-        };
+      inject.cb = function (desc: string, opts: IInjectOpts, fn: IInjectHookCallbackMode) {
+        let args = pragmatik.parse(arguments, rules.hookSignature);
+        args[1].cb = true;
+        args[1].__preParsed = true;
+        return inject.apply(ctx, args);
+      };
 
-      inject.skip =
-        function (desc: string, opts: IInjectOpts, fn: IInjectHookRegularMode) {
-          let args = pragmatik.parse(arguments, rules.hookSignature);
-          args[1].skip = true;
-          args[1].__preParsed = true;
-          return inject.apply(ctx, args);
-        };
+      inject.skip = function (desc: string, opts: IInjectOpts, fn: IInjectHookRegularMode) {
+        let args = pragmatik.parse(arguments, rules.hookSignature);
+        args[1].skip = true;
+        args[1].__preParsed = true;
+        return inject.apply(ctx, args);
+      };
 
       // to save memory we can make this equivalence since if the hook is skipped
       // it won't matter if it's callback mode or not :)
       inject.skip.cb = inject.cb.skip = inject.skip;
 
-      before.cb =
-        function (desc: string, opts: IBeforeOpts, fn: BeforeHookCallbackMode) {
-          let args = pragmatik.parse(arguments, rules.hookSignature);
-          args[1].cb = true;
-          args[1].__preParsed = true;
-          return before.apply(ctx, args);
-        };
+      before.cb = function (desc: string, opts: IBeforeOpts, fn: BeforeHookCallbackMode) {
+        let args = pragmatik.parse(arguments, rules.hookSignature);
+        args[1].cb = true;
+        args[1].__preParsed = true;
+        return before.apply(ctx, args);
+      };
 
-      before.skip =
-        function (desc: string, opts: IBeforeOpts, fn: BeforeHookRegularMode) {
-          let args = pragmatik.parse(arguments, rules.hookSignature);
-          args[1].skip = true;
-          args[1].__preParsed = true;
-          return before.apply(ctx, args);
-        };
+      before.skip = function (desc: string, opts: IBeforeOpts, fn: BeforeHookRegularMode) {
+        let args = pragmatik.parse(arguments, rules.hookSignature);
+        args[1].skip = true;
+        args[1].__preParsed = true;
+        return before.apply(ctx, args);
+      };
 
       // to save memory we can make this equivalence since if the hook is skipped
       // it won't matter if it's callback mode or not :)
       before.skip.cb = before.cb.skip = before.skip;
 
-      after.cb =
-        function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-          let args = pragmatik.parse(arguments, rules.hookSignature);
-          args[1].cb = true;
-          args[1].__preParsed = true;
-          return after.apply(ctx, args);
-        };
+      after.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+        let args = pragmatik.parse(arguments, rules.hookSignature);
+        args[1].cb = true;
+        args[1].__preParsed = true;
+        return after.apply(ctx, args);
+      };
 
       after.skip =
         function (desc: string, opts: IAfterOpts, fn: AfterHookRegularMode) {
@@ -322,14 +310,7 @@ export const makeTestSuiteMaker =  function (suman: ISuman, gracefulExit: Functi
     };
 
     TestSuite.prototype.__invokeChildren = function (val: any, start: Function) {
-
-      const testIds = _.pluck(this.getChildren(), 'testId');
-
-      const children = allDescribeBlocks.filter(function (test) {
-        return _.contains(testIds, test.testId);
-      });
-
-      async.eachSeries(children, makeRunChild(val), start);
+      async.eachSeries(this.getChildren(), makeRunChild(val), start);
     };
 
     TestSuite.prototype.toString = function () {

@@ -1,1 +1,1 @@
-export declare const run: (opts: any) => void;
+export declare const run: (projectRoot: string, sumanLibRoot: string, opts: any) => void;

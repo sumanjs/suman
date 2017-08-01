@@ -36,40 +36,49 @@ if (false) {
 ///////////////////////////////////////////////////
 
 //core
-import * as os from 'os';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as cp from 'child_process';
+import os = require('os');
+import fs = require('fs');
+import path = require('path');
+import util = require('util');
+import assert = require('assert');
+import EE = require('events');
+import cp = require('child_process');
 
 //npm
 const fnArgs = require('function-arguments');
 const mapValues = require('lodash.mapvalues');
 import * as chalk from 'chalk';
+
 const a8b = require('ansi-256-colors'), fg = a8b.fg, bg = a8b.bg;
 import {events} from 'suman-events';
 import su from 'suman-utils';
+
 const debug = require('suman-debug')('s:runner');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import integrantInjector from './injection/integrant-injector';
 import {constants} from '../config/suman-constants';
+
 const ascii = require('./helpers/ascii');
 import makeHandleBlocking from './runner-helpers/make-handle-blocking';
+
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const handleFatalMessage = require('./runner-helpers/handle-fatal-message');
 import {logTestResult} from './runner-helpers/log-test-result';
-const onExit = require('./runner-helpers/on-exit');
+
+const {onExit} = require('./runner-helpers/on-exit');
 import {makeExit} from './runner-helpers/make-exit';
+
 const {makeHandleIntegrantInfo} = require('./runner-helpers/handle-integrant-info');
 import {makeBeforeExit} from './runner-helpers/make-before-exit-once-post';
+
 const makeSingleProcess = require('./runner-helpers/handle-single-process');
+const {makeContainerize} = require('./runner-helpers/handle-containerize');
 import {makeHandleMultipleProcesses} from './runner-helpers/handle-multiple-processes';
+
 const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
-import {getSocketServer,initializeSocketServer} from './runner-helpers/socketio-server';
+import {getSocketServer, initializeSocketServer} from './runner-helpers/socketio-server';
 import {cpHash, socketHash} from './runner-helpers/socket-cp-hash';
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -132,38 +141,48 @@ process.on('message', function (data: any) {
     (typeof data === 'string' ? data : util.inspect(data)));
 });
 
-
-
 const server = getSocketServer();
 const INTEGRANT_INFO = constants.runner_message_type.INTEGRANT_INFO;
 const TABLE_DATA = constants.runner_message_type.TABLE_DATA;
+const LOG_RESULT = constants.runner_message_type.LOG_RESULT;
+const FATAL = constants.runner_message_type.FATAL;
+const FATAL_MESSAGE_RECEIVED = constants.runner_message_type.FATAL_MESSAGE_RECEIVED;
 
 function handleTableData(n: ISumanChildProcess, data: any, s: SocketIOClient.Socket) {
   runnerObj.tableCount++;
   tableRows[n.shortTestPath].tableData = data;
 
   s.emit(TABLE_DATA, {
-      info: 'table-data-received'
+    info: 'table-data-received'
   });
-  // n.send({
-  //   info: 'table-data-received'
-  // });
-}
 
+}
 
 server.on('connection', function (socket: SocketIOClient.Socket) {
 
   socket.on(INTEGRANT_INFO, function (data: Object) {
-
-    let id  = data.childId;
+    let id = data.childId;
     let n = cpHash[id];
     handleIntegrantInfo(data, n, socket)
   });
 
-  socket.on(TABLE_DATA, function(msg: Object){
-    let id  = msg.childId;
+  socket.on(FATAL, function (msg: Object) {
+    let id = msg.childId;
+    let n = cpHash[id];
+    socket.emit(FATAL_MESSAGE_RECEIVED, true);
+    handleFatalMessage(msg.data, n, socket);
+  });
+
+  socket.on(TABLE_DATA, function (msg: Object) {
+    let id = msg.childId;
     let n = cpHash[id];
     handleTableData(n, msg.data, socket);
+  });
+
+  socket.on(LOG_RESULT, function (msg: Object) {
+    let id = msg.childId;
+    let n = cpHash[id];
+    logTestResult(msg, n, socket);
   });
 
 });
@@ -231,6 +250,9 @@ const runSingleOrMultipleDirs =
 const runAllTestsInSingleProcess =
   makeSingleProcess(runnerObj, handleMessageForSingleProcess, messages, beforeExitRunOncePost, exit);
 
+const runAllTestsInContainer =
+  makeContainerize(runnerObj, handleMessageForSingleProcess, messages, beforeExitRunOncePost, exit);
+
 ///////////////
 
 export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, $order: Object) {
@@ -273,6 +295,9 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
 
     if (IS_SUMAN_SINGLE_PROCESS) {
       runAllTestsInSingleProcess(runObj);
+    }
+    else if (_suman.sumanOpts.containerize) {
+      runAllTestsInContainer(runObj);
     }
     else if (runObj) {
       runSingleOrMultipleDirs(runObj);

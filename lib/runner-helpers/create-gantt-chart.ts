@@ -7,61 +7,19 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as assert from 'assert';
-import * as fs from 'fs';
-import * as util from 'util';
-import * as path from 'path';
+import assert = require('assert');
+import fs = require('fs');
+import util = require('util');
+import path = require('path');
 
 //npm
 import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {cpHash, socketHash} from './socket-cp-hash';
+import {cpHash, socketHash, ganttHash} from './socket-cp-hash';
 
 //////////////////////////////////////////////////////
-
-export const createGanttChartOld = function (cb: Function) {
-
-  let gantt, vds;
-
-  try {
-    vds = require('virtual-dom-stringify');
-    gantt = require('gantt-chart');
-  }
-  catch (err) {
-    _suman.logError(err.message || err);
-    return process.nextTick(cb);
-  }
-
-  var g = gantt({
-    "wow": {
-      "dependencies": ["amaze"],
-      "duration": "1 week"
-    },
-    "amaze": {
-      "duration": "3 days"
-    },
-    "cool": {
-      "duration": "6 days"
-    },
-    "whatever": {
-      "duration": "1 day",
-      "dependencies": ["wow"]
-    },
-    "very": {
-      "duration": "2 days",
-      "dependencies": ["amaze"]
-    },
-    "great": {
-      "duration": "8 days",
-      "dependencies": ["very"]
-    }
-  });
-
-  const p = path.resolve(_suman.sumanHelperDirRoot + '/gantt.html');
-  fs.writeFile(p, vds(g.tree()), cb);
-};
 
 export const createGanttChart = function (cb: Function) {
 
@@ -75,75 +33,101 @@ export const createGanttChart = function (cb: Function) {
     return process.nextTick(cb);
   }
 
-  const p = path.resolve(_suman.sumanHelperDirRoot + '/gantt-2.hbs');
+  let p = path.resolve(__dirname + '/../gantt/index.html');
 
-  fs.readFile(p, function(err, data){
+  fs.readFile(p, function (err, data) {
 
-    if(err){
+    if (err) {
       _suman.logError(err.stack || err);
       return cb();
     }
 
-    var template = Handlebars.compile(String(data));
+    let template = Handlebars.compile(String(data));
 
-    let getAdjustedDate2 = function(millis){
+    const tasks = Object.keys(ganttHash).map(function (k) {
 
-      console.log('millis => ', millis);
-      let a = String(millis).slice(0,-3);
-      console.log('a => ', a);
+      const gd = ganttHash[k];
 
-      let b = String(millis).slice(-3);
-      console.log('b => ', b);
-      let before = Number(a + '000');
+      return {
+        startDate: gd.startDate,
+        endDate: gd.endDate,
+        transformStartDate: gd.transformStartDate,
+        transformEndDate: gd.transformEndDate,
+        taskName: gd.fullFilePath || gd.shortFilePath,
+        status: gd.sumanExitCode > 0 ? 'FAILED' : 'SUCCEEDED'
+      };
 
-      const addThis = Number(b) * 1000;
-      console.log('addThis => ', addThis);
+    });
 
-      console.log('before => ', before);
+    const result = template({
+      tasks: JSON.stringify(tasks)
+    });
 
-      console.log('after => ', before + addThis);
-       return before + addThis;
-    };
+    const p = path.resolve(_suman.sumanHelperDirRoot + '/gantt-4.html');
+    fs.writeFile(p, result, cb);
+
+  });
+
+};
+
+export const createGanttChart2 = function (cb: Function) {
+
+  let Handlebars: any;
+
+  try {
+    Handlebars = require('handlebars');
+  }
+  catch (err) {
+    _suman.logError(err.message || err);
+    return process.nextTick(cb);
+  }
+
+  const p = path.resolve(_suman.sumanHelperDirRoot + '/gantt-2.hbs');
+
+  fs.readFile(p, function (err, data) {
+
+    if (err) {
+      _suman.logError(err.stack || err);
+      return cb();
+    }
+
+    let template = Handlebars.compile(String(data));
 
     const millisPerDay = 86400000;
 
-    const getAdjustedDate = function(millis){
-       return _suman.startDateMillis + (millis - _suman.startDateMillis)*millisPerDay;
+    const getAdjustedDate = function (millis: number) {
+      return _suman.startDateMillis + (millis - _suman.startDateMillis) * millisPerDay;
     };
 
-
-    const map = Object.keys(cpHash).map(function(k){
+    const map = Object.keys(cpHash).map(function (k) {
 
       const n = cpHash[k];
-      const diff = (n.dateEndedMillis - n.dateStartedMillis)*millisPerDay;
+      const diff = (n.dateEndedMillis - n.dateStartedMillis) * millisPerDay;
 
       const startDate = getAdjustedDate(n.dateStartedMillis);
       const endDate = getAdjustedDate(n.dateEndedMillis);
       // endDate.setSeconds(startDate.getSeconds() + 1000*diff);
 
-       return [
-         String(k),
-         n.shortTestPath,
-         n.sumanExitCode > 0 ? 'fail-group' : 'success-group',
-         startDate,
-         endDate,
-         null,
-         100,
-         null
-       ]
+      return [
+        String(k),
+        n.shortTestPath,
+        n.sumanExitCode > 0 ? 'fail-group' : 'success-group',
+        startDate,
+        endDate,
+        null,
+        100,
+        null
+      ]
     });
-
 
     const result = template({
       arrayOfArrays: JSON.stringify(map)
     });
 
-
     const p = path.resolve(_suman.sumanHelperDirRoot + '/gantt-3.html');
     fs.writeFile(p, result, cb);
 
   });
-
 
 };
 

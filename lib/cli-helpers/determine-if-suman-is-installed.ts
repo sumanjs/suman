@@ -7,12 +7,12 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const assert = require('assert');
+import assert = require('assert');
 const path = require('path');
 const fs = require('fs');
 
 //npm
-const colors = require('colors/safe');
+import * as chalk from 'chalk';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -46,12 +46,12 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
 
   if (sumanInstalledLocally) {
     if (opts.verbosity > 7) {  //only if user asks for verbose option
-      _suman.log(colors.blue('Suman appears to be installed locally.'));
+      _suman.log(chalk.blue('Suman appears to be installed locally.'));
     }
   }
   else {
     if (opts.verbosity > 2) {
-      _suman.log(colors.yellow('note that Suman is not installed locally, you may wish to run "$ suman --init"'));
+      _suman.log(chalk.yellow('note that Suman is not installed locally, you may wish to run "$ suman --init"'));
     }
   }
 
@@ -64,12 +64,12 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
 
   if (sumanInstalledAtAll) {
     if (opts.verbosity > 7) {  //only if user asks for verbose option
-      console.log(' ' + colors.blue('=> Suman message => Suman appears to be installed locally.'));
+      console.log(' ' + chalk.blue('=> Suman message => Suman appears to be installed locally.'));
     }
   }
   else {
     if (!sumanIsSymlinkedLocally && opts.verbosity > 2) {
-      console.log(' ' + colors.yellow('=> Suman message => note that Suman is not installed at all, you may wish to run "$ suman --init"'));
+      console.log(' ' + chalk.yellow('=> Suman message => note that Suman is not installed at all, you may wish to run "$ suman --init"'));
     }
   }
 
@@ -80,7 +80,7 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
   catch (err) {
     sumanServerInstalled = false;
     if (opts.verbosity > 2) {
-      console.log(' ' + colors.yellow('=> Suman verbose message => note that "suman-server" package is not yet installed.'));
+      _suman.log(chalk.yellow('note that "suman-server" package is not yet installed.'));
     }
   }
 

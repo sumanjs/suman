@@ -9,7 +9,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as util from 'util';
+import util = require('util');
 
 //npm
 import su from 'suman-utils';

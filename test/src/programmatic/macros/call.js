@@ -10,7 +10,6 @@ const one = suman.load({
     indirect: true
 });
 
-const colors = require('colors/safe');
 
 var count = 0;
 one.on('test',function(t){

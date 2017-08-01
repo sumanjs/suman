@@ -1,5 +1,6 @@
 'use strict';
 
+//dts
 import {ITestSuite} from "../dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../dts/global";
 import {ISuman} from "../dts/suman";
@@ -11,15 +12,16 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import * as domain from 'domain';
-import * as path from 'path';
-import * as assert from 'assert';
-import * as EE from 'events';
-import * as fs from 'fs';
-import * as util from 'util';
+import domain = require('domain');
+import path = require('path');
+import assert = require('assert');
+import EE = require('events');
+import fs = require('fs');
+import util = require('util');
 
 //npm
-const colors = require('colors/safe');
+import {VamootProxy} from 'vamoot';
+import * as chalk from 'chalk';
 import * as async from 'async';
 const _ = require('underscore');
 const fnArgs = require('function-arguments');
@@ -132,15 +134,12 @@ export const execSuite = function (suman: ISuman): Function {
       const globalHooks = require(path.resolve(_suman.sumanHelperDirRoot + '/suman.hooks.js'));
       assert(typeof globalHooks === 'function', 'suman.hooks.js must export a function.');
       //TODO: DI injection should apply here as well
-      globalHooks.call(suite, suite);
+      globalHooks.call(null, suite);
     }
     catch (err) {
-      console.error('\n' + colors.magenta(' => Suman warning => Could not find the "suman.hooks.js" ' +
-          'file in your <suman-helpers-dir>.\n' +
-          'Create the file to remove the warning.'), '\n\n');
-      if (_suman.sumanOpts.verbosity > 3) {
-        console.error('\n', err.message || err, '\n');
-      }
+      _suman.logError(chalk.magenta('warning => Could not find the "suman.hooks.js" ' +
+        'file in your <suman-helpers-dir>.\n' +
+        'Create the file to remove the warning.'), '\n\n');
     }
 
     if (deps.length < 1) {
@@ -201,6 +200,8 @@ export const execSuite = function (suman: ISuman): Function {
           sumanExitCode: constants.EXIT_CODES.ERROR_IN_ROOT_SUITE_BLOCK
         });
       });
+
+      Object.defineProperty(suite, 'shared', {value: new VamootProxy(), writable: false});
 
       d.run(function () {
 
@@ -290,6 +291,9 @@ export const execSuite = function (suman: ISuman): Function {
 
     function start() {
 
+      _suman.currentPaddingCount = _suman.currentPaddingCount || {};
+      _suman.currentPaddingCount.val = 1; // always reset to 4...
+
       function runSuite(suite: ITestSuite, cb: Function) {
 
         if (_suman.sumanUncaughtExceptionTriggered) {
@@ -309,6 +313,8 @@ export const execSuite = function (suman: ISuman): Function {
           }
         }
 
+        assert(Number.isInteger(limit) && limit > 0 && limit < 10000, 'limit must be an integer between 1 and 10000.');
+
         suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
           if (err) {
@@ -324,15 +330,19 @@ export const execSuite = function (suman: ISuman): Function {
             process.nextTick(cb)
           }
           else {
-            fn(children, limit, function (child: ITestSuite, cb: Function) {
 
-              child = _.findWhere(allDescribeBlocks, {
-                testId: child.testId
-              });
+            if (_suman.sumanOpts.series) {
+              _suman.currentPaddingCount.val += 3;
+            }
+
+            fn(children, limit, function (child: ITestSuite, cb: Function) {
 
               runSuite(child, cb);
 
             }, function (err: IPseudoError) {
+              if (_suman.sumanOpts.series) {
+                _suman.currentPaddingCount.val -= 3;
+              }
               err && console.error(' => Suman implementation error => ', err.stack || err);
               process.nextTick(cb);
             });
