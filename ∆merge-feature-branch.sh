@@ -24,7 +24,7 @@ git checkout dev
 git merge origin/dev
 
 git checkout -b "${NEW_FEATURE_BRANCH}"
-
+git push -u origin HEAD  # makes sure git is tracking this branch on the primary remote
 
 
 
