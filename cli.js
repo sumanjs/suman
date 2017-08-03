@@ -229,10 +229,12 @@ try {
     }
 }
 catch (err) {
-    _suman.logWarning(chalk.bgBlack.yellow('warning => Could not find path to your config file ' +
-        'in your current working directory or given by --cfg at the command line...'));
-    _suman.logWarning(chalk.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ' +
-        '...now looking for a config file at the root of your project...'));
+    if (!init) {
+        _suman.logWarning(chalk.bgBlack.yellow('warning => Could not find path to your config file ' +
+            'in your current working directory or given by --cfg at the command line...'));
+        _suman.logWarning(chalk.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ' +
+            '...now looking for a config file at the root of your project...'));
+    }
     try {
         pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
         sumanConfig = _suman.sumanConfig = require(pth);
@@ -269,6 +271,7 @@ if ('concurrency' in sumanOpts) {
 }
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
+console.log('sumanOpts.$useTAPOutput => ', sumanOpts.$useTAPOutput);
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 var sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
     .map(function (item) { return (item instanceof RegExp) ? item : new RegExp(item); });
@@ -401,10 +404,7 @@ else if (useBabel) {
     require('./lib/use-babel/use-babel')(null);
 }
 else if (init) {
-    require('./lib/cli-commands/init-opt').run({
-        force: force,
-        fforce: fforce
-    });
+    require('./lib/cli-commands/init-opt').run(sumanOpts, projectRoot, cwd);
 }
 else if (uninstall) {
     require('./lib/uninstall/uninstall-suman')({

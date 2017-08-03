@@ -468,7 +468,7 @@ export const makeHandleMultipleProcesses =
             n.stdout.setEncoding('utf8');
             n.stderr.setEncoding('utf8');
 
-            if (false && (sumanOpts.inherit_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes')) {
+            if (sumanOpts.inherit_stdio || sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes') {
 
               let onError = function (e: Error) {
                 console.error('\n', e.stack || e, '\n');
