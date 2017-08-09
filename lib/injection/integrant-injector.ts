@@ -39,7 +39,7 @@ export default function (names: Array<string>) {
       return require(n);
     }
     catch (err) {
-      _suman.logError('warning => suman cannot require dependency with name => "' + n + '";' +
+      _suman.logError('integrant/pre injector warning => cannot require dependency with name => "' + n + '";' +
         ' Suman will continue optimistically.');
       console.error('\n');
       return null;

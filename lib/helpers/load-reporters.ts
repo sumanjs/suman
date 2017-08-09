@@ -27,7 +27,7 @@ let loaded = false;
 
 /////////////////////////////////////////////////////////////////////////////
 
-export const loadReporters = function (opts: ISumanOpts, projectRoot: string, sumanConfig: ISumanConfig) {
+export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: string, sumanConfig: ISumanConfig) {
 
   if (loaded) {
     return;
@@ -36,10 +36,10 @@ export const loadReporters = function (opts: ISumanOpts, projectRoot: string, su
   loaded = true;
 
   _suman.currentPaddingCount = _suman.currentPaddingCount || {};
-  const optsCopy = Object.assign({}, opts);
+  const optsCopy = Object.assign({}, sumanOpts);
   optsCopy.currPadCount = _suman.currentPaddingCount;
 
-  const sumanReporters = _suman.sumanReporters = _.flattenDeep([opts.reporter_paths || []])
+  const sumanReporters = _suman.sumanReporters = _.flattenDeep([sumanOpts.reporter_paths || []])
   .filter(v => {
     if (!v) {
       _suman.logWarning('a reporter path was undefined.');
@@ -55,14 +55,14 @@ export const loadReporters = function (opts: ISumanOpts, projectRoot: string, su
     return fn;
   });
 
-  if (opts.reporters && typeof sumanConfig.reporters !== 'object') {
+  if (sumanOpts.reporters && typeof sumanConfig.reporters !== 'object') {
     throw new Error(' => Suman fatal error => You provided reporter names but have no reporters object in your suman.conf.js file.');
   }
 
   const reporterKV = sumanConfig.reporters || {};
   assert(su.isObject(reporterKV), '{suman.conf.js}.reporters property must be an object.');
 
-  _.flattenDeep([opts.reporters || []]).filter(v => {
+  _.flattenDeep([sumanOpts.reporters || []]).filter(v => {
     if (!v) {
       _suman.logWarning('a reporter path was undefined.');
     }
@@ -112,7 +112,7 @@ export const loadReporters = function (opts: ISumanOpts, projectRoot: string, su
 
   });
 
-  if (process.env.SUMAN_INCEPTION_LEVEL > 0 || opts.useTAPOutput) {
+  if (process.env.SUMAN_INCEPTION_LEVEL > 0 || sumanOpts.$useTAPOutput) {
     console.log('TAP reporter loaded.');
     let fn = require('suman-reporters/modules/tap-json-reporter');
     fn = fn.default || fn;
@@ -121,7 +121,7 @@ export const loadReporters = function (opts: ISumanOpts, projectRoot: string, su
     reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}, su));
   }
   else {
-    _suman.log('TAP reporter *not* loaded.');
+    _suman.log('TAP reporter *not* loaded the first time.');
   }
 
   if (sumanReporters.length < 1) {
@@ -132,6 +132,14 @@ export const loadReporters = function (opts: ISumanOpts, projectRoot: string, su
       fn = fn.default || fn;
       assert(typeof fn === 'function', 'Suman implementation error - reporter fail.');
       sumanReporters.push(fn);
+    }
+    else{
+      console.log('TAP reporter loaded on second attempt.');
+      let fn = require('suman-reporters/modules/tap-json-reporter');
+      fn = fn.default || fn;
+      assert(typeof fn === 'function', 'Suman implementation error - reporter fail.');
+      sumanReporters.push(fn);
+      reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}, su));
     }
   }
 

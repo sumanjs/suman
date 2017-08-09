@@ -13,13 +13,12 @@ import assert = require('assert');
 import EE = require('events');
 import cp = require('child_process');
 
-
 //npm
 import async = require('async');
 import * as chalk from 'chalk';
 
 //project
-const _suman :IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const p = path.resolve(process.env.HOME + '/.suman/global');
 
 //////////////////////////////////////////////////////////////////////
@@ -60,21 +59,18 @@ export const run = function (deps: Array<string>): void {
   }, function (err: Error, results: Array<Object>) {
 
     if (err) {
-      return console.error(err);
+      return _suman.logError(err);
     }
 
-    console.log('\n');
-    console.log('=> Suman installation results:');
-    console.log('\n');
+    _suman.log('Suman installation result:\n');
 
-    let allGood = true;
-
-    results.forEach(function (r) {
+    let allGood = results.every(function (r) {
       console.log(r);
       if (r.code > 0) {
-        allGood = false;
         console.log(' => ', r.name, 'may not have been installed successfully.');
+        return false;
       }
+      return true;
     });
 
     if (allGood) {

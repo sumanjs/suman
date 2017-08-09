@@ -14,16 +14,10 @@ git add .
 git add -A
 git commit --allow-empty -am "feature:merge:${time_millis}"
 
-NEW_FEATURE_BRANCH="feature_${USER}_${time_millis}"
-
 git fetch origin
 git merge --no-ff origin/dev # use --no-ff to force a new commit
 git push origin HEAD
 
-git checkout dev
-git merge origin/dev
-
-git checkout -b "${NEW_FEATURE_BRANCH}"
 
 
 

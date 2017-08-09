@@ -49,7 +49,7 @@ export default function ($iocData: Object, $preData: Object) {
         return require(n);
       }
       catch (err) {
-        _suman.logError('warning => suman cannot require dependency with name => "' + n + '";' +
+        _suman.logError('suman.ioc.js warning => cannot require dependency with name => "' + n + '";' +
           ' Suman will continue optimistically.');
         console.error('\n');
         return null;

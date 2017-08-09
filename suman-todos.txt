@@ -6,6 +6,10 @@ three SO profiles:
 
 ///
 
+https://github.com/avajs/karma-ava
+
+///
+
 include yaml "diagnostics" as part of TAP
 
 ///
@@ -26,6 +30,8 @@ Getting a list of failing/passing tests after test suite execution
 
   if sumanception level > 1, then we shouldn't write any TAP results
   because stdout cannot be multiplexed, etc.
+
+  actually each parent can successfully parse a child, so it will work.
 
 //
    print test path run if using node x.js or suman x.js
