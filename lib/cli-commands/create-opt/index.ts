@@ -23,7 +23,7 @@ const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 export const run = function createTestFiles(paths : Array<string>) {
 
-  const p = path.resolve(__dirname, '..', 'default-conf-files/suman.skeleton.js');
+  const p = path.resolve(__dirname, '..','..', 'default-conf-files/suman.skeleton.js');
   const strm = fs.createReadStream(p);
 
   async.eachLimit(paths, 5, function (p: string, cb: Function) {

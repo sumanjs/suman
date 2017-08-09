@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-# (git clone suman)
+set -e;
 
-git checkout dev_squash &&
-git checkout staging &&
-git checkout dev_integration  # you should work off dev branch
+git clone git@github.com:sumanjs/suman.git
+git checkout dev
+
+time_millis=$(node -e 'console.log(Date.now())');
+
+git checkout -b "feature/$USER/${time_millis}"

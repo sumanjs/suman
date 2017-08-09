@@ -19,8 +19,7 @@ export const constants = Object.freeze({
   SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
 
   GIT_IGNORE: [
-    '*suman/logs/',
-    'test-target/'
+    '**suman/logs/**'
   ],
 
   SUMAN_HARD_LIST: Object.keys({

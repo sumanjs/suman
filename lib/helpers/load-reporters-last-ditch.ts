@@ -35,17 +35,18 @@ export const run = function () {
 
   if (sumanReporters.length < 1) {
     let fn: Function;
-    if (true || _suman.inceptionLevel > 0 || _suman.sumanOpts.useTAPOutput) {
-      console.log('reporters last ditch: loading tap reporter');
+    if (true || _suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput) {
+      _suman.log('last-ditch effort to load a reporter: loading tap-json reporter');
       fn = require('suman-reporters/modules/tap-json-reporter');
       fn = fn.default || fn;
     }
     else {
-      console.log('reporters last ditch: loading std reporter');
+    _suman.log('last-ditch effort to load a reporter: loading std reporter');
       fn = require('suman-reporters/modules/std-reporter');
       fn = fn.default || fn;
     }
 
+    console.log('\n'); console.error('\n');
     assert(typeof fn === 'function', 'Suman implementation error - reporter fail. Please report this problem on Github.');
     _suman.sumanReporters.push(fn);
     fn.call(null, resultBroadcaster, optsCopy, {}, su);

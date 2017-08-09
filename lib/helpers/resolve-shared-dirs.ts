@@ -58,7 +58,7 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
       ' => We expected to find your <suman-helpers-dir> here =>', '\n',
       chalk.bgBlack.cyan(sumanHelpersDir), '\n');
 
-    console.log(' => Exiting because we could not locate the <suman-helpers-dir>,' +
+    console.log(' => Exiting because we could not locate the <suman-helpers-dir>, ' +
       'given your configuration and command line options.');
     return process.exit(constants.EXIT_CODES.COULD_NOT_LOCATE_SUMAN_HELPERS_DIR);
   }
