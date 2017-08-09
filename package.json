@@ -83,6 +83,7 @@
     "underscore": "^1.8.3",
     "uuid": "^3.0.1",
     "v8flags": "^3.0.0",
+    "vamoot": "latest",
     "websocket-stream": "^4.0.0"
   },
   "devDependencies": {
