@@ -4,9 +4,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 debugger;
 var process = require('suman-browser-polyfills/modules/process');
 var global = require('suman-browser-polyfills/modules/global');
-var logExit = require('./lib/helpers/log-exit');
+var logExit = require('./lib/helpers/log-exit').run;
 process.on('exit', function (code) {
-    if (process.listenerCount('exit') === 1) {
+    console.log('_suman.isActualExitHandlerRegistered => ', _suman.isActualExitHandlerRegistered);
+    if (!global._suman || !global._suman.isActualExitHandlerRegistered) {
         logExit(code);
     }
 });

@@ -8,6 +8,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import util = require('util');
+
 const EE = require('events');
 const fs = require('fs');
 
@@ -18,8 +19,10 @@ import su = require('suman-utils');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {handleRequestResponseWithRunner} from '../index-helpers/handle-runner-request-response';
+
 const counts = require('./suman-counts');
 import oncePostFn from './handle-suman-once-post';
+
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -64,9 +67,7 @@ suiteResultEmitter.on('suman-completed', function (obj: ITableDataCallbackObj) {
 
     fn(function (err: IPseudoError) {
 
-      if (err) {
-        console.error(err.stack || err);
-      }
+      err && console.error(err.stack || err);
 
       // this is for testing expected test result counts
       resultBroadcaster.emit(String(events.META_TEST_ENDED));

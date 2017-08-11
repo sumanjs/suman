@@ -10,12 +10,14 @@ let callable = true;
 
 /////////////////////////////////////////////////////////////////
 
-export = function(code: number){
+export const run =  function(code: number){
 
   if(callable){
     callable = false;
 
-    console.log('\n\n => Suman cli exiting with code: ', code, '\n\n');
+    console.log('\n');
+    console.log(' => Suman cli exiting with code: ', code);
+    console.log('\n');
   }
 
 };

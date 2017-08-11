@@ -4,6 +4,15 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+
+///
+
+ suman.ioc.js values should be injectable into suman.once.pre.js and suman.once.post.js
+
+///
+
+https://github.com/avajs/karma-ava
+
 ///
 
 https://github.com/avajs/karma-ava

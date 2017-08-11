@@ -35,7 +35,8 @@ export const run = function () {
 
   if (sumanReporters.length < 1) {
     let fn: Function;
-    if (true || _suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput) {
+
+    if (_suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput) {
       _suman.log('last-ditch effort to load a reporter: loading tap-json reporter');
       fn = require('suman-reporters/modules/tap-json-reporter');
       fn = fn.default || fn;

@@ -113,7 +113,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
   });
 
   if (process.env.SUMAN_INCEPTION_LEVEL > 0 || sumanOpts.$useTAPOutput) {
-    console.log('TAP reporter loaded.');
+    console.log('TAP-JSON reporter loaded.');
     let fn = require('suman-reporters/modules/tap-json-reporter');
     fn = fn.default || fn;
     assert(typeof fn === 'function', 'Suman implementation error - reporter fail.');
@@ -121,7 +121,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}, su));
   }
   else {
-    _suman.log('TAP reporter *not* loaded the first time.');
+    _suman.log('TAP reporter *not* loaded on the first pass-through.');
   }
 
   if (sumanReporters.length < 1) {
@@ -133,7 +133,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
       assert(typeof fn === 'function', 'Suman implementation error - reporter fail.');
       sumanReporters.push(fn);
     }
-    else{
+    else {
       console.log('TAP reporter loaded on second attempt.');
       let fn = require('suman-reporters/modules/tap-json-reporter');
       fn = fn.default || fn;
