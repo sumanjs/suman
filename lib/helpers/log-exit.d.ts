@@ -1,2 +1,1 @@
-declare const _default: (code: number) => void;
-export = _default;
+export declare const run: (code: number) => void;

@@ -11,6 +11,7 @@ import util = require('util');
 
 //npm
 import chalk = require('chalk');
+
 const sumanUtils = require('suman-utils');
 const debug = require('suman-debug')('s');
 
@@ -29,7 +30,7 @@ process.on('uncaughtException', function (err: IPseudoError) {
 
   if (typeof err !== 'object') { // if null or string, etc
     const val = typeof err === 'string' ? err : util.inspect(err);
-    console.error('\n\n',chalk.red(' => Implementation warning: value passed to uncaughtException handler ' +
+    console.error('\n\n', chalk.red(' => Implementation warning: value passed to uncaughtException handler ' +
       'was not typeof "object" => '), val, '\n\n');
     err = {message: val, stack: val}
   }
@@ -76,12 +77,21 @@ export const run = function (files: Array<string>) {
     });
   }
 
+  process.prependListener('exit', function (code: number) {
+    console.log('_suman.isActualExitHandlerRegistered => ', _suman.isActualExitHandlerRegistered);
+    if(!_suman.isActualExitHandlerRegistered){
+      _suman.logError(chalk.magenta('Warning, you may have failed to point Suman to an actual Suman test file.');
+      _suman.logError(chalk.magenta('Or there was an immediate error, which prevented any other exit handlers from being registered.'));
+    }
+  });
+
   if (SUMAN_SINGLE_PROCESS) {
     _suman.log('debug message => we are in SUMAN_SINGLE_PROCESS mode.');
     require('./helpers/log-stdio-of-child').run('suman-single-process');
-    require('./handle-single-proc')(files);
+    require('./handle-single-proc').run(files);
   }
   else {
+    _suman.log(`running this single test file => "${files[0]}"`);
     require('./helpers/log-stdio-of-child').run(files[0]);
     require(files[0]);
   }

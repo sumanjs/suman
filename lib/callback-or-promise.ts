@@ -39,7 +39,7 @@ module.exports = function callbackOrPromise (key, hash, cb) {
   }
 
   d.once('error', function (err) {
-    console.log(err.stack || err);
+    console.log(err.stack || err || 'no error passed to error handler.');
     first(err);
   });
 

@@ -147,7 +147,8 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
           integPreConfiguration = ret.dependencies;
         }
         else {
-          throw new Error(' => <suman.once.pre.js> file does not export an object with a property called "dependencies".');
+          throw new Error(' => <suman.once.pre.js> file does not export an object with a property called "dependencies".' +
+            (ret ? `Exported properties are ${util.inspect(Object.keys(ret))}` : ''));
         }
       }
 

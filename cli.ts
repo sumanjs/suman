@@ -17,10 +17,11 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //and all the rest
-const logExit = require('./lib/helpers/log-exit');
+const {run:logExit} = require('./lib/helpers/log-exit');
 
 process.on('exit', function (code: number) {
-  if (process.listenerCount('exit') === 1) {
+  console.log('_suman.isActualExitHandlerRegistered => ', _suman.isActualExitHandlerRegistered);
+  if (!global._suman || !global._suman.isActualExitHandlerRegistered) {
     logExit(code);
   }
 });

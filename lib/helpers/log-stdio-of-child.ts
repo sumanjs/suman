@@ -31,7 +31,7 @@ export const run = function (filePath: string) {
 
   if (process.env.MAKE_SUMAN_LOG !== 'no') {
 
-    console.log('we are logging child stdout/stderr to files.');
+    _suman.log('we are logging child stdout/stderr to files.');
 
     const timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
     const runId = process.env.SUMAN_RUN_ID;
@@ -41,9 +41,9 @@ export const run = function (filePath: string) {
     const f = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
 
     if (SUMAN_SINGLE_PROCESS) {
-      console.error('\n');
+      _suman.logError('\n');
       _suman.logError('in SUMAN_SINGLE_PROCESS mode, and we are not currently configured to log stdio to log file.');
-      console.error('\n');
+      _suman.logError('\n');
       return;
     }
 
@@ -101,7 +101,7 @@ export const run = function (filePath: string) {
           fs.unlinkSync(logfile);
         }
         catch (err) {
-          console.error(' => Could not unlink extraneous log file at path => ', logfile);
+          _suman.logError(' => Could not unlink extraneous log file at path => ', logfile);
         }
       }
       else {
