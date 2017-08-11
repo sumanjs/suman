@@ -69,9 +69,10 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
     integrantPreFn = require(p);
   }
   catch (err) {
+    _suman.logError(`Could not load your integrant pre module at path <${p}>.`);
+    _suman.logError(err.stack || err);
     integrantPreFn = function () {
-      _suman.logError(`Could not load your integrant pre module at path <${p}>.`);
-      return {};
+       return {dependencies:{}}
     };
 
     if (sumanOpts.verbosity > 2) {
