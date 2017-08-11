@@ -141,13 +141,14 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
       //declared at top of file
       if (!integPreConfiguration) {
         const args = fnArgs(integrantPreFn);
+        console.log('integrantPreFn => ', integrantPreFn);
         const ret = integrantPreFn.apply(null, integrantInjector(args));
 
         if (ret && su.isObject(ret.dependencies)) {
           integPreConfiguration = ret.dependencies;
         }
         else {
-          throw new Error(' => <suman.once.pre.js> file does not export an object with a property called "dependencies".' +
+          throw new Error(' => <suman.once.pre.js> file does not export an object with a property called "dependencies"...\n' +
             (ret ? `Exported properties are ${util.inspect(Object.keys(ret))}` : ''));
         }
       }
