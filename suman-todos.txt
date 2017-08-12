@@ -5,6 +5,15 @@ three SO profiles:
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
 
+//
+
+ should log NODE_ENV
+
+///
+
+ $args should be a whitespace delimited list of arguments
+ $argsRaw should just be the string
+
 ///
 
  suman.ioc.js values should be injectable into suman.once.pre.js and suman.once.post.js

@@ -33,8 +33,10 @@ const integrantsEmitter = _suman.integrantsEmitter = (_suman.integrantsEmitter |
 const {acquireDependencies} = require('../acquire-dependencies/acquire-pre-deps');
 import {constants} from '../../config/suman-constants';
 import integrantInjector from '../injection/integrant-injector';
+
 const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 import {getClient} from './socketio-child-client';
+
 let integPreConfiguration: any = null;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,7 +143,6 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
       //declared at top of file
       if (!integPreConfiguration) {
         const args = fnArgs(integrantPreFn);
-        console.log('integrantPreFn => ', integrantPreFn);
         const ret = integrantPreFn.apply(null, integrantInjector(args));
 
         if (ret && su.isObject(ret.dependencies)) {

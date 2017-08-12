@@ -99,17 +99,17 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
   }
   catch (err) {
     _suman.logError(`could not load suman.ioc.js file at path <${p}>`);
+    _suman.logError(err.stack || err);
     try {
       p = path.resolve(projectRoot + '/suman/suman.ioc.js');
       iocFn = require(p);
     }
     catch (err) {
       _suman.logError(`could not load suman.ioc.js file at path <${p}>`);
-      if (sumanHelpersDirLocated) {
-        console.log('\n\n', chalk.bgBlack.cyan('Suman tip => Create your own suman.ioc.js file ' +
-          'instead of using the default file.'), '\n');
+      _suman.logError(err.stack || err);
+      iocFn = function(){
+        return {dependencies: {}}
       }
-      iocFn = require('../default-conf-files/suman.default.ioc.js');
     }
   }
 

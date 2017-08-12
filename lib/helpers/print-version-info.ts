@@ -12,7 +12,7 @@ import util = require('util');
 import * as chalk from 'chalk';
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 require('./add-suman-global-properties');
 
 const ascii = require('./ascii');
@@ -27,6 +27,7 @@ const cwd = process.cwd();
 const pkgJSON = require('../../package.json');
 const v = pkgJSON.version;
 _suman.log('Node.js version =>', process.version);
-_suman.log(chalk.gray.italic('Suman v' + v + ' running individual test suite...'));
+_suman.log(chalk.gray.italic(`Suman v${v} running individual test suite...`));
+_suman.log('NODE_ENV =>', `"${process.env.NODE_ENV}"`);
 _suman.log('cwd: ' + cwd);
 console.log(ascii.suman_slant, '\n');

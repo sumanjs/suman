@@ -63,11 +63,12 @@ export const makeHandleMultipleProcesses =
 
       _suman.startDateMillis = Date.now();
 
-      const {sumanOpts, sumanConfig, maxProcs, projectRoot, userArgs: args} = _suman;
+      const {sumanOpts, sumanConfig, maxProcs, projectRoot} = _suman;
       const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
 
       _suman.log('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
 
+      const args : Array<string> = ['--user-args', sumanOpts.user_args];
       let queuedTestFns: Array<Function> = [];
       let failedTransformObjects: Array<Object> = [];
 

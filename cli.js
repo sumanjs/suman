@@ -5,9 +5,8 @@ debugger;
 var process = require('suman-browser-polyfills/modules/process');
 var global = require('suman-browser-polyfills/modules/global');
 var logExit = require('./lib/helpers/log-exit').run;
-process.on('exit', function (code) {
-    console.log('_suman.isActualExitHandlerRegistered => ', _suman.isActualExitHandlerRegistered);
-    if (!global._suman || !global._suman.isActualExitHandlerRegistered) {
+process.once('exit', function (code) {
+    if (!global.__suman || !global.__suman.isActualExitHandlerRegistered) {
         logExit(code);
     }
 });
@@ -72,6 +71,7 @@ var semver = require("semver");
 var dashdash = require('dashdash');
 var chalk = require("chalk");
 var su = require("suman-utils");
+var _ = require("lodash");
 var uniqBy = require('lodash.uniqby');
 var events = require('suman-events').events;
 var debug = require('suman-debug')('s:cli');
@@ -177,8 +177,9 @@ var postinstall = sumanOpts.postinstall;
 var tscMultiWatch = sumanOpts.tsc_multi_watch;
 var sumanD = sumanOpts.suman_d;
 var watchPer = sumanOpts.watch_per;
+var userArgs = sumanOpts.user_args = _.flatten([sumanOpts.user_args]).join(' ');
 if (coverage) {
-    console.log(chalk.magenta.bold(' => Coverage reports will be written out due to presence of --coverage flag.'));
+    _suman.log(chalk.magenta.bold('Coverage reports will be written out due to presence of --coverage flag.'));
 }
 var babelRegister = sumanOpts.babel_register;
 var noBabelRegister = sumanOpts.no_babel_register;
@@ -328,17 +329,7 @@ if (optCheck.length > 1) {
 load_reporters_1.loadReporters(sumanOpts, projectRoot, sumanConfig);
 resultBroadcaster.emit(String(events.NODE_VERSION), nodeVersion);
 resultBroadcaster.emit(String(events.SUMAN_VERSION), sumanVersion);
-var userArgs = _suman.userArgs = [];
-var paths = JSON.parse(JSON.stringify(sumanOpts._args)).filter(function (item) {
-    if (String(item).indexOf('-') === 0) {
-        if (su.vgt(3)) {
-            _suman.log(chalk.magenta('Suman considers this a user argument => ', "'" + item + "'"));
-        }
-        userArgs.push(item);
-        return false;
-    }
-    return true;
-});
+var paths = _.flatten([sumanOpts._args]).slice(0);
 if (sumanOpts.test_paths_json) {
     var jsonPaths = JSON.parse(String(sumanOpts.test_paths_json).trim());
     jsonPaths.forEach(function (p) {
@@ -427,8 +418,9 @@ else if (groups) {
     require('./lib/cli-commands/groups').run(paths);
 }
 else {
-    if (userArgs && sumanOpts.verbosity > 4) {
-        _suman.log('User args will be passed to child processes as process.argv');
+    if (userArgs.length > 0 && sumanOpts.verbosity > 4) {
+        _suman.log('The following "--user-args" will be passed to child processes as process.argv:');
+        _suman.log(userArgs);
     }
     require('./lib/run').run(sumanOpts, paths, sumanServerInstalled, sumanVersion);
 }

@@ -11,6 +11,7 @@ import util = require('util');
 
 //npm
 import * as chalk from 'chalk';
+
 const sortBy = require('lodash.sortby');
 const includes = require('lodash.includes');
 const flattenDeep = require('lodash.flattendeep');
@@ -20,7 +21,6 @@ const intersection = require('lodash.intersection');
 const _suman = global.__suman = (global.__suman || {});
 const weAreDebugging = require('../helpers/we-are-debugging');
 import su = require('suman-utils');
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -41,8 +41,8 @@ export default function (order: Object): IHandleBlocking {
     setInterval(function () {
       setTimeout(function () {
 
-        console.log('started.length => ', started.length);
-        console.log('ended.length => ', ended.length);
+        _suman.log('number of processes already started', started.length);
+        _suman.log('number of processes already ended', ended.length);
 
         const startedButNotEnded = started.filter(function ($item) {
           return ended.every(function (item) {
@@ -53,10 +53,10 @@ export default function (order: Object): IHandleBlocking {
         });
 
         if (startedButNotEnded.length > 0) {
-          console.log('\n\n', chalk.bgCyan.black.bold(' => Suman message => The following test ' +
-              'processes have started but not ended yet:'),
-            chalk.cyan(startedButNotEnded));
-          console.log('\n\n');
+          console.log('\n');
+          _suman.log(chalk.bgCyan.black.bold('The following test processes have started but not ended yet:'));
+          console.log(chalk.cyan(String(startedButNotEnded)));
+          console.log('\n');
         }
 
       }, timeout += 8000);
@@ -64,7 +64,7 @@ export default function (order: Object): IHandleBlocking {
   }
 
   function findQueuedCPsToStart(queuedCPsObj: IRunnerObj): IRunnerRunFn {
-    if(started.length - ended.length < maxProcs){
+    if (started.length - ended.length < maxProcs) {
       return queuedCPsObj.queuedCPs.pop();
     }
   }
@@ -72,11 +72,11 @@ export default function (order: Object): IHandleBlocking {
   return {
 
     runNext: function (fn: IRunnerRunFn): boolean {
-       if(started.length - ended.length < maxProcs){
-         started.push(fn);
-         fn.call(null);
-         return true;
-       }
+      if (started.length - ended.length < maxProcs) {
+        started.push(fn);
+        fn.call(null);
+        return true;
+      }
     },
 
     getStartedAndEnded: function () {

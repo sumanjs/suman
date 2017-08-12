@@ -121,7 +121,7 @@ const runnerObj: IRunnerObj = {
 const handleIntegrantInfo = makeHandleIntegrantInfo(runnerObj, allOncePostKeys);
 const exit = makeExit(runnerObj, tableRows);
 const beforeExitRunOncePost = makeBeforeExit(runnerObj, oncePosts, allOncePostKeys);
-
+global.__suman.isActualExitHandlerRegistered = true;
 process.once('exit', onExit);
 
 process.on('error', function (err: IPseudoError) {
