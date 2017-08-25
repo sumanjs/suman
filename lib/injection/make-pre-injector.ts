@@ -20,7 +20,7 @@ import {getProjectModule} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 
-export const makePostInjector = function ($data: Object, $preData: Object, $ioc: Object) {
+export const makePreInjector = function ($data: Object, $preData: Object, $ioc: Object) {
 
   return function (names: Array<string>) {
 

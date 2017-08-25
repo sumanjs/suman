@@ -55,6 +55,8 @@ export const makeBlockInjector = function (suman: ISuman) {
 
       switch (key) {
 
+        case '$ioc':
+          return _suman.$staticIoc;
         case '$block':
           return suite;
         case '$pre':

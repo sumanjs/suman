@@ -7,7 +7,23 @@ three SO profiles:
 
 //
 
+  create $iocShared and $ioc
+
+//
+
  should log NODE_ENV
+
+///
+
+using tsc --watch to transpile files according to rules
+https://github.com/Microsoft/TypeScript/issues/16779
+
+///
+
+brew install phantomjs
+https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
+
+brew install sumanjs ?
 
 ///
 
@@ -22,11 +38,6 @@ three SO profiles:
 
 https://github.com/avajs/karma-ava
 
-///
-
-https://github.com/avajs/karma-ava
-
-///
 
 include yaml "diagnostics" as part of TAP
 

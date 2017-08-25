@@ -12,19 +12,19 @@ module.exports = function ($core, $deps, $root) {
                 return 'labrador';
             },
             'one': ['four', function (v) {
-                    console.log('one v =>', v);
+                    // console.log('one v =>', v);
                     return 'this is one';
                 }],
             'two': [function (v) {
-                    console.log('two v =>', v);
+                    // console.log('two v =>', v);
                     return 'this is two';
                 }],
             'three': ['one', 'two', 'four', function (v) {
-                    console.log('three v =>', v);
+                    // console.log('three v =>', v);
                     return 'this is three';
                 }],
             'four': ['two', function (v) {
-                    console.log('four v =>', v);
+                    // console.log('four v =>', v);
                     return 'this is four';
                 }],
             'charlie': function () {

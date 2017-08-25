@@ -9,13 +9,13 @@ const global = require('suman-browser-polyfills/modules/global');
 import path = require('path');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getCoreAndDeps} from './$core-n-$deps';
 import {getProjectModule} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 
-export default function (names: Array<string>) {
+export default function (names: Array<string>, $ioc: Object) {
 
   return names.map(function (n) {
 
@@ -31,8 +31,12 @@ export default function (names: Array<string>) {
       return _suman.projectRoot;
     }
 
-    if(n === '$index' || n === '$project'){
+    if (n === '$index' || n === '$project') {
       return getProjectModule();
+    }
+
+    if (n === '$ioc') {
+      return _suman.$staticIoc || $ioc;
     }
 
     try {

@@ -153,6 +153,7 @@ const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 import {loadSumanConfig} from './helpers/load-suman-config';
 import {resolveSharedDirs} from './helpers/resolve-shared-dirs';
 import {loadSharedObjects} from './helpers/load-shared-objects'
+import {acquireIocStaticDeps} from './acquire-dependencies/acquire-ioc-static-deps';
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -335,7 +336,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   let integrants: Array<string>;
 
   try {
-    integrants = (opts.integrants || opts.pre || []).filter(i => i).map(function(item){
+    integrants = (opts.integrants || opts.pre || []).filter(i => i).map(function (item) {
       assert(typeof item === 'string', `once.pre item must be a string. Instead we have => ${util.inspect(item)}`);
       // filter out empty strings, etc.
       return item;
@@ -619,7 +620,8 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     }
 
     //we run integrants function
-    process.nextTick(function () {
+    acquireIocStaticDeps().then(function () {
+
       if (!integrantsInvoked || SUMAN_SINGLE_PROCESS) {
         //always run this if we are in SUMAN_SINGLE_PROCESS mode.
         integrantsInvoked = true;

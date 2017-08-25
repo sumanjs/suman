@@ -15,7 +15,7 @@ import {getProjectModule} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 
-export default function ($iocData: Object, $preData: Object) {
+export default function ($iocData: Object, $preData: Object, $ioc: Object) {
 
   return function (names: Array<string>) {
 
@@ -43,6 +43,10 @@ export default function ($iocData: Object, $preData: Object) {
 
       if (n === '$pre') {
         return $preData || _suman['$pre'] || null;
+      }
+
+      if (n === '$ioc') {
+        return $ioc || _suman.$staticIoc;
       }
 
       try {

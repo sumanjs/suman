@@ -1,7 +1,8 @@
 'use strict';
 ////////////
 //load async deps for any of your suman tests
-module.exports = function ($data, $core, $deps) {
+module.exports = function ($data, $core, $deps, $ioc) {
+    console.log('$ioc.mark => ', $ioc.mark);
     return {
         dependencies: {
             'chuck': function () {

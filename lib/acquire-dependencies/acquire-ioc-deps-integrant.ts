@@ -40,7 +40,7 @@ const thisVal =
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export default function acquireIocDeps(deps: Array<string>, suite: ITestSuite, cb: Function) {
+export const acquireIocDeps = function (deps: Array<string>, suite: ITestSuite, cb: Function) {
 
   const obj: IInjectionDeps = {};
   const SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
@@ -48,45 +48,13 @@ export default function acquireIocDeps(deps: Array<string>, suite: ITestSuite, c
   deps.forEach(dep => {
 
     if (includes(constants.SUMAN_HARD_LIST, dep && String(dep)) && String(dep) in _suman.iocConfiguration) {
-      console.log('Warning: you added a IoC dependency for "' + dep +
-        '" but this is a reserved internal Suman dependency injection value.');
       throw new Error('Warning: you added a IoC dependency for "' + dep +
         '" but this is a reserved internal Suman dependency injection value.');
     }
 
-    if (!suite.parent) {
+    obj[dep] = undefined;
 
-      if (dep in _suman.iocConfiguration) {
-        obj[dep] = _suman.iocConfiguration[dep]; //copy subset of iocConfig to test suite
-
-        if (!obj[dep] && !includes(constants.CORE_MODULE_LIST, String(dep)) &&
-          !includes(constants.SUMAN_HARD_LIST, String(dep))) {
-
-          let deps = Object.keys(_suman.iocConfiguration || {}).map(function (item) {
-            return ' "' + item + '" ';
-          });
-
-          _suman._writeTestError(new Error('The following desired dependency is not in your suman.ioc.js file: "' + dep + '"\n' +
-            ' => ...your available dependencies are: [' + deps + ']').stack);
-        }
-      }
-      else {
-
-        // this dep name is not in the iocConfiguration
-        obj[dep] = '[suman reserved - no ioc match]';
-      }
-    }
-    else {
-      obj[dep] = undefined;
-    }
   });
-
-  if (suite.parent) {
-    // only the root suite can receive IoC injected deps
-    // non-root suites can get injected deps via inject
-    assert(!suite.isRootSuite, 'Suman implementation error => we expect a non-root suite here. Please report.');
-    return process.nextTick(cb, null, obj);
-  }
 
   const promises = Object.keys(obj).map(function (key) {
 
@@ -116,7 +84,7 @@ export default function acquireIocDeps(deps: Array<string>, suite: ITestSuite, c
         let str = fn.toString();
         let matches = str.match(new RegExp(args[1], 'g')) || [];
         if (matches.length < 2) {
-          //there should be at least two instances of the 'cb' string in the function,
+          // there should be at least two instances of the 'cb' string in the function,
           // one in the parameters array, the other in the fn body.
           throw new Error('Callback in your function was not present => ' + str);
         }
