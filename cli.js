@@ -177,6 +177,9 @@ var postinstall = sumanOpts.postinstall;
 var tscMultiWatch = sumanOpts.tsc_multi_watch;
 var sumanD = sumanOpts.suman_d;
 var watchPer = sumanOpts.watch_per;
+if (sumanOpts.user_args) {
+    _suman.log(chalk.magenta('raw user_args is'), sumanOpts.user_args);
+}
 var userArgs = sumanOpts.user_args = _.flatten([sumanOpts.user_args]).join(' ');
 if (coverage) {
     _suman.log(chalk.magenta.bold('Coverage reports will be written out due to presence of --coverage flag.'));
@@ -273,7 +276,7 @@ if ('concurrency' in sumanOpts) {
 }
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
-console.log('sumanOpts.$useTAPOutput => ', sumanOpts.$useTAPOutput);
+_suman.logWarning('using TAP output => ', sumanOpts.$useTAPOutput);
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 var sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
     .map(function (item) { return (item instanceof RegExp) ? item : new RegExp(item); });

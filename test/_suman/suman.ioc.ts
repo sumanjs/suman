@@ -5,8 +5,6 @@
 //load async deps for any of your suman tests
 module.exports = ($data, $core, $deps, $ioc) => {
 
-  console.log('$ioc.mark => ', $ioc.mark);
-
   return {
 
     dependencies: {

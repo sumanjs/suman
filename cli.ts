@@ -255,6 +255,9 @@ const postinstall = sumanOpts.postinstall;
 const tscMultiWatch = sumanOpts.tsc_multi_watch;
 const sumanD = sumanOpts.suman_d;
 const watchPer = sumanOpts.watch_per;
+if(sumanOpts.user_args){
+  _suman.log(chalk.magenta('raw user_args is'), sumanOpts.user_args);
+}
 const userArgs = sumanOpts.user_args = _.flatten([sumanOpts.user_args]).join(' ');
 
 if (coverage) {
@@ -391,7 +394,7 @@ if ('concurrency' in sumanOpts) {
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
 
-console.log('sumanOpts.$useTAPOutput => ', sumanOpts.$useTAPOutput);
+_suman.logWarning('using TAP output => ', sumanOpts.$useTAPOutput);
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 
 /////////////////////////////////// matching ///////////////////////////////////////

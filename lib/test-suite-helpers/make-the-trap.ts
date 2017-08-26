@@ -24,6 +24,7 @@ const {makeHandleTest} = require('./make-handle-test');
 const allEachesHelper = require('./get-all-eaches');
 import {makeHandleBeforeOrAfterEach} from './make-handle-each';
 import sumanOpts = SumanLib.sumanOpts;
+
 const implementationError = require('../helpers/implementation-error');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -82,8 +83,8 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
                   implementationError(err);
                   let $result = handleTestResult(result, test);
                   if (_suman.sumanOpts.bail) {
-                    gracefulExit($result, test, function () {
-                      cb(null, result);
+                    gracefulExit($result, function () {
+                      process.nextTick(cb, null, result);
                     });
                   }
                   else {

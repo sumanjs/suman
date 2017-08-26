@@ -23,6 +23,7 @@ import util = require('util');
 import {VamootProxy} from 'vamoot';
 import * as chalk from 'chalk';
 import * as async from 'async';
+
 const _ = require('underscore');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
@@ -33,10 +34,11 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('./helpers/handle-varargs');
 import {constants} from '../config/suman-constants';
 import su from 'suman-utils';
-import makeGracefulExit = require('./make-graceful-exit');
-import acquireIoCDeps from './acquire-dependencies/acquire-ioc-deps';
+import {makeGracefulExit} from './make-graceful-exit';
+import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
 import {makeBlockInjector} from './injection/make-block-injector';
 import {makeTestSuiteMaker} from './test-suite-helpers/make-test-suite';
+
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 import {handleInjections} from './test-suite-helpers/handle-injections';
 import makeOnSumanCompleted from './helpers/on-suman-completed';
@@ -52,7 +54,6 @@ export const execSuite = function (suman: ISuman): Function {
 
   // we set this so that after.always hooks can run
   _suman.whichSuman = suman;
-
   const onSumanCompleted = makeOnSumanCompleted(suman);
   const blockInjector = makeBlockInjector(suman);
   suman.dateSuiteStarted = Date.now();
@@ -151,7 +152,7 @@ export const execSuite = function (suman: ISuman): Function {
 
       const d = domain.create();
 
-      d.once('error', function (err: IPseudoError) {
+      d.once('error', function (err: Error) {
         console.error(err.stack || err);
         _suman._writeTestError(err.stack || err);
 
@@ -160,15 +161,15 @@ export const execSuite = function (suman: ISuman): Function {
           err = new Error(' => Suman usage error => Error acquiring IOC deps => \n' + (err.stack || err));
           err.sumanFatal = true;
           err.sumanExitCode = constants.EXIT_CODES.IOC_DEPS_ACQUISITION_ERROR;
-          console.error(err.stack || err);
-          gracefulExit(err);
+          _suman.logError(err.stack || err);
+          gracefulExit(err, null);
         });
 
       });
 
       d.run(function () {
 
-        acquireIoCDeps(deps, suite, function (err: IPseudoError, depz: IInjectionDeps) {
+        acquireIocDeps(suman, deps, suite, function (err: IPseudoError, depz: IInjectionDeps) {
 
           if (err) {
             _suman.logError('error acquiring IoC deps:', err.stack || err);
@@ -241,7 +242,7 @@ export const execSuite = function (suman: ISuman): Function {
                 });
               }
               else {
-                console.error('\n', ' => Suman usage warning => suite.resume() was called more than once.');
+                _suman.logError('Suman usage warning => suite.resume() was called more than once.');
               }
             };
 
@@ -250,7 +251,7 @@ export const execSuite = function (suman: ISuman): Function {
             if (!su.checkForValInStr(str, /resume/g, 0)) { //TODO this will not work when delay is simply commented out
               process.nextTick(function () {
                 console.error(new Error(' => Suman usage error => suite.resume() method needs to be called to continue,' +
-                    ' but the resume method was never referenced, so your test cases would never be invoked before timing out.').stack
+                  ' but the resume method was never referenced, so your test cases would never be invoked before timing out.').stack
                   + '\n =>' + str);
                 process.exit(constants.EXIT_CODES.DELAY_NOT_REFERENCED);
               });
@@ -261,18 +262,18 @@ export const execSuite = function (suman: ISuman): Function {
           }
           else {
 
-            suite.__proto__.__resume = function () {
+            Object.getPrototypeOf(suite).__resume = function () {
               _suman.logWarning('usage warning => suite.resume() has become a noop since delay option is falsy.');
             };
 
             cb.apply(suite, deps);
-            suite.__proto__.isSetupComplete = true;
+            Object.getPrototypeOf(suite).isSetupComplete = true;
 
             handleInjections(suite, function (err: IPseudoError) {
 
               if (err) {
-                console.error(err.stack || err);
-                gracefulExit(err);
+                _suman.logError(err.stack || err);
+                gracefulExit(err, null);
               }
               else {
                 process.nextTick(function () {
@@ -317,12 +318,10 @@ export const execSuite = function (suman: ISuman): Function {
 
         suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
-          if (err) {
-            console.error(' => Test error data before log:', suite);
-          }
+          err && _suman.logError('Test error data before log:', suite);
 
-          //TODO: this might be wrong, may need to omit filter
           const children = suite.getChildren().filter(function (child: ITestSuite) {
+            //TODO: this might be wrong, may need to omit filter
             return !child.skipped;
           });
 
@@ -331,20 +330,18 @@ export const execSuite = function (suman: ISuman): Function {
           }
           else {
 
-            if (_suman.sumanOpts.series) {
-              _suman.currentPaddingCount.val += 3;
-            }
+            _suman.sumanOpts.series && (_suman.currentPaddingCount.val += 3);
 
             fn(children, limit, function (child: ITestSuite, cb: Function) {
 
               runSuite(child, cb);
 
             }, function (err: IPseudoError) {
-              if (_suman.sumanOpts.series) {
-                _suman.currentPaddingCount.val -= 3;
-              }
-              err && console.error(' => Suman implementation error => ', err.stack || err);
+
+              _suman.sumanOpts.series && (_suman.currentPaddingCount.val -= 3);
+              err && _suman.logError('Suman implementation error => ', err.stack || err);
               process.nextTick(cb);
+
             });
           }
         });
@@ -355,7 +352,7 @@ export const execSuite = function (suman: ISuman): Function {
         suman.dateSuiteFinished = Date.now();
 
         if (_suman.sumanUncaughtExceptionTriggered) {
-          _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+          _suman.logError(`"UncaughtException" event => halting program.\n[${__filename}]`);
           return;
         }
 

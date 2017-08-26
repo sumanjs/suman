@@ -108,7 +108,7 @@ export const makeHandleMultipleProcesses =
 
       if (sumanOpts.$useTAPOutput) {
         if (sumanOpts.verbosity > 4) {
-          console.log(chalk.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
+          _suman.log(chalk.gray.bold('Suman runner is expecting TAP output from Node.js child processes ' +
             'and will not be listening for websocket messages.'));
         }
       }

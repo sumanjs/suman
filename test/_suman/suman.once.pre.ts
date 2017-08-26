@@ -14,6 +14,7 @@ module.exports = ($core, $deps, $root) => {  //load async deps for any of your s
     dependencies: {
 
       'dog': function () {
+        console.log('sourcing labrador...');
         return 'labrador';
       },
 

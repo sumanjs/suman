@@ -1,14 +1,12 @@
 
+describe('',function(){
 
-const vm = require('vm');
-const fs = require('fs');
+  describe('',function(){
 
-const sandBox = vm.createContext({foo:'bar'});
-const file = fs.readFileSync(__dirname + '/regexp.js');
-//
-// vm.runInContext(file, sandBox);
+    it('is', function(){
+       throw new Error('poop')
 
-let Module = require('module');
-let fn = vm.runInContext(Module.wrap(file), sandBox);
-fn(exports, require, module, __filename, __dirname);
-console.log(module.exports);
+    });
+
+  });
+});

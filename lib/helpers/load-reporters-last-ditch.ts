@@ -23,11 +23,13 @@ let loaded = false;
 
 export const run = function () {
 
-  if(loaded){
+  if (loaded) {
     return;
   }
+  else {
+    loaded = true;
+  }
 
-  loaded = true;
   _suman.currentPaddingCount = _suman.currentPaddingCount || {};
   const optsCopy = Object.assign({}, _suman.sumanOpts);
   // we do not want the user to modify sumanOpts at runtime! so we copy it
@@ -36,18 +38,19 @@ export const run = function () {
   if (sumanReporters.length < 1) {
     let fn: Function;
 
-    if (_suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput) {
+    if (_suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput || _suman.usingRunner) {
       _suman.log('last-ditch effort to load a reporter: loading tap-json reporter');
       fn = require('suman-reporters/modules/tap-json-reporter');
       fn = fn.default || fn;
     }
     else {
-    _suman.log('last-ditch effort to load a reporter: loading std reporter');
+      _suman.log('last-ditch effort to load a reporter: loading std reporter');
       fn = require('suman-reporters/modules/std-reporter');
       fn = fn.default || fn;
     }
 
-    console.log('\n'); console.error('\n');
+    console.log('\n');
+    console.error('\n');
     assert(typeof fn === 'function', 'Suman implementation error - reporter fail. Please report this problem on Github.');
     _suman.sumanReporters.push(fn);
     fn.call(null, resultBroadcaster, optsCopy, {}, su);

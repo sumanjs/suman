@@ -9,6 +9,7 @@ module.exports = function ($core, $deps, $root) {
     return {
         dependencies: {
             'dog': function () {
+                console.log('sourcing labrador...');
                 return 'labrador';
             },
             'one': ['four', function (v) {

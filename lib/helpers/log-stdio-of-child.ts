@@ -15,6 +15,7 @@ import * as chalk from 'chalk';
 //project
 const _suman = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
+
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,12 +33,10 @@ export const run = function (filePath: string) {
   if (process.env.MAKE_SUMAN_LOG !== 'no') {
 
     _suman.log('we are logging child stdout/stderr to files.');
-
     const timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
     const runId = process.env.SUMAN_RUN_ID;
     const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
     const sumanCPLogs = path.resolve(logsDir + '/runs/');
-
     const f = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
 
     if (SUMAN_SINGLE_PROCESS) {
@@ -57,16 +56,12 @@ export const run = function (filePath: string) {
 
     strm.on('drain', function () {
       _suman.isStrmDrained = true;
-      if (_suman.drainCallback) {
-        _suman.drainCallback(logfile);
-      }
+      _suman.drainCallback && _suman.drainCallback(logfile);
     });
 
     process.stderr.on('drain', function () {
       _suman.isStrmDrained = true;
-      if (_suman.drainCallback) {
-        _suman.drainCallback(logfile);
-      }
+      _suman.drainCallback && _suman.drainCallback(logfile);
     });
 
     // RM fs.writeFileSync(logfile, '');

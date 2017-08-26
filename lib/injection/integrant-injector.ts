@@ -27,6 +27,14 @@ export default function (names: Array<string>, $ioc: Object) {
       return getCoreAndDeps().$deps;
     }
 
+    if(n === '$args'){
+      return String(_suman.sumanOpts.user_args || '').split(/ +/).filter(i => i);
+    }
+
+    if(n === '$argsRaw'){
+      return _suman.sumanOpts.user_args || '';
+    }
+
     if (n === '$root' || n === '$projectRoot') {
       return _suman.projectRoot;
     }

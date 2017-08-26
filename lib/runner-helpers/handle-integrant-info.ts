@@ -24,8 +24,7 @@ import su from 'suman-utils';
 const _suman = global.__suman = (global.__suman || {});
 const weAreDebugging = require('../helpers/we-are-debugging');
 import {constants} from '../../config/suman-constants';
-const {acquireDependencies} = require('../acquire-dependencies/acquire-pre-deps');
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const {acquirePreDeps} = require('../acquire-dependencies/acquire-pre-deps');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -102,7 +101,7 @@ export const makeHandleIntegrantInfo =
 
       const depContainerObj = runnerObj.depContainerObj;
 
-      return acquireDependencies(integrants, depContainerObj).then(function (val: any) {
+      return acquirePreDeps(integrants, depContainerObj).then(function (val: any) {
 
         let stringified: string;
         try {

@@ -45,9 +45,9 @@ let cachedPromises: ICachedProm = {};
 
 ///////////////////////////////////////////////////////////////
 
-export const acquirePostDeps =
-  function ($depList: Array<string> | Array<Array<string>>, depContainerObj: IDepContainer): Promise<any> {
+export const acquirePostDeps = function ($depList: Array<string>, depContainerObj: IDepContainer): Promise<any> {
 
+    // depList should be an array of arrays, at least one level nested
     const depList = _.flattenDeep([$depList]);
     const verbosity = _suman.sumanOpts.verbosity || 5;
 

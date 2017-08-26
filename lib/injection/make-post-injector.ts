@@ -34,6 +34,14 @@ export const makePostInjector = function ($data: Object, $preData: Object, $ioc:
         return getCoreAndDeps().$deps;
       }
 
+      if(n === '$args'){
+        return String(_suman.sumanOpts.user_args || '').split(/ +/).filter(i => i);
+      }
+
+      if(n === '$argsRaw'){
+        return _suman.sumanOpts.user_args || '';
+      }
+
       if (n === '$data') {
         return $data;
       }

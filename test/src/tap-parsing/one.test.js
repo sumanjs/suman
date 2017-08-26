@@ -3,15 +3,56 @@ const Test = suman.init(module);
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
-Test.create(function (it) {
+Test.create(function (it, context, after) {
 
-  it('bbbbb');
+  after.last(function(){
+    console.log('after last 1');
+  });
 
-  it('kppppp', ['skipped:true']);
+  after.last(function(){
+    console.log('after last 2');
+  });
 
-  it('success', t => {
+  after(function(){
+    console.log('after');
+  });
+
+
+  context('colors', () => {
+
+    context('red', function () {
+
+      it('bbbbb');
+
+      it('kppppp', ['skipped:true']);
+
+      it('success', t => {
+        throw 'dog'
+      });
+    });
+
+    context('blue', function () {
+
+      it('bbbbb');
+
+      it('kppppp', ['skipped:true']);
+
+      it('success', t => {
+
+      });
+    });
+
+    context('yellow', function () {
+
+      it('bbbbb');
+
+      it('kppppp', ['skipped:true']);
+
+      it('success', t => {
+
+      });
+    });
 
   });
 
