@@ -18,7 +18,6 @@ import async = require('async');
 import su = require('suman-utils');
 import chalk = require('chalk');
 
-
 //project
 const _suman = global.__suman = (global.__suman || {});
 const implementationError = require('../helpers/implementation-error');
@@ -40,8 +39,8 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
     const sumanOpts = _suman.sumanOpts;
 
     if (sumanOpts.series) {
-      console.log('\n');
-      console.log(su.padWithXSpaces(_suman.currentPaddingCount.val), chalk.gray.bold.italic(self.desc));
+      console.log('\n', su.padWithXSpaces(_suman.currentPaddingCount.val),
+        chalk.underline('▽ ' + chalk.gray.bold.italic(self.desc)));
     }
 
     //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
@@ -49,7 +48,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
       this.skippedDueToOnly = this.skipped = true;
     }
 
-    // important - push all afterAlways onto afters array
+    // important - push all afters "last" onto afters array
     this.mergeAfters();
 
     const itOnlyIsTriggered = suman.itOnlyIsTriggered;

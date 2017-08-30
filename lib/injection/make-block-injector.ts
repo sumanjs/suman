@@ -37,7 +37,6 @@ import {getProjectModule} from './helpers';
  => values may be procured +asynchronously+ prior to this, but here we
  finish creating the entire arguments array, all synchronously
 
-
  //////////////////////////////////////////////////////////////////////////////////////////*/
 
 export const makeBlockInjector = function (suman: ISuman) {
@@ -55,6 +54,12 @@ export const makeBlockInjector = function (suman: ISuman) {
 
       switch (key) {
 
+        case '$args':
+          return String(_suman.sumanOpts.user_args || '').split(/ +/).filter(i => i);
+        case '$argsRaw':
+          return _suman.sumanOpts.user_args || '';
+        case '$ioc':
+          return _suman.$staticIoc;
         case '$block':
           return suite;
         case '$pre':
@@ -66,7 +71,6 @@ export const makeBlockInjector = function (suman: ISuman) {
         case '$root':
         case '$projectRoot':
           return _suman.projectRoot;
-
         case '$index':
         case '$project':
           return getProjectModule();

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var chalk = require("chalk");
 exports.constants = Object.freeze({
+    SUMAN_ISSUE_TRACKER_URL: 'https://github.com/sumanjs/suman/issues',
     DEFAULT_TRANSFORM_CONCURRENCY: 3,
     DEFAULT_PARALLEL_TOTAL_LIMIT: 30,
     DEFAULT_PARALLEL_TEST_LIMIT: 10,
@@ -140,7 +141,7 @@ exports.constants = Object.freeze({
             '=> You may have forgotten to fire a callback or perhaps the timeout quantity is too short.'),
         HOOK_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? ' +
             'You may have forgotten to fire a callback or perhaps the timeout quantity is too short.'),
-        DELAY_TIMED_OUT_ERROR: 'Error: *timed out* - did you forget to call delay()?'
+        DELAY_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to call delay()?')
     },
     tableData: {
         SUITES_DESIGNATOR: {

@@ -1,9 +1,8 @@
 'use strict';
 exports.__esModule = true;
-//core
-var path = require('path');
-var util = require('util');
-var assert = require('assert');
+var path = require("path");
+var util = require("util");
+var assert = require("assert");
 var _ = require('underscore');
 //////////////////////////////////////////////////////////////////////
 var scripts = path.resolve(__dirname + '/scripts');

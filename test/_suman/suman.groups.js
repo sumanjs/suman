@@ -1,11 +1,9 @@
 'use strict';
-//core
-var path = require('path');
-var util = require('util');
-var assert = require('assert');
-var fs = require('fs');
-//npm
-var sumanUtils = require('suman-utils');
+exports.__esModule = true;
+var fs = require("fs");
+var path = require("path");
+var util = require("util");
+var assert = require("assert");
 var _ = require('underscore');
 //////////////////////////////////////////////////////////////////////
 //TODO: these functions should give users options to use kubernetes or docker

@@ -18,7 +18,7 @@ Test.create('SimpleTest', { parallel: true }, function (assert, fs, http, os) {
       t.plan(1);
       t.confirm();
       t.done();
-    },1000);
+    },100);
 
   });
 

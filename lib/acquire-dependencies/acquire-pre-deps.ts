@@ -45,9 +45,9 @@ let cachedPromises: ICachedProm = {};
 
 ///////////////////////////////////////////////////////////////
 
-export const acquireDependencies = function ($depList: Array<string> | Array<Array<string>>,
-                                             depContainerObj: IDepContainer,
-                                             oncePostHash: IOncePostHash): Promise<any> {
+export const acquirePreDeps = function ($depList: Array<string> | Array<Array<string>>,
+                                        depContainerObj: IDepContainer,
+                                        oncePostHash: IOncePostHash): Promise<any> {
 
   const depList = _.flattenDeep([$depList]);
   const verbosity = _suman.sumanOpts.verbosity || 5;
@@ -55,7 +55,6 @@ export const acquireDependencies = function ($depList: Array<string> | Array<Arr
   const getAllPromises = function (key: string, $deps: Array<any>): Promise<any> {
 
     if (cachedPromises[key]) {
-      // if the promise has already been created, then just return that
       return cachedPromises[key];
     }
 

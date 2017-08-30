@@ -18,8 +18,10 @@ import EE = require('events');
 const flattenDeep = require('lodash.flattendeep');
 const readline = require('readline');
 import * as chalk from 'chalk';
+
 const AsciiTable = require('ascii-table');
 import async = require('async');
+
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 import su from 'suman-utils';
@@ -29,6 +31,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {findSumanServer, ISumanServerInfo} from './helpers/find-suman-server';
 import {ITestDataObj} from "../dts/it";
 import {constants} from '../config/suman-constants';
+
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
 
@@ -231,11 +234,9 @@ class Suman {
         OVERALL_DESIGNATOR: 'received'
       };
 
-      process.nextTick(function () {
-        cb(null, {
-          exitCode: exitCode,
-          tableData: d
-        })
+      process.nextTick(cb, null, {
+        exitCode: exitCode,
+        tableData: d
       });
 
     }
@@ -279,13 +280,10 @@ class Suman {
       table.setAlign(1, AsciiTable.RIGHT);
       table.setAlign(2, AsciiTable.RIGHT);
 
-      process.nextTick(function () {
-        cb(null, {
-          exitCode: exitCode,
-          tableData: table
-        } as ITableDataCallbackObj);
+      process.nextTick(cb, null, {
+        exitCode: exitCode,
+        tableData: table
       });
-
     }
 
   }
@@ -300,6 +298,7 @@ class Suman {
     test.error = test.error ? (test.error._message || test.error.message || test.error.stack || test.error) : null;
     test.name = (test.desc || test.name);
     test.desc = (test.desc || test.name);
+    test.filePath = test.filePath || this.fileName;
 
     let str = su.customStringify({
       childId: process.env.SUMAN_CHILD_ID,

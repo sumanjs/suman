@@ -38,6 +38,7 @@ const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import onExitFn from './multiple-process-each-on-exit';
 import pt from 'prepend-transform';
+console.log('pt => ', util.inspect(pt));
 
 const runChildPath = require.resolve(__dirname + '/run-child.js');
 import uuidV4 = require('uuid/v4');
@@ -68,7 +69,7 @@ export const makeHandleMultipleProcesses =
 
       _suman.log('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
 
-      const args : Array<string> = ['--user-args', sumanOpts.user_args];
+      const args: Array<string> = ['--user-args', sumanOpts.user_args];
       let queuedTestFns: Array<Function> = [];
       let failedTransformObjects: Array<Object> = [];
 
@@ -108,7 +109,7 @@ export const makeHandleMultipleProcesses =
 
       if (sumanOpts.$useTAPOutput) {
         if (sumanOpts.verbosity > 4) {
-          console.log(chalk.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
+          _suman.log(chalk.gray.bold('Suman runner is expecting TAP output from Node.js child processes ' +
             'and will not be listening for websocket messages.'));
         }
       }
@@ -196,6 +197,8 @@ export const makeHandleMultipleProcesses =
         const tr = (sumanOpts.no_transpile !== true) && runnerUtils.findPathOfTransformDotSh(file);
 
         if (tr) {
+
+          _suman.log(chalk.bgWhite.underline('Suman has found a @transform.sh file => '), chalk.bold(tr));
 
           transpileQueue.push(function (cb: Function) {
 
@@ -381,11 +384,10 @@ export const makeHandleMultipleProcesses =
 
           if (sh) {
 
+            _suman.log(chalk.bgWhite.underline('Suman has found a @run.sh file => '), chalk.bold(sh));
+
             //force to project root
             cpOptions.cwd = projectRoot;
-            su.isSumanDebug(function () {
-              console.log('found sh => ', sh);
-            });
 
             try {
               fs.chmodSync(sh, 0o777);
@@ -398,7 +400,7 @@ export const makeHandleMultipleProcesses =
               _suman.logWarning(chalk.magenta('coverage option was set to true, but we are running your tests via @run.sh.'));
               _suman.logWarning(chalk.magenta('so in this case, you will need to run your coverage call via @run.sh.'));
             }
-            _suman.log('We have found the sh file => ', sh);
+
             n = cp.spawn(sh, argz, cpOptions) as ISumanChildProcess;
           }
           else {

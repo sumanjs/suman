@@ -20,7 +20,7 @@ import {getProjectModule} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 
-export const makePostInjector = function ($data: Object, $preData: Object) {
+export const makePostInjector = function ($data: Object, $preData: Object, $ioc: Object) {
 
   return function (names: Array<string>) {
 
@@ -34,6 +34,14 @@ export const makePostInjector = function ($data: Object, $preData: Object) {
         return getCoreAndDeps().$deps;
       }
 
+      if(n === '$args'){
+        return String(_suman.sumanOpts.user_args || '').split(/ +/).filter(i => i);
+      }
+
+      if(n === '$argsRaw'){
+        return _suman.sumanOpts.user_args || '';
+      }
+
       if (n === '$data') {
         return $data;
       }
@@ -42,12 +50,16 @@ export const makePostInjector = function ($data: Object, $preData: Object) {
         return _suman.projectRoot;
       }
 
-      if(n === '$index' || n === '$project'){
+      if (n === '$index' || n === '$project') {
         return getProjectModule();
       }
 
       if (n === '$pre') {
         return $preData || _suman['$pre'] || _suman.integrantHashKeyVals;
+      }
+
+      if (n === '$ioc') {
+        return $ioc || _suman.$staticIoc;
       }
 
       try {

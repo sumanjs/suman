@@ -17,18 +17,29 @@ import cp = require('child_process');
 
 //npm
 import * as chalk from 'chalk';
+import su from 'suman-utils';
+
 const includes = require('lodash.includes');
 const fnArgs = require('function-arguments');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
 import {constants} from '../../config/suman-constants';
-const iocPromiseContainer: IIocPromiseContainer = {};
+import {ISuman} from "../../dts/suman";
+import makeIocDepInjections from '../injection/ioc-injector';
+import {loadSumanConfig} from '../helpers/load-suman-config';
+import {resolveSharedDirs} from '../helpers/resolve-shared-dirs';
+import {loadSharedObjects} from '../helpers/load-shared-objects'
+const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
 /////////////////////////////////////////////////////////////
 
 interface IIocPromiseContainer {
   [key: string]: Promise<any>;
+}
+
+interface IDependenciesObject {
+  [key: string]: Function;
 }
 
 /////////////////////////////////////////////////////////////
@@ -38,30 +49,48 @@ const thisVal =
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export default function acquireIocDeps(deps: Array<string>, suite: ITestSuite, cb: Function) {
+export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suite: ITestSuite, cb: Function) {
+
+  const iocPromiseContainer: IIocPromiseContainer = {};
+  const sumanPaths = resolveSharedDirs(_suman.sumanConfig, _suman.projectRoot, _suman.sumanOpts);
+  const {iocFn} = loadSharedObjects(sumanPaths, _suman.projectRoot, _suman.sumanOpts);
+  let dependencies : IDependenciesObject = null;
+
+  try {
+    let iocFnArgs = fnArgs(iocFn);
+    let getiocFnDeps = makeIocDepInjections(suman.iocData, null, null);
+    let iocFnDeps = getiocFnDeps(iocFnArgs);
+    let iocRet = iocFn.apply(null, iocFnDeps);
+    assert(su.isObject(iocRet.dependencies),
+      ' => suman.ioc.js must export a function which returns an object with a dependencies property.');
+    dependencies = iocRet.dependencies;
+  }
+  catch (err) {
+    _suman.logError(err.stack || err);
+    _suman.logError('despite the error, suman will continue optimistically.');
+    dependencies = {};
+  }
 
   const obj: IInjectionDeps = {};
-  const SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
   deps.forEach(dep => {
 
-    if (includes(constants.SUMAN_HARD_LIST, dep && String(dep)) && String(dep) in _suman.iocConfiguration) {
+    if (includes(constants.SUMAN_HARD_LIST, dep && String(dep)) && String(dep) in dependencies) {
       console.log('Warning: you added a IoC dependency for "' + dep +
         '" but this is a reserved internal Suman dependency injection value.');
       throw new Error('Warning: you added a IoC dependency for "' + dep +
         '" but this is a reserved internal Suman dependency injection value.');
     }
 
-
     if (!suite.parent) {
 
-      if (dep in _suman.iocConfiguration) {
-        obj[dep] = _suman.iocConfiguration[dep]; //copy subset of iocConfig to test suite
+      if (dep in dependencies) {
+        obj[dep] = dependencies[dep]; //copy subset of iocConfig to test suite
 
         if (!obj[dep] && !includes(constants.CORE_MODULE_LIST, String(dep)) &&
           !includes(constants.SUMAN_HARD_LIST, String(dep))) {
 
-          let deps = Object.keys(_suman.iocConfiguration || {}).map(function (item) {
+          let deps = Object.keys(dependencies || {}).map(function (item) {
             return ' "' + item + '" ';
           });
 
@@ -75,11 +104,10 @@ export default function acquireIocDeps(deps: Array<string>, suite: ITestSuite, c
         obj[dep] = '[suman reserved - no ioc match]';
       }
     }
-    else{
+    else {
       obj[dep] = undefined;
     }
   });
-
 
   if (suite.parent) {
     // only the root suite can receive IoC injected deps

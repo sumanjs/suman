@@ -9,16 +9,19 @@ import util = require('util');
 
 //npm
 import * as chalk from 'chalk';
+import {IGlobalSumanObj} from "../dts/global";
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+import {constants} from '../config/suman-constants';
 
 ///////////////////////////////////////////////////////////////////////////////
 
-module.exports = function _handleSetupComplete(test, type) {
+export const handleSetupComplete = function (test, type) {
+
   if (test.isSetupComplete) {
-    console.log(' => Illegal registry of type => "' + type + '".');
-    console.error('\n', chalk.red.bold(' => Suman usage error => fatal => Asynchronous registry of test suite methods. Fatal AF.'), '\n\n');
+    _suman.logError('Illegal registry of block method type => "' + type + '()".');
+    _suman.logError(chalk.red.bold('Suman usage error => fatal => Asynchronous registry of test suite methods. Fatal AF.'), '\n\n');
     const e = new Error('Suman usage error => Fatal error => You have attempted to register calls to a\n' +
       'test suite block that has already finished registering hooks, test cases and child blocks.\n' +
       'To be more exact, one of two things happened: Either (1) ' +
@@ -33,19 +36,17 @@ module.exports = function _handleSetupComplete(test, type) {
 
     _suman.sumanRuntimeErrors.push(e);
     e.sumanFatal = true;
+    e.sumanExitCode = constants.EXIT_CODES.ASYCNCHRONOUS_REGISTRY_OF_TEST_BLOCK_METHODS;
 
     e.stack = String(e.stack).split('\n').filter(function (line) {
       return !/\/node_modules\//.test(line) && !/\/next_tick.js/.test(line);
     })
-    // .map(function (line) {
-    //   return chalk.red.bold(line);
-    // })
     .join('\n');
 
     if (test) {
-      console.error(' => Regarding the following test suite =>');
-      console.error(util.inspect(test.title || test.desc));
+      _suman.logError('Regarding the following test suite with name =>', util.inspect(test.title || test.desc));
     }
     throw e;
   }
+
 };

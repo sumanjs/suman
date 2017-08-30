@@ -21,19 +21,17 @@ const debug = require('suman-debug')('s:index');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-
+const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 /*////// what it do ///////////////////////////////////////////////
 
 
  */////////////////////////////////////////////////////////////////
 
+export default function (suman: ISuman) {
 
-export default function(suman: ISuman){
+  return function onSumanCompleted(code: number, msg: string) {
 
-  return function _onSumanCompleted(code: number, msg: string) {
-
-    const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
     suman.sumanCompleted = true;
 
     if (SUMAN_SINGLE_PROCESS) {
@@ -44,11 +42,10 @@ export default function(suman: ISuman){
       suman.logFinished(code || 0, msg, function (err: Error | string, val: any) {  //TODO: val is not "any"
 
         if (_suman.sumanOpts.check_memory_usage) {
-          let m = {
+          _suman.logError('Maximum memory usage during run => ' + util.inspect({
             heapTotal: _suman.maxMem.heapTotal / 1000000,
             heapUsed: _suman.maxMem.heapUsed / 1000000
-          };
-          process.stderr.write(' => Maximum memory usage during run => ' + util.inspect(m));
+          }));
         }
 
         _suman.suiteResultEmitter.emit('suman-completed', val);

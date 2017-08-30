@@ -25,6 +25,10 @@ const stckMapFn = function (item: string, index: number) {
 
   const fst = _suman.sumanOpts.full_stack_traces;
 
+  if(!item){
+    return '';
+  }
+
   if (index === 0) {
     return '\t' + item;
   }
@@ -33,7 +37,7 @@ const stckMapFn = function (item: string, index: number) {
     return su.padWithXSpaces(4) + item;
   }
 
-  if (String(item).match(/\//) && !String(item).match(/\/node_modules\//) &&
+  if ((String(item).match(/\//) || String(item).match('______________')) && !String(item).match(/\/node_modules\//) &&
     !String(item).match(/internal\/process\/next_tick.js/)) {
     return su.padWithXSpaces(4) + item;
   }
@@ -63,7 +67,7 @@ export const makeHandleTestResults = function (suman: ISuman) {
 
         test.error = err;
         test.errorDisplay = String(err.stack).split('\n')
-        .filter(item => item)
+        .concat(`\t${su.repeatCharXTimes('_',70)}`)
         .map(stckMapFn)
         .filter(item => item)
         .join('\n')
@@ -74,7 +78,7 @@ export const makeHandleTestResults = function (suman: ISuman) {
 
         test.error = err;
         test.errorDisplay = String(err.stack).split('\n')
-        .filter(item => item)
+        .concat(`\t${su.repeatCharXTimes('_',70)}`)
         .map(stckMapFn)
         .filter(item => item)
         .join('\n')
