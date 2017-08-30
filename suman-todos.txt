@@ -4,6 +4,13 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+//
+
+ use -- --seed instead of --user-args?
+//
+
+  if @run.sh exists for a file x, but the command is just "suman x", then the runner won't be used and @run.sh won't
+  be used. If @run.sh is found, we must use the runner.
 
 //
 
