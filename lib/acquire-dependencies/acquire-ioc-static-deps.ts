@@ -25,6 +25,7 @@ const fnArgs = require('function-arguments');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {constants} from '../../config/suman-constants';
+import Timer = NodeJS.Timer;
 
 let iocPromise: Promise<any> = null;
 const SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
@@ -54,14 +55,26 @@ export const acquireIocStaticDeps = function () {
       '`suman.ioc.static.js` must export a function which returns an object with a "dependencies" property.');
   }
   catch (err) {
-    _suman.logError(err.stack || err);
-    _suman.logError('suman will continue optimistically.');
+    if(/Cannot find module/.test(String(err.message)){
+      _suman.logError(err.message);
+    }
+    else{
+      _suman.logError(err.stack || err);
+    }
+    console.error(''); // simply log a new line
+    _suman.logError('despite the error, suman will continue optimistically.');
     return Promise.resolve(_suman.$staticIoc = {});
   }
 
   const promises = Object.keys(ret).map(function (key) {
 
+    let to: Timer;
+
     return new Promise(function (resolve, reject) {
+
+      to = setTimeout(function(){
+         reject(`static dep acquisition (suman.static.ioc.js) timed out for key '${key}'`);
+      }, 5000);
 
       const fn = ret[key];
 
@@ -91,7 +104,10 @@ export const acquireIocStaticDeps = function () {
         Promise.resolve(fn.call(thisVal)).then(resolve, reject);
       }
 
-    });
+    }).then(function(v){
+      clearTimeout(to);
+      return v;
+    })
 
   });
 

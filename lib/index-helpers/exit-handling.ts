@@ -18,6 +18,7 @@ const {fatalRequestReply} = require('../helpers/fatal-request-reply');
 import {constants} from '../../config/suman-constants';
 import oncePostFn from '../helpers/handle-suman-once-post';
 import {runAfterAlways} from '../helpers/run-after-always';
+
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 const weAreDebugging = require('../helpers/we-are-debugging');
 
@@ -66,7 +67,6 @@ const shutdownSuman = function (msg: string) {
     if (err) {
       console.error('Error in exit handler => \n', err.stack || err);
     }
-
 
     if (Array.isArray(results)) {  // once-post was actually run this time versus (see below)
       results.filter(r => r).forEach(function (r) {
@@ -165,53 +165,52 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
     return;
   }
 
-  setTimeout(function () {
+  if (!_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
 
-    let msg = err.stack || err;
+    _suman.sumanUncaughtExceptionTriggered = err;
 
-    if (typeof msg !== 'string') {
-      msg = util.inspect(msg);
-    }
+    setTimeout(function () {
 
-    console.error('\n');
-    console.error(chalk.magenta.bold(' => Suman uncaught exception => ', chalk.magenta(msg)));
+      let msg = err.stack || err;
 
-    if (!_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
-      _suman.sumanUncaughtExceptionTriggered = err;
-      console.error('\n\n', ' => Given uncaught exception,' +
-        ' Suman will now run suman.once.post.js shutdown hooks...');
-      console.error('\n\n', ' ( => TO IGNORE UNCAUGHT EXCEPTIONS AND CONTINUE WITH YOUR TEST(S), use ' +
+      if (typeof msg !== 'string') {
+        msg = util.inspect(msg);
+      }
+
+      console.error('\n');
+      console.error(chalk.magenta.bold(' => Suman uncaught exception => ', chalk.magenta(msg)));
+      _suman.logError('Given the event of an uncaught exception,' +
+        ' Suman will now run "suman.once.post.js" shutdown hooks...');
+      console.error('\n');
+      _suman.logError(' ( => TO IGNORE UNCAUGHT EXCEPTIONS AND CONTINUE WITH YOUR TEST(S), use ' +
         'the "--ignore-uncaught-exceptions" option.)');
 
       shutdownSuman(msg);
 
-    }
+    }, 400);
 
-  }, 400);
+  }
 
 });
 
-process.on('unhandledRejection', (reason: any, p: Promise<any>) => {
-  reason = (reason.stack || reason);
+process.on('unhandledRejection', ($reason: any, p: Promise<any>) => {
+  const reason = ($reason.stack || $reason);
+  console.error('\n');
+  _suman.logError(chalk.magenta.bold('Unhandled Rejection at Promise:'), chalk.magenta(util.inspect(p)));
+  console.error('\n');
+  _suman.logError(chalk.magenta.bold('Rejection reason'), chalk.magenta(reason));
+  console.error('\n');
 
-  console.error('\n');
-  console.error('Unhandled Rejection at: Promise => ', p);
-  console.error('\n');
-  console.error('=> Rejection reason => ', reason);
+  _suman.sumanUncaughtExceptionTriggered = reason;
+
+  if (_suman.afterAlwaysEngaged) {
+    // we are running after always hooks, and any uncaught exceptions will be ignored in this case
+    return;
+  }
 
   if (_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
-
-    _suman.sumanUncaughtExceptionTriggered = reason;
-    // Should call graceful exit
-
-    fatalRequestReply({
-      type: constants.runner_message_type.FATAL,
-      data: {
-        error: reason,
-        msg: reason
-      }
-    }, function () {
-      process.exit(53); //have to hard-code in case suman-constants file is not loaded
-    });
+    setTimeout(function () {
+      shutdownSuman(reason);
+    }, 400);
   }
 });

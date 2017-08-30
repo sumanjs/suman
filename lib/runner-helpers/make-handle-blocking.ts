@@ -55,7 +55,7 @@ export default function (order: Object): IHandleBlocking {
         if (startedButNotEnded.length > 0) {
           console.log('\n');
           _suman.log(chalk.bgCyan.black.bold('The following test processes have started but not ended yet:'));
-          console.log(chalk.cyan(String(startedButNotEnded)));
+          console.log(chalk.cyan.bold(String(startedButNotEnded)));
           console.log('\n');
         }
 

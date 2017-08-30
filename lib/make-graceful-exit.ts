@@ -33,7 +33,7 @@ const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors
 
 export const makeGracefulExit = function (suman: ISuman) {
 
-  return function runGracefulExitOrNot(errs: Error | IPseudoError | Array<any>, cb: Function) {
+  return function runGracefulExitOrNot($errs: Error | IPseudoError | Array<any>, cb: Function) {
 
     const fst = _suman.sumanOpts.full_stack_traces;
 
@@ -43,7 +43,7 @@ export const makeGracefulExit = function (suman: ISuman) {
 
     let highestExitCode = 0;
     let exitTestSuite = false;
-    errs = flattenDeep([errs]).filter((e: Error) => e);
+    let errs : Array<Error> = flattenDeep([$errs]).filter((e: Error) => e);
 
     if (_suman.sumanUncaughtExceptionTriggered) {
       _suman.logError('"uncaughtException" event occurred => halting program.');
@@ -83,12 +83,13 @@ export const makeGracefulExit = function (suman: ISuman) {
         return undefined;
       }
     })
-    .map(function (err) {
+    .map(function (err: IPseudoError) {
 
       let sumanFatal = err.sumanFatal;
       let exitCode = err.sumanExitCode;
 
       if (exitCode) {
+        console.error('\n');
         _suman.logError('positive exit code with value', exitCode);
       }
 
@@ -96,9 +97,7 @@ export const makeGracefulExit = function (suman: ISuman) {
         highestExitCode = exitCode;
       }
 
-      let stack = String(err.stack || err).split('\n');
-
-      stack.filter(function (item, index) {
+      let stack = String(err.stack || err).split('\n').filter(function (item, index) {
 
         if (fst) {
           // if we are using full stack traces, then we include all lines of trace
@@ -116,9 +115,6 @@ export const makeGracefulExit = function (suman: ISuman) {
           return true;
         }
 
-      })
-      .map(function (item, index) {
-        return item;
       });
 
       stack[0] = chalk.bold(stack[0]);
@@ -130,17 +126,15 @@ export const makeGracefulExit = function (suman: ISuman) {
       exitTestSuite = true;
       sumanRuntimeErrors.push(err);
 
-      debug(' => Graceful exit error message => ', err);
+      const isBail = _suman.sumanOpts.bail ? '(note that the "--bail" option set to true)\n' : '';
+      const str = '\n⚑ ' + chalk.bgRed.white.bold(' Suman fatal error ' + isBail +
+          ' => making a graceful exit => ') + '\n' + chalk.red(String(err)) + '\n\n';
 
-      const isBail = _suman.sumanOpts.bail ? '(--bail option set to true)' : '';
-      const str = '\n\u2691 ' +
-        chalk.bgRed.white.bold(' => Suman fatal error ' + isBail +
-          ' => making a graceful exit => ') + '\n' + chalk.red(err) + '\n\n';
-
-      const s = str.split('\n').map(function (s) {
+      const padded = str.split('\n').map(function (s) {
         return su.padWithXSpaces(3) + s;
-      }).join('\n');
+      });
 
+      const s = padded.join('\n');
       // do not delete the following console.error call, this is the primary logging mechanism for errors
       console.log('\n');
       console.error(s);

@@ -54,7 +54,8 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
     assert(su.isObject(userDataObj), ' =>  (2) Perhaps we exited before <userDataObj> was captured.');
   }
   catch (err) {
-    _suman.logError('\n => Suman internal message => ', su.decomposeError(err), '\n\n');
+    console.error('\n');
+    _suman.logError(su.decomposeError(err), '\n\n');
     userDataObj = {};
   }
 

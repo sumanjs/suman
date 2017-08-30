@@ -7,6 +7,41 @@ three SO profiles:
 
 //
 
+Please Share on Twitter if you like #mockgoose
+Please Share on Twitter if you like #suman
+
+//
+
+ if sumanception > 0, then we have to use the runner, so that we collect tap output correctly
+ so that grandchildren do not write to grandparents directly.
+
+//
+
+ when a hook fails, we should include the hook type and name in graceful exit,
+ that's why (hook || test) was being passed to graceful exit in the first place.
+
+//
+
+  need to create injection routine for suman.static.ioc.js, inject core and deps, at least.
+
+//
+
+  log when when hooks complete option in suman.conf.js => "logCompletedHooks:true"
+
+//
+
+ inject only works when we do not need to use a before/beforeEach to load data beforehand
+
+//
+
+it(x, t => {
+
+   t.$inject => could contain the before values that are created by before/beforeEach
+
+});
+
+//
+
   create $iocShared and $ioc
 
 //
@@ -285,10 +320,6 @@ do_something 2>&1 | tee -a some_file
 
 //
 
-  if everything is in series, we can log out the results in mocha fashion
-
-//
-
 https://stackoverflow.com/questions/43433404/best-tool-for-json-file-schema-validation
 
 //
@@ -436,10 +467,6 @@ new Test('z', function (assert) {
 
 //
 
-  mkfifo - use named pipes or sockets to communicate between suman-d
-
-//
-
   coverage information should be collected by istanbul at the end of the test (suman.once.post.js)
 
     //create coverage info
@@ -526,11 +553,6 @@ about expected exit code or expected timeout.
 
  would you ever have to run (@run.sh) more than one file at a time?
  we need to @transform.sh multiple files...but run multiple files?
-
-///
-
- if we use async.queue we can choose whether to start running some tests before transpiling
- all previous tests
 
 ///
 
