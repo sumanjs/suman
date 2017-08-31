@@ -62,19 +62,21 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
 
   }
 
-  let integrantPreFn;
+  let integrantPreFn, p: string;
 
   try {
-    integrantPreFn = require(path.resolve(_suman.sumanHelperDirRoot + '/suman.once.pre.js'));
+    p = path.resolve(_suman.sumanHelperDirRoot + '/suman.once.pre.js');
+    integrantPreFn = require(p);
   }
   catch (err) {
+    _suman.logError(`Could not load your integrant pre module at path <${p}>.`);
+    _suman.logError(err.stack || err);
     integrantPreFn = function () {
-      console.error(' => Could not load your integrant pre module.');
-      return {};
+       return {dependencies:{}}
     };
 
     if (sumanOpts.verbosity > 2) {
-      console.error('\n', chalk.magenta('=> Suman usage warning: no suman.once.pre.js file found.'));
+      _suman.logError(chalk.magenta('usage warning: no <suman.once.pre.js> file found.'));
     }
 
     if (sumanOpts.verbosity > 3) {
@@ -92,18 +94,22 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
   let iocFn;
 
   try {
-    iocFn = require(path.resolve(_suman.sumanHelperDirRoot + '/suman.ioc.js'));
+     p = path.resolve(_suman.sumanHelperDirRoot + '/suman.ioc.js');
+    iocFn = require(p);
   }
   catch (err) {
+    _suman.logError(`could not load suman.ioc.js file at path <${p}>`);
+    _suman.logError(err.stack || err);
     try {
-      iocFn = require(path.resolve(projectRoot + '/suman/suman.ioc.js'));
+      p = path.resolve(projectRoot + '/suman/suman.ioc.js');
+      iocFn = require(p);
     }
     catch (err) {
-      if (sumanHelpersDirLocated) {
-        console.log('\n\n', chalk.bgBlack.cyan('=> Suman tip => Create your own suman.ioc.js file ' +
-          'instead of using the default file.'), '\n');
+      _suman.logError(`could not load suman.ioc.js file at path <${p}>`);
+      _suman.logError(err.stack || err);
+      iocFn = function(){
+        return {dependencies: {}}
       }
-      iocFn = require('../default-conf-files/suman.default.ioc.js');
     }
   }
 

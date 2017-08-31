@@ -92,9 +92,11 @@ export interface IMaxMem {
 
 export interface ISumanOpts {
   transpile: boolean,
+  bail: boolean,
 
   ///// above this line may need fixin'
   cwd_is_root: boolean,
+  full_stack_traces: boolean,
   runner: boolean,
   coverage: boolean,
   watch_per: string,

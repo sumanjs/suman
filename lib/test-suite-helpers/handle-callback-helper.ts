@@ -17,10 +17,9 @@ const _suman = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../misc/clone-error';
 
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function missingHookOrTest () {
+function missingHookOrTest() {
   const mzg = new Error(' => Suman implementation error, please report! ' +
     'Neither test nor hook defined, where at least one should be.');
   console.error(mzg.stack);
@@ -28,9 +27,9 @@ function missingHookOrTest () {
   return mzg;
 }
 
-function planHelper (e: IPseudoError, test: ITestDataObj, hook: IHookObj, assertCount: IAssertObj) {
+function planHelper(e: IPseudoError, test: ITestDataObj, hook: IHookObj, assertCount: IAssertObj) {
 
-  const testOrHook : ITestDataObj | IHookObj = (test || hook);
+  const testOrHook: ITestDataObj | IHookObj = (test || hook);
 
   if (testOrHook.planCountExpected !== undefined) {
     assert(Number.isInteger(testOrHook.planCountExpected),
@@ -56,9 +55,9 @@ function planHelper (e: IPseudoError, test: ITestDataObj, hook: IHookObj, assert
 
 }
 
-function throwsHelper (err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
+function throwsHelper(err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
 
-  const testOrHook : ITestDataObj | IHookObj = (test || hook);
+  const testOrHook: ITestDataObj | IHookObj = (test || hook);
 
   if (testOrHook.throws !== undefined) {
 
@@ -97,8 +96,8 @@ function throwsHelper (err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
   return err;
 }
 
-export const makeCallback = function  (d: ISumanDomain, assertCount: IAssertObj, test: ITestDataObj, hook: IHookObj,
-                         timerObj: ITimerObj, gracefulExit: Function, cb: Function) {
+export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, test: ITestDataObj, hook: IHookObj,
+                                      timerObj: ITimerObj, gracefulExit: Function, cb: Function) {
 
   if (test && hook) {
     throw new Error(' => Suman internal implementation error => Please report this on Github issue tracker.');
@@ -112,7 +111,7 @@ export const makeCallback = function  (d: ISumanDomain, assertCount: IAssertObj,
 
   let called = 0;
 
-  return function testAndHookCallbackHandler (err: IPseudoError, isTimeout: boolean) {
+  return function testAndHookCallbackHandler(err: IPseudoError, isTimeout: boolean) {
 
     if (err) {
 
@@ -201,11 +200,11 @@ export const makeCallback = function  (d: ISumanDomain, assertCount: IAssertObj,
       }
       finally {
         if (test) {
-          cb(null, err);
+          process.nextTick(cb, null, err);
         }
         else {
-          gracefulExit(err, (test || hook), function () {
-            cb(null, err);
+          gracefulExit(err, function () {
+            process.nextTick(cb, null, err);
           });
         }
       }
@@ -224,13 +223,13 @@ export const makeCallback = function  (d: ISumanDomain, assertCount: IAssertObj,
       if (called > 1 && test && !test.timedOut) {
         _suman._writeTestError('Warning: the following test callback was invoked twice by your code ' +
           'for the following test/hook with name => "' + (test ? test.desc : '') + '".');
-        _suman._writeTestError('The problematic test case can be located from this error trace => \n'+
+        _suman._writeTestError('The problematic test case can be located from this error trace => \n' +
           cloneError(test.warningErr, 'The callback was fired more than once for this test case.').stack);
       }
       else if (called > 1 && hook) {  //TODO need to handle this case for hooks
         _suman._writeTestError('\n\nWarning: the following test callback was invoked twice by your code ' +
           'for the following hook with name => "' + (hook.desc || '(hook has no description)') + '".\n\n');
-        _suman._writeTestError('The problematic hook can be located from this error trace => \n'+
+        _suman._writeTestError('The problematic hook can be located from this error trace => \n' +
           cloneError(hook.warningErr, 'The callback was fired more than once for this test case.').stack);
       }
 

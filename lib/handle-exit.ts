@@ -6,6 +6,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import util = require('util');
+
 const fs = require('fs');
 import assert = require('assert');
 
@@ -20,7 +21,11 @@ const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 
 ////////////////////////////////////////////////////////////////////
 
-process.once('exit', function (code: number) {
+_suman.isActualExitHandlerRegistered = true;
+
+process.prependListener('exit', function (code: number) {
+
+  _suman.log('raw exit code', code);
 
   if (errors.length > 0) {
     code = code || constants.EXIT_CODES.UNEXPECTED_NON_FATAL_ERROR;
@@ -54,28 +59,29 @@ process.once('exit', function (code: number) {
   if (code > 0 && testErrors.length < 1) {   //TODO: fix this with logic saying if code > 0 and code < 60 or something
     if (!_suman.usingRunner) { //TODO: need to fix this
       process.stdout.write('\n\n =>' + chalk.underline.bold.yellow(' Suman test process experienced a fatal error during the run, ' +
-          'most likely the majority of tests, if not all tests, were not run.') + '\n');
+        'most likely the majority of tests, if not all tests, were not run.') + '\n');
     }
   }
 
   if (_suman.checkTestErrorLog) {
     process.stdout.write('\n\n =>' + chalk.yellow(' You have some additional errors/warnings - ' +
-        'check the test debug log for more information.' + '\n'));
+      'check the test debug log for more information.' + '\n'));
     process.stdout.write(' => ' + chalk.underline.bold.yellow(_suman.sumanHelperDirRoot + '/logs/test-debug.log'));
     process.stdout.write('\n\n');
   }
 
   if (Number.isInteger(_suman.expectedExitCode)) {
     if (code !== _suman.expectedExitCode) {
-      _suman._writeTestError(' => Expected exit code not met. Expected => '
-        + _suman.expectedExitCode + ', actual => ' + code);
+      let msg = `Expected exit code not met. Expected => ${_suman.expectedExitCode}, actual => ${code}`;
+      _suman._writeTestError(msg);
+      _suman.logError(msg);
       code = constants.EXIT_CODES.EXPECTED_EXIT_CODE_NOT_MET;
     }
     else {
       console.log('\n');
-      console.log(chalk.bgBlack.green(' => Expected exit code was met. '));
-      console.log(chalk.bgBlack.green(' => Expected exit code was => ', code, ' '));
-      console.log(chalk.bgBlack.green(' => Because the expected exit code was met, we will exit with code 0. '));
+      _suman.log(chalk.bgBlack.green(' Expected exit code was met. '));
+      _suman.log(chalk.bgBlack.green(` Expected exit code was =>  '${code}'.`));
+      _suman.log(chalk.bgBlack.green(' Because the expected exit code was met, we will exit with code 0. '));
       code = 0;
     }
   }

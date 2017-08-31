@@ -29,7 +29,7 @@ const _suman = global.__suman = (global.__suman || {});
 import evalOptions from '../helpers/eval-options';
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-const handleSetupComplete = require('../handle-setup-complete');
+const {handleSetupComplete} = require('../handle-setup-complete');
 
 
 function handleBadOptions(opts: IInjectOpts) {

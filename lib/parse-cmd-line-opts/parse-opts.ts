@@ -20,9 +20,9 @@ import flatten = require('lodash.flatten');
 //project
 const _suman = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
-const {constants} = require('../../config/suman-constants');
-const options = _suman.allSumanOptions  = require('./suman-options');
 
+const {constants} = require('../../config/suman-constants');
+const options = _suman.allSumanOptions = require('./suman-options');
 
 const IS_SUMAN_DEBUG = process.env['SUMAN_DEBUG'] === 'yes';
 
@@ -58,12 +58,12 @@ if (opts.completion) {
   console.log('\n');
   console.log(chalk.cyan(' => The following output can be used for bash completion with the suman executable.'));
   console.log(chalk.cyan(' => However, not that this is already available by using suman-clis.sh.'));
-  let code = dashdash.bashCompletionFromOptions({
+  let bashCompletionData = dashdash.bashCompletionFromOptions({
     name: 'suman',
     options: options
   });
-  console.log(code);
-  return process.exit(0);
+  console.log(bashCompletionData);
+  process.exit(0);
 }
 
 if (opts.concurrency) {
@@ -100,21 +100,19 @@ if (opts.fforce) {
   opts.force = true;
 }
 
-if(opts.debug_child && opts.inspect_child){
+if (opts.debug_child && opts.inspect_child) {
   throw 'Please choose either "--debug-child" or "--inspect-child" option, they are exclusive.';
 }
-
 
 if (IS_SUMAN_DEBUG || opts.verbosity > 7) {
   console.log(' => Suman options:\n', opts);
   console.log(' => Suman arguments:\n', opts._args);
 }
 
-if(!Number.isInteger(opts.verbosity)){
+if (!Number.isInteger(opts.verbosity)) {
   console.error(' => [suman] => For whatever reason, opts.verbosity was not set by the CLI.');
   console.error(' => [suman] => We are manually setting it to the default value of 5.');
   opts.verbosity = 5;
 }
-
 
 module.exports = opts;

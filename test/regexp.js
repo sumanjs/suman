@@ -43,9 +43,9 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
       console.log('child 2 before each');
     });
 
-    it('is cool', t => {
+    it('is cool beans', t => {
       console.log('yolo');
-      throw 'my fail'
+      // throw 'my fail'
     });
 
   });

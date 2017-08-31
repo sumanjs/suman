@@ -2,6 +2,7 @@
 
 set -e;
 
+git fetch origin
 git checkout dev
 git merge origin/dev
 

@@ -32,10 +32,11 @@ import {VamootProxy} from 'vamoot';
 const _suman = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 import {constants} from '../../config/suman-constants';
-import acquireIoCDeps from '../acquire-dependencies/acquire-ioc-deps';
+import {acquireIocDeps} from '../acquire-dependencies/acquire-ioc-deps';
 import {IInjectionDeps} from "../../dts/injection";
 import {IPseudoError} from "../../dts/global";
-const handleSetupComplete = require('../handle-setup-complete');
+
+const {handleSetupComplete} = require('../handle-setup-complete');
 import {makeBlockInjector} from '../injection/make-block-injector';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
 import parseArgs from '../helpers/parse-pragmatik-args';
@@ -118,7 +119,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     zuite.getChildren().push(suite);
     allDescribeBlocks.push(suite);
 
-
     const deps = fnArgs(cb);
     const suiteProto: Object = Object.getPrototypeOf(suite);
 
@@ -158,11 +158,10 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
           writable: false
         });
 
-
-        acquireIoCDeps(deps, suite, function (err: Error, deps: IInjectionDeps) {
+        acquireIocDeps(suman, deps, suite, function (err: Error, deps: IInjectionDeps) {
 
           if (err) {
-            console.log('\n', err.stack || err, '\n');
+            _suman.logError(err.stack || err);
             process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
           else {
@@ -181,7 +180,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
               suite.fatal = function (err: IPseudoError) {
                 err = err || new Error(' => suite.fatal() was called by the developer => fatal unspecified error.');
-                console.log(err.stack || err);
+                _suman.logError(err.stack || err);
                 err.sumanExitCode = constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION;
                 gracefulExit(err);
               };

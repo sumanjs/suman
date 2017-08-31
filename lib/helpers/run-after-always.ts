@@ -17,12 +17,14 @@ import async = require('async');
 
 //project
 import su from 'suman-utils';
+
 const helpers = require('../test-suite-helpers/handle-promise-generator');
 import {cloneError} from '../misc/clone-error';
 import {makeHookObj} from '../test-suite-helpers/t-proto-hook';
 import {freezeExistingProps} from 'freeze-existing-props'
 import {constants} from '../../config/suman-constants';
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,27 +36,22 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
   _suman.afterAlwaysEngaged = true;
 
   process.on('uncaughtException', function (e: IPseudoError) {
-
     debugger;
-    console.log(2222222);
     console.log(' => There was an uncaught exception, however, we are currently processing after.always blocks, ' +
       'so this exception will be ignored. => ', e);
   });
 
   process.on('unhandledRejection', function (e: IPseudoError) {
-    console.log(55555555);
     console.log(' => There was an unhandled rejection, however, we are currently processing after.always blocks, ' +
       'so this exception will be ignored. => ', e);
   });
 
-
-  if(_suman.afterAlwaysHasBeenRegistered){
-    _suman.logError(chalk.cyan('At least one after.always hook has been registered for test with name:'),'\n\t\t',
+  if (_suman.afterAlwaysHasBeenRegistered) {
+    _suman.logError(chalk.cyan('At least one after.always hook has been registered for test with name:'), '\n\t\t',
       chalk.magenta.bold('"' + suman.desc + '"'));
     _suman.logError(chalk.yellow('We are currently running after.always hooks. Any uncaught errors ' +
       'will be ignored as best as possible.'));
   }
-
 
   async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
@@ -74,23 +71,17 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
         num: 0
       };
 
-      const d : ISumanDomain = domain.create();
+      const d: ISumanDomain = domain.create();
       d._sumanBeforeOrAfter = true;
       d._sumanBeforeOrAfterDesc = anAfter.desc || '(unknown)';
 
       const fini = function (err: IPseudoError, someBool: boolean) {
-
-        if (err) {
-          console.error(' Error (ignored) => ', err.stack || err);
-        }
-
+        err && console.error(' Error (this error was ignored by Suman) => ', err.stack || err);
         clearTimeout(timerObj.timer);
         process.nextTick(cb);
       };
 
-
       let dError = false;
-
       const handleError: IHandleError = function (err: IPseudoError) {
 
         const stk = err ? (err.stack || err) : new Error('Suman error placeholder').stack;

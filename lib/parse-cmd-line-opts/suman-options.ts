@@ -97,7 +97,7 @@ module.exports = [
     help: 'Initialize Suman in your project; install it globally first (or use suman-clis.sh).'
   },
   {
-    names: ['wait-for-all-transforms','wait-for-transforms'],
+    names: ['wait-for-all-transforms', 'wait-for-transforms'],
     type: 'bool',
     help: 'Initialize Suman in your project; install it globally first (or use suman-clis.sh).'
   },
@@ -185,7 +185,7 @@ module.exports = [
     type: 'integer',
     help: 'Specifiy the maximum depth to recurse through directories. If you are using this option, you\'re probably doing it wrong. ' +
     '(Organizing your test directory all weird.) But the option is there for you if you need it.',
-    default: 69 + 1
+    default: 69-60
   },
   {
     names: ['match-any'],
@@ -329,7 +329,7 @@ module.exports = [
     help: 'Pipe data to Suman using stdout to stdin.'
   },
   {
-    names: ['convert-from-mocha','convert'],
+    names: ['convert-from-mocha', 'convert'],
     type: 'bool',
     help: 'Convert Mocha test file or directory to Suman test(s).'
   },
@@ -436,7 +436,7 @@ module.exports = [
     help: 'Test paths as JSON array.'
   },
   {
-    names: ['replace-ext-with','replace-extension-with'],
+    names: ['replace-ext-with', 'replace-extension-with'],
     type: 'string',
     help: 'Replace test path strings.'
   },
@@ -528,6 +528,11 @@ module.exports = [
     names: ['exec-args'],
     type: 'string',
     help: 'Pass exec arguments through command line.'
+  },
+  {
+    names: ['user-args'],
+    type: 'string',
+    help: 'Pass user arguments through command line.'
   },
   {
     names: ['groups'],

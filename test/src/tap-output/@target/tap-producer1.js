@@ -9,8 +9,8 @@ Test.create(function (it, before, describe, beforeEach, afterEach, after) {
     });
     it('zoom', function (t) {
         t.assert.deepEqual(false, true);
-    });
-    it('fails', suman_1.default.autoPass)
+    })
+        .it('fails', suman_1.default.autoPass)
         .afterEach('ram', function (h) {
     });
     after('b', function (h) {

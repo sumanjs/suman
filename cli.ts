@@ -17,10 +17,10 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //and all the rest
-const logExit = require('./lib/helpers/log-exit');
+const {run: logExit} = require('./lib/helpers/log-exit');
 
-process.on('exit', function (code: number) {
-  if (process.listenerCount('exit') === 1) {
+process.once('exit', function (code: number) {
+  if (!global.__suman || !global.__suman.isActualExitHandlerRegistered) {
     logExit(code);
   }
 });
@@ -114,6 +114,7 @@ const dashdash = require('dashdash');
 import * as chalk from 'chalk';
 import async = require('async');
 import su = require('suman-utils');
+import _ = require('lodash');
 
 const uniqBy = require('lodash.uniqby');
 const {events} = require('suman-events');
@@ -254,9 +255,13 @@ const postinstall = sumanOpts.postinstall;
 const tscMultiWatch = sumanOpts.tsc_multi_watch;
 const sumanD = sumanOpts.suman_d;
 const watchPer = sumanOpts.watch_per;
+if(sumanOpts.user_args){
+  _suman.log(chalk.magenta('raw user_args is'), sumanOpts.user_args);
+}
+const userArgs = sumanOpts.user_args = _.flatten([sumanOpts.user_args]).join(' ');
 
 if (coverage) {
-  console.log(chalk.magenta.bold(' => Coverage reports will be written out due to presence of --coverage flag.'));
+  _suman.log(chalk.magenta.bold('Coverage reports will be written out due to presence of --coverage flag.'));
 }
 
 //re-assignable
@@ -389,7 +394,7 @@ if ('concurrency' in sumanOpts) {
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
 
-console.log('sumanOpts.$useTAPOutput => ', sumanOpts.$useTAPOutput);
+_suman.logWarning('using TAP output => ', sumanOpts.$useTAPOutput);
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 
 /////////////////////////////////// matching ///////////////////////////////////////
@@ -479,18 +484,7 @@ resultBroadcaster.emit(String(events.SUMAN_VERSION), sumanVersion);
 
 //note: whatever args are remaining are assumed to be file or directory paths to tests
 
-const userArgs: Array<string> = _suman.userArgs = [];
-
-let paths = JSON.parse(JSON.stringify(sumanOpts._args)).filter(function (item: string) {
-  if (String(item).indexOf('-') === 0) {
-    if (su.vgt(3)) {
-      _suman.log(chalk.magenta('Suman considers this a user argument => ', "'" + item + "'"));
-    }
-    userArgs.push(item);
-    return false;
-  }
-  return true;
-});
+let paths = _.flatten([sumanOpts._args]).slice(0);
 
 if (sumanOpts.test_paths_json) {
   let jsonPaths = JSON.parse(String(sumanOpts.test_paths_json).trim());
@@ -594,8 +588,9 @@ else if (groups) {
 
 else {
   //this path runs all tests
-  if (userArgs && sumanOpts.verbosity > 4) {
-    _suman.log('User args will be passed to child processes as process.argv')
+  if (userArgs.length > 0 && sumanOpts.verbosity > 4) {
+    _suman.log('The following "--user-args" will be passed to child processes as process.argv:');
+    _suman.log(userArgs);
   }
 
   require('./lib/run').run(sumanOpts, paths, sumanServerInstalled, sumanVersion);

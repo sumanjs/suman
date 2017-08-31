@@ -26,9 +26,9 @@ import su = require('suman-utils');
 
 //////////////////////////////////
 
-function run (files) {
+export const run = function (files: Array<string>) {
 
-  async.eachLimit(files, 1, function (f, cb) {
+  async.eachLimit(files, 1, function (f: string, cb: Function) {
 
       const fullPath = f[0];
       const shortenedPath = f[1];
@@ -53,26 +53,26 @@ function run (files) {
       let currentCount = 0;
 
       exportEvents
-        .on('suman-test-file-complete', function () {
-          currentCount++;
-          if (currentCount === counts.sumanCount) {
-            process.nextTick(function () {
-              exportEvents.removeAllListeners();
-              first(null);
-            });
-          }
-          else if (currentCount > counts.sumanCount) {
-            throw new Error(' => Count should never be greater than expected count.');
-          }
+      .on('suman-test-file-complete', function () {
+        currentCount++;
+        if (currentCount === counts.sumanCount) {
+          process.nextTick(function () {
+            exportEvents.removeAllListeners();
+            first(null);
+          });
+        }
+        else if (currentCount > counts.sumanCount) {
+          throw new Error(' => Count should never be greater than expected count.');
+        }
 
-        })
-        .on('test', function (test) {
-          test.call(null);
-        })
-        .once('error', function (e) {
-          console.log(e.stack || e);
-          first(e);
-        });
+      })
+      .on('test', function (test) {
+        test.call(null);
+      })
+      .once('error', function (e) {
+        console.log(e.stack || e || 'no error passed to error handler.');
+        first(e);
+      });
 
     },
     function (err, results) {
@@ -80,7 +80,7 @@ function run (files) {
       // TODO: SUMAN ONCE POST!!
 
       if (err) {
-        console.error(err.stack || err);
+        console.error(err.stack || err || 'no error passed to error handler.');
         process.exit(1);
       }
       else {
@@ -96,5 +96,4 @@ function run (files) {
 
 }
 
-module.exports = run;
 

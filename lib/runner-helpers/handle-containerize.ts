@@ -114,7 +114,7 @@ export const makeContainerize =
 
       if (sumanOpts.$useTAPOutput) {
         if (sumanOpts.verbosity > 7) {
-          console.log(chalk.gray.bold(' => Suman runner is expecting TAP output from Node.js child processes ' +
+          _suman.log(chalk.gray.bold('Suman runner is expecting TAP output from Node.js child processes ' +
             'and will not be listening for IPC messages.'));
         }
       }

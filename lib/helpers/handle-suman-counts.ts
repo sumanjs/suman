@@ -8,6 +8,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import util = require('util');
+
 const EE = require('events');
 const fs = require('fs');
 
@@ -18,8 +19,10 @@ import su = require('suman-utils');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {handleRequestResponseWithRunner} from '../index-helpers/handle-runner-request-response';
+
 const counts = require('./suman-counts');
 import oncePostFn from './handle-suman-once-post';
+
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -45,10 +48,10 @@ suiteResultEmitter.on('suman-completed', function (obj: ITableDataCallbackObj) {
     else {
 
       // i may not be defined if testsuite (rootsuite) was skipped
-      resultz = results.map(i => i ? i.tableData : null).filter(i => i);
+      resultz = results.map(i => i ? i : null).filter(i => i);
 
-      resultz.forEach(function (table) {
-        resultBroadcaster.emit(String(events.STANDARD_TABLE), table);
+      resultz.forEach(function (r) {
+        resultBroadcaster.emit(String(events.STANDARD_TABLE), r.tableData, r.exitCode);
       });
 
       fn = oncePostFn;
@@ -64,47 +67,38 @@ suiteResultEmitter.on('suman-completed', function (obj: ITableDataCallbackObj) {
 
     fn(function (err: IPseudoError) {
 
-      if (err) {
-        console.error(err.stack || err);
-      }
+      err && _suman.logError(err.stack || err);
 
       // this is for testing expected test result counts
       resultBroadcaster.emit(String(events.META_TEST_ENDED));
 
-      process.exit(highestExitCode, function (cb: Function) {
+      process.exit(highestExitCode, su.once(null, function (cb: Function) {
 
         if (_suman.isStrmDrained) {
-          console.log('Strm is already drained.');
-          cb();
+          _suman.log('stream is already drained.');
+          process.nextTick(cb);
         }
         else {
 
-          let to = setTimeout(function () {
-            _suman.drainCallback = function () {
-            };
-            cb();
-          }, 100);
-
+          let to = setTimeout(cb, 100);
           _suman.drainCallback = function (logpath: string) {
             clearTimeout(to);
-            console.log(' => Drain callback called yes.');
+            _suman.logWarning('Drain callback was indeed called.');
             try {
-              fs.appendFileSync(logpath, ' => Drain callback called yes.');
+              fs.appendFileSync(logpath, 'Drain callback was indeed called.');
             }
             finally {
-              cb();
+              process.nextTick(cb);
             }
           }
         }
-
-      });
+      }));
 
     });
 
   }
   else if (counts.completedCount > counts.sumanCount) {
-    throw new Error('=> Suman internal implementation error => ' +
-      'completedCount should never be greater than sumanCount.');
+    throw new Error('Suman internal implementation error => completedCount should never be greater than sumanCount.');
   }
 
 });

@@ -24,10 +24,9 @@ Test.create(function (it: ItFn, before: IBeforeFn, describe: IDescribeFn,
 
     t.assert.deepEqual(false, true);
 
-  });
-
-  it('fails', suman.autoPass)
-    .afterEach('ram', (h: IHookParam) => {
+  })
+  .it('fails', suman.autoPass)
+  .afterEach('ram', (h: IHookParam) => {
 
   });
 

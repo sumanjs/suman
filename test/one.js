@@ -28,8 +28,8 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
 
     this.shared.set('x', 5);
 
-    context('zoom', function(){
-       console.log('inner context',this.shared.get('x'));
+    context('zoom', function () {
+      console.log('inner context', this.shared.get('x'));
     });
 
     before(t => {

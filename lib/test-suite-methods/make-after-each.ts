@@ -18,7 +18,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const implementationError = require('../helpers/implementation-error');
 const {constants} = require('../../config/suman-constants');
-const handleSetupComplete = require('../handle-setup-complete');
+const {handleSetupComplete} = require('../handle-setup-complete');
 import evalOptions from '../helpers/eval-options';
 import parseArgs from '../helpers/parse-pragmatik-args';
 

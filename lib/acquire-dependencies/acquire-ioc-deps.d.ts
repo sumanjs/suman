@@ -1,2 +1,3 @@
 import { ITestSuite } from "../../dts/test-suite";
-export default function acquireIocDeps(deps: Array<string>, suite: ITestSuite, cb: Function): any;
+import { ISuman } from "../../dts/suman";
+export declare const acquireIocDeps: (suman: ISuman, deps: string[], suite: ITestSuite, cb: Function) => any;

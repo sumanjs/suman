@@ -4,11 +4,88 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+
+//
+
+ suman needs to take a node path as argument SUMAN_NODEJS_EXEC_PATH=x
+
+//
+
+ use -- --seed instead of --user-args?
+//
+
+  if @run.sh exists for a file x, but the command is just "suman x", then the runner won't be used and @run.sh won't
+  be used. If @run.sh is found, we must use the runner.
+
+//
+
+Please Share on Twitter if you like #mockgoose
+Please Share on Twitter if you like #suman
+
+//
+
+ if sumanception > 0, then we have to use the runner, so that we collect tap output correctly
+ so that grandchildren do not write to grandparents directly.
+
+//
+
+ when a hook fails, we should include the hook type and name in graceful exit,
+ that's why (hook || test) was being passed to graceful exit in the first place.
+
+//
+
+  need to create injection routine for suman.static.ioc.js, inject core and deps, at least.
+
+//
+
+  log when when hooks complete option in suman.conf.js => "logCompletedHooks:true"
+
+//
+
+ inject only works when we do not need to use a before/beforeEach to load data beforehand
+
+//
+
+it(x, t => {
+
+   t.$inject => could contain the before values that are created by before/beforeEach
+
+});
+
+//
+
+  create $iocShared and $ioc
+
+//
+
+ should log NODE_ENV
+
+///
+
+using tsc --watch to transpile files according to rules
+https://github.com/Microsoft/TypeScript/issues/16779
+
+///
+
+brew install phantomjs
+https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
+
+brew install sumanjs ?
+
+///
+
+ $args should be a whitespace delimited list of arguments
+ $argsRaw should just be the string
+
+///
+
+ suman.ioc.js values should be injectable into suman.once.pre.js and suman.once.post.js
+
 ///
 
 https://github.com/avajs/karma-ava
 
-///
+//
 
 include yaml "diagnostics" as part of TAP
 
@@ -20,7 +97,6 @@ Getting a list of failing/passing tests after test suite execution
 //
 
   SUCCEEDED/FAILED/KILLED/BAILED
-
   need to add transpile/transform block before run block in gantt chart
 
     d3 gantt chart
@@ -30,7 +106,6 @@ Getting a list of failing/passing tests after test suite execution
 
   if sumanception level > 1, then we shouldn't write any TAP results
   because stdout cannot be multiplexed, etc.
-
   actually each parent can successfully parse a child, so it will work.
 
 //
@@ -257,10 +332,6 @@ do_something 2>&1 | tee -a some_file
 
 //
 
-  if everything is in series, we can log out the results in mocha fashion
-
-//
-
 https://stackoverflow.com/questions/43433404/best-tool-for-json-file-schema-validation
 
 //
@@ -408,10 +479,6 @@ new Test('z', function (assert) {
 
 //
 
-  mkfifo - use named pipes or sockets to communicate between suman-d
-
-//
-
   coverage information should be collected by istanbul at the end of the test (suman.once.post.js)
 
     //create coverage info
@@ -498,11 +565,6 @@ about expected exit code or expected timeout.
 
  would you ever have to run (@run.sh) more than one file at a time?
  we need to @transform.sh multiple files...but run multiple files?
-
-///
-
- if we use async.queue we can choose whether to start running some tests before transpiling
- all previous tests
 
 ///
 

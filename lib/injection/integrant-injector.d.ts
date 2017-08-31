@@ -1,1 +1,1 @@
-export default function (names: Array<string>): any[];
+export default function (names: Array<string>, $ioc: Object): any[];
