@@ -55,7 +55,7 @@ export const makeGracefulExit = function (suman: ISuman) {
       // do not continue, return here?
       // TODO: need to fix this
       _suman.logError('reached graceful exit, but "sumanUncaughtExceptionTriggered" was already true.');
-      return process.nextTick(cb);
+      return cb && process.nextTick(cb);
     }
 
     const big = errs.filter(function (err) {
@@ -189,7 +189,13 @@ export const makeGracefulExit = function (suman: ISuman) {
       }
     }
     else {
-      process.nextTick(cb);
+      if(cb){
+        process.nextTick(cb);
+      }
+      else{
+       _suman.logError('suman implementation warning: no callback passed to graceful exit routine.');
+      }
+
     }
   }
 };

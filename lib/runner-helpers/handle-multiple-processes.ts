@@ -38,8 +38,6 @@ const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import onExitFn from './multiple-process-each-on-exit';
 import pt from 'prepend-transform';
-console.log('pt => ', util.inspect(pt));
-
 const runChildPath = require.resolve(__dirname + '/run-child.js');
 import uuidV4 = require('uuid/v4');
 

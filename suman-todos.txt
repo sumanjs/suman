@@ -7,6 +7,18 @@ three SO profiles:
 
 //
 
+ suman needs to take a node path as argument SUMAN_NODEJS_EXEC_PATH=x
+
+//
+
+ use -- --seed instead of --user-args?
+//
+
+  if @run.sh exists for a file x, but the command is just "suman x", then the runner won't be used and @run.sh won't
+  be used. If @run.sh is found, we must use the runner.
+
+//
+
 Please Share on Twitter if you like #mockgoose
 Please Share on Twitter if you like #suman
 
