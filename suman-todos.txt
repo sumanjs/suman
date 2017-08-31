@@ -4,6 +4,11 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+
+//
+
+ suman needs to take a node path as argument SUMAN_NODEJS_EXEC_PATH=x
+
 //
 
  use -- --seed instead of --user-args?
