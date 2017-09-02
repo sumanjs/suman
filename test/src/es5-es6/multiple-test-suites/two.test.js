@@ -17,7 +17,7 @@ const Test = suman.init(module, {
       console.log('before a');
     });
 
-    this.it.cb('set timeout', t => {
+    this.it.cb('set timeout E', t => {
       setTimeout(function(){
         console.log('done 1');
         t.done();

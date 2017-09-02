@@ -171,7 +171,7 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
       process.nextTick(cb, null, obj);
     },
     function (err) {
-      console.error(err.stack || err);
+      _suman.logError('Error acquiring ioc dependency:', err.stack || err);
       //want to exit out of current tick for purposes of domains
       process.domain && process.domain.exit();
       process.nextTick(cb, err, {});

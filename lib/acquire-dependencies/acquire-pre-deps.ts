@@ -171,7 +171,7 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
   }, function (err) {
 
     _suman.logError(chalk.magenta('There was an error sourcing your dependencies in suman.once.pre.js.'));
-    _suman.logError(err.stack || err);
+    _suman.logError(util.inspect(err.stack || err));
     return {};
 
   });

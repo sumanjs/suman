@@ -297,7 +297,7 @@ export const makeHandleMultipleProcesses =
           if (runnerObj.bailed) {
             // should not fork any more child processes if we have bailed
             if (sumanOpts.verbosity > 4) {
-              console.log(' => Suman => "--bailed" option was passed and was tripped, ' +
+              _suman.log('"--bailed" option was passed and was tripped, ' +
                 'no more child processes will be forked.');
             }
             return;
@@ -352,6 +352,7 @@ export const makeHandleMultipleProcesses =
           const extname = path.extname(shortFile);
 
           let $childId = childId++;
+          let childUuid = uuidV4();
 
           const inherit = _suman.$forceInheritStdio ? 'inherit' : '';
 
@@ -373,7 +374,8 @@ export const makeHandleMultipleProcesses =
               SUMAN_CHILD_TEST_PATH: file,
               SUMAN_CHILD_TEST_PATH_TARGET: file,
               SUMAN_TRANSFORM_STDOUT: stdout,
-              SUMAN_CHILD_ID: String($childId)
+              SUMAN_CHILD_ID: String($childId),
+              SUMAN_CHILD_UUID: String($childId)
             })
           };
 

@@ -174,7 +174,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                 $deps = blockInjector(suite, zuite, deps);
               }
               catch (err) {
-                console.error(err.stack || err);
                 return gracefulExit(err);
               }
 
@@ -200,7 +199,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                 handleInjections(suite, function (err: Error) {
 
                   if (err) {
-                    console.error(err.stack || err);
                     gracefulExit(err);
                   }
                   else {

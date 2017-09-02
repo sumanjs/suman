@@ -4,6 +4,26 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+//
+
+when we install suman
+
+[object Object]
+  => Suman message => Suman was successfully installed locally.
+
+//
+
+  create suman reporter stdin stream, can use any reporter
+  --reporter=x
+
+//
+
+ _suman.log and _suman.logError need to split everything by newline
+ so that [suman] appears on each line
+
+//
+
+ suman child id should be a uuid not an integer
 
 //
 
@@ -19,6 +39,7 @@ three SO profiles:
 
 //
 
+put a "twitter like" button on the webpage
 Please Share on Twitter if you like #mockgoose
 Please Share on Twitter if you like #suman
 

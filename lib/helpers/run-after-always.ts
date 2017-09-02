@@ -38,12 +38,12 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
   process.on('uncaughtException', function (e: IPseudoError) {
     debugger;
     console.log(' => There was an uncaught exception, however, we are currently processing after.always blocks, ' +
-      'so this exception will be ignored. => ', e);
+      'so this exception will be ignored. => \n', chalk.magenta(String(e.stack || e)));
   });
 
   process.on('unhandledRejection', function (e: IPseudoError) {
     console.log(' => There was an unhandled rejection, however, we are currently processing after.always blocks, ' +
-      'so this exception will be ignored. => ', e);
+      'so this exception will be ignored. => \n', chalk.magenta(String(e.stack || e)));
   });
 
   if (_suman.afterAlwaysHasBeenRegistered) {
