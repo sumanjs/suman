@@ -6,12 +6,12 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import util = require('util');
-
-const fs = require('fs');
+import fs = require('fs');
 import assert = require('assert');
 
 //npm
 import * as chalk from 'chalk';
+import su from 'suman-utils';
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -30,13 +30,9 @@ process.prependListener('exit', function (code: number) {
   if (errors.length > 0) {
     code = code || constants.EXIT_CODES.UNEXPECTED_NON_FATAL_ERROR;
     errors.forEach(function (e: Error) {
-      if (_suman.usingRunner) {
-        process.stderr.write(typeof e === 'string' ? e : util.inspect(e.stack || e));
-      }
-      if (_suman._writeTestError) {
-        _suman._writeTestError(typeof e === 'string' ? e : util.inspect(e.stack || e));
-      }
-
+      let eStr = su.getCleanErrorString(e);
+      _suman.usingRunner &&  process.stderr.write(eStr);
+      _suman._writeTestError &&  _suman._writeTestError(eStr);
     });
   }
   else if (testErrors.length > 0) {
@@ -97,10 +93,9 @@ process.prependListener('exit', function (code: number) {
 
     let start;
     if (start = process.env['SUMAN_START_TIME']) {
-      //SUMAN_START_TIME=$(node -e 'console.log(Date.now())')
-      console.log(' => Absolute total time => ', (Date.now() - start));
+      _suman.log('Absolute total time => ', (Date.now() - start));
     }
-    console.log(' => Suman test is exiting with code ' + code + ' ', extra);
+    _suman.log('Suman test is exiting with code ' + code + ' ', extra);
     console.log('\n');
   }
 
@@ -108,7 +103,7 @@ process.prependListener('exit', function (code: number) {
     _suman.absoluteLastHook(code);
   }
 
-  // => we don't need this...
+  // => we probably don't need this...
   process.exit(code, true);
 
 });

@@ -45,8 +45,7 @@ let cachedPromises: ICachedProm = {};
 
 ///////////////////////////////////////////////////////////////
 
-export const acquirePreDeps = function ($depList: Array<string> | Array<Array<string>>,
-                                        depContainerObj: IDepContainer,
+export const acquirePreDeps = function ($depList: Array<string> | Array<Array<string>>, depContainerObj: IDepContainer,
                                         oncePostHash: IOncePostHash): Promise<any> {
 
   const depList = _.flattenDeep([$depList]);
@@ -157,13 +156,15 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
 
   return Promise.all(promises).then(function (deps) {
 
-    const obj = deps.reduce(function (prev, curr) {
-      return Object.assign(prev, curr);
-    }, {});
+    const obj = deps.reduce(Object.assign, {});
+
+    // the following is equivalent to the above:
+    // const obj = deps.reduce(function (prev, curr) {
+    //   return Object.assign(prev, curr);
+    // }, {});
 
     if (!_suman.processIsRunner) {
-      _suman.log(chalk.green.underline.bold('Finished with suman.once.pre.js dependencies.'));
-      console.log('\n');
+      _suman.log(chalk.green.underline.bold('Finished with suman.once.pre.js dependencies.'), '\n');
     }
 
     return obj;
@@ -172,7 +173,7 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
 
     _suman.logError(chalk.magenta('There was an error sourcing your dependencies in suman.once.pre.js.'));
     _suman.logError(util.inspect(err.stack || err));
-    return {};
+    return Promise.reject(err);
 
   });
 };

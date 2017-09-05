@@ -6,6 +6,12 @@ three SO profiles:
 
 //
 
+Test.creates should go on an async.queue
+if series, async.queue concurrency should be 1?
+Test.create should all be in the same tick anyway
+
+//
+
 when we install suman
 
 [object Object]
@@ -488,11 +494,6 @@ new Test('z', function (assert) {
 //
 
     If suman inception value is > x , then inherit stdio should be true.
-
-//
-
-  we could pass the file descriptor of the top most suman down to all child tests via an ENV variable,
-  and tests could then use a named pipe or IPC to send messages to grandparent/top-level process.
 
 //
 
@@ -1180,7 +1181,7 @@ EACCES: permission denied,
 
 //
 
- it's likely that ~/.suman/global/node_modules will get corrupted
+ it's likely that ~/.suman/global/node_modules will eventually get corrupted
  suman --repair should fix that
  rm -rf ~/.suman/global/node_modules
  and then reinstall

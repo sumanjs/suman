@@ -146,7 +146,7 @@ try {
 }
 catch (err) {
   _suman.logError(chalk.yellow.bold('Suman usage warning => Could not load your suman.globals.js file.'));
-  _suman.logError(err.stack || err);
+  _suman.logError(su.getCleanErrorString(err));
 }
 
 if (singleProc) {
