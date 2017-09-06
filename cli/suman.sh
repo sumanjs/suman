@@ -4,6 +4,8 @@ if ! [[ -z "${LOCAL_SUMAN_ALREADY_FOUND+x}" ]]; then
     echo " => \$LOCAL_SUMAN_ALREADY_FOUND ? => $LOCAL_SUMAN_ALREADY_FOUND"
 fi
 
+#. shared-functions.sh # source this shared file
+
 echo " => Original path of Suman executable => \"$0\""
 DIRN=$(dirname "$0")
 RL=$(readlink "$0");

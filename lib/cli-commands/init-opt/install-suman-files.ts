@@ -54,8 +54,8 @@ export const writeSumanFiles =
                 dest: prependToSumanConf + 'suman.conf.js'
               },
               {
-                src: 'default-conf-files/suman.default.reporters.js',
-                dest: newSumanHelperDir + '/suman.reporters.js'
+                src: 'default-conf-files/suman.default.ioc.static.js',
+                dest: newSumanHelperDir + '/suman.ioc.static.js'
               },
               {
                 src: 'default-conf-files/suman.default.ioc.js',

@@ -96,7 +96,7 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
       process.nextTick(cb);
 
     }, function (err) {
-      console.error(err.stack || err);
+      _suman.logError(err.stack || err);
       process.nextTick(cb, err);
     });
 

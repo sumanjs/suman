@@ -8,6 +8,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //npm
 import * as chalk from 'chalk';
+import {lp} from 'log-prepend';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -26,9 +27,15 @@ else {
 }
 
 if (_suman.inceptionLevel < 1) {
-  _suman.log = _suman.logInfo = console.log.bind(console, chalk.gray.bold(' [suman] '));
-  _suman.logWarning = console.error.bind(console, chalk.yellow(' [suman] '));
-  _suman.logError = console.error.bind(console, chalk.red(' [suman] '));
+
+  // _suman.log = _suman.logInfo = console.log.bind(console, chalk.gray.bold(' [suman] '));
+  // _suman.logWarning = console.error.bind(console, chalk.yellow(' [suman] '));
+  // _suman.logError = console.error.bind(console, chalk.red(' [suman] '));
+
+  _suman.log = _suman.logInfo = lp(chalk.gray.bold(' [suman] '), process.stdout);
+  _suman.logWarning = lp(chalk.yellow(' [suman] '), process.stderr);
+  _suman.logError = lp(chalk.red(' [suman] '), process.stderr);
+
   // _suman.log = _suman.logInfo = console.log.bind(console, chalk.gray.bold(' => [suman] => '));
   // _suman.logWarning = console.error.bind(console, chalk.yellow(' => [suman] => '));
   // _suman.logError = console.error.bind(console, chalk.red(' => [suman] => '));

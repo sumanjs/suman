@@ -36,8 +36,16 @@ export default function (usingRunner: boolean, testDebugLogPath: string, testLog
 
     _suman._writeTestError = function (data: string, options: any) {
 
-      assert(typeof data === 'string', ' => Implementation error => data passed to ' +
-        '_writeTestError should already be in string format => \n' + util.inspect(data));
+      // assert(typeof data === 'string', 'Implementation error => data passed to ' +
+      //   '_writeTestError should already be in string format => \n' + util.inspect(data));
+
+      if(!data){
+        data = new Error('falsy data passed to _writeTestError').stack;
+      }
+
+      if(typeof data !== 'string'){
+        data = util.inspect(data);
+      }
 
       options = options || {};
       assert(typeof options === 'object', ' => Options should be an object.');

@@ -1,6 +1,6 @@
 'use strict';
 import {IRunnerObj, IRunnerRunFn, IRunObj, ISumanChildProcess, ITableRows} from "../../dts/runner";
-import {IPseudoError} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -27,7 +27,7 @@ const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
 import {cpHash, socketHash, ganttHash, IGanttHash, IGanttData} from './socket-cp-hash';
 
@@ -38,6 +38,7 @@ const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import onExitFn from './multiple-process-each-on-exit';
 import pt from 'prepend-transform';
+
 const runChildPath = require.resolve(__dirname + '/run-child.js');
 import uuidV4 = require('uuid/v4');
 
@@ -137,6 +138,7 @@ export const makeHandleMultipleProcesses =
         SUMAN_CONFIG: JSON.stringify(sumanConfig),
         SUMAN_OPTS: JSON.stringify(sumanOpts),
         SUMAN_RUNNER: 'yes',
+        SUMAN_PROJECT_ROOT: projectRoot,
         SUMAN_RUN_ID: _suman.runId,
         SUMAN_RUNNER_TIMESTAMP: _suman.timestamp,
         NPM_COLORS: process.env.NPM_COLORS || (sumanOpts.no_color ? 'no' : 'yes')
@@ -226,7 +228,7 @@ export const makeHandleMultipleProcesses =
               if (sumanOpts.inherit_all_stdio || sumanOpts.inherit_transform_stdio || process.env.SUMAN_INHERIT_STDIO) {
 
                 let onError = function (e: Error) {
-                  console.error('\n', e.stack || e, '\n');
+                  console.error('\n', su.getCleanErrorString(e), '\n');
                 };
 
                 k.stderr.pipe(pt(` [${chalk.red('transform process stderr:')} ${chalk.red.bold(String(file.slice(ln)))}] `))
@@ -297,7 +299,7 @@ export const makeHandleMultipleProcesses =
           if (runnerObj.bailed) {
             // should not fork any more child processes if we have bailed
             if (sumanOpts.verbosity > 4) {
-              console.log(' => Suman => "--bailed" option was passed and was tripped, ' +
+              _suman.log('"--bailed" option was passed and was tripped, ' +
                 'no more child processes will be forked.');
             }
             return;
@@ -352,6 +354,7 @@ export const makeHandleMultipleProcesses =
           const extname = path.extname(shortFile);
 
           let $childId = childId++;
+          let childUuid = uuidV4();
 
           const inherit = _suman.$forceInheritStdio ? 'inherit' : '';
 
@@ -373,7 +376,8 @@ export const makeHandleMultipleProcesses =
               SUMAN_CHILD_TEST_PATH: file,
               SUMAN_CHILD_TEST_PATH_TARGET: file,
               SUMAN_TRANSFORM_STDOUT: stdout,
-              SUMAN_CHILD_ID: String($childId)
+              SUMAN_CHILD_ID: String($childId),
+              SUMAN_CHILD_UUID: String($childId)
             })
           };
 
@@ -472,7 +476,7 @@ export const makeHandleMultipleProcesses =
             if (sumanOpts.inherit_stdio || sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes') {
 
               let onError = function (e: Error) {
-                console.error('\n', e.stack || e, '\n');
+                console.error('\n', su.getCleanErrorString(e), '\n');
               };
 
               n.stdout.pipe(pt(chalk.cyan(' => [suman child stdout] => ')))
@@ -481,25 +485,12 @@ export const makeHandleMultipleProcesses =
               .on('error', onError).pipe(process.stderr).on('error', onError);
             }
 
-            // if (true || sumanOpts.$useTAPOutput) {
-            //   n.tapOutputIsComplete = false;
-            //   n.stdout.pipe(getTapParser())
-            //   .on('error', function (e: Error) {
-            //     _suman.logError('error parsing TAP output => ', e.stack || e);
-            //   })
-            //   .once('finish', function () {
-            //     n.tapOutputIsComplete = true;
-            //     process.nextTick(function () {
-            //       n.emit('tap-output-is-complete', true);
-            //     });
-            //   });
-            // }
-
             if (true || sumanOpts.$useTAPOutput) {
               n.tapOutputIsComplete = false;
+              //   n.stdout.pipe(getTapParser())
               n.stdout.pipe(getTapJSONParser())
               .on('error', function (e: Error) {
-                _suman.logError('error parsing TAP JSON output => ', e.stack || e);
+                _suman.logError('error parsing TAP JSON output => ', su.getCleanErrorString(e));
               })
               .once('finish', function () {
                 n.tapOutputIsComplete = true;

@@ -4,6 +4,59 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+//
+
+Test.creates should go on an async.queue
+if series, async.queue concurrency should be 1?
+Test.create should all be in the same tick anyway
+
+//
+
+ => for learning and debugging purposes, it would be good to log when hooks execute
+
+//
+
+  create vorpal-like command line app that can do tab completion
+  should be able to recognize commands, so when command is recognized it is highlighted
+
+//
+
+when we install suman
+
+[object Object]
+  => Suman message => Suman was successfully installed locally.
+
+//
+
+ give the user the option to run suman.once.pre.js and suman.once.post.js in child process ??
+
+//
+
+ suman.ioc.js is being loaded for all make-describes
+
+ Error: ioc
+     at module.exports (/Users/alexamil/WebstormProjects/cisco/cdt-now/test/.suman/suman.ioc.js:81:15)
+     at Object.exports.acquireIocDeps (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/acquire-dependencies/acquire-ioc-deps.js:27:28)
+     at Domain.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-methods/make-describe.js:96:36)
+     at Domain.run (domain.js:242:14)
+     at TestSuite.run [as _run] (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-methods/make-describe.js:87:15)
+     at runChild (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:26:15)
+     at TestSuiteMaker.TestSuite.__invokeChildren (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:205:19)
+
+
+//
+
+  create suman reporter stdin stream, can use any reporter
+  --reporter=x
+
+//
+
+ _suman.log and _suman.logError need to split everything by newline
+ so that [suman] appears on each line
+
+//
+
+ suman child id should be a uuid not an integer
 
 //
 
@@ -19,6 +72,7 @@ three SO profiles:
 
 //
 
+put a "twitter like" button on the webpage
 Please Share on Twitter if you like #mockgoose
 Please Share on Twitter if you like #suman
 
@@ -467,11 +521,6 @@ new Test('z', function (assert) {
 //
 
     If suman inception value is > x , then inherit stdio should be true.
-
-//
-
-  we could pass the file descriptor of the top most suman down to all child tests via an ENV variable,
-  and tests could then use a named pipe or IPC to send messages to grandparent/top-level process.
 
 //
 
@@ -1159,7 +1208,7 @@ EACCES: permission denied,
 
 //
 
- it's likely that ~/.suman/global/node_modules will get corrupted
+ it's likely that ~/.suman/global/node_modules will eventually get corrupted
  suman --repair should fix that
  rm -rf ~/.suman/global/node_modules
  and then reinstall

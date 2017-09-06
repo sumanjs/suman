@@ -49,14 +49,23 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     if (!path.isAbsolute(item)) {
       item = path.resolve(projectRoot + '/' + item);
     }
-    const fn = require(item);
-    assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + item + '"');
-    fn.pathToReporter = item;
+    let fn;
+    try {
+      fn = require(item);
+      fn = fn.default || fn;
+      _suman.log(`loaded reporter with value "${item}"`);
+      assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + item + '"');
+      fn.pathToReporter = item;
+    }
+    catch (err) {
+      throw new Error(chalk.red('Could not load reporter with name => "' + item + '"')
+        + '\n => ' + (err.stack || err) + '\n');
+    }
     return fn;
   });
 
-  if (sumanOpts.reporters && typeof sumanConfig.reporters !== 'object') {
-    throw new Error(' => Suman fatal error => You provided reporter names but have no reporters object in your suman.conf.js file.');
+  if (sumanOpts.reporters && !su.isObject(sumanConfig.reporters)) {
+    throw new Error('You provided reporter names but have no reporters object in your suman.conf.js file.');
   }
 
   const reporterKV = sumanConfig.reporters || {};
@@ -78,10 +87,12 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
 
       try {
         fn = require(item);
+        fn = fn.default || fn;
+        _suman.log(`loaded reporter with value "${item}"`);
         assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + val + '"');
       }
       catch (err) {
-        throw new Error(chalk.red(' => Suman fatal exception => Could not load reporter with name => "' + item + '"')
+        throw new Error(chalk.red('Could not load reporter with name => "' + item + '"')
           + '\n => ' + (err.stack || err) + '\n');
       }
 
@@ -89,7 +100,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     else {
       val = reporterKV[item];
       if (!val) {
-        throw new Error(' => Suman fatal error => no reporter with name = "' + item + '" in your suman.conf.js file.');
+        throw new Error('no reporter with name = "' + item + '" in your suman.conf.js file.');
       }
       else {
 
@@ -105,10 +116,19 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
       }
     }
 
-    assert(typeof fn === 'function',
-      'reporter module does not export a function, at path = "' + val + '"');
-    fn.pathToReporter = val;  // val might not refer to a path...
-    sumanReporters.push(fn);
+    try{
+      fn = fn.default || fn;
+      assert(typeof fn === 'function',
+        'reporter module does not export a function, at path = "' + val + '"');
+      fn.pathToReporter = val;  // val might not refer to a path...
+      sumanReporters.push(fn);
+    }
+    catch(err){
+      throw new Error(chalk.red('Could not load reporter with name => "' + item + '"')
+        + '\n => ' + (err.stack || err) + '\n');
+    }
+
+
 
   });
 

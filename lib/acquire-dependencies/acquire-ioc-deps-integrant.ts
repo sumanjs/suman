@@ -111,7 +111,7 @@ export const acquireIocDeps = function (deps: Array<string>, suite: ITestSuite, 
       process.nextTick(cb, null, obj);
     },
     function (err) {
-      console.error(err.stack || err);
+      _suman.logError('Error acquiring pre/integrant dependency:', err.stack || err);
       //want to exit out of current tick for purposes of domains
       process.domain && process.domain.exit();
       process.nextTick(cb, err, {});
