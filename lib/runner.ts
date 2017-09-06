@@ -124,21 +124,18 @@ const beforeExitRunOncePost = makeBeforeExit(runnerObj, oncePosts, allOncePostKe
 global.__suman.isActualExitHandlerRegistered = true;
 process.once('exit', onExit);
 
-process.on('error', function (err: IPseudoError) {
-  //TODO: add process.exit(special code);
-  console.error(' => Whoops! Error in runner process :\n', err.stack || err);
+process.on('error', function (e: IPseudoError) {
+  _suman.logError(`${chalk.magenta('Whoops! "error" event in runner process:')} \n ${chalk.bold(su.getCleanErrorString(e))}`);
 });
 
 process.once('uncaughtException', function (e: IPseudoError) {
-  //TODO: add process.exit(special code);
-  console.error('\n\n => Suman runner uncaughtException...\n', e.stack || e);
+  _suman.logError(`${chalk.magenta('Suman runner "uncaughtException" event:')} \n ${chalk.bold(su.getCleanErrorString(e))}`);
   process.exit(1);
 });
 
 process.on('message', function (data: any) {
-  //TODO: add process.exit(special code);
-  console.error(' => Weird! => Suman runner received a message:',
-    (typeof data === 'string' ? data : util.inspect(data)));
+  _suman.logError('Weird! => Suman runner received an IPC message:\n',
+    chalk.magenta(typeof data === 'string' ? data : util.inspect(data)));
 });
 
 const server = getSocketServer();
@@ -148,15 +145,11 @@ const LOG_RESULT = constants.runner_message_type.LOG_RESULT;
 const FATAL = constants.runner_message_type.FATAL;
 const FATAL_MESSAGE_RECEIVED = constants.runner_message_type.FATAL_MESSAGE_RECEIVED;
 
-function handleTableData(n: ISumanChildProcess, data: any, s: SocketIOClient.Socket) {
+const handleTableData = function (n: ISumanChildProcess, data: any, s: SocketIOClient.Socket) {
   runnerObj.tableCount++;
   tableRows[n.shortTestPath].tableData = data;
-
-  s.emit(TABLE_DATA, {
-    info: 'table-data-received'
-  });
-
-}
+  s.emit(TABLE_DATA, {info: 'table-data-received'});
+};
 
 server.on('connection', function (socket: SocketIOClient.Socket) {
 
@@ -303,7 +296,7 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
       runSingleOrMultipleDirs(runObj);
     }
     else {
-      throw new Error(' => Suman implementation error => Please report.');
+      throw new Error('Suman implementation error => Switch fallthrough, please report.');
     }
 
   });

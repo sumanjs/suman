@@ -1,5 +1,8 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from "../../../dts/global";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -11,36 +14,38 @@ import * as net from 'net';
 import util = require('util');
 
 //npm
+import su = require('suman-utils');
 import residence = require('residence');
 import {Pool} from 'poolio';
 import JSONStream = require('JSONStream');
 
-console.log('starting this thing.');
-
-///////////////////////////////////////////////
-
+//project
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const port = 9091;
 const projectRoot = residence.findProjectRoot(process.cwd());
 const sumanLibRoot = path.resolve(__dirname + '/../../../');
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 console.log('project root => ', projectRoot);
 console.log('suman lib root => ', sumanLibRoot);
 
-
 if (!process.stdout.isTTY) {
-  console.error('process is not a tty, cannot run suman-daemon.');
-  // process.exit(1);
+  _suman.logError('process is not a tty, cannot run suman-daemon.');
+  process.exit(1);
 }
 
 const f = path.resolve(process.env.HOME + '/.suman/daemon.pid');
+
 try {
   fs.writeFileSync(f, String(process.pid));
 }
 catch (err) {
-  console.error('\n',err.stack,'\n');
+  _suman.logError('\n', su.getCleanErrorString(err), '\n');
   process.exit(1);
 }
 
-console.log('suman daemon loaded.');
+_suman.log('suman daemon loaded.');
 
 const p = new Pool({
   filePath: path.resolve(__dirname + '/start-script.js'),
@@ -56,7 +61,7 @@ const p = new Pool({
 });
 
 p.on('error', function (e: Error) {
-  console.error('pool error => ', e.stack || e);
+  _suman.logError('suman-daemon worker pool error => ', su.getCleanErrorString(e));
 });
 
 const s = net.createServer(function (socket) {
@@ -66,17 +71,14 @@ const s = net.createServer(function (socket) {
   socket.pipe(JSONStream.parse()).on('data', function (obj: Object) {
 
     console.log('message from ', util.inspect(obj));
-
-    // socket.write('pinnochio');
     return p.any(obj, {socket});
   });
 
 });
 
-const port = 9091;
 
 s.once('listening', function () {
-  console.log(`suman daemon tcp server listening on port ${port}`);
+  _suman.log(`suman-daemon tcp server listening on port ${port}`);
 });
 
 s.listen(port);
