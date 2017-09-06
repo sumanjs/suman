@@ -1,6 +1,6 @@
 'use strict';
 import {IRunnerObj, IRunnerRunFn, IRunObj, ISumanChildProcess, ITableRows} from "../../dts/runner";
-import {IPseudoError} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -25,7 +25,7 @@ const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
 import {cpHash, socketHash} from './socket-cp-hash';
 const {getTapParser} = require('./handle-tap');
@@ -67,17 +67,11 @@ export const makeContainerize =
           setImmediate(cb);
 
           if (err) {
-            err = err.stack || err;
-            _suman.logError('tranpile error => ', err);
-            failedTestObjects.push({
-              err, file, shortFile, stdout, pathFromProjecRoot
-            });
-
+            _suman.logError('tranpile error => ', su.getCleanErrorString(err));
+            failedTestObjects.push({err, file, shortFile, stdout, pathFromProjecRoot});
           }
           else {
-            queuedTestObjects.push({
-              file, shortFile, stdout, pathFromProjecRoot
-            });
+            queuedTestObjects.push({file, shortFile, stdout, pathFromProjecRoot});
           }
         });
 
@@ -204,7 +198,7 @@ export const makeContainerize =
               if (sumanOpts.inherit_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes') {
 
                 let onError = function (e: Error) {
-                  console.error('\n', e.stack || e, '\n');
+                  console.error('\n', su.getCleanErrorString(e), '\n');
                 };
 
                 k.stderr.pipe(pt(`${chalk.red('=> transform process stderr => ')} ${file}\n`))

@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IRunnerObj, ISumanChildProcess} from "../../dts/runner";
 import {IIntegrantHash, TOncePostKeys} from "../runner";
 
@@ -85,8 +87,8 @@ export const makeHandleIntegrantInfo =
           runnerObj.hasOncePostFile = true;
         }
         catch (err) {
-          console.error(chalk.red(' => Suman usage warning => you have suman.once.post data defined, ' +
-            'but no suman.once.post.js file.') + '\n' + (err.stack || err));
+          _suman.logError(chalk.red('Suman usage warning => you have suman.once.post data defined, ' +
+            'but no suman.once.post.js file.') + '\n' + su.getCleanErrorString(err));
         }
 
       }
@@ -107,14 +109,17 @@ export const makeHandleIntegrantInfo =
           stringified = su.customStringify(val)
         }
         catch (err) {
-          _suman.logError(err.stack || err);
+          _suman.logError(su.getCleanErrorString(err));
         }
 
         s.emit(INTEGRANT_INFO, {info: 'all-integrants-ready', val: stringified});
 
       }, function (err: Error) {
-        _suman.logError(err.stack || err);
-        s.emit(INTEGRANT_INFO, {info: 'integrant-error', data: String(err.stack || err)});
+
+        let strErr = su.getCleanErrorString(err);
+        _suman.logError(strErr);
+        s.emit(INTEGRANT_INFO, {info: 'integrant-error', data: strErr});
+
       });
 
     };

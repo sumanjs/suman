@@ -12,6 +12,9 @@ import util = require('util');
 import path = require('path');
 import assert = require('assert');
 
+//npm
+import su from 'suman-utils';
+
 //project
 const _suman = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
@@ -44,7 +47,7 @@ function planHelper(e: IPseudoError, test: ITestDataObj, hook: IHookObj, assertC
     const newErr = cloneError(testOrHook.warningErr, testOrHook.errorPlanCount);
 
     if (e) {
-      e = new Error((e.stack || e) + '\n' + newErr.stack);
+      e = new Error(su.getCleanErrStr(e) + '\n' + newErr.stack);
     }
     else {
       e = newErr;

@@ -49,7 +49,7 @@ export const makeGracefulExit = function (suman: ISuman) {
       _suman.logError('"uncaughtException" event occurred => halting program.');
       if (errs.length) {
         errs.filter(e => e).forEach(function (e) {
-          console.error('Most likely unrelated error => Graceful exit error => ' + (e.stack || e));
+          console.error('Most likely unrelated error => Graceful exit error => ' + su.getCleanErrorString(e));
         });
       }
       // do not continue, return here?
@@ -167,18 +167,14 @@ export const makeGracefulExit = function (suman: ISuman) {
               }, cb);
             },
             function (cb: Function) {
-              // run all after.always hooks
               runAfterAlways(suman, cb);
             }
           ],
           function () {
 
             suman.logFinished(highestExitCode || 1, null, function (err: Error, val: any) {
-
               err && _suman.logError(su.getCleanErrorString(err));
-
               process.exit(highestExitCode || 1);
-              // _suman.suiteResultEmitter.emit('suman-completed', val);
             });
 
           });

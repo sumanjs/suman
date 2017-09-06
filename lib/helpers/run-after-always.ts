@@ -1,8 +1,9 @@
 'use strict';
 
-import {IAfterObj, IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
+import {IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
 import {ISuman} from "../../dts/suman";
 import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../../dts/global";
+import {IAfterObj} from "../../dts/after";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -24,6 +25,7 @@ import {makeHookObj} from '../test-suite-helpers/t-proto-hook';
 import {freezeExistingProps} from 'freeze-existing-props'
 import {constants} from '../../config/suman-constants';
 
+
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -36,14 +38,13 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
   _suman.afterAlwaysEngaged = true;
 
   process.on('uncaughtException', function (e: IPseudoError) {
-    debugger;
-    console.log(' => There was an uncaught exception, however, we are currently processing after.always blocks, ' +
-      'so this exception will be ignored. => \n', chalk.magenta(String(e.stack || e)));
+    _suman.logError('There was an uncaught exception, however, we are currently processing after.always blocks, ' +
+      'so this exception will be ignored. => \n', chalk.magenta(su.getCleanErrStr(e)));
   });
 
   process.on('unhandledRejection', function (e: IPseudoError) {
-    console.log(' => There was an unhandled rejection, however, we are currently processing after.always blocks, ' +
-      'so this exception will be ignored. => \n', chalk.magenta(String(e.stack || e)));
+    _suman.logError('There was an unhandled rejection, however, we are currently processing after.always blocks, ' +
+      'so this exception will be ignored. => \n', chalk.magenta(su.getCleanErrStr(e)));
   });
 
   if (_suman.afterAlwaysHasBeenRegistered) {
