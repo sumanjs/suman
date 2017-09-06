@@ -35,7 +35,8 @@ export default function (order: Object): IHandleBlocking {
   const maxProcs = _suman.maxProcs;
 
   let interval = 10000;
-  let timeout = 1000;
+  let initialTimeout = 5000;
+  let increaseEachTime = 6000;
 
   if (true || _suman.sumanOpts && _suman.sumanOpts.verbosity > 2) {
     setInterval(function () {
@@ -54,12 +55,12 @@ export default function (order: Object): IHandleBlocking {
 
         if (startedButNotEnded.length > 0) {
           console.log('\n');
-          _suman.log(chalk.bgCyan.black.bold('The following test processes have started but not ended yet:'));
+          _suman.log(chalk.bgCyan.yellow(' The following test processes have started but not ended yet: '));
           console.log(chalk.cyan.bold(String(startedButNotEnded)));
           console.log('\n');
         }
 
-      }, timeout += 8000);
+      }, initialTimeout += increaseEachTime);
     }, interval);
   }
 

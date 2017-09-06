@@ -30,6 +30,7 @@ import makeIocDepInjections from '../injection/ioc-injector';
 import {loadSumanConfig} from '../helpers/load-suman-config';
 import {resolveSharedDirs} from '../helpers/resolve-shared-dirs';
 import {loadSharedObjects} from '../helpers/load-shared-objects'
+
 const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
 /////////////////////////////////////////////////////////////
@@ -51,10 +52,17 @@ const thisVal =
 
 export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suite: ITestSuite, cb: Function) {
 
+  if (suite.parent) {
+    // only the root suite can receive IoC injected deps
+    // non-root suites can get injected deps via inject
+    assert(!suite.isRootSuite, 'Suman implementation error => we expect a non-root suite here. Please report.');
+    return process.nextTick(cb, null, {});
+  }
+
   const iocPromiseContainer: IIocPromiseContainer = {};
   const sumanPaths = resolveSharedDirs(_suman.sumanConfig, _suman.projectRoot, _suman.sumanOpts);
   const {iocFn} = loadSharedObjects(sumanPaths, _suman.projectRoot, _suman.sumanOpts);
-  let dependencies : IDependenciesObject = null;
+  let dependencies: IDependenciesObject = null;
 
   try {
     let iocFnArgs = fnArgs(iocFn);
@@ -82,39 +90,31 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
         '" but this is a reserved internal Suman dependency injection value.');
     }
 
-    if (!suite.parent) {
+    if (suite.parent) {
+      throw new Error('Suman implementation error, the root suite should not reach this point.')
+    }
 
-      if (dep in dependencies) {
-        obj[dep] = dependencies[dep]; //copy subset of iocConfig to test suite
+    if (dep in dependencies) {
+      obj[dep] = dependencies[dep]; //copy subset of iocConfig to test suite
 
-        if (!obj[dep] && !includes(constants.CORE_MODULE_LIST, String(dep)) &&
-          !includes(constants.SUMAN_HARD_LIST, String(dep))) {
+      if (!obj[dep] && !includes(constants.CORE_MODULE_LIST, String(dep)) &&
+        !includes(constants.SUMAN_HARD_LIST, String(dep))) {
 
-          let deps = Object.keys(dependencies || {}).map(function (item) {
-            return ' "' + item + '" ';
-          });
+        let deps = Object.keys(dependencies || {}).map(function (item) {
+          return ' "' + item + '" ';
+        });
 
-          _suman._writeTestError(new Error('The following desired dependency is not in your suman.ioc.js file: "' + dep + '"\n' +
-            ' => ...your available dependencies are: [' + deps + ']').stack);
-        }
-      }
-      else {
-
-        // this dep name is not in the iocConfiguration
-        obj[dep] = '[suman reserved - no ioc match]';
+        _suman._writeTestError(new Error('The following desired dependency is not in your suman.ioc.js file: "' + dep + '"\n' +
+          ' => ...your available dependencies are: [' + deps + ']').stack);
       }
     }
     else {
-      obj[dep] = undefined;
-    }
-  });
 
-  if (suite.parent) {
-    // only the root suite can receive IoC injected deps
-    // non-root suites can get injected deps via inject
-    assert(!suite.isRootSuite, 'Suman implementation error => we expect a non-root suite here. Please report.');
-    return process.nextTick(cb, null, obj);
-  }
+      // this dep name is not in the iocConfiguration
+      obj[dep] = '[suman reserved - no ioc match]';
+    }
+
+  });
 
   const promises = Object.keys(obj).map(function (key) {
 
@@ -171,7 +171,7 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
       process.nextTick(cb, null, obj);
     },
     function (err) {
-      console.error(err.stack || err);
+      _suman.logError('Error acquiring ioc dependency:', err.stack || err);
       //want to exit out of current tick for purposes of domains
       process.domain && process.domain.exit();
       process.nextTick(cb, err, {});

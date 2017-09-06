@@ -10,7 +10,8 @@ export interface ISocketHash {
   [key:string]: SocketIOClient.Socket
 }
 
-export interface IGanttData{
+export interface IGanttData {
+  uuid: String;
   fullFilePath: string;
   shortFilePath: string;
   filePathFromProjectRoot: string;

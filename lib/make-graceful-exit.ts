@@ -43,13 +43,13 @@ export const makeGracefulExit = function (suman: ISuman) {
 
     let highestExitCode = 0;
     let exitTestSuite = false;
-    let errs : Array<Error> = flattenDeep([$errs]).filter((e: Error) => e);
+    let errs: Array<Error> = flattenDeep([$errs]).filter((e: Error) => e);
 
     if (_suman.sumanUncaughtExceptionTriggered) {
       _suman.logError('"uncaughtException" event occurred => halting program.');
       if (errs.length) {
         errs.filter(e => e).forEach(function (e) {
-          console.error('Most likely unrelated error => Graceful exit error => ' + (e.stack || e));
+          console.error('Most likely unrelated error => Graceful exit error => ' + su.getCleanErrorString(e));
         });
       }
       // do not continue, return here?
@@ -128,7 +128,7 @@ export const makeGracefulExit = function (suman: ISuman) {
 
       const isBail = _suman.sumanOpts.bail ? '(note that the "--bail" option set to true)\n' : '';
       const str = '\n⚑ ' + chalk.bgRed.white.bold(' Suman fatal error ' + isBail +
-          ' => making a graceful exit => ') + '\n' + chalk.red(String(err)) + '\n\n';
+        ' => making a graceful exit => ') + '\n' + chalk.red(String(err)) + '\n\n';
 
       const padded = str.split('\n').map(function (s) {
         return su.padWithXSpaces(3) + s;
@@ -167,33 +167,25 @@ export const makeGracefulExit = function (suman: ISuman) {
               }, cb);
             },
             function (cb: Function) {
-              // run all after.always hooks
               runAfterAlways(suman, cb);
             }
           ],
           function () {
 
-            _suman.log('finished running graceful exit...');
-
             suman.logFinished(highestExitCode || 1, null, function (err: Error, val: any) {
-
-              if (err) {
-                _suman.logError(new Error(String(err.stack || err)));
-              }
-
+              err && _suman.logError(su.getCleanErrorString(err));
               process.exit(highestExitCode || 1);
-              // _suman.suiteResultEmitter.emit('suman-completed', val);
             });
 
           });
       }
     }
     else {
-      if(cb){
+      if (cb) {
         process.nextTick(cb);
       }
-      else{
-       _suman.logError('suman implementation warning: no callback passed to graceful exit routine.');
+      else {
+        _suman.logError('suman implementation warning: no callback passed to graceful exit routine.');
       }
 
     }
