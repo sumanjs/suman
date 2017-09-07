@@ -144,7 +144,7 @@ export const makeGracefulExit = function (suman: ISuman) {
 
     if (singleProc && exitTestSuite) {
       //TODO: need to handle fatal errors in suman single process
-      console.error(' => Suman single process and runtime uncaught exception or error in hook experienced.');
+      _suman.logError(' => Suman single process and runtime uncaught exception or error in hook experienced.');
       // we should pass errors to emit() below, and the if the user wants to bail, they can.
       suman._sumanEvents.emit('suman-test-file-complete');
     }

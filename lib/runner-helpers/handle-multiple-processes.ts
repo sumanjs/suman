@@ -27,7 +27,7 @@ const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
 import {cpHash, socketHash, ganttHash, IGanttHash, IGanttData} from './socket-cp-hash';
 
@@ -60,6 +60,13 @@ export const makeHandleMultipleProcesses =
     return function (runObj: IRunObj) {
 
       debugger;
+
+      process.stderr.setMaxListeners(runObj.files.length + 11);
+      process.stdout.setMaxListeners(runObj.files.length + 11);
+
+      const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
+      const sumanCPLogs = path.resolve(logsDir + '/runs/');
+      const f = path.resolve(sumanCPLogs + '/' + _suman.timestamp + '-' + _suman.runId);
 
       _suman.startDateMillis = Date.now();
 
@@ -225,17 +232,31 @@ export const makeHandleMultipleProcesses =
 
               const ln = String(_suman.projectRoot).length;
 
+              if (false) {
+
+                let onError = function (e: Error) {
+                  _suman.logError('\n', su.getCleanErrorString(e), '\n');
+                };
+
+                const temp = su.removePath(file, _suman.projectRoot);
+                const onlyFile = String(temp).replace(/\//g, '.');
+                const logfile = path.resolve(f + '/' + onlyFile + '.log');
+                let fileStrm = fs.createWriteStream(logfile);
+                k.stderr.pipe(fileStrm).once('error', onError);
+                k.stdout.pipe(fileStrm).once('error', onError);
+              }
+
               if (sumanOpts.inherit_all_stdio || sumanOpts.inherit_transform_stdio || process.env.SUMAN_INHERIT_STDIO) {
 
                 let onError = function (e: Error) {
-                  console.error('\n', su.getCleanErrorString(e), '\n');
+                  _suman.logError('\n', su.getCleanErrorString(e), '\n');
                 };
 
                 k.stderr.pipe(pt(` [${chalk.red('transform process stderr:')} ${chalk.red.bold(String(file.slice(ln)))}] `))
-                .on('error', onError).pipe(process.stderr).on('error', onError);
+                .once('error', onError).pipe(process.stderr); // .once('error', onError);
 
                 k.stdout.pipe(pt(` [${chalk.yellow('transform process stdout:')} ${chalk.gray.bold(String(file.slice(ln)))}] `))
-                .on('error', onError).pipe(process.stdout).on('error', onError);
+                .once('error', onError).pipe(process.stdout); // .once('error', onError);
               }
 
               // let strm = fs.createWriteStream(path.resolve(tr + '.log'));
@@ -473,6 +494,27 @@ export const makeHandleMultipleProcesses =
             n.stdout.setEncoding('utf8');
             n.stderr.setEncoding('utf8');
 
+            if (sumanOpts.log_stdio_to_files || sumanOpts.log_stdout_to_files || sumanOpts.log_stderr_to_files) {
+
+              let onError = function (e: Error) {
+                _suman.logError('\n', su.getCleanErrorString(e), '\n');
+              };
+
+              let temp = su.removePath(file, _suman.projectRoot);
+              let onlyFile = String(temp).replace(/\//g, '.');
+              let logfile = path.resolve(f + '/' + onlyFile + '.log');
+              let fileStrm = fs.createWriteStream(logfile);
+
+              if (sumanOpts.log_stdio_to_files || sumanOpts.log_stderr_to_files) {
+                n.stderr.pipe(fileStrm).once('error', onError);
+              }
+
+              if (sumanOpts.log_stdio_to_files || sumanOpts.log_stdout_to_files) {
+                n.stdout.pipe(fileStrm).once('error', onError);
+              }
+
+            }
+
             if (sumanOpts.inherit_stdio || sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes') {
 
               let onError = function (e: Error) {
@@ -480,9 +522,9 @@ export const makeHandleMultipleProcesses =
               };
 
               n.stdout.pipe(pt(chalk.cyan(' => [suman child stdout] => ')))
-              .on('error', onError).pipe(process.stdout).on('error', onError);
+              .once('error', onError).pipe(process.stdout); //.once('error', onError);
               n.stderr.pipe(pt(chalk.red.bold(' => [suman child stderr] => ')))
-              .on('error', onError).pipe(process.stderr).on('error', onError);
+              .once('error', onError).pipe(process.stderr); // .once('error', onError);
             }
 
             if (true || sumanOpts.$useTAPOutput) {
