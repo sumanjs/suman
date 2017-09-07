@@ -175,6 +175,21 @@ module.exports = [
     'yourself manually or you can tell Suman to do it for you intelligently.'
   },
   {
+    names: ['log-stdio-to-files'],
+    type: 'bool',
+    help: 'This boolean switch tells Suman to log each test process stdout/stderr to a local file.'
+  },
+  {
+    names: ['log-stdout-to-files'],
+    type: 'bool',
+    help: 'This boolean switch tells Suman to log each test process stdout (only stdout) to a local file.'
+  },
+  {
+    names: ['log-stderr-to-files'],
+    type: 'bool',
+    help: 'This boolean switch tells Suman to log each test process stderr (only stderr) to a local file.'
+  },
+  {
     names: ['errors-only'],
     type: 'bool',
     help: 'Show only errors when logging test results. Also accomplished with verbosity level less than 2.',
@@ -185,7 +200,7 @@ module.exports = [
     type: 'integer',
     help: 'Specifiy the maximum depth to recurse through directories. If you are using this option, you\'re probably doing it wrong. ' +
     '(Organizing your test directory all weird.) But the option is there for you if you need it.',
-    default: 69-60
+    default: 69 - 60
   },
   {
     names: ['match-any'],

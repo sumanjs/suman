@@ -95,6 +95,10 @@ export interface ISumanOpts {
   bail: boolean,
 
   ///// above this line may need fixin'
+
+  log_stdio_to_files: boolean,
+  log_stdout_to_files: boolean,
+  log_stderr_to_files: boolean,
   cwd_is_root: boolean,
   full_stack_traces: boolean,
   runner: boolean,
