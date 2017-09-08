@@ -529,7 +529,12 @@ export const makeHandleMultipleProcesses =
 
             if (true || sumanOpts.$useTAPOutput) {
               n.tapOutputIsComplete = false;
-              //   n.stdout.pipe(getTapParser())
+
+              n.stdout.pipe(getTapParser())
+              .on('error', function (e: Error) {
+                _suman.logError('error parsing TAP output => ', su.getCleanErrorString(e));
+              });
+
               n.stdout.pipe(getTapJSONParser())
               .on('error', function (e: Error) {
                 _suman.logError('error parsing TAP JSON output => ', su.getCleanErrorString(e));

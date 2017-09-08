@@ -15,9 +15,9 @@ import {getProjectModule} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 
-export const makeIocInjector = function ($iocData: Object, $preData: Object, $ioc: Object) {
+export const makeIocStaticInjector = function () {
 
-  return function (names: Array<string>) {
+  return function (names: Array<string>): Array<any> {
 
     return names.map(function (n) {
 
@@ -37,24 +37,12 @@ export const makeIocInjector = function ($iocData: Object, $preData: Object, $io
         return _suman.sumanOpts.user_args || '';
       }
 
-      if (n === '$data') {
-        return $iocData;
-      }
-
       if (n === '$root' || n === '$projectRoot') {
         return _suman.projectRoot;
       }
 
       if (n === '$index' || n === '$project') {
         return getProjectModule();
-      }
-
-      if (n === '$pre') {
-        return $preData || _suman['$pre'] || null;
-      }
-
-      if (n === '$ioc') {
-        return $ioc || _suman.$staticIoc;
       }
 
       try {

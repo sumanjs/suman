@@ -26,7 +26,7 @@ const fnArgs = require('function-arguments');
 const _suman = global.__suman = (global.__suman || {});
 import {constants} from '../../config/suman-constants';
 import {ISuman} from "../../dts/suman";
-import makeIocDepInjections from '../injection/ioc-injector';
+import {makeIocInjector} from '../injection/ioc-injector';
 import {loadSumanConfig} from '../helpers/load-suman-config';
 import {resolveSharedDirs} from '../helpers/resolve-shared-dirs';
 import {loadSharedObjects} from '../helpers/load-shared-objects'
@@ -66,7 +66,7 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
 
   try {
     let iocFnArgs = fnArgs(iocFn);
-    let getiocFnDeps = makeIocDepInjections(suman.iocData, null, null);
+    let getiocFnDeps = makeIocInjector(suman.iocData, null, null);
     let iocFnDeps = getiocFnDeps(iocFnArgs);
     let iocRet = iocFn.apply(null, iocFnDeps);
     assert(su.isObject(iocRet.dependencies),
@@ -84,8 +84,6 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
   deps.forEach(dep => {
 
     if (includes(constants.SUMAN_HARD_LIST, dep && String(dep)) && String(dep) in dependencies) {
-      console.log('Warning: you added a IoC dependency for "' + dep +
-        '" but this is a reserved internal Suman dependency injection value.');
       throw new Error('Warning: you added a IoC dependency for "' + dep +
         '" but this is a reserved internal Suman dependency injection value.');
     }
@@ -128,7 +126,7 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
 
       if (fn === '[suman reserved - no ioc match]') {
         // most likely a core dep (assert, http, etc)
-        obj[key] = undefined;
+        // obj[key] = undefined;
         resolve();
       }
       else if (typeof fn !== 'function') {

@@ -12,7 +12,7 @@ Test.create(['parallel:true', function (assert, path, fs, it, $root, util) {
 
     it.cb('is symlink', t => {
 
-      fs.stat(path.resolve($root + '/node_modules/' + item), t.wrapErrorFirst(function (stats) {
+      fs.stat(path.resolve($root + '/node_modules/' + item), t.wrapErrFirst(function (stats) {
         console.log(util.inspect(stats));
         assert(stats.isSymbolicLink());
       }));

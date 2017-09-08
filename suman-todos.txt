@@ -19,62 +19,6 @@ Test.create should all be in the same tick anyway
 /////
 
 
-(node:31920) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added. Use emitter.setMaxListeners() to increase limit
-
-  => Suman-Utils warning =>  MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added. Use emitter.setMaxListeners() to increase limit
-    at _addListener (events.js:281:19)
-    at WriteStream.addListener (events.js:298:10)
-    at WriteStream.Readable.on (_stream_readable.js:761:35)
-    at run (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/handle-multiple-processes.js:328:72)
-    at Object.releaseNextTests (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/make-handle-blocking.js:76:22)
-    at ChildProcess.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/multiple-process-each-on-exit.js:97:28)
-    at Object.onceWrapper (events.js:318:30)
-    at emitTwo (events.js:125:13)
-    at ChildProcess.emit (events.js:213:7)
-    at Process.ChildProcess._handle.onexit (internal/child_process.js:197:12)
-
-
-  => Suman warning =>  MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added. Use emitter.setMaxListeners() to increase limit
-    at _addListener (events.js:281:19)
-    at WriteStream.addListener (events.js:298:10)
-    at WriteStream.Readable.on (_stream_readable.js:761:35)
-    at run (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/handle-multiple-processes.js:328:72)
-    at Object.releaseNextTests (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/make-handle-blocking.js:76:22)
-    at ChildProcess.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/multiple-process-each-on-exit.js:97:28)
-    at Object.onceWrapper (events.js:318:30)
-    at emitTwo (events.js:125:13)
-    at ChildProcess.emit (events.js:213:7)
-    at Process.ChildProcess._handle.onexit (internal/child_process.js:197:12)
-
-(node:31920) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added. Use emitter.setMaxListeners() to increase limit
-
-  => Suman-Utils warning =>  MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added. Use emitter.setMaxListeners() to increase limit
-    at _addListener (events.js:281:19)
-    at WriteStream.addListener (events.js:298:10)
-    at WriteStream.Readable.on (_stream_readable.js:761:35)
-    at run (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/handle-multiple-processes.js:330:72)
-    at Object.releaseNextTests (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/make-handle-blocking.js:76:22)
-    at ChildProcess.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/multiple-process-each-on-exit.js:97:28)
-    at Object.onceWrapper (events.js:318:30)
-    at emitTwo (events.js:125:13)
-    at ChildProcess.emit (events.js:213:7)
-    at Process.ChildProcess._handle.onexit (internal/child_process.js:197:12)
-
-
-  => Suman warning =>  MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added. Use emitter.setMaxListeners() to increase limit
-    at _addListener (events.js:281:19)
-    at WriteStream.addListener (events.js:298:10)
-    at WriteStream.Readable.on (_stream_readable.js:761:35)
-    at run (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/handle-multiple-processes.js:330:72)
-    at Object.releaseNextTests (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/make-handle-blocking.js:76:22)
-    at ChildProcess.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/multiple-process-each-on-exit.js:97:28)
-    at Object.onceWrapper (events.js:318:30)
-    at emitTwo (events.js:125:13)
-    at ChildProcess.emit (events.js:213:7)
-    at Process.ChildProcess._handle.onexit (internal/child_process.js:197:12)
-
-////
-
   make-graceful-exit =>
 
     1. cb({stack: {'seed-database-exit-code': code}});

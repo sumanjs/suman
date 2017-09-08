@@ -46,10 +46,16 @@ export const makeBlockInjector = function (suman: ISuman) {
 
     return Object.keys(depsObj).map(key => {
 
-      const dep = depsObj[key];
+      // console.log('depsObj => ',util.inspect(depsObj));
 
-      if (dep) {
-        return dep;
+      // if (key in depsObj) {
+      //   if (depsObj[key] !== '[suman reserved - no ioc match]') {
+      //     return depsObj[key];
+      //   }
+      // }
+
+      if (depsObj[key] && depsObj[key] !== '[suman reserved - no ioc match]') {
+        return depsObj[key];
       }
 
       switch (key) {

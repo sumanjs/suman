@@ -19,11 +19,13 @@ import cp = require('child_process');
 
 //npm
 import * as async from 'async';
+
 const shuffle = require('lodash.shuffle');
 import * as chalk from 'chalk';
 import su, {IMapValue} from 'suman-utils';
 import {IGetFilePathObj} from "./runner-helpers/get-file-paths";
 import {ISumanErrorFirstCB} from "./index";
+
 const rimraf = require('rimraf');
 const {events} = require('suman-events');
 const debug = require('suman-debug')('s:cli');
@@ -37,6 +39,7 @@ const noFilesFoundError = require('./helpers/no-files-found-error');
 const ascii = require('./helpers/ascii');
 const {constants} = require('../config/suman-constants');
 import {findSumanServer} from './helpers/find-suman-server';
+
 const {findFilesToRun} = require('./runner-helpers/get-file-paths');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const dbPth = path.resolve(process.env.HOME + '/.suman/database/exec_db');
@@ -50,7 +53,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
   debugger;  //leave here forever so users can easily debug
 
-  let sql : any;
+  let sql: any;
 
   try {
     sql = require('sqlite3').verbose();
@@ -99,7 +102,6 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
     }
   }
 
-  //formerly async.parallel
 
   async.autoInject({
 
@@ -117,13 +119,15 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
     mkdirs: function (cb: AsyncResultArrayCallback<Error, Iterable<any>>) {
 
-      async.series([
-        function (cb: Function) {
-          mkdirp(path.resolve(sumanHome + '/global'), cb);
-        },
-        function (cb: Function) {
-          mkdirp(path.resolve(sumanHome + '/database'), cb);
+      let makeFile = function (file: string) {
+        return function (cb: Function) {
+          mkdirp(file, cb);
         }
+      };
+
+      async.series([
+        makeFile(path.resolve(sumanHome + '/global')),
+        makeFile(path.resolve(sumanHome + '/database'))
       ], cb);
     },
 
@@ -225,7 +229,9 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
       const db = new sql.Database(dbPth, function (err: Error) {
         if (err) {
-          return first(err);
+          _suman.logError(err.stack || err);
+          runId = _suman.runId = process.env.SUMAN_RUN_ID = uuid();
+          return createDir(runId);
         }
 
         db.configure('busyTimeout', 4000);
@@ -304,7 +310,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
         'Suman will execute test files from the following locations:'), '\n', files, '\n');
     }
 
-    if(sumanOpts.dry_run){
+    if (sumanOpts.dry_run) {
       _suman.log('exitting here, because "--dry-run" option was used.');
       return process.exit(0);
     }
@@ -326,7 +332,8 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
         require('./run-child-not-runner').run(su.removeSharedRootPath(files));
       });
     }
-    else if (!sumanOpts.runner && !sumanOpts.coverage && files.length === 1 && su.checkStatsIsFile(files[0]) && !nonJSFile) {
+    else if (!sumanOpts.runner && !sumanOpts.containerize
+      && !sumanOpts.coverage && files.length === 1 && su.checkStatsIsFile(files[0]) && !nonJSFile) {
 
       console.log(ascii.suman_slant, '\n');
       d.run(function () {

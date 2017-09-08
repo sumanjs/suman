@@ -46,25 +46,19 @@ export const getTapParser = function () {
       console.log('\n');
     }
 
-    su.isSumanDebug(function () {
-      console.log('testpoint:', testpoint);
-    });
 
     resultBroadcaster.emit(String(events.TEST_CASE_END), testpoint);
 
     if (testpoint.skip) {
-      // throw new Error('testpoint.skip');
       resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), testpoint);
     }
     else if (testpoint.todo) {
-      // throw new Error('testpoint.todo/stubbed');
       resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), testpoint);
     }
     else if (testpoint.ok) {
       resultBroadcaster.emit(String(events.TEST_CASE_PASS), testpoint);
     }
     else {
-      console.log('failed testpoint => ', util.inspect(testpoint));
       resultBroadcaster.emit(String(events.TEST_CASE_FAIL), testpoint);
     }
   });

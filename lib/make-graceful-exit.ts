@@ -61,22 +61,14 @@ export const makeGracefulExit = function (suman: ISuman) {
     const big = errs.filter(function (err) {
 
       if (err && err.isFromTest && !_suman.sumanOpts.bail) {
-        return undefined;
+        return undefined;   //explicit for your pleasure
       }
       else if (err && err.sumanFatal === false) {
-        return undefined;
-      }
-      else if (err && err instanceof Error) {
-        return err;
+        return undefined;   //explicit for your pleasure
       }
       else if (err) {
-
-        if (err.stack) {
-          return err;
-        }
-        else {
-          return new Error(util.inspect(err));
-        }
+        //explicit for your pleasure
+        return true;
       }
       else {
         //explicit for your pleasure
@@ -97,7 +89,7 @@ export const makeGracefulExit = function (suman: ISuman) {
         highestExitCode = exitCode;
       }
 
-      let stack = String(err.stack || err).split('\n').filter(function (item, index) {
+      let stack = su.getCleanErrStr(err).split('\n').filter(function (item, index) {
 
         if (fst) {
           // if we are using full stack traces, then we include all lines of trace
