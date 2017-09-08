@@ -252,7 +252,9 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
 
   debugger; // leave it here
 
-  if (_suman.sumanOpts.errors_only) {
+  const {sumanOpts} = _suman;
+
+  if (sumanOpts.errors_only) {
     resultBroadcaster.emit(String(events.ERRORS_ONLY_OPTION));
   }
 
@@ -289,7 +291,7 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
     if (IS_SUMAN_SINGLE_PROCESS) {
       runAllTestsInSingleProcess(runObj);
     }
-    else if (_suman.sumanOpts.containerize) {
+    else if (sumanOpts.containerize) {
       runAllTestsInContainer(runObj);
     }
     else if (runObj) {

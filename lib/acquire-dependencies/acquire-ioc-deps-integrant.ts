@@ -68,7 +68,7 @@ export const acquireIocDeps = function (deps: Array<string>, suite: ITestSuite, 
 
       if (fn === '[suman reserved - no ioc match]') {
         // most likely a core dep (assert, http, etc)
-        obj[key] = undefined;
+        // obj[key] = undefined;
         resolve();
       }
       else if (typeof fn !== 'function') {

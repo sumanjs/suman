@@ -3,8 +3,7 @@
 ////////////
 
 //load async deps for any of your suman tests
-module.exports = ($core, $deps) => {
-
+export default ($core: Object, $deps: Object) => {
 
   return {
 
@@ -14,7 +13,7 @@ module.exports = ($core, $deps) => {
         return 'berry';
       },
 
-      'mark': function (cb) {
+      'mark': function (cb: Function) {
         cb(null, 'rutherfurd');
       },
 

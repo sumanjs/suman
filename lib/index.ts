@@ -140,13 +140,10 @@ require('./index-helpers/exit-handling');
 // project
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import setupExtraLoggers from './index-helpers/setup-extra-loggers';
-
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
 import su = require('suman-utils');
-
 const {execSuite} = require('./exec-suite');
-
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 import {loadSumanConfig} from './helpers/load-suman-config';
 import {resolveSharedDirs} from './helpers/resolve-shared-dirs';
@@ -727,11 +724,10 @@ export const once = function (fn: Function) {
       fn.call(null, function (err: Error, val: any) {
         if (!err) {
           cache = val || {
-            'Suman says': 'This is a dummy-cache val. ' +
-            'See => sumanjs.org/tricks-and-tips.html'
+            'Suman says': 'This is a dummy-cache val. See => sumanjs.org/tricks-and-tips.html'
           };
         }
-        cb.apply(null, arguments);
+        cb.call(null, err, cache);
       });
     }
   }
