@@ -1,6 +1,10 @@
 
 import {IGlobalSumanObj} from "../../dts/global";
 
+//polyfills
+const process = require('suman-browser-polyfills/modules/process');
+const global = require('suman-browser-polyfills/modules/global');
+
 
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 

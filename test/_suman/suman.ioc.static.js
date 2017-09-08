@@ -1,7 +1,6 @@
 'use strict';
-////////////
-//load async deps for any of your suman tests
-module.exports = function ($core, $deps) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = function ($core, $deps) {
     return {
         dependencies: {
             'chuck': function () {
@@ -9,7 +8,7 @@ module.exports = function ($core, $deps) {
             },
             'mark': function (cb) {
                 cb(null, 'rutherfurd');
-            }
+            },
         }
     };
 };

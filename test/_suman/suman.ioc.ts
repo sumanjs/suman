@@ -9,14 +9,6 @@ module.exports = ($data, $core, $deps, $ioc) => {
 
     dependencies: {
 
-      'chuck': function () {
-        return 'berry';
-      },
-
-      'mark': function (cb) {
-        cb(null, 'rutherfurd');
-      },
-
       'william': function (cb) {
         setTimeout(function () {
           cb(null, 10);
@@ -41,7 +33,7 @@ module.exports = ($data, $core, $deps, $ioc) => {
         return require('socket.io-client');
       },
 
-      'choodles': function (cb) {
+      'choodles': function (cb: Function) {
 
         setTimeout(function () {
           cb(null, {
@@ -49,7 +41,7 @@ module.exports = ($data, $core, $deps, $ioc) => {
           });
         }, 100);
       },
-      'roodles': function (cb) {
+      'roodles': function (cb: Function) {
 
         setTimeout(function () {
           cb(null, {
@@ -58,7 +50,7 @@ module.exports = ($data, $core, $deps, $ioc) => {
         }, 100);
       },
 
-      'whoa': function (cb) {
+      'whoa': function (cb: Function) {
 
         setTimeout(function () {
           cb(null, {
@@ -69,7 +61,7 @@ module.exports = ($data, $core, $deps, $ioc) => {
         }, 100);
       },
 
-      'cherry': function (cb) {
+      'cherry': function (cb: Function) {
 
         setTimeout(function () {
           cb(null, {

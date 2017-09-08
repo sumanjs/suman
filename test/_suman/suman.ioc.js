@@ -1,15 +1,7 @@
 'use strict';
-////////////
-//load async deps for any of your suman tests
 module.exports = function ($data, $core, $deps, $ioc) {
     return {
         dependencies: {
-            'chuck': function () {
-                return 'berry';
-            },
-            'mark': function (cb) {
-                cb(null, 'rutherfurd');
-            },
             'william': function (cb) {
                 setTimeout(function () {
                     cb(null, 10);
@@ -24,7 +16,7 @@ module.exports = function ($data, $core, $deps, $ioc) {
                 return Promise.resolve(require('should'));
             },
             'request': function () {
-                return require('request'); //this is not very useful, but below we can see useful asynchronous loading of deps
+                return require('request');
             },
             'socket_io_client': function () {
                 return require('socket.io-client');
