@@ -559,9 +559,7 @@ else if (useBabel) {
   require('./lib/use-babel/use-babel')(null);
 }
 else if (init) {
-
   require('./lib/cli-commands/init-opt').run(sumanOpts, projectRoot, cwd);
-
 }
 else if (uninstall) {
   require('./lib/uninstall/uninstall-suman')({
@@ -573,7 +571,6 @@ else if (uninstall) {
 
 else if (convert) {
   require('./lib/cli-commands/convert-mocha').run(projectRoot, src, dest, force);
-
 }
 else if (s) {
   require('./lib/cli-commands/start-suman-server')(sumanServerInstalled, sumanConfig, serverName);
@@ -581,7 +578,6 @@ else if (s) {
 else if (watch || watchPer) {
   require('./lib/cli-commands/watching').run(paths, sumanOpts, sumanConfig);
 }
-
 else if (groups) {
   require('./lib/cli-commands/groups').run(paths);
 }

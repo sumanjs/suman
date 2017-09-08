@@ -15,12 +15,11 @@ image_tag="your-dockerized-suman-tests-image";
 container_name="your-dockerized-suman-tests"
 
 dockerfile_root="${project_root}/$(uuidgen)"
-
-cp $(cd $(dirname "$0") && pwd)/Dockerfile ${dockerfile_root}
+cp "$(cd $(dirname "$0") && pwd)/Dockerfile" "${dockerfile_root}"
 
 function cleanup {
   # in case the user kills script prematurely
-  rm -rf ${dockerfile_root};
+  rm -rf "${dockerfile_root}";
 }
 
 trap cleanup EXIT
@@ -31,8 +30,8 @@ trap cleanup EXIT
 #docker rmi -f ${image_tag}
 #
 
-docker stop ${container_name} > /dev/null 2>&1
-docker rm ${container_name} > /dev/null 2>&1
+docker stop "${container_name}" > /dev/null 2>&1
+docker rm "${container_name}" > /dev/null 2>&1
 
 echo "building the test with docker build...";
 docker build -t ${image_tag} -f ${dockerfile_root} ${project_root} #  > /dev/null
@@ -43,5 +42,5 @@ echo "arguments to suman executable: '$1'"
 echo "running the test with docker run...";
 
 #docker run -v "${project_root}/node_modules":/usr/src/app --name  ${container_name} ${image_tag}
-docker run --name  ${container_name} ${image_tag} $@
+docker run --name  "${container_name}" "${image_tag}" $@
 
