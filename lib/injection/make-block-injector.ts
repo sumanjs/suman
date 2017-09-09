@@ -1,4 +1,7 @@
 'use strict';
+
+//dts
+import {IGlobalSumanObj} from "../../dts/global";
 import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
 import {IInjectionDeps} from "../../dts/injection";
@@ -23,7 +26,7 @@ import su = require('suman-utils');
 const includes = require('lodash.includes');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import container from './injection-container';
 import {getCoreAndDeps} from './$core-n-$deps';
@@ -110,7 +113,6 @@ export const makeBlockInjector = function (suman: ISuman) {
 
         case 'userData':
           return _suman.userData;
-
       }
 
       if (parentSuite) {
