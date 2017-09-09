@@ -6,8 +6,7 @@ echo "args1 => $1"
 echo "args2 => $2"
 
 echo "pwd => $(pwd)"
-npm_root="$(npm root)";
-project_root="$(cd ${npm_root} && cd .. && pwd)";
+project_root="$(cd $(npm root) && cd .. && pwd)";
 
 project_basename="$(basename ${project_root})";
 
@@ -42,5 +41,10 @@ echo "arguments to suman executable: '$1'"
 echo "running the test with docker run...";
 
 #docker run -v "${project_root}/node_modules":/usr/src/app --name  ${container_name} ${image_tag}
-docker run --name  "${container_name}" "${image_tag}" $@
+
+#docker run -v ${project_root}/node_modules:/home/docker/app/node_modules \
+# --name="${container_name}" "${image_tag}" --entrypoint=/bin/bash $@
+
+docker run -v ${project_root}/node_modules:/home/docker/app/node_modules \
+ --name "${container_name}" "${image_tag}" node test/e2e/by-roles/admin/admin-page/first.test.js
 
