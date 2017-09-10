@@ -6,14 +6,8 @@ const Test = suman.init(module);
 
 Test.create(function (assert, it, before, describe, after) {
 
-  // console.error('123');
-
   it.cb('is normal', t => {
-
     t.done();
-    // t.done();
-    // throw 'blah';
-
   });
 
   after('ooooooo', function () {
@@ -21,11 +15,7 @@ Test.create(function (assert, it, before, describe, after) {
   });
 
   it.cb.skip('is skipped', t => {
-
     t.done();
-    // t.done();
-    // throw 'blah';
-
   });
 
   after('xxxx', function (t) {

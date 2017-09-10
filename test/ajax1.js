@@ -8,6 +8,8 @@ const Test = suman.init(module, {
   post: ['smartconnect']
 });
 
+
+
 Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks) {
 
   let foo;
