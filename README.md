@@ -137,9 +137,9 @@ These are the features for creating tests in JavaScript/TypeScript.
 </p>
 
 # Items
-* <b>[x]</b> Simple, powerful command creation
-* <b>[x]</b> Supports optional, required and variadic arguments and options
-* <b>[x]</b> Piped commands
+* <b> [x] </b> Simple, powerful command creation
+* <b> [x] </b> Supports optional, required and variadic arguments and options
+* <b> [x] </b> Piped commands
 
 For more detailed feature explanations, see below.
 
