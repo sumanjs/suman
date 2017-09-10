@@ -18,6 +18,13 @@ Test.create should all be in the same tick anyway
 
 /////
 
+ if a dep request makes to require(dep) then we should coerce dep into a string that meets npm criteria
+ for example function_arguments => we should try to
+
+ require('function-arguments') and require('function_arguments')
+
+/////
+
 
   make-graceful-exit =>
 

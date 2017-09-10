@@ -37,6 +37,10 @@ Until then, expect bugs, missing docs, etc. Proceed at your own risk :D
 The CLI can be used to run tests in any language; on the other hand, 
 the test harness, only works with Node.js and browser based JS.
 
+You do not need the suman CLI to run suman tests. <br>
+You do not need to run suman tests to use the CLI. <br>
+They are completely independent, while obviously being designed to work great together. <br>
+
 <p>
 
 ## If your team is interested in speeding up your testing cycles, Suman is the absolute right place to look for answers.
@@ -47,7 +51,7 @@ the test harness, only works with Node.js and browser based JS.
 
 ## What makes Suman better and different
 
-<div> ✓ Everything about Suman is designed for parallelization. </div>
+<div> Everything about Suman is designed for parallelization. </div>
 
 Suman is not just better than test runners in Node.js and JS land - it improves on test runners written
 for other languages as well. This is primarily because the Suman CLI is built so that you can have complete control 
@@ -133,9 +137,9 @@ These are the features for creating tests in JavaScript/TypeScript.
 </p>
 
 # Items
-* [x] Simple, powerful command creation
-* [x] Supports optional, required and variadic arguments and options
-* [x] Piped commands
+* <b>[x]</b> Simple, powerful command creation
+* <b>[x]</b> Supports optional, required and variadic arguments and options
+* <b>[x]</b> Piped commands
 
 For more detailed feature explanations, see below.
 
