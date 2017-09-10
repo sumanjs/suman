@@ -55,7 +55,7 @@
     "lodash.sortby": "^4.7.0",
     "lodash.uniq": "^4.5.0",
     "lodash.uniqby": "^4.7.0",
-    "log-prepend": "0.0.1001",
+    "log-prepend": "0.0.1003",
     "make-beep": "0.0.1",
     "mkdirp": "^0.5.1",
     "pragmatik": "latest",
