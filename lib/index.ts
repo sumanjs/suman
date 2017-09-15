@@ -89,7 +89,6 @@ import * as stream from 'stream';
 
 // npm
 import * as chalk from 'chalk';
-
 const pragmatik = require('pragmatik');
 const debug = require('suman-debug')('s:index');
 
@@ -100,8 +99,6 @@ _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
 import {getClient} from './index-helpers/socketio-child-client';
-
-// set it here just in case
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
 const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
@@ -126,8 +123,6 @@ else {
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 import async = require('async');
-
-// export
 const {constants} = require('../config/suman-constants');
 const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
@@ -168,20 +163,13 @@ if(!SUMAN_SINGLE_PROCESS){
 require('./index-helpers/verify-local-global-version');
 const counts = require('./helpers/suman-counts');
 const projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
-
-// here comes the hotstepper
-// cache these values for purposes of SUMAN_SINGLE_PROCESS option
-
 const main = require.main.filename;
 const usingRunner = _suman.usingRunner = (_suman.usingRunner || process.env.SUMAN_RUNNER === 'yes');
-
 //could potentially pass dynamic path to suman config here, but for now is static
 const sumanConfig = loadSumanConfig(null, null);
-
 if (!_suman.usingRunner && !_suman.viaSuman) {
   require('./helpers/print-version-info'); // just want to run this once
 }
-
 const sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
 const sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 const {integrantPreFn} = sumanObj;
