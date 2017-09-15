@@ -1,5 +1,8 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from "../dts/global";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -13,8 +16,9 @@ import assert = require('assert');
 import * as chalk from 'chalk';
 import su from 'suman-utils';
 
+
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../config/suman-constants');
 const testErrors = _suman.testErrors = _suman.testErrors || [];
 const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
@@ -25,22 +29,20 @@ _suman.isActualExitHandlerRegistered = true;
 
 process.prependListener('exit', function (code: number) {
 
-  _suman.log('raw exit code', code);
-
   if (errors.length > 0) {
     code = code || constants.EXIT_CODES.UNEXPECTED_NON_FATAL_ERROR;
     errors.forEach(function (e: Error) {
       let eStr = su.getCleanErrorString(e);
       _suman.usingRunner &&  process.stderr.write(eStr);
-      _suman._writeTestError &&  _suman._writeTestError(eStr);
+      _suman.writeTestError &&  _suman.writeTestError(eStr);
     });
   }
   else if (testErrors.length > 0) {
     code = code || constants.EXIT_CODES.TEST_CASE_FAIL;
   }
 
-  if (_suman._writeTestError) {
-    _suman._writeTestError('\n\n ### Suman end run ### \n\n\n\n', {suppress: true});
+  if (_suman.writeTestError) {
+    _suman.writeTestError('\n\n ### Suman end run ### \n\n\n\n', {suppress: true});
   }
 
   if (_suman._writeLog) {
@@ -69,7 +71,7 @@ process.prependListener('exit', function (code: number) {
   if (Number.isInteger(_suman.expectedExitCode)) {
     if (code !== _suman.expectedExitCode) {
       let msg = `Expected exit code not met. Expected => ${_suman.expectedExitCode}, actual => ${code}`;
-      _suman._writeTestError(msg);
+      _suman.writeTestError(msg);
       _suman.logError(msg);
       code = constants.EXIT_CODES.EXPECTED_EXIT_CODE_NOT_MET;
     }

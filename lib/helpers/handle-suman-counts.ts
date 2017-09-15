@@ -8,9 +8,8 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import util = require('util');
-
-const EE = require('events');
-const fs = require('fs');
+import EE = require('events');
+import fs = require('fs');
 
 //npm
 import {events} from 'suman-events';
@@ -56,10 +55,7 @@ suiteResultEmitter.on('suman-completed', function (obj: ITableDataCallbackObj) {
     }
 
     const codes = results.map(i => i.exitCode);
-
-    if (su.isSumanDebug()) {
-      console.log(' => All "exit" codes from test suites => ', codes);
-    }
+    _suman.log(' => All "exit" codes from test suites => ', codes);
 
     const highestExitCode = Math.max.apply(null, codes);
 

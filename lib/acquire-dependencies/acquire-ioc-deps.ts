@@ -102,7 +102,7 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
           return ' "' + item + '" ';
         });
 
-        _suman._writeTestError(new Error('The following desired dependency is not in your suman.ioc.js file: "' + dep + '"\n' +
+        _suman.writeTestError(new Error('The following desired dependency is not in your suman.ioc.js file: "' + dep + '"\n' +
           ' => ...your available dependencies are: [' + deps + ']').stack);
       }
     }

@@ -60,13 +60,13 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj) {
     if (!planCalled) {
       planCalled = true;
       if (hook.planCountExpected !== undefined) {
-        _suman._writeTestError(new Error(' => Suman warning => t.plan() called, even though plan was already passed as an option.').stack);
+        _suman.writeTestError(new Error(' => Suman warning => t.plan() called, even though plan was already passed as an option.').stack);
       }
       assert(Number.isInteger(num), ' => Suman usage error => value passed to t.plan() is not an integer.');
       hook.planCountExpected = num;
     }
     else {
-      _suman._writeTestError(new Error(' => Suman warning => t.plan() called twice.').stack);
+      _suman.writeTestError(new Error(' => Suman warning => t.plan() called twice.').stack);
     }
   };
 

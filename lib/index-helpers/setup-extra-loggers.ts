@@ -34,13 +34,13 @@ export default function (usingRunner: boolean, testDebugLogPath: string, testLog
 
     callable = false;
 
-    _suman._writeTestError = function (data: string, options: any) {
+    _suman.writeTestError = function (data: string, options: any) {
 
       // assert(typeof data === 'string', 'Implementation error => data passed to ' +
-      //   '_writeTestError should already be in string format => \n' + util.inspect(data));
+      //   'writeTestError should already be in string format => \n' + util.inspect(data));
 
       if(!data){
-        data = new Error('falsy data passed to _writeTestError').stack;
+        data = new Error('falsy data passed to writeTestError').stack;
       }
 
       if(typeof data !== 'string'){
@@ -77,7 +77,7 @@ export default function (usingRunner: boolean, testDebugLogPath: string, testLog
       fs.appendFileSync(testLogPath, data);
     };
 
-    _suman._writeTestError = function (data: string, ignore: boolean) {
+    _suman.writeTestError = function (data: string, ignore: boolean) {
       if (!ignore) {
         _suman.checkTestErrorLog = true;
       }
@@ -89,16 +89,16 @@ export default function (usingRunner: boolean, testDebugLogPath: string, testLog
         fs.appendFileSync(testDebugLogPath, '\n' + data + '\n');
       }
       else {
-        _suman.logError('Suman implementation error => no data passed to _writeTestError. Please report.');
+        _suman.logError('Suman implementation error => no data passed to writeTestError. Please report.');
       }
 
     };
 
     fs.writeFileSync(testDebugLogPath, '\n\n', {flag: 'a', encoding: 'utf8'});
-    _suman._writeTestError('\n\n', true);
-    _suman._writeTestError(' ### Suman start run @' + new Date(), true);
-    _suman._writeTestError(' ### Filename => ' + $module.filename, true);
-    _suman._writeTestError(' ### Command => ' + JSON.stringify(process.argv), true);
+    _suman.writeTestError('\n\n', true);
+    _suman.writeTestError(' ### Suman start run @' + new Date(), true);
+    _suman.writeTestError(' ### Filename => ' + $module.filename, true);
+    _suman.writeTestError(' ### Command => ' + JSON.stringify(process.argv), true);
   }
 }
 

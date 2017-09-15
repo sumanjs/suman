@@ -89,7 +89,7 @@ export const makeHandleTestResults = function (suman: ISuman) {
       }
 
       if (su.isSumanDebug()) {
-        _suman._writeTestError('\n\nTest error: ' + test.desc + '\n\t' + 'stack: ' + test.error.stack + '\n\n');
+        _suman.writeTestError('\n\nTest error: ' + test.desc + '\n\t' + 'stack: ' + test.error.stack + '\n\n');
       }
 
       testErrors.push(test.error);

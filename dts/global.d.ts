@@ -47,7 +47,7 @@ export interface  IGlobalSumanObj {
   ctx: ITestSuite,
   viaSuman: boolean,
   sumanHelperDirRoot: string,
-  _writeTestError: Function,
+  writeTestError: Function,
   sumanRuntimeErrors: Array<Error | string>,
   sumanOpts: ISumanOpts,
   suiteResultEmitter: EventEmitter,

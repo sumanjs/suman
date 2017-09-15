@@ -40,7 +40,7 @@ import {makeTestSuiteMaker} from './test-suite-helpers/make-test-suite';
 
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 import {handleInjections} from './test-suite-helpers/handle-injections';
-import makeOnSumanCompleted from './helpers/on-suman-completed';
+import {makeOnSumanCompleted} from './helpers/on-suman-completed';
 import evalOptions from './helpers/eval-options';
 import parseArgs from './helpers/parse-pragmatik-args';
 
@@ -106,14 +106,14 @@ export const execSuite = function (suman: ISuman): Function {
     suman.rootSuiteDescription = desc;
 
     if (!opts.only && _suman.describeOnlyIsTriggered) {
-      _suman._writeTestError(' => Suite with description => "' + desc + '" was skipped because another test suite in this file\n' +
+      _suman.writeTestError(' => Suite with description => "' + desc + '" was skipped because another test suite in this file\n' +
         'invoked the only option.');
       onSumanCompleted(0, ' => skipped due to "only" option invoked on another test suite');
       return;
     }
 
     if (opts.skip) {
-      _suman._writeTestError(' => Suite with description => "' + desc + '" was skipped because because you\n' +
+      _suman.writeTestError(' => Suite with description => "' + desc + '" was skipped because because you\n' +
         'passed the "skip" option to the test suite.');
       onSumanCompleted(0, ' => skipped due to explicit call of "skip" option');
       return;
@@ -148,7 +148,7 @@ export const execSuite = function (suman: ISuman): Function {
 
       d.once('error', function (err: Error) {
         console.error(err.stack || err);
-        _suman._writeTestError(err.stack || err);
+        _suman.writeTestError(err.stack || err);
 
         d.exit();
         process.nextTick(function () {

@@ -76,10 +76,10 @@ export const makeInject = function (suman: ISuman, zuite: ITestSuite): Function 
     }
 
     if (opts.skip) {
-      _suman._writeTestError(' => Warning => Inject hook was skipped.')
+      _suman.writeTestError(' => Warning => Inject hook was skipped.')
     }
     else if (!fn) {
-      _suman._writeTestError(' => Warning => Inject hook was stubbed.')
+      _suman.writeTestError(' => Warning => Inject hook was stubbed.')
     }
     else {
 

@@ -96,7 +96,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         // after second call to error, that's about enough
         // d.removeAllListeners();
         // d.exit()  should take care of removing listeners
-        _suman._writeTestError(' => Suman error => Error in test => \n' + stack);
+        _suman.writeTestError(' => Suman error => Error in test => \n' + stack);
       }
     };
 
@@ -221,7 +221,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
           args = Object.setPrototypeOf(d, freezeExistingProps(t));
           if (test.fn.call(self, args)) {  ///run the fn, but if it returns something, then add warning
-            _suman._writeTestError(cloneError(test.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
+            _suman.writeTestError(cloneError(test.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
 
         }

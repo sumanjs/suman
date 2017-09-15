@@ -21,16 +21,14 @@ import vm = require('vm');
 //npm
 import async = require('async');
 import chalk = require('chalk');
-
-//project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
-const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
-const {constants} = require('../config/suman-constants');
-const {acquireDependencies} = require('./acquire-dependencies/acquire-pre-deps');
 import su = require('suman-utils');
 
+//project
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
+const {constants} = require('../config/suman-constants');
 
-//////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 export const run = function (files: Array<string>) {
 
@@ -43,15 +41,15 @@ export const run = function (files: Array<string>) {
       const shortenedPath = f[1];
 
       console.log('\n');
-      _suman.log('is now running testsuites for test filename => "' + shortenedPath + '"', '\n');
+      _suman.log('is now running test with filename => "' + shortenedPath + '"', '\n');
 
-      require(fullPath);
+      require(fullPath); // load the test file
       suiteResultEmitter.once('suman-test-file-complete', function () {
-          cb(null);
+        cb(null);
       });
 
     },
-    function (err: Error, results) {
+    function (err: Error) {
 
       // TODO: SUMAN ONCE POST!!
 

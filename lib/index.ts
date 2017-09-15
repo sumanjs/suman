@@ -161,7 +161,10 @@ const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitte
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-require('./helpers/handle-suman-counts');
+if(!SUMAN_SINGLE_PROCESS){
+  require('./helpers/handle-suman-counts');
+}
+
 require('./index-helpers/verify-local-global-version');
 const counts = require('./helpers/suman-counts');
 const projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
@@ -195,6 +198,7 @@ let moduleCount = 0;
 let integrantsAlreadyInvoked = false;
 
 const testSuiteQueueCallbacks: Array<Function> = [];
+
 const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
   testSuiteQueueCallbacks.unshift(cb);
   task.call(null);
@@ -253,7 +257,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   require('./handle-exit'); // handle exit here
   require('./helpers/load-reporters-last-ditch').run();
-  const {sumanOpts} = _suman;
 
   if (!inBrowser) {
     assert(($module.constructor && $module.constructor.name === 'Module'),
@@ -284,25 +287,8 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     assert(su.isObject($opts), 'Please pass an options object as a second argument to suman.init()');
   }
 
-  let matches = false;
-  if (usingRunner) { //when using runner cwd is set to project root or test file path
-    if (process.env.SUMAN_CHILD_TEST_PATH === $module.filename) {
-      matches = true;
-    }
-  }
-  else {
-    if (su.vgt(7)) {
-      _suman.log('require.main.filename value:', main);
-    }
-    if (main === $module.filename) {
-      matches = true;
-    }
-  }
 
   const opts: IInitOpts = $opts || {};
-  const series = Boolean(opts.series);
-  const writable = opts.writable;
-
   if ($module._sumanInitted) {
     _suman.logError('warning => suman.init() already called for ' +
       'this module with filename => ', $module.filename);
@@ -367,7 +353,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   allOncePreKeys.push(integrants);
 
   const _interface = String(opts.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
-  const exportTests = (opts.export === true || SUMAN_SINGLE_PROCESS || _suman._sumanIndirect);
   const iocData: IIoCData = opts.iocData || opts.ioc || {};
 
   if (iocData) {
@@ -382,11 +367,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     }
   }
 
-  if (exportTests) {
-    if (su.isSumanDebug() || sumanOpts.verbosity > 7) {
-      _suman.log(chalk.magenta('export option set to true.'));
-    }
-  }
 
   //////////////////////////////////////////////////////////////////
 
@@ -427,7 +407,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       makeSuman($module, _interface, true, sumanConfig, function (err: Error, suman: ISuman) {
 
         if (err) {
-          _suman._writeTestError(err.stack || err);
+          _suman.writeTestError(err.stack || err);
           return process.exit(constants.EXIT_CODES.ERROR_CREATED_SUMAN_OBJ);
         }
 
@@ -445,7 +425,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
           // IMPORTANT: setImmediate allows for future possibility of multiple test suites referenced in the same file
           // other async "integrantsFn" probably already does this
-
           testSuiteQueue.unshift(function () {
             //args are most likely (desc,opts,cb)
             run.apply(null, args);
@@ -470,7 +449,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       integrantsFn().then(onPreVals, function (err: Error) {
         clearTimeout(to);
         _suman.logError(err.stack || err);
-        _suman._writeTestError(err.stack || err);
+        _suman.writeTestError(err.stack || err);
         process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_ERROR);
       });
 

@@ -29,13 +29,13 @@ const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
  */////////////////////////////////////////////////////////////////
 
-export default function (suman: ISuman) {
+export const makeOnSumanCompleted = function (suman: ISuman) {
 
   return function onSumanCompleted(code: number, msg: string) {
 
     suman.sumanCompleted = true;
 
-    setImmediate(function () {
+    process.nextTick(function () {
 
       suman.logFinished(code || 0, msg, function (err: Error | string, val: any) {
 
