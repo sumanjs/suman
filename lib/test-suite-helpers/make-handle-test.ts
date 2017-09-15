@@ -146,6 +146,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         t.throw = $throw;
         t.timeout = timeout;
         t.shared = self.shared;
+        t.$inject = suman.$inject;
 
         ////////////// note: unfortunately these fns cannot be moved to prototype /////////////////
 

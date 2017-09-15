@@ -130,6 +130,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         t.testId = test.testId;
         t.state = 'pending';
         t.shared = self.shared;
+        t.$inject = suman.$inject;
 
         t.fatal = function fatal(err: IPseudoError) {
           if (!t.callbackMode) {
