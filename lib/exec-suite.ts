@@ -23,7 +23,6 @@ import util = require('util');
 import {VamootProxy} from 'vamoot';
 import * as chalk from 'chalk';
 import * as async from 'async';
-
 const _ = require('underscore');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
@@ -120,12 +119,7 @@ export const execSuite = function (suman: ISuman): Function {
       return;
     }
 
-    const suite = mTestSuite({
-      desc: desc,
-      isTopLevel: true,
-      opts: opts
-    });
-
+    const suite = mTestSuite({desc, isTopLevel: true, opts});
     suite.isRootSuite = true;
     suite.__bindExtras();
     allDescribeBlocks.push(suite);

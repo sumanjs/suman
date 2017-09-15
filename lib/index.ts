@@ -140,9 +140,11 @@ require('./index-helpers/exit-handling');
 // project
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import setupExtraLoggers from './index-helpers/setup-extra-loggers';
+
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
 import su = require('suman-utils');
+
 const {execSuite} = require('./exec-suite');
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 import {loadSumanConfig} from './helpers/load-suman-config';
@@ -192,6 +194,23 @@ let loaded = false;
 let moduleCount = 0;
 let integrantsAlreadyInvoked = false;
 
+const testSuiteQueueCallbacks: Array<Function> = [];
+const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
+  testSuiteQueueCallbacks.push(cb);
+  task.call(null);
+}, 1);
+
+testSuiteQueue.drain = function () {
+  suiteResultEmitter.emit('suman-test-file-complete');
+};
+
+suiteResultEmitter.on('suman-completed', function () {
+  // we set this to null because no suman should be in progress
+  _suman.whichSuman = null;
+  let fn = testSuiteQueueCallbacks.pop();
+  fn && fn.call(null);
+});
+
 /////////////////////////////////////////////////////
 
 export const init: IInit = function ($module, $opts, confOverride): IStartCreate {
@@ -240,7 +259,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     assert(($module.constructor && $module.constructor.name === 'Module'),
       'Please pass the test file module instance as first arg to suman.init()');
   }
-
 
   if (confOverride) {
     assert(su.isObject(confOverride), ' => Suman conf override value must be defined, and an object like so => {}.');
@@ -293,40 +311,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   $module._sumanInitted = true;
   moduleCount++;
-  const testSuiteQueue: Array<Function> = $module.testSuiteQueue = $module.testSuiteQueue || [];
-
-
-  if(!loaded){
-    // in SUMAN_SINGLE_PROCESS mode, need to ensure this only registers once
-    suiteResultEmitter.on('suman-completed', function () {
-
-      // we set this to null because no suman should be in progress
-      _suman.whichSuman = null;
-
-      //this code should only be invoked if we are using Test.create's in series
-      testSuiteQueue.pop();
-      let fn: Function;
-      if (fn = testSuiteQueue[testSuiteQueue.length - 1]) {
-        debug(' => Running testSuiteQueue fn => ', String(fn));
-        fn.call(null);
-      }
-      else {
-        debug(' => Suman testSuiteQueue is empty.');
-      }
-    });
-  }
-
-
-  const exportEvents: EventEmitter = $module.exports = (writable || SumanTransform());
-
-  exportEvents.counts = {
-    sumanCount: 0
-  };
-
-  Object.defineProperty($module, 'exports', {
-    //freeze module exports to avoid horrible bugs
-    writable: false
-  });
 
   let integrants: Array<string>;
 
@@ -422,27 +406,10 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       return process.exit(constants.EXIT_CODES.ASYNCHRONOUS_CALL_OF_TEST_DOT_DESCRIBE);
     }
 
-    const sumanEvents = SumanTransform();
-
-    sumanEvents.on('test', function () {
-      exportEvents.emit.bind(exportEvents, 'test').apply(exportEvents, arguments);
-    });
-
-    sumanEvents.on('error', function () {
-      exportEvents.emit.bind(exportEvents, 'error').apply(exportEvents, arguments);
-    });
-
-    sumanEvents.on('suman-test-file-complete', function () {
-      exportEvents.emit.bind(exportEvents, 'suman-test-file-complete').apply(exportEvents, arguments);
-    });
-
     process.nextTick(function () {
       init.tooLate = true;
     });
 
-    //counts just for this $module
-    exportEvents.counts.sumanCount++;
-    //counts for all sumans in this whole Node.js process
     counts.sumanCount++;
 
     const to = setTimeout(function () {
@@ -466,119 +433,25 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
         suman.iocData = JSON.parse(su.customStringify(iocData));
 
-        if (SUMAN_SINGLE_PROCESS) {
-          if (exportEvents.listenerCount('test') < 1) {
-            throw new Error(' => We are in "SUMAN_SINGLE_PROCESS" mode but nobody is listening for test events.\n' +
-              'To run SUMAN_SINGLE_PROCESS mode you need to use the suman executable, not plain node.');
-          }
+        const run = execSuite(suman);
+
+        try {
+          process.domain && process.domain.exit();
+        }
+        catch (err) {
         }
 
-        if (exportTests && matches) {
+        global.setImmediate(function () {
 
-          const $code = constants.EXIT_CODES.EXPORT_TEST_BUT_RAN_TEST_FILE_DIRECTLY;
+          // IMPORTANT: setImmediate allows for future possibility of multiple test suites referenced in the same file
+          // other async "integrantsFn" probably already does this
 
-          const msg = 'Suman usage error => You have declared export:true in your suman.init call, ' +
-            'but ran the test directly.';
-          _suman.logError(msg);
-
-          return fatalRequestReply({
-            type: constants.runner_message_type.FATAL,
-            data: {
-              error: msg,
-              msg: msg
-            }
-          }, function () {
-            _suman._writeTestError(' => Suman usage error => You have declared export:true in ' +
-              'your suman.init call, but ran the test directly.');
-            suman.logFinished(null, function () {
-              process.exit($code);  //use original code
-            });
+          testSuiteQueue.unshift(function () {
+            //args are most likely (desc,opts,cb)
+            run.apply(null, args);
           });
-        }
-        else {
 
-          suman._sumanEvents = sumanEvents;
-          const run = execSuite(suman);
-
-          try {
-            process.domain && process.domain.exit();
-          }
-          catch (err) {
-          }
-
-          global.setImmediate(function () {
-
-            // IMPORTANT: setImmediate allows for future possibility of multiple test suites referenced in the same file
-            // other async "integrantsFn" probably already does this
-
-            if (exportTests === true) { //TODO: if we use this, need to make work with integrants/blocked etc.
-
-              if (series) {
-
-                let fn = function () {
-                  suman.extraArgs = Array.from(arguments);
-                  run.apply(null, args);  //args are most likely (desc,opts,cb)
-                };
-
-                $module.testSuiteQueue.unshift(fn);
-
-                sumanEvents.on('suman-test-file-complete', function () {
-                  //this code should only be invoked if we are using Test.create's in series
-                  testSuiteQueue.pop();
-
-                  let fn: Function;
-                  if (fn = testSuiteQueue[testSuiteQueue.length - 1]) {
-                    sumanEvents.emit('test', fn);
-                  }
-                  else {
-                    console.error(chalk.red.bold(' => Suman implementation error => Should not be empty.'));
-                  }
-
-                });
-
-                if ($module.testSuiteQueue.length === 1) {
-                  sumanEvents.emit('test', fn);
-                }
-
-              }
-              else {
-                sumanEvents.emit('test', function () {
-                  suman.extraArgs = Array.from(arguments);
-                  run.apply(global, args);
-                });
-              }
-
-              if (false && writable) {
-                args.push([]); // [] is empty array representing extra/ $uda
-                args.push(writable); //TODO: writable should be same as sumanEvents (?)
-                // args.push(iocData);
-                // args.push(suman.userData);
-                run.apply(global, args);
-              }
-
-            }
-            else {
-
-              if (series) {
-
-                let fn = function () {
-                  run.apply(null, args);  //args are most likely (desc,opts,cb)
-                };
-
-                $module.testSuiteQueue.unshift(fn);
-
-                if ($module.testSuiteQueue.length === 1) {
-                  fn.apply(null, args);  //args are most likely (desc,opts,cb)
-                }
-
-              }
-              else {
-                run.apply(null, args);  //args are most likely (desc,opts,cb)
-              }
-
-            }
-          });
-        }
+        });
 
       });
 

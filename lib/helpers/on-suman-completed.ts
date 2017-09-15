@@ -1,6 +1,6 @@
 'use strict';
 
-//typescript imports
+//tsc
 import {ISuman} from "../../dts/suman";
 import {IGlobalSumanObj} from "../../dts/global";
 
@@ -34,12 +34,11 @@ export default function (suman: ISuman) {
 
     suman.sumanCompleted = true;
 
-    if (SUMAN_SINGLE_PROCESS) {
-      suman._sumanEvents.emit('suman-test-file-complete');
-    }
-    else {
+    setImmediate(function () {
 
-      suman.logFinished(code || 0, msg, function (err: Error | string, val: any) {  //TODO: val is not "any"
+      suman.logFinished(code || 0, msg, function (err: Error | string, val: any) {
+
+        //TODO: val is not "any"
 
         if (_suman.sumanOpts.check_memory_usage) {
           _suman.logError('Maximum memory usage during run => ' + util.inspect({
@@ -51,6 +50,7 @@ export default function (suman: ISuman) {
         _suman.suiteResultEmitter.emit('suman-completed', val);
       });
 
-    }
+    });
+
   };
 }

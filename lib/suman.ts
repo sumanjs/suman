@@ -88,7 +88,6 @@ class Suman {
 
     // initialize
     this.$inject = McProxy.create();
-    // this.$inject = {};
     this.allDescribeBlocks = [];
     this.describeOnlyIsTriggered = false;
     this.deps = null;
