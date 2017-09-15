@@ -43,10 +43,11 @@ export const run = function (files: Array<string>) {
       console.log('\n');
       _suman.log('is now running test with filename => "' + shortenedPath + '"', '\n');
 
-      require(fullPath); // load the test file
       suiteResultEmitter.once('suman-test-file-complete', function () {
         cb(null);
       });
+
+      require(fullPath); // load the test file
 
     },
     function (err: Error) {

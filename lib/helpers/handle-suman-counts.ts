@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
 import {ITableDataCallbackObj} from "../suman";
 
@@ -14,14 +16,13 @@ import fs = require('fs');
 //npm
 import {events} from 'suman-events';
 import su = require('suman-utils');
+import chalk = require('chalk');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {handleRequestResponseWithRunner} from '../index-helpers/handle-runner-request-response';
-
 const counts = require('./suman-counts');
 import {oncePostFn} from './handle-suman-once-post';
-
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -33,6 +34,8 @@ suiteResultEmitter.on('suman-completed', function (obj: ITableDataCallbackObj) {
 
   counts.completedCount++;
   results.push(obj);
+
+  console.error(chalk.red(`suman completed count ${counts.completedCount}`));
 
   if (counts.completedCount === counts.sumanCount) {
 

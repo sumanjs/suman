@@ -53,6 +53,8 @@ export const handleRequestResponseWithRunner = function (data: Array<any>) {
     const client = getClient();
     const TABLE_DATA = constants.runner_message_type.TABLE_DATA;
 
+    const to = setTimeout(cb,100);
+
     client.on(TABLE_DATA, function onTableDataReceived(data: Object) {
       if (data.info = 'table-data-received') {
         process.removeListener('message', onTableDataReceived);
