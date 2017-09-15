@@ -21,7 +21,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {handleRequestResponseWithRunner} from '../index-helpers/handle-runner-request-response';
 
 const counts = require('./suman-counts');
-import oncePostFn from './handle-suman-once-post';
+import {oncePostFn} from './handle-suman-once-post';
 
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
@@ -37,9 +37,7 @@ suiteResultEmitter.on('suman-completed', function (obj: ITableDataCallbackObj) {
 
   if (counts.completedCount === counts.sumanCount) {
 
-    let fn;
-
-    let resultz;
+    let fn, resultz;
 
     if (_suman.usingRunner) {
       resultz = results.map(i => i.tableData);

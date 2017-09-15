@@ -196,7 +196,7 @@ let integrantsAlreadyInvoked = false;
 
 const testSuiteQueueCallbacks: Array<Function> = [];
 const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
-  testSuiteQueueCallbacks.push(cb);
+  testSuiteQueueCallbacks.unshift(cb);
   task.call(null);
 }, 1);
 

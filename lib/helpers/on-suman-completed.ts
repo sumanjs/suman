@@ -21,6 +21,7 @@ const debug = require('suman-debug')('s:index');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 /*////// what it do ///////////////////////////////////////////////
@@ -47,7 +48,7 @@ export default function (suman: ISuman) {
           }));
         }
 
-        _suman.suiteResultEmitter.emit('suman-completed', val);
+        suiteResultEmitter.emit('suman-completed', val);
       });
 
     });

@@ -20,6 +20,7 @@ import vm = require('vm');
 
 //npm
 import async = require('async');
+import chalk = require('chalk');
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -32,6 +33,9 @@ import su = require('suman-utils');
 //////////////////////////////////
 
 export const run = function (files: Array<string>) {
+
+  _suman.log(chalk.magenta('suman will run the following files in single process mode:'));
+  _suman.log(util.inspect(files.map(v => v[0])));
 
   async.eachLimit(files, 1, function (f: string, cb: Function) {
 
