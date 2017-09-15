@@ -21,8 +21,10 @@ import chalk = require('chalk');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {handleRequestResponseWithRunner} from '../index-helpers/handle-runner-request-response';
+
 const counts = require('./suman-counts');
 import {oncePostFn} from './handle-suman-once-post';
+
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -43,6 +45,7 @@ suiteResultEmitter.on('suman-completed', function (obj: ITableDataCallbackObj) {
 
     if (_suman.usingRunner) {
       resultz = results.map(i => i.tableData);
+      _suman.logError('handling request/response with runner.');
       fn = handleRequestResponseWithRunner(resultz);
     }
     else {
@@ -69,18 +72,17 @@ suiteResultEmitter.on('suman-completed', function (obj: ITableDataCallbackObj) {
       // this is for testing expected test result counts
       resultBroadcaster.emit(String(events.META_TEST_ENDED));
 
-      process.exit(highestExitCode, su.once(null, function (cb: Function) {
-
+      let waitForStdioToDrain = function (cb: Function) {
         if (_suman.isStrmDrained) {
           _suman.log('stream is already drained.');
           process.nextTick(cb);
         }
         else {
 
-          let to = setTimeout(cb, 100);
+          let to = setTimeout(cb, 200);
           _suman.drainCallback = function (logpath: string) {
             clearTimeout(to);
-            _suman.logWarning('Drain callback was indeed called.');
+            _suman.logWarning('Drain callback was actually called.');
             try {
               fs.appendFileSync(logpath, 'Drain callback was indeed called.');
             }
@@ -89,7 +91,12 @@ suiteResultEmitter.on('suman-completed', function (obj: ITableDataCallbackObj) {
             }
           }
         }
-      }));
+      };
+
+      waitForStdioToDrain(function () {
+        _suman.log('suman child is all done and exitting.');
+        process.exit(highestExitCode)
+      });
 
     });
 

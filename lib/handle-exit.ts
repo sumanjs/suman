@@ -106,7 +106,7 @@ process.prependListener('exit', function (code: number) {
   }
 
   // => we probably don't need this...
-  process.exit(code, true);
+  process.exit(code);
 
 });
 

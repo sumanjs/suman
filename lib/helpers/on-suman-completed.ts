@@ -54,4 +54,4 @@ export const makeOnSumanCompleted = function (suman: ISuman) {
     });
 
   };
-}
+};

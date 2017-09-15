@@ -198,11 +198,12 @@ let moduleCount = 0;
 let integrantsAlreadyInvoked = false;
 
 const testSuiteQueueCallbacks: Array<Function> = [];
+const c = sumanOpts && sumanOpts.series ? 1 : 3;
 
 const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
   testSuiteQueueCallbacks.unshift(cb);
-  task.call(null);
-}, 1);
+  process.nextTick(task);
+}, c);
 
 testSuiteQueue.drain = function () {
   suiteResultEmitter.emit('suman-test-file-complete');
@@ -211,8 +212,10 @@ testSuiteQueue.drain = function () {
 suiteResultEmitter.on('suman-completed', function () {
   // we set this to null because no suman should be in progress
   _suman.whichSuman = null;
-  let fn = testSuiteQueueCallbacks.pop();
-  fn && fn.call(null);
+  process.nextTick(function(){
+    let fn = testSuiteQueueCallbacks.pop();
+    fn && fn.call(null);
+  });
 });
 
 /////////////////////////////////////////////////////
