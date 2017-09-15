@@ -12,6 +12,22 @@ Test.create should all be in the same tick anyway
 
 ////
 
+∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆
+
+///
+
+ --use-tap prevents tables from being printed by runner, weird.
+
+////
+
+ when a command in run.sh fails, we need to send that stderr
+ to the runner, e.g.:
+
+  => [suman child stderr] => ./suman/test/src/mocha/@run.sh: line 6: mocha: command not found
+
+
+////
+
 taskset -cp 0,4 9030
 get bash script PID with $$
 https://stackoverflow.com/questions/2493642/how-does-a-linux-unix-bash-script-know-its-own-pid
