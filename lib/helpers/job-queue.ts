@@ -25,29 +25,27 @@ if (process.env.DEFAULT_PARALLEL_TOTAL_LIMIT && (envTotal = Number(process.env.D
 export const getQueue = function () {
 
   if (!queue) {
+
+    const {sumanConfig, sumanOpts} = _suman;
     // note: we have to create the queue after loading this file, so that _suman.sumanConfig is defined.
 
-    if (_suman.sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT &&
+    if (sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT &&
       (envConfig = Number(_suman.sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
       assert(Number.isInteger(envConfig), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
     }
 
-    let concurrency = 1;
+    let c = 1;  // concurrency
 
-    if (!_suman.sumanOpts.series) {
-      concurrency = envTotal || envConfig || constants.DEFAULT_PARALLEL_TOTAL_LIMIT;
+    if (!sumanOpts.series) {
+      c = envTotal || envConfig || constants.DEFAULT_PARALLEL_TOTAL_LIMIT;
     }
 
-    assert(Number.isInteger(concurrency) && concurrency > 0 && concurrency < 301,
+    assert(Number.isInteger(c) && c > 0 && c < 301,
       'DEFAULT_PARALLEL_TOTAL_LIMIT must be an integer between 1 and 300 inclusive.');
 
     queue = async.queue(function (task: Function, callback: Function) {
       task(callback);
-    }, concurrency);
-
-    // queue.drain = function () {
-    //   console.log('all items have been processed in queue');
-    // };
+    }, c);
 
   }
 

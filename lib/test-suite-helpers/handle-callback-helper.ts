@@ -26,7 +26,7 @@ function missingHookOrTest() {
   const mzg = new Error(' => Suman implementation error, please report! ' +
     'Neither test nor hook defined, where at least one should be.');
   console.error(mzg.stack);
-  _suman._writeTestError(mzg.stack);
+  _suman.writeTestError(mzg.stack);
   return mzg;
 }
 
@@ -109,7 +109,7 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
     let msg = new Error(' => Suman implementation error, please report! ' +
       'Neither test nor hook defined, where at least one should be.');
     console.error(msg.stack || msg);
-    _suman._writeTestError(msg.stack || msg);
+    _suman.writeTestError(msg.stack || msg);
   }
 
   let called = 0;
@@ -198,7 +198,7 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
         const $msg = '=> Suman internal implementation error, ' +
           'please report this => \n' + ($err.stack || $err);
         console.error($msg);
-        _suman._writeTestError($msg);
+        _suman.writeTestError($msg);
 
       }
       finally {
@@ -215,7 +215,7 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
     else {
 
       if (err) {
-        _suman._writeTestError(err.stack || err);
+        _suman.writeTestError(err.stack || err);
       }
 
       // important note: the following logic says: the original callback should only be fired more than once if
@@ -224,15 +224,15 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
       // and possible fail the test, or add a warning
 
       if (called > 1 && test && !test.timedOut) {
-        _suman._writeTestError('Warning: the following test callback was invoked twice by your code ' +
+        _suman.writeTestError('Warning: the following test callback was invoked twice by your code ' +
           'for the following test/hook with name => "' + (test ? test.desc : '') + '".');
-        _suman._writeTestError('The problematic test case can be located from this error trace => \n' +
+        _suman.writeTestError('The problematic test case can be located from this error trace => \n' +
           cloneError(test.warningErr, 'The callback was fired more than once for this test case.').stack);
       }
       else if (called > 1 && hook) {  //TODO need to handle this case for hooks
-        _suman._writeTestError('\n\nWarning: the following test callback was invoked twice by your code ' +
+        _suman.writeTestError('\n\nWarning: the following test callback was invoked twice by your code ' +
           'for the following hook with name => "' + (hook.desc || '(hook has no description)') + '".\n\n');
-        _suman._writeTestError('The problematic hook can be located from this error trace => \n' +
+        _suman.writeTestError('The problematic hook can be located from this error trace => \n' +
           cloneError(hook.warningErr, 'The callback was fired more than once for this test case.').stack);
       }
 

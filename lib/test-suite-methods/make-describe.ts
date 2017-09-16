@@ -254,7 +254,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                   else {
                     let w = ' => Suman usage warning => suite.resume() was called more than once.';
                     console.error(w);
-                    _suman._writeTestError(w)
+                    _suman.writeTestError(w)
                   }
 
                 };

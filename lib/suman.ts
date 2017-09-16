@@ -25,13 +25,13 @@ import async = require('async');
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 import su from 'suman-utils';
+const McProxy = require('proxy-mcproxy');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {findSumanServer, ISumanServerInfo} from './helpers/find-suman-server';
 import {ITestDataObj} from "../dts/it";
 import {constants} from '../config/suman-constants';
-
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
 
@@ -71,6 +71,7 @@ class Suman {
   rootSuiteDescription: string;
   dateSuiteFinished: number;
   dateSuiteStarted: number;
+  $inject: Object;
 
   ////////////////////////////////////
 
@@ -86,6 +87,7 @@ class Suman {
     this.sumanId = ++sumanId;
 
     // initialize
+    this.$inject = McProxy.create();
     this.allDescribeBlocks = [];
     this.describeOnlyIsTriggered = false;
     this.deps = null;

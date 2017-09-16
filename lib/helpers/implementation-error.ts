@@ -16,7 +16,7 @@ export = function handleUnexpectedErrorArg (err: IPseudoError, isThrow: boolean)
     const $err = new Error(' => Suman implementation error => Please report!'
       + '\n' + (err.stack || err));
     console.error($err.stack);
-    _suman._writeTestError($err.stack);
+    _suman.writeTestError($err.stack);
     if (isThrow) {
       throw $err;
     }

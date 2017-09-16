@@ -22,7 +22,7 @@ export const handlePotentialPromise = function (done: Function, str: string) {
   return function handle(val: any, warn: boolean) {
 
     if ((!val || (typeof val.then !== 'function')) && warn) {
-      _suman._writeTestError('\n => Suman warning: you may have forgotten to return a Promise => \n' + str + '\n');
+      _suman.writeTestError('\n => Suman warning: you may have forgotten to return a Promise => \n' + str + '\n');
     }
 
     if (su.isObservable(val)) {

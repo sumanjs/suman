@@ -1,9 +1,9 @@
-
+console.log('beginning of mocha1.js');
 
 describe('A', function(){
 
   beforeEach(function(cb){
-    setTimeout(cb, 1000);
+    setTimeout(cb, 100);
   });
 
 

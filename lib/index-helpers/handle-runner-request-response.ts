@@ -1,5 +1,8 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from "../../dts/global";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -8,7 +11,7 @@ const global = require('suman-browser-polyfills/modules/global');
 import util = require('util');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import {getClient} from './socketio-child-client'
 
@@ -53,10 +56,17 @@ export const handleRequestResponseWithRunner = function (data: Array<any>) {
     const client = getClient();
     const TABLE_DATA = constants.runner_message_type.TABLE_DATA;
 
+    let timedout = false;
+    const to = setTimeout(function () {
+      timedout = true;
+      _suman.logError('Action to receive table data response from runner timed out.');
+      cb(null);
+    }, 100);
+
     client.on(TABLE_DATA, function onTableDataReceived(data: Object) {
-      if (data.info = 'table-data-received') {
-        process.removeListener('message', onTableDataReceived);
-        cb(null);
+      if (data.info = 'table-data-received' && timedout === false) {
+        clearTimeout(to);
+        process.nextTick(cb);
       }
     });
 
@@ -66,17 +76,6 @@ export const handleRequestResponseWithRunner = function (data: Array<any>) {
       childId: process.env.SUMAN_CHILD_ID
     });
 
-    // process.on('message', function onTableDataReceived (data: any) {
-    //   if (data.info = 'table-data-received') {
-    //     process.removeListener('message', onTableDataReceived);
-    //     cb(null);
-    //   }
-    // });
-    //
-    // process.send({
-    //   type: constants.runner_message_type.TABLE_DATA,
-    //   data: accumulatedData
-    // });
   };
 
 };

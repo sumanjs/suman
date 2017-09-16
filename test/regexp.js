@@ -27,6 +27,10 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
       console.log('child 1 before each');
     });
 
+    it('is cool beans 1', t => {
+      throw 'my fail'
+    });
+
   });
 
   context('zoo', function () {
@@ -43,7 +47,7 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
       console.log('child 2 before each');
     });
 
-    it('is cool beans', t => {
+    it('is cool beans 2', t => {
       console.log('yolo');
       // throw 'my fail'
     });

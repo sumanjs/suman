@@ -137,7 +137,7 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
           err = new Error('Suman fatal error => there was a problem verifying the ' +
             'integrants listed in test file "' + $module.filename + '"\n' + (err.stack || err));
           _suman.logError(err.stack || err);
-          _suman._writeTestError(err.stack || err);
+          _suman.writeTestError(err.stack || err);
           process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_FAILURE);
         });
 

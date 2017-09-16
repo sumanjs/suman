@@ -158,11 +158,6 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
 
     const obj = deps.reduce(Object.assign, {});
 
-    // the following is equivalent to the above:
-    // const obj = deps.reduce(function (prev, curr) {
-    //   return Object.assign(prev, curr);
-    // }, {});
-
     if (!_suman.processIsRunner) {
       _suman.log(chalk.green.underline.bold('Finished with suman.once.pre.js dependencies.'), '\n');
     }

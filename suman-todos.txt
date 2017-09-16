@@ -12,9 +12,42 @@ Test.create should all be in the same tick anyway
 
 ////
 
+∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆
+
+///
+
+ Two Test.creates are not running parallel
+
+///
+
+ --use-tap prevents tables from being printed by runner, weird.
+
+////
+
+ when a command in run.sh fails, we need to send that stderr
+ to the runner, e.g.:
+
+  => [suman child stderr] => ./suman/test/src/mocha/@run.sh: line 6: mocha: command not found
+
+
+////
+
+taskset -cp 0,4 9030
+get bash script PID with $$
+https://stackoverflow.com/questions/2493642/how-does-a-linux-unix-bash-script-know-its-own-pid
+
+////
+
  need a methodology to run @run.sh scripts and write log information to file.
  // @run.sh
  protractor | tee blah # doesn't work because we want all commands from @run.sh to end up in log file
+
+/////
+
+ if a dep request makes to require(dep) then we should coerce dep into a string that meets npm criteria
+ for example function_arguments => we should try to
+
+ require('function-arguments') and require('function_arguments')
 
 /////
 

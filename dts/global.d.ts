@@ -4,6 +4,7 @@ import {ITestSuite} from "./test-suite";
 import EventEmitter = NodeJS.EventEmitter;
 import {ISuman} from "./suman";
 import {IMapValue} from "suman-utils";
+import {ITableDataCallbackObj} from "../lib/suman";
 
 declare namespace SumanLib {
   const _suman: Object;
@@ -20,6 +21,8 @@ export interface  IGlobalSumanObj {
   // we should execute Suman's in series, that makes it easier to run after.always shutdown, etc
   // which suman represents which Suman is executing at a given time
 
+  endLogStream: Function,
+  tableResults: Array<ITableDataCallbackObj>,
   startDateMillis: number,
   socketServerPort: number,
   $forceInheritStdio: boolean,
@@ -47,7 +50,7 @@ export interface  IGlobalSumanObj {
   ctx: ITestSuite,
   viaSuman: boolean,
   sumanHelperDirRoot: string,
-  _writeTestError: Function,
+  writeTestError: Function,
   sumanRuntimeErrors: Array<Error | string>,
   sumanOpts: ISumanOpts,
   suiteResultEmitter: EventEmitter,

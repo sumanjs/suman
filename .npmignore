@@ -1,20 +1,28 @@
+# all files
 *.sh
 *.ts
 *.md
 *.txt
 *.log
+*.json
+*.yml
+
+# directories
 .idea
 node_modules
-coverage
+coverage/
 yarn.lock
 test/
 suman.conf.js
+
+# files
 .gitignore
 .github
 .gitattributes
 .editorconfig
-*.json
+
+# negation
+!lib/**/*.sh
 !cli/*.sh
 !scripts/*.sh
 !*.d.ts
-*.yml

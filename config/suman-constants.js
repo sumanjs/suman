@@ -110,7 +110,9 @@ exports.constants = Object.freeze({
         EXPECTED_EXIT_CODE_NOT_MET: 94,
         ASYCNCHRONOUS_REGISTRY_OF_TEST_BLOCK_METHODS: 95,
         HOOK_DID_NOT_THROW_EXPECTED_ERROR: 96,
-        TEST_FILE_TIMEOUT: 97
+        TEST_FILE_TIMEOUT: 97,
+        IOC_STATIC_ACQUISITION_ERROR: 98,
+        PRE_VALS_ERROR: 99
     },
     ERROR_MESSAGES: {
         INVALID_FUNCTION_TYPE_USAGE: ' => Suman fatal error => Note that by default Suman does not allow you to use arrow ' +
