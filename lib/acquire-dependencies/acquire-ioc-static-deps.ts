@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IInjectionDeps} from "../../dts/injection";
 import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
 import {ITestSuite} from "../../dts/test-suite";
@@ -18,6 +20,7 @@ import cp = require('child_process');
 //npm
 import * as chalk from 'chalk';
 import su from 'suman-utils';
+
 const includes = require('lodash.includes');
 const fnArgs = require('function-arguments');
 
@@ -32,8 +35,9 @@ const SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
 /////////////////////////////////////////////////////////////
 
-const thisVal =
-  {'message': 'A message to you, Suman User! dont use "this" here, instead => http://sumanjs.org/patterns.'};
+const thisVal = {
+  'message': 'A message to you, Suman User! dont use "this" here, instead => http://sumanjs.org/patterns.'
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -76,7 +80,7 @@ export const acquireIocStaticDeps = function () {
 
       to = setTimeout(function () {
         reject(`static dep acquisition (suman.static.ioc.js) timed out for key '${key}'`);
-      }, 5000);
+      }, _suman.weAreDebugging ? 50000000 : 20000);
 
       const fn = ret[key];
 

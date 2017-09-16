@@ -1,7 +1,6 @@
 /// <reference types="node" />
 import { ISumanConfig } from "../dts/global";
 import EventEmitter = NodeJS.EventEmitter;
-import { Transform, Writable } from "stream";
 import { IDescribeFn, IDescribeOpts, TDescribeHook } from "../dts/describe";
 import { ISumanModuleExtended, TCreateHook } from "../dts/index-init";
 import { IHookOrTestCaseParam } from "../dts/test-suite";
@@ -55,11 +54,8 @@ export interface IInit {
     tooLate?: boolean;
 }
 export declare const init: IInit;
-export declare function SumanWritable(type: any): Writable;
-export declare function SumanTransform(): Transform;
 export declare const autoPass: (t: IHookOrTestCaseParam) => void;
 export declare const autoFail: (t: IHookOrTestCaseParam) => Promise<never>;
 export declare const once: (fn: Function) => (cb: Function) => void;
-export declare const load: (opts: ILoadOpts) => any;
 declare const $exports: any;
 export default $exports;

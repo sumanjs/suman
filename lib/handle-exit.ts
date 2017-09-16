@@ -27,6 +27,10 @@ const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 
 _suman.isActualExitHandlerRegistered = true;
 
+if (!process.prependListener) {
+  process.prependListener = process.on.bind(process);
+}
+
 process.prependListener('exit', function (code: number) {
 
   if (errors.length > 0) {

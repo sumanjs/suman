@@ -138,9 +138,9 @@ export const makeGracefulExit = function (suman: ISuman) {
 
     if (singleProc && exitTestSuite) {
       //TODO: need to handle fatal errors in suman single process
-      _suman.logError(' => Suman single process and runtime uncaught exception or error in hook experienced.');
+      _suman.logError('Suman single process and runtime uncaught exception or error in hook experienced.');
       // we should pass errors to emit() below, and the if the user wants to bail, they can.
-      _suman.suiteResultEmitter.emit('suman-test-file-complete');
+      suiteResultEmitter.emit('suman-test-file-complete');
     }
     else if (exitTestSuite) {
 
@@ -179,7 +179,7 @@ export const makeGracefulExit = function (suman: ISuman) {
         process.nextTick(cb);
       }
       else {
-        _suman.logError('suman implementation warning: no callback passed to graceful exit routine.');
+        _suman.logError('Suman implementation warning: no callback passed to graceful exit routine.');
       }
 
     }

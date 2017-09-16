@@ -250,6 +250,8 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   require('./handle-exit'); // handle exit here
   require('./helpers/load-reporters-last-ditch').run();
 
+  $module = $module || {filename: '/'};
+
   if (!inBrowser) {
     assert(($module.constructor && $module.constructor.name === 'Module'),
       'Please pass the test file module instance as first arg to suman.init()');
@@ -376,7 +378,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       init.tooLate = true;
     });
 
-
     const to = setTimeout(function () {
       console.error(' => Suman usage error => Integrant acquisition timeout.');
       process.exit(constants.EXIT_CODES.INTEGRANT_ACQUISITION_TIMEOUT);
@@ -397,48 +398,46 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
         }
 
         suman.iocData = JSON.parse(su.customStringify(iocData));
-
         const run = execSuite(suman);
 
         try {
           process.domain && process.domain.exit();
         }
-        catch (err) {
-        }
-
-        global.setImmediate(function () {
-
-          // IMPORTANT: setImmediate allows for future possibility of multiple test suites referenced in the same file
-          // other async "integrantsFn" probably already does this
-          testSuiteQueue.unshift(function () {
-            //args are most likely (desc,opts,cb)
-            run.apply(null, args);
+        finally {
+          global.setImmediate(function () {
+            // IMPORTANT: setImmediate guarantees registry of multiple test suites referenced in the same file
+            testSuiteQueue.unshift(function () {
+              //args are most likely (desc,opts,cb)
+              run.apply(null, args);
+            });
           });
-
-        });
-
+        }
       });
-
     }
 
     //we run integrants function
-    acquireIocStaticDeps().then(function () {
-
-      if (!SUMAN_SINGLE_PROCESS && integrantsAlreadyInvoked) {
-        _suman.logWarning('integrantsInvoked more than once for non-SUMAN_SINGLE_PROCESS mode run.',
-          'process.env.SUMAN_SINGLE_PROCESS => ' + process.env.SUMAN_SINGLE_PROCESS);
-      }
-
-      integrantsAlreadyInvoked = true;
-
-      integrantsFn().then(onPreVals, function (err: Error) {
-        clearTimeout(to);
-        _suman.logError(err.stack || err);
-        _suman.writeTestError(err.stack || err);
-        process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_ERROR);
-      });
-
-    });
+    acquireIocStaticDeps()
+    .catch(function (err) {
+      clearTimeout(to);
+      _suman.logError(err.stack || err);
+      _suman.writeTestError(err.stack || err);
+      process.exit(constants.EXIT_CODES.IOC_STATIC_ACQUISITION_ERROR);
+    })
+    .then(function () {
+      return integrantsFn();
+    })
+    .catch(function (err: Error) {
+      clearTimeout(to);
+      _suman.logError(err.stack || err);
+      _suman.writeTestError(err.stack || err);
+      process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_ERROR);
+    })
+    .then(onPreVals)
+    .catch(function (err: Error) {
+      _suman.logError(err.stack || err);
+      _suman.writeTestError(err.stack || err);
+      process.exit(constants.EXIT_CODES.PRE_VALS_ERROR);
+    })
 
   };
 
@@ -473,63 +472,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
 };
 
-export function SumanWritable(type: any): Writable {
-
-  if (this instanceof SumanWritable) {
-    return SumanWritable.apply(global, arguments);
-  }
-
-  //type: duplex, transform etc
-
-  const strm = new stream.Writable({
-    write: function (chunk: any, encoding: string, cb: Function) {
-      console.log('index chunks:', String(chunk));
-    }
-  });
-  strm.cork();
-
-  return strm;
-}
-
 //TODO: https://gist.github.com/PaulMougel/7961469
-
-export function SumanTransform(): Transform {
-
-  if (this instanceof SumanTransform) {
-    return SumanTransform.apply(global, arguments);
-  }
-
-  //TODO: http://stackoverflow.com/questions/10355856/how-to-append-binary-data-to-a-buffer-in-node-js
-
-  let BufferStream = function () {
-    stream.Transform.apply(this, arguments);
-    this.buffer = [];
-  };
-
-  util.inherits(BufferStream, stream.Transform);
-
-  BufferStream.prototype._transform = function (chunk: string, encoding: string, done: Function) {
-    // custom buffering logic
-    // ie. add chunk to this.buffer, check buffer size, etc.
-
-    this.push(chunk ? String(chunk) : null);
-    this.buffer.push(chunk ? String(chunk) : null);
-
-    done();
-  };
-
-  BufferStream.prototype.pipe = function (destination: Stream, options: Object) {
-    let res = stream.Transform.prototype.pipe.apply(this, arguments);
-    this.buffer.forEach(function (b: string) {
-      res.write(String(b));
-    });
-    return res;
-  };
-
-  // strm.cork();
-  return new BufferStream();
-
-}
 
 export const autoPass = function (t: IHookOrTestCaseParam) {
   // add t.skip() type functionality // t.ignore().
@@ -549,42 +492,23 @@ export const autoFail = function (t: IHookOrTestCaseParam) {
 };
 
 export const once = function (fn: Function) {
-
   let cache: any = null;
 
   return function (cb: Function) {
 
     if (cache) {
       process.nextTick(cb, null, cache);
+      return;
     }
-    else {
-      fn.call(null, function (err: Error, val: any) {
-        if (!err) {
-          cache = val || {
-            'Suman says': 'This is a dummy-cache val. See => sumanjs.org/tricks-and-tips.html'
-          };
-        }
-        cb.call(null, err, cache);
-      });
-    }
+
+    fn.call(null, function (err: Error, val: any) {
+      if (!err) {
+        cache = val || {'Suman says': 'This is a dummy-cache val. See => sumanjs.org/tricks-and-tips.html'};
+      }
+      cb.call(null, err, cache);
+    });
+
   }
-};
-
-export const load = function (opts: ILoadOpts) {
-
-  if (typeof opts !== 'object') {
-    throw new Error(' => Suman usage error => Please pass in an options object to the suman.load() function.')
-  }
-
-  const pth = opts.path;
-  const indirect = Boolean(opts.indirect);
-
-  assert(path.isAbsolute(pth), ' => Suman usage error => Please pass in an absolute path to suman.load() function.');
-  // ughhh, not pretty, have to use this methodology to tell Suman to "export" tests
-  _suman._sumanIndirect = indirect;
-  const exp = require(pth);
-  _suman._sumanIndirect = null;
-  return exp;
 };
 
 try {
