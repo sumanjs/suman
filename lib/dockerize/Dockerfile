@@ -2,7 +2,6 @@
 # start with this image as a base
 FROM node:8
 
-
 #RUN apt-get -y install bash
 RUN apt-get update
 RUN apt-get install -y sudo
@@ -16,7 +15,6 @@ RUN npm set progress=false
 #RUN apt-get -y install curl
 #RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 #RUN . /root/.nvm/nvm.sh && nvm install 8 && nvm use 8
-
 RUN echo "docker ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 #RUN useradd -ms /bin/bash newuser

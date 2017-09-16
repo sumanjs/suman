@@ -19,7 +19,7 @@ import oncePost from '../once-post';
 
 let oncePostInvoked = false;
 
-export default function oncePostFn(cb: Function) {
+export const oncePostFn = function (cb: Function) {
   if (!oncePostInvoked) {
     oncePostInvoked = true;
 

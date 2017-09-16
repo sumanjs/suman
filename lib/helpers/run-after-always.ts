@@ -90,13 +90,13 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
 
         if (!dError) {
           dError = true;
-          _suman._writeTestError(' => Suman non-fatal error => Normally fatal error in hook, but "fatal" option for the hook ' +
+          _suman.writeTestError(' => Suman non-fatal error => Normally fatal error in hook, but "fatal" option for the hook ' +
             'is set to false => \n' + formatedStk);
           fini(err, false);
         }
         else {
           // error handler called more than once, after first call, all we do is simply log the error
-          _suman._writeTestError(' => Suman error => Error in hook => \n' + formatedStk);
+          _suman.writeTestError(' => Suman error => Error in hook => \n' + formatedStk);
         }
       };
 
@@ -188,7 +188,7 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
           arg = Object.setPrototypeOf(d, freezeExistingProps(t));
 
           if (anAfter.fn.call(anAfter.ctx, arg)) {  //check to see if we have a defined return value
-            _suman._writeTestError(cloneError(anAfter.warningErr,
+            _suman.writeTestError(cloneError(anAfter.warningErr,
               constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
 

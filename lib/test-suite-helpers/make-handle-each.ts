@@ -77,7 +77,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           const msg = ' => Suman non-fatal error => Error in hook and "fatal" option for the hook ' +
             'is set to false => \n' + formatedStk;
           console.log('\n\n', msg, '\n\n');
-          _suman._writeTestError(msg);
+          _suman.writeTestError(msg);
           fini(null);
         }
         else {
@@ -92,7 +92,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       else {
         // after second call to error, that's about enough
         d.removeAllListeners();
-        _suman._writeTestError(' => Suman error => Error in hook => \n' + stk);
+        _suman.writeTestError(' => Suman error => Error in hook => \n' + stk);
       }
     };
 
@@ -130,6 +130,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         t.testId = test.testId;
         t.state = 'pending';
         t.shared = self.shared;
+        t.$inject = suman.$inject;
 
         t.fatal = function fatal(err: IPseudoError) {
           if (!t.callbackMode) {
@@ -188,7 +189,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           args = Object.setPrototypeOf(d, freezeExistingProps(t));
 
           if (aBeforeOrAfterEach.fn.call(aBeforeOrAfterEach.ctx, args)) {
-            _suman._writeTestError(cloneError(aBeforeOrAfterEach.warningErr,
+            _suman.writeTestError(cloneError(aBeforeOrAfterEach.warningErr,
               constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
 

@@ -77,16 +77,19 @@ export const run = function (files: Array<string>) {
     });
   }
 
+  if (!process.prependListener) {
+    process.prependListener = process.on.bind(process);
+  }
+
   process.prependListener('exit', function (code: number) {
-    if(!_suman.isActualExitHandlerRegistered){
+    if (!_suman.isActualExitHandlerRegistered) {
       _suman.logError(chalk.magenta('Warning, you may have failed to point Suman to an actual Suman test file.');
       _suman.logError(chalk.magenta('Or there was an immediate error, which prevented any other exit handlers from being registered.'));
     }
   });
 
   if (SUMAN_SINGLE_PROCESS) {
-    _suman.log('debug message => we are in SUMAN_SINGLE_PROCESS mode.');
-    require('./helpers/log-stdio-of-child').run('suman-single-process');
+    _suman.log('we are in SUMAN_SINGLE_PROCESS mode.');
     require('./handle-single-proc').run(files);
   }
   else {

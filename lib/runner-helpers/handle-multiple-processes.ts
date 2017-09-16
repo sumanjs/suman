@@ -583,7 +583,7 @@ export const makeHandleMultipleProcesses =
 
         if (handleBlocking.runNext(run)) {
           if (su.vgt(3) || su.isSumanDebug()) {
-            _suman.log('File has just started running =>', file, '\n');
+            _suman.log('File has just started running =>', chalk.blue(file), '\n');
           }
         }
         else {

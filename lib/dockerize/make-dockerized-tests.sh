@@ -45,6 +45,6 @@ echo "running the test with docker run...";
 #docker run -v ${project_root}/node_modules:/home/docker/app/node_modules \
 # --name="${container_name}" "${image_tag}" --entrypoint=/bin/bash $@
 
-docker run -v ${project_root}/node_modules:/home/docker/app/node_modules \
+docker run -v ${project_root}/node_modules:/home/docker/app/node_modules:ro \
  --name "${container_name}" "${image_tag}" node test/e2e/by-roles/admin/admin-page/first.test.js
 

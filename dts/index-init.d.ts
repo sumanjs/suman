@@ -18,7 +18,7 @@ export type TCreateHook = (...args: any[]) => void;
 
 export interface ISumanModuleExtended extends NodeModule {
   testSuiteQueue?: Array<Function>,
-  _sumanInitted?: boolean
+  sumanInitted?: boolean
 }
 
 

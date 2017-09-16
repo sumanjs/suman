@@ -64,7 +64,7 @@ const ascii = require('./helpers/ascii');
 import makeHandleBlocking from './runner-helpers/make-handle-blocking';
 
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-const handleFatalMessage = require('./runner-helpers/handle-fatal-message');
+import {handleFatalMessage} from './runner-helpers/handle-fatal-message';
 import {logTestResult} from './runner-helpers/log-test-result';
 
 const {onExit} = require('./runner-helpers/on-exit');

@@ -1,4 +1,5 @@
-#!/bin/bash
+
+console.log('beginning of one.mocha.test.js');
 
 
 describe('alpha', function(){

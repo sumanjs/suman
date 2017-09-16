@@ -46,32 +46,44 @@ export const run = function (filePath: string) {
       return;
     }
 
-    let isDeleteFile = true;
+    let isDeleteFile = true, writeToFileStream = true;
     const temp = su.removePath(filePath, _suman.projectRoot);
     const onlyFile = String(temp).replace(/\//g, '.');
     const logfile = path.resolve(f + '/' + onlyFile + '.log');
 
     // replace control chars with empty string, \d is equivalent to [0-9]
-    const strm = replaceStrm(/\[\d{1,2}(;\d{1,2})?m/g, '').pipe(fs.createWriteStream(logfile));
+    const rstrm = replaceStrm(/\[\d{1,2}(;\d{1,2})?m/g, '');
+    const strm = rstrm.pipe(fs.createWriteStream(logfile));
 
-    strm.on('drain', function () {
+    strm.on('error', function (e: Error) {
+      _suman.logError(e.stack || e);
+    });
+
+    _suman.endLogStream = function () {
+      _suman.logError('endLogStream finished.');
+      // rstrm.unpipe();
+      writeToFileStream = false;
+      // strm.end();
+    };
+
+    strm.once('end', function () {
       _suman.isStrmDrained = true;
       _suman.drainCallback && _suman.drainCallback(logfile);
     });
-
-    process.stderr.on('drain', function () {
-      _suman.isStrmDrained = true;
-      _suman.drainCallback && _suman.drainCallback(logfile);
-    });
-
-    // RM fs.writeFileSync(logfile, '');
 
     if (true || _suman.sumanConfig.isLogChildStderr) {
       const stderrWrite = process.stderr.write;
       process.stderr.write = function () {
         _suman.isStrmDrained = false;
         isDeleteFile = false;
-        strm.write.apply(strm, arguments);
+        if(writeToFileStream){
+          try {
+            strm.write.apply(strm, arguments);
+          }
+          catch (e) {
+            _suman.logError(e.stack || e);
+          }
+        }
         stderrWrite.apply(process.stderr, arguments);
       };
     }
@@ -83,7 +95,9 @@ export const run = function (filePath: string) {
       process.stdout.write = function () {
         _suman.isStrmDrained = false;
         isDeleteFile = false;
-        strm.write.apply(strm, arguments);
+        if(writeToFileStream){
+          strm.write.apply(strm, arguments);
+        }
         stdoutWrite.apply(process.stdout, arguments);
       };
     }

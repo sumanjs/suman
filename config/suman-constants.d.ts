@@ -76,6 +76,8 @@ export declare const constants: Readonly<{
         ASYCNCHRONOUS_REGISTRY_OF_TEST_BLOCK_METHODS: number;
         HOOK_DID_NOT_THROW_EXPECTED_ERROR: number;
         TEST_FILE_TIMEOUT: number;
+        IOC_STATIC_ACQUISITION_ERROR: number;
+        PRE_VALS_ERROR: number;
     };
     ERROR_MESSAGES: {
         INVALID_FUNCTION_TYPE_USAGE: string;

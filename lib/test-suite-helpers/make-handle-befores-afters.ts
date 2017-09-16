@@ -67,7 +67,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         dError = true;
         clearTimeout(timerObj.timer);
         if (aBeforeOrAfter.fatal === false) {
-          _suman._writeTestError(' => Suman non-fatal error => Normally fatal error in hook, but "fatal" option for the hook ' +
+          _suman.writeTestError(' => Suman non-fatal error => Normally fatal error in hook, but "fatal" option for the hook ' +
             'is set to false => \n' + formatedStk);
           fini(null);
         }
@@ -83,7 +83,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
       }
       else {
         // error handler called more than once, after first call, all we do is simply log the error
-        _suman._writeTestError(' => Suman error => Error in hook => \n' + formatedStk);
+        _suman.writeTestError(' => Suman error => Error in hook => \n' + formatedStk);
       }
     };
 
@@ -117,6 +117,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         const HookObj = makeHookObj(aBeforeOrAfter, assertCount);
         const t = new HookObj(handleError);
         t.shared = self.shared;
+        t.$inject = suman.$inject;
         t.desc = aBeforeOrAfter.desc;
 
         fini.th = t;
@@ -124,7 +125,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
         t.fatal = function fatal(err: IPseudoError) {
           err = err || new Error('Suman placeholder error since this function was not explicitly passed an error object as first argument.');
-          fini(err);
+          fini(err, null);
         };
 
         let arg;
@@ -173,7 +174,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           arg = Object.setPrototypeOf(d, freezeExistingProps(t));
 
           if (aBeforeOrAfter.fn.call(aBeforeOrAfter.ctx, arg)) {  //check to see if we have a defined return value
-            _suman._writeTestError(cloneError(aBeforeOrAfter.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
+            _suman.writeTestError(cloneError(aBeforeOrAfter.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
 
         }

@@ -49,7 +49,7 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
     });
 
     const args = fnArgs(runnerObj.oncePostModule);
-    const postInjector = makePostInjector(userData, null);
+    const postInjector = makePostInjector(userData, null, null);
     const oncePostModuleRet = runnerObj.oncePostModule.apply(null, postInjector(args));
 
     assert(su.isObject(oncePostModuleRet), 'suman.once.post.js must return an object from the exported function.');

@@ -16,9 +16,8 @@ import * as chalk from 'chalk';
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {fatalRequestReply} = require('../helpers/fatal-request-reply');
 import {constants} from '../../config/suman-constants';
-import oncePostFn from '../helpers/handle-suman-once-post';
+import {oncePostFn} from '../helpers/handle-suman-once-post';
 import {runAfterAlways} from '../helpers/run-after-always';
-
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 const weAreDebugging = require('../helpers/we-are-debugging');
 
@@ -43,7 +42,7 @@ const shutdownSuman = function (msg: string) {
             oncePostFn(cb);
           }
           else {
-            console.error(' => Suman internal warning, oncePostFn not yet defined.');
+            _suman.logError('Suman internal warning, oncePostFn not yet defined.');
             process.nextTick(cb);
           }
         },

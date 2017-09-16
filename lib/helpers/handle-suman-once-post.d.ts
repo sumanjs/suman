@@ -1,1 +1,1 @@
-export default function oncePostFn(cb: Function): void;
+export declare const oncePostFn: (cb: Function) => void;

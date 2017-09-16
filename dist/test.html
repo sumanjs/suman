@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test suman</title>
+</head>
+<body>
+
+<script src="./suman.js"></script>
+<script>
+
+  window.onerror = function(e){
+    console.error(e);
+  };
+
+  // this will pull async from inside the Webpack build
+  const Test = suman.init();
+
+  Test.create(function(it){
+
+    it('is ready 1', function(){
+
+    });
+
+    it('is ready 2', function(){
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>

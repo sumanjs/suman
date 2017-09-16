@@ -1,8 +1,9 @@
 'use strict';
 
-//typescript imports
+//tsc
 import {ISuman} from "../../dts/suman";
 import {IGlobalSumanObj} from "../../dts/global";
+import {ITableDataCallbackObj} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -21,25 +22,23 @@ const debug = require('suman-debug')('s:index');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
+const results: Array<ITableDataCallbackObj> = _suman.tableResults = (_suman.tableResults || []);
 
-/*////// what it do ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
-
- */////////////////////////////////////////////////////////////////
-
-export default function (suman: ISuman) {
+export const makeOnSumanCompleted = function (suman: ISuman) {
 
   return function onSumanCompleted(code: number, msg: string) {
 
     suman.sumanCompleted = true;
 
-    if (SUMAN_SINGLE_PROCESS) {
-      suman._sumanEvents.emit('suman-test-file-complete');
-    }
-    else {
+    process.nextTick(function () {
 
-      suman.logFinished(code || 0, msg, function (err: Error | string, val: any) {  //TODO: val is not "any"
+      suman.logFinished(code || 0, msg, function (err: Error | string, val: any) {
+
+        //TODO: val is not "any"
 
         if (_suman.sumanOpts.check_memory_usage) {
           _suman.logError('Maximum memory usage during run => ' + util.inspect({
@@ -48,9 +47,11 @@ export default function (suman: ISuman) {
           }));
         }
 
-        _suman.suiteResultEmitter.emit('suman-completed', val);
+        results.push(val);
+        suiteResultEmitter.emit('suman-completed');
       });
 
-    }
+    });
+
   };
-}
+};

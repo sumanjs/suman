@@ -6,6 +6,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import util = require('util');
+import EE = require('events');
 
 //npm
 import async = require('async');
@@ -22,6 +23,7 @@ const {runAfterAlways} = require('./helpers/run-after-always');
 const {constants} = require('../config/suman-constants');
 const singleProc = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
+const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const debug = require('suman-debug')('s:graceful-exit');
 
 ///////////////////////////////////////////////////////////////////////////
@@ -113,7 +115,7 @@ export const makeGracefulExit = function (suman: ISuman) {
       return stack.join('\n').concat('\n');
 
     })
-    .map(function (err: Error) {
+    .map(function (err: any) {
 
       exitTestSuite = true;
       sumanRuntimeErrors.push(err);
@@ -136,9 +138,9 @@ export const makeGracefulExit = function (suman: ISuman) {
 
     if (singleProc && exitTestSuite) {
       //TODO: need to handle fatal errors in suman single process
-      _suman.logError(' => Suman single process and runtime uncaught exception or error in hook experienced.');
+      _suman.logError('Suman single process and runtime uncaught exception or error in hook experienced.');
       // we should pass errors to emit() below, and the if the user wants to bail, they can.
-      suman._sumanEvents.emit('suman-test-file-complete');
+      suiteResultEmitter.emit('suman-test-file-complete');
     }
     else if (exitTestSuite) {
 
@@ -177,7 +179,7 @@ export const makeGracefulExit = function (suman: ISuman) {
         process.nextTick(cb);
       }
       else {
-        _suman.logError('suman implementation warning: no callback passed to graceful exit routine.');
+        _suman.logError('Suman implementation warning: no callback passed to graceful exit routine.');
       }
 
     }

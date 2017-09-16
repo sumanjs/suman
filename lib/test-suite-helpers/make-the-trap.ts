@@ -23,7 +23,6 @@ const {makeHandleTestResults} = require('./handle-test-result');
 const {makeHandleTest} = require('./make-handle-test');
 const allEachesHelper = require('./get-all-eaches');
 import {makeHandleBeforeOrAfterEach} from './make-handle-each';
-import sumanOpts = SumanLib.sumanOpts;
 
 const implementationError = require('../helpers/implementation-error');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
@@ -44,8 +43,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
       return;
     }
 
-    const sumanOpts = _suman.sumanOpts;
-
+    const {sumanOpts, sumanConfig} = _suman;
     let delaySum = 0; //TODO: is this correct?
 
     if (test.skipped) {
@@ -60,12 +58,14 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
       return process.nextTick(cb, null, []);
     }
 
+
     const parallel = sumanOpts.parallel || (opts.parallel && !_suman.sumanOpts.series);
 
     async.eachSeries(allEachesHelper.getAllBeforesEaches(self), function (aBeforeEach: IBeforeEachObj, cb: Function) {
         handleBeforeOrAfterEach(self, test, aBeforeEach, cb);
       },
-      function _doneWithBeforeEaches(err: IPseudoError) {
+      function doneWithBeforeEaches(err: IPseudoError) {
+
 
         implementationError(err);
 
@@ -82,7 +82,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
                 handleTest(self, test, function (err: IPseudoError, result: any) {
                   implementationError(err);
                   let $result = handleTestResult(result, test);
-                  if (_suman.sumanOpts.bail) {
+                  if (sumanOpts.bail) {
                     gracefulExit($result, function () {
                       process.nextTick(cb, null, result);
                     });
