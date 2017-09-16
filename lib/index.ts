@@ -192,13 +192,35 @@ const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
   process.nextTick(task);
 }, c);
 
+const testRuns: Array<Function> = [];
+const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
+
+const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Function) {
+  // Test.creates need to be registered only one at a time
+  testSuiteRegistrationQueueCallbacks.unshift(cb);
+  process.nextTick(task);
+}, 1);
+
+testSuiteRegistrationQueue.drain = function () {
+  testRuns.forEach(function (fn) {
+    testSuiteQueue.push(fn);
+  });
+};
+
 testSuiteQueue.drain = function () {
   suiteResultEmitter.emit('suman-test-file-complete');
 };
 
+suiteResultEmitter.on('suman-test-registered', function (fn: Function) {
+  testRuns.push(fn);
+  process.nextTick(function () {
+    let fn = testSuiteRegistrationQueueCallbacks.pop();
+    fn && fn.call(null);
+  });
+});
+
 suiteResultEmitter.on('suman-completed', function () {
   // we set this to null because no suman should be in progress
-  _suman.whichSuman = null;
   process.nextTick(function () {
     let fn = testSuiteQueueCallbacks.pop();
     fn && fn.call(null);
@@ -390,7 +412,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
         finally {
           global.setImmediate(function () {
             // IMPORTANT: setImmediate guarantees registry of multiple test suites referenced in the same file
-            testSuiteQueue.unshift(function () {
+            testSuiteRegistrationQueue.push(function () {
               //args are most likely (desc,opts,cb)
               run.apply(null, args);
             });

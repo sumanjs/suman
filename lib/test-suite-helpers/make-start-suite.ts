@@ -35,8 +35,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
   return function startSuite(finished: Function) {
 
     const self = this;
-
-    const sumanOpts = _suman.sumanOpts;
+    const {sumanOpts, sumanConfig} = _suman;
 
     if (sumanOpts.series) {
       console.log('\n', su.padWithXSpaces(_suman.currentPaddingCount.val),
@@ -52,7 +51,6 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
     this.mergeAfters();
 
     const itOnlyIsTriggered = suman.itOnlyIsTriggered;
-
     const q = getQueue();
 
     q.push(function (queueCB: Function) {
@@ -88,7 +86,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
               limit = Math.min(self.limit, 90);
             }
             else {
-              limit = _suman.sumanConfig.DEFAULT_PARALLEL_TEST_LIMIT || constants.DEFAULT_PARALLEL_TEST_LIMIT;
+              limit = sumanConfig.DEFAULT_PARALLEL_TEST_LIMIT || constants.DEFAULT_PARALLEL_TEST_LIMIT;
             }
           }
 
@@ -97,27 +95,39 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
           fn1([
               function runPotentiallySerialTests(cb: Function) {
+
+               console.log('length => ', self.getTests().length);
+
                 fn2(self.getTests(), limit, function (test: ITestDataObj, cb: Function) {
-                  if (self.skipped) {
-                    test.skippedDueToParentSkipped = test.skipped = true;
-                  }
-                  if (self.skippedDueToOnly) {
-                    test.skippedDueToParentOnly = test.skipped = true;
-                  }
-                  if (itOnlyIsTriggered && !test.only) {
-                    test.skippedDueToItOnly = test.skipped = true;
-                  }
-                  runTheTrap(self, test, {
-                    //TODO: what is this for LOL
-                    parallel: false
-                  }, cb);
-                }, function complete(err: IPseudoError) {
-                  implementationError(err);
-                  process.nextTick(cb);
-                });
+
+                    console.log('serial tests after.');
+
+                    if (self.skipped) {
+                      test.skippedDueToParentSkipped = test.skipped = true;
+                    }
+
+                    if (self.skippedDueToOnly) {
+                      test.skippedDueToParentOnly = test.skipped = true;
+                    }
+
+                    if (itOnlyIsTriggered && !test.only) {
+                      test.skippedDueToItOnly = test.skipped = true;
+                    }
+
+                    runTheTrap(self, test, {
+                      parallel: false  //TODO: what is this for LOL
+                    }, cb);
+                  },
+
+                  function complete(err: IPseudoError) {
+                    implementationError(err);
+                    process.nextTick(cb);
+                  });
 
               },
               function runParallelTests(cb: Function) {
+
+                console.log('running paralle l tests');
 
                 const flattened = [{tests: self.getParallelTests()}];
 
@@ -127,28 +137,36 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
                 // => run all parallel sets in series
                 fn2(flattened, limit, function ($set: ITestSet, cb: Function) {
-                  // => but individual sets of parallel tests can run in parallel
-                  async.each($set.tests, function (test: ITestDataObj, cb: Function) {
-                    if (self.skipped) {
-                      test.skippedDueToParentSkipped = test.skipped = true;
-                    }
-                    if (self.skippedDueToOnly) {
-                      test.skippedDueToParentOnly = test.skipped = true;
-                    }
-                    if (itOnlyIsTriggered && !test.only) {
-                      test.skippedDueToItOnly = test.skipped = true;
-                    }
-                    runTheTrap(self, test, {
-                      parallel: true
-                    }, cb);
-                  }, function done(err: IPseudoError) {
+
+                    // => but individual sets of parallel tests can run in parallel
+                    async.each($set.tests, function (test: ITestDataObj, cb: Function) {
+
+                        if (self.skipped) {
+                          test.skippedDueToParentSkipped = test.skipped = true;
+                        }
+
+                        if (self.skippedDueToOnly) {
+                          test.skippedDueToParentOnly = test.skipped = true;
+                        }
+
+                        if (itOnlyIsTriggered && !test.only) {
+                          test.skippedDueToItOnly = test.skipped = true;
+                        }
+
+                        runTheTrap(self, test, {
+                          parallel: true
+                        }, cb);
+
+                      },
+                      function done(err: IPseudoError) {
+                        implementationError(err);
+                        process.nextTick(cb);
+                      });
+                  },
+                  function done(err: IPseudoError, results: Array<any>) {
                     implementationError(err);
-                    process.nextTick(cb);
+                    process.nextTick(cb, null, results);
                   });
-                }, function done(err: IPseudoError, results: Array<any>) {
-                  implementationError(err);
-                  process.nextTick(cb, null, results);
-                });
               }
             ],
             function doneWithAllDescribeBlocks(err: IPseudoError, results: Array<any>) {

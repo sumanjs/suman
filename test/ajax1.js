@@ -41,7 +41,12 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
     });
   });
 
-  it('is cool story bro');
+  it.cb('is cool story bro', t => {
+     setTimeout(function(){
+       t.done(null)
+     },3000);
+  });
+
   it.skip('is cool story bro');
 
   context('zoo', function () {
@@ -81,6 +86,12 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
 
       // this.shared.get('x').zoom.zz = 7;
       this.shared.set('x', 'babababa');
+      it('is cool story bro 1', suman.autoPass);
+      it.cb('is cool story bro 2', t => {
+        setTimeout(function () {
+          throw 'fail whale';
+        }, 1000);
+      });
 
     });
   });

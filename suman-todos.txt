@@ -16,6 +16,10 @@ Test.create should all be in the same tick anyway
 
 ///
 
+ Two Test.creates are not running parallel
+
+///
+
  --use-tap prevents tables from being printed by runner, weird.
 
 ////

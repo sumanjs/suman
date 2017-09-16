@@ -23,6 +23,7 @@ import util = require('util');
 import {VamootProxy} from 'vamoot';
 import * as chalk from 'chalk';
 import * as async from 'async';
+
 const _ = require('underscore');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
@@ -286,71 +287,75 @@ export const execSuite = function (suman: ISuman): Function {
 
     function start() {
 
-      _suman.currentPaddingCount = _suman.currentPaddingCount || {};
-      _suman.currentPaddingCount.val = 1; // always reset to 4...
+      _suman.suiteResultEmitter.emit('suman-test-registered', function () {
 
-      function runSuite(suite: ITestSuite, cb: Function) {
+        _suman.currentPaddingCount = _suman.currentPaddingCount || {};
+        _suman.currentPaddingCount.val = 1; // always reset to 4...
 
-        if (_suman.sumanUncaughtExceptionTriggered) {
-          _suman.logError(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
-          return;
-        }
+        function runSuite(suite: ITestSuite, cb: Function) {
 
-        const fn: Function = async.eachLimit;
-
-        let limit = 1;
-        if (suite.parallel) {
-          if (suite.limit) {
-            limit = Math.min(suite.limit, 300);
+          if (_suman.sumanUncaughtExceptionTriggered) {
+            _suman.logError(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+            return;
           }
-          else {
-            limit = _suman.sumanConfig.DEFAULT_PARALLEL_BLOCK_LIMIT || constants.DEFAULT_PARALLEL_BLOCK_LIMIT;
+
+          const fn: Function = async.eachLimit;
+
+          let limit = 1;
+          if (suite.parallel) {
+            if (suite.limit) {
+              limit = Math.min(suite.limit, 300);
+            }
+            else {
+              limit = _suman.sumanConfig.DEFAULT_PARALLEL_BLOCK_LIMIT || constants.DEFAULT_PARALLEL_BLOCK_LIMIT;
+            }
           }
-        }
 
-        assert(Number.isInteger(limit) && limit > 0 && limit < 10000, 'limit must be an integer between 1 and 10000.');
+          assert(Number.isInteger(limit) && limit > 0 && limit < 10000, 'limit must be an integer between 1 and 10000.');
 
-        suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
+          suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
-          err && _suman.logError('Test error data before log:', suite);
+            err && _suman.logError('Test error data before log:', suite);
 
-          const children = suite.getChildren().filter(function (child: ITestSuite) {
-            //TODO: this might be wrong, may need to omit filter
-            return !child.skipped;
-          });
-
-          if (children.length < 1) {
-            process.nextTick(cb)
-          }
-          else {
-
-            _suman.sumanOpts.series && (_suman.currentPaddingCount.val += 3);
-
-            fn(children, limit, function (child: ITestSuite, cb: Function) {
-
-              runSuite(child, cb);
-
-            }, function (err: IPseudoError) {
-
-              _suman.sumanOpts.series && (_suman.currentPaddingCount.val -= 3);
-              err && _suman.logError('Suman implementation error => ', err.stack || err);
-              process.nextTick(cb);
-
+            const children = suite.getChildren().filter(function (child: ITestSuite) {
+              //TODO: this might be wrong, may need to omit filter
+              return !child.skipped;
             });
-          }
-        });
-      }
 
-      runSuite(allDescribeBlocks[0], function complete() {
+            if (children.length < 1) {
+              process.nextTick(cb)
+            }
+            else {
 
-        suman.dateSuiteFinished = Date.now();
+              _suman.sumanOpts.series && (_suman.currentPaddingCount.val += 3);
 
-        if (_suman.sumanUncaughtExceptionTriggered) {
-          _suman.logError(`"UncaughtException" event => halting program.\n[${__filename}]`);
-          return;
+              fn(children, limit, function (child: ITestSuite, cb: Function) {
+
+                runSuite(child, cb);
+
+              }, function (err: IPseudoError) {
+
+                _suman.sumanOpts.series && (_suman.currentPaddingCount.val -= 3);
+                err && _suman.logError('Suman implementation error => ', err.stack || err);
+                process.nextTick(cb);
+
+              });
+            }
+          });
         }
 
-        onSumanCompleted(0, null);
+        runSuite(allDescribeBlocks[0], function complete() {
+
+          suman.dateSuiteFinished = Date.now();
+
+          if (_suman.sumanUncaughtExceptionTriggered) {
+            _suman.logError(`"UncaughtException" event => halting program.\n[${__filename}]`);
+            return;
+          }
+
+          onSumanCompleted(0, null);
+
+        });
 
       });
 
