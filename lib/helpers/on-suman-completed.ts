@@ -3,6 +3,7 @@
 //tsc
 import {ISuman} from "../../dts/suman";
 import {IGlobalSumanObj} from "../../dts/global";
+import {ITableDataCallbackObj} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -23,11 +24,9 @@ const debug = require('suman-debug')('s:index');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
+const results: Array<ITableDataCallbackObj> = _suman.tableResults = (_suman.tableResults || []);
 
-/*////// what it do ///////////////////////////////////////////////
-
-
- */////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 export const makeOnSumanCompleted = function (suman: ISuman) {
 
@@ -48,7 +47,8 @@ export const makeOnSumanCompleted = function (suman: ISuman) {
           }));
         }
 
-        suiteResultEmitter.emit('suman-completed', val);
+        results.push(val);
+        suiteResultEmitter.emit('suman-completed');
       });
 
     });

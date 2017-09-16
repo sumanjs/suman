@@ -1,6 +1,6 @@
 'use strict';
 
-// typescript imports
+// tsc
 import {IGlobalSumanObj, ISumanConfig, SumanErrorRace} from "../dts/global";
 import EventEmitter = NodeJS.EventEmitter;
 import {ISuman} from "../dts/suman";
@@ -85,10 +85,11 @@ import assert = require('assert');
 import path = require('path');
 import EE = require('events');
 import fs = require('fs');
-import * as stream from 'stream';
+import stream = require('stream');
 
 // npm
 import * as chalk from 'chalk';
+
 const pragmatik = require('pragmatik');
 const debug = require('suman-debug')('s:index');
 
@@ -99,6 +100,7 @@ _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
 import {getClient} from './index-helpers/socketio-child-client';
+
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
 const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
@@ -123,6 +125,7 @@ else {
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 import async = require('async');
+
 const {constants} = require('../config/suman-constants');
 const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
@@ -156,7 +159,7 @@ const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitte
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-if(!SUMAN_SINGLE_PROCESS){
+if (!SUMAN_SINGLE_PROCESS) {
   require('./helpers/handle-suman-counts');
 }
 
@@ -175,7 +178,6 @@ const sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 const {integrantPreFn} = sumanObj;
 const testDebugLogPath = sumanPaths.testDebugLogPath;
 const testLogPath = sumanPaths.testLogPath;
-
 fs.writeFileSync(testDebugLogPath, '\n', {flag: 'w'});
 fs.writeFileSync(testLogPath, '\n => New Suman run @' + new Date(), {flag: 'w'});
 
@@ -184,9 +186,8 @@ fs.writeFileSync(testLogPath, '\n => New Suman run @' + new Date(), {flag: 'w'})
 let loaded = false;
 let moduleCount = 0;
 let integrantsAlreadyInvoked = false;
-
 const testSuiteQueueCallbacks: Array<Function> = [];
-const c = sumanOpts && sumanOpts.series ? 1 : 3;
+const c = (sumanOpts && sumanOpts.series) ? 1 : 3;
 
 const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
   testSuiteQueueCallbacks.unshift(cb);
@@ -200,7 +201,7 @@ testSuiteQueue.drain = function () {
 suiteResultEmitter.on('suman-completed', function () {
   // we set this to null because no suman should be in progress
   _suman.whichSuman = null;
-  process.nextTick(function(){
+  process.nextTick(function () {
     let fn = testSuiteQueueCallbacks.pop();
     fn && fn.call(null);
   });
@@ -255,20 +256,17 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   }
 
   if (confOverride) {
-    assert(su.isObject(confOverride), ' => Suman conf override value must be defined, and an object like so => {}.');
+    assert(su.isObject(confOverride), 'Suman conf override value must be defined, and an object like so => {}.');
     Object.assign(_suman.sumanConfig, confOverride);
   }
 
-  _suman.sumanInitCalled = true;
   _suman.sumanInitStartDate = (_suman.sumanInitStartDate || Date.now());
   _suman._currentModule = $module.filename;
-  _suman.SUMAN_TEST = 'yes';
 
   // TODO: could potention figure out what original test module is via suman.init call, instead of
   // requiring that user pass it explicitly
 
   if (!loaded) {
-
     //note that these calls need to be inside suman.init() so they don't get loaded by the runner, etc.
     //although perhaps we should put the runner code elsewhere, because user does not need to call runner
     //look through version control from Sunday Nov 20th for this code
@@ -278,21 +276,19 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     assert(su.isObject($opts), 'Please pass an options object as a second argument to suman.init()');
   }
 
-
   const opts: IInitOpts = $opts || {};
   if ($module._sumanInitted) {
-    _suman.logError('warning => suman.init() already called for ' +
-      'this module with filename => ', $module.filename);
+    _suman.logError('warning => suman.init() already called for this module with filename => ', $module.filename);
     return;
   }
 
   $module._sumanInitted = true;
   moduleCount++;
 
-  let integrants: Array<string>;
+  let $integrants: Array<string>;
 
   try {
-    integrants = (opts.integrants || opts.pre || []).filter(i => i).map(function (item) {
+    $integrants = (opts.integrants || opts.pre || []).filter(i => i).map(function (item) {
       assert(typeof item === 'string', `once.pre item must be a string. Instead we have => ${util.inspect(item)}`);
       // filter out empty strings, etc.
       return item;
@@ -304,7 +300,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   }
 
   // remove falsy elements, for user convenience
-  integrants = integrants.filter((i: any) => i);
+  const integrants = $integrants.filter((i: any) => i);
 
   if (opts.__expectedExitCode !== undefined && !SUMAN_SINGLE_PROCESS) {
     let expectedExitCode = _suman.expectedExitCode = _suman.expectedExitCode || opts.__expectedExitCode;
@@ -353,11 +349,10 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
           'to point to an object'));
     }
     catch (err) {
-      console.log(err.stack);
+      _suman.logError(err.stack || err);
       process.exit(constants.EXIT_CODES.IOC_PASSED_TO_SUMAN_INIT_BAD_FORM);
     }
   }
-
 
   //////////////////////////////////////////////////////////////////
 
@@ -381,7 +376,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       init.tooLate = true;
     });
 
-    counts.sumanCount++;
 
     const to = setTimeout(function () {
       console.error(' => Suman usage error => Integrant acquisition timeout.');

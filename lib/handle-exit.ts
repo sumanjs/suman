@@ -102,6 +102,7 @@ process.prependListener('exit', function (code: number) {
   }
 
   if (typeof _suman.absoluteLastHook === 'function') {
+    _suman.log('killing daemon process, using absolute last hook.');
     _suman.absoluteLastHook(code);
   }
 
