@@ -194,7 +194,6 @@ const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
 
 const testRuns: Array<Function> = [];
 const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
-
 const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Function) {
   // Test.creates need to be registered only one at a time
   testSuiteRegistrationQueueCallbacks.unshift(cb);

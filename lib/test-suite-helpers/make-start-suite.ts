@@ -1,7 +1,9 @@
 'use strict';
+
+//dts
 import {IOnceHookObj} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IPseudoError} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
 import {ITestDataObj} from "../../dts/it";
 
 //polyfills
@@ -19,7 +21,7 @@ import su = require('suman-utils');
 import chalk = require('chalk');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const implementationError = require('../helpers/implementation-error');
 const {constants} = require('../../config/suman-constants');
 const {makeTheTrap} = require('./make-the-trap');
@@ -95,8 +97,6 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
           fn1([
               function runPotentiallySerialTests(cb: Function) {
-
-               console.log('length => ', self.getTests().length);
 
                 fn2(self.getTests(), limit, function (test: ITestDataObj, cb: Function) {
 
