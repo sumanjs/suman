@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IInjectionDeps} from "../../dts/injection";
 import {IPseudoError} from "../../dts/global";
 import {ITestSuite} from "../../dts/test-suite";
@@ -16,7 +18,7 @@ import EE = require('events');
 import cp = require('child_process');
 
 //npm
-import * as chalk from 'chalk';
+import chalk = require('chalk');
 import su from 'suman-utils';
 
 const includes = require('lodash.includes');
@@ -30,7 +32,6 @@ import {makeIocInjector} from '../injection/ioc-injector';
 import {loadSumanConfig} from '../helpers/load-suman-config';
 import {resolveSharedDirs} from '../helpers/resolve-shared-dirs';
 import {loadSharedObjects} from '../helpers/load-shared-objects'
-
 const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
 /////////////////////////////////////////////////////////////

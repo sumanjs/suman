@@ -184,8 +184,6 @@ fs.writeFileSync(testLogPath, '\n => New Suman run @' + new Date(), {flag: 'w'})
 ////////////////////////////////////////////////////////////////////////////////
 
 let loaded = false;
-let moduleCount = 0;
-let integrantsAlreadyInvoked = false;
 const testSuiteQueueCallbacks: Array<Function> = [];
 const c = (sumanOpts && sumanOpts.series) ? 1 : 3;
 
@@ -250,7 +248,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   require('./handle-exit'); // handle exit here
   require('./helpers/load-reporters-last-ditch').run();
 
-  $module = $module || {filename: '/'};
+  $module = $module || {filename: '/', exports: {}};
 
   if (!inBrowser) {
     assert(($module.constructor && $module.constructor.name === 'Module'),
@@ -279,30 +277,23 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   }
 
   const opts: IInitOpts = $opts || {};
-  if ($module._sumanInitted) {
-    _suman.logError('warning => suman.init() already called for this module with filename => ', $module.filename);
-    return;
+  if ($module.sumanInitted) {
+    throw new Error(`suman.init() already called for this module with filename => ${$module.filename}`);
   }
 
-  $module._sumanInitted = true;
-  moduleCount++;
+  $module.sumanInitted = true;
 
-  let $integrants: Array<string>;
+  opts.integrants && assert(Array.isArray(opts.integrants), `'integrants' option must be an array.`);
+  opts.pre && assert(Array.isArray(opts.pre), `'pre' option must be an array.`);
 
-  try {
-    $integrants = (opts.integrants || opts.pre || []).filter(i => i).map(function (item) {
-      assert(typeof item === 'string', `once.pre item must be a string. Instead we have => ${util.inspect(item)}`);
-      // filter out empty strings, etc.
-      return item;
-    });
-  }
-  catch (err) {
-    _suman.logError('"integrants/pre" option must be an array type.');
-    throw err;
-  }
+  let $integrants = (opts.integrants || opts.pre || []).filter(i => i).map(function (item) {
+    assert(typeof item === 'string', `once.pre item must be a string. Instead we have => ${util.inspect(item)}`);
+    // filter out empty strings, etc.
+    return item;
+  });
 
   // remove falsy elements, for user convenience
-  const integrants = $integrants.filter((i: any) => i);
+  const integrants = $integrants.filter((i: string) => i);
 
   if (opts.__expectedExitCode !== undefined && !SUMAN_SINGLE_PROCESS) {
     let expectedExitCode = _suman.expectedExitCode = _suman.expectedExitCode || opts.__expectedExitCode;
@@ -323,19 +314,12 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   }
 
-  let $oncePost: Array<string>;
-
-  try {
-    $oncePost = (opts.post || []).filter(function (item) {
-      assert(typeof item === 'string', `once.post key must be a string. Instead we have => ${util.inspect(item)}`);
-      // filter out empty strings, etc.
-      return item;
-    });
-  }
-  catch (err) {
-    _suman.logError('"post" option must be an array type.');
-    throw err;
-  }
+  opts.post && assert(Array.isArray(opts.post), `'post' option must be an array.`);
+  let $oncePost = (opts.post || []).filter(function (item) {
+    assert(typeof item === 'string', `once.post key must be a string. Instead we have => ${util.inspect(item)}`);
+    // filter out empty strings, etc.
+    return item;
+  });
 
   //pass oncePost so that we can use it later when we need to
   allOncePostKeys.push($oncePost);
