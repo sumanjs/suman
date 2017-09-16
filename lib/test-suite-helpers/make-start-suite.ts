@@ -100,8 +100,6 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
                 fn2(self.getTests(), limit, function (test: ITestDataObj, cb: Function) {
 
-                    console.log('serial tests after.');
-
                     if (self.skipped) {
                       test.skippedDueToParentSkipped = test.skipped = true;
                     }
@@ -126,8 +124,6 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
               },
               function runParallelTests(cb: Function) {
-
-                console.log('running paralle l tests');
 
                 const flattened = [{tests: self.getParallelTests()}];
 
@@ -183,7 +179,8 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
               implementationError(err);
               process.nextTick(cb);
             });
-          } else {
+          }
+          else {
             process.nextTick(cb);
           }
         }

@@ -445,7 +445,7 @@ export const makeHandleMultipleProcesses =
             }
             else {
               // .sh .bash .py, perl, ruby, etc
-              console.log('perl bash python or ruby file ? => ', file);
+              _suman.log(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
               hashbang = true;
               n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
             }
@@ -474,7 +474,7 @@ export const makeHandleMultipleProcesses =
           });
 
           n.on('error', function (err) {
-            _suman.logError('error spawning child process => ', console.error(err.stack || err));
+            _suman.logError('error spawning child process => ', err.stack || err);
             if (hashbang) {
               console.error('\n');
               console.error(' => The supposed test script file with the following path may not have a hashbang => ');
@@ -512,7 +512,6 @@ export const makeHandleMultipleProcesses =
               if (sumanOpts.log_stdio_to_files || sumanOpts.log_stdout_to_files) {
                 n.stdout.pipe(fileStrm).once('error', onError);
               }
-
             }
 
             if (sumanOpts.inherit_stdio || sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes') {

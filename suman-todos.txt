@@ -16,9 +16,27 @@ Test.create should all be in the same tick anyway
 
 ///
 
- Two Test.creates are not running parallel
+
+// => TypeError: t.skip is not a function
+
+ var suman_1 = require("suman");
+ var Test = suman_1.default.init(module);
+ Test.create(function (it) {
+     it('passes', function (t) {
+         t.skip();
+     });
+     it('fails', function (t) {
+         t.skip();
+     });
+ });
+
 
 ///
+
+ suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
+ suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
+
+//
 
  --use-tap prevents tables from being printed by runner, weird.
 
@@ -992,27 +1010,6 @@ https://github.com/mochajs/mocha/issues/2756
 
 //
 
-in lib/index.js
-in SUMAN_SINGLE_PROCESS mode, this might get registered multiple times...
-  suiteResultEmitter.on('suman-completed', function () {
-
-    // we set this to null because no suman should be in progress
-    _suman.whichSuman = null;
-
-    //this code should only be invoked if we are using Test.create's in series
-    testSuiteQueue.pop();
-    let fn: Function;
-    if (fn = testSuiteQueue[testSuiteQueue.length - 1]) {
-      debug(' => Running testSuiteQueue fn => ', String(fn));
-      fn.call(null);
-    }
-    else {
-      debug(' => Suman testSuiteQueue is empty.');
-    }
-  });
-
-//
-
 monkeypatch require()?
 
 if (false) {
@@ -1044,21 +1041,10 @@ if (false) {
 
 //
 
-const exportEvents: EventEmitter = $module.exports = (writable || SumanTransform());
-instead, this should become:
-const exportEvents: EventEmitter = $module.exports.X = (writable || SumanTransform());
-
-//
-
 regexes get converted to objects...
 
   SUMAN_CONFIG: '{"matchAny":[{},{},{},{},{},{},{}],"matchNone":[{},{},{},{}],"matchAll":[],"testDir":"test","testSrcDir":"test/src","testTargetDir":"test/target","sumanHelpersDir":"test/_suman","uniqueAppName":"<your-app-name-here>","browser":"Firefox","installSumanExtraDeps":true,"installSumanGlobalsInProject":".suman","isLogChildStderr":true,"isLogChildStdout":true,"useBabelRegister":false,"useUtilityPatches":true,"coverage":false,"useTAPOutput":false,"errorsOnly":false,"replayErrorsAtRunnerEnd":true,"allowArrowFunctionsForTestBlocks":true,"alwaysUseRunner":false,"enforceGlobalInstallationOnly":false,"enforceLocalInstallationOnly":false,"sourceTopLevelDepsInPackageDotJSON":false,"enforceTestCaseNames":true,"enforceBlockNames":true,"enforceHookNames":false,"bail":true,"bailRunner":true,"transpile":false,"executeRunnerCWDAtTestFile":true,"sendStderrToSumanErrLogOnly":true,"useSuiteNameInTestCaseOutput":false,"ultraSafe":false,"verbose":true,"checkMemoryUsage":false,"fullStackTraces":false,"disableAutoOpen":false,"suppressRunnerOutput":true,"allowCollectUsageStats":true,"verbosity":5,"maxParallelProcesses":8,"resultsCapCount":100,"resultsCapSize":7000,"defaultHookTimeout":5000,"defaultTestCaseTimeout":5000,"timeoutToSearchForAvailServer":2000,"defaultDelayFunctionTimeout":8000,"defaultChildProcessTimeout":8000000,"defaultTestSuiteTimeout":15000,"expireResultsAfter":10000000,"watch":{"all-tests":"./node_modules/.bin/suman","unit-tests":"./node_modules/.bin/suman test/unit/**/*.js","//tests":{"default":{"include":[],"exclude":["^test.*"]}},"//project":{"script":"./node_modules/.bin/suman","include":[],"exclude":["^test.*"],"default":{"script":"./node_modules/.bin/suman","include":[],"exclude":["^test.*"]}}},"reporters":{"tap":"node_modules/suman/lib/reporters/tap-reporter"},"babelRegisterOpts":{"ignore":{},"extensions":[".es6",".es",".jsx",".js"]}}',
   SUMAN_OPTS: '{"runner":true,"inherit_stdio":true,"verbosity":5,"errors_only":false,"max_depth":70,"_order":[{"key":"runner","value":true,"from":"argv"},{"key":"inherit_stdio","value":true,"from":"argv"}],"_args":[],"transpile":false}',
-
-//
-
- suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
- suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
 
 //
 
