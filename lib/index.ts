@@ -369,13 +369,12 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   const start: IStartCreate = function (desc, opts, arr, cb) {
 
-    //this call will validate args
     const args = pragmatik.parse(arguments, rules.createSignature);
     args[1].__preParsed = true;
 
     if (init.tooLate === true && !SUMAN_SINGLE_PROCESS) {
-      console.error(' => Suman usage fatal error => You must call Test.describe() synchronously => ' +
-        'in other words, all Test.describe() calls should be registered in the same tick of the event loop.');
+      console.error(' => Suman usage fatal error => You must call Test.create() synchronously => \n\t' +
+        'in other words, all Test.create() calls should be registered in the same tick of the event loop.');
       return process.exit(constants.EXIT_CODES.ASYNCHRONOUS_CALL_OF_TEST_DOT_DESCRIBE);
     }
 

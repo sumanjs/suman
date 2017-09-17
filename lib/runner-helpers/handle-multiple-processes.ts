@@ -60,7 +60,6 @@ export const makeHandleMultipleProcesses =
     return function (runObj: IRunObj) {
 
       debugger;
-
       process.stderr.setMaxListeners(runObj.files.length + 11);
       process.stdout.setMaxListeners(runObj.files.length + 11);
 
@@ -252,11 +251,11 @@ export const makeHandleMultipleProcesses =
                   _suman.logError('\n', su.getCleanErrorString(e), '\n');
                 };
 
-                k.stderr.pipe(pt(` [${chalk.red('transform process stderr:')} ${chalk.red.bold(String(file.slice(ln)))}] `))
-                .once('error', onError).pipe(process.stderr); // .once('error', onError);
+                let stderrPrepend = ` [${chalk.red('transform process stderr:')} ${chalk.red.bold(String(file.slice(ln)))}] `;
+                k.stderr.pipe(pt(stderrPrepend, {omitWhitespace: true})).once('error', onError).pipe(process.stderr);
 
-                k.stdout.pipe(pt(` [${chalk.yellow('transform process stdout:')} ${chalk.gray.bold(String(file.slice(ln)))}] `))
-                .once('error', onError).pipe(process.stdout); // .once('error', onError);
+                let stdoutPrepend = ` [${chalk.yellow('transform process stdout:')} ${chalk.gray.bold(String(file.slice(ln)))}] `;
+                k.stdout.pipe(pt(stdoutPrepend)).once('error', onError).pipe(process.stdout);
               }
 
               // let strm = fs.createWriteStream(path.resolve(tr + '.log'));
@@ -517,13 +516,13 @@ export const makeHandleMultipleProcesses =
             if (sumanOpts.inherit_stdio || sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes') {
 
               let onError = function (e: Error) {
-                console.error('\n', su.getCleanErrorString(e), '\n');
+                _suman.logError('\n', su.getCleanErrorString(e), '\n');
               };
 
-              n.stdout.pipe(pt(chalk.cyan(' => [suman child stdout] => ')))
-              .once('error', onError).pipe(process.stdout); //.once('error', onError);
-              n.stderr.pipe(pt(chalk.red.bold(' => [suman child stderr] => ')))
-              .once('error', onError).pipe(process.stderr); // .once('error', onError);
+              n.stdout.pipe(pt(chalk.cyan(' [suman child stdout] ')))
+              .once('error', onError).pipe(process.stdout);
+              n.stderr.pipe(pt(chalk.red.bold(' [suman child stderr] '), {omitWhitespace: true}))
+              .once('error', onError).pipe(process.stderr);
             }
 
             if (true || sumanOpts.$useTAPOutput) {

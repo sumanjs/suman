@@ -16,18 +16,21 @@ import EE = require('events');
 
 //npm
 import semver = require('semver');
+
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
 import su from 'suman-utils';
 import * as async from 'async';
+
 const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
 import {cpHash, socketHash} from './socket-cp-hash';
+
 const {getTapParser} = require('./handle-tap');
 const {constants} = require('../../config/suman-constants');
 const debug = require('suman-debug')('s:runner');
@@ -94,7 +97,7 @@ export const makeContainerize =
         const filesStr = files.join(' ');
         console.log('short filesStr => ', filesStr);
 
-        const k = cp.spawn(p, [filesStr,'--no-transpile']);
+        const k = cp.spawn(p, [filesStr, '--no-transpile']);
 
         k.stdout.pipe(process.stdout);
         k.stderr.pipe(process.stderr);
@@ -194,14 +197,13 @@ export const makeContainerize =
               k.stderr.setEncoding('utf8');
               k.stdout.setEncoding('utf8');
 
-
               if (sumanOpts.inherit_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes') {
 
                 let onError = function (e: Error) {
                   console.error('\n', su.getCleanErrorString(e), '\n');
                 };
 
-                k.stderr.pipe(pt(`${chalk.red('=> transform process stderr => ')} ${file}\n`))
+                k.stderr.pipe(pt(`${chalk.red('=> transform process stderr => ')} ${file}\n`, {omitWhitespace: true}))
                 .on('error', onError).pipe(process.stderr).on('error', onError);
 
                 k.stdout.pipe(pt(` => transform process stdout => ${file}\n`))

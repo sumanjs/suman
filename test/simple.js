@@ -5,7 +5,7 @@ const Test = suman.init(module);
 
 ///////////////////////////////////////////
 
-Test.create('hotels', {parallel: false}, function (it, before, beforeEach) {
+Test.create('hotels1', {parallel: false}, function (it, before, beforeEach) {
 
   it.cb('first', t => {
     setTimeout(t, 2000);
@@ -13,7 +13,9 @@ Test.create('hotels', {parallel: false}, function (it, before, beforeEach) {
 
 });
 
-Test.create('hotels', {parallel: false}, function (it, before, beforeEach) {
+//////////
+
+Test.create('hotels2', {parallel: false}, function (it, before, beforeEach) {
 
   console.log('we in.');
 

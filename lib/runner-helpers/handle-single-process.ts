@@ -14,6 +14,7 @@ const EE = require('events');
 
 //npm
 import * as semver from 'semver';
+
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 const {events} = require('suman-events');
@@ -112,7 +113,6 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
       detached: false   //TODO: detached:false works but not true
     };
 
-
     const n = cp.spawn('node', args, ext);
 
     n.on('message', function (msg: Object) {
@@ -148,20 +148,20 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
       n.stderr.setEncoding('utf8');
 
       if (sumanOpts.inherit_stdio || false) {
-        n.stdout.pipe(pt(chalk.blue(' => [suman child stdout] => '))).pipe(process.stdout);
-        n.stderr.pipe(pt(chalk.red.bold(' => [suman child stderr] => '))).pipe(process.stderr);
+        n.stdout.pipe(pt(chalk.blue(' [suman child stdout] '))).pipe(process.stdout);
+        n.stderr.pipe(pt(chalk.red.bold(' [suman child stderr] '), {omitWhitespace: true})).pipe(process.stderr);
       }
 
       if (true || sumanOpts.$useTAPOutput) {
 
         n.tapOutputIsComplete = false;
         n.stdout.pipe(getTapParser())
-          .once('finish', function () {
-            n.tapOutputIsComplete = true;
-            process.nextTick(function () {
-              n.emit('tap-output-is-complete', true);
-            });
+        .once('finish', function () {
+          n.tapOutputIsComplete = true;
+          process.nextTick(function () {
+            n.emit('tap-output-is-complete', true);
           });
+        });
       }
 
       n.stdio[2].setEncoding('utf-8');
@@ -210,7 +210,7 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
       setImmediate(function () {
         beforeExitRunOncePost(function (err: Error) {
 
-          if(err){
+          if (err) {
             throw err;
           }
 
