@@ -11,6 +11,7 @@ const global = require('suman-browser-polyfills/modules/global');
 //core
 import domain = require('domain');
 import assert = require('assert');
+import util = require('util');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -60,7 +61,14 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
     const handleError: IHandleError = function (err: IPseudoError) {
 
-      const stk = err ? (err.stack || err) : new Error('Suman error placeholder').stack;
+      err = err || new Error('unknown hook error.');
+
+      if (typeof err === 'string') {
+        err = new Error(err);
+      }
+
+      const stk = err.stack || err;
+      const stck = typeof stk === 'string' ? stk : util.inspect(stk);
       const formatedStk = String(stk).split('\n').map(item => '\t' + item).join('\n');
 
       if (!dError) {
@@ -94,7 +102,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
       // need to d.run instead process.next so that errors thrown in same-tick get trapped by "Node.js domains in browser"
       // process.nextTick is necessary in the first place, so that async module does not experience Zalgo
 
-      d.run(function () {
+      d.run(function runAllHook() {
 
         let warn = false;
 

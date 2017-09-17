@@ -22,10 +22,12 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import su = require('suman-utils');
 import {makeCallback} from './handle-callback-helper';
+
 const helpers = require('./handle-promise-generator');
 import {cloneError} from '../misc/clone-error';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
+
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +87,14 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
        otherwise it can be called by another location
        */
 
-      const stack = err ? (err.stack || err) : new Error('Suman placeholder error.').stack;
+      err = err || new Error('unknown hook error.');
+
+      if (typeof err === 'string') {
+        err = new Error(err);
+      }
+
+      const stk = err.stack || err;
+      const stack = typeof stk === 'string' ? stk : util.inspect(stk);
       // const formattedStk = String(stk).split('\n').map(item => '\t' + item).join('\n');
 
       if (!derror) {
@@ -102,9 +111,9 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
     d.on('error', handleErr);
 
-    d.run(function () {
+    process.nextTick(function () {
 
-      process.nextTick(function () {
+      d.run(function runHandleTest() {
 
         let warn = false;
         let isAsyncAwait = false;
@@ -147,6 +156,13 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         t.timeout = timeout;
         t.shared = self.shared;
         t.$inject = suman.$inject;
+
+        t.skip = function () {
+          test.skipped = true;
+          resultBroadcaster.emit(String(events.TEST_CASE_END), test);
+          resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
+          fini(null);
+        };
 
         ////////////// note: unfortunately these fns cannot be moved to prototype /////////////////
 
@@ -204,7 +220,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
               handleNonCallbackMode(undefined);
             }
             else {
-              fini();
+              fini(undefined);
             }
 
           };
@@ -215,7 +231,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
             }
             else {
               fini(err || new Error('t.fail() was called on test (note that null/undefined value ' +
-                  'was passed as first arg to the fail function.)'));
+                'was passed as first arg to the fail function.)'));
             }
           };
 

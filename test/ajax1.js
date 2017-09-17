@@ -25,7 +25,7 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
   this.shared.set('x', {zoom: {val: 5}});
 
   before(t => {
-    console.log('parent before');
+    console.error('parent before');
   });
 
   context('foo', function ($suite) {
@@ -42,12 +42,18 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
   });
 
   it.cb('is cool story bro', t => {
-     setTimeout(function(){
-       t.done(null)
-     },3000);
+    setTimeout(function () {
+      t.done(null)
+    }, 3000);
   });
 
-  it.skip('is cool story bro');
+  it('is cool story bro 2', t => {
+
+    setTimeout(function(){
+      throw Error('radical');
+    },10);
+
+  });
 
   context('zoo', function () {
 
@@ -57,6 +63,8 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
 
 });
 
+//////
+
 Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks) {
 
   let foo;
@@ -65,7 +73,8 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
     foo = v * 2;
   }
 
-  console.log(foo);
+  console.error('dogs');
+  console.log(foo); //
 
   beforeEach(t => {
     console.log('parent before each');
@@ -87,11 +96,11 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
       // this.shared.get('x').zoom.zz = 7;
       this.shared.set('x', 'babababa');
       it('is cool story bro 1', suman.autoPass);
-      it.cb('is cool story bro 2', t => {
-        setTimeout(function () {
-          throw 'fail whale';
-        }, 1000);
-      });
+      // it.cb('is cool story bro 2', t => {
+      //   setTimeout(function () {
+      //     throw 'fail whale';
+      //   }, 1000);
+      // });
 
     });
   });

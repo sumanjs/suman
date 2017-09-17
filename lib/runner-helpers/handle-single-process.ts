@@ -123,25 +123,6 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
       throw new Error(err.stack || err);
     });
 
-    // if (sumanOpts.no_silent !== true) {
-    //
-    //   n.stdio[2].setEncoding('utf-8');
-    //   n.stdio[2].on('data', function (data) {
-    //
-    //     const d = String(data).split('\n').map(function (line) {
-    //       return '[' + '???' + '] ' + line;
-    //     }).join('\n');
-    //
-    //     _suman.sumanStderrStream.write('\n\n');
-    //     _suman.sumanStderrStream.write(d);
-    //
-    //     if (weAreDebugging) {  //TODO: add check for NODE_ENV=dev_local_debug
-    //       //TODO: go through code and make sure that no console.log statements should in fact be console.error
-    //       console.log('pid => ', n.pid, 'stderr => ', d);
-    //     }
-    //   });
-    // }
-
     if (n.stdio) {
 
       n.stdout.setEncoding('utf8');

@@ -22,7 +22,7 @@ export interface IAssertObj {
 }
 
 export interface ITimerObj {
-  timer: Timer
+  timer: any
 }
 
 export interface IAllOpts {

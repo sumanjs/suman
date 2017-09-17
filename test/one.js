@@ -8,6 +8,8 @@ const Test = suman.init(module, {
   post: ['smartconnect']
 });
 
+//
+
 Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks) {
 
   // beforeEach(t => {
@@ -15,6 +17,7 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
   //   console.log('before each hook',t.shared.get('x'));
   // });
 
+  //////
   this.shared.set('x', {v: true});
 
   before(t => {

@@ -114,7 +114,7 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
 
   let called = 0;
 
-  return function testAndHookCallbackHandler(err: IPseudoError, isTimeout: boolean) {
+  return function testAndHookCallbackHandler(err: IPseudoError, isTimeout?: boolean) {
 
     if (err) {
 
@@ -161,56 +161,51 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
       }
 
       try {
-
         d.exit(); //TODO: this removed to allow for errors thrown *after* tests/hooks are called-back
-
-        clearTimeout(timerObj.timer);
-
-        if (err) {
-
-          //TODO: can probably change check for type into simply a check for hook == null and test == null
-          err.sumanFatal = err.sumanFatal || !!((hook && hook.fatal !== false) || _suman.sumanOpts.bail);
-
-          if (test) {
-            test.error = err;
-          }
-
-          if (_suman.sumanOpts.bail) {
-            if (test) {
-              err.sumanExitCode = constants.EXIT_CODES.TEST_ERROR_AND_BAIL_IS_TRUE;
-            }
-            else if (hook) {
-              err.sumanExitCode = constants.EXIT_CODES.HOOK_ERROR_AND_BAIL_IS_TRUE;
-            }
-            else {
-              throw missingHookOrTest();
-            }
-          }
-        }
-        else {
-          if (test) {
-            test.complete = true;
-            test.dateComplete = Date.now();
-          }
-        }
-
-      } catch ($err) {
-        const $msg = '=> Suman internal implementation error, ' +
-          'please report this => \n' + ($err.stack || $err);
-        console.error($msg);
-        _suman.writeTestError($msg);
-
       }
-      finally {
+      catch (err) {
+        err && _suman.logError(err.stack || err);
+      }
+
+      clearTimeout(timerObj.timer);
+
+      if (err) {
+
+        //TODO: can probably change check for type into simply a check for hook == null and test == null
+        err.sumanFatal = err.sumanFatal || !!((hook && hook.fatal !== false) || _suman.sumanOpts.bail);
+
         if (test) {
-          process.nextTick(cb, null, err);
+          test.error = err;
         }
-        else {
-          gracefulExit(err, function () {
-            process.nextTick(cb, null, err);
-          });
+
+        if (_suman.sumanOpts.bail) {
+          if (test) {
+            err.sumanExitCode = constants.EXIT_CODES.TEST_ERROR_AND_BAIL_IS_TRUE;
+          }
+          else if (hook) {
+            err.sumanExitCode = constants.EXIT_CODES.HOOK_ERROR_AND_BAIL_IS_TRUE;
+          }
+          else {
+            throw missingHookOrTest();
+          }
         }
       }
+      else {
+        if (test) {
+          test.complete = true;
+          test.dateComplete = Date.now();
+        }
+      }
+
+      if (test) {
+        process.nextTick(cb, null, err);
+      }
+      else {
+        gracefulExit(err, function () {
+          process.nextTick(cb, null, err);
+        });
+      }
+
     }
     else {
 

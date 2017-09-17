@@ -19,10 +19,12 @@ const fnArgs = require('function-arguments');
 //project
 const _suman = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
+
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../misc/clone-error';
 import {makeHookObj} from './t-proto-hook';
 import {makeCallback} from './handle-callback-helper';
+
 const helpers = require('./handle-promise-generator');
 import {freezeExistingProps} from 'freeze-existing-props'
 
@@ -68,8 +70,15 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
     const handleError: IHandleError = function (err: IPseudoError) {
 
+      err = err || new Error('unknown hook error.');
+
+      if (typeof err === 'string') {
+        err = new Error(err);
+      }
+
       const stk = err.stack || err;
-      const formatedStk = String(stk).split('\n').map(item => '\t' + item).join('\n');
+      const stck = typeof stk === 'string' ? stk : util.inspect(stk);
+      const formatedStk = String(stck).split('\n').map(item => '\t' + item).join('\n');
 
       if (!dError) {
         dError = true;
@@ -98,9 +107,9 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
     d.on('error', handleError);
 
-    d.run(function () {
+    process.nextTick(function () {
 
-      process.nextTick(function () {
+      d.run(function runHandleEachHook() {
 
         let isAsyncAwait = false;
         const isGeneratorFn = su.isGeneratorFn(aBeforeOrAfterEach.fn);

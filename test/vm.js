@@ -1,12 +1,8 @@
 
-describe('',function(){
 
-  describe('',function(){
-
-    it('is', function(){
-       throw new Error('poop')
-
-    });
-
-  });
-});
+try{
+  throw 'nail'
+}
+catch(err){
+  console.log(typeof err);
+}

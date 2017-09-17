@@ -75,7 +75,7 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
       let timedout = false;
       let to = setTimeout(function () {
         timedout = true;
-        _suman.logWarning('Drain callback timed out, exitting.');
+        _suman.logWarning('Drain callback timed out, exitting +.');
         cb(null);
       }, _suman.usingRunner ? 20 : 10);
 

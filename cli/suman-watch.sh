@@ -11,13 +11,12 @@ suman_watch_global=${npm_global_root}/suman-watch/cli.js
 
 if [[ -L ${suman_watch_global} || -f ${suman_watch_global} ]]; then
 
-    echo "running the global suman watch"
+    echo " [suman] (running the global version of suman-watch executable)."
     node ${suman_watch_global} $@
 
 elif [[ -L "${suman_watch_location}" || ( -d "${suman_watch_location}" && -f "${suman_watch_location}/cli.js" ) ]]; then
 
-    echo "found suman-watch installion in suman home dir."
-    echo "running now..."
+    echo " [suman] (found, and now running, the suman-watch installion in the suman home folder)."
     node "${suman_watch_location}/cli.js" >> ${watch_log} 2>&1
 
 else
