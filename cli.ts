@@ -258,6 +258,11 @@ const watchPer = sumanOpts.watch_per;
 if(sumanOpts.user_args){
   _suman.log(chalk.magenta('raw user_args is'), sumanOpts.user_args);
 }
+
+if(sumanOpts.to_json){
+  _suman.log(chalk.magenta('raw to_json is'), sumanOpts.to_json);
+}
+
 const userArgs = sumanOpts.user_args = _.flatten([sumanOpts.user_args]).join(' ');
 
 if (coverage) {

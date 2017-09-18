@@ -180,6 +180,9 @@ var watchPer = sumanOpts.watch_per;
 if (sumanOpts.user_args) {
     _suman.log(chalk.magenta('raw user_args is'), sumanOpts.user_args);
 }
+if (sumanOpts.to_json) {
+    _suman.log(chalk.magenta('raw to_json is'), sumanOpts.to_json);
+}
 var userArgs = sumanOpts.user_args = _.flatten([sumanOpts.user_args]).join(' ');
 if (coverage) {
     _suman.log(chalk.magenta.bold('Coverage reports will be written out due to presence of --coverage flag.'));

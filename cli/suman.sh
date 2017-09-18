@@ -18,7 +18,8 @@ NEW_PATH=${PATH}:~/.suman/global/node_modules/.bin
 
 if [[ "${LOCAL_SUMAN_ALREADY_FOUND}" == "yes" ]]; then
     # we know that this directory contains the local version of suman we want to use
-    NODE_PATH=${NEW_NODE_PATH} PATH=${NEW_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node "${X}/cli.js" $@
+    echo "local suman version already found.";
+    NODE_PATH=${NEW_NODE_PATH} PATH=${NEW_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node "${X}/cli.js" "$@"
 else
     # we are probably in the global install space, so let's find the local installation given pwd/cwd
     LOCAL_SUMAN="$(node ${X}/scripts/find-local-suman-executable.js)"
@@ -28,11 +29,11 @@ else
         echo " => No local Suman executable could be found, given the current directory => $PWD"
         echo " => Attempting to run installed version of Suman here => '${X}/cli.js'"
         GLOBAL_MODULES=$(npm root -g)
-        NODE_PATH=${NEW_NODE_PATH}:${GLOBAL_MODULES} PATH=${NEW_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node "${X}/cli.js" $@
+        NODE_PATH=${NEW_NODE_PATH}:${GLOBAL_MODULES} PATH=${NEW_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node "${X}/cli.js" "$@"
 
     else
         # local version found, so we run it
-        NODE_PATH=${NEW_NODE_PATH} PATH=${NEW_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node "${LOCAL_SUMAN}" $@
+        NODE_PATH=${NEW_NODE_PATH} PATH=${NEW_PATH} SUMAN_EXTRANEOUS_EXECUTABLE=yes node "${LOCAL_SUMAN}" "$@"
     fi
 
 fi

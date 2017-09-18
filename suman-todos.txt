@@ -16,20 +16,12 @@ Test.create should all be in the same tick anyway
 
 ///
 
+use git submodules to publish suman-types
+https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
-// => TypeError: t.skip is not a function
+///
 
- var suman_1 = require("suman");
- var Test = suman_1.default.init(module);
- Test.create(function (it) {
-     it('passes', function (t) {
-         t.skip();
-     });
-     it('fails', function (t) {
-         t.skip();
-     });
- });
-
+ use https://github.com/tunnckoCore/parse-function, instead of function-arguments
 
 ///
 

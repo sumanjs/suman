@@ -35,12 +35,12 @@ export interface IAfterOpts {
   always: boolean;
 }
 
-
 export type AfterHookCallbackMode = (h: IHookParam) => void;
 export type AfterHookRegularMode = (h?: IHookParam) => Promise<any>;
 export type AfterHookObservableMode = (h?: IHookParam) => Observable<any>;
 export type AfterHookSubscriberMode = (h?: IHookParam) => Subscriber<any>;
 export type AfterHookEEMode = (h?: IHookParam) => EventEmitter;
+
 
 export type TAfterHook =
   AfterHookCallbackMode |

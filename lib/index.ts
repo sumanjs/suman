@@ -20,7 +20,7 @@ export {IBeforeEachFn} from '../dts/before-each';
 export {IAfterFn} from '../dts/after';
 export {IAfterEachFn} from '../dts/after-each';
 
-///////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 export type TConfigOverride = Partial<ISumanConfig>;
 
