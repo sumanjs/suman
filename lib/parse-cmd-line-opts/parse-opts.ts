@@ -34,8 +34,6 @@ if (module.parent && module.parent.filename === path.resolve(__dirname + '/../in
 
 /////////////////////////////////////////////////////////////////////
 
-console.log('process.argv', process.argv);
-
 let opts, parser = dashdash.createParser({options: options});
 
 try {
@@ -44,11 +42,6 @@ try {
   console.error(chalk.red(' => Suman command line options error: %s'), err.message);
   console.error(' => Try "suman --help" or visit sumanjs.org');
   process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
-}
-
-if(opts.to_json){
-  console.log(opts.to_json);
-  process.exit(1);
 }
 
 if (opts.help) {
