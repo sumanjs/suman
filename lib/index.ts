@@ -222,7 +222,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   if (!inBrowser) {
     assert(($module.constructor && $module.constructor.name === 'Module'),
-      'Please pass the test file module instance as first arg to suman.init()');
+      'Please pass the test file module instance as the first argument to suman.init()');
   }
 
   if (confOverride) {

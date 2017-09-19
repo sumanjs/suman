@@ -177,7 +177,7 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       }
 
       console.error('\n');
-      console.error(chalk.magenta.bold(' => Suman uncaught exception => ', chalk.magenta(msg)));
+      console.error(chalk.magenta.bold(' => Suman uncaught exception => \n', chalk.magenta(msg)));
       _suman.logError('Given the event of an uncaught exception,' +
         ' Suman will now run "suman.once.post.js" shutdown hooks...');
       console.error('\n');
