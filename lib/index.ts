@@ -1,7 +1,7 @@
 'use strict';
 
 // tsc
-import {IGlobalSumanObj, ISumanConfig, SumanErrorRace} from "../dts/global";
+import {IGlobalSumanObj, ISumanConfig, SumanErrorRace} from "suman-types/types/suman/dts/global";
 import EventEmitter = NodeJS.EventEmitter;
 import {ISuman} from "../dts/suman";
 import {Stream, Transform, Writable} from "stream";
@@ -22,58 +22,9 @@ export {IAfterEachFn} from '../dts/after-each';
 
 //////////////////////////////////////////////////////////////////
 
-export type TConfigOverride = Partial<ISumanConfig>;
 
-export interface ISumanErrorFirstCB {
-  (err: Error | undefined | null, ...args: any[]): void
-}
 
-// exported declarations
-export interface ILoadOpts {
-  path: string,
-  indirect: boolean
-}
 
-export interface Ioc {
-  a: string,
-  b: string
-}
-
-export interface IIoCData {
-  $pre?: Object,
-
-  [key: string]: any
-}
-
-export interface IInitOpts {
-  export?: boolean,
-  __expectedExitCode?: number,
-  pre?: Array<string>,
-  integrants?: Array<string>,
-  series?: boolean,
-  writable?: EventEmitter,
-  timeout?: number,
-  post?: Array<any>,
-  interface?: string,
-  iocData?: IIoCData,
-  ioc?: Object
-}
-
-export interface IStartCreate {
-  //desc: string, opts?: ICreateOpts, arr?: Array<string | TCreateHook>, cb?: TCreateHook
-  (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TCreateHook): void,
-
-  delay?: IDescribeFn,
-  skip?: IDescribeFn,
-  only?: IDescribeFn
-}
-
-export interface IInit {
-  (module: ISumanModuleExtended, opts?: IInitOpts, confOverride?: TConfigOverride): IStartCreate,
-
-  $ingletonian?: any,
-  tooLate?: boolean
-}
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -89,7 +40,8 @@ import stream = require('stream');
 
 // npm
 import * as chalk from 'chalk';
-
+import su = require('suman-utils');
+import async = require('async');
 const pragmatik = require('pragmatik');
 const debug = require('suman-debug')('s:index');
 
@@ -100,34 +52,32 @@ _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
 import {getClient} from './index-helpers/socketio-child-client';
-
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
 const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
+process.on('error', function(e: Error){
+  _suman.logError(su.getCleanErrorString(e));
+});
+
+
 try {
-  window.module = {filename: '/'};
-  module.parent = module;
+  if(!window.module){
+    window.module = {filename: '/', exports: {}};
+    module.parent = module;
+  }
   inBrowser = _suman.inBrowser = true;
 }
 catch (err) {
   inBrowser = _suman.inBrowser = false;
 }
 
-if (_suman.sumanOpts) {
-  if (_suman.sumanOpts.verbosity > 8) {
-    console.log(' => Are we in browser? => ', inBrowser ? 'yes!' : 'no.');
-  }
+if (_suman.sumanOpts && _suman.sumanOpts.verbosity > 8) {
+  _suman.log(' => Are we in browser? => ', inBrowser ? 'yes!' : 'no.');
 }
 else {
   _suman.logWarning('sumanOpts is not yet defined in runtime.');
 }
 
-const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
-const {fatalRequestReply} = require('./helpers/fatal-request-reply');
-import async = require('async');
-
-const {constants} = require('../config/suman-constants');
-const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
 ////////////////////////////////////////////////////////////////////
 
@@ -136,15 +86,16 @@ require('./index-helpers/exit-handling');
 /////////////////////////////////////////////////////////////////////
 
 // project
+const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
+const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
+const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
+const {fatalRequestReply} = require('./helpers/fatal-request-reply');
+const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import setupExtraLoggers from './index-helpers/setup-extra-loggers';
-
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
-import su = require('suman-utils');
-
 const {execSuite} = require('./exec-suite');
-const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 import {loadSumanConfig} from './helpers/load-suman-config';
 import {resolveSharedDirs} from './helpers/resolve-shared-dirs';
 import {loadSharedObjects} from './helpers/load-shared-objects'
@@ -164,7 +115,6 @@ if (!SUMAN_SINGLE_PROCESS) {
 }
 
 require('./index-helpers/verify-local-global-version');
-const counts = require('./helpers/suman-counts');
 const projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
 const main = require.main.filename;
 const usingRunner = _suman.usingRunner = (_suman.usingRunner || process.env.SUMAN_RUNNER === 'yes');
@@ -268,8 +218,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   require('./handle-exit'); // handle exit here
   require('./helpers/load-reporters-last-ditch').run();
-
-  $module = $module || {filename: '/', exports: {}};
+  $module = ($module || {filename: '/', exports: {}}) as ISumanModuleExtended;
 
   if (!inBrowser) {
     assert(($module.constructor && $module.constructor.name === 'Module'),

@@ -3,12 +3,12 @@
 const suman = require('suman');
 
 const Test = suman.init(module, {
-  pre: ['dog'],
-  integrants: ['dog'],
+  pre: ['cat', 'mouse', 'dog'],
   post: ['smartconnect']
 });
 
-Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks) {
+Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks, sheep, function_arguments) {
+
 
   let foo;
   {
@@ -16,7 +16,7 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
     foo = v * 2;
   }
 
-  console.log(foo); ///////////
+  console.log(foo); /////////////
 
   beforeEach(t => {
     console.log('parent before each');
@@ -44,7 +44,7 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
   it.cb('is cool story bro', t => {
     setTimeout(function () {
       t.done(null)
-    }, 3000);
+    }, 1000);
   });
 
   it('is cool story bro 2', t => {

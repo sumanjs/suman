@@ -6,18 +6,41 @@ three SO profiles:
 
 /////
 
-Test.creates should go on an async.queue
-if series, async.queue concurrency should be 1?
-Test.create should all be in the same tick anyway
-
-////
-
 ∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆
+
+///
+
+ [watch-worker] (node:5440) Warning: Possible EventEmitter memory leak detected. 11 finish listeners added. Use emitter.setMaxListeners() to increase limit
+ [watch-worker]   => Suman-Utils warning =>  Warning: Possible EventEmitter memory leak detected. 11 finish listeners added. Use emitter.setMaxListeners() to increase limit
+ [watch-worker]     at _addListener (events.js:259:19)
+ [watch-worker]     at Socket.addListener (events.js:275:10)
+ [watch-worker]     at Socket.Readable.on (_stream_readable.js:687:35)
+ [watch-worker]     at Socket.once (events.js:301:8)
+ [watch-worker]     at Socket.Readable.pipe (_stream_readable.js:596:8)
+ [watch-worker]     at handleStdioAndExit (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-watch/lib/make-execute.js:38:22)
+ [watch-worker]     at noDaemon_1 (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-watch/lib/make-execute.js:89:21)
+ [watch-worker]     at _combinedTickCallback (internal/process/next_tick.js:73:7)
+ [watch-worker]     at process._tickCallback (internal/process/next_tick.js:104:9)
+ [watch-worker]   => Suman warning =>  Warning: Possible EventEmitter memory leak detected. 11 finish listeners added. Use emitter.setMaxListeners() to increase limit
+ [watch-worker]     at _addListener (events.js:259:19)
+ [watch-worker]     at Socket.addListener (events.js:275:10)
+ [watch-worker]     at Socket.Readable.on (_stream_readable.js:687:35)
+ [watch-worker]     at Socket.once (events.js:301:8)
+ [watch-worker]     at Socket.Readable.pipe (_stream_readable.js:596:8)
+ [watch-worker]     at handleStdioAndExit (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-watch/lib/make-execute.js:38:22)
+ [watch-worker]     at noDaemon_1 (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-watch/lib/make-execute.js:89:21)
+ [watch-worker]     at _combinedTickCallback (internal/process/next_tick.js:73:7)
+ [watch-worker]     at process._tickCallback (internal/process/next_tick.js:104:9)
+
 
 ///
 
 use git submodules to publish suman-types
 https://git-scm.com/book/en/v2/Git-Tools-Submodules
+
+///
+
+run Test.creates suman.ioc.js files in parallel?
 
 ///
 

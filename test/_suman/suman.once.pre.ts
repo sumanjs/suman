@@ -17,6 +17,14 @@ module.exports = ($core, $deps, $root) => {  //load async deps for any of your s
         return 'labrador';
       },
 
+      'cat': ['dog', function () {
+        return 'feline';
+      }],
+
+      'mouse': ['dog', function () {
+        return 'feline';
+      }],
+
       'one': ['four', function (v) {
         return 'this is one';
       }],

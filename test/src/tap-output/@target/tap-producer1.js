@@ -1,7 +1,7 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var suman_1 = require("suman");
-var Test = suman_1["default"].init(module);
+var Test = suman_1.default.init(module);
 console.log('zoom');
 Test.create(function (it, before, describe, beforeEach, afterEach, after) {
     before('yup', [function (h) {
@@ -10,7 +10,6 @@ Test.create(function (it, before, describe, beforeEach, afterEach, after) {
     describe('ruby tuesday', function () {
     });
     it('zoom', function (t) {
-        // t.assert.deepEqual(false, true);
         throw new Error('whole me 3');
     })
         .it('rudolph', function (t) {

@@ -4,5 +4,6 @@ try{
   throw 'nail'
 }
 catch(err){
-  console.log(typeof err);
+  console.error(new Error(err));
 }
+//

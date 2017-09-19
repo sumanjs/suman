@@ -6,18 +6,12 @@ import {ISuman} from "./suman";
 import {IMapValue} from "suman-utils";
 import {ITableDataCallbackObj} from "../lib/suman";
 
-declare namespace SumanLib {
-  const _suman: Object;
-  const sumanConfig: Object;
-  const sumanOpts: Object;
-}
-
 
 export interface IntegrantHashKeyVals {
   [key: string]: any
 }
 
-export interface  IGlobalSumanObj {
+export interface IGlobalSumanObj {
   // we should execute Suman's in series, that makes it easier to run after.always shutdown, etc
   // which suman represents which Suman is executing at a given time
 
@@ -133,24 +127,20 @@ export interface ISumanGlobalInternal {
 
 }
 
-
 export interface ISumanGlobal extends Global {
   __suman?: IGlobalSumanObj
 }
-
 
 export interface SumanErrorRace extends Error {
   _alreadyHandledBySuman?: boolean
 }
 
-
-export interface IPseudoError  {
+export interface IPseudoError {
   stack?: string
   message?: string,
   sumanFatal?: boolean,
   sumanExitCode?: number
 }
-
 
 export interface ISumanDomain extends Domain {
   _sumanStartWholeShebang?: boolean
@@ -169,17 +159,16 @@ export interface ISumanConfWatchPerItem {
 }
 
 export interface ISumanConfWatchPer {
-  [key:string] : ISumanConfWatchPerItem
+  [key: string]: ISumanConfWatchPerItem
 }
 
 export interface ISumanConfigWatch {
   per: ISumanConfWatchPer
 }
 
-
 export interface ISumanConfig {
 
-  [key:string]: any,
+  [key: string]: any,
 
   DEFAULT_PARALLEL_TOTAL_LIMIT: number,
   DEFAULT_PARALLEL_BLOCK_LIMIT: number,
@@ -246,6 +235,5 @@ export interface ISumanConfig {
   expireResultsAfter: number,
 
   watch: ISumanConfigWatch
-
 
 }

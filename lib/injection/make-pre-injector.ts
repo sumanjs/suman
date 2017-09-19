@@ -16,7 +16,7 @@ import * as chalk from 'chalk';
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getCoreAndDeps} from './$core-n-$deps';
-import {getProjectModule} from './helpers';
+import {getProjectModule, lastDitchRequire} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 
@@ -34,11 +34,11 @@ export const makePreInjector = function ($data: Object, $preData: Object, $ioc: 
         return getCoreAndDeps().$deps;
       }
 
-      if(n === '$args'){
+      if (n === '$args') {
         return String(_suman.sumanOpts.user_args || '').split(/ +/).filter(i => i);
       }
 
-      if(n === '$argsRaw'){
+      if (n === '$argsRaw') {
         return _suman.sumanOpts.user_args || '';
       }
 
@@ -62,14 +62,7 @@ export const makePreInjector = function ($data: Object, $preData: Object, $ioc: 
         return $ioc || _suman.$staticIoc;
       }
 
-      try {
-        return require(n);
-      }
-      catch (err) {
-        _suman.logError('warning => [suman.once.post injector] => Suman will continue optimistically, ' +
-          'but cannot require dependency with name => "' + n + '"');
-        return null;
-      }
+      return lastDitchRequire(n, '<suman.once.pre.js>');
 
     });
 
