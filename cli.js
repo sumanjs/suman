@@ -276,7 +276,7 @@ if ('concurrency' in sumanOpts) {
 }
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
-_suman.logWarning('using TAP output => ', sumanOpts.$useTAPOutput);
+sumanOpts.$useTAPOutput && _suman.log('using TAP output => ', sumanOpts.$useTAPOutput);
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 var sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
     .map(function (item) { return (item instanceof RegExp) ? item : new RegExp(item); });
@@ -292,27 +292,13 @@ _suman.sumanMatchesAny = uniqBy(sumanMatchesAny, function (item) { return item; 
 _suman.sumanMatchesNone = uniqBy(sumanMatchesNone, function (item) { return item; });
 _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, function (item) { return item; });
 var preOptCheck = {
-    tscMultiWatch: tscMultiWatch,
-    watch: watch,
-    watchPer: watchPer,
-    create: create,
-    useServer: useServer,
-    useBabel: useBabel,
-    useIstanbul: useIstanbul,
-    init: init,
-    uninstall: uninstall,
-    convert: convert,
-    groups: groups,
-    s: s,
-    tailTest: tailTest,
-    tailRunner: tailRunner,
-    interactive: interactive,
-    uninstallBabel: uninstallBabel,
-    diagnostics: diagnostics,
-    installGlobals: installGlobals,
-    postinstall: postinstall,
-    repair: repair,
-    sumanD: sumanD
+    tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
+    create: create, useServer: useServer, useBabel: useBabel,
+    useIstanbul: useIstanbul, init: init, uninstall: uninstall,
+    convert: convert, groups: groups, s: s, tailTest: tailTest,
+    tailRunner: tailRunner, interactive: interactive, uninstallBabel: uninstallBabel,
+    diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
+    repair: repair, sumanD: sumanD
 };
 var optCheck = Object.keys(preOptCheck).filter(function (key, index) {
     return preOptCheck[key];

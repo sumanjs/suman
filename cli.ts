@@ -394,8 +394,7 @@ if ('concurrency' in sumanOpts) {
 
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
-
-_suman.logWarning('using TAP output => ', sumanOpts.$useTAPOutput);
+sumanOpts.$useTAPOutput && _suman.log('using TAP output => ', sumanOpts.$useTAPOutput);
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 
 /////////////////////////////////// matching ///////////////////////////////////////
@@ -429,29 +428,13 @@ export interface IPreOptCheck {
 }
 
 const preOptCheck = <IPreOptCheck> {
-
-  tscMultiWatch: tscMultiWatch,
-  watch: watch,
-  watchPer: watchPer,
-  create: create,
-  useServer: useServer,
-  useBabel: useBabel,
-  useIstanbul: useIstanbul,
-  init: init,
-  uninstall: uninstall,
-  convert: convert,
-  groups: groups,
-  s: s,
-  tailTest: tailTest,
-  tailRunner: tailRunner,
-  interactive: interactive,
-  uninstallBabel: uninstallBabel,
-  diagnostics: diagnostics,
-  installGlobals: installGlobals,
-  postinstall: postinstall,
-  repair: repair,
-  sumanD: sumanD
-
+  tscMultiWatch, watch, watchPer,
+  create, useServer, useBabel,
+  useIstanbul, init, uninstall,
+  convert, groups, s, tailTest,
+  tailRunner, interactive, uninstallBabel,
+  diagnostics, installGlobals, postinstall,
+  repair, sumanD
 };
 
 const optCheck = Object.keys(preOptCheck).filter(function (key, index) {

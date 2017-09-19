@@ -60,7 +60,7 @@ export const run = function (filePath: string) {
     });
 
     _suman.endLogStream = function () {
-      _suman.logError('endLogStream finished.');
+      // _suman.logError('endLogStream finished.');
       // rstrm.unpipe();
       writeToFileStream = false;
       // strm.end();
