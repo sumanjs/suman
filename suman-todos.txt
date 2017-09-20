@@ -22,25 +22,6 @@ fatal error in hook does not have cause or reason (the first line!):
 
 ////
 
-parallel:true and --parallel flag make tests parallel only if they belong to the same test block
-
-parallel is not being inherited properly?
-
-before each
-before each
-   [1] ✔  'first' (105ms)
-   [2] ✔  'second' (104ms)
-before each
-   [3] ✔  'third' (104ms)
-before each
-   [4] ✔  'fourth' (101ms)
-before each
-   [5] ✔  'fifth' (104ms)
-before each
-   [6] ✔  'sixth' (103ms)
-
-///
-
  [watch-worker] (node:5440) Warning: Possible EventEmitter memory leak detected. 11 finish listeners added. Use emitter.setMaxListeners() to increase limit
  [watch-worker]   => Suman-Utils warning =>  Warning: Possible EventEmitter memory leak detected. 11 finish listeners added. Use emitter.setMaxListeners() to increase limit
  [watch-worker]     at _addListener (events.js:259:19)
@@ -84,6 +65,11 @@ run Test.creates suman.ioc.js files in parallel?
 
 //
 
+ => absolute --parallel would just mean unleashing things in exec-suite.js so that a parent does *not* need to complete
+ before a child starts.
+
+//
+
  --use-tap prevents tables from being printed by runner, weird.
 
 ////
@@ -95,6 +81,10 @@ run Test.creates suman.ioc.js files in parallel?
       throw 'marf';
     });
   });
+
+///
+
+"please report this on the Github issue..." => add a link to these instance in the codebase to sumanjs/suman#issues
 
 ///
 

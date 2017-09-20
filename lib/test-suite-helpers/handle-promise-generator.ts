@@ -1,5 +1,5 @@
 'use strict';
-import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -19,10 +19,17 @@ const makeGen = require('../helpers/async-gen');
 
 export const handlePotentialPromise = function (done: Function, str: string) {
 
-  return function handle(val: any, warn: boolean) {
+  return function handle(val: any, warn: boolean, d: ISumanDomain) {
 
     if ((!val || (typeof val.then !== 'function')) && warn) {
-      _suman.writeTestError('\n => Suman warning: you may have forgotten to return a Promise => \n' + str + '\n');
+      _suman.writeTestError('\n Suman warning: you may have forgotten to return a Promise => \n' + str + '\n');
+    }
+
+    if (typeof val.then === 'function') {
+      // if it's a promise, attach the domain
+      if (!val.domain) {
+        val.domain = d;
+      }
     }
 
     if (su.isObservable(val)) {
@@ -99,7 +106,6 @@ export const makeHandleGenerator = function (done: Function) {
 
   }
 };
-
 
 ///////////// support node style imports //////////////////////////////////////////////////
 

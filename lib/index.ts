@@ -23,9 +23,6 @@ export {IAfterEachFn} from '../dts/after-each';
 //////////////////////////////////////////////////////////////////
 
 
-
-
-
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');

@@ -1,8 +1,9 @@
 'use strict';
 
+//dts
 import {IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanAllHookDomain, ISumanDomain} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -48,7 +49,10 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
       num: 0
     };
 
-    const d = domain.create() as ISumanDomain;
+    const d = domain.create() as ISumanAllHookDomain;
+    d.sumanAllHook = true;
+    d.sumanAllHookName = aBeforeOrAfter.desc || '(unknown)';
+
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfter, timerObj, gracefulExit, cb);
     const fnStr = aBeforeOrAfter.fn.toString();
 
@@ -69,7 +73,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
       const stk = err.stack || err;
       const stck = typeof stk === 'string' ? stk : util.inspect(stk);
-      const formatedStk = String(stk).split('\n').map(item => '\t' + item).join('\n');
+      const formatedStk = String(stck).split('\n').map(item => '\t' + item).join('\n');
 
       if (!dError) {
         dError = true;
@@ -148,9 +152,10 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
           t.callbackMode = true;
 
-          //if (!sumanUtils.checkForValInStr(aBeforeOrAfter.toString(), /done/g)) {
+          // TODO: in the future, we may be able to check for presence of callback, if no callback fire error
+          // if (!su.checkForValInStr(fnStr, /done/g)) {
           //    throw aBeforeOrAfter.NO_DONE;
-          //}
+          // }
 
           const d = function done(err: IPseudoError) {
             if (!t.callbackMode) {

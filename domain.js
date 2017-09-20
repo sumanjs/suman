@@ -1,20 +1,27 @@
 
 
-const Domain = require('domain');
+// const Domain = require('domain');
+//
+// const d = Domain.create();
+//
+// process.once('unhandledRejection', function(r, p){
+//   console.log('unhandledRejection', r, p);
+// });
+//
+// d.once('error', function(){
+//   console.log('domain caught');
+// });
+//
+//
+// d.run(function(){
+//   Promise.resolve(null).then(function(){
+//     throw 'foo';
+//   });
+// });
 
-const d = Domain.create();
 
-process.once('unhandledRejection', function(r, p){
-  console.log('unhandledRejection', r, p);
-});
+const x = new String('');
+x.y = true;
 
-d.once('error', function(){
-  console.log('domain caught');
-});
+console.log(x.y);
 
-
-d.run(function(){
-  Promise.resolve(null).then(function(){
-    throw 'foo';
-  });
-});

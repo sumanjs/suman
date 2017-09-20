@@ -23,11 +23,9 @@ import util = require('util');
 import {VamootProxy} from 'vamoot';
 import * as chalk from 'chalk';
 import * as async from 'async';
-
 const _ = require('underscore');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
-const debug = require('suman-debug')('s:index');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -134,8 +132,7 @@ export const execSuite = function (suman: ISuman): Function {
     }
     catch (err) {
       _suman.logError(chalk.magenta('warning => Could not find the "suman.hooks.js" ' +
-        'file in your <suman-helpers-dir>.\n' +
-        'Create the file to remove the warning.'), '\n\n');
+        'file in your <suman-helpers-dir>.\n Create the file to remove the warning.'), '\n\n');
     }
 
     if (deps.length < 1) {
@@ -153,7 +150,7 @@ export const execSuite = function (suman: ISuman): Function {
 
         d.exit();
         process.nextTick(function () {
-          err = new Error(' => Suman usage error => Error acquiring IOC deps => \n' + (err.stack || err));
+          err = new Error('Suman usage error => Error acquiring IOC deps => \n' + (err.stack || err));
           err.sumanFatal = true;
           err.sumanExitCode = constants.EXIT_CODES.IOC_DEPS_ACQUISITION_ERROR;
           _suman.logError(err.stack || err);
@@ -289,6 +286,8 @@ export const execSuite = function (suman: ISuman): Function {
 
       _suman.suiteResultEmitter.emit('suman-test-registered', function () {
 
+        const sumanOpts = _suman.sumanOpts;
+
         _suman.currentPaddingCount = _suman.currentPaddingCount || {};
         _suman.currentPaddingCount.val = 1; // always reset to 4...
 
@@ -328,7 +327,7 @@ export const execSuite = function (suman: ISuman): Function {
             }
             else {
 
-              _suman.sumanOpts.series && (_suman.currentPaddingCount.val += 3);
+              sumanOpts.series && (_suman.currentPaddingCount.val += 3);
 
               fn(children, limit, function (child: ITestSuite, cb: Function) {
 
@@ -336,7 +335,7 @@ export const execSuite = function (suman: ISuman): Function {
 
               }, function (err: IPseudoError) {
 
-                _suman.sumanOpts.series && (_suman.currentPaddingCount.val -= 3);
+                sumanOpts.series && (_suman.currentPaddingCount.val -= 3);
                 err && _suman.logError('Suman implementation error => ', err.stack || err);
                 process.nextTick(cb);
 

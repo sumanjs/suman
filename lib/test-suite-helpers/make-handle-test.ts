@@ -1,6 +1,8 @@
 'use strict';
+
+//dts
 import {IHandleError, ITestDataObj, ITestSuite} from "../../dts/test-suite";
-import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain, ISumanTestCaseDomain} from "../../dts/global";
 import {ISuman} from "../../dts/suman";
 
 //polyfills
@@ -27,13 +29,14 @@ const helpers = require('./handle-promise-generator');
 import {cloneError} from '../misc/clone-error';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
+
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
-  return function _handleTest(self: ITestSuite, test: ITestDataObj, cb: Function) {
+  return function handleTest(self: ITestSuite, test: ITestDataObj, cb: Function) {
 
     //records whether a test was actually attempted
     test.alreadyInitiated = true;
@@ -66,9 +69,9 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
       timer: setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : test.timeout)
     };
 
-    const d = domain.create();
-    d._sumanTest = true;
-    d._sumanTestName = test.desc;
+    const d = domain.create() as ISumanTestCaseDomain;
+    d.sumanTestCase = true;
+    d.sumanTestName = test.desc;
 
     const assertCount = {
       num: 0
@@ -112,8 +115,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
     process.nextTick(function () {
 
-      d.itTestCase = true;
-
       d.run(function runHandleTest() {
 
         let warn = false;
@@ -126,9 +127,9 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
         const isGeneratorFn = su.isGeneratorFn(test.fn);
 
-        function timeout(val: number) {
+        let timeout = function (val: number) {
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 500000 : val);
-        }
+        };
 
         function $throw(str: any) {
           handleErr(str instanceof Error ? str : new Error(str));
@@ -143,10 +144,10 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           }
         }
 
-        function handleNonCallbackMode(err: IPseudoError) {
+        let handleNonCallbackMode = function (err: IPseudoError) {
           err = err ? ('Also, you have this error => ' + err.stack || err) : '';
           handleErr(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
-        }
+        };
 
         const TestCase = makeTestCase(test, assertCount);
         const t = new TestCase(handleErr);
@@ -158,12 +159,14 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         t.shared = self.shared;
         t.$inject = suman.$inject;
 
-        t.skip = function () {
-          test.skipped = true;
-          resultBroadcaster.emit(String(events.TEST_CASE_END), test);
-          resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
-          fini(null);
-        };
+        // t.skip = function () {
+        // TODO: we probably should not attempt to support this as it may cause unexpected problems
+        // TODO: aka it might eventually "be considered harmful" to use
+        //   test.skipped = true;
+        //   resultBroadcaster.emit(String(events.TEST_CASE_END), test);
+        //   resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
+        //   fini(null);
+        // };
 
         ////////////// note: unfortunately these fns cannot be moved to prototype /////////////////
 
@@ -245,7 +248,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         else {
           const handlePotentialPromise = helpers.handlePotentialPromise(fini, fnStr);
           args = freezeExistingProps(t);
-          handlePotentialPromise(test.fn.call(self, args), warn);
+          handlePotentialPromise(test.fn.call(self, args), warn, d);
         }
 
       });

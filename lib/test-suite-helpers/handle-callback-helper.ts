@@ -1,6 +1,6 @@
 'use strict';
 import {IAssertObj, IHookObj, ITimerObj} from "../../dts/test-suite";
-import {IPseudoError, ISumanDomain} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../../dts/global";
 import {ITestDataObj} from "../../dts/it";
 
 //polyfills
@@ -16,7 +16,7 @@ import assert = require('assert');
 import su from 'suman-utils';
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../misc/clone-error';
 
@@ -103,7 +103,7 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
                                       timerObj: ITimerObj, gracefulExit: Function, cb: Function) {
 
   if (test && hook) {
-    throw new Error(' => Suman internal implementation error => Please report this on Github issue tracker.');
+    throw new Error('Suman internal implementation error => Please report this on the Github issue tracker.');
   }
   else if (!test && !hook) {
     let msg = new Error(' => Suman implementation error, please report! ' +

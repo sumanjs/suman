@@ -1,7 +1,9 @@
 'use strict';
+
+//dts
 import {IEachHookObj, IHandleError, ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IPseudoError} from "../../dts/global";
+import {IPseudoError, ISumanEachHookDomain} from "../../dts/global";
 import {ITestDataObj} from "../../dts/it";
 
 //polyfills
@@ -59,9 +61,9 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       num: 0
     };
 
-    const d = domain.create();
-    d._sumanEach = true;
-    d._sumanEachDesc = aBeforeOrAfterEach.desc || '(unknown)';
+    const d = domain.create() as ISumanEachHookDomain;
+    d.sumanEachHook = true;
+    d.sumanEachHookName = aBeforeOrAfterEach.desc || '(unknown)';
 
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfterEach, timerObj, gracefulExit, cb);
 

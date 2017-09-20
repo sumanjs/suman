@@ -7,7 +7,7 @@ const Test = suman.init(module);
 
 ///////////////////////////////////////////
 
-Test.create('hotels1', function (it, before, beforeEach, describe, context) {
+Test.create('hotels1', function (it, before, beforeEach, describe, context, util) {
 
   beforeEach.cb(h => {
     setTimeout(h, 100);
@@ -21,18 +21,23 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context) {
     setTimeout(t, 100);
   });
 
-  it.cb('second', t => {
+  it.cb('third', t => {
     setTimeout(function(){
       throw new Error('cheeseburger');
-    },1000);
+    },100);
   });
 
-  it.cb('second', t => {
+  it.cb('fourth', t => {
      return Promise.resolve({}).then(function(){
        throw 'marf1';
-       setTimeout(function(){
-         throw 'marf2';
-       }, 100);
+    });
+  });
+
+  it.cb('fifth', t => {
+    return Promise.resolve({}).then(function(){
+      setTimeout(function(){
+        throw 'marf2';
+      }, 100);
     });
   });
 
