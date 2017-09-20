@@ -21,6 +21,7 @@ import {incr} from '../misc/incrementer';
 
 export default class TestSuiteBase {
 
+  // public
   opts: Object;
   testId: number;
   isSetupComplete: boolean;
@@ -29,6 +30,8 @@ export default class TestSuiteBase {
   only: boolean;
   filename: string;
   getAfterAllParentHooks: Function;
+
+  // private
   private mergeAfters: Function;
   private getAfters: Function;
   private getAfterEaches: Function;
@@ -43,6 +46,8 @@ export default class TestSuiteBase {
   private getTestsParallel: Function;
   private getLoopTests: Function;
   private getAftersLast: Function;
+
+  /////////////////////////////////////////
 
   constructor(obj: ITestSuiteBaseInitObj, suman: ISuman) {
 
@@ -73,7 +78,7 @@ export default class TestSuiteBase {
 
     const getAfterAllParentHooks: Array<IAfterAllParentHooks> = [];
 
-    this.getAfterAllParentHooks = function(){
+    this.getAfterAllParentHooks = function () {
       return getAfterAllParentHooks;
     };
 

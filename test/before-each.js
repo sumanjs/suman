@@ -5,7 +5,7 @@ const Test = suman.init(module);
 
 ///////////////////////////////////////////
 
-Test.create('hotels1', {parallel: true}, function (it, before, beforeEach, describe, context) {
+Test.create('hotels1', function (it, before, beforeEach, describe, context) {
 
   beforeEach.cb(h => {
     console.log('before each');
@@ -20,7 +20,7 @@ Test.create('hotels1', {parallel: true}, function (it, before, beforeEach, descr
     setTimeout(t, 100);
   });
 
-  context('inner block', function(){
+  context('inner block A', function(){
 
     it.cb('third', t => {
       setTimeout(t, 100);
@@ -30,7 +30,7 @@ Test.create('hotels1', {parallel: true}, function (it, before, beforeEach, descr
       setTimeout(t, 100);
     });
 
-    context('inner block', function(){
+    context('inner block B', function(){
 
       it.cb('fifth', t => {
         setTimeout(t, 100);
@@ -42,7 +42,7 @@ Test.create('hotels1', {parallel: true}, function (it, before, beforeEach, descr
     });
   });
 
-  context('inner block', function(){
+  context('inner block C', function(){
 
     it.cb('seventh', t => {
       setTimeout(t, 100);
@@ -52,13 +52,36 @@ Test.create('hotels1', {parallel: true}, function (it, before, beforeEach, descr
       setTimeout(t, 100);
     });
 
-    context('inner block', function(){
+    context('inner block D', function(){
 
       it.cb('ninth', t => {
         setTimeout(t, 100);
       });
 
       it.cb('tenth', t => {
+        setTimeout(t, 100);
+      });
+    });
+  });
+
+
+  context('inner block E', function(){
+
+    it.cb('eleventh', t => {
+      setTimeout(t, 100);
+    });
+
+    it.cb('twelth', t => {
+      setTimeout(t, 100);
+    });
+
+    context('inner block F', function(){
+
+      it.cb('thirteenth', t => {
+        setTimeout(t, 100);
+      });
+
+      it.cb('fourteenth', t => {
         setTimeout(t, 100);
       });
     });

@@ -311,10 +311,11 @@ export const execSuite = function (suman: ISuman): Function {
             }
           }
 
-          assert(Number.isInteger(limit) && limit > 0 && limit < 10000, 'limit must be an integer between 1 and 10000.');
+          assert(Number.isInteger(limit) && limit > 0 && limit < 100, 'limit must be an integer between 1 and 100, inclusive.');
 
           suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
+            results && _suman.logError('results => ', results);
             err && _suman.logError('Test error data before log:', suite);
 
             const children = suite.getChildren().filter(function (child: ITestSuite) {

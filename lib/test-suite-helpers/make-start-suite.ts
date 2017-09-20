@@ -85,7 +85,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
           if (self.parallel && !sumanOpts.series) {
             if (self.limit) {
-              limit = Math.min(self.limit, 90);
+              limit = Math.min(self.limit, constants.DEFAULT_PARALLEL_TEST_LIMIT);
             }
             else {
               limit = sumanConfig.DEFAULT_PARALLEL_TEST_LIMIT || constants.DEFAULT_PARALLEL_TEST_LIMIT;
