@@ -347,6 +347,10 @@ if (su.vgt(7)) {
 if (sumanOpts.force_inherit_stdio) {
     _suman.$forceInheritStdio = true;
 }
+var isTTY = process.stdout.isTTY;
+if (!process.stdout.isTTY && !useTAPOutput) {
+    _suman.logError(chalk.red('you may need to turn on TAP output for test results to be captured in destination process.'));
+}
 if (diagnostics) {
     require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
 }

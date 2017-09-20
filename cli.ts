@@ -108,6 +108,7 @@ import EE = require('events');
 import os = require('os');
 import domain = require('domain');
 import vm = require('vm');
+import tty = require('tty');
 
 //npm
 import semver = require('semver');
@@ -257,7 +258,7 @@ const postinstall = sumanOpts.postinstall;
 const tscMultiWatch = sumanOpts.tsc_multi_watch;
 const sumanD = sumanOpts.suman_d;
 const watchPer = sumanOpts.watch_per;
-if(sumanOpts.user_args){
+if (sumanOpts.user_args) {
   _suman.log(chalk.magenta('raw user_args is'), sumanOpts.user_args);
 }
 
@@ -501,6 +502,14 @@ if (su.vgt(7)) {
 
 if (sumanOpts.force_inherit_stdio) {
   _suman.$forceInheritStdio = true;
+}
+
+/////////////////// check to make sure --tap option is used if we are piping ////////////////////
+
+let isTTY = process.stdout.isTTY;
+
+if (!process.stdout.isTTY && !useTAPOutput) {
+  _suman.logError(chalk.red('you may need to turn on TAP output for test results to be captured in destination process.'));
 }
 
 ////////////////////// dynamically call files to minimize load, etc //////////////////////////////

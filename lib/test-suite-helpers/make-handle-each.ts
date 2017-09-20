@@ -3,7 +3,7 @@
 //dts
 import {IEachHookObj, IHandleError, ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IPseudoError, ISumanEachHookDomain} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanEachHookDomain} from "../../dts/global";
 import {ITestDataObj} from "../../dts/it";
 
 //polyfills
@@ -19,7 +19,7 @@ import util = require('util');
 const fnArgs = require('function-arguments');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
 
 const {constants} = require('../../config/suman-constants');
@@ -66,7 +66,6 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     d.sumanEachHookName = aBeforeOrAfterEach.desc || '(unknown)';
 
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfterEach, timerObj, gracefulExit, cb);
-
     const fnStr = aBeforeOrAfterEach.fn.toString(); //TODO: need to check if it's a promise instead of a function if we go that route
     let dError = false;
 

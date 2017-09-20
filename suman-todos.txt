@@ -4,6 +4,19 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+///
+
+ https://stackoverflow.com/a/1221870/5020949
+
+There is an internal Bash variable called $PIPESTATUS; it’s an array that holds the exit status of each command in your last foreground pipeline of commands.
+
+<command> | tee out.txt ; test ${PIPESTATUS[0]} -eq 0
+Or another alternative which also works with other shells (like zsh) would be to enable pipefail:
+
+set -o pipefail
+...
+The first option does not work with zsh due to a little bit different syntax.
+
 /////
 
 ∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆
