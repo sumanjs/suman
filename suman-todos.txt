@@ -10,6 +10,37 @@ three SO profiles:
 
 ///
 
+fatal error in hook does not have cause or reason (the first line!):
+
+   ⚑  Suman fatal error  => making a graceful exit =>
+   Error:  => fatal error in hook => (to continue even in the event of an error in a hook, use option {fatal:false}) =>
+
+            at TestSuite.h (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/exp.js:14:20)
+            at Domain.runHandleEachHook (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-each.js:151:66)
+            at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-each.js:75:15
+       at Domain.handleError (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-each.js:61:27)
+
+////
+
+parallel:true and --parallel flag make tests parallel only if they belong to the same test block
+
+parallel is not being inherited properly?
+
+before each
+before each
+   [1] ✔  'first' (105ms)
+   [2] ✔  'second' (104ms)
+before each
+   [3] ✔  'third' (104ms)
+before each
+   [4] ✔  'fourth' (101ms)
+before each
+   [5] ✔  'fifth' (104ms)
+before each
+   [6] ✔  'sixth' (103ms)
+
+///
+
  [watch-worker] (node:5440) Warning: Possible EventEmitter memory leak detected. 11 finish listeners added. Use emitter.setMaxListeners() to increase limit
  [watch-worker]   => Suman-Utils warning =>  Warning: Possible EventEmitter memory leak detected. 11 finish listeners added. Use emitter.setMaxListeners() to increase limit
  [watch-worker]     at _addListener (events.js:259:19)
