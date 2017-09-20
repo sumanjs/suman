@@ -18,6 +18,7 @@ const {fatalRequestReply} = require('../helpers/fatal-request-reply');
 import {constants} from '../../config/suman-constants';
 import {oncePostFn} from '../helpers/handle-suman-once-post';
 import {runAfterAlways} from '../helpers/run-after-always';
+
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 const weAreDebugging = require('../helpers/we-are-debugging');
 
@@ -193,6 +194,17 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 });
 
 process.on('unhandledRejection', ($reason: any, p: Promise<any>) => {
+
+  if (p && p.domain) {
+    if (p.domain.itTestCase) {
+      $reason && ($reason._alreadyHandledBySuman = true);
+      p.domain.emit('error', $reason);
+      return;
+    }
+  }
+
+  //
+
   const reason = ($reason.stack || $reason);
   console.error('\n');
   _suman.logError(chalk.magenta.bold('Unhandled Rejection at Promise:'), chalk.magenta(util.inspect(p)));

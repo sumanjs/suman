@@ -37,7 +37,8 @@ function handleExceptionsAndRejections() {
 process.on('uncaughtException', function (err) {
     debugger;
     if (typeof err !== 'object') {
-        err = { stack: typeof err === 'string' ? err : util.inspect(err) };
+        console.error(new Error("err passed to uncaughtException was not an object => " + err).stack);
+        err = new Error(typeof err === 'string' ? err : util.inspect(err));
     }
     if (String(err.stack || err).match(/Cannot find module/i) && _suman && _suman.sumanOpts && _suman.sumanOpts.transpile) {
         console.log(' => If transpiling, you may need to transpile your entire test directory to the destination directory using the ' +
@@ -51,9 +52,10 @@ process.on('uncaughtException', function (err) {
         }
     }, 500);
 });
-process.on('unhandledRejection', function (err) {
+process.on('unhandledRejection', function (err, p) {
     if (typeof err !== 'object') {
-        err = { stack: typeof err === 'string' ? err : util.inspect(err) };
+        console.error(new Error("err passed to unhandledRejection was not an object => '" + err + "'").stack);
+        err = new Error(typeof err === 'string' ? err : util.inspect(err));
     }
     setTimeout(function () {
         if (err && !err._alreadyHandledBySuman) {

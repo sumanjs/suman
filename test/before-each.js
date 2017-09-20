@@ -3,13 +3,14 @@
 const suman = require('suman');
 const Test = suman.init(module);
 
+// const Promise = require('bluebird');
+
 ///////////////////////////////////////////
 
 Test.create('hotels1', function (it, before, beforeEach, describe, context) {
 
   beforeEach.cb(h => {
-    console.log('before each');
-    setTimeout(h, 2000);
+    setTimeout(h, 100);
   });
 
   it.cb('first', t => {
@@ -18,6 +19,21 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context) {
 
   it.cb('second', t => {
     setTimeout(t, 100);
+  });
+
+  it.cb('second', t => {
+    setTimeout(function(){
+      throw new Error('cheeseburger');
+    },1000);
+  });
+
+  it.cb('second', t => {
+     return Promise.resolve({}).then(function(){
+       throw 'marf1';
+       setTimeout(function(){
+         throw 'marf2';
+       }, 100);
+    });
   });
 
   context('inner block A', function(){

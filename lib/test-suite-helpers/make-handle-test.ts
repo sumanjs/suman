@@ -27,7 +27,6 @@ const helpers = require('./handle-promise-generator');
 import {cloneError} from '../misc/clone-error';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
-
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +111,8 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     d.on('error', handleErr);
 
     process.nextTick(function () {
+
+      d.itTestCase = true;
 
       d.run(function runHandleTest() {
 

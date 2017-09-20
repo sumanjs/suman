@@ -62,7 +62,8 @@ process.on('uncaughtException', function (err: Error) {
   debugger;
 
   if (typeof err !== 'object') {
-    err = {stack: typeof err === 'string' ? err : util.inspect(err)}
+    console.error(new Error(`err passed to uncaughtException was not an object => ${err}`).stack);
+    err = new Error(typeof err === 'string' ? err : util.inspect(err))
   }
 
   if (String(err.stack || err).match(/Cannot find module/i) && _suman && _suman.sumanOpts && _suman.sumanOpts.transpile) {
@@ -80,10 +81,11 @@ process.on('uncaughtException', function (err: Error) {
 
 });
 
-process.on('unhandledRejection', function (err: Error) {
+process.on('unhandledRejection', function (err: Error, p: Promise<any>) {
 
   if (typeof err !== 'object') {
-    err = {stack: typeof err === 'string' ? err : util.inspect(err)}
+    console.error(new Error(`err passed to unhandledRejection was not an object => '${err}'`).stack);
+    err = new Error(typeof err === 'string' ? err : util.inspect(err))
   }
 
   setTimeout(function () {

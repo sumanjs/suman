@@ -88,6 +88,16 @@ run Test.creates suman.ioc.js files in parallel?
 
 ////
 
+  fire domain error events in unhandledRejection handlers
+
+  it.cb('second', t => {
+    return Promise.resolve({}).then(function(){
+      throw 'marf';
+    });
+  });
+
+///
+
  when a command in run.sh fails, we need to send that stderr
  to the runner, e.g.:
 
