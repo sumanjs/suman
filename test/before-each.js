@@ -10,21 +10,21 @@ const Test = suman.init(module);
 Test.create('hotels1', function (it, before, beforeEach, describe, context, util) {
 
   beforeEach.cb(h => {
-    setTimeout(h, 100);
+    setTimeout(h, 10);
   });
 
   it.cb('first', t => {
-    setTimeout(t, 100);
+    setTimeout(t, 10);
   });
 
   it.cb('second', t => {
-    setTimeout(t, 100);
+    setTimeout(t, 10);
   });
 
   it.cb('third', t => {
     setTimeout(function(){
       throw new Error('cheeseburger');
-    },100);
+    },10);
   });
 
   it.cb('fourth', t => {
@@ -37,28 +37,28 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context, util
     return Promise.resolve({}).then(function(){
       setTimeout(function(){
         throw 'marf2';
-      }, 100);
+      }, 10);
     });
   });
 
   context('inner block A', function(){
 
     it.cb('third', t => {
-      setTimeout(t, 100);
+      setTimeout(t, 10);
     });
 
     it.cb('fourth', t => {
-      setTimeout(t, 100);
+      setTimeout(t, 10);
     });
 
     context('inner block B', function(){
 
       it.cb('fifth', t => {
-        setTimeout(t, 100);
+        setTimeout(t, 10);
       });
 
       it.cb('sixth', t => {
-        setTimeout(t, 100);
+        setTimeout(t, 10);
       });
     });
   });
@@ -66,21 +66,21 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context, util
   context('inner block C', function(){
 
     it.cb('seventh', t => {
-      setTimeout(t, 100);
+      setTimeout(t, 10);
     });
 
     it.cb('eighth', t => {
-      setTimeout(t, 100);
+      setTimeout(t, 10);
     });
 
     context('inner block D', function(){
 
       it.cb('ninth', t => {
-        setTimeout(t, 100);
+        setTimeout(t, 10);
       });
 
       it.cb('tenth', t => {
-        setTimeout(t, 100);
+        setTimeout(t, 10);
       });
     });
   });
@@ -89,21 +89,21 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context, util
   context('inner block E', function(){
 
     it.cb('eleventh', t => {
-      setTimeout(t, 100);
+      setTimeout(t, 10);
     });
 
     it.cb('twelth', t => {
-      setTimeout(t, 100);
+      setTimeout(t, 10);
     });
 
     context('inner block F', function(){
 
       it.cb('thirteenth', t => {
-        setTimeout(t, 100);
+        setTimeout(t, 10);
       });
 
       it.cb('fourteenth', t => {
-        setTimeout(t, 100);
+        setTimeout(t, 10);
       });
     });
   });

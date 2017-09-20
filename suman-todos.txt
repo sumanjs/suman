@@ -10,6 +10,10 @@ three SO profiles:
 
 ///
 
+ improve tables -> they should work on Jenkins, etc.
+
+///
+
 fatal error in hook does not have cause or reason (the first line!):
 
    ⚑  Suman fatal error  => making a graceful exit =>
