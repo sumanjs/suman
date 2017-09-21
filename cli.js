@@ -37,7 +37,8 @@ function handleExceptionsAndRejections() {
 process.on('uncaughtException', function (err) {
     debugger;
     if (typeof err !== 'object') {
-        err = { stack: typeof err === 'string' ? err : util.inspect(err) };
+        console.error(new Error("err passed to uncaughtException was not an object => " + err).stack);
+        err = new Error(typeof err === 'string' ? err : util.inspect(err));
     }
     if (String(err.stack || err).match(/Cannot find module/i) && _suman && _suman.sumanOpts && _suman.sumanOpts.transpile) {
         console.log(' => If transpiling, you may need to transpile your entire test directory to the destination directory using the ' +
@@ -51,9 +52,10 @@ process.on('uncaughtException', function (err) {
         }
     }, 500);
 });
-process.on('unhandledRejection', function (err) {
+process.on('unhandledRejection', function (err, p) {
     if (typeof err !== 'object') {
-        err = { stack: typeof err === 'string' ? err : util.inspect(err) };
+        console.error(new Error("err passed to unhandledRejection was not an object => '" + err + "'").stack);
+        err = new Error(typeof err === 'string' ? err : util.inspect(err));
     }
     setTimeout(function () {
         if (err && !err._alreadyHandledBySuman) {
@@ -276,7 +278,7 @@ if ('concurrency' in sumanOpts) {
 }
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
-_suman.logWarning('using TAP output => ', sumanOpts.$useTAPOutput);
+sumanOpts.$useTAPOutput && _suman.log('using TAP output => ', sumanOpts.$useTAPOutput);
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 var sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
     .map(function (item) { return (item instanceof RegExp) ? item : new RegExp(item); });
@@ -292,27 +294,13 @@ _suman.sumanMatchesAny = uniqBy(sumanMatchesAny, function (item) { return item; 
 _suman.sumanMatchesNone = uniqBy(sumanMatchesNone, function (item) { return item; });
 _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, function (item) { return item; });
 var preOptCheck = {
-    tscMultiWatch: tscMultiWatch,
-    watch: watch,
-    watchPer: watchPer,
-    create: create,
-    useServer: useServer,
-    useBabel: useBabel,
-    useIstanbul: useIstanbul,
-    init: init,
-    uninstall: uninstall,
-    convert: convert,
-    groups: groups,
-    s: s,
-    tailTest: tailTest,
-    tailRunner: tailRunner,
-    interactive: interactive,
-    uninstallBabel: uninstallBabel,
-    diagnostics: diagnostics,
-    installGlobals: installGlobals,
-    postinstall: postinstall,
-    repair: repair,
-    sumanD: sumanD
+    tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
+    create: create, useServer: useServer, useBabel: useBabel,
+    useIstanbul: useIstanbul, init: init, uninstall: uninstall,
+    convert: convert, groups: groups, s: s, tailTest: tailTest,
+    tailRunner: tailRunner, interactive: interactive, uninstallBabel: uninstallBabel,
+    diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
+    repair: repair, sumanD: sumanD
 };
 var optCheck = Object.keys(preOptCheck).filter(function (key, index) {
     return preOptCheck[key];
@@ -358,6 +346,10 @@ if (su.vgt(7)) {
 }
 if (sumanOpts.force_inherit_stdio) {
     _suman.$forceInheritStdio = true;
+}
+var isTTY = process.stdout.isTTY;
+if (!process.stdout.isTTY && !useTAPOutput) {
+    _suman.logError(chalk.red('you may need to turn on TAP output for test results to be captured in destination process.'));
 }
 if (diagnostics) {
     require('./lib/cli-commands/run-diagnostics').run(sumanOpts);

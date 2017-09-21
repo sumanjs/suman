@@ -8,12 +8,16 @@ const Test = suman.init(module, {
   post: ['smartconnect']
 });
 
+//
+
 Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks, $project) {
 
   before(t => {
-    console.log('parent before');
+    console.error('parent before');
     this.shared.set('x', 2);
   });
+
+  //
 
   context('foo', function () {
 

@@ -1,5 +1,5 @@
 //typescript imports
-import {IGlobalSumanObj, SumanErrorRace} from "../../dts/global";
+import {IGlobalSumanObj, IPromiseWithDomain, ISumanDomain, SumanErrorRace} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -18,6 +18,7 @@ const {fatalRequestReply} = require('../helpers/fatal-request-reply');
 import {constants} from '../../config/suman-constants';
 import {oncePostFn} from '../helpers/handle-suman-once-post';
 import {runAfterAlways} from '../helpers/run-after-always';
+
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 const weAreDebugging = require('../helpers/we-are-debugging');
 
@@ -92,7 +93,6 @@ let sigintCount = 0;
 process.on('SIGINT', function () {
 
   sigintCount++;
-
   console.log('\n');
   _suman.logError(chalk.red('SIGINT signal caught by suman process.'));
   console.log('\n');
@@ -111,7 +111,6 @@ let sigtermCount = 0;
 process.on('SIGTERM', function () {
 
   sigtermCount++;
-
   console.log('\n');
   _suman.logError(chalk.red('SIGTERM signal caught by suman process.'));
   console.log('\n');
@@ -132,7 +131,7 @@ process.on('warning', function (w: Error) {
   }
   else if (!(/deprecated/i.test(String(w)))) {
     // there were some really useless warnings about deprecation
-    // if the user wants to see deprecation warnings...they can add their own process.on('warning') handler, thx
+    // if the user wants to see deprecation warnings...they can add their own process.on('warning') handler, k thx
     console.error(w.stack || w);
   }
 });
@@ -150,6 +149,11 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       stack: typeof err === 'string' ? err : util.inspect(err)
     }
   }
+
+  /*
+
+  @benjamingr yeah I am working on sumanjs/suman - it's a test runner - TapJS and Lab among others also see the same need for domains. Once Node.js test runners started parallelizing tests, putting the current executing test in the global scope was no longer possible, since tests/hooks would interleave. So all these test runners are using domains to solve the problem atm. AVA parallelizes tests, but they are relying on promises and async/await to trap errors. IMO for edge cases it's not quite good enough yet, so like TapJS and Lab, I decided to use domains.
+  */
 
   if (err._alreadyHandledBySuman) {
     console.error(' => Error already handled => \n', (err.stack || err));
@@ -177,7 +181,7 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       }
 
       console.error('\n');
-      console.error(chalk.magenta.bold(' => Suman uncaught exception => ', chalk.magenta(msg)));
+      console.error(chalk.magenta.bold(' => Suman uncaught exception => \n', chalk.magenta(msg)));
       _suman.logError('Given the event of an uncaught exception,' +
         ' Suman will now run "suman.once.post.js" shutdown hooks...');
       console.error('\n');
@@ -192,7 +196,27 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 
 });
 
-process.on('unhandledRejection', ($reason: any, p: Promise<any>) => {
+// remove all pre-existing listeners
+process.removeAllListeners('unhandledRejection');
+
+process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
+
+  if (p && p.domain) {
+    if (p.domain.sumanTestCase || p.domain.sumanEachHook || p.domain.sumanAllHook) {
+      $reason && typeof $reason === 'object' && ($reason._alreadyHandledBySuman = true);
+      p.domain.emit('error', $reason);
+      return;
+    }
+  }
+
+  if (process.domain) {
+    if (process.domain.sumanTestCase || process.domain.sumanEachHook || process.domain.sumanAllHook) {
+      $reason && typeof $reason === 'object' && ($reason._alreadyHandledBySuman = true);
+      process.domain.emit('error', $reason);
+      return;
+    }
+  }
+
   const reason = ($reason.stack || $reason);
   console.error('\n');
   _suman.logError(chalk.magenta.bold('Unhandled Rejection at Promise:'), chalk.magenta(util.inspect(p)));

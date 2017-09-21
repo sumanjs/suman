@@ -14,27 +14,30 @@ module.exports = ($core, $deps, $root) => {  //load async deps for any of your s
     dependencies: {
 
       'dog': function () {
-        console.log('sourcing labrador...');
         return 'labrador';
       },
 
+      'cat': ['dog', function () {
+        return 'feline';
+      }],
+
+      'mouse': ['dog', function () {
+        return 'feline';
+      }],
+
       'one': ['four', function (v) {
-        // console.log('one v =>', v);
         return 'this is one';
       }],
 
       'two': [function (v) {
-        // console.log('two v =>', v);
         return 'this is two';
       }],
 
       'three': ['one', 'two', 'four', function (v) {
-        // console.log('three v =>', v);
         return 'this is three';
       }],
 
       'four': ['two', function (v) {
-        // console.log('four v =>', v);
         return 'this is four';
       }],
 
@@ -43,26 +46,21 @@ module.exports = ($core, $deps, $root) => {  //load async deps for any of your s
       },
 
       'smartconnect': function () {
-
         return Promise.resolve(JSON.stringify({
           formica: 'not metal'
         }));
-
       },
-      'dolce-vida': (v, cb) => {
 
+      'dolce-vida': (v, cb) => {
         setTimeout(function () {
           cb(null, "new Error('uuuu rub')");
         }, 10);
-
       },
 
       'mulch': (v, cb) => {
-
         setTimeout(function () {
           cb(null, "new Error('mulch')");
         }, 10);
-
       }
     }
 

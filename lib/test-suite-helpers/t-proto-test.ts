@@ -1,5 +1,9 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from "../../dts/global";
+import {ITestDataObj} from "../../dts/it";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -13,12 +17,18 @@ const chai = require('chai');
 const chaiAssert = chai.assert;
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {tProto} from './t-proto';
+
+//////////////////////////////////////////////////////////////////////
+
+export interface IAssertCount {
+  num: number
+}
 
 ///////////////////////////////////////////////////////////////////////
 
-export const makeTestCase = function (test, assertCount) {
+export const makeTestCase = function (test: ITestDataObj, assertCount: IAssertCount) {
 
   //  !!!
   //
@@ -26,7 +36,7 @@ export const makeTestCase = function (test, assertCount) {
   // the user passes the function directly, and does not call the function with "t" as in "t.x()" but instead
   // just calls "x()"
 
-  function T(handleError) {
+  function T(handleError: Function) {
     this.__handle = handleError;
     this.value = test.value;
     this.testId = test.testId;
@@ -60,7 +70,7 @@ export const makeTestCase = function (test, assertCount) {
 
   let planCalled = false;
 
-  T.prototype.plan = function _plan(num) {
+  T.prototype.plan = function _plan(num: number) {
     if (!planCalled) {
       planCalled = true;
       if (test.planCountExpected !== undefined) {

@@ -11,7 +11,7 @@ import path = require('path');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getCoreAndDeps} from './$core-n-$deps';
-import {getProjectModule} from './helpers';
+import {getProjectModule, lastDitchRequire} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 
@@ -57,15 +57,7 @@ export const makeIocInjector = function ($iocData: Object, $preData: Object, $io
         return $ioc || _suman.$staticIoc;
       }
 
-      try {
-        return require(n);
-      }
-      catch (err) {
-        _suman.logError('suman.ioc.js warning => cannot require dependency with name => "' + n + '";' +
-          ' Suman will continue optimistically.');
-        console.error('\n');
-        return null;
-      }
+      return lastDitchRequire(n, '<suman.ioc.js>');
 
     });
 

@@ -3,9 +3,14 @@ module.exports = function ($core, $deps, $root) {
     return {
         dependencies: {
             'dog': function () {
-                console.log('sourcing labrador...');
                 return 'labrador';
             },
+            'cat': ['dog', function () {
+                    return 'feline';
+                }],
+            'mouse': ['dog', function () {
+                    return 'feline';
+                }],
             'one': ['four', function (v) {
                     return 'this is one';
                 }],

@@ -11,7 +11,7 @@ import path = require('path');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getCoreAndDeps} from './$core-n-$deps';
-import {getProjectModule} from './helpers';
+import {getProjectModule, lastDitchRequire} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 
@@ -27,11 +27,11 @@ export default function (names: Array<string>, $ioc: Object) {
       return getCoreAndDeps().$deps;
     }
 
-    if(n === '$args'){
+    if (n === '$args') {
       return String(_suman.sumanOpts.user_args || '').split(/ +/).filter(i => i);
     }
 
-    if(n === '$argsRaw'){
+    if (n === '$argsRaw') {
       return _suman.sumanOpts.user_args || '';
     }
 
@@ -47,15 +47,7 @@ export default function (names: Array<string>, $ioc: Object) {
       return _suman.$staticIoc || $ioc;
     }
 
-    try {
-      return require(n);
-    }
-    catch (err) {
-      _suman.logError('integrant/pre injector warning => cannot require dependency with name => "' + n + '";' +
-        ' Suman will continue optimistically.');
-      console.error('\n');
-      return null;
-    }
+    return lastDitchRequire(n, '<suman.once.pre.js>');
 
   });
 

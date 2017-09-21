@@ -75,24 +75,24 @@ if (opts.concurrency) {
 
 // console.log('opts before => ', util.inspect(opts));
 
-options.filter(function (opt) {
-  return String(opt.type).startsWith('arrayOf');
-})
-.forEach(function (opt) {
-
-  let n = String(opt.name || opt.names[0]).replace('-', '_');
-
-  if (n in opts) {
-    opts[n] = flattenDeep(opts[n].map(function (item) {
-      try {
-        return flatten([JSON.parse(item)]);
-      }
-      catch (err) {
-        return item;
-      }
-    }));
-  }
-});
+// options.filter(function (opt) {
+//   return String(opt.type).startsWith('arrayOf');
+// })
+// .forEach(function (opt) {
+//
+//   let n = String(opt.name || opt.names[0]).replace('-', '_');
+//
+//   if (n in opts) {
+//     opts[n] = flattenDeep(opts[n].map(function (item) {
+//       try {
+//         return flatten([JSON.parse(item)]);
+//       }
+//       catch (err) {
+//         return item;
+//       }
+//     }));
+//   }
+// });
 
 // console.log('opts after => ', util.inspect(opts));
 

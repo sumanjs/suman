@@ -6,21 +6,20 @@ import {ISuman} from "./suman";
 import {IMapValue} from "suman-utils";
 import {ITableDataCallbackObj} from "../lib/suman";
 
-declare namespace SumanLib {
-  const _suman: Object;
-  const sumanConfig: Object;
-  const sumanOpts: Object;
-}
-
 
 export interface IntegrantHashKeyVals {
   [key: string]: any
 }
 
-export interface  IGlobalSumanObj {
+export interface ICurrentPaddingCount {
+  val: number
+}
+
+export interface IGlobalSumanObj {
   // we should execute Suman's in series, that makes it easier to run after.always shutdown, etc
   // which suman represents which Suman is executing at a given time
 
+  currentPaddingCount: ICurrentPaddingCount,
   endLogStream: Function,
   tableResults: Array<ITableDataCallbackObj>,
   startDateMillis: number,
@@ -96,6 +95,8 @@ export interface IMaxMem {
 export interface ISumanOpts {
   transpile: boolean,
   bail: boolean,
+  series: boolean,
+  parallel: boolean
 
   ///// above this line may need fixin'
 
@@ -122,7 +123,7 @@ export interface ISumanOpts {
   suman_helpers_dir: boolean,
   init: boolean,
   ignoreUncaughtExceptions: boolean,
-  useTAPOutput: boolean,
+  $useTAPOutput: boolean,
   verbosity: number,
   check_memory_usage: boolean
   errors_only: boolean
@@ -133,28 +134,44 @@ export interface ISumanGlobalInternal {
 
 }
 
-
 export interface ISumanGlobal extends Global {
   __suman?: IGlobalSumanObj
 }
-
 
 export interface SumanErrorRace extends Error {
   _alreadyHandledBySuman?: boolean
 }
 
-
-export interface IPseudoError  {
+export interface IPseudoError {
   stack?: string
   message?: string,
   sumanFatal?: boolean,
   sumanExitCode?: number
 }
 
+export interface IPromiseWithDomain extends Promise<any> {
+  domain?:  ISumanTestCaseDomain | ISumanEachHookDomain | ISumanAllHookDomain
+}
 
 export interface ISumanDomain extends Domain {
-  _sumanStartWholeShebang?: boolean
+  isSumanDomain?: boolean
 }
+
+export interface ISumanTestCaseDomain extends  ISumanDomain {
+  sumanTestCase?: boolean,
+  sumanTestName?: string
+}
+
+export interface ISumanEachHookDomain extends  ISumanDomain {
+  sumanEachHook?: boolean,
+  sumanEachHookName?: string
+}
+
+export interface ISumanAllHookDomain extends  ISumanDomain {
+  sumanAllHook?: boolean,
+  sumanAllHookName?: string
+}
+
 
 export declare enum BrowserTypes {
   Firefox,
@@ -169,17 +186,16 @@ export interface ISumanConfWatchPerItem {
 }
 
 export interface ISumanConfWatchPer {
-  [key:string] : ISumanConfWatchPerItem
+  [key: string]: ISumanConfWatchPerItem
 }
 
 export interface ISumanConfigWatch {
   per: ISumanConfWatchPer
 }
 
-
 export interface ISumanConfig {
 
-  [key:string]: any,
+  [key: string]: any,
 
   DEFAULT_PARALLEL_TOTAL_LIMIT: number,
   DEFAULT_PARALLEL_BLOCK_LIMIT: number,
@@ -246,6 +262,5 @@ export interface ISumanConfig {
   expireResultsAfter: number,
 
   watch: ISumanConfigWatch
-
 
 }
