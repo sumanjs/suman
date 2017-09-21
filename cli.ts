@@ -62,7 +62,8 @@ process.on('uncaughtException', function (err: Error) {
   debugger;
 
   if (typeof err !== 'object') {
-    err = {stack: typeof err === 'string' ? err : util.inspect(err)}
+    console.error(new Error(`err passed to uncaughtException was not an object => ${err}`).stack);
+    err = new Error(typeof err === 'string' ? err : util.inspect(err))
   }
 
   if (String(err.stack || err).match(/Cannot find module/i) && _suman && _suman.sumanOpts && _suman.sumanOpts.transpile) {
@@ -80,10 +81,11 @@ process.on('uncaughtException', function (err: Error) {
 
 });
 
-process.on('unhandledRejection', function (err: Error) {
+process.on('unhandledRejection', function (err: Error, p: Promise<any>) {
 
   if (typeof err !== 'object') {
-    err = {stack: typeof err === 'string' ? err : util.inspect(err)}
+    console.error(new Error(`err passed to unhandledRejection was not an object => '${err}'`).stack);
+    err = new Error(typeof err === 'string' ? err : util.inspect(err))
   }
 
   setTimeout(function () {
@@ -106,6 +108,7 @@ import EE = require('events');
 import os = require('os');
 import domain = require('domain');
 import vm = require('vm');
+import tty = require('tty');
 
 //npm
 import semver = require('semver');
@@ -255,9 +258,10 @@ const postinstall = sumanOpts.postinstall;
 const tscMultiWatch = sumanOpts.tsc_multi_watch;
 const sumanD = sumanOpts.suman_d;
 const watchPer = sumanOpts.watch_per;
-if(sumanOpts.user_args){
+if (sumanOpts.user_args) {
   _suman.log(chalk.magenta('raw user_args is'), sumanOpts.user_args);
 }
+
 const userArgs = sumanOpts.user_args = _.flatten([sumanOpts.user_args]).join(' ');
 
 if (coverage) {
@@ -393,8 +397,7 @@ if ('concurrency' in sumanOpts) {
 
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
-
-_suman.logWarning('using TAP output => ', sumanOpts.$useTAPOutput);
+sumanOpts.$useTAPOutput && _suman.log('using TAP output => ', sumanOpts.$useTAPOutput);
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 
 /////////////////////////////////// matching ///////////////////////////////////////
@@ -428,29 +431,13 @@ export interface IPreOptCheck {
 }
 
 const preOptCheck = <IPreOptCheck> {
-
-  tscMultiWatch: tscMultiWatch,
-  watch: watch,
-  watchPer: watchPer,
-  create: create,
-  useServer: useServer,
-  useBabel: useBabel,
-  useIstanbul: useIstanbul,
-  init: init,
-  uninstall: uninstall,
-  convert: convert,
-  groups: groups,
-  s: s,
-  tailTest: tailTest,
-  tailRunner: tailRunner,
-  interactive: interactive,
-  uninstallBabel: uninstallBabel,
-  diagnostics: diagnostics,
-  installGlobals: installGlobals,
-  postinstall: postinstall,
-  repair: repair,
-  sumanD: sumanD
-
+  tscMultiWatch, watch, watchPer,
+  create, useServer, useBabel,
+  useIstanbul, init, uninstall,
+  convert, groups, s, tailTest,
+  tailRunner, interactive, uninstallBabel,
+  diagnostics, installGlobals, postinstall,
+  repair, sumanD
 };
 
 const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
@@ -515,6 +502,14 @@ if (su.vgt(7)) {
 
 if (sumanOpts.force_inherit_stdio) {
   _suman.$forceInheritStdio = true;
+}
+
+/////////////////// check to make sure --tap option is used if we are piping ////////////////////
+
+let isTTY = process.stdout.isTTY;
+
+if (!process.stdout.isTTY && !useTAPOutput) {
+  _suman.logError(chalk.red('you may need to turn on TAP output for test results to be captured in destination process.'));
 }
 
 ////////////////////// dynamically call files to minimize load, etc //////////////////////////////

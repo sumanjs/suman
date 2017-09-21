@@ -5,13 +5,15 @@ Test.create(function (it: ItFn) {
 
   it('passes', (t: ITestCaseParam) => {
 
-    t.skip();
+    // t.skip();
+    throw new Error('whole me 1')
 
   });
 
   it('fails', (t: ITestCaseParam) => {
 
-    t.skip();
+    // t.skip();
+    throw new Error('whole me 2')
 
   });
 

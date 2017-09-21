@@ -1,5 +1,8 @@
 'use strict';
+
+//dts
 import {IAssertObj, IHandleError, IHookObj} from "../dts/test-suite";
+import {IGlobalSumanObj} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -11,8 +14,9 @@ const chai = require('chai');
 const chaiAssert = chai.assert;
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {tProto} from './t-proto';
+
 
 /////////////////////////////////////////////////////////////////////////////////
 

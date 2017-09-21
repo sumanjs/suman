@@ -1,10 +1,12 @@
 'use strict';
-import {
-  IAFterEachObj, IAfterObj, IBeforeEachObj, IBeforeObj, IInjectionObj, ITestDataObj,
-  ITestSuite, ITestSuiteBase, ITestSuiteBaseInitObj
-} from "../dts/test-suite";
 
-import {ISuman} from "../dts/suman";
+//dts
+import {
+  IInjectionObj, ITestSuite, ITestSuiteBase, ITestSuiteBaseInitObj
+} from "../../dts/test-suite";
+
+import {IGlobalSumanObj} from "../../dts/global";
+import {ISuman} from "../../dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -14,13 +16,21 @@ const global = require('suman-browser-polyfills/modules/global');
 import util = require('util');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {incr} from '../misc/incrementer';
+import {ITestDataObj} from "../../dts/it";
+import {IBeforeObj} from "../../dts/before";
+import {IBeforeEachObj} from "../../dts/before-each";
+import {IAfterObj} from "../../dts/after";
+import {IAFterEachObj} from "../../dts/after-each";
+
+
 
 ////////////////////////////////////////////////////////////////////////////
 
 export default class TestSuiteBase {
 
+  // public
   opts: Object;
   testId: number;
   isSetupComplete: boolean;
@@ -29,6 +39,8 @@ export default class TestSuiteBase {
   only: boolean;
   filename: string;
   getAfterAllParentHooks: Function;
+
+  // private
   private mergeAfters: Function;
   private getAfters: Function;
   private getAfterEaches: Function;
@@ -43,6 +55,8 @@ export default class TestSuiteBase {
   private getTestsParallel: Function;
   private getLoopTests: Function;
   private getAftersLast: Function;
+
+  /////////////////////////////////////////
 
   constructor(obj: ITestSuiteBaseInitObj, suman: ISuman) {
 
@@ -73,7 +87,7 @@ export default class TestSuiteBase {
 
     const getAfterAllParentHooks: Array<IAfterAllParentHooks> = [];
 
-    this.getAfterAllParentHooks = function(){
+    this.getAfterAllParentHooks = function () {
       return getAfterAllParentHooks;
     };
 

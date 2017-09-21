@@ -18,14 +18,13 @@ export interface ISuman {
   interface: string,
   numBlocksSkipped: number,
   logFinished: Function,
-  _sumanEvents: EventEmitter,
   extraArgs: Array<string>
   sumanCompleted: boolean,
   slicedFileName: string,
   desc: string,
   rootSuiteDescription: string,
   deps: string,
-  dateSuiteStarted: number,  // this is a number, not a Date,
+  dateSuiteStarted: number,
   dateSuiteFinished: number
   logResult: () => void
 

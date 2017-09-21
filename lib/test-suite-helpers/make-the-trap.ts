@@ -1,7 +1,9 @@
 'use strict';
+
+//dts
 import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IPseudoError, SumanLib} from "../../dts/global";
+import {IPseudoError} from "../../dts/global";
 import {IItOpts, ITestDataObj} from "../../dts/it";
 import {IBeforeEachObj} from "../../dts/before-each";
 import {IAFterEachObj} from "../../dts/after-each";

@@ -1,0 +1,15 @@
+{
+  "@run": {
+    "comment":"",
+    "plugin": {
+      "location": "npm",
+      "value": "suman-run-plugins/plugins/typescript-std"
+    }
+  },
+  "@transform": {
+    "plugin": {
+      "location": "npm",
+      "value": "suman-transform-plugins/plugins/typescript-std"
+    }
+  }
+}

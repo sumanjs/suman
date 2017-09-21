@@ -10,9 +10,13 @@
   "list": [
     "vamoot",
     "proxy-mcproxy",
+    "prepend-transform",
     "pragmatik",
     "residence",
     "poolio",
+    "freeze-existing-props",
+
+    "suman-types",
     "suman-watch",
     "suman-d",
     "suman-utils",
@@ -22,9 +26,7 @@
     "suman-browser-polyfills",
     "suman-run-plugins",
     "suman-transform-plugins",
-    "prepend-transform",
     "suman-reporters",
-    "freeze-existing-props",
     "suman-interactive"
   ]
 }

@@ -1,5 +1,5 @@
-import { ITestSuiteBaseInitObj } from "../dts/test-suite";
-import { ISuman } from "../dts/suman";
+import { ITestSuiteBaseInitObj } from "../../dts/test-suite";
+import { ISuman } from "../../dts/suman";
 export default class TestSuiteBase {
     opts: Object;
     testId: number;

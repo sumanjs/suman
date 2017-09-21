@@ -2,12 +2,20 @@
 
 ////////////
 
+let countSheep = 0;
+
 //load async deps for any of your suman tests
 module.exports = ($data, $core, $deps, $ioc) => {
 
   return {
 
     dependencies: {
+
+      'sheep': function () {
+        countSheep++;
+        console.log('count sheep => ', countSheep);
+        return Promise.resolve('fluffy');
+      },
 
       'william': function (cb) {
         setTimeout(function () {

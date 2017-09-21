@@ -1,7 +1,9 @@
 'use strict';
+
+//dts
 import {IEachHookObj, IHandleError, ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
-import {IPseudoError} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanEachHookDomain} from "../../dts/global";
 import {ITestDataObj} from "../../dts/it";
 
 //polyfills
@@ -17,12 +19,14 @@ import util = require('util');
 const fnArgs = require('function-arguments');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
+
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../misc/clone-error';
 import {makeHookObj} from './t-proto-hook';
 import {makeCallback} from './handle-callback-helper';
+
 const helpers = require('./handle-promise-generator');
 import {freezeExistingProps} from 'freeze-existing-props'
 
@@ -57,19 +61,25 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       num: 0
     };
 
-    const d = domain.create();
-    d._sumanEach = true;
-    d._sumanEachDesc = aBeforeOrAfterEach.desc || '(unknown)';
+    const d = domain.create() as ISumanEachHookDomain;
+    d.sumanEachHook = true;
+    d.sumanEachHookName = aBeforeOrAfterEach.desc || '(unknown)';
 
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfterEach, timerObj, gracefulExit, cb);
-
     const fnStr = aBeforeOrAfterEach.fn.toString(); //TODO: need to check if it's a promise instead of a function if we go that route
     let dError = false;
 
     const handleError: IHandleError = function (err: IPseudoError) {
 
+      err = err || new Error('unknown hook error.');
+
+      if (typeof err === 'string') {
+        err = new Error(err);
+      }
+
       const stk = err.stack || err;
-      const formatedStk = String(stk).split('\n').map(item => '\t' + item).join('\n');
+      const stck = typeof stk === 'string' ? stk : util.inspect(stk);
+      const formatedStk = String(stck).split('\n').map(item => '\t' + item).join('\n');
 
       if (!dError) {
         dError = true;
@@ -98,9 +108,9 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
     d.on('error', handleError);
 
-    d.run(function () {
+    process.nextTick(function () {
 
-      process.nextTick(function () {
+      d.run(function runHandleEachHook() {
 
         let isAsyncAwait = false;
         const isGeneratorFn = su.isGeneratorFn(aBeforeOrAfterEach.fn);

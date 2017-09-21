@@ -1,26 +1,24 @@
 'use strict';
 
 const suman = require('suman');
-
 const Test = suman.init(module, {
   pre: ['dog'],
-  integrants: ['dog'],
   post: ['smartconnect']
 });
 
-Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks) {
+////
 
-  // beforeEach(t => {
-  //   console.log('parent before each');
-  //   console.log('before each hook',t.shared.get('x'));
-  // });
+Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks, sheep) {
+
+  beforeEach(t => {
+    console.log('parent before each');
+    console.log('before each hook', t.shared.get('x'));
+  });
 
   this.shared.set('x', {v: true});
 
   before(t => {
     console.log('parent before');
-
-    // t.shared.get('x').v = false;
     console.log('first before says:', t.shared.get('x'));
   });
 

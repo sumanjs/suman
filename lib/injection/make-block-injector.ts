@@ -30,9 +30,8 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import container from './injection-container';
 import {getCoreAndDeps} from './$core-n-$deps';
-
 const rules = require('../helpers/handle-varargs');
-import {getProjectModule} from './helpers';
+import {getProjectModule, lastDitchRequire} from './helpers';
 
 /*///////////// => what it do ///////////////////////////////////////////////////////////////
 
@@ -123,13 +122,7 @@ export const makeBlockInjector = function (suman: ISuman) {
         }
       }
 
-      try {
-        return require(key);
-      }
-      catch (err) {
-        _suman.logError(`Could not require() dependency with value => "${key}", Suman will continue optimistically.`);
-        return undefined;
-      }
+      return lastDitchRequire(key, '<block-injector>');
 
     });
 

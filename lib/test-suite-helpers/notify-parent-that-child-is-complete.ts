@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {ISuman} from "../../dts/suman";
 import {IOnceHookObj, ITestSuite} from "../../dts/test-suite";
 import {IGlobalSumanObj, IPseudoError} from "../../dts/global";

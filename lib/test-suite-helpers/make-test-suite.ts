@@ -1,5 +1,4 @@
 'use strict';
-// important note: use strict mode so that errors get thrown if properties are modified after the fact
 
 //dts
 import {IInjectOpts, IInjectHookCallbackMode, IInjectHookRegularMode, IInjectFn} from "../../dts/inject";
