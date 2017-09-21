@@ -25,13 +25,6 @@ export const handlePotentialPromise = function (done: Function, str: string) {
       _suman.writeTestError('\n Suman warning: you may have forgotten to return a Promise => \n' + str + '\n');
     }
 
-    if (typeof val.then === 'function') {
-      // if it's a promise, attach the domain
-      if (!val.domain) {
-        val.domain = d;
-      }
-    }
-
     if (su.isObservable(val)) {
 
       val.subscribe(

@@ -6,6 +6,16 @@ three SO profiles:
 
 ///
 
+   [3]  ✘  => test fail   "get collection info based off duplicate users"
+        Error: no success property on body => { status: 500,
+        at /Users/alexamil/WebstormProjects/cisco/cdt-now/scripts/find-duplicate-users/js/get-cookies-with-selenium.js:80:16
+        _____________________________________________________________________
+
+  => if error message is multi-line, it gets removed...for example when we call "'no success property on body => ' + util.inspect(x) "
+
+
+///
+
  https://stackoverflow.com/a/1221870/5020949
 
 There is an internal Bash variable called $PIPESTATUS; it’s an array that holds the exit status of each command in your last foreground pipeline of commands.
