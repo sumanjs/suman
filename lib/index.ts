@@ -1,6 +1,6 @@
 'use strict';
 
-// tsc
+//dts
 import {IGlobalSumanObj, ISumanConfig, SumanErrorRace} from "suman-types/types/suman/dts/global";
 import EventEmitter = NodeJS.EventEmitter;
 import {ISuman} from "../dts/suman";
@@ -9,7 +9,7 @@ import {IDescribeFn, IDescribeOpts, TDescribeHook} from "../dts/describe";
 import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook} from "../dts/index-init";
 import {IHookOrTestCaseParam} from "../dts/test-suite";
 
-// exported imports
+//exported imports
 export {ISumanOpts, IGlobalSumanObj} from '../dts/global';
 export {ITestCaseParam} from '../dts/test-suite';
 export {IHookParam} from '../dts/test-suite';
@@ -68,11 +68,12 @@ catch (err) {
   inBrowser = _suman.inBrowser = false;
 }
 
+if (!_suman.sumanOpts) {
+  _suman.logWarning('implementation warning: sumanOpts is not yet defined in runtime.');
+}
+
 if (_suman.sumanOpts && _suman.sumanOpts.verbosity > 8) {
   _suman.log(' => Are we in browser? => ', inBrowser ? 'yes!' : 'no.');
-}
-else {
-  _suman.logWarning('sumanOpts is not yet defined in runtime.');
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -89,8 +90,10 @@ const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import setupExtraLoggers from './index-helpers/setup-extra-loggers';
+
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
+
 const {execSuite} = require('./exec-suite');
 import {loadSumanConfig} from './helpers/load-suman-config';
 import {resolveSharedDirs} from './helpers/resolve-shared-dirs';
@@ -171,7 +174,6 @@ suiteResultEmitter.on('suman-completed', function () {
     fn && fn.call(null);
   });
 });
-
 
 export const init: IInit = function ($module, $opts, confOverride): IStartCreate {
 
@@ -320,7 +322,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       _suman['$pre'] = JSON.parse(su.customStringify(vals));
       _suman.userData = JSON.parse(su.customStringify(iocData));
 
-      // suman instance is what we use to thread data through the functional program
+      // suman instance is the main object that flows through entire program
       let suman = makeSuman($module, _interface, true, sumanConfig);
       suman.iocData = JSON.parse(su.customStringify(iocData));
       const run = execSuite(suman);
@@ -395,7 +397,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   return init.$ingletonian;
 
 };
-
 
 export const autoPass = function (t: IHookOrTestCaseParam) {
   // add t.skip() type functionality // t.ignore().

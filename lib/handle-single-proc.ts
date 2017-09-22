@@ -35,7 +35,7 @@ export const run = function (files: Array<string>) {
   _suman.log(chalk.magenta('suman will run the following files in single process mode:'));
   _suman.log(util.inspect(files.map(v => v[0])));
 
-  async.eachLimit(files, 1, function (f: string, cb: Function) {
+  async.eachLimit(files, 5, function (f: string, cb: Function) {
 
       const fullPath = f[0];
       const shortenedPath = f[1];

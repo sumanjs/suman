@@ -16,14 +16,6 @@ three SO profiles:
 
 ///
 
- refactor t-proto-test and t-proto-hook
-
-///
-
-t.proto should be a class not use prototype
-
-///
-
  https://stackoverflow.com/a/1221870/5020949
 
 There is an internal Bash variable called $PIPESTATUS; it’s an array that holds the exit status of each command in your last foreground pipeline of commands.

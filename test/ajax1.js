@@ -24,10 +24,6 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
 
   this.shared.set('x', {zoom: {val: 5}});
 
-  before(t => {
-    console.error('parent before');
-  });
-
   context('foo', function ($suite) {
 
     // this.shared.get('x').zoom.zz = 7;
@@ -73,7 +69,6 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
     foo = v * 2;
   }
 
-  console.error('dogs');
   console.log(foo); //
 
   beforeEach(t => {

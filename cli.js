@@ -93,7 +93,7 @@ if (semver.lt(nodeVersion, oldestSupported)) {
     throw 'Please upgrade to a Node.js version newer than v4.0.0. Suman recommends usage of NVM.';
 }
 _suman.log('Node.js version:', nodeVersion);
-var sumanLibRoot = _suman.sumanLibRoot = __dirname;
+var sumanLibRoot = _suman.sumanLibRoot = String(__dirname);
 var pkgJSON = require('./package.json');
 var sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
 _suman.log(chalk.yellow.italic('Suman v' + sumanVersion + ' running...'));
@@ -179,6 +179,10 @@ var postinstall = sumanOpts.postinstall;
 var tscMultiWatch = sumanOpts.tsc_multi_watch;
 var sumanD = sumanOpts.suman_d;
 var watchPer = sumanOpts.watch_per;
+var singleProcess = sumanOpts.single_process;
+if (singleProcess) {
+    process.env.SUMAN_SINGLE_PROCESS = 'yes';
+}
 if (sumanOpts.user_args) {
     _suman.log(chalk.magenta('raw user_args is'), sumanOpts.user_args);
 }
