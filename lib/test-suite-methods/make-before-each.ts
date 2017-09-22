@@ -1,4 +1,7 @@
 'use strict';
+
+//dts
+import {IGlobalSumanObj} from "../../dts/global";
 import {ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
 import {IBeforeEachFn, IBeforeEachOpts} from "../../dts/before-each";
@@ -18,7 +21,7 @@ import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
@@ -67,7 +70,7 @@ export const makeBeforeEach = function (suman: ISuman, zuite: ITestSuite): IBefo
       zuite.getBeforeEaches().push({  //TODO: add timeout option
         ctx: zuite,
         timeout: opts.timeout || 11000,
-        desc: desc || fn.name,
+        desc: desc || fn.name || '(unknown hook name)',
         fn: fn,
         throws: opts.throws,
         planCountExpected: opts.plan,

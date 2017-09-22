@@ -23,7 +23,7 @@ import {events} from 'suman-events';
 const _suman = global.__suman = (global.__suman || {});
 const {makeHandleTestResults} = require('./handle-test-result');
 const {makeHandleTest} = require('./make-handle-test');
-const allEachesHelper = require('./get-all-eaches');
+const {getAllAfterEaches, getAllBeforesEaches} = require('./get-all-eaches');
 import {makeHandleBeforeOrAfterEach} from './make-handle-each';
 
 const implementationError = require('../helpers/implementation-error');
@@ -60,14 +60,12 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
       return process.nextTick(cb, null, []);
     }
 
-
     const parallel = sumanOpts.parallel || (opts.parallel && !_suman.sumanOpts.series);
 
-    async.eachSeries(allEachesHelper.getAllBeforesEaches(self), function (aBeforeEach: IBeforeEachObj, cb: Function) {
+    async.eachSeries(getAllBeforesEaches(self), function (aBeforeEach: IBeforeEachObj, cb: Function) {
         handleBeforeOrAfterEach(self, test, aBeforeEach, cb);
       },
       function doneWithBeforeEaches(err: IPseudoError) {
-
 
         implementationError(err);
 
@@ -106,7 +104,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
 
             function (cb: Function) {
 
-              async.eachSeries(allEachesHelper.getAllAfterEaches(self), function (aAfterEach: IAFterEachObj, cb: Function) {
+              async.eachSeries(getAllAfterEaches(self), function (aAfterEach: IAFterEachObj, cb: Function) {
                 handleBeforeOrAfterEach(self, test, aAfterEach, cb);
               }, function done(err: IPseudoError) {
                 implementationError(err);

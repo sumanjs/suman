@@ -26,6 +26,7 @@ module.exports = Object.freeze({
   logsDir: process.env['SUMAN_LOGS_DIR'],
 
   //boolean
+  logCompletedHooks: true,
   installSumanExtraDeps: true,
   installSumanGlobalsInProject: '.suman',
   isLogChildStderr: true,

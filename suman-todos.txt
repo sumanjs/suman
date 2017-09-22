@@ -230,10 +230,6 @@ Please Share on Twitter if you like #suman
 
 ////
 
-  need to create injection routine for suman.static.ioc.js, inject core and deps, at least.
-
-////
-
   log when when hooks complete option in suman.conf.js => "logCompletedHooks:true"
 
 ////

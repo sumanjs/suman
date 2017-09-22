@@ -19,8 +19,6 @@ import assert = require('assert');
 //npm
 import * as _ from 'lodash';
 
-
-
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
@@ -31,7 +29,7 @@ export const getAllBeforesEaches = function (zuite: ITestSuite) {
   const beforeEaches: Array<Array<IBeforeEachObj>> = [];
   beforeEaches.unshift(zuite.getBeforeEaches());
 
-  if(!zuite.alreadyHandledAfterAllParentHooks){
+  if (!zuite.alreadyHandledAfterAllParentHooks) {
     zuite.alreadyHandledAfterAllParentHooks = true;
     beforeEaches.unshift(zuite.getAfterAllParentHooks());
   }
@@ -81,7 +79,6 @@ export const getAllAfterEaches = function (zuite: ITestSuite) {
 
   return _.flatten(afterEaches);
 };
-
 
 const $exports = module.exports;
 export default $exports;

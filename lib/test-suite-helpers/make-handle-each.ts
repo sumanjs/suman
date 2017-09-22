@@ -110,6 +110,10 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
     process.nextTick(function () {
 
+      if(true){
+        _suman.log(`beginning to run each hook with name '${aBeforeOrAfterEach.desc}'.`);
+      }
+
       d.run(function runHandleEachHook() {
 
         let isAsyncAwait = false;
