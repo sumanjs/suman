@@ -22,7 +22,6 @@ export {IAfterEachFn} from '../dts/after-each';
 
 //////////////////////////////////////////////////////////////////
 
-
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -39,6 +38,7 @@ import stream = require('stream');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
 import async = require('async');
+
 const pragmatik = require('pragmatik');
 const debug = require('suman-debug')('s:index');
 
@@ -49,16 +49,16 @@ _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
 import {getClient} from './index-helpers/socketio-child-client';
+
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
 const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
-process.on('error', function(e: Error){
+process.on('error', function (e: Error) {
   _suman.logError(su.getCleanErrorString(e));
 });
 
-
 try {
-  if(!window.module){
+  if (!window.module) {
     window.module = {filename: '/', exports: {}};
     module.parent = module;
   }
@@ -75,7 +75,6 @@ else {
   _suman.logWarning('sumanOpts is not yet defined in runtime.');
 }
 
-
 ////////////////////////////////////////////////////////////////////
 
 require('./index-helpers/exit-handling');
@@ -90,8 +89,10 @@ const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import setupExtraLoggers from './index-helpers/setup-extra-loggers';
+
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
+
 const {execSuite} = require('./exec-suite');
 import {loadSumanConfig} from './helpers/load-suman-config';
 import {resolveSharedDirs} from './helpers/resolve-shared-dirs';
@@ -313,7 +314,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   const integrantsFn = handleIntegrants(integrants, $oncePost, integrantPreFn, $module);
   init.tooLate = false;
 
-  const start: IStartCreate = function (desc, opts, arr, cb) {
+  const start: IStartCreate = function (/*likely args: desc, opts, arr, cb */) {
 
     const args = pragmatik.parse(arguments, rules.createSignature);
     args[1].__preParsed = true;
@@ -333,37 +334,30 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       process.exit(constants.EXIT_CODES.INTEGRANT_ACQUISITION_TIMEOUT);
     }, _suman.weAreDebugging ? 50000000 : 500000);
 
-    function onPreVals(vals: Array<any>) {
+    let onPreVals = function (vals: Array<any>) {
 
       clearTimeout(to);
       _suman['$pre'] = JSON.parse(su.customStringify(vals));
       _suman.userData = JSON.parse(su.customStringify(iocData));
 
-      //TODO: need to properly toggle boolean that determines whether or not to try to create dir
-      makeSuman($module, _interface, true, sumanConfig, function (err: Error, suman: ISuman) {
+      // suman instance is what we use to thread data through the functional program
+      let suman = makeSuman($module, _interface, true, sumanConfig);
+      suman.iocData = JSON.parse(su.customStringify(iocData));
+      const run = execSuite(suman);
 
-        if (err) {
-          _suman.writeTestError(err.stack || err);
-          return process.exit(constants.EXIT_CODES.ERROR_CREATED_SUMAN_OBJ);
-        }
-
-        suman.iocData = JSON.parse(su.customStringify(iocData));
-        const run = execSuite(suman);
-
-        try {
-          process.domain && process.domain.exit();
-        }
-        finally {
-          global.setImmediate(function () {
-            // IMPORTANT: setImmediate guarantees registry of multiple test suites referenced in the same file
-            testSuiteRegistrationQueue.push(function () {
-              //args are most likely (desc,opts,cb)
-              run.apply(null, args);
-            });
+      try {
+        process.domain && process.domain.exit();
+      }
+      finally {
+        global.setImmediate(function () {
+          // IMPORTANT: setImmediate guarantees registry of multiple test suites referenced in the same file
+          testSuiteRegistrationQueue.push(function () {
+            //args are most likely (desc,opts,cb)
+            run.apply(null, args);
           });
-        }
-      });
-    }
+        });
+      }
+    };
 
     //we run integrants function
     acquireIocStaticDeps()
@@ -422,7 +416,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
 };
 
-//TODO: https://gist.github.com/PaulMougel/7961469
 
 export const autoPass = function (t: IHookOrTestCaseParam) {
   // add t.skip() type functionality // t.ignore().

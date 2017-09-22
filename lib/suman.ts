@@ -32,22 +32,18 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {findSumanServer, ISumanServerInfo} from './helpers/find-suman-server';
 import {ITestDataObj} from "../dts/it";
 import {constants} from '../config/suman-constants';
-
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
 
 //////////////////////////////////////////////////////////////////////////////
+
 
 export interface ITableDataCallbackObj {
   exitCode: number,
   tableData: Object
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-let sumanId = 0;
-
-interface ISumanInputs {
+export interface ISumanInputs {
   interface: string,
   fileName: string,
   timestamp: number,
@@ -55,9 +51,14 @@ interface ISumanInputs {
   server: ISumanServerInfo
 }
 
-class Suman {
+/////////////////////////////////////////////////////////////////////////////////
+
+let sumanId = 0;
+
+export class Suman {
 
   interface: string;
+  iocData: Object;
   fileName: string;
   slicedFileName: string;
   timestamp: number;
@@ -342,7 +343,7 @@ class Suman {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeSuman = function ($module: NodeModule, _interface: string,
-                                   shouldCreateResultsDir: boolean, config: ISumanConfig, cb: Function) {
+                                   shouldCreateResultsDir: boolean, config: ISumanConfig) {
 
   let liveSumanServer = false;
 
@@ -381,16 +382,12 @@ export const makeSuman = function ($module: NodeModule, _interface: string,
     _suman.logError(err.stack || err);
   }
 
-  setImmediate(function () {
-
-    cb(null, new Suman({
-      fileName: path.resolve($module.filename),
-      usingLiveSumanServer: liveSumanServer,
-      server,
-      timestamp,
-      interface: _interface
-    }));
-
+  return new Suman({
+    fileName: path.resolve($module.filename),
+    usingLiveSumanServer: liveSumanServer,
+    server,
+    timestamp,
+    interface: _interface
   });
 
 };
