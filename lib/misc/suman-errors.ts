@@ -1,5 +1,9 @@
 'use strict';
 
+//dts
+import {ISuman} from "../../dts/suman";
+
+//project
 const {constants} = require('../../config/suman-constants');
 const {fatalRequestReply} = require('../helpers/fatal-request-reply');
 
@@ -10,41 +14,20 @@ function SumanError() {
 SumanError.prototype = Object.create(Error.prototype);
 SumanError.prototype.constructor = SumanError;
 
-function control(isThrow, err) {
+let control = function (isThrow: boolean, err: Error) {
   if (isThrow) {
     throw err;
   }
   else {
     return err;
   }
-}
+};
 
-function filter(suman, isFatal, err) {
-
-  // let stack = String(err.stack).split('\n');
+function filter(suman: ISuman, isFatal: boolean, err?: Error) {
 
   const stack = err.stack || err;
 
   let firstMatch = false;
-
-  // stack = stack.map(function (item, index) {
-  //     if (index === 0) {
-  //         return item;
-  //     }
-  //     //TODO: need to make this work with Windows also
-  //     if (item) {
-  //         //if (String(item).match(/at TestSuite/) && !String(item).match(/suman\/lib/)) {
-  //         //    return item;
-  //         //}
-  //         if (!firstMatch && String(item).match(suman.fileName) /*|| !String(item).match(/suman\/lib/)*/) {
-  //             firstMatch = true;
-  //             return item;
-  //         }
-  //     }
-  // }).filter(function (item) {
-  //     return item;
-  // }).join('\n').concat('\n');
-
   let type = isFatal ? 'FATAL' : 'NON_FATAL_ERR';
 
   return fatalRequestReply({
@@ -64,17 +47,20 @@ function filter(suman, isFatal, err) {
 
 }
 
-export const noHost = function (isThrow) {
+export const noHost = function (isThrow: boolean) {
   return control(isThrow, new Error('no host defined'));
 };
 
-export const noPort = function (isThrow) {
+export const noPort = function (isThrow: boolean) {
   return control(isThrow, new Error('no port defined'));
 };
 
-export const badArgs = function (suman, isFatal, err) {
+export const badArgs = function (suman: ISuman, isFatal: boolean, err: Error) {
   return filter(suman, isFatal, err);
 };
+
+const $default = module.exports;
+export default $default;
 
 
 

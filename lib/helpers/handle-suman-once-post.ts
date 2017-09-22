@@ -1,5 +1,5 @@
 'use strict';
-import {IPseudoError} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -12,7 +12,7 @@ import util = require('util');
 const flattenDeep = require('lodash.flattendeep');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import oncePost from '../once-post';
 
 /////////////////////////////////////////////////////////////////////////
@@ -20,6 +20,7 @@ import oncePost from '../once-post';
 let oncePostInvoked = false;
 
 export const oncePostFn = function (cb: Function) {
+
   if (!oncePostInvoked) {
     oncePostInvoked = true;
 
@@ -40,6 +41,7 @@ export const oncePostFn = function (cb: Function) {
   }
 
   else {
-    process.nextTick(cb, new Error(' => Suman warning => oncePostFn was called more than once =>'));
+    process.nextTick(cb, new Error('Suman warning => oncePostFn was called more than once =>'));
   }
+
 };
