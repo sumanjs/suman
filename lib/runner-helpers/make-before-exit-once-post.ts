@@ -26,7 +26,6 @@ import {IIntegrantHash, IOncePost, TOncePostKeys} from "../runner";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const callbackOrPromise = require('../callback-or-promise');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {makePostInjector} from '../injection/make-post-injector';
 import {acquirePostDeps} from '../acquire-dependencies/acquire-post-deps';
