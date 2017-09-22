@@ -133,8 +133,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
 
-        const HookObj = makeHookObj(aBeforeOrAfter, assertCount);
-        const t = new HookObj(handleError);
+        const t = makeHookObj(aBeforeOrAfter, assertCount, handleError);
         t.shared = self.shared;
         t.$inject = suman.$inject;
         t.desc = aBeforeOrAfter.desc;
@@ -149,7 +148,6 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         let arg;
 
         if (isGeneratorFn) {
-
           const handleGenerator = helpers.makeHandleGenerator(fini);
           arg = [freezeExistingProps(t)];
           handleGenerator(aBeforeOrAfter.fn, arg, aBeforeOrAfter.ctx);
@@ -158,12 +156,12 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
           t.callbackMode = true;
 
-          // TODO: in the future, we may be able to check for presence of callback, if no callback fire error
+          // TODO: in the future, we may be able to check for presence of callback, if no callback, then fire error
           // if (!su.checkForValInStr(fnStr, /done/g)) {
           //    throw aBeforeOrAfter.NO_DONE;
           // }
 
-          const d = function done(err: IPseudoError) {
+          const dne = function done(err: IPseudoError) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }
@@ -190,7 +188,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
             }
           };
 
-          arg = Object.setPrototypeOf(d, freezeExistingProps(t));
+          arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
 
           if (aBeforeOrAfter.fn.call(aBeforeOrAfter.ctx, arg)) {  //check to see if we have a defined return value
             _suman.writeTestError(cloneError(aBeforeOrAfter.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);

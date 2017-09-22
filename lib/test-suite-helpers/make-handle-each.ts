@@ -17,10 +17,11 @@ import util = require('util');
 
 //npm
 import chalk = require('chalk');
+
 const fnArgs = require('function-arguments');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
 
 const {constants} = require('../../config/suman-constants');
@@ -114,7 +115,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
       const {sumanOpts} = _suman;
 
-      if(sumanOpts.debug_hooks){
+      if (sumanOpts.debug_hooks) {
         _suman.log(`now running each hook with name '${chalk.yellow(aBeforeOrAfterEach.desc)}',` +
           `for test case with name '${chalk.magenta(test.desc)}'.`);
       }
@@ -141,8 +142,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
 
-        const HookObj = makeHookObj(aBeforeOrAfterEach, assertCount);
-        const t = new HookObj(handleError);
+        const t = makeHookObj(aBeforeOrAfterEach, assertCount, handleError);
         fini.th = t;
         t.timeout = timeout;
         t.data = test.data;
@@ -167,17 +167,20 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         let args;
 
         if (isGeneratorFn) {
-
           const handleGenerator = helpers.makeHandleGenerator(fini);
           args = [freezeExistingProps(t)];
           handleGenerator(aBeforeOrAfterEach.fn, args, aBeforeOrAfterEach.ctx);
-
         }
         else if (aBeforeOrAfterEach.cb) {
 
           t.callbackMode = true;
 
-          const d = function done(err: IPseudoError) {
+          // TODO: in the future, we may be able to check for presence of callback, if no callback, then fire error
+          // if (!su.checkForValInStr(fnStr, /done/g)) {
+          //    throw aBeforeOrAfter.NO_DONE;
+          // }
+
+          const dne = function done(err: IPseudoError) {
 
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
@@ -198,7 +201,9 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
             }
           };
 
-          t.ctn = t.pass = function() {     // t.pass doesn't make sense since this is not a test case
+          t.ctn = t.pass = function () {
+            // t.pass doesn't make sense since this is not a test case, but for user friendliness
+            // this is like t.done() except by design no error will ever get passed
             if (!t.callbackMode) {
               handleNonCallbackMode(undefined);
             }
@@ -207,7 +212,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
             }
           };
 
-          args = Object.setPrototypeOf(d, freezeExistingProps(t));
+          args = Object.setPrototypeOf(dne, freezeExistingProps(t));
 
           if (aBeforeOrAfterEach.fn.call(aBeforeOrAfterEach.ctx, args)) {
             _suman.writeTestError(cloneError(aBeforeOrAfterEach.warningErr,

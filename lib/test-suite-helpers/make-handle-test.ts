@@ -136,27 +136,25 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 500000 : val);
         };
 
-        function $throw(str: any) {
+        const $throw = function (str: any) {
           handleErr(str instanceof Error ? str : new Error(str));
-        }
+        };
 
-        function handle(fn: Function) {
+        const handle = function (fn: Function) {
           try {
             fn.call(self);
           }
           catch (e) {
             handleErr(e);
           }
-        }
+        };
 
-        let handleNonCallbackMode = function (err: IPseudoError) {
+        const handleNonCallbackMode = function (err: IPseudoError) {
           err = err ? ('Also, you have this error => ' + err.stack || err) : '';
           handleErr(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
 
-        const TestCase = makeTestCase(test, assertCount);
-        const t = new TestCase(handleErr);
-
+        const t = makeTestCase(test, assertCount, handleErr);
         fini.th = t;
         t.handleAssertions = handle;
         t.throw = $throw;
@@ -187,7 +185,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-
         test.dateStarted = Date.now();
 
         let args;
@@ -200,6 +197,11 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         else if (test.cb === true) {
 
           t.callbackMode = true;
+
+          // TODO: in the future, we may be able to check for presence of callback, if no callback, then fire error
+          // if (!su.checkForValInStr(fnStr, /done/g)) {
+          //    throw aBeforeOrAfter.NO_DONE;
+          // }
 
           const dne = function done(err: Error) {
             if (!t.callbackMode) {

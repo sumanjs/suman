@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj} from "../dts/test-suite";
+import {IAssertObj, IHandleError, IHookObj} from "../../dts/test-suite";
 import {IGlobalSumanObj} from "../../dts/global";
 
 //polyfills
@@ -10,57 +10,42 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import assert = require('assert');
+
 const chai = require('chai');
 const chaiAssert = chai.assert;
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {tProto} from './t-proto';
-
 
 /////////////////////////////////////////////////////////////////////////////////
 
-export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj) {
+export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError) {
 
   let planCalled = false;
+  const v = Object.create(tProto);
 
-  function H(handleError: IHandleError) {
+  v.assert = function () {
+    try {
+      return chaiAssert.apply(v, arguments);
+    }
+    catch (e) {
+      return handleError(e);
+    }
+  };
 
-    this.__handle = handleError;
-
-    this.assert = function () {
+  Object.keys(chaiAssert).forEach((key) => {
+    v.assert[key] = function () {
       try {
-        return chaiAssert.apply(this, arguments);
+        return chaiAssert[key].apply(chaiAssert, arguments);
       }
       catch (e) {
-        return this.__handle(e, false);
+        return handleError(e);
       }
-    };
+    }
+  });
 
-    const self = this;
-    Object.keys(chaiAssert).forEach((key) => {
-      self.assert[key] = function () {
-        try {
-          return chaiAssert[key].apply(chaiAssert, arguments);
-        }
-        catch (e) {
-          debugger;
-          return self.__handle(e, false);
-        }
-      }
-    });
-  }
-
-  /*
-   !!!
-   IMPORTANT NOTE: do not make any references to "this" in any prototype function because "this" may not be bound if the
-   the user passes the function directly, and does not call the function with "t" as in "t.x()" but instead
-   just calls "x()"
-   */
-
-  H.prototype = Object.create(tProto);
-
-  H.prototype.plan = function _plan(num: number) {
+  v.plan = function (num: number) {
     if (!planCalled) {
       planCalled = true;
       if (hook.planCountExpected !== undefined) {
@@ -70,15 +55,15 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj) {
       hook.planCountExpected = num;
     }
     else {
-      _suman.writeTestError(new Error(' => Suman warning => t.plan() called twice.').stack);
+      _suman.writeTestError(new Error(' => Suman warning => plan() called more than once.').stack);
     }
   };
 
-  H.prototype.confirm = function _confirm() {
+  v.confirm = function () {
     assertCount.num++;
   };
 
-  return H;
+  return v;
 
 };
 
