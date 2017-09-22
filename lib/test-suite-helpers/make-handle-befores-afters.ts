@@ -33,7 +33,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
   return function handleBeforesAndAfters(self: ITestSuite, aBeforeOrAfter: IOnceHookObj, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program in file:\n[${__filename}]`);
       return;
     }
 
@@ -52,7 +52,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
     const d = domain.create() as ISumanAllHookDomain;
     d.sumanAllHook = true;
-    d.sumanAllHookName = aBeforeOrAfter.desc || '(unknown)';
+    d.sumanAllHookName = aBeforeOrAfter.desc || '(unknown all-hook name)';
 
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfter, timerObj, gracefulExit, cb);
     const fnStr = aBeforeOrAfter.fn.toString();

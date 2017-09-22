@@ -6,7 +6,7 @@ const Test = suman.init(module);
 
 // Test.create(function (assert, it, before, afterEach, describe, after, beforeEach) {
 
-Test.create(function(it, before, beforeEach, describe, context){
+Test.create(function (it, before, beforeEach, describe, context) {
 
 
   // beforeEach.cb(h => {
@@ -17,8 +17,8 @@ Test.create(function(it, before, beforeEach, describe, context){
 
   });
 
-  beforeEach.cb('a',h => {
-    setTimeout(h, 100);
+  beforeEach.cb('alpha', h => {
+    setTimeout(h, 10);
   });
 
   it.cb('is normal', t => {
@@ -33,16 +33,9 @@ Test.create(function(it, before, beforeEach, describe, context){
     t.done();
   });
 
-
   it.cb('is NOT skipped', t => {
     t.done();
   });
-
-
-  it.cb('is NOT skipped', t => {
-    t.done();
-  });
-
 
   it.cb('is NOT skipped', t => {
     t.done();
@@ -52,6 +45,9 @@ Test.create(function(it, before, beforeEach, describe, context){
     t.done();
   });
 
+  it.cb('is NOT skipped', t => {
+    t.done();
+  });
 
   it.cb('is NOT skipped', t => {
     t.done();
@@ -62,12 +58,18 @@ Test.create(function(it, before, beforeEach, describe, context){
 
   it.cb('is stubbed 1');
 
-  describe('pajamas', function(){
+  describe('pajamas', function () {
 
-    it.cb('is stubbed 2');
+    beforeEach.cb('beta1', h => {
+      setTimeout(h, 10);
+    });
+
+    beforeEach.cb('beta2', h => {
+      setTimeout(h, 10);
+    });
+
+    it('is stubbed 2', t => 3);
   });
-
-
 
   // describe('running', function () {
   //
