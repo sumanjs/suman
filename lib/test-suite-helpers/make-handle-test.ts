@@ -16,6 +16,7 @@ import util = require('util');
 import EE = require('events');
 
 //npm
+import chalk = require('chalk');
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 
@@ -107,13 +108,17 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         // after second call to error, that's about enough
         // d.removeAllListeners();
         // d.exit()  should take care of removing listeners
-        _suman.writeTestError(' => Suman error => Error in test => \n' + stack);
+        _suman.writeTestError('Suman error => Error in test => \n' + stack);
       }
     };
 
     d.on('error', handleErr);
 
     process.nextTick(function () {
+
+      if(true){
+        _suman.log(`now starting to run test with name '${chalk.magenta(test.desc)}'.`);
+      }
 
       d.run(function runHandleTest() {
 
@@ -258,9 +263,3 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
   }
 };
 
-///////////// support node style imports //////////////////////////////////////////////////
-
-let $exports = module.exports;
-export default $exports;
-
-//////////////////////////////////////////////////////////////////////////////////////////

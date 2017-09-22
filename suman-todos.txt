@@ -37,6 +37,10 @@ The first option does not work with zsh due to a little bit different syntax.
 
 ///
 
+enforceUniqueTestCaseNames:true
+
+///
+
 fatal error in hook does not have cause or reason (the first line!):
 
    ⚑  Suman fatal error  => making a graceful exit =>
@@ -227,6 +231,10 @@ Please Share on Twitter if you like #suman
 
  when a hook fails, we should include the hook type and name in graceful exit,
  that's why (hook || test) was being passed to graceful exit in the first place.
+
+////
+
+  create acceptable hook / test case options, if option is not real, give the user a warning
 
 ////
 

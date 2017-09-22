@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IBeforeFn, IBeforeOpts} from "../../dts/before";
 import {IAllOpts, ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
@@ -30,14 +32,15 @@ const {handleSetupComplete} = require('../handle-setup-complete');
 import evalOptions from '../helpers/eval-options';
 import parseArgs from '../helpers/parse-pragmatik-args';
 
+//////////////////////////////////////////////////////////////////////////////
 
-function handleBadOptions(opts: IBeforeOpts) {
+let handleBadOptions = function (opts: IBeforeOpts) {
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
     console.error(' => Suman usage error => "plan" option is not an integer.');
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
     return;
   }
-}
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -71,7 +74,7 @@ export const makeBefore = function (suman: ISuman, zuite: ITestSuite): IBeforeFn
 
       zuite.getBefores().push({
         ctx: zuite,
-        desc: desc || fn.name,
+        desc: desc || fn.name || '(unknown before-hook name)',
         timeout: opts.timeout || 11000,
         cb: opts.cb || false,
         throws: opts.throws,

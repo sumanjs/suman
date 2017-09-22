@@ -1,6 +1,7 @@
 'use strict';
 
 //dts
+import {IGlobalSumanObj} from "../../dts/global";
 import {IInjectOpts} from "../../dts/inject";
 import {IAllOpts, ITestSuite} from "../../dts/test-suite";
 import {ISuman} from "../../dts/suman";
@@ -25,16 +26,16 @@ import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import evalOptions from '../helpers/eval-options';
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
 
 
-function handleBadOptions(opts: IInjectOpts) {
+const handleBadOptions = function (opts: IInjectOpts) {
   //TODO
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -85,7 +86,7 @@ export const makeInject = function (suman: ISuman, zuite: ITestSuite): Function 
 
       zuite.getInjections().push({  //TODO: add timeout option
         ctx: zuite,
-        desc: desc || fn.name,
+        desc: desc || fn.name || '(unknonw inject-hook name)',
         timeout: opts.timeout || 11000,
         cb: opts.cb || false,
         throws: opts.throws,

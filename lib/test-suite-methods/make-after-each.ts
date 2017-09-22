@@ -22,18 +22,17 @@ const {handleSetupComplete} = require('../handle-setup-complete');
 import evalOptions from '../helpers/eval-options';
 import parseArgs from '../helpers/parse-pragmatik-args';
 
+///////////////////////////////////////////////////////////////////////////
 
-function handleBadOptions(opts: IAfterEachOpts): void {
-
+const handleBadOptions = function (opts: IAfterEachOpts): void {
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
     console.error(' => Suman usage error => "plan" option is not an integer.');
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
     return;
   }
+};
 
-}
-
-////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 
 
 export const makeAfterEach = function (suman: ISuman, zuite: ITestSuite): IAfterEachFn {
@@ -65,7 +64,7 @@ export const makeAfterEach = function (suman: ISuman, zuite: ITestSuite): IAfter
       zuite.getAfterEaches().push({
         ctx: zuite,
         timeout: opts.timeout || 11000,
-        desc: desc || fn.name,
+        desc: desc || fn.name || '(unknown afterEach-hook name)',
         cb: opts.cb || false,
         throws: opts.throws,
         planCountExpected: opts.plan,

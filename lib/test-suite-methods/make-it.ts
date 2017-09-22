@@ -105,7 +105,7 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
       cb: opts.cb,
       type: 'it-standard',
       timeout: opts.timeout || 20000,
-      desc: desc || (fn ? fn.name : '(unknown due to stubbed function)'),
+      desc: desc || fn.name || '(unknown test case name)',
       fn: fn,
       warningErr: new Error('SUMAN_TEMP_WARNING_ERROR'),
       timedOut: false,

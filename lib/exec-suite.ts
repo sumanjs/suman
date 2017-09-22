@@ -159,7 +159,7 @@ export const execSuite = function (suman: ISuman): Function {
 
       });
 
-      d.run(function () {
+      d.run(function acquireIocDepsDomainRun() {
 
         acquireIocDeps(suman, deps, suite, function (err: IPseudoError, depz: IInjectionDeps) {
 
@@ -213,7 +213,7 @@ export const execSuite = function (suman: ISuman): Function {
             const to = setTimeout(function () {
               console.log('\n\n => Suman fatal error => suite.resume() function was not called within alloted time.');
               process.exit(constants.EXIT_CODES.DELAY_FUNCTION_TIMED_OUT);
-            }, _suman.weAreDebugging ? 500000 : 11000);
+            }, _suman.weAreDebugging ? 5000000 : 11000);
 
             if (_suman.sumanOpts.verbosity > 8) {
               console.log(' => Waiting for delay() function to be called...');

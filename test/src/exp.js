@@ -15,7 +15,7 @@ Test.create(function(it, before, beforeEach, describe, context){
 
   beforeEach.cb(h => {
     console.log('before each');
-    setTimeout(h, 1000);
+    setTimeout(h, 100);
   });
 
   it.cb('is normal', t => {

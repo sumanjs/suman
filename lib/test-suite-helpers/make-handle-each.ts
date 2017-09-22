@@ -16,6 +16,7 @@ import assert = require('assert');
 import util = require('util');
 
 //npm
+import chalk = require('chalk');
 const fnArgs = require('function-arguments');
 
 //project
@@ -111,7 +112,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     process.nextTick(function () {
 
       if(true){
-        _suman.log(`beginning to run each hook with name '${aBeforeOrAfterEach.desc}'.`);
+        _suman.log(`now running hook with name '${chalk.yellow(aBeforeOrAfterEach.desc)}', for test with name '${chalk.magenta(test.desc)}'.`);
       }
 
       d.run(function runHandleEachHook() {
@@ -125,14 +126,14 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
         //TODO: need to implement all assert methods
 
-        function timeout(val: number) {
+        const timeout = function (val: number) {
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 500000 : val);
-        }
+        };
 
-        function handleNonCallbackMode(err: IPseudoError) {
+        const handleNonCallbackMode = function (err: IPseudoError) {
           err = err ? ('Also, you have this error => ' + err.stack || err) : '';
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
-        }
+        };
 
         const HookObj = makeHookObj(aBeforeOrAfterEach, assertCount);
         const t = new HookObj(handleError);

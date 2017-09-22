@@ -21,23 +21,28 @@ import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
 import parseArgs from '../helpers/parse-pragmatik-args';
 import evalOptions from '../helpers/eval-options';
 
+/////////////////////////////////////////////////////////////////////////////////
 
-function handleBadOptions(opts: IBeforeEachOpts) {
-
+let handleBadOptions = function (opts: IBeforeEachOpts) {
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
     console.error(' => Suman usage error => "plan" option is not an integer.');
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
     return;
   }
+};
 
-}
+let acceptableOptions = {
+  timeout: true,
+  throws: true,
+  cb: true
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -57,7 +62,7 @@ export const makeBeforeEach = function (suman: ISuman, zuite: ITestSuite): IBefo
     handleBadOptions(opts);
 
     if (arrayDeps.length > 0) {
-      evalOptions(arrayDeps,opts);
+      evalOptions(arrayDeps, opts);
     }
 
     if (opts.skip) {
@@ -70,7 +75,7 @@ export const makeBeforeEach = function (suman: ISuman, zuite: ITestSuite): IBefo
       zuite.getBeforeEaches().push({  //TODO: add timeout option
         ctx: zuite,
         timeout: opts.timeout || 11000,
-        desc: desc || fn.name || '(unknown hook name)',
+        desc: desc || fn.name || '(unknown beforeEach-hook name)',
         fn: fn,
         throws: opts.throws,
         planCountExpected: opts.plan,
