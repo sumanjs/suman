@@ -89,10 +89,8 @@ const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import setupExtraLoggers from './index-helpers/setup-extra-loggers';
-
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
-
 const {execSuite} = require('./exec-suite');
 import {loadSumanConfig} from './helpers/load-suman-config';
 import {resolveSharedDirs} from './helpers/resolve-shared-dirs';
@@ -143,7 +141,7 @@ const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
 const testRuns: Array<Function> = [];
 const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
 const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Function) {
-  // Test.creates need to be registered only one at a time
+  // important! => Test.creates need to be registered only one at a time
   testSuiteRegistrationQueueCallbacks.unshift(cb);
   process.nextTick(task);
 }, 1);
@@ -174,30 +172,12 @@ suiteResultEmitter.on('suman-completed', function () {
   });
 });
 
-/////////////////////////////////////////////////////
 
 export const init: IInit = function ($module, $opts, confOverride): IStartCreate {
 
-  ///////////////////////////////////
+  //////////////////////////////////////////////////////
 
   debugger;  // leave this here forever for debugging child processes
-
-  /*
-   Please note that the init function is complex by nature. Easily the most complicated function
-   in this project by an order of magnitude. Here we have to deal with several different
-   conditionals:
-
-   (1) using runner or not
-   (2) using suman or node
-   (3) SUMAN_SINGLE_PROCESS (running tests all in a single process) or standard
-   (4) Waiting for suman.once.pre to finish ("integrants")
-
-   How this function works:
-
-   Test.create/describe/suite are called synchronously; once that function is called,
-   we wait for any relevant integrants to start/finish
-
-   */
 
   ///////////////////////////////////////////////////////
 
