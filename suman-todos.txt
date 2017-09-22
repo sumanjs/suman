@@ -33,6 +33,14 @@ The first option does not work with zsh due to a little bit different syntax.
 
 ///
 
+ class Suman should implement ISuman?
+
+///
+
+ before hooks can be stubbed? => before('merry');
+
+///
+
  improve tables -> they should work on Jenkins, etc.
 
 ///

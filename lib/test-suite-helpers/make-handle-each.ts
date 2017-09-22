@@ -64,10 +64,11 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
     const d = domain.create() as ISumanEachHookDomain;
     d.sumanEachHook = true;
-    d.sumanEachHookName = aBeforeOrAfterEach.desc || '(unknown)';
+    d.sumanEachHookName = aBeforeOrAfterEach.desc || '(unknown hook name)';
+    d.testDescription = test.desc || '(unknown test case name)';
 
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfterEach, timerObj, gracefulExit, cb);
-    const fnStr = aBeforeOrAfterEach.fn.toString(); //TODO: need to check if it's a promise instead of a function if we go that route
+    const fnStr = aBeforeOrAfterEach.fn.toString();
     let dError = false;
 
     const handleError: IHandleError = function (err: IPseudoError) {
@@ -112,8 +113,10 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     process.nextTick(function () {
 
       if(true){
-        _suman.log(`now running hook with name '${chalk.yellow(aBeforeOrAfterEach.desc)}', for test with name '${chalk.magenta(test.desc)}'.`);
+        _suman.log(`now running each hook with name '${chalk.yellow(aBeforeOrAfterEach.desc)}', for test case with name '${chalk.magenta(test.desc)}'.`);
       }
+
+      const sumanOpts = _suman.sumanOpts;
 
       d.run(function runHandleEachHook() {
 
@@ -152,7 +155,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
             handleNonCallbackMode(err);
           }
           else {
-            err = err || new Error('Temp error since user did not provide one.');
+            err = err || new Error('Stand-in error, since user did not provide one.');
             err.sumanFatal = true;
             fini(err);
           }
@@ -177,7 +180,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
               handleNonCallbackMode(err);
             }
             else {
-              err && (err.sumanFatal = !!_suman.sumanOpts.bail);
+              err && (err.sumanFatal = Boolean(sumanOpts.bail));
               fini(err);
             }
           };
@@ -187,12 +190,12 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
               handleNonCallbackMode(err);
             }
             else {
-              err && (err.sumanFatal = !!_suman.sumanOpts.bail);
+              err && (err.sumanFatal = Boolean(sumanOpts.bail));
               fini(err);
             }
           };
 
-          t.ctn = t.pass = function _ctn() {     // t.pass doesn't make sense since this is not a test case
+          t.ctn = t.pass = function() {     // t.pass doesn't make sense since this is not a test case
             if (!t.callbackMode) {
               handleNonCallbackMode(undefined);
             }
@@ -207,9 +210,9 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
             _suman.writeTestError(cloneError(aBeforeOrAfterEach.warningErr,
               constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
-
         }
         else {
+
           const handlePotentialPromise = helpers.handlePotentialPromise(fini, fnStr);
           args = freezeExistingProps(t);
           handlePotentialPromise(aBeforeOrAfterEach.fn.call(aBeforeOrAfterEach.ctx, args), false);

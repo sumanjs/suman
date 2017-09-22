@@ -34,6 +34,7 @@ import {ITestDataObj} from "../dts/it";
 import {constants} from '../config/suman-constants';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
+import {ISuman} from "../dts/suman";
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -55,9 +56,10 @@ export interface ISumanInputs {
 
 let sumanId = 0;
 
-export class Suman {
+export class Suman  {
 
   interface: string;
+  $inject: Object;
   iocData: Object;
   fileName: string;
   slicedFileName: string;
@@ -73,7 +75,6 @@ export class Suman {
   rootSuiteDescription: string;
   dateSuiteFinished: number;
   dateSuiteStarted: number;
-  $inject: Object;
 
   ////////////////////////////////////
 

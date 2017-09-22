@@ -13,8 +13,11 @@ Test.create(function(it, before, beforeEach, describe, context){
   //   return Promise.delay(2000);
   // });
 
-  beforeEach.cb(h => {
-    console.log('before each');
+  before('merry', t => {
+
+  });
+
+  beforeEach.cb('a',h => {
     setTimeout(h, 100);
   });
 

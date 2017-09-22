@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IAssertObj, IHookObj, ITimerObj} from "../../dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../../dts/global";
 import {ITestDataObj} from "../../dts/it";
@@ -14,23 +16,24 @@ import assert = require('assert');
 
 //npm
 import su from 'suman-utils';
+import chalk = require('chalk');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../misc/clone-error';
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function missingHookOrTest() {
+const missingHookOrTest = function () {
   const mzg = new Error(' => Suman implementation error, please report! ' +
     'Neither test nor hook defined, where at least one should be.');
   console.error(mzg.stack);
   _suman.writeTestError(mzg.stack);
   return mzg;
-}
+};
 
-function planHelper(e: IPseudoError, test: ITestDataObj, hook: IHookObj, assertCount: IAssertObj) {
+const planHelper = function (e: IPseudoError, test: ITestDataObj, hook: IHookObj, assertCount: IAssertObj) {
 
   const testOrHook: ITestDataObj | IHookObj = (test || hook);
 
@@ -55,10 +58,9 @@ function planHelper(e: IPseudoError, test: ITestDataObj, hook: IHookObj, assertC
   }
 
   return e;
+};
 
-}
-
-function throwsHelper(err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
+const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
 
   const testOrHook: ITestDataObj | IHookObj = (test || hook);
 
@@ -86,7 +88,6 @@ function throwsHelper(err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
         'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , but did not.';
 
       let newErr = cloneError(testOrHook.warningErr, z);
-
       err = new Error(err.stack + '\n' + newErr.stack);
 
     }
@@ -97,7 +98,7 @@ function throwsHelper(err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
 
   }
   return err;
-}
+};
 
 export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, test: ITestDataObj, hook: IHookObj,
                                       timerObj: ITimerObj, gracefulExit: Function, cb: Function) {
@@ -106,7 +107,7 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
     throw new Error('Suman internal implementation error => Please report this on the Github issue tracker.');
   }
   else if (!test && !hook) {
-    let msg = new Error(' => Suman implementation error, please report! ' +
+    let msg = new Error('Suman implementation error, please report! ' +
       'Neither test nor hook defined, where at least one should be.');
     console.error(msg.stack || msg);
     _suman.writeTestError(msg.stack || msg);
@@ -137,6 +138,17 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
     }
 
     if (++called === 1) {
+
+      if (true) {
+        if (hook) {
+          if (d.testDescription) {
+            _suman.log(`each hook with name '${chalk.yellow(hook.desc)}' has completed, for test case with name '${chalk.magenta(d.testDescription)}'.`);
+          }
+          else {
+            _suman.log(`hook with name '${chalk.yellow(hook.desc)}' has completed.`);
+          }
+        }
+      }
 
       try {
         if (test || hook) {

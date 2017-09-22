@@ -16,6 +16,7 @@ export interface ISumanInputs {
 }
 export declare class Suman {
     interface: string;
+    $inject: Object;
     iocData: Object;
     fileName: string;
     slicedFileName: string;
@@ -31,7 +32,6 @@ export declare class Suman {
     rootSuiteDescription: string;
     dateSuiteFinished: number;
     dateSuiteStarted: number;
-    $inject: Object;
     constructor(obj: ISumanInputs);
     getTableData(): void;
     logFinished($exitCode: number, skippedString: string, cb: Function): void;

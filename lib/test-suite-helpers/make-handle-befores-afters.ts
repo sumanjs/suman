@@ -17,6 +17,7 @@ import util = require('util');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su from 'suman-utils';
+import chalk = require('chalk');
 import {makeCallback} from './handle-callback-helper';
 
 const helpers = require('./handle-promise-generator');
@@ -102,6 +103,10 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     d.on('error', handleError);
 
     process.nextTick(function () {
+
+      if(true){
+        _suman.log(`now running all hook with name '${chalk.yellow(aBeforeOrAfter.desc)}'.`);
+      }
 
       // need to d.run instead process.next so that errors thrown in same-tick get trapped by "Node.js domains in browser"
       // process.nextTick is necessary in the first place, so that async module does not experience Zalgo
