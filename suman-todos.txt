@@ -33,6 +33,10 @@ The first option does not work with zsh due to a little bit different syntax.
 
 ///
 
+node test/src/exp.js | grep -v [[suman]]
+
+///
+
  class Suman should implement ISuman?
 
 ///

@@ -13,12 +13,15 @@ Test.create(function (it, before, beforeEach, describe, context) {
   //   return Promise.delay(2000);
   // });
 
+
+  console.log('suman [suman] suman');
+
   before('merry', t => {
 
   });
 
   beforeEach.cb('alpha', h => {
-    setTimeout(h, 10);
+    setTimeout(h, 1);
   });
 
   it.cb('is normal', t => {
