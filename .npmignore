@@ -14,14 +14,19 @@ coverage/
 .nyc_output
 yarn.lock
 test/
-
+dist/
 
 # files
 .gitignore
 .github
+.npmignore
+webpack.config.js
 .gitattributes
-.editorconfig
 suman.conf.js
+.editorconfig
+.tscmultiwatch
+.babelrc
+.dockerignore
 
 # negation
 !lib/**/*.sh

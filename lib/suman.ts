@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {ITestSuite} from "../dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "../dts/global";
 import {ITableData} from "../dts/table-data";
@@ -18,10 +20,8 @@ import EE = require('events');
 const flattenDeep = require('lodash.flattendeep');
 const readline = require('readline');
 import * as chalk from 'chalk';
-
 const AsciiTable = require('ascii-table');
 import async = require('async');
-
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 import su from 'suman-utils';
@@ -32,6 +32,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {findSumanServer, ISumanServerInfo} from './helpers/find-suman-server';
 import {ITestDataObj} from "../dts/it";
 import {constants} from '../config/suman-constants';
+
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
 
@@ -97,7 +98,7 @@ class Suman {
   }
 
   getTableData() {
-    throw new Error('Suman => not yet implemente')
+    throw new Error('Suman implementation error => not yet implemented.')
   }
 
   logFinished($exitCode: number, skippedString: string, cb: Function) {
