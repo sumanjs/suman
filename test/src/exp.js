@@ -6,19 +6,25 @@ const Test = suman.init(module);
 
 // Test.create(function (assert, it, before, afterEach, describe, after, beforeEach) {
 
-Test.create(function (it, before, beforeEach, describe, context) {
+Test.create(function (it, before, beforeEach, describe, context, after) {
 
 
   // beforeEach.cb(h => {
   //   return Promise.delay(2000);
   // });
 
-
-  console.log('suman [suman] suman');
+  it.only('should pass');
 
   before('merry', t => {
 
   });
+
+
+
+
+
+
+
 
   beforeEach.cb('alpha', h => {
     setTimeout(h, 1);

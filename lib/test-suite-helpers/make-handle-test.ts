@@ -25,12 +25,10 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import su = require('suman-utils');
 import {makeCallback} from './handle-callback-helper';
-
 const helpers = require('./handle-promise-generator');
 import {cloneError} from '../misc/clone-error';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
-
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +114,9 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
     process.nextTick(function () {
 
-      if(true){
+      const {sumanOpts} = _suman;
+
+      if(sumanOpts.debug_hooks){
         _suman.log(`now starting to run test with name '${chalk.magenta(test.desc)}'.`);
       }
 
@@ -194,9 +194,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
         if (isGeneratorFn) {
           const handleGenerator = helpers.makeHandleGenerator(fini);
-          if (test.cb === true) {
-            throw new Error('Generator function callback is also asking for callback mode => inconsistent.');
-          }
           args = [freezeExistingProps(t)];
           handleGenerator(test.fn, args, self);
         }
@@ -204,7 +201,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
           t.callbackMode = true;
 
-          const d = function done(err: Error) {
+          const dne = function done(err: Error) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }
@@ -213,7 +210,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
             }
           };
 
-          fini.th = d;
+          fini.th = dne;
 
           t.done = function done(err: Error) {
             if (!t.callbackMode) {
@@ -244,7 +241,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
             }
           };
 
-          args = Object.setPrototypeOf(d, freezeExistingProps(t));
+          args = Object.setPrototypeOf(dne, freezeExistingProps(t));
           if (test.fn.call(self, args)) {  ///run the fn, but if it returns something, then add warning
             _suman.writeTestError(cloneError(test.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }

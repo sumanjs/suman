@@ -112,8 +112,11 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
     process.nextTick(function () {
 
-      if(true){
-        _suman.log(`now running each hook with name '${chalk.yellow(aBeforeOrAfterEach.desc)}', for test case with name '${chalk.magenta(test.desc)}'.`);
+      const {sumanOpts} = _suman;
+
+      if(sumanOpts.debug_hooks){
+        _suman.log(`now running each hook with name '${chalk.yellow(aBeforeOrAfterEach.desc)}',` +
+          `for test case with name '${chalk.magenta(test.desc)}'.`);
       }
 
       const sumanOpts = _suman.sumanOpts;

@@ -38,10 +38,8 @@ const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import TestSuiteBase from './test-suite-base-constructor';
 import {freezeExistingProps} from 'freeze-existing-props'
-
 const {makeStartSuite} = require('./make-start-suite');
 import {makeHandleBeforesAndAfters} from './make-handle-befores-afters';
-
 const {makeNotifyParent} = require('./notify-parent-that-child-is-complete');
 
 // TestSuite methods
@@ -56,15 +54,17 @@ import {makeAfterAllParentHooks} from '../test-suite-methods/make-after-all-pare
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-function makeRunChild(val: any) {
-  return function runChild(child: ITestSuite, cb: Function) {
-    child._run(val, cb);
-  }
-}
-
 type ITestSuiteConstructor = (obj: ITestSuiteMakerOpts) => void;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+const makeRunChild = function (val: any) {
+  return function runChild(child: ITestSuite, cb: Function) {
+    child._run(val, cb);
+  }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeTestSuiteMaker = function (suman: ISuman, gracefulExit: Function): TTestSuiteMaker {
 

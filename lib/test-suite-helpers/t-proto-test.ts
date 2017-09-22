@@ -53,13 +53,12 @@ export const makeTestCase = function (test: ITestDataObj, assertCount: IAssertCo
     };
 
     const self = this;
-    Object.keys(chaiAssert).forEach((key) => {
+    Object.keys(chaiAssert).forEach(key => {
       self.assert[key] = function () {
         try {
           return chaiAssert[key].apply(chaiAssert, arguments);
         }
         catch (e) {
-          debugger;
           return self.__handle(e, false);
         }
       }
@@ -70,7 +69,7 @@ export const makeTestCase = function (test: ITestDataObj, assertCount: IAssertCo
 
   let planCalled = false;
 
-  T.prototype.plan = function _plan(num: number) {
+  T.prototype.plan = function (num: number) {
     if (!planCalled) {
       planCalled = true;
       if (test.planCountExpected !== undefined) {
@@ -86,7 +85,7 @@ export const makeTestCase = function (test: ITestDataObj, assertCount: IAssertCo
     }
   };
 
-  T.prototype.confirm = function _confirm() {
+  T.prototype.confirm = function () {
     assertCount.num++;
   };
 

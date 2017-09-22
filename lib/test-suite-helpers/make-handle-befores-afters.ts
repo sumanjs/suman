@@ -37,7 +37,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
       return;
     }
 
-    //records whether a hook was actually attempted
+    // records whether a hook was actually attempted
     // IMPORTANT: this should appear after the _suman.sumanUncaughtExceptionTriggered check
     // because an after.always hook needs to run even in the presence of an uncaught exception
     aBeforeOrAfter.alreadyInitiated = true;
@@ -104,7 +104,9 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
     process.nextTick(function () {
 
-      if(true){
+      const {sumanOpts} = _suman;
+
+      if(sumanOpts.debug_hooks){
         _suman.log(`now running all hook with name '${chalk.yellow(aBeforeOrAfter.desc)}'.`);
       }
 
@@ -121,15 +123,15 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
         const isGeneratorFn = su.isGeneratorFn(aBeforeOrAfter.fn);
 
-        function timeout(val: number) {
+        const timeout =function (val: number) {
           clearTimeout(timerObj.timer);
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
-        }
+        };
 
-        function handleNonCallbackMode(err: IPseudoError) {
+        const handleNonCallbackMode = function (err: IPseudoError) {
           err = err ? ('Also, you have this error => ' + err.stack || err) : '';
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
-        }
+        };
 
         const HookObj = makeHookObj(aBeforeOrAfter, assertCount);
         const t = new HookObj(handleError);
@@ -139,7 +141,6 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
         fini.th = t;
         t.timeout = timeout;
-
         t.fatal = function fatal(err: IPseudoError) {
           err = err || new Error('Suman placeholder error since this function was not explicitly passed an error object as first argument.');
           fini(err, null);

@@ -117,6 +117,8 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
 
   return function testAndHookCallbackHandler(err: IPseudoError, isTimeout?: boolean) {
 
+    const {sumanOpts} = _suman;
+
     if (err) {
 
       if (String(err.stack || err).match(/Suman usage error/)) {
@@ -139,7 +141,7 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
 
     if (++called === 1) {
 
-      if (true) {
+      if (sumanOpts.debug_hooks) {
         if (hook) {
           if (d.testDescription) {
             _suman.log(`each hook with name '${chalk.yellow(hook.desc)}' has completed, for test case with name '${chalk.magenta(d.testDescription)}'.`);

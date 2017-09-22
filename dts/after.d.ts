@@ -12,8 +12,10 @@ type IAfterFnArgTypes = SubsetOfAfterOpts | TAfterHook | Array<string | SubsetOf
 export interface IAfterFn {
   // (desc?: string; opts?: IAfterOpts; fn?: TAfterHook): void;
   (name: string, ...args: IAfterFnArgTypes[]): void;
-  cb?: IAfterFn;
-  skip?: IAfterFn
+  cb?: IAfterFn,
+  skip?: IAfterFn,
+  always?: IAfterFn,
+  last?: IAfterFn
 }
 
 
