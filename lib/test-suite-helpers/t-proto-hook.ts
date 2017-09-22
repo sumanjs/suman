@@ -34,7 +34,7 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
     }
   };
 
-  Object.keys(chaiAssert).forEach((key) => {
+  Object.keys(chaiAssert).forEach(key => {
     v.assert[key] = function () {
       try {
         return chaiAssert[key].apply(chaiAssert, arguments);
@@ -46,17 +46,18 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
   });
 
   v.plan = function (num: number) {
-    if (!planCalled) {
-      planCalled = true;
-      if (hook.planCountExpected !== undefined) {
-        _suman.writeTestError(new Error(' => Suman warning => t.plan() called, even though plan was already passed as an option.').stack);
-      }
-      assert(Number.isInteger(num), ' => Suman usage error => value passed to t.plan() is not an integer.');
-      hook.planCountExpected = num;
-    }
-    else {
+    if (planCalled) {
       _suman.writeTestError(new Error(' => Suman warning => plan() called more than once.').stack);
+      return;
     }
+
+    planCalled = true;
+    if (hook.planCountExpected !== undefined) {
+      _suman.writeTestError(new Error(' => Suman warning => t.plan() called, even though plan was already passed as an option.').stack);
+    }
+
+    assert(Number.isInteger(num), ' => Suman usage error => value passed to plan() is not an integer.');
+    hook.planCountExpected = v.planCountExpected = num;
   };
 
   v.confirm = function () {
