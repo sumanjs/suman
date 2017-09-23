@@ -9,16 +9,20 @@ let val = 1;
 
 //
 
-Test.create(String(val++), function (it) {
+Test.create(String(val++), function (it, beforeEach) {
+
+  beforeEach(h => {
+    h.assert('i', 'melon');
+    h.assert.equal(true, true, 'moo');
+  });
 
   Number(1000).times(function () {
 
     it('makes good', t => {
-
+      t.assert(true, 'fudge.');
+      t.assert.equal(true, true, 'damn');
     });
-
   });
-
 });
 
 // {

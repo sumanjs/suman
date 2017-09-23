@@ -26,7 +26,8 @@ instead of this:
 
 use this:
 
- v.a
+ let assrt = function(){};
+ v.assert = new Proxy(assrt, { set: function(){}});
 
 ///
 

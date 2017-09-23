@@ -22,30 +22,52 @@ import {tProto} from './t-proto';
 /////////////////////////////////////////////////////////////////////////////////
 
 export const makeHookObj
-  = function (hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError) : IHookParam {
+  = function (hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError): IHookParam {
 
   let planCalled = false;
   const v = Object.create(tProto);
 
-  v.assert = <Partial<AssertStatic>>  function () {
+  const assrt = <Partial<AssertStatic>>  function () {
     try {
-      return chaiAssert.apply(v, arguments);
+      return chaiAssert.apply(null, arguments);
     }
     catch (e) {
       return handleError(e);
     }
   };
 
-  Object.keys(chaiAssert).forEach(key => {
-    v.assert[key] = function () {
-      try {
-        return chaiAssert[key].apply(chaiAssert, arguments);
-      }
-      catch (e) {
-        return handleError(e);
+  v.assert = new Proxy(assrt, {
+    get: function (target, prop) {
+      return function () {
+        try {
+          return chaiAssert[prop].apply(null, arguments);
+        }
+        catch (e) {
+          return handleError(e);
+        }
       }
     }
   });
+
+  // v.assert = <Partial<AssertStatic>>  function () {
+  //   try {
+  //     return chaiAssert.apply(null, arguments);
+  //   }
+  //   catch (e) {
+  //     return handleError(e);
+  //   }
+  // };
+
+  // Object.keys(chaiAssert).forEach(key => {
+  //   v.assert[key] = function () {
+  //     try {
+  //       return chaiAssert[key].apply(chaiAssert, arguments);
+  //     }
+  //     catch (e) {
+  //       return handleError(e);
+  //     }
+  //   }
+  // });
 
   v.plan = function (num: number) {
     if (planCalled) {
