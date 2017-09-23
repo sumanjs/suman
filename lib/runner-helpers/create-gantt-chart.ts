@@ -1,6 +1,6 @@
 'use strict';
 
-import {IGlobalSumanObj, ISumanConfig, ISumanOpts} from "../../dts/global";
+import {IGlobalSumanObj, ISumanConfig, ISumanOpts} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

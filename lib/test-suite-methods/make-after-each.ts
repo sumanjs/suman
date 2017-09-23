@@ -1,8 +1,8 @@
 'use strict';
-import {IGlobalSumanObj} from "../../dts/global";
-import {ITestSuite} from "../../dts/test-suite";
-import {ISuman} from "../../dts/suman";
-import {IAfterEachFn, IAfterEachOpts, TAfterEachHook} from "../../dts/after-each";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {ISuman} from "suman-types/dts/suman";
+import {IAfterEachFn, IAfterEachOpts, TAfterEachHook} from "suman-types/dts/after-each";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

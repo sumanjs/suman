@@ -1,6 +1,6 @@
 'use strict';
-import {IRunnerObj, ISumanChildProcess, ITableRows} from "../dts/runner";
-import {IGlobalSumanObj, IPseudoError} from "../dts/global";
+import {IRunnerObj, ISumanChildProcess, ITableRows} from "suman-types/dts/runner";
+import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

@@ -1,22 +1,22 @@
 'use strict';
 
 //dts
-import {IInjectOpts, IInjectHookCallbackMode, IInjectHookRegularMode, IInjectFn} from "../../dts/inject";
-import {IGlobalSumanObj} from "../../dts/global";
-import {BeforeHookCallbackMode, BeforeHookRegularMode, IBeforeFn, IBeforeOpts} from "../../dts/before";
-import {ITestSuite} from "../../dts/test-suite";
-import {ITestSuiteMakerOpts, TTestSuiteMaker} from "../../dts/test-suite-maker";
-import {ISuman} from "../../dts/suman";
-import {IItOpts, ItFn, ItHookCallbackMode, ItHookRegularMode} from "../../dts/it";
-import {IDescribeFn, IDescribeOpts, TDescribeHook} from "../../dts/describe";
+import {IInjectOpts, IInjectHookCallbackMode, IInjectHookRegularMode, IInjectFn} from "suman-types/dts/inject";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {BeforeHookCallbackMode, BeforeHookRegularMode, IBeforeFn, IBeforeOpts} from "suman-types/dts/before";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {ITestSuiteMakerOpts, TTestSuiteMaker} from "suman-types/dts/test-suite-maker";
+import {ISuman} from "suman-types/dts/suman";
+import {IItOpts, ItFn, ItHookCallbackMode, ItHookRegularMode} from "suman-types/dts/it";
+import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
 
 import {
   BeforeEachHookCallbackMode, BeforeEachHookRegularMode, IBeforeEachFn,
   IBeforeEachOpts
-} from "../../dts/before-each";
+} from "suman-types/dts/before-each";
 
-import {IAfterEachFn, IAfterEachOpts, TAfterEachHook} from "../../dts/after-each";
-import {AfterHookCallbackMode, AfterHookRegularMode, IAfterFn, IAfterOpts} from "../../dts/after";
+import {IAfterEachFn, IAfterEachOpts, TAfterEachHook} from "suman-types/dts/after-each";
+import {AfterHookCallbackMode, AfterHookRegularMode, IAfterFn, IAfterOpts} from "suman-types/dts/after";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

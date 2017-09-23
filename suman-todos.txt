@@ -14,7 +14,21 @@ three SO profiles:
 
 ///
 
-_suman.ctx => suman.ctx
+_suman.ctx => suman.ctx ?
+
+///
+
+ we should be able to create a test file with suman --create
+ and run the file, without running suman --init on a directory, see unnecessary error:
+
+ => Suman could *not* locate your <suman-helpers-dir>; perhaps you need to update your suman.conf.js file, please see: ***
+  => http://sumanjs.org/conf.html
+  => We expected to find your <suman-helpers-dir> here =>
+ /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-types/suman
+
+ => If there is NO SUMAN HELPERS DIR, flip a boolean, and just use all the default files.
+
+ // >>>>> or just run the test with node instead of suman?
 
 ///
 

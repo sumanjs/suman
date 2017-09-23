@@ -1,5 +1,5 @@
 'use strict';
-import {ISumanChildProcess} from "../../dts/runner";
+import {ISumanChildProcess} from "suman-types/dts/runner";
 
 
 export interface ICpHash {

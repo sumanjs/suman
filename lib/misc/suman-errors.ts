@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {ISuman} from "../../dts/suman";
+import {ISuman} from "suman-types/dts/suman";
 
 //project
 const {constants} = require('../../config/suman-constants');

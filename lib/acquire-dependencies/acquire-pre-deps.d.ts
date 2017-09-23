@@ -1,4 +1,4 @@
-import { IDepContainer } from "../../dts/integrant-value-container";
+import { IDepContainer } from "suman-types/dts/integrant-value-container";
 export interface IOncePostHash {
     [key: string]: any;
 }

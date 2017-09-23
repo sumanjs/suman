@@ -1,8 +1,8 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj} from "../../dts/global";
-import {ISumanChildProcess} from "../../dts/runner";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ISumanChildProcess} from "suman-types/dts/runner";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

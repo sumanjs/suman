@@ -1,9 +1,11 @@
 'use strict';
 
 //dts
-import {ITestSuite} from "../dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "../dts/global";
-import {ITableData} from "../dts/table-data";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "suman-types/dts/global";
+import {ITableData} from "suman-types/dts/table-data";
+import {ISumanInputs} from "suman-types/dts/suman";
+import {ISuman, ITableDataCallbackObj, ISumanServerInfo} from "suman-types/dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -20,43 +22,30 @@ import EE = require('events');
 const flattenDeep = require('lodash.flattendeep');
 const readline = require('readline');
 import * as chalk from 'chalk';
+
 const AsciiTable = require('ascii-table');
 import async = require('async');
+
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 import su from 'suman-utils';
+
 const McProxy = require('proxy-mcproxy');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {findSumanServer, ISumanServerInfo} from './helpers/find-suman-server';
-import {ITestDataObj} from "../dts/it";
+import {findSumanServer} from './helpers/find-suman-server';
+import {ITestDataObj} from "suman-types/dts/it";
 import {constants} from '../config/suman-constants';
+
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
-import {ISuman} from "../dts/suman";
 
 //////////////////////////////////////////////////////////////////////////////
 
-
-export interface ITableDataCallbackObj {
-  exitCode: number,
-  tableData: Object
-}
-
-export interface ISumanInputs {
-  interface: string,
-  fileName: string,
-  timestamp: number,
-  usingLiveSumanServer: boolean
-  server: ISumanServerInfo
-}
-
-/////////////////////////////////////////////////////////////////////////////////
-
 let sumanId = 0;
 
-export class Suman  {
+export class Suman {
 
   interface: string;
   $inject: Object;
@@ -320,8 +309,6 @@ export class Suman  {
       // TODO: note for the web browser, we need to use this
       client.emit(LOG_RESULT, JSON.parse(str));
     }
-
-    debugger;
 
     // broadcast results
     resultBroadcaster.emit(String(events.TEST_CASE_END), test);

@@ -1,7 +1,9 @@
 'use strict';
-import {IInjectionDeps} from "../../dts/injection";
-import {IPseudoError} from "../../dts/global";
-import {ITestSuite} from "../../dts/test-suite";
+
+//dts
+import {IInjectionDeps} from "suman-types/dts/injection";
+import {IPseudoError, IGlobalSumanObj} from "suman-types/dts/global";
+import {ITestSuite} from "suman-types/dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -17,14 +19,12 @@ import cp = require('child_process');
 
 //npm
 import * as chalk from 'chalk';
-
 const includes = require('lodash.includes');
 const fnArgs = require('function-arguments');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {constants} from '../../config/suman-constants';
-
 const iocPromiseContainer: IIocPromiseContainer = {};
 
 /////////////////////////////////////////////////////////////

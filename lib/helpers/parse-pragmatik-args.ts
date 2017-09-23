@@ -1,7 +1,7 @@
 'use strict';
 
 //typesscript
-import {IAllOpts} from "../../dts/test-suite";
+import {IAllOpts} from "suman-types/dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -15,7 +15,7 @@ import util = require('util');
 const pragmatik = require('pragmatik');
 import async = require('async');
 import * as chalk from 'chalk';
-import {IGlobalSumanObj} from "../../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});

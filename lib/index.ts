@@ -1,24 +1,25 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj, ISumanConfig, SumanErrorRace} from "suman-types/types/suman/dts/global";
+import {IGlobalSumanObj, ISumanConfig, SumanErrorRace} from "suman-types/dts/global";
 import EventEmitter = NodeJS.EventEmitter;
-import {ISuman} from "../dts/suman";
+import {ISuman} from "suman-types/dts/suman";
+import {IStartCreate, IIoCData, IInit, IInitOpts} from "suman-types/dts/index-init"
 import {Stream, Transform, Writable} from "stream";
-import {IDescribeFn, IDescribeOpts, TDescribeHook} from "../dts/describe";
-import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook} from "../dts/index-init";
-import {IHookOrTestCaseParam} from "../dts/test-suite";
+import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
+import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook} from "suman-types/dts/index-init";
+import {IHookOrTestCaseParam} from "suman-types/dts/test-suite";
 
 //exported imports
-export {ISumanOpts, IGlobalSumanObj} from '../dts/global';
-export {ITestCaseParam} from '../dts/test-suite';
-export {IHookParam} from '../dts/test-suite';
-export {IDescribeFn} from '../dts/describe';
-export {ItFn, ITestDataObj} from '../dts/it';
-export {IBeforeFn} from '../dts/before';
-export {IBeforeEachFn} from '../dts/before-each';
-export {IAfterFn} from '../dts/after';
-export {IAfterEachFn} from '../dts/after-each';
+export {ISumanOpts, IGlobalSumanObj} from 'suman-types/dts/global';
+export {ITestCaseParam} from 'suman-types/dts/test-suite';
+export {IHookParam} from 'suman-types/dts/test-suite';
+export {IDescribeFn} from 'suman-types/dts/describe';
+export {ItFn, ITestDataObj} from 'suman-types/dts/it';
+export {IBeforeFn} from 'suman-types/dts/before';
+export {IBeforeEachFn} from 'suman-types/dts/before-each';
+export {IAfterFn} from 'suman-types/dts/after';
+export {IAfterEachFn} from 'suman-types/dts/after-each';
 
 //////////////////////////////////////////////////////////////////
 

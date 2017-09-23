@@ -1,7 +1,8 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj} from "../../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ISumanServerInfo} from "suman-types/dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -20,13 +21,6 @@ import {events} from 'suman-events';
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import SumanErrors from '../misc/suman-errors';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface ISumanServerInfo {
-  host: string,
-  port: number
-}
 
 //////////////////////////////////////////////////////////////////////////////////
 

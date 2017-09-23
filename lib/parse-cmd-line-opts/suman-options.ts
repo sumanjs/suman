@@ -117,6 +117,16 @@ module.exports = [
     help: 'Use this option to cd to the project root.'
   },
   {
+    names: ['allow-skip'],
+    type: 'bool',
+    help: 'Allow tests to be skipped.'
+  },
+  {
+    names: ['allow-only'],
+    type: 'bool',
+    help: 'Allow tests to be skipped using the only feature.'
+  },
+  {
     names: ['series'],
     type: 'bool',
     env: 'SUMAN_SERIES',

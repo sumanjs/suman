@@ -1,11 +1,11 @@
 'use strict';
 
 //typescript
-import {ITestSuite} from "../../dts/test-suite";
-import {ISuman} from "../../dts/suman";
-import {TTestSuiteMaker} from "../../dts/test-suite-maker";
-import {IDescribeFn, IDescribeOpts, TDescribeHook} from "../../dts/describe";
-import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {ISuman} from "suman-types/dts/suman";
+import {TTestSuiteMaker} from "suman-types/dts/test-suite-maker";
+import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
+import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -34,7 +34,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 import {constants} from '../../config/suman-constants';
 import {acquireIocDeps} from '../acquire-dependencies/acquire-ioc-deps';
-import {IInjectionDeps} from "../../dts/injection";
+import {IInjectionDeps} from "suman-types/dts/injection";
 const {handleSetupComplete} = require('../handle-setup-complete');
 import {makeBlockInjector} from '../injection/make-block-injector';
 import {handleInjections} from '../test-suite-helpers/handle-injections';

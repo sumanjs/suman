@@ -1,9 +1,9 @@
 'use strict';
 
 //dts
-import {IBeforeFn, IBeforeOpts} from "../../dts/before";
-import {IAllOpts, ITestSuite} from "../../dts/test-suite";
-import {ISuman} from "../../dts/suman";
+import {IBeforeFn, IBeforeOpts} from "suman-types/dts/before";
+import {IAllOpts, ITestSuite} from "suman-types/dts/test-suite";
+import {ISuman} from "suman-types/dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

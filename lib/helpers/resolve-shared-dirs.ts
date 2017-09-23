@@ -1,5 +1,5 @@
 'use strict';
-import {ISumanConfig, ISumanOpts} from "../../dts/global";
+import {ISumanConfig, ISumanOpts} from "suman-types/dts/global";
 
 //polyfills
 const global = require('suman-browser-polyfills/modules/global');

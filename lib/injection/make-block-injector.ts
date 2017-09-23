@@ -1,10 +1,10 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj} from "../../dts/global";
-import {ITestSuite} from "../../dts/test-suite";
-import {ISuman} from "../../dts/suman";
-import {IInjectionDeps} from "../../dts/injection";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {ISuman} from "suman-types/dts/suman";
+import {IInjectionDeps} from "suman-types/dts/injection";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

@@ -1,4 +1,4 @@
-# all files
+### all files
 *.sh
 *.ts
 *.md
@@ -7,7 +7,7 @@
 *.json
 *.yml
 
-# directories
+### directories
 .idea
 node_modules
 coverage/
@@ -16,7 +16,7 @@ yarn.lock
 test/
 dist/
 
-# files
+### files
 .gitignore
 .github
 .npmignore
@@ -28,7 +28,7 @@ suman.conf.js
 .babelrc
 .dockerignore
 
-# negation
+### negation
 !lib/**/*.sh
 !cli/*.sh
 !scripts/*.sh

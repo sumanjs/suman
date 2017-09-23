@@ -1,12 +1,12 @@
 'use strict';
 
 //dts
-import {ITestSuite} from "../../dts/test-suite";
-import {ISuman} from "../../dts/suman";
-import {IPseudoError} from "../../dts/global";
-import {IItOpts, ITestDataObj} from "../../dts/it";
-import {IBeforeEachObj} from "../../dts/before-each";
-import {IAFterEachObj} from "../../dts/after-each";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {ISuman} from "suman-types/dts/suman";
+import {IPseudoError} from "suman-types/dts/global";
+import {IItOpts, ITestDataObj} from "suman-types/dts/it";
+import {IBeforeEachObj} from "suman-types/dts/before-each";
+import {IAFterEachObj} from "suman-types/dts/after-each";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

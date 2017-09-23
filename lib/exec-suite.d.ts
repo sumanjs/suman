@@ -1,2 +1,2 @@
-import { ISuman } from "../dts/suman";
+import { ISuman } from "suman-types/dts/suman";
 export declare const execSuite: (suman: ISuman) => Function;

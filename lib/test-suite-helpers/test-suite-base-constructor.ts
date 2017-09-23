@@ -3,10 +3,10 @@
 //dts
 import {
   IInjectionObj, ITestSuite, ITestSuiteBase, ITestSuiteBaseInitObj
-} from "../../dts/test-suite";
+} from "suman-types/dts/test-suite";
 
-import {IGlobalSumanObj} from "../../dts/global";
-import {ISuman} from "../../dts/suman";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ISuman} from "suman-types/dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -18,11 +18,11 @@ import util = require('util');
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {incr} from '../misc/incrementer';
-import {ITestDataObj} from "../../dts/it";
-import {IBeforeObj} from "../../dts/before";
-import {IBeforeEachObj} from "../../dts/before-each";
-import {IAfterObj} from "../../dts/after";
-import {IAFterEachObj} from "../../dts/after-each";
+import {ITestDataObj} from "suman-types/dts/it";
+import {IBeforeObj} from "suman-types/dts/before";
+import {IBeforeEachObj} from "suman-types/dts/before-each";
+import {IAfterObj} from "suman-types/dts/after";
+import {IAFterEachObj} from "suman-types/dts/after-each";
 
 
 

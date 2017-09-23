@@ -1,19 +1,7 @@
-/// <reference types="node" />
-import { ITestSuite } from "../dts/test-suite";
-import { ISumanConfig } from "../dts/global";
-import { ISumanServerInfo } from './helpers/find-suman-server';
-import { ITestDataObj } from "../dts/it";
-export interface ITableDataCallbackObj {
-    exitCode: number;
-    tableData: Object;
-}
-export interface ISumanInputs {
-    interface: string;
-    fileName: string;
-    timestamp: number;
-    usingLiveSumanServer: boolean;
-    server: ISumanServerInfo;
-}
+import { ITestSuite } from "suman-types/dts/test-suite";
+import { ISumanConfig } from "suman-types/dts/global";
+import { ISumanInputs } from "suman-types/dts/suman";
+import { ITestDataObj } from "suman-types/dts/it";
 export declare class Suman {
     interface: string;
     $inject: Object;

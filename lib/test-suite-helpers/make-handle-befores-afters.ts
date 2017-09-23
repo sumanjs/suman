@@ -2,8 +2,8 @@
 
 //dts
 import {IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
-import {ISuman} from "../../dts/suman";
-import {IGlobalSumanObj, IPseudoError, ISumanAllHookDomain, ISumanDomain} from "../../dts/global";
+import {ISuman} from "suman-types/dts/suman";
+import {IGlobalSumanObj, IPseudoError, ISumanAllHookDomain, ISumanDomain} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

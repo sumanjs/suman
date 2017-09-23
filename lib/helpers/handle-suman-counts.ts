@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 import {ITableDataCallbackObj} from "../suman";
 
 //polyfills

@@ -1,2 +1,2 @@
-import { IHandleBlocking } from "../../dts/runner";
+import { IHandleBlocking } from "suman-types/dts/runner";
 export default function (order: Object): IHandleBlocking;

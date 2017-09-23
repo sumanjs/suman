@@ -1,8 +1,8 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj, IHookParam} from "../../dts/test-suite";
-import {IGlobalSumanObj} from "../../dts/global";
+import {IAssertObj, IHandleError, IHookObj, IHookParam} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 import AssertStatic = Chai.AssertStatic;
 
 //polyfills

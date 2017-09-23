@@ -1,11 +1,11 @@
 'use strict';
 
 //dts
-import {ITestSuite} from "../dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../dts/global";
-import {ISuman} from "../dts/suman";
-import {ICreateOpts, TCreateHook} from "../dts/index-init";
-import {IInjectionDeps} from "../dts/injection";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
+import {ISuman} from "suman-types/dts/suman";
+import {ICreateOpts, TCreateHook} from "suman-types/dts/index-init";
+import {IInjectionDeps} from "suman-types/dts/injection";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -36,7 +36,6 @@ import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
 import {makeBlockInjector} from './injection/make-block-injector';
 import {makeTestSuiteMaker} from './test-suite-helpers/make-test-suite';
-
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 import {handleInjections} from './test-suite-helpers/handle-injections';
 import {makeOnSumanCompleted} from './helpers/on-suman-completed';

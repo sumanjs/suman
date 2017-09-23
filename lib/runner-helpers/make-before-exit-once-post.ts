@@ -1,5 +1,5 @@
 'use strict';
-import {IGlobalSumanObj} from "../../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -21,7 +21,7 @@ import * as _ from 'lodash';
 const {events} = require('suman-events');
 import * as fnArgs from 'function-arguments';
 import su from 'suman-utils';
-import {IRunnerObj} from "../../dts/runner";
+import {IRunnerObj} from "suman-types/dts/runner";
 import {IIntegrantHash, IOncePost, TOncePostKeys} from "../runner";
 
 //project

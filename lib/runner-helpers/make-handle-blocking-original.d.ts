@@ -1,4 +1,4 @@
-import { IHandleBlocking } from "../../dts/runner";
+import { IHandleBlocking } from "suman-types/dts/runner";
 export interface IArrayOfValsObject {
     testPath: string;
     obstructs: Array<string>;

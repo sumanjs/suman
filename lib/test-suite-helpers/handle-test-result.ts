@@ -1,8 +1,8 @@
 'use strict';
 
-import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
-import {ISuman} from "../../dts/suman";
-import {ITestDataObj} from "../../dts/it";
+import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
+import {ISuman} from "suman-types/dts/suman";
+import {ITestDataObj} from "suman-types/dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
