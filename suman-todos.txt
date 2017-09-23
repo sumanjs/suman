@@ -10,27 +10,6 @@ three SO profiles:
 
 ///
 
-instead of this:
-
-  Object.keys(chaiAssert).forEach(key => {
-    console.log('assert key => ', key);
-    v.assert[key] = function () {
-      try {
-        return chaiAssert[key].apply(chaiAssert, arguments);
-      }
-      catch (e) {
-        return handleError(e);
-      }
-    }
-  });
-
-use this:
-
- let assrt = function(){};
- v.assert = new Proxy(assrt, { set: function(){}});
-
-///
-
  => chai 4.0.2 works.
 
 ///
