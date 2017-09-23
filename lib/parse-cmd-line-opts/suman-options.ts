@@ -102,24 +102,14 @@ module.exports = [
     help: 'Initialize Suman in your project; install it globally first (or use suman-clis.sh).'
   },
   {
-    names: ['wait-for-all-transforms', 'wait-for-transforms'],
+    names: ['wait-for-all-transforms', 'wait-for-transforms'], // => transpile-all-files-first
     type: 'bool',
-    help: 'Initialize Suman in your project; install it globally first (or use suman-clis.sh).'
+    help: 'Use this option so that no test is executed until all test sources have fininished transforming/transpiling/compiling.'
   },
   {
     names: ['uninstall-suman'],
     type: 'bool',
     help: 'Uninstall Suman in your project. Will clean up various directories safely.'
-  },
-  {
-    names: ['no-runner-lock'],
-    type: 'bool',
-    help: 'Don\'t user runner lock'
-  },
-  {
-    names: ['runner-lock'],
-    type: 'bool',
-    help: 'Use a global runner lock'
   },
   {
     names: ['home'],

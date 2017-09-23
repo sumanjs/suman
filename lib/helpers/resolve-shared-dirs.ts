@@ -69,8 +69,6 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
 
   //TODO possibly reconcile these with cmd line options
   const testSrcDirDefined = !!sumanConfig.testSrcDir; //TODO: check for valid string
-  const testTargetDirDefined = !!sumanConfig.testTargetDir;
-
   const testDir = process.env.TEST_DIR = _suman.testDir = path.resolve(projectRoot + '/' + (sumanConfig.testDir || 'test'));
   const testSrcDir = process.env.TEST_SRC_DIR = _suman.testSrcDir = path.resolve(projectRoot + '/' + (sumanConfig.testSrcDir || 'test'));
   const errStrmPath = path.resolve(sumanHelpersDir + '/logs/test-debug.log');
