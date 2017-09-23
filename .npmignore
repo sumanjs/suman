@@ -6,6 +6,7 @@
 *.log
 *.json
 *.yml
+*.DS_Store
 
 ### directories
 .idea
