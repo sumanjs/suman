@@ -48,16 +48,16 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
     const {sumanOpts, sumanConfig} = _suman;
     let delaySum = 0; //TODO: is this correct?
 
-    if (test.skipped) {
-      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
-      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
-      return process.nextTick(cb, null, []);
-    }
-
     if (test.stubbed) {
       resultBroadcaster.emit(String(events.TEST_CASE_END), test);
       resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
-      return process.nextTick(cb, null, []);
+      return process.nextTick(cb, null);
+    }
+
+    if (test.skipped) {
+      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
+      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
+      return process.nextTick(cb, null);
     }
 
     const parallel = sumanOpts.parallel || (opts.parallel && !_suman.sumanOpts.series);

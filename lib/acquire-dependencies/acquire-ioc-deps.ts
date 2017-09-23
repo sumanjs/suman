@@ -32,6 +32,7 @@ import {makeIocInjector} from '../injection/ioc-injector';
 import {loadSumanConfig} from '../helpers/load-suman-config';
 import {resolveSharedDirs} from '../helpers/resolve-shared-dirs';
 import {loadSharedObjects} from '../helpers/load-shared-objects'
+
 const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
 /////////////////////////////////////////////////////////////
@@ -57,7 +58,13 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
     // only the root suite can receive IoC injected deps
     // non-root suites can get injected deps via inject
     assert(!suite.isRootSuite, 'Suman implementation error => we expect a non-root suite here. Please report.');
-    return process.nextTick(cb, null, {});
+
+    let ret = deps.reduce(function (a, b) {
+      a[b] = undefined;
+      return a;
+    }, {});
+
+    return process.nextTick(cb, null, ret);
   }
 
   const iocPromiseContainer: IIocPromiseContainer = {};

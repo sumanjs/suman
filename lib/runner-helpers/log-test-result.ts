@@ -1,4 +1,7 @@
 'use strict';
+
+//dts
+import {IGlobalSumanObj} from "../../dts/global";
 import {ISumanChildProcess} from "../../dts/runner";
 
 //polyfills
@@ -13,7 +16,7 @@ import {events} from 'suman-events';
 import su = require('suman-utils');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 //////////////////////////////////////////////////////////

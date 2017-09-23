@@ -14,6 +14,15 @@ three SO profiles:
 
 ///
 
+_suman.ctx => suman.ctx
+
+///
+
+ we could use proxy object for testsuite aliases
+ it.skip.cb => skip and cb could be proxies
+
+///
+
  => describe.only / context.only does not work
 
 Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, describe) {

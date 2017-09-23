@@ -38,8 +38,10 @@ const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import TestSuiteBase from './test-suite-base-constructor';
 import {freezeExistingProps} from 'freeze-existing-props'
+
 const {makeStartSuite} = require('./make-start-suite');
 import {makeHandleBeforesAndAfters} from './make-handle-befores-afters';
+
 const {makeNotifyParent} = require('./notify-parent-that-child-is-complete');
 
 // TestSuite methods
@@ -156,6 +158,7 @@ export const makeTestSuiteMaker = function (suman: ISuman, gracefulExit: Functio
       describe.only =
         function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
           suman.describeOnlyIsTriggered = true;
+          console.log('just set describeOnlyIsTriggered to true 1.');
           let args = pragmatik.parse(arguments, rules.blockSignature);
           args[1].only = true;
           args[1].__preParsed = true;
@@ -167,8 +170,10 @@ export const makeTestSuiteMaker = function (suman: ISuman, gracefulExit: Functio
       describe.only.delay = describe.delay.only =
         function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
           suman.describeOnlyIsTriggered = true;
+          console.log('just set describeOnlyIsTriggered to true 2.');
           let args = pragmatik.parse(arguments, rules.blockSignature);
           args[1].only = true;
+          args[1].delay = true;
           args[1].__preParsed = true;
           describe.apply(ctx, args);
         };
@@ -258,13 +263,12 @@ export const makeTestSuiteMaker = function (suman: ISuman, gracefulExit: Functio
         return after.apply(ctx, args);
       };
 
-      after.skip =
-        function (desc: string, opts: IAfterOpts, fn: AfterHookRegularMode) {
-          let args = pragmatik.parse(arguments, rules.hookSignature);
-          args[1].skip = true;
-          args[1].__preParsed = true;
-          return after.apply(ctx, args);
-        };
+      after.skip = function (desc: string, opts: IAfterOpts, fn: AfterHookRegularMode) {
+        let args = pragmatik.parse(arguments, rules.hookSignature);
+        args[1].skip = true;
+        args[1].__preParsed = true;
+        return after.apply(ctx, args);
+      };
 
       // to save memory we can make this equivalence since if the hook is skipped
       // it won't matter if it's callback mode or not :)
@@ -317,7 +321,7 @@ export const makeTestSuiteMaker = function (suman: ISuman, gracefulExit: Functio
     };
 
     TestSuite.prototype.log = function () {
-      console.log(' [TESTSUITE LOGGER ] => ', ...Array.from(arguments));
+      console.log(' [TESTSUITE LOGGER] => ', ...Array.from(arguments));
     };
 
     TestSuite.prototype.series = function (cb: Function) {

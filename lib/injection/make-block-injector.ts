@@ -30,6 +30,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import container from './injection-container';
 import {getCoreAndDeps} from './$core-n-$deps';
+
 const rules = require('../helpers/handle-varargs');
 import {getProjectModule, lastDitchRequire} from './helpers';
 

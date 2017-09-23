@@ -311,7 +311,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     const to = setTimeout(function () {
       console.error(' => Suman usage error => Integrant acquisition timeout.');
       process.exit(constants.EXIT_CODES.INTEGRANT_ACQUISITION_TIMEOUT);
-    }, _suman.weAreDebugging ? 50000000 : 500000);
+    }, _suman.weAreDebugging ? 50000000 : 50000);
 
     let onPreVals = function (vals: Array<any>) {
 

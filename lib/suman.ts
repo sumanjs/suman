@@ -110,7 +110,6 @@ export class Suman  {
     };
 
     let exitCode = $exitCode || 999; //in case of future fall through
-
     const desc = this.rootSuiteDescription;
     const suiteName = desc.length > 50 ? '...' + desc.substring(desc.length - 50, desc.length) : desc;
     const suiteNameShortened = desc.length > 15 ? desc.substring(0, 12) + '...' : desc;
@@ -321,6 +320,8 @@ export class Suman  {
       // TODO: note for the web browser, we need to use this
       client.emit(LOG_RESULT, JSON.parse(str));
     }
+
+    debugger;
 
     // broadcast results
     resultBroadcaster.emit(String(events.TEST_CASE_END), test);

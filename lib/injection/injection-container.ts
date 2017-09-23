@@ -7,8 +7,9 @@ import {IDescribeOpts, TDescribeHook} from "../../dts/describe";
 import {IItOpts, ItHookCallbackMode, ItHookRegularMode} from "../../dts/it";
 import {AfterHookCallbackMode, AfterHookRegularMode, IAfterOpts} from "../../dts/after";
 import {BeforeEachHookCallbackMode, BeforeEachHookRegularMode, IBeforeEachOpts} from "../../dts/before-each";
-import {IAfterEachOpts, TAfterEachHookCallbackMode, TAfterEachHookRegularMode} from "../../dts/after-each";
+import {IAfterEachOpts} from "../../dts/after-each";
 import {IInjectionDeps} from "../../dts/injection";
+import {IGlobalSumanObj} from "../../dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -21,7 +22,7 @@ import assert = require('assert');
 const pragmatik = require('pragmatik');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 
 /*///////////////////// what it do //////////////////////////////////////
@@ -74,77 +75,77 @@ const container = {
 
 container.describe.delay =
   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-    let args = pragmatik.parse(arguments, rules.blockSignature);
-    args[1].delay = true;
-    args[1].__preParsed = true;
-    container.describe.apply(this, args);
+    // let args = pragmatik.parse(arguments, rules.blockSignature);
+    // args[1].delay = true;
+    // args[1].__preParsed = true;
+    return _suman.ctx.describe.delay.apply(_suman.ctx, arguments);
   };
 
 container.describe.skip =
   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-    let args = pragmatik.parse(arguments, rules.blockSignature);
-    args[1].skip = true;
-    args[1].__preParsed = true;
-    container.describe.apply(this, args);
+    // let args = pragmatik.parse(arguments, rules.blockSignature);
+    // args[1].skip = true;
+    // args[1].__preParsed = true;
+    return _suman.ctx.describe.skip.apply(_suman.ctx, arguments);
   };
 
 container.describe.only =
   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-    // suman.describeOnlyIsTriggered = true; // TODO
-    let args = pragmatik.parse(arguments, rules.blockSignature);
-    args[1].only = true;
-    args[1].__preParsed = true;
-    container.describe.apply(this, args);
+    // _suman.ctx.describeOnlyIsTriggered = true;
+    // let args = pragmatik.parse(arguments, rules.blockSignature);
+    // args[1].only = true;
+    // args[1].__preParsed = true;
+    return _suman.ctx.describe.only.apply(_suman.ctx, arguments);
   };
 
 container.describe.skip.delay = container.describe.delay.skip = container.describe.skip;
 
 container.describe.only.delay = container.describe.delay.only =
   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-    // suman.describeOnlyIsTriggered = true; //TODO
-    let args = pragmatik.parse(arguments, rules.blockSignature);
-    args[1].only = true;
-    args[1].__preParsed = true;
-    container.describe.apply(this, args);
+    // _suman.ctx.describeOnlyIsTriggered = true;
+    // let args = pragmatik.parse(arguments, rules.blockSignature);
+    // args[1].only = true;
+    // args[1].__preParsed = true;
+    _suman.ctx.describe.only.delay.apply(_suman.ctx, arguments);
   };
 
 container.it.skip = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
-  let args = pragmatik.parse(arguments, rules.testCaseSignature);
-  args[1].skip = true;
-  args[1].__preParsed = true;
-  return container.it.apply(this, args);
+  // let args = pragmatik.parse(arguments, rules.testCaseSignature);
+  // args[1].skip = true;
+  // args[1].__preParsed = true;
+  return _suman.ctx.it.skip.apply(_suman.ctx, arguments);
 };
 
 container.it.only = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
   // suman.itOnlyIsTriggered = true; // TODO
-  let args = pragmatik.parse(arguments, rules.testCaseSignature);
-  args[1].only = true;
-  args[1].__preParsed = true;
-  return container.it.apply(this, args);
+  // let args = pragmatik.parse(arguments, rules.testCaseSignature);
+  // args[1].only = true;
+  // args[1].__preParsed = true;
+  return _suman.ctx.it.only.apply(_suman.ctx, arguments);
 };
 
 container.it.only.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
   // suman.itOnlyIsTriggered = true; //TODO
-  let args = pragmatik.parse(arguments, rules.testCaseSignature);
-  args[1].only = true;
-  args[1].cb = true;
-  args[1].__preParsed = true;
-  return container.it.apply(this, args);
+  // let args = pragmatik.parse(arguments, rules.testCaseSignature);
+  // args[1].only = true;
+  // args[1].cb = true;
+  // args[1].__preParsed = true;
+  return _suman.ctx.it.only.cb.apply(_suman.ctx, arguments);
 };
 
 container.it.skip.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-  let args = pragmatik.parse(arguments, rules.testCaseSignature);
-  args[1].skip = true;
-  args[1].cb = true;
-  args[1].__preParsed = true;
-  return container.it.apply(this, args);
+  // let args = pragmatik.parse(arguments, rules.testCaseSignature);
+  // args[1].skip = true;
+  // args[1].cb = true;
+  // args[1].__preParsed = true;
+  return _suman.ctx.it.skip.cb.apply(_suman.ctx, arguments);
 };
 
 container.it.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-  let args = pragmatik.parse(arguments, rules.testCaseSignature);
-  args[1].cb = true;
-  args[1].__preParsed = true;
-  return container.it.apply(this, args);
+  // let args = pragmatik.parse(arguments, rules.testCaseSignature);
+  // args[1].cb = true;
+  // args[1].__preParsed = true;
+  return _suman.ctx.it.cb.apply(_suman.ctx, arguments);
 };
 
 container.it.cb.skip = container.it.skip.cb;
@@ -215,14 +216,14 @@ container.after.always = function (desc: string, opts: IAfterOpts, fn: AfterHook
   return container.after.apply(this, args);
 };
 
-// after.cb 2
+
 
 container.after.cb.always = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-  let args = pragmatik.parse(arguments, rules.hookSignature);
-  args[1].cb = true;
-  args[1].always = true;
-  args[1].__preParsed = true;
-  return container.after.apply(this, args);
+  // let args = pragmatik.parse(arguments, rules.hookSignature);
+  // args[1].cb = true;
+  // args[1].always = true;
+  // args[1].__preParsed = true;
+  return _suman.ctx.after.cb.always.apply(_suman.ctx, arguments);
 };
 
 container.after.cb.last = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
@@ -233,7 +234,7 @@ container.after.cb.last = function (desc: string, opts: IAfterOpts, fn: AfterHoo
   return container.after.apply(this, args);
 };
 
-// after.last 2
+
 
 container.after.last.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
   let args = pragmatik.parse(arguments, rules.hookSignature);
@@ -251,7 +252,7 @@ container.after.last.always = function (desc: string, opts: IAfterOpts, fn: Afte
   return container.after.apply(this, args);
 };
 
-// after.always 2
+
 
 container.after.always.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
   let args = pragmatik.parse(arguments, rules.hookSignature);

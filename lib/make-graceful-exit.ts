@@ -12,7 +12,6 @@ import EE = require('events');
 import async = require('async');
 import * as chalk from 'chalk';
 import {ISuman} from "../dts/suman";
-
 const flattenDeep = require('lodash.flattendeep');
 import su = require('suman-utils');
 import {IGlobalSumanObj, IPseudoError} from "../dts/global";
