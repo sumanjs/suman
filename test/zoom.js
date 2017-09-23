@@ -16,7 +16,7 @@ Test.create(String(val++), function (it, beforeEach) {
     h.assert.equal(true, true, 'moo');
   });
 
-  Number(1000).times(function () {
+  Number(1).times(function () {
 
     it('makes good', t => {
       t.assert(true, 'fudge.');
