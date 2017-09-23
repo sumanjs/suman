@@ -1,8 +1,9 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj} from "../../dts/test-suite";
+import {IAssertObj, IHandleError, IHookObj, IHookParam} from "../../dts/test-suite";
 import {IGlobalSumanObj} from "../../dts/global";
+import AssertStatic = Chai.AssertStatic;
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -20,12 +21,13 @@ import {tProto} from './t-proto';
 
 /////////////////////////////////////////////////////////////////////////////////
 
-export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError) {
+export const makeHookObj
+  = function (hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError) : IHookParam {
 
   let planCalled = false;
   const v = Object.create(tProto);
 
-  v.assert = function () {
+  v.assert = <Partial<AssertStatic>>  function () {
     try {
       return chaiAssert.apply(v, arguments);
     }

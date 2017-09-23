@@ -1,5 +1,3 @@
-/// <reference path="../node_modules/@types/chai/index.d.ts" />
-
 import Timer = NodeJS.Timer;
 import {Subscriber} from "rxjs/Subscriber";
 import {Observable} from "rxjs/Observable";
@@ -11,7 +9,6 @@ import {IBeforeEachObj} from "./before-each";
 import {IAfterObj} from "./after";
 import {IAFterEachObj} from "./after-each";
 import AssertStatic = Chai.AssertStatic;
-
 
 /////////////////////////////////////////////////////////////////////
 
@@ -30,8 +27,6 @@ export interface IAllOpts {
 }
 
 export interface IHookOrTestCaseParam {
-  // either the h or t in h => {} or t => {}
-
   assert: AssertStatic,
   slow: Function,
   log: Function,
@@ -42,7 +37,6 @@ export interface IHookOrTestCaseParam {
   callbackMode: boolean,
   timeout: Function,
   done: Function,
-
 }
 
 export interface IHookParam extends IHookOrTestCaseParam {

@@ -49,7 +49,6 @@ _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
 import {getClient} from './index-helpers/socketio-child-client';
-
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
 const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
@@ -90,10 +89,8 @@ const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import setupExtraLoggers from './index-helpers/setup-extra-loggers';
-
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
-
 const {execSuite} = require('./exec-suite');
 import {loadSumanConfig} from './helpers/load-suman-config';
 import {resolveSharedDirs} from './helpers/resolve-shared-dirs';

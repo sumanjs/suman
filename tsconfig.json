@@ -5,7 +5,8 @@
     "types": [
       "node",
       "async",
-      "lodash"
+      "lodash",
+      "chai"
     ],
     "allowJs": false,
     "target": "es5",
@@ -24,10 +25,6 @@
   },
   "allowJs": true,
   "compileOnSave": false,
-  "include": [
-    "dts",
-    "./**/*.ts"
-  ],
   "exclude": [
     "test",
     "node_modules"

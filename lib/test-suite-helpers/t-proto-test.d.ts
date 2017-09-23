@@ -1,6 +1,6 @@
 import { ITestDataObj } from "../../dts/it";
-import { IHandleError } from "../../dts/test-suite";
+import { IHandleError, ITestCaseParam } from "../../dts/test-suite";
 export interface IAssertCount {
     num: number;
 }
-export declare const makeTestCase: (test: ITestDataObj, assertCount: IAssertCount, handleError: IHandleError) => any;
+export declare const makeTestCase: (test: ITestDataObj, assertCount: IAssertCount, handleError: IHandleError) => ITestCaseParam;

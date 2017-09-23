@@ -6,6 +6,34 @@ three SO profiles:
 
 ///
 
+ => wrapErrorFirst should also trap errors with try/catch just like wrap?
+
+///
+
+instead of this:
+
+  Object.keys(chaiAssert).forEach(key => {
+    console.log('assert key => ', key);
+    v.assert[key] = function () {
+      try {
+        return chaiAssert[key].apply(chaiAssert, arguments);
+      }
+      catch (e) {
+        return handleError(e);
+      }
+    }
+  });
+
+use this:
+
+ v.a
+
+///
+
+ => chai 4.0.2 works.
+
+///
+
    [3]  ✘  => test fail   "get collection info based off duplicate users"
         Error: no success property on body => { status: 500,
         at /Users/alexamil/WebstormProjects/cisco/cdt-now/scripts/find-duplicate-users/js/get-cookies-with-selenium.js:80:16
@@ -13,6 +41,11 @@ three SO profiles:
 
   => if error message is multi-line, it gets removed...for example when we call "'no success property on body => ' + util.inspect(x) "
 
+
+///
+
+  in --series mode -> we should put currently executing test or hook in global space
+  especially for the browser.
 
 ///
 

@@ -9,37 +9,41 @@ let val = 1;
 
 //
 
-{
-  Test.create(String(val++), function (it) {
+Test.create(String(val++), function (it) {
+
+  Number(1000).times(function () {
+
     it('makes good', t => {
 
     });
+
   });
-}
 
-{
-  Test.create(String(val++), function (it) {
-    it('makes good', t => {
+});
 
-    });
-  });
-}
-
-{
-  Test.create(String(val++), function (it) {
-    it('makes good', t => {
-
-    });
-  });
-}
+// {
+//   Test.create(String(val++), function (it) {
+//     it('makes good', t => {
 //
-{
-  Test.create(String(val++), function (it) {
-    it('makes good', t => {
-
-    });
-  });
-}
-
+//     });
+//   });
+// }
 //
+// {
+//   Test.create(String(val++), function (it) {
+//     it('makes good', t => {
 //
+//     });
+//   });
+// }
+// //
+// {
+//   Test.create(String(val++), function (it) {
+//     it('makes good', t => {
+//
+//     });
+//   });
+// }
+//
+// //
+// //

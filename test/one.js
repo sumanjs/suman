@@ -8,16 +8,27 @@ const Test = suman.init(module, {
 
 ////
 
-Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks, sheep) {
+Test.create('hotels', function (it, before, beforeEach, after, context, afterAllParentHooks, sheep) {
 
   beforeEach(t => {
     console.log('parent before each');
     console.log('before each hook', t.shared.get('x'));
   });
 
+  it('makes assertion', t => {
+    t.$inject.v = 5;
+    t.assert(false, 'this was a problem');
+  });
+
+  it('makes assertion', t => {
+    console.log('t.$inject.v => ',t.$inject.v);
+    t.assert.equal(false, true, 'these are not equal');
+  });
+
   this.shared.set('x', {v: true});
 
   before(t => {
+    t.$inject.v = 5;
     console.log('parent before');
     console.log('first before says:', t.shared.get('x'));
   });

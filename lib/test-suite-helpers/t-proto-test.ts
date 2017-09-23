@@ -3,6 +3,8 @@
 //dts
 import {IGlobalSumanObj} from "../../dts/global";
 import {ITestDataObj} from "../../dts/it";
+import {IHandleError, ITestCaseParam} from "../../dts/test-suite";
+import AssertStatic = Chai.AssertStatic;
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -19,7 +21,7 @@ const chaiAssert = chai.assert;
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {tProto} from './t-proto';
-import {IHandleError} from "../../dts/test-suite";
+
 
 //////////////////////////////////////////////////////////////////////
 
@@ -29,7 +31,8 @@ export interface IAssertCount {
 
 ///////////////////////////////////////////////////////////////////////
 
-export const makeTestCase = function (test: ITestDataObj, assertCount: IAssertCount, handleError: IHandleError) {
+export const makeTestCase =
+  function (test: ITestDataObj, assertCount: IAssertCount, handleError: IHandleError) : ITestCaseParam {
 
   let planCalled = false;
   const v = Object.create(tProto);
@@ -38,7 +41,7 @@ export const makeTestCase = function (test: ITestDataObj, assertCount: IAssertCo
   v.desc = v.title = test.desc;
   v.data = test.data;
 
-  v.assert = function () {
+  v.assert = <Partial<AssertStatic>> function () {
     try {
       return chaiAssert.apply(v, arguments);
     }
