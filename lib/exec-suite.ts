@@ -211,7 +211,7 @@ export const execSuite = function (suman: ISuman): Function {
 
           if (delayOptionElected) {
 
-            suite.__proto__.isDelayed = true;
+            Object.getPrototypeOf(suite).isDelayed = true;
 
             const to = setTimeout(function () {
               console.log('\n\n => Suman fatal error => suite.resume() function was not called within alloted time.');
@@ -224,7 +224,7 @@ export const execSuite = function (suman: ISuman): Function {
 
             let callable = true;
 
-            suite.__proto__.__resume = function (val: any) {
+            Object.getPrototypeOf(suite).__resume = function (val: any) {
 
               if (callable) {
                 callable = false;

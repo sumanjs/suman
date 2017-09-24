@@ -22,6 +22,7 @@ import cp = require('child_process');
 const pragmatik = require('pragmatik');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
+
 const includes = require('lodash.includes');
 
 //project
@@ -44,7 +45,7 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
   return function (suite: ITestSuite, parentSuite: ITestSuite, depsObj: IInjectionDeps): Array<any> {
 
-    // console.error(new Error('wtf').stack);
+    const {sumanOpts} = _suman;
 
     return Object.keys(depsObj).map(key => {
 
@@ -63,9 +64,9 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
       switch (key) {
 
         case '$args':
-          return String(_suman.sumanOpts.user_args || '').split(/ +/).filter(i => i);
+          return String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
         case '$argsRaw':
-          return _suman.sumanOpts.user_args || '';
+          return sumanOpts.user_args || '';
         case '$ioc':
           return _suman.$staticIoc;
         case '$block':
@@ -100,9 +101,6 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
         case 'afterEach':
         case 'it':
           assert(suite.interface === 'BDD', ' => Suman usage error, using the wrong interface.');
-          console.log('suite title =>',suite.title, 'key => ', key);
-          // return suite[key];
-          // return _suman.ctx[key];
           return container[key];
 
         case 'test':

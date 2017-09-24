@@ -8,16 +8,16 @@ const test = suman.init(module);
 let val = 1;
 
 //
-test.create(String(val++), function (it, beforeEach, describe) {
+test.create(String(val++), function (it, beforeEach, describe, assert) {
 
   beforeEach(h => {
     h.assert('i', 'melon');
     h.assert.equal(true, true, 'moo');
   });
 
-  Number(1000).times(function () {
+  Number(1).times(function () {
 
-    describe('inner', function(){
+    describe('inner', function () {
 
       it('makes good', t => {
         t.assert(true, 'fudge.');
@@ -27,6 +27,7 @@ test.create(String(val++), function (it, beforeEach, describe) {
     });
 
   });
+
 });
 
 // {

@@ -14,7 +14,11 @@ three SO profiles:
 
 ///
 
-_suman.ctx => suman.ctx ?
+ _suman.ctx => suman.ctx ?
+
+///
+
+ _suman.whichSuman => needs to get fixed
 
 ///
 
@@ -29,11 +33,6 @@ _suman.ctx => suman.ctx ?
  => If there is NO SUMAN HELPERS DIR, flip a boolean, and just use all the default files.
 
  // >>>>> or just run the test with node instead of suman?
-
-///
-
- we could use proxy object for testsuite aliases
- it.skip.cb => skip and cb could be proxies
 
 ///
 
