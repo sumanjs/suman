@@ -16,7 +16,7 @@ Test.create(function (it, beforeEach, describe, assert) {
 
   Number(100).times(function () {
 
-    describe.skip('inner', function () {
+    describe.only('inner', function () {
 
       it('makes good', t => {
         t.assert(true, 'fudge.');
