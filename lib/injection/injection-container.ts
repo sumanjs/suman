@@ -33,8 +33,6 @@ export const makeInjectionContainer = function (suman: ISuman) {
     return new Proxy(val, {
       get: function (target, prop) {
 
-        debugger;
-
         let hasSkip = false;
         let newProps = props.concat(String(prop)).filter(function (v, i, a) {
           if (String(v) === 'skip') {
@@ -58,25 +56,19 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
         let fn = function () {
 
-          debugger;
           let rule;
 
-          if(method === 'describe'){
+          if (method === 'describe') {
             rule = rules.blockSignature;
           }
-          else if(method === 'it'){
+          else if (method === 'it') {
             rule = rules.testCaseSignature;
           }
-          else{
+          else {
             rule = rules.hookSignature;
           }
 
-          console.log('method => ', method);
-          console.log('arguments before => ', arguments);
-
           let args = pragmatik.parse(arguments, rule);
-
-          console.log('args after => ', args);
 
           newProps.shift(); // get rid of the first method argument
           newProps.forEach(function (p) {

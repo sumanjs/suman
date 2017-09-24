@@ -1,23 +1,22 @@
 #!/usr/bin/env node
 
-console.log('is this ready.');
-
 const suman = require('suman');//
 const Test = suman.init(module);
 
-let val = 1;
-
-//
-Test.create(String(val++), function (it, beforeEach, describe, assert) {
+Test.create(function (it, beforeEach, describe, assert) {
 
   beforeEach(h => {
     h.assert('i', 'melon');
     h.assert.equal(true, true, 'moo');
   });
 
-  Number(1).times(function () {
+  it.only('glue', t => {
 
-    describe('inner', function () {
+  });
+
+  Number(100).times(function () {
+
+    describe.skip('inner', function () {
 
       it('makes good', t => {
         t.assert(true, 'fudge.');
