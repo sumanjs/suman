@@ -2,9 +2,6 @@
 
 const suman = require('suman');
 const Test = suman.init(module);
-// const Promise = require('bluebird');
-
-// Test.create(function (assert, it, before, afterEach, describe, after, beforeEach) {
 
 Test.create(function (it, before, beforeEach, describe, context, after) {
 
@@ -16,15 +13,8 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
   it.only('should pass');
 
   before('merry', t => {
-
+       throw new Error('marf is not a marf');
   });
-
-
-
-
-
-
-
 
   beforeEach.cb('alpha', h => {
     setTimeout(h, 1);
@@ -61,13 +51,14 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
   it.cb('is NOT skipped', t => {
     t.done();
   });
+
   // after('xxxx', function (t) {
   //   console.log(`original thought ${t.desc}.`);
   // });
 
   it.cb('is stubbed 1');
 
-  describe('pajamas', function () {
+  describe.only('pajamas', function () {
 
     beforeEach.cb('beta1', h => {
       setTimeout(h, 10);
@@ -77,7 +68,10 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
       setTimeout(h, 10);
     });
 
-    it('is stubbed 2', t => 3);
+    it('is stubbed 2', t => {
+      return 3
+    });
+
   });
 
   // describe('running', function () {

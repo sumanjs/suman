@@ -1,6 +1,6 @@
 'use strict';
 
-//typescript
+//dts
 import {ITestSuite} from "suman-types/dts/test-suite";
 import {ISuman} from "suman-types/dts/suman";
 import {TTestSuiteMaker} from "suman-types/dts/test-suite-maker";
@@ -43,10 +43,10 @@ import evalOptions from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////
 
-function handleBadOptions(opts: IDescribeOpts) {
+const handleBadOptions = function (opts: IDescribeOpts) {
   // TODO
   return;
-}
+};
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -58,6 +58,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
   return function ($$desc: string, $opts: IDescribeOpts) {
 
+    const {sumanOpts} = _suman;
     handleSetupComplete(zuite, 'describe');
 
     const args = pragmatik.parse(arguments, rules.blockSignature, {
@@ -93,10 +94,19 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
 
     if (zuite.skipped) {
-      let msg = 'Suman implementation warning => Child suite entered when parent was skipped.';
+      let msg = 'Suman implementation warning => Child block entered when parent was skipped.';
       console.error(msg);
       console.error(' => Please open an issue with the following stacktrace:', '\n');
       console.error(new Error(msg).stack);
+      console.log('\n');
+    }
+
+    if(opts.skip && !sumanOpts.allow_skip){
+       throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
+    }
+
+    if(opts.only && !sumanOpts.allow_only){
+      throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
     }
 
     if (opts.skip || zuite.skipped || (!opts.only && suman.describeOnlyIsTriggered)) {

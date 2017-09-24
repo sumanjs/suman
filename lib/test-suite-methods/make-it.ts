@@ -1,7 +1,10 @@
 'use strict';
+
+//dts
 import {ITestSuite} from "suman-types/dts/test-suite";
 import {ISuman} from "suman-types/dts/suman";
 import {IItOpts, ITestDataObj} from "suman-types/dts/it";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -18,10 +21,11 @@ import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import {incr} from '../misc/incrementer';
+
 const {handleSetupComplete} = require('../handle-setup-complete');
 import parseArgs from '../helpers/parse-pragmatik-args';
 import evalOptions from '../helpers/eval-options';
@@ -34,11 +38,11 @@ function handleBadOptions(opts: IItOpts) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-
 export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
 
   return function ($desc: string, $opts: IItOpts): ITestSuite {
 
+    const {sumanOpts} = _suman;
     handleSetupComplete(zuite, 'it');
 
     const args = pragmatik.parse(arguments, rules.testCaseSignature, {
@@ -51,7 +55,7 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
     handleBadOptions(opts);
 
     if (arrayDeps.length > 0) {
-      evalOptions(arrayDeps,opts);
+      evalOptions(arrayDeps, opts);
     }
 
     if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
@@ -70,9 +74,15 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
       }
     }
 
-
     const inc = incr();
-    const sumanOpts = _suman.sumanOpts;
+
+    if (opts.skip && !sumanOpts.allow_skip) {
+      throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
+    }
+
+    if (opts.only && !sumanOpts.allow_only) {
+      throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
+    }
 
     if (opts.skip || opts.skipped) {
       zuite.getTests().push({testId: inc, desc: desc, skipped: true} as ITestDataObj);
