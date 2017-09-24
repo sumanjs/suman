@@ -22,13 +22,11 @@ import cp = require('child_process');
 const pragmatik = require('pragmatik');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
-
 const includes = require('lodash.includes');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
-import container from './injection-container';
 import {getCoreAndDeps} from './$core-n-$deps';
 
 const rules = require('../helpers/handle-varargs');
@@ -42,10 +40,11 @@ import {getProjectModule, lastDitchRequire} from './helpers';
 
  //////////////////////////////////////////////////////////////////////////////////////////*/
 
-export const makeBlockInjector = function (suman: ISuman) {
+export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
-  // => suman is unused, but just in case we need it, we will keep this functor pattern
   return function (suite: ITestSuite, parentSuite: ITestSuite, depsObj: IInjectionDeps): Array<any> {
+
+    // console.error(new Error('wtf').stack);
 
     return Object.keys(depsObj).map(key => {
 
@@ -101,6 +100,9 @@ export const makeBlockInjector = function (suman: ISuman) {
         case 'afterEach':
         case 'it':
           assert(suite.interface === 'BDD', ' => Suman usage error, using the wrong interface.');
+          console.log('suite title =>',suite.title, 'key => ', key);
+          // return suite[key];
+          // return _suman.ctx[key];
           return container[key];
 
         case 'test':

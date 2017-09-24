@@ -76,11 +76,11 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
 
     const inc = incr();
 
-    if (opts.skip && !sumanOpts.allow_skip) {
+    if (opts.skip && !sumanOpts.force && !sumanOpts.allow_skip) {
       throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
     }
 
-    if (opts.only && !sumanOpts.allow_only) {
+    if (opts.only && !sumanOpts.force && !sumanOpts.allow_only) {
       throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
     }
 

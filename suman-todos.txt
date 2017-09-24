@@ -167,6 +167,7 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 ///
 
+ using suman.ctx instead of _suman.ctx would allow this
  run Test.creates suman.ioc.js files in parallel?
 
 ///

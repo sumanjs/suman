@@ -38,10 +38,8 @@ const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import TestSuiteBase from './test-suite-base-constructor';
 import {freezeExistingProps} from 'freeze-existing-props'
-
 const {makeStartSuite} = require('./make-start-suite');
 import {makeHandleBeforesAndAfters} from './make-handle-befores-afters';
-
 const {makeNotifyParent} = require('./notify-parent-that-child-is-complete');
 
 // TestSuite methods
@@ -68,7 +66,8 @@ const makeRunChild = function (val: any) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeTestSuiteMaker = function (suman: ISuman, gracefulExit: Function): TTestSuiteMaker {
+export const makeTestSuiteMaker
+  = function (suman: ISuman, gracefulExit: Function, blockInjector: Function): TTestSuiteMaker {
 
   const allDescribeBlocks = suman.allDescribeBlocks;
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
@@ -125,7 +124,8 @@ export const makeTestSuiteMaker = function (suman: ISuman, gracefulExit: Functio
       it = makeIt(suman, zuite);
       _interface === 'TDD' ? this.test = it : this.it = it;
 
-      describe = this.context = makeDescribe(suman, gracefulExit, TestSuiteMaker, zuite, notifyParentThatChildIsComplete);
+      describe = this.context
+        = makeDescribe(suman, gracefulExit, TestSuiteMaker, zuite, notifyParentThatChildIsComplete, blockInjector);
       _interface === 'TDD' ? this.suite = describe : this.describe = describe;
 
       afterAllParentHooks = this.afterAllParentHooks = makeAfterAllParentHooks(suman, zuite);
@@ -158,7 +158,6 @@ export const makeTestSuiteMaker = function (suman: ISuman, gracefulExit: Functio
       describe.only =
         function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
           suman.describeOnlyIsTriggered = true;
-          console.log('just set describeOnlyIsTriggered to true 1.');
           let args = pragmatik.parse(arguments, rules.blockSignature);
           args[1].only = true;
           args[1].__preParsed = true;
@@ -170,7 +169,6 @@ export const makeTestSuiteMaker = function (suman: ISuman, gracefulExit: Functio
       describe.only.delay = describe.delay.only =
         function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
           suman.describeOnlyIsTriggered = true;
-          console.log('just set describeOnlyIsTriggered to true 2.');
           let args = pragmatik.parse(arguments, rules.blockSignature);
           args[1].only = true;
           args[1].delay = true;

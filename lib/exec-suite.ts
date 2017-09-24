@@ -23,6 +23,7 @@ import util = require('util');
 import {VamootProxy} from 'vamoot';
 import * as chalk from 'chalk';
 import * as async from 'async';
+
 const _ = require('underscore');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
@@ -35,7 +36,9 @@ import su from 'suman-utils';
 import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
 import {makeBlockInjector} from './injection/make-block-injector';
+import {makeInjectionContainer} from './injection/injection-container';
 import {makeTestSuiteMaker} from './test-suite-helpers/make-test-suite';
+
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 import {handleInjections} from './test-suite-helpers/handle-injections';
 import {makeOnSumanCompleted} from './helpers/on-suman-completed';
@@ -51,12 +54,13 @@ export const execSuite = function (suman: ISuman): Function {
 
   // we set this so that after.always hooks can run
   _suman.whichSuman = suman;
-  const onSumanCompleted = makeOnSumanCompleted(suman);
-  const blockInjector = makeBlockInjector(suman);
   suman.dateSuiteStarted = Date.now();
+  const onSumanCompleted = makeOnSumanCompleted(suman);
+  const container = makeInjectionContainer(suman);
+  const blockInjector = makeBlockInjector(suman, container);
   const allDescribeBlocks = suman.allDescribeBlocks;
   const gracefulExit = makeGracefulExit(suman);
-  const mTestSuite = makeTestSuiteMaker(suman, gracefulExit);
+  const mTestSuite = makeTestSuiteMaker(suman, gracefulExit, blockInjector);
 
   return function runRootSuite(): void {
 
@@ -281,7 +285,7 @@ export const execSuite = function (suman: ISuman): Function {
 
     }
 
-    function start() {
+    const start = function () {
 
       _suman.suiteResultEmitter.emit('suman-test-registered', function () {
 

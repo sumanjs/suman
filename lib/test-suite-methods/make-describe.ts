@@ -35,6 +35,7 @@ const rules = require('../helpers/handle-varargs');
 import {constants} from '../../config/suman-constants';
 import {acquireIocDeps} from '../acquire-dependencies/acquire-ioc-deps';
 import {IInjectionDeps} from "suman-types/dts/injection";
+
 const {handleSetupComplete} = require('../handle-setup-complete');
 import {makeBlockInjector} from '../injection/make-block-injector';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
@@ -51,9 +52,9 @@ const handleBadOptions = function (opts: IDescribeOpts) {
 ///////////////////////////////////////////////////////////////////////
 
 export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker,
-                                      zuite: ITestSuite, notifyParentThatChildIsComplete: Function): IDescribeFn {
+                                      zuite: ITestSuite, notifyParentThatChildIsComplete: Function,
+                                      blockInjector: Function): IDescribeFn {
 
-  const blockInjector = makeBlockInjector(suman);
   const allDescribeBlocks = suman.allDescribeBlocks;
 
   return function ($$desc: string, $opts: IDescribeOpts) {
@@ -101,11 +102,11 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       console.log('\n');
     }
 
-    if(opts.skip && !sumanOpts.allow_skip){
-       throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
+    if (opts.skip && !sumanOpts.force && !sumanOpts.allow_skip) {
+      throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
     }
 
-    if(opts.only && !sumanOpts.allow_only){
+    if (opts.only && !sumanOpts.force && !sumanOpts.allow_only) {
       throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
     }
 

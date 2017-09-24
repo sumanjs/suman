@@ -3,6 +3,7 @@
 const suman = require('suman');
 const Test = suman.init(module);
 
+
 Test.create(function (it, before, beforeEach, describe, context, after) {
 
 
@@ -12,16 +13,17 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
 
   it.only('should pass');
 
-  before('merry', t => {
-       throw new Error('marf is not a marf');
-  });
+  before('merry', [{fatal:false}, t => {
+    throw new Error('marf is not a marf');
+  }]);
 
+  debugger;
   beforeEach.cb('alpha', h => {
     setTimeout(h, 1);
   });
 
-  it.cb('is normal', t => {
-    t.done();
+  it.cb.only('is normal xxx', ({done, ctn}) => {
+    ctn();
   });
 
   // after('ooooooo', function () {
@@ -58,8 +60,13 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
 
   it.cb('is stubbed 1');
 
-  describe.only('pajamas', function () {
+  describe('pajamas', function () {
 
+    this.describe('rudolph',function(){
+       console.log('poop');
+    });
+
+    debugger;
     beforeEach.cb('beta1', h => {
       setTimeout(h, 10);
     });
