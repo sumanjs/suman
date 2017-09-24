@@ -38,8 +38,10 @@ const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import TestSuiteBase from './test-suite-base-constructor';
 import {freezeExistingProps} from 'freeze-existing-props'
+
 const {makeStartSuite} = require('./make-start-suite');
 import {makeHandleBeforesAndAfters} from './make-handle-befores-afters';
+
 const {makeNotifyParent} = require('./notify-parent-that-child-is-complete');
 
 // TestSuite methods
@@ -130,6 +132,33 @@ export const makeTestSuiteMaker
 
       afterAllParentHooks = this.afterAllParentHooks = makeAfterAllParentHooks(suman, zuite);
 
+      Object.getPrototypeOf(this).getdescribe = function () {
+        return describe;
+      };
+
+      Object.getPrototypeOf(this).getinject = function () {
+        return inject;
+      };
+
+      Object.getPrototypeOf(this).getit = function () {
+        return it;
+      };
+
+      Object.getPrototypeOf(this).getbefore = function () {
+        return before;
+      };
+
+      Object.getPrototypeOf(this).getafter = function () {
+        return after;
+      };
+
+      Object.getPrototypeOf(this).getafterEach = function () {
+        return afterEach;
+      };
+
+      Object.getPrototypeOf(this).getbeforeEach = function () {
+        return beforeEach;
+      }
     };
 
     //Note: we hide many properties in the prototype
@@ -139,174 +168,319 @@ export const makeTestSuiteMaker
 
       const ctx = suman.ctx = this;
 
-      describe.delay =
-        function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-          let args = pragmatik.parse(arguments, rules.blockSignature);
-          args[1].delay = true;
-          args[1].__preParsed = true;
-          describe.apply(ctx, args);
-        };
+      const getProxy = function (val: Function, rule: Object, props?: Array<string>) {
 
-      describe.skip =
-        function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-          let args = pragmatik.parse(arguments, rules.blockSignature);
-          args[1].skip = true;
-          args[1].__preParsed = true;
-          describe.apply(ctx, args);
-        };
+        return new Proxy(val, {
+          get: function (target, prop) {
 
-      describe.only =
-        function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-          suman.describeOnlyIsTriggered = true;
-          let args = pragmatik.parse(arguments, rules.blockSignature);
-          args[1].only = true;
-          args[1].__preParsed = true;
-          describe.apply(ctx, args);
-        };
+            props = props || [];
+            let hasSkip = false;
+            let newProps = props.concat(String(prop)).filter(function (v, i, a) {
+              if (String(v) === 'skip') {
+                hasSkip = true;
+              }
+              // we use this filter to get a unique list
+              return a.indexOf(v) === i;
+            });
 
-      describe.skip.delay = describe.delay.skip = describe.skip;
+            if (hasSkip) {
+              newProps = ['skip'];
+            }
 
-      describe.only.delay = describe.delay.only =
-        function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-          suman.describeOnlyIsTriggered = true;
-          let args = pragmatik.parse(arguments, rules.blockSignature);
-          args[1].only = true;
-          args[1].delay = true;
-          args[1].__preParsed = true;
-          describe.apply(ctx, args);
-        };
+            let fn = function () {
 
-      it.skip = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
-        let args = pragmatik.parse(arguments, rules.testCaseSignature);
-        args[1].skip = true;
-        args[1].__preParsed = true;
-        return it.apply(ctx, args);
+              let args = pragmatik.parse(arguments, rule);
+
+              newProps.forEach(function (p) {
+                args[1][p] = true;
+              });
+
+              args[1].__preParsed = true;
+              return val.apply(ctx, args);
+            };
+
+            return getProxy(fn, rule, newProps);
+          }
+        });
       };
 
-      it.only = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
-        suman.itOnlyIsTriggered = true;
-        let args = pragmatik.parse(arguments, rules.testCaseSignature);
-        args[1].only = true;
-        args[1].__preParsed = true;
-        return it.apply(ctx, args);
-      };
+      this.describe = getProxy(describe, rules.blockSignature) as IDescribeFn;
+      this.it = getProxy(it, rules.testCaseSignature) as ItFn;
+      this.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
+      this.before = getProxy(before, rules.hookSignature) as IBeforeFn;
+      this.beforeEach = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
+      this.after = getProxy(after, rules.hookSignature) as IAfterFn;
+      this.afterEach = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
 
-      it.only.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-        suman.itOnlyIsTriggered = true;
-        let args = pragmatik.parse(arguments, rules.testCaseSignature);
-        args[1].only = true;
-        args[1].cb = true;
-        args[1].__preParsed = true;
-        return it.apply(ctx, args);
-      };
+      // describe.delay =
+      //   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
+      //     let args = pragmatik.parse(arguments, rules.blockSignature);
+      //     args[1].delay = true;
+      //     args[1].__preParsed = true;
+      //     describe.apply(ctx, args);
+      //   };
+      //
+      // describe.skip =
+      //   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
+      //     let args = pragmatik.parse(arguments, rules.blockSignature);
+      //     args[1].skip = true;
+      //     args[1].__preParsed = true;
+      //     describe.apply(ctx, args);
+      //   };
+      //
+      // describe.only =
+      //   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
+      //     suman.describeOnlyIsTriggered = true;
+      //     let args = pragmatik.parse(arguments, rules.blockSignature);
+      //     args[1].only = true;
+      //     args[1].__preParsed = true;
+      //     describe.apply(ctx, args);
+      //   };
+      //
+      // describe.skip.delay = describe.delay.skip = describe.skip;
+      //
+      // describe.only.delay = describe.delay.only =
+      //   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
+      //     suman.describeOnlyIsTriggered = true;
+      //     let args = pragmatik.parse(arguments, rules.blockSignature);
+      //     args[1].only = true;
+      //     args[1].delay = true;
+      //     args[1].__preParsed = true;
+      //     describe.apply(ctx, args);
+      //   };
 
-      it.skip.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-        let args = pragmatik.parse(arguments, rules.testCaseSignature);
-        args[1].skip = true;
-        args[1].cb = true;
-        args[1].__preParsed = true;
-        return it.apply(ctx, args);
-      };
+      // it.skip = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
+      //   let args = pragmatik.parse(arguments, rules.testCaseSignature);
+      //   args[1].skip = true;
+      //   args[1].__preParsed = true;
+      //   return it.apply(ctx, args);
+      // };
+      //
+      // it.only = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
+      //   suman.itOnlyIsTriggered = true;
+      //   let args = pragmatik.parse(arguments, rules.testCaseSignature);
+      //   args[1].only = true;
+      //   args[1].__preParsed = true;
+      //   return it.apply(ctx, args);
+      // };
+      //
+      // it.only.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
+      //   suman.itOnlyIsTriggered = true;
+      //   let args = pragmatik.parse(arguments, rules.testCaseSignature);
+      //   args[1].only = true;
+      //   args[1].cb = true;
+      //   args[1].__preParsed = true;
+      //   return it.apply(ctx, args);
+      // };
+      //
+      // it.skip.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.testCaseSignature);
+      //   args[1].skip = true;
+      //   args[1].cb = true;
+      //   args[1].__preParsed = true;
+      //   return it.apply(ctx, args);
+      // };
+      //
+      // it.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.testCaseSignature);
+      //   args[1].cb = true;
+      //   args[1].__preParsed = true;
+      //   return it.apply(ctx, args);
+      // };
+      //
+      // it.cb.skip = it.skip.cb;
+      // it.cb.only = it.only.cb;
 
-      it.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-        let args = pragmatik.parse(arguments, rules.testCaseSignature);
-        args[1].cb = true;
-        args[1].__preParsed = true;
-        return it.apply(ctx, args);
-      };
+      // inject.cb = function (desc: string, opts: IInjectOpts, fn: IInjectHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].cb = true;
+      //   args[1].__preParsed = true;
+      //   return inject.apply(ctx, args);
+      // };
+      //
+      // inject.skip = function (desc: string, opts: IInjectOpts, fn: IInjectHookRegularMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].skip = true;
+      //   args[1].__preParsed = true;
+      //   return inject.apply(ctx, args);
+      // };
+      //
+      // // to save memory we can make this equivalence since if the hook is skipped
+      // // it won't matter if it's callback mode or not :)
+      // inject.skip.cb = inject.cb.skip = inject.skip;
 
-      it.cb.skip = it.skip.cb;
-      it.cb.only = it.only.cb;
+      // before.cb = function (desc: string, opts: IBeforeOpts, fn: BeforeHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].cb = true;
+      //   args[1].__preParsed = true;
+      //   return before.apply(ctx, args);
+      // };
+      //
+      // before.skip = function (desc: string, opts: IBeforeOpts, fn: BeforeHookRegularMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].skip = true;
+      //   args[1].__preParsed = true;
+      //   return before.apply(ctx, args);
+      // };
+      //
+      // // to save memory we can make this equivalence since if the hook is skipped
+      // // it won't matter if it's callback mode or not :)
+      // before.skip.cb = before.cb.skip = before.skip;
+      //
+      // after.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].cb = true;
+      //   args[1].__preParsed = true;
+      //   return after.apply(ctx, args);
+      // };
+      //
+      // after.skip = function (desc: string, opts: IAfterOpts, fn: AfterHookRegularMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].skip = true;
+      //   args[1].__preParsed = true;
+      //   return after.apply(ctx, args);
+      // };
+      //
+      // // to save memory we can make this equivalence since if the hook is skipped
+      // // it won't matter if it's callback mode or not :)
+      // after.skip.cb = after.cb.skip = after.skip;
+      //
+      // beforeEach.cb = function (desc: string, opts: IBeforeEachOpts, fn: BeforeEachHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].cb = true;
+      //   args[1].__preParsed = true;
+      //   return beforeEach.apply(ctx, args);
+      // };
+      //
+      // beforeEach.skip = function (desc: string, opts: IBeforeEachOpts, fn: BeforeEachHookRegularMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].skip = true;
+      //   args[1].__preParsed = true;
+      //   return beforeEach.apply(ctx, args);
+      // };
+      //
+      // // to save memory we can make this equivalence since if the hook is skipped
+      // // it won't matter if it's callback mode or not :)
+      // beforeEach.skip.cb = beforeEach.cb.skip = beforeEach.skip;
+      //
+      // afterEach.cb = function (desc: string, opts: IAfterEachOpts, fn: TAfterEachHook) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].cb = true;
+      //   args[1].__preParsed = true;
+      //   return afterEach.apply(ctx, args);
+      // };
+      //
+      // afterEach.skip = function (desc: string, opts: IAfterEachOpts, fn: TAfterEachHook) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].skip = true;
+      //   args[1].__preParsed = true;
+      //   return afterEach.apply(ctx, args);
+      // };
+      //
+      // // to save memory we can make this equivalence since if the hook is skipped
+      // // it won't matter if it's callback mode or not :)
+      // afterEach.skip.cb = afterEach.cb.skip = afterEach.skip;
+      //
+      // after.last = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].last = true;
+      //   args[1].__preParsed = true;
+      //   return after.apply(ctx, args);
+      // };
+      //
+      // after.always = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].always = true;
+      //   args[1].__preParsed = true;
+      //   return after.apply(ctx, args);
+      // };
+      //
+      // after.cb.always = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].cb = true;
+      //   args[1].always = true;
+      //   args[1].__preParsed = true;
+      //   return after.apply(ctx, args);
+      // };
+      //
+      // after.cb.last = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].cb = true;
+      //   args[1].last = true;
+      //   args[1].__preParsed = true;
+      //   return after.apply(ctx, args);
+      // };
+      //
+      // after.last.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].cb = true;
+      //   args[1].last = true;
+      //   args[1].__preParsed = true;
+      //   return after.apply(ctx, args);
+      // };
+      //
+      // after.last.always = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].last = true;
+      //   args[1].always = true;
+      //   args[1].__preParsed = true;
+      //   return after.apply(ctx, args);
+      // };
+      //
+      // after.always.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].always = true;
+      //   args[1].cb = true;
+      //   args[1].__preParsed = true;
+      //   return after.apply(ctx, args);
+      // };
+      //
+      // after.always.last = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+      //   let args = pragmatik.parse(arguments, rules.hookSignature);
+      //   args[1].last = true;
+      //   args[1].always = true;
+      //   args[1].__preParsed = true;
+      //   return after.apply(ctx, args);
+      // };
+      //
+      // after.cb.last.always =
+      //   after.cb.always.last =
+      //     after.last.cb.always =
+      //       after.last.always.cb =
+      //         after.always.cb.last =
+      //           after.always.last.cb =
+      //             function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+      //               let args = pragmatik.parse(arguments, rules.hookSignature);
+      //               args[1].last = true;
+      //               args[1].always = true;
+      //               args[1].cb = true;
+      //               args[1].__preParsed = true;
+      //               return after.apply(ctx, args);
+      //             };
 
-      inject.cb = function (desc: string, opts: IInjectOpts, fn: IInjectHookCallbackMode) {
-        let args = pragmatik.parse(arguments, rules.hookSignature);
-        args[1].cb = true;
-        args[1].__preParsed = true;
-        return inject.apply(ctx, args);
-      };
+      /*
 
-      inject.skip = function (desc: string, opts: IInjectOpts, fn: IInjectHookRegularMode) {
-        let args = pragmatik.parse(arguments, rules.hookSignature);
-        args[1].skip = true;
-        args[1].__preParsed = true;
-        return inject.apply(ctx, args);
-      };
+      to save memory we can make this equivalence since if the hook is skipped
+       it won't matter if it's callback mode or not :)
 
-      // to save memory we can make this equivalence since if the hook is skipped
-      // it won't matter if it's callback mode or not :)
-      inject.skip.cb = inject.cb.skip = inject.skip;
+       */
 
-      before.cb = function (desc: string, opts: IBeforeOpts, fn: BeforeHookCallbackMode) {
-        let args = pragmatik.parse(arguments, rules.hookSignature);
-        args[1].cb = true;
-        args[1].__preParsed = true;
-        return before.apply(ctx, args);
-      };
-
-      before.skip = function (desc: string, opts: IBeforeOpts, fn: BeforeHookRegularMode) {
-        let args = pragmatik.parse(arguments, rules.hookSignature);
-        args[1].skip = true;
-        args[1].__preParsed = true;
-        return before.apply(ctx, args);
-      };
-
-      // to save memory we can make this equivalence since if the hook is skipped
-      // it won't matter if it's callback mode or not :)
-      before.skip.cb = before.cb.skip = before.skip;
-
-      after.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-        let args = pragmatik.parse(arguments, rules.hookSignature);
-        args[1].cb = true;
-        args[1].__preParsed = true;
-        return after.apply(ctx, args);
-      };
-
-      after.skip = function (desc: string, opts: IAfterOpts, fn: AfterHookRegularMode) {
-        let args = pragmatik.parse(arguments, rules.hookSignature);
-        args[1].skip = true;
-        args[1].__preParsed = true;
-        return after.apply(ctx, args);
-      };
-
-      // to save memory we can make this equivalence since if the hook is skipped
-      // it won't matter if it's callback mode or not :)
-      after.skip.cb = after.cb.skip = after.skip;
-
-      beforeEach.cb = function (desc: string, opts: IBeforeEachOpts, fn: BeforeEachHookCallbackMode) {
-        let args = pragmatik.parse(arguments, rules.hookSignature);
-        args[1].cb = true;
-        args[1].__preParsed = true;
-        return beforeEach.apply(ctx, args);
-      };
-
-      beforeEach.skip = function (desc: string, opts: IBeforeEachOpts, fn: BeforeEachHookRegularMode) {
-        let args = pragmatik.parse(arguments, rules.hookSignature);
-        args[1].skip = true;
-        args[1].__preParsed = true;
-        return beforeEach.apply(ctx, args);
-      };
-
-      // to save memory we can make this equivalence since if the hook is skipped
-      // it won't matter if it's callback mode or not :)
-      beforeEach.skip.cb = beforeEach.cb.skip = beforeEach.skip;
-
-      afterEach.cb = function (desc: string, opts: IAfterEachOpts, fn: TAfterEachHook) {
-        let args = pragmatik.parse(arguments, rules.hookSignature);
-        args[1].cb = true;
-        args[1].__preParsed = true;
-        return afterEach.apply(ctx, args);
-      };
-
-      afterEach.skip = function (desc: string, opts: IAfterEachOpts, fn: TAfterEachHook) {
-        let args = pragmatik.parse(arguments, rules.hookSignature);
-        args[1].skip = true;
-        args[1].__preParsed = true;
-        return afterEach.apply(ctx, args);
-      };
-
-      // to save memory we can make this equivalence since if the hook is skipped
-      // it won't matter if it's callback mode or not :)
-      afterEach.skip.cb = afterEach.cb.skip = afterEach.skip;
+      // after.skip.cb =
+      //   after.cb.skip =
+      //     after.last.skip =
+      //       after.skip.last =
+      //         after.always.skip =
+      //           after.skip.always = after.skip;
+      //
+      // after.skip.cb.last =
+      //   after.skip.last.cb =
+      //     after.skip.cb.always =
+      //       after.skip.always.cb = after.skip;
+      //
+      // after.skip.cb.last.always =
+      //   after.skip.last.cb.always =
+      //     after.skip.cb.always.last =
+      //       after.skip.always.cb.last = after.skip;
 
     };
 
@@ -332,8 +506,10 @@ export const makeTestSuiteMaker
     TestSuite.prototype.__startSuite = makeStartSuite(suman, gracefulExit,
       handleBeforesAndAfters, notifyParentThatChildIsComplete);
 
-    freezeExistingProps(TestSuite.prototype);
-    return freezeExistingProps(new TestSuite(data));
+    // freezeExistingProps(TestSuite.prototype);
+    // return freezeExistingProps(new TestSuite(data));
+
+    return new TestSuite(data);
 
   };
 

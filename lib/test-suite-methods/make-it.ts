@@ -94,9 +94,14 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
       return zuite;
     }
 
+
     if (suman.itOnlyIsTriggered && !opts.only) {
       zuite.getTests().push({testId: inc, desc: desc, skipped: true, skippedDueToItOnly: true} as ITestDataObj);
       return zuite;
+    }
+
+    if(opts.only){
+      suman.itOnlyIsTriggered = true;
     }
 
     const testData: ITestDataObj = {

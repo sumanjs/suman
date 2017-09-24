@@ -3,12 +3,12 @@
 console.log('is this ready.');
 
 const suman = require('suman');//
-const test = suman.init(module);
+const Test = suman.init(module);
 
 let val = 1;
 
 //
-test.create(String(val++), function (it, beforeEach, describe, assert) {
+Test.create(String(val++), function (it, beforeEach, describe, assert) {
 
   beforeEach(h => {
     h.assert('i', 'melon');

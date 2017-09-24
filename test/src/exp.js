@@ -45,7 +45,7 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
     t.done();
   });
 
-  it.cb('is NOT skipped', t => {
+  it.cb.skip('is NOT 222 skipped', t => {
     t.done();
   });
 
@@ -59,13 +59,22 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
 
   it.cb('is stubbed 1');
 
+  describe.skip('foo', function(){
+
+  });
+
   describe('pajamas', function () {
 
-    this.describe('rudolph',function(){
+    this.describe.skip('rudolph',function(){
        this.it('is cool', t => {
 
        });
     });
+
+    it.cb.skip('is NOT 222 skipped', t => {
+      t.done();
+    });
+
 
     beforeEach.cb('beta1', h => {
       setTimeout(h, 10);

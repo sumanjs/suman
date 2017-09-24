@@ -125,6 +125,10 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       suite.skipped = suite.skippedDueToDescribeOnly = true;
     }
 
+    if(suite.only){
+      suman.describeOnlyIsTriggered = true;
+    }
+
     Object.defineProperty(suite, 'parent', {value: zuite, writable: false});
     zuite.getChildren().push(suite);
     allDescribeBlocks.push(suite);
