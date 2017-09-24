@@ -25,7 +25,6 @@ import {makeHookObj} from '../test-suite-helpers/t-proto-hook';
 import {freezeExistingProps} from 'freeze-existing-props'
 import {constants} from '../../config/suman-constants';
 
-
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -131,9 +130,7 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         }
 
-        const HookObj = makeHookObj(anAfter, assertCount);
-        const t = new HookObj(handleError);
-
+        const t = makeHookObj(anAfter, assertCount, handleError);
         fini.th = t;
         t.timeout = timeout;
 
@@ -145,10 +142,6 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
         let arg;
 
         if (isGeneratorFn) {
-
-          if (anAfter.cb) {
-            throw new Error('Generator function callback also asking for done param => inconsistent.');
-          }
           const handleGenerator = helpers.makeHandleGenerator(fini);
           arg = [freezeExistingProps(t)];
           handleGenerator(anAfter.fn, arg, anAfter.ctx);

@@ -147,14 +147,17 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
       const d = domain.create();
 
-      d.once('error', function (err: IPseudoError) {
+      d.once('error', function blockRegistrationErrorHandler(err: IPseudoError) {
         console.error('\n');
-        _suman.logError('Error executing test block => \n', err.stack || err);
+        if(!err || typeof err !== 'object'){
+          err = new Error(err ? (typeof err === 'string' ? err : util.inspect(err)) : 'unknown error passed to handler');
+        }
+        _suman.logError('Error registering test block =>', err.stack || err);
         err.sumanExitCode = constants.EXIT_CODES.ERROR_IN_CHILD_SUITE;
         gracefulExit(err);
       });
 
-      d.run(function () {
+      d.run(function registerTheBlock() {
 
         // note: *very important* => each describe block needs to be invoked in series, one by one,
         // so that we bind skip and only to the right suite

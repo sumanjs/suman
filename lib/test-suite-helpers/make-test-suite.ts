@@ -164,11 +164,13 @@ export const makeTestSuiteMaker
     //Note: we hide many properties in the prototype
     TestSuite.prototype = Object.create(new TestSuiteBase(data, suman));
 
+    TestSuite.prototype.testBlockMethodCache = new Map();
+
     TestSuite.prototype.__bindExtras = function bindExtras() {
 
       const ctx = suman.ctx = this;
 
-      const getProxy = function (val: Function, rule: Object, props?: Array<string>) {
+      const getProxyOld = function (val: Function, rule: Object, props?: Array<string>) {
 
         return new Proxy(val, {
           get: function (target, prop) {
@@ -199,7 +201,56 @@ export const makeTestSuiteMaker
               return val.apply(ctx, args);
             };
 
-            return getProxy(fn, rule, newProps);
+            return getProxyOld(fn, rule, newProps);
+          }
+        });
+      };
+
+      const getProxy = function (method: Function, rule: Object, props?: Array<string>) {
+
+        return new Proxy(method, {
+          get: function (target, prop) {
+
+            props = props || [];
+            let hasSkip = false;
+            let newProps = props.concat(String(prop)).filter(function (v, i, a) {
+              if (String(v) === 'skip') {
+                hasSkip = true;
+              }
+              // we use this filter to get a unique list
+              return a.indexOf(v) === i;
+            });
+
+            if (hasSkip) {
+              newProps = ['skip'];
+            }
+
+            let cache, cacheId = newProps.join('-');
+
+            let fnCache = ctx.testBlockMethodCache.get(method);
+            if (!fnCache) {
+              fnCache = {};
+              ctx.testBlockMethodCache.set(method, fnCache);
+            }
+
+            if (cache = ctx.testBlockMethodCache.get(method)[cacheId]) {
+              return cache;
+            }
+
+            let fn = function () {
+
+              let args = pragmatik.parse(arguments, rule);
+
+              newProps.forEach(function (p) {
+                args[1][p] = true;
+              });
+
+              args[1].__preParsed = true;
+              return method.apply(ctx, args);
+            };
+
+            return fnCache[cacheId] = getProxy(fn, rule, newProps);
+
           }
         });
       };

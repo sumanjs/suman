@@ -10,6 +10,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import assert = require('assert');
+import util = require('util');
 
 //npm
 const pragmatik = require('pragmatik');
@@ -70,8 +71,8 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
           let args = pragmatik.parse(arguments, rule);
 
-          newProps.shift(); // get rid of the first method argument
-          newProps.forEach(function (p) {
+          // get rid of the first method argument
+          newProps.slice(1).forEach(function (p) {
             args[1][p] = true;
           });
 

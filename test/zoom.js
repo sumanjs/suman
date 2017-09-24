@@ -1,30 +1,40 @@
 #!/usr/bin/env node
 
-const suman = require('suman');//
+const suman = require('suman');
 const Test = suman.init(module);
 
-Test.create(function (it, beforeEach, describe, assert) {
+Test.create(function (it, beforeEach, describe, assert, after) {
 
   beforeEach(h => {
     h.assert('i', 'melon');
     h.assert.equal(true, true, 'moo');
   });
 
-  it.only('glue', t => {
+  it('glue', t => {
 
   });
 
-  Number(100).times(function () {
+  Number(1).times(() => {
 
-    describe.only('inner', function () {
+    this.describe('inner', function () {
 
-      it('makes good', t => {
+      throw 'buggers';
+
+      it.only('makes good', t => {
         t.assert(true, 'fudge.');
         t.assert.equal(true, true, 'damn');
       });
 
     });
 
+  });
+
+  after.always.last.last.always(h => {
+      console.log('after always last');
+  });
+
+  after(h => {
+    console.log('after after');
   });
 
 });
