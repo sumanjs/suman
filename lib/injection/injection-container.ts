@@ -43,18 +43,18 @@ export const makeInjectionContainer = function (suman: ISuman) {
       get: function (target, prop) {
 
         let newProps = props.concat(String(prop));
-        let cacheId = newProps.join('-');
+        let cache, cacheId = newProps.join('-');
 
-        if (suman.testBlockMethodCache[cacheId]) {
-          return suman.testBlockMethodCache[cacheId];
+        if (cache = suman.testBlockMethodCache[cacheId]) {
+          return cache;
         }
 
         let fn = function () {
           let args = Array.from(arguments);
           const ret = newProps.reduce(function (a, b) {
             return a[b];
-          }, _suman.ctx);
-          return ret.apply(_suman.ctx, args);
+          }, suman.ctx);
+          return ret.apply(suman.ctx, args);
         };
 
         return suman.testBlockMethodCache[cacheId] = getProxy(fn, newProps);
@@ -67,39 +67,39 @@ export const makeInjectionContainer = function (suman: ISuman) {
   const container = {
 
     before: function () {
-      return _suman.ctx.before.apply(_suman.ctx, arguments);
+      return suman.ctx.before.apply(suman.ctx, arguments);
     },
 
     after: function () {
-      return _suman.ctx.after.apply(_suman.ctx, arguments);
+      return suman.ctx.after.apply(suman.ctx, arguments);
     },
 
     beforeEach: function () {
-      return _suman.ctx.beforeEach.apply(_suman.ctx, arguments);
+      return suman.ctx.beforeEach.apply(suman.ctx, arguments);
     },
 
     afterEach: function () {
-      return _suman.ctx.afterEach.apply(_suman.ctx, arguments);
+      return suman.ctx.afterEach.apply(suman.ctx, arguments);
     },
 
     describe: function () {
-      return _suman.ctx.describe.apply(_suman.ctx, arguments);
+      return suman.ctx.describe.apply(suman.ctx, arguments);
     },
 
     context: function () {
-      return _suman.ctx.context.apply(_suman.ctx, arguments);
+      return suman.ctx.context.apply(suman.ctx, arguments);
     },
 
     it: function () {
-      return _suman.ctx.it.apply(_suman.ctx, arguments);
+      return suman.ctx.it.apply(suman.ctx, arguments);
     },
 
     inject: function () {
-      return _suman.ctx.inject.apply(_suman.ctx, arguments);
+      return suman.ctx.inject.apply(suman.ctx, arguments);
     },
 
     afterAllParentHooks: function () {
-      return _suman.ctx.afterAllParentHooks.apply(_suman.ctx, arguments);
+      return suman.ctx.afterAllParentHooks.apply(suman.ctx, arguments);
     },
 
   };
@@ -109,7 +109,7 @@ export const makeInjectionContainer = function (suman: ISuman) {
       // let args = pragmatik.parse(arguments, rules.blockSignature);
       // args[1].delay = true;
       // args[1].__preParsed = true;
-      return _suman.ctx.describe.delay.apply(_suman.ctx, arguments);
+      return suman.ctx.describe.delay.apply(suman.ctx, arguments);
     };
 
   container.describe.skip =
@@ -117,34 +117,34 @@ export const makeInjectionContainer = function (suman: ISuman) {
       // let args = pragmatik.parse(arguments, rules.blockSignature);
       // args[1].skip = true;
       // args[1].__preParsed = true;
-      return _suman.ctx.describe.skip.apply(_suman.ctx, arguments);
+      return suman.ctx.describe.skip.apply(suman.ctx, arguments);
     };
 
   container.describe.only =
     function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-      // _suman.ctx.describeOnlyIsTriggered = true;
+      // suman.ctx.describeOnlyIsTriggered = true;
       // let args = pragmatik.parse(arguments, rules.blockSignature);
       // args[1].only = true;
       // args[1].__preParsed = true;
-      return _suman.ctx.describe.only.apply(_suman.ctx, arguments);
+      return suman.ctx.describe.only.apply(suman.ctx, arguments);
     };
 
   container.describe.skip.delay = container.describe.delay.skip = container.describe.skip;
 
   container.describe.only.delay = container.describe.delay.only =
     function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-      // _suman.ctx.describeOnlyIsTriggered = true;
+      // suman.ctx.describeOnlyIsTriggered = true;
       // let args = pragmatik.parse(arguments, rules.blockSignature);
       // args[1].only = true;
       // args[1].__preParsed = true;
-      _suman.ctx.describe.only.delay.apply(_suman.ctx, arguments);
+      suman.ctx.describe.only.delay.apply(suman.ctx, arguments);
     };
 
   container.it.skip = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
     // let args = pragmatik.parse(arguments, rules.testCaseSignature);
     // args[1].skip = true;
     // args[1].__preParsed = true;
-    return _suman.ctx.it.skip.apply(_suman.ctx, arguments);
+    return suman.ctx.it.skip.apply(suman.ctx, arguments);
   };
 
   container.it.only = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
@@ -152,7 +152,7 @@ export const makeInjectionContainer = function (suman: ISuman) {
     // let args = pragmatik.parse(arguments, rules.testCaseSignature);
     // args[1].only = true;
     // args[1].__preParsed = true;
-    return _suman.ctx.it.only.apply(_suman.ctx, arguments);
+    return suman.ctx.it.only.apply(suman.ctx, arguments);
   };
 
   container.it.only.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
@@ -161,7 +161,7 @@ export const makeInjectionContainer = function (suman: ISuman) {
     // args[1].only = true;
     // args[1].cb = true;
     // args[1].__preParsed = true;
-    return _suman.ctx.it.only.cb.apply(_suman.ctx, arguments);
+    return suman.ctx.it.only.cb.apply(suman.ctx, arguments);
   };
 
   container.it.skip.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
@@ -169,14 +169,14 @@ export const makeInjectionContainer = function (suman: ISuman) {
     // args[1].skip = true;
     // args[1].cb = true;
     // args[1].__preParsed = true;
-    return _suman.ctx.it.skip.cb.apply(_suman.ctx, arguments);
+    return suman.ctx.it.skip.cb.apply(suman.ctx, arguments);
   };
 
   container.it.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
     // let args = pragmatik.parse(arguments, rules.testCaseSignature);
     // args[1].cb = true;
     // args[1].__preParsed = true;
-    return _suman.ctx.it.cb.apply(_suman.ctx, arguments);
+    return suman.ctx.it.cb.apply(suman.ctx, arguments);
   };
 
   container.it.cb.skip = container.it.skip.cb;
@@ -226,16 +226,17 @@ export const makeInjectionContainer = function (suman: ISuman) {
     return container.after.apply(this, args);
   };
 
-  container.after.last = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-    let args = pragmatik.parse(arguments, rules.hookSignature);
-    args[1].last = true;
-    args[1].__preParsed = true;
-    return container.after.apply(this, args);
-  };
 
   container.after.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
     let args = pragmatik.parse(arguments, rules.hookSignature);
     args[1].cb = true;
+    args[1].__preParsed = true;
+    return container.after.apply(this, args);
+  };
+
+  container.after.last = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
+    let args = pragmatik.parse(arguments, rules.hookSignature);
+    args[1].last = true;
     args[1].__preParsed = true;
     return container.after.apply(this, args);
   };
@@ -252,7 +253,7 @@ export const makeInjectionContainer = function (suman: ISuman) {
     // args[1].cb = true;
     // args[1].always = true;
     // args[1].__preParsed = true;
-    return _suman.ctx.after.cb.always.apply(_suman.ctx, arguments);
+    return suman.ctx.after.cb.always.apply(suman.ctx, arguments);
   };
 
   container.after.cb.last = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {

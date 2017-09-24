@@ -137,7 +137,7 @@ export const makeTestSuiteMaker
 
     TestSuite.prototype.__bindExtras = function bindExtras() {
 
-      const ctx = _suman.ctx = this;
+      const ctx = suman.ctx = this;
 
       describe.delay =
         function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {

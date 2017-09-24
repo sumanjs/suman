@@ -11,18 +11,17 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
   //   return Promise.delay(2000);
   // });
 
-  it.only('should pass');
+  it('should pass');
 
   before('merry', [{fatal:false}, t => {
     throw new Error('marf is not a marf');
   }]);
 
-  debugger;
   beforeEach.cb('alpha', h => {
     setTimeout(h, 1);
   });
 
-  it.cb.only('is normal xxx', ({done, ctn}) => {
+  it.cb('is normal xxx', ({done, ctn}) => {
     ctn();
   });
 
@@ -63,10 +62,11 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
   describe('pajamas', function () {
 
     this.describe('rudolph',function(){
-       console.log('poop');
+       this.it('is cool', t => {
+
+       });
     });
 
-    debugger;
     beforeEach.cb('beta1', h => {
       setTimeout(h, 10);
     });

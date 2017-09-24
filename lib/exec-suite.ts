@@ -230,7 +230,7 @@ export const execSuite = function (suman: ISuman): Function {
                 callable = false;
                 clearTimeout(to);
                 process.nextTick(function () {
-                  _suman.ctx = null; // no suite here; don't need to call __bindExtras here, because root suite has no parent
+                  suman.ctx = null; // no suite here; don't need to call __bindExtras here, because root suite has no parent
                   suite.__proto__.isSetupComplete = true; // keep this, needs be called asynchronously
                   //pass start function all the way through program until last child delay call is invoked!
                   suite.__invokeChildren(val, start);

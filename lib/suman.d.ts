@@ -5,6 +5,7 @@ import { ITestDataObj } from "suman-types/dts/it";
 export declare class Suman {
     interface: string;
     $inject: Object;
+    testBlockMethodCache: Object;
     iocData: Object;
     fileName: string;
     slicedFileName: string;
