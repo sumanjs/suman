@@ -38,9 +38,17 @@ const rules = require('../helpers/handle-varargs');
 export const makeInjectionContainer = function (suman: ISuman) {
 
   const getProxy = function (val: Object, props: Array<string>): any {
+
     return new Proxy(val, {
       get: function (target, prop) {
+
         let newProps = props.concat(String(prop));
+        let cacheId = newProps.join('-');
+
+        if (suman.testBlockMethodCache[cacheId]) {
+          return suman.testBlockMethodCache[cacheId];
+        }
+
         let fn = function () {
           let args = Array.from(arguments);
           const ret = newProps.reduce(function (a, b) {
@@ -48,7 +56,8 @@ export const makeInjectionContainer = function (suman: ISuman) {
           }, _suman.ctx);
           return ret.apply(_suman.ctx, args);
         };
-        return getProxy(fn, newProps);
+
+        return suman.testBlockMethodCache[cacheId] = getProxy(fn, newProps);
       }
     });
   };

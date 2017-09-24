@@ -49,6 +49,7 @@ export class Suman {
 
   interface: string;
   $inject: Object;
+  testBlockMethodCache: Object;
   iocData: Object;
   fileName: string;
   slicedFileName: string;
@@ -80,6 +81,7 @@ export class Suman {
 
     // initialize
     this.$inject = McProxy.create();
+    this.testBlockMethodCache = {};
     this.allDescribeBlocks = [];
     this.describeOnlyIsTriggered = false;
     this.deps = null;
