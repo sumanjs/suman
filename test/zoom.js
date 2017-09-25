@@ -18,8 +18,6 @@ Test.create(function (it, beforeEach, describe, assert, after) {
 
     this.describe('inner', function () {
 
-      throw 'buggers';
-
       it.only('makes good', t => {
         t.assert(true, 'fudge.');
         t.assert.equal(true, true, 'damn');
@@ -29,11 +27,11 @@ Test.create(function (it, beforeEach, describe, assert, after) {
 
   });
 
-  after.always.last.last.always(h => {
-      console.log('after always last');
+  after.always.skip.last.always.last.last.last(h => {
+    console.log('after always last');
   });
 
-  after(h => {
+  after.skip(h => {
     console.log('after after');
   });
 

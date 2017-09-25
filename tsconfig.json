@@ -2,6 +2,10 @@
   "compilerOptions": {
     "declaration": true,
     "baseUrl": ".",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/suman-types/dts"
+    ],
     "types": [
       "node",
       "async",
