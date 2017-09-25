@@ -62,27 +62,6 @@ export const makeTestCase =
       }
     });
 
-    // v.assert = <Partial<AssertStatic>> function () {
-    //   try {
-    //     return chaiAssert.apply(v, arguments);
-    //   }
-    //   catch (e) {
-    //     return handleError(e);
-    //   }
-    // };
-    //
-    //
-    // Object.keys(chaiAssert).forEach(key => {
-    //   v.assert[key] = function () {
-    //     try {
-    //       return chaiAssert[key].apply(chaiAssert, arguments);
-    //     }
-    //     catch (e) {
-    //       return handleError(e);
-    //     }
-    //   }
-    // });
-
     v.plan = function (num: number) {
 
       if (planCalled) {

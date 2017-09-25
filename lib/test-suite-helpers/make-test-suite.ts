@@ -6,7 +6,7 @@ import {IGlobalSumanObj} from "suman-types/dts/global";
 import {BeforeHookCallbackMode, BeforeHookRegularMode, IBeforeFn, IBeforeOpts} from "suman-types/dts/before";
 import {ITestSuite} from "suman-types/dts/test-suite";
 import {ITestSuiteMakerOpts, TTestSuiteMaker} from "suman-types/dts/test-suite-maker";
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman, Suman} from "../suman";
 import {IItOpts, ItFn, ItHookCallbackMode, ItHookRegularMode} from "suman-types/dts/it";
 import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
 
@@ -36,12 +36,10 @@ import async = require('async');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-import TestSuiteBase from './test-suite-base-constructor';
+import {TestSuiteBase} from './test-suite-base-constructor';
 import {freezeExistingProps} from 'freeze-existing-props'
-
 const {makeStartSuite} = require('./make-start-suite');
 import {makeHandleBeforesAndAfters} from './make-handle-befores-afters';
-
 const {makeNotifyParent} = require('./notify-parent-that-child-is-complete');
 
 // TestSuite methods
@@ -76,16 +74,7 @@ export const makeTestSuiteMaker
   const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
   const notifyParentThatChildIsComplete = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
 
-  const TestSuiteMaker: TTestSuiteMaker = function (data: ITestSuiteMakerOpts): ITestSuite {
-
-    let it: ItFn,
-      describe: IDescribeFn,
-      before: IBeforeFn,
-      after: IAfterFn,
-      beforeEach: IBeforeEachFn,
-      afterEach: IAfterEachFn,
-      inject: IInjectFn,
-      afterAllParentHooks: Function;
+  return function TestSuiteMaker(data: ITestSuiteMakerOpts): ITestSuite {
 
     const TestSuite: ITestSuiteConstructor = function (obj: ITestSuiteMakerOpts): void {   // this fn is a constructor
 
@@ -109,104 +98,33 @@ export const makeTestSuiteMaker
         });
       };
 
-      inject = this.inject = makeInject(suman, zuite);
+      // _interface === 'TDD' ? this.setup = before : this.before = before;
 
-      before = makeBefore(suman, zuite);
-      _interface === 'TDD' ? this.setup = before : this.before = before;
+      ////////////////////////////////////////////////////////////////////////////
 
-      after = makeAfter(suman, zuite);
-      _interface === 'TDD' ? this.teardown = after : this.after = after;
-
-      beforeEach = makeBeforeEach(suman, zuite);
-      _interface === 'TDD' ? this.setupTest = beforeEach : this.beforeEach = beforeEach;
-
-      afterEach = makeAfterEach(suman, zuite);
-      _interface === 'TDD' ? this.teardownTest = afterEach : this.afterEach = afterEach;
-
-      it = makeIt(suman, zuite);
-      _interface === 'TDD' ? this.test = it : this.it = it;
-
-      describe = this.context
+      const inject: IInjectFn = makeInject(suman, zuite);
+      const before: IBeforeFn = makeBefore(suman, zuite);
+      const after: IAfterFn = makeAfter(suman, zuite);
+      const beforeEach: IBeforeEachFn = makeBeforeEach(suman, zuite);
+      const afterEach: IAfterEachFn = makeAfterEach(suman, zuite);
+      const it: ItFn = makeIt(suman, zuite);
+      const describe: IDescribeFn
         = makeDescribe(suman, gracefulExit, TestSuiteMaker, zuite, notifyParentThatChildIsComplete, blockInjector);
-      _interface === 'TDD' ? this.suite = describe : this.describe = describe;
+      const afterAllParentHooks = makeAfterAllParentHooks(suman, zuite);
 
-      afterAllParentHooks = this.afterAllParentHooks = makeAfterAllParentHooks(suman, zuite);
+      ////////////////////////////////////////////////////////////////////////////
 
-      Object.getPrototypeOf(this).getdescribe = function () {
-        return describe;
-      };
+      const ctx = this;
 
-      Object.getPrototypeOf(this).getinject = function () {
-        return inject;
-      };
+      const getProxy = function (method: Function, rule: Object, props?: Array<string>): Function {
 
-      Object.getPrototypeOf(this).getit = function () {
-        return it;
-      };
-
-      Object.getPrototypeOf(this).getbefore = function () {
-        return before;
-      };
-
-      Object.getPrototypeOf(this).getafter = function () {
-        return after;
-      };
-
-      Object.getPrototypeOf(this).getafterEach = function () {
-        return afterEach;
-      };
-
-      Object.getPrototypeOf(this).getbeforeEach = function () {
-        return beforeEach;
-      }
-    };
-
-    //Note: we hide many properties in the prototype
-    TestSuite.prototype = Object.create(new TestSuiteBase(data, suman));
-
-    TestSuite.prototype.testBlockMethodCache = new Map();
-
-    TestSuite.prototype.__bindExtras = function bindExtras() {
-
-      const ctx = suman.ctx = this;
-
-      const getProxyOld = function (val: Function, rule: Object, props?: Array<string>) {
-
-        return new Proxy(val, {
-          get: function (target, prop) {
-
-            props = props || [];
-            let hasSkip = false;
-            let newProps = props.concat(String(prop)).filter(function (v, i, a) {
-              if (String(v) === 'skip') {
-                hasSkip = true;
-              }
-              // we use this filter to get a unique list
-              return a.indexOf(v) === i;
-            });
-
-            if (hasSkip) {
-              newProps = ['skip'];
-            }
-
-            let fn = function () {
-
-              let args = pragmatik.parse(arguments, rule);
-
-              newProps.forEach(function (p) {
-                args[1][p] = true;
-              });
-
-              args[1].__preParsed = true;
-              return val.apply(ctx, args);
-            };
-
-            return getProxyOld(fn, rule, newProps);
-          }
-        });
-      };
-
-      const getProxy = function (method: Function, rule: Object, props?: Array<string>) {
+        /*
+        NOTE
+         this function allows us to dynamically generate functions such as
+         => after.last.always.skip();
+         this way we only create the functions we need, instead of enumerating them all here.
+         this makes for a leaner and more maintenable codebase as well as potentially higher performance.
+        */
 
         return new Proxy(method, {
           get: function (target, prop) {
@@ -215,6 +133,7 @@ export const makeTestSuiteMaker
             let hasSkip = false;
             let newProps = props.concat(String(prop)).filter(function (v, i, a) {
               if (String(v) === 'skip') {
+                // if skip, none of the other properties matter
                 hasSkip = true;
               }
               // we use this filter to get a unique list
@@ -255,284 +174,56 @@ export const makeTestSuiteMaker
         });
       };
 
-      this.describe = getProxy(describe, rules.blockSignature) as IDescribeFn;
-      this.it = getProxy(it, rules.testCaseSignature) as ItFn;
+      this.describe = this.context = this.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
+      this.it = this.test = getProxy(it, rules.testCaseSignature) as ItFn;
       this.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
-      this.before = getProxy(before, rules.hookSignature) as IBeforeFn;
-      this.beforeEach = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
-      this.after = getProxy(after, rules.hookSignature) as IAfterFn;
-      this.afterEach = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
+      this.before = this.setup = getProxy(before, rules.hookSignature) as IBeforeFn;
+      this.beforeEach = this.setupTest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
+      this.after = this.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
+      this.afterEach = this.teardownTest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
+      this.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature);
 
-      // describe.delay =
-      //   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-      //     let args = pragmatik.parse(arguments, rules.blockSignature);
-      //     args[1].delay = true;
-      //     args[1].__preParsed = true;
-      //     describe.apply(ctx, args);
-      //   };
-      //
-      // describe.skip =
-      //   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-      //     let args = pragmatik.parse(arguments, rules.blockSignature);
-      //     args[1].skip = true;
-      //     args[1].__preParsed = true;
-      //     describe.apply(ctx, args);
-      //   };
-      //
-      // describe.only =
-      //   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-      //     suman.describeOnlyIsTriggered = true;
-      //     let args = pragmatik.parse(arguments, rules.blockSignature);
-      //     args[1].only = true;
-      //     args[1].__preParsed = true;
-      //     describe.apply(ctx, args);
-      //   };
-      //
-      // describe.skip.delay = describe.delay.skip = describe.skip;
-      //
-      // describe.only.delay = describe.delay.only =
-      //   function (desc: string, opts: IDescribeOpts, arr?: Array<string | TDescribeHook>, fn?: TDescribeHook) {
-      //     suman.describeOnlyIsTriggered = true;
-      //     let args = pragmatik.parse(arguments, rules.blockSignature);
-      //     args[1].only = true;
-      //     args[1].delay = true;
-      //     args[1].__preParsed = true;
-      //     describe.apply(ctx, args);
-      //   };
+      ///////////////////////////////////////////////////////////////////////////
 
-      // it.skip = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
-      //   let args = pragmatik.parse(arguments, rules.testCaseSignature);
-      //   args[1].skip = true;
-      //   args[1].__preParsed = true;
-      //   return it.apply(ctx, args);
-      // };
-      //
-      // it.only = function (desc: string, opts: IItOpts, fn: ItHookRegularMode) {
-      //   suman.itOnlyIsTriggered = true;
-      //   let args = pragmatik.parse(arguments, rules.testCaseSignature);
-      //   args[1].only = true;
-      //   args[1].__preParsed = true;
-      //   return it.apply(ctx, args);
-      // };
-      //
-      // it.only.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-      //   suman.itOnlyIsTriggered = true;
-      //   let args = pragmatik.parse(arguments, rules.testCaseSignature);
-      //   args[1].only = true;
-      //   args[1].cb = true;
-      //   args[1].__preParsed = true;
-      //   return it.apply(ctx, args);
-      // };
-      //
-      // it.skip.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.testCaseSignature);
-      //   args[1].skip = true;
-      //   args[1].cb = true;
-      //   args[1].__preParsed = true;
-      //   return it.apply(ctx, args);
-      // };
-      //
-      // it.cb = function (desc: string, opts: IItOpts, fn: ItHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.testCaseSignature);
-      //   args[1].cb = true;
-      //   args[1].__preParsed = true;
-      //   return it.apply(ctx, args);
-      // };
-      //
-      // it.cb.skip = it.skip.cb;
-      // it.cb.only = it.only.cb;
+      Object.getPrototypeOf(this).get_describe = function () {
+        return describe;
+      };
 
-      // inject.cb = function (desc: string, opts: IInjectOpts, fn: IInjectHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].cb = true;
-      //   args[1].__preParsed = true;
-      //   return inject.apply(ctx, args);
-      // };
-      //
-      // inject.skip = function (desc: string, opts: IInjectOpts, fn: IInjectHookRegularMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].skip = true;
-      //   args[1].__preParsed = true;
-      //   return inject.apply(ctx, args);
-      // };
-      //
-      // // to save memory we can make this equivalence since if the hook is skipped
-      // // it won't matter if it's callback mode or not :)
-      // inject.skip.cb = inject.cb.skip = inject.skip;
+      Object.getPrototypeOf(this).get_context = function () {
+        return describe;
+      };
 
-      // before.cb = function (desc: string, opts: IBeforeOpts, fn: BeforeHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].cb = true;
-      //   args[1].__preParsed = true;
-      //   return before.apply(ctx, args);
-      // };
-      //
-      // before.skip = function (desc: string, opts: IBeforeOpts, fn: BeforeHookRegularMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].skip = true;
-      //   args[1].__preParsed = true;
-      //   return before.apply(ctx, args);
-      // };
-      //
-      // // to save memory we can make this equivalence since if the hook is skipped
-      // // it won't matter if it's callback mode or not :)
-      // before.skip.cb = before.cb.skip = before.skip;
-      //
-      // after.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].cb = true;
-      //   args[1].__preParsed = true;
-      //   return after.apply(ctx, args);
-      // };
-      //
-      // after.skip = function (desc: string, opts: IAfterOpts, fn: AfterHookRegularMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].skip = true;
-      //   args[1].__preParsed = true;
-      //   return after.apply(ctx, args);
-      // };
-      //
-      // // to save memory we can make this equivalence since if the hook is skipped
-      // // it won't matter if it's callback mode or not :)
-      // after.skip.cb = after.cb.skip = after.skip;
-      //
-      // beforeEach.cb = function (desc: string, opts: IBeforeEachOpts, fn: BeforeEachHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].cb = true;
-      //   args[1].__preParsed = true;
-      //   return beforeEach.apply(ctx, args);
-      // };
-      //
-      // beforeEach.skip = function (desc: string, opts: IBeforeEachOpts, fn: BeforeEachHookRegularMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].skip = true;
-      //   args[1].__preParsed = true;
-      //   return beforeEach.apply(ctx, args);
-      // };
-      //
-      // // to save memory we can make this equivalence since if the hook is skipped
-      // // it won't matter if it's callback mode or not :)
-      // beforeEach.skip.cb = beforeEach.cb.skip = beforeEach.skip;
-      //
-      // afterEach.cb = function (desc: string, opts: IAfterEachOpts, fn: TAfterEachHook) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].cb = true;
-      //   args[1].__preParsed = true;
-      //   return afterEach.apply(ctx, args);
-      // };
-      //
-      // afterEach.skip = function (desc: string, opts: IAfterEachOpts, fn: TAfterEachHook) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].skip = true;
-      //   args[1].__preParsed = true;
-      //   return afterEach.apply(ctx, args);
-      // };
-      //
-      // // to save memory we can make this equivalence since if the hook is skipped
-      // // it won't matter if it's callback mode or not :)
-      // afterEach.skip.cb = afterEach.cb.skip = afterEach.skip;
-      //
-      // after.last = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].last = true;
-      //   args[1].__preParsed = true;
-      //   return after.apply(ctx, args);
-      // };
-      //
-      // after.always = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].always = true;
-      //   args[1].__preParsed = true;
-      //   return after.apply(ctx, args);
-      // };
-      //
-      // after.cb.always = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].cb = true;
-      //   args[1].always = true;
-      //   args[1].__preParsed = true;
-      //   return after.apply(ctx, args);
-      // };
-      //
-      // after.cb.last = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].cb = true;
-      //   args[1].last = true;
-      //   args[1].__preParsed = true;
-      //   return after.apply(ctx, args);
-      // };
-      //
-      // after.last.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].cb = true;
-      //   args[1].last = true;
-      //   args[1].__preParsed = true;
-      //   return after.apply(ctx, args);
-      // };
-      //
-      // after.last.always = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].last = true;
-      //   args[1].always = true;
-      //   args[1].__preParsed = true;
-      //   return after.apply(ctx, args);
-      // };
-      //
-      // after.always.cb = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].always = true;
-      //   args[1].cb = true;
-      //   args[1].__preParsed = true;
-      //   return after.apply(ctx, args);
-      // };
-      //
-      // after.always.last = function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-      //   let args = pragmatik.parse(arguments, rules.hookSignature);
-      //   args[1].last = true;
-      //   args[1].always = true;
-      //   args[1].__preParsed = true;
-      //   return after.apply(ctx, args);
-      // };
-      //
-      // after.cb.last.always =
-      //   after.cb.always.last =
-      //     after.last.cb.always =
-      //       after.last.always.cb =
-      //         after.always.cb.last =
-      //           after.always.last.cb =
-      //             function (desc: string, opts: IAfterOpts, fn: AfterHookCallbackMode) {
-      //               let args = pragmatik.parse(arguments, rules.hookSignature);
-      //               args[1].last = true;
-      //               args[1].always = true;
-      //               args[1].cb = true;
-      //               args[1].__preParsed = true;
-      //               return after.apply(ctx, args);
-      //             };
+      Object.getPrototypeOf(this).get_inject = function () {
+        return inject;
+      };
 
-      /*
+      Object.getPrototypeOf(this).get_it = function () {
+        return it;
+      };
 
-      to save memory we can make this equivalence since if the hook is skipped
-       it won't matter if it's callback mode or not :)
+      Object.getPrototypeOf(this).get_before = function () {
+        return before;
+      };
 
-       */
+      Object.getPrototypeOf(this).get_after = function () {
+        return after;
+      };
 
-      // after.skip.cb =
-      //   after.cb.skip =
-      //     after.last.skip =
-      //       after.skip.last =
-      //         after.always.skip =
-      //           after.skip.always = after.skip;
-      //
-      // after.skip.cb.last =
-      //   after.skip.last.cb =
-      //     after.skip.cb.always =
-      //       after.skip.always.cb = after.skip;
-      //
-      // after.skip.cb.last.always =
-      //   after.skip.last.cb.always =
-      //     after.skip.cb.always.last =
-      //       after.skip.always.cb.last = after.skip;
+      Object.getPrototypeOf(this).get_afterEach = function () {
+        return afterEach;
+      };
 
+      Object.getPrototypeOf(this).get_beforeEach = function () {
+        return beforeEach;
+      }
+    };
+
+    //Note: we hide many properties in the prototype
+    TestSuite.prototype = Object.create(new TestSuiteBase(data, suman));
+    TestSuite.prototype.testBlockMethodCache = new Map();
+
+    TestSuite.prototype.__bindExtras = function bindExtras() {
+      const ctx = suman.ctx = this;
     };
 
     TestSuite.prototype.__invokeChildren = function (val: any, start: Function) {
@@ -563,8 +254,6 @@ export const makeTestSuiteMaker
     return new TestSuite(data);
 
   };
-
-  return TestSuiteMaker;
 
 };
 

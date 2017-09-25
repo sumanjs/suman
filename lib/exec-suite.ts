@@ -3,7 +3,7 @@
 //dts
 import {ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman, Suman} from "./suman";
 import {ICreateOpts, TCreateHook} from "suman-types/dts/index-init";
 import {IInjectionDeps} from "suman-types/dts/injection";
 

@@ -144,7 +144,8 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
       if (sumanOpts.debug_hooks) {
         if (hook) {
           if (d.testDescription) {
-            _suman.log(`each hook with name '${chalk.yellow(hook.desc)}' has completed, for test case with name '${chalk.magenta(d.testDescription)}'.`);
+            _suman.log(`each hook with name '${chalk.yellow.bold(hook.desc)}' has completed, ` +
+              `for test case with name '${chalk.magenta(d.testDescription)}'.`);
           }
           else {
             _suman.log(`hook with name '${chalk.yellow(hook.desc)}' has completed.`);
@@ -153,14 +154,8 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
       }
 
       try {
-        if (test || hook) {
-          err = planHelper(err, test, hook, assertCount);
-          err = throwsHelper(err, test, hook);
-        }
-        else {
-          throw missingHookOrTest();
-        }
-
+        err = planHelper(err, test, hook, assertCount);
+        err = throwsHelper(err, test, hook);
       }
       catch ($err) {
         err = $err;
@@ -171,7 +166,11 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
         testAndHookCallbackHandler.th.removeAllListeners();
       }
       else {
-        throw new Error(' => Suman internal implementation error => Please report this!');
+        throw new Error('Suman internal implementation error => No event emitter property attached to callback.');
+      }
+
+      if (d !== process.domain) {
+        _suman.logWarning('Suman implementation warning: diverging domains in handle callback helper.');
       }
 
       try {

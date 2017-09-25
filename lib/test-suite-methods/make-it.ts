@@ -1,9 +1,9 @@
 'use strict';
 
 //dts
-import {ITestSuite} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
-import {IItOpts, ITestDataObj} from "suman-types/dts/it";
+import {ITestSuite, IAcceptableOptions} from "suman-types/dts/test-suite";
+import {ISuman, Suman} from "../suman";
+import {IItOpts, ITestDataObj, ItFn} from "suman-types/dts/it";
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
@@ -32,13 +32,37 @@ import evalOptions from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////////////
 
-function handleBadOptions(opts: IItOpts) {
-  //TODO
-}
+const typeName = 'it';
+const acceptableOptions = <IAcceptableOptions> {
+  plan: true,
+  throws: true,
+  fatal: true,
+  cb: true,
+  timeout: true,
+  skip: true,
+  __preParsed: true
+};
+
+const handleBadOptions = function (opts: IItOpts) {
+
+  Object.keys(opts).forEach(function (k) {
+    if (!acceptableOptions[k]) {
+      const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
+      throw new Error(`'${k}' is not a valid option property for an ${typeName} hook. See: ${url}`);
+    }
+  });
+
+  if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
+    console.error(' => Suman usage error => "plan" option is not an integer.');
+    process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
+    return;
+  }
+
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 
-export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
+export const makeIt = function (suman: ISuman, zuite: ITestSuite): ItFn {
 
   return function ($desc: string, $opts: IItOpts): ITestSuite {
 
@@ -94,17 +118,17 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
       return zuite;
     }
 
-
     if (suman.itOnlyIsTriggered && !opts.only) {
       zuite.getTests().push({testId: inc, desc: desc, skipped: true, skippedDueToItOnly: true} as ITestDataObj);
       return zuite;
     }
 
-    if(opts.only){
+    if (opts.only) {
       suman.itOnlyIsTriggered = true;
     }
 
     const testData: ITestDataObj = {
+      alreadyInitiated: false,
       testId: inc,
       stubbed: false,
       data: {},
@@ -118,7 +142,7 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): Function {
       mode: opts.mode,
       delay: opts.delay,
       cb: opts.cb,
-      type: 'it-standard',
+      type: 'it/test-case',
       timeout: opts.timeout || 20000,
       desc: desc || fn.name || '(unknown test case name)',
       fn: fn,

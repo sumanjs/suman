@@ -2,8 +2,8 @@
 
 //dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ITestSuite} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
+import {ITestSuite, IAcceptableOptions} from "suman-types/dts/test-suite";
+import {ISuman, Suman} from "../suman";
 import {IBeforeEachFn, IBeforeEachOpts} from "suman-types/dts/before-each";
 
 //polyfills
@@ -30,18 +30,31 @@ import evalOptions from '../helpers/eval-options';
 
 /////////////////////////////////////////////////////////////////////////////////
 
-let handleBadOptions = function (opts: IBeforeEachOpts) {
+const typeName = 'before-each';
+const acceptableOptions = <IAcceptableOptions> {
+  timeout: true,
+  throws: true,
+  cb: true,
+  plan: true,
+  fatal: true,
+  skip: true,
+  __preParsed: true
+};
+
+const handleBadOptions = function (opts: IBeforeEachOpts) {
+
+  Object.keys(opts).forEach(function (k) {
+    if (!acceptableOptions[k]) {
+      const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
+      throw new Error(`'${k}' is not a valid option property for an ${typeName} hook. See: ${url}`);
+    }
+  });
+
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
     console.error(' => Suman usage error => "plan" option is not an integer.');
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
     return;
   }
-};
-
-let acceptableOptions = {
-  timeout: true,
-  throws: true,
-  cb: true
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -72,10 +85,11 @@ export const makeBeforeEach = function (suman: ISuman, zuite: ITestSuite): IBefo
       suman.numHooksStubbed++;
     }
     else {
-      zuite.getBeforeEaches().push({  //TODO: add timeout option
+
+      zuite.getBeforeEaches().push({
         ctx: zuite,
         timeout: opts.timeout || 11000,
-        desc: desc || fn.name || '(unknown beforeEach-hook name)',
+        desc: desc || fn.name || '(unknown before-each-hook name)',
         fn: fn,
         throws: opts.throws,
         planCountExpected: opts.plan,

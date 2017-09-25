@@ -3,7 +3,6 @@
 //dts
 import {IGlobalSumanObj, ISumanConfig, SumanErrorRace} from "suman-types/dts/global";
 import EventEmitter = NodeJS.EventEmitter;
-import {ISuman} from "suman-types/dts/suman";
 import {IStartCreate, IIoCData, IInit, IInitOpts} from "suman-types/dts/index-init"
 import {Stream, Transform, Writable} from "stream";
 import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
@@ -39,6 +38,7 @@ import stream = require('stream');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
 import async = require('async');
+
 const pragmatik = require('pragmatik');
 
 //project
@@ -48,6 +48,7 @@ _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
 import {getClient} from './index-helpers/socketio-child-client';
+
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
 const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
@@ -153,7 +154,7 @@ const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Fun
   // important! => Test.creates need to be registered only one at a time
   testSuiteRegistrationQueueCallbacks.unshift(cb);
   process.nextTick(task);
-}, 1);
+}, c);
 
 testSuiteRegistrationQueue.drain = function () {
   testRuns.forEach(function (fn) {

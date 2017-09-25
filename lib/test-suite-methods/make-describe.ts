@@ -1,8 +1,8 @@
 'use strict';
 
 //dts
-import {ITestSuite} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
+import {ITestSuite, IAcceptableOptions} from "suman-types/dts/test-suite";
+import {ISuman, Suman} from "../suman";
 import {TTestSuiteMaker} from "suman-types/dts/test-suite-maker";
 import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
@@ -44,9 +44,21 @@ import evalOptions from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////
 
+const typeName = 'describe';
+const acceptableOptions = <IAcceptableOptions> {
+  skip: true,
+  only: true,
+  delay: true,
+  __preParsed: true
+};
+
 const handleBadOptions = function (opts: IDescribeOpts) {
-  // TODO
-  return;
+  Object.keys(opts).forEach(function (k) {
+    if (!acceptableOptions[k]) {
+      const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
+      throw new Error(`'${k}' is not a valid option property for an ${typeName} hook. See: ${url}`);
+    }
+  });
 };
 
 ///////////////////////////////////////////////////////////////////////
@@ -69,7 +81,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     const vetted = parseArgs(args);
     const [desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-
     handleBadOptions(opts);
 
     if (arrayDeps.length > 0) {
@@ -125,7 +136,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       suite.skipped = suite.skippedDueToDescribeOnly = true;
     }
 
-    if(suite.only){
+    if (suite.only) {
       suman.describeOnlyIsTriggered = true;
     }
 
@@ -149,7 +160,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
       d.once('error', function blockRegistrationErrorHandler(err: IPseudoError) {
         console.error('\n');
-        if(!err || typeof err !== 'object'){
+        if (!err || typeof err !== 'object') {
           err = new Error(err ? (typeof err === 'string' ? err : util.inspect(err)) : 'unknown error passed to handler');
         }
         _suman.logError('Error registering test block =>', err.stack || err);

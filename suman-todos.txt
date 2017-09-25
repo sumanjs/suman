@@ -10,6 +10,11 @@ three SO profiles:
 
 ///
 
+// after always may not be run in the right order
+async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
+
+///
+
  => chai 4.0.2 works.
 
 ///

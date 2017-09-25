@@ -5,20 +5,20 @@ const Test = suman.init(module);
 
 Test.create(function (it, beforeEach, describe, assert, after) {
 
-  beforeEach(h => {
+  beforeEach('<assert stuff>',h => {
     h.assert('i', 'melon');
     h.assert.equal(true, true, 'moo');
   });
 
-  it('glue', t => {
-
+  it.cb('glue', t => {
+    setTimeout(t, 100);
   });
 
   Number(1).times(() => {
 
-    this.describe('inner', function () {
+    describe('inner', function () {
 
-      it.only('makes good', t => {
+      it('makes good', t => {
         t.assert(true, 'fudge.');
         t.assert.equal(true, true, 'damn');
       });
@@ -27,13 +27,13 @@ Test.create(function (it, beforeEach, describe, assert, after) {
 
   });
 
-  after.always.skip.last.always.last.last.last(h => {
-    console.log('after always last');
-  });
-
-  after.skip(h => {
-    console.log('after after');
-  });
+  // after.always.skip.last(h => {
+  //   console.log('after always last');
+  // });
+  //
+  // after.skip(h => {
+  //   console.log('after after');
+  // });
 
 });
 

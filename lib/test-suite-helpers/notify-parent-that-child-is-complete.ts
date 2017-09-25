@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman, Suman} from "../suman";
 import {IOnceHookObj, ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 
@@ -22,26 +22,28 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
 
   return function notifyParentThatChildIsComplete(parent: ITestSuite, child: ITestSuite, cb: Function) {
 
-    let lastChild = parent.getChildren()[parent.getChildren().length - 1];
+    let children = parent.getChildren();
+    let lastIndex = children.length = 1;
+    let lastChild = children[lastIndex];
 
-    if (lastChild === child) {
-      async.mapSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
-          handleBeforesAndAfters(child, aBeforeOrAfter, cb);
-        },
-        function complete(err: IPseudoError, results: Array<IPseudoError>) {
-          implementationError(err);
-          gracefulExit(results, function () {
-            if (parent.parent) {
-              notifyParentThatChildIsComplete(parent.parent, parent, cb);
-            } else {
-              process.nextTick(cb);
-            }
-          });
+    if (lastChild !== child) {
+      return process.nextTick(cb);
+    }
+
+    // formerly mapSeries
+    async.eachSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
+        handleBeforesAndAfters(child, aBeforeOrAfter, cb);
+      },
+      function complete(err: IPseudoError, results: Array<IPseudoError>) {
+        implementationError(err);
+        gracefulExit(results, function () {
+          if (parent.parent) {
+            notifyParentThatChildIsComplete(parent.parent, parent, cb);
+          } else {
+            process.nextTick(cb);
+          }
         });
-    }
-    else {
-      process.nextTick(cb);
-    }
+      });
 
   }
 };

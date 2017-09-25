@@ -2,7 +2,7 @@
 
 //dts
 import {ITestSuite} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman, Suman} from "../suman";
 import {IPseudoError} from "suman-types/dts/global";
 import {IItOpts, ITestDataObj} from "suman-types/dts/it";
 import {IBeforeEachObj} from "suman-types/dts/before-each";
@@ -25,7 +25,6 @@ const {makeHandleTestResults} = require('./handle-test-result');
 const {makeHandleTest} = require('./make-handle-test');
 const {getAllAfterEaches, getAllBeforesEaches} = require('./get-all-eaches');
 import {makeHandleBeforeOrAfterEach} from './make-handle-each';
-
 const implementationError = require('../helpers/implementation-error');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -114,7 +113,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
             }
           ],
           function doneWithTests(err: IPseudoError, results: Array<any>) {
-            err && console.error(' => Suman implementation error => the following error should not be present => ', err);
+            err && console.error('Suman implementation error => the following error should not be present => ', err);
             cb(null, results);
           });
 

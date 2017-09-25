@@ -106,7 +106,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
       const {sumanOpts} = _suman;
 
-      if(sumanOpts.debug_hooks){
+      if (sumanOpts.debug_hooks) {
         _suman.log(`now running all hook with name '${chalk.yellow(aBeforeOrAfter.desc)}'.`);
       }
 
@@ -123,8 +123,9 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
         const isGeneratorFn = su.isGeneratorFn(aBeforeOrAfter.fn);
 
-        const timeout =function (val: number) {
+        const timeout = function (val: number) {
           clearTimeout(timerObj.timer);
+          assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
         };
 

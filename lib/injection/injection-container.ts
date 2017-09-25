@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman} from "../suman";
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
@@ -51,9 +51,9 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
         let cache, cacheId = newProps.join('-');
 
-        if (cache = suman.testBlockMethodCache[cacheId]) {
-          return cache;
-        }
+        // if (cache = suman.testBlockMethodCache[cacheId]) {
+        //   return cache;
+        // }
 
         let fn = function () {
 
@@ -78,7 +78,7 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
           args[1].__preParsed = true;
 
-          let getter = 'get' + method;
+          let getter = `get_${method}`;
           return suman.ctx[getter]().apply(suman.ctx, args);
         };
 

@@ -1,7 +1,9 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ITestSuite} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
+import {ITestSuite, IAcceptableOptions} from "suman-types/dts/test-suite";
+import {ISuman, Suman} from "../suman";
 import {IAfterEachFn, IAfterEachOpts, TAfterEachHook} from "suman-types/dts/after-each";
 
 //polyfills
@@ -22,24 +24,43 @@ const {handleSetupComplete} = require('../handle-setup-complete');
 import evalOptions from '../helpers/eval-options';
 import parseArgs from '../helpers/parse-pragmatik-args';
 
-///////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+const typeName = 'after-each';
+const acceptableOptions = <IAcceptableOptions> {
+  plan: true,
+  throws: true,
+  fatal: true,
+  cb: true,
+  timeout: true,
+  skip: true,
+  __preParsed: true
+};
 
 const handleBadOptions = function (opts: IAfterEachOpts): void {
+
+  Object.keys(opts).forEach(function (k) {
+    if (!acceptableOptions[k]) {
+      const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
+      throw new Error(`'${k}' is not a valid option property for an ${typeName} hook. See: ${url}`);
+    }
+  });
+
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
-    console.error(' => Suman usage error => "plan" option is not an integer.');
+    _suman.logError(new Error(' => Suman usage error => "plan" option is not an integer.').stack);
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
     return;
   }
 };
 
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 
 export const makeAfterEach = function (suman: ISuman, zuite: ITestSuite): IAfterEachFn {
 
   return function ($$desc: string, $opts: IAfterEachOpts): ITestSuite {
 
-    handleSetupComplete(zuite, 'afterEach');
+    handleSetupComplete(zuite, typeName);
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null

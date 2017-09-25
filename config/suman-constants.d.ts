@@ -1,5 +1,6 @@
 export declare const constants: Readonly<{
     SUMAN_ISSUE_TRACKER_URL: string;
+    SUMAN_TYPES_ROOT_URL: string;
     DEFAULT_TRANSFORM_CONCURRENCY: number;
     DEFAULT_PARALLEL_TOTAL_LIMIT: number;
     DEFAULT_PARALLEL_TEST_LIMIT: number;

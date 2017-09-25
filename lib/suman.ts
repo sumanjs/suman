@@ -47,6 +47,7 @@ let sumanId = 0;
 
 export class Suman {
 
+  ctx?: ITestSuite;
   interface: string;
   $inject: Object;
   testBlockMethodCache: Object;
@@ -65,6 +66,11 @@ export class Suman {
   rootSuiteDescription: string;
   dateSuiteFinished: number;
   dateSuiteStarted: number;
+  filename: string;
+  itOnlyIsTriggered: boolean;
+  extraArgs: Array<string>;
+  sumanCompleted: boolean;
+  desc: string;
 
   ////////////////////////////////////
 
@@ -330,6 +336,9 @@ export class Suman {
 
   }
 }
+
+// alias
+export type ISuman = Suman;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 

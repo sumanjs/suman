@@ -6,7 +6,7 @@ import {
 } from "suman-types/dts/test-suite";
 
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman, Suman} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -28,7 +28,7 @@ import {IAFterEachObj} from "suman-types/dts/after-each";
 
 ////////////////////////////////////////////////////////////////////////////
 
-export default class TestSuiteBase {
+export class TestSuiteBase {
 
   // public
   opts: Object;

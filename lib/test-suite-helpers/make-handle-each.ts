@@ -116,7 +116,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       const {sumanOpts} = _suman;
 
       if (sumanOpts.debug_hooks) {
-        _suman.log(`now running each hook with name '${chalk.yellow(aBeforeOrAfterEach.desc)}',` +
+        _suman.log(`now running each hook with name '${chalk.yellow.bold(aBeforeOrAfterEach.desc)}', ` +
           `for test case with name '${chalk.magenta(test.desc)}'.`);
       }
 
@@ -134,6 +134,8 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         //TODO: need to implement all assert methods
 
         const timeout = function (val: number) {
+          clearTimeout(timerObj.timer);
+          assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 500000 : val);
         };
 

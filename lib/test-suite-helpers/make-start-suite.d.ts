@@ -1,2 +1,1 @@
-import { ISuman } from "suman-types/dts/suman";
-export declare const makeStartSuite: (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function, notifyParentThatChildIsComplete: Function) => (finished: Function) => void;
+export declare const makeStartSuite: (suman: any, gracefulExit: Function, handleBeforesAndAfters: Function, notifyParentThatChildIsComplete: Function) => (finished: Function) => void;

@@ -1,9 +1,10 @@
 'use strict';
 
 //dts
-import {IHandleError, ITestDataObj, ITestSuite} from "suman-types/dts/test-suite";
+import {IHandleError, ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanDomain, ISumanTestCaseDomain} from "suman-types/dts/global";
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman} from "../suman";
+import {ITestDataObj} from "suman-types/dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -29,6 +30,8 @@ const helpers = require('./handle-promise-generator');
 import {cloneError} from '../misc/clone-error';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
+
+
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +136,9 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         const isGeneratorFn = su.isGeneratorFn(test.fn);
 
         let timeout = function (val: number) {
-          timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 500000 : val);
+          clearTimeout(timerObj.timer);
+          assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
+          timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
         };
 
         const $throw = function (str: any) {

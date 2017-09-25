@@ -5,6 +5,7 @@ import * as chalk from 'chalk';
 export const constants = Object.freeze({
 
   SUMAN_ISSUE_TRACKER_URL: 'https://github.com/sumanjs/suman/issues',
+  SUMAN_TYPES_ROOT_URL: 'https://github.com/sumanjs/suman-types/blob/master/dts',
 
   DEFAULT_TRANSFORM_CONCURRENCY: 3,
   DEFAULT_PARALLEL_TOTAL_LIMIT: 30,

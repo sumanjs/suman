@@ -2,8 +2,8 @@
 
 //dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ITestSuite} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
+import {ITestSuite, IAcceptableOptions} from "suman-types/dts/test-suite";
+import {ISuman, Suman} from "../suman";
 import {IAfterFn, IAfterObj, IAfterOpts} from "suman-types/dts/after";
 
 //polyfills
@@ -26,7 +26,27 @@ import parseArgs from '../helpers/parse-pragmatik-args';
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+const typeName = 'after';
+const acceptableOptions = <IAcceptableOptions> {
+  plan: true,
+  throws: true,
+  fatal: true,
+  cb: true,
+  timeout: true,
+  skip: true,
+  always: true,
+  last: true,
+  __preParsed: true
+};
+
 const handleBadOptions = function (opts: IAfterOpts): void {
+
+  Object.keys(opts).forEach(function (k) {
+    if (!acceptableOptions[k]) {
+      const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
+      throw new Error(`'${k}' is not a valid option property for an ${typeName} hook. See: ${url}`);
+    }
+  });
 
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
     console.error(' => Suman usage error => "plan" option is not an integer.');
@@ -41,13 +61,12 @@ export const makeAfter = function (suman: ISuman, zuite: ITestSuite): IAfterFn {
 
   return function ($desc: string, $opts: IAfterOpts): ITestSuite {
 
-    handleSetupComplete(zuite, 'after');
+    handleSetupComplete(zuite, typeName);
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
-    // this transpiles much more nicely, rather than inlining it above
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;

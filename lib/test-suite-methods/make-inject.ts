@@ -2,9 +2,9 @@
 
 //dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {IInjectOpts} from "suman-types/dts/inject";
-import {IAllOpts, ITestSuite} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
+import {IInjectOpts, IInjectFn} from "suman-types/dts/inject";
+import {IAllOpts, ITestSuite, IAcceptableOptions} from "suman-types/dts/test-suite";
+import {ISuman, Suman} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -26,21 +26,45 @@ import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import evalOptions from '../helpers/eval-options';
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
 
+///////////////////////////////////////////////////////////////////////////////////////
+
+const typeName = 'inject';
+const acceptableOptions = <IAcceptableOptions> {
+  plan: true,
+  throws: true,
+  fatal: true,
+  cb: true,
+  timeout: true,
+  skip: true,
+  __preParsed: true
+};
 
 const handleBadOptions = function (opts: IInjectOpts) {
-  //TODO
+
+  Object.keys(opts).forEach(function (k) {
+    if (!acceptableOptions[k]) {
+      const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
+      throw new Error(`'${k}' is not a valid option property for an ${typeName} hook. See: ${url}`);
+    }
+  });
+
+  if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
+    _suman.logError(new Error('Suman usage error => "plan" option is not an integer.').stack);
+    process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
+    return;
+  }
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-export const makeInject = function (suman: ISuman, zuite: ITestSuite): Function {
+export const makeInject = function (suman: ISuman, zuite: ITestSuite): IInjectFn {
 
   return function ($desc: string, $opts: IInjectOpts, $fn: Function) {
 
@@ -55,7 +79,7 @@ export const makeInject = function (suman: ISuman, zuite: ITestSuite): Function 
     handleBadOptions(opts);
 
     if (arr && fn) {
-      throw new Error(' => Please define either an array or callback.');
+      throw new Error('Please use either an array or function, but not both.');
     }
 
     let arrayDeps: Array<IAllOpts>;
@@ -73,18 +97,18 @@ export const makeInject = function (suman: ISuman, zuite: ITestSuite): Function 
     arrayDeps = arrayDeps || [];
 
     if (arrayDeps.length > 0) {
-      evalOptions(arrayDeps,opts);
+      evalOptions(arrayDeps, opts);
     }
 
     if (opts.skip) {
-      _suman.writeTestError(' => Warning => Inject hook was skipped.')
+      _suman.writeTestError(new Error('Suman usage warning => Inject hook was *skipped* by the developer.').stack);
     }
     else if (!fn) {
-      _suman.writeTestError(' => Warning => Inject hook was stubbed.')
+      _suman.writeTestError(new Error('Suman usage warning => Inject hook was *stubbed* by the developer.').stack);
     }
     else {
 
-      zuite.getInjections().push({  //TODO: add timeout option
+      zuite.getInjections().push({
         ctx: zuite,
         desc: desc || fn.name || '(unknonw inject-hook name)',
         timeout: opts.timeout || 11000,
@@ -93,8 +117,7 @@ export const makeInject = function (suman: ISuman, zuite: ITestSuite): Function 
         planCountExpected: opts.plan,
         fatal: !(opts.fatal === false),
         fn: fn,
-        timeOutError: new Error('*timed out* - did you forget to call done/ctn/fatal()?'),
-        type: 'inject',
+        type: typeName,
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')
       });
     }
@@ -102,6 +125,5 @@ export const makeInject = function (suman: ISuman, zuite: ITestSuite): Function 
     return zuite;
 
   };
-
 
 };

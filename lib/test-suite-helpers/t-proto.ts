@@ -52,7 +52,7 @@ proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
   }
 };
 
-proto.log = function _log() {  //TODO: update this
+proto.log = function() {
   _suman._writeLog.apply(null, arguments);
 };
 

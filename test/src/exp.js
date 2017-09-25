@@ -13,6 +13,10 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
 
   it('should pass');
 
+  after.always.last(h => {
+      console.log('after always last');
+  });
+
   before('merry', [{fatal:false}, t => {
     throw new Error('marf is not a marf');
   }]);
@@ -65,7 +69,7 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
 
   describe('pajamas', function () {
 
-    this.describe.skip('rudolph',function(){
+    this.describe('rudolph',function(){
        this.it('is cool', t => {
 
        });
