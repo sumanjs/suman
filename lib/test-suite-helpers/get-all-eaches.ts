@@ -3,7 +3,7 @@
 //dts
 import {ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman, Suman} from "../suman";
 import {IBeforeEachObj} from "suman-types/dts/before-each";
 import {IAFterEachObj} from "suman-types/dts/after-each";
 
@@ -80,8 +80,6 @@ export const getAllAfterEaches = function (zuite: ITestSuite) {
   return _.flatten(afterEaches);
 };
 
-const $exports = module.exports;
-export default $exports;
 
 
 

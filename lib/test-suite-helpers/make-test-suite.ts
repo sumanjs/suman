@@ -67,24 +67,17 @@ export const makeTestSuiteMaker
   const allDescribeBlocks = suman.allDescribeBlocks;
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
   const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
-  const notifyParentThatChildIsComplete = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
+  // notify parent that child is complete
+  const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
 
   return function TestSuiteMaker(data: ITestSuiteMakerOpts): ITestSuite {
 
-    const TestSuite: ITestSuiteConstructor = function (obj: ITestSuiteMakerOpts): void {   // this fn is a constructor
+    const TestSuite: ITestSuiteConstructor = function (obj: ITestSuiteMakerOpts) {
 
       this.interface = suman.interface;
       this.desc = this.title = obj.desc;
-
-      this.timeout = function () {
-        console.error(' => this.timeout is not implemented yet.');
-      };
-
-      this.slow = function () {
-        console.error(' => this.slow is not implemented yet.');
-      };
-
       const zuite = this;
+      const ctx = this;
 
       this.resume = function () {
         const args = Array.from(arguments);
@@ -93,7 +86,7 @@ export const makeTestSuiteMaker
         });
       };
 
-      ////////////////////////////////////////////////////////////////////////////
+      /////////////////////////////////////////////////////////////////////////////////////////
 
       const inject: IInjectFn = makeInject(suman, zuite);
       const before: IBeforeFn = makeBefore(suman, zuite);
@@ -101,13 +94,10 @@ export const makeTestSuiteMaker
       const beforeEach: IBeforeEachFn = makeBeforeEach(suman, zuite);
       const afterEach: IAfterEachFn = makeAfterEach(suman, zuite);
       const it: ItFn = makeIt(suman, zuite);
-      const describe: IDescribeFn
-        = makeDescribe(suman, gracefulExit, TestSuiteMaker, zuite, notifyParentThatChildIsComplete, blockInjector);
       const afterAllParentHooks = makeAfterAllParentHooks(suman, zuite);
+      const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestSuiteMaker, zuite, notifyParent, blockInjector);
 
-      ////////////////////////////////////////////////////////////////////////////
-
-      const ctx = this;
+      /////////////////////////////////////////////////////////////////////////////////////////
 
       const getProxy = function (method: Function, rule: Object, props?: Array<string>): Function {
 
@@ -131,7 +121,9 @@ export const makeTestSuiteMaker
               }
               // we use this filter to get a unique list
               return a.indexOf(v) === i;
-            });
+            })
+            // sort the properties alphabetically so that we need to use fewer number of caches
+            .sort();
 
             if (hasSkip) {
               newProps = ['skip'];
@@ -239,12 +231,10 @@ export const makeTestSuiteMaker
       return this;
     };
 
-    TestSuite.prototype.__startSuite = makeStartSuite(suman, gracefulExit,
-      handleBeforesAndAfters, notifyParentThatChildIsComplete);
+    TestSuite.prototype.__startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
 
     // freezeExistingProps(TestSuite.prototype);
     // return freezeExistingProps(new TestSuite(data));
-
     return new TestSuite(data);
 
   };

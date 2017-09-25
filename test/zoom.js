@@ -34,7 +34,7 @@ Test.create(function (it, beforeEach, describe, assert, after) {
             t.assert(true, 'fudge.');
             t.assert.equal(true, false, 'shazam');
             t.done();
-          }, 100);
+          }, 30);
 
         });
 
