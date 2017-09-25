@@ -1,7 +1,10 @@
 'use strict';
-import {ITestSuite} from "../../dts/test-suite";
-import {ISuman} from "../../dts/suman";
-import {IAfterFn, IAfterObj, IAfterOpts} from "../../dts/after";
+
+//dts
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {ISuman, Suman} from "../suman";
+import {IAfterFn, IAfterObj, IAfterOpts} from "suman-types/dts/after";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -13,7 +16,7 @@ import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
@@ -22,14 +25,14 @@ import parseArgs from '../helpers/parse-pragmatik-args';
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-function handleBadOptions(opts: IAfterOpts): void {
+const handleBadOptions = function (opts: IAfterOpts): void {
 
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
     console.error(' => Suman usage error => "plan" option is not an integer.');
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
     return;
   }
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -61,7 +64,7 @@ export const makeAfterAllParentHooks = function (suman: ISuman, zuite: ITestSuit
     }
     else {
 
-      let obj: IAfterObj = {
+      zuite.getAfterAllParentHooks().push({
         ctx: zuite,
         timeout: opts.timeout || 11000,
         desc: desc || fn.name,
@@ -72,11 +75,9 @@ export const makeAfterAllParentHooks = function (suman: ISuman, zuite: ITestSuit
         planCountExpected: opts.plan,
         fatal: !(opts.fatal === false),
         fn: fn,
-        type: 'after/teardown',
+        type: 'afterAllParentHooks',
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')
-      };
-
-      zuite.getAfterAllParentHooks().push(obj);
+      });
 
     }
 

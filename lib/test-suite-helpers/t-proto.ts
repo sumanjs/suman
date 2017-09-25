@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
+import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -15,20 +15,18 @@ import chai = require('chai');
 import {freezeExistingProps} from 'freeze-existing-props';
 
 //project
-const _suman :IGlobalSumanObj = global.__suman = (global.__suman || {});
-
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 /////////////////////////////////////////////////////////////////////////////////
 
 const $proto = Object.create(Function.prototype);
 const proto = Object.create(Object.assign($proto, EE.prototype));
 
-
-proto.skip = function(){
-  throw new Error('Dynamic skip functionality is not supported by Suman.');
+proto.skip = function () {
+  throw new Error('Dynamic skip functionality is not supported by Suman, yet.');
 };
 
-proto.wrap = function _wrap(fn: Function) {
+proto.wrap = function (fn: Function) {
   const self = this;
   return function () {
     try {
@@ -54,15 +52,13 @@ proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
   }
 };
 
-
-proto.log = function _log() {  //TODO: update this
+proto.log = function() {
   _suman._writeLog.apply(null, arguments);
 };
 
-proto.slow = function _slow() {
+proto.slow = function () {
   this.timeout(20000);
 };
-
 
 export const tProto = freezeExistingProps(proto);
 

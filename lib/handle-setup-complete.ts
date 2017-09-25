@@ -9,7 +9,7 @@ import util = require('util');
 
 //npm
 import * as chalk from 'chalk';
-import {IGlobalSumanObj} from "../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

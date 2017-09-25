@@ -2,6 +2,8 @@
 
 ///////////////////////////////////////////////////////////////////
 
+import {IGlobalSumanObj} from "./dts/global";
+
 debugger;  //leave here forever so users can easily debug with "node --inspect" or "node debug"
 
 ///////////////////////////////////////////////////////////////////
@@ -124,7 +126,7 @@ const {events} = require('suman-events');
 const debug = require('suman-debug')('s:cli');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
 import {loadReporters} from './lib/helpers/load-reporters';
@@ -152,8 +154,7 @@ _suman.log('Node.js version:', nodeVersion);
 
 ////////////////////////////////////////////////////////////////////
 
-const sumanLibRoot = _suman.sumanLibRoot = __dirname;
-
+const sumanLibRoot = _suman.sumanLibRoot = String(__dirname);
 const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
 _suman.log(chalk.yellow.italic('Suman v' + sumanVersion + ' running...'));
@@ -258,6 +259,12 @@ const postinstall = sumanOpts.postinstall;
 const tscMultiWatch = sumanOpts.tsc_multi_watch;
 const sumanD = sumanOpts.suman_d;
 const watchPer = sumanOpts.watch_per;
+const singleProcess = sumanOpts.single_process;
+
+if(singleProcess){
+  process.env.SUMAN_SINGLE_PROCESS = 'yes';
+}
+
 if (sumanOpts.user_args) {
   _suman.log(chalk.magenta('raw user_args is'), sumanOpts.user_args);
 }

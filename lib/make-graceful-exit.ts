@@ -11,11 +11,10 @@ import EE = require('events');
 //npm
 import async = require('async');
 import * as chalk from 'chalk';
-import {ISuman} from "../dts/suman";
-
+import {ISuman} from "suman-types/dts/suman";
 const flattenDeep = require('lodash.flattendeep');
 import su = require('suman-utils');
-import {IGlobalSumanObj, IPseudoError} from "../dts/global";
+import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

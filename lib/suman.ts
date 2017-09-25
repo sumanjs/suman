@@ -1,7 +1,11 @@
 'use strict';
-import {ITestSuite} from "../dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "../dts/global";
-import {ITableData} from "../dts/table-data";
+
+//dts
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "suman-types/dts/global";
+import {ITableData} from "suman-types/dts/table-data";
+import {ISumanInputs} from "suman-types/dts/suman";
+import {ISuman, ITableDataCallbackObj, ISumanServerInfo} from "suman-types/dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -25,38 +29,29 @@ import async = require('async');
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 import su from 'suman-utils';
+
 const McProxy = require('proxy-mcproxy');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {findSumanServer, ISumanServerInfo} from './helpers/find-suman-server';
-import {ITestDataObj} from "../dts/it";
+import {findSumanServer} from './helpers/find-suman-server';
+import {ITestDataObj} from "suman-types/dts/it";
 import {constants} from '../config/suman-constants';
+
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
 
 //////////////////////////////////////////////////////////////////////////////
 
-export interface ITableDataCallbackObj {
-  exitCode: number,
-  tableData: Object
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 let sumanId = 0;
 
-interface ISumanInputs {
-  interface: string,
-  fileName: string,
-  timestamp: number,
-  usingLiveSumanServer: boolean
-  server: ISumanServerInfo
-}
+export class Suman {
 
-class Suman {
-
+  ctx?: ITestSuite;
   interface: string;
+  $inject: Object;
+  testBlockMethodCache: Object;
+  iocData: Object;
   fileName: string;
   slicedFileName: string;
   timestamp: number;
@@ -71,7 +66,11 @@ class Suman {
   rootSuiteDescription: string;
   dateSuiteFinished: number;
   dateSuiteStarted: number;
-  $inject: Object;
+  filename: string;
+  itOnlyIsTriggered: boolean;
+  extraArgs: Array<string>;
+  sumanCompleted: boolean;
+  desc: string;
 
   ////////////////////////////////////
 
@@ -88,6 +87,7 @@ class Suman {
 
     // initialize
     this.$inject = McProxy.create();
+    this.testBlockMethodCache = {};
     this.allDescribeBlocks = [];
     this.describeOnlyIsTriggered = false;
     this.deps = null;
@@ -97,7 +97,7 @@ class Suman {
   }
 
   getTableData() {
-    throw new Error('Suman => not yet implemente')
+    throw new Error('Suman implementation error => not yet implemented.')
   }
 
   logFinished($exitCode: number, skippedString: string, cb: Function) {
@@ -107,7 +107,6 @@ class Suman {
     };
 
     let exitCode = $exitCode || 999; //in case of future fall through
-
     const desc = this.rootSuiteDescription;
     const suiteName = desc.length > 50 ? '...' + desc.substring(desc.length - 50, desc.length) : desc;
     const suiteNameShortened = desc.length > 15 ? desc.substring(0, 12) + '...' : desc;
@@ -338,10 +337,13 @@ class Suman {
   }
 }
 
+// alias
+export type ISuman = Suman;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeSuman = function ($module: NodeModule, _interface: string,
-                                   shouldCreateResultsDir: boolean, config: ISumanConfig, cb: Function) {
+                                   shouldCreateResultsDir: boolean, config: ISumanConfig) {
 
   let liveSumanServer = false;
 
@@ -380,16 +382,12 @@ export const makeSuman = function ($module: NodeModule, _interface: string,
     _suman.logError(err.stack || err);
   }
 
-  setImmediate(function () {
-
-    cb(null, new Suman({
-      fileName: path.resolve($module.filename),
-      usingLiveSumanServer: liveSumanServer,
-      server,
-      timestamp,
-      interface: _interface
-    }));
-
+  return new Suman({
+    fileName: path.resolve($module.filename),
+    usingLiveSumanServer: liveSumanServer,
+    server,
+    timestamp,
+    interface: _interface
   });
 
 };

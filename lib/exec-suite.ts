@@ -1,11 +1,11 @@
 'use strict';
 
 //dts
-import {ITestSuite} from "../dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../dts/global";
-import {ISuman} from "../dts/suman";
-import {ICreateOpts, TCreateHook} from "../dts/index-init";
-import {IInjectionDeps} from "../dts/injection";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
+import {ISuman, Suman} from "./suman";
+import {ICreateOpts, TCreateHook} from "suman-types/dts/index-init";
+import {IInjectionDeps} from "suman-types/dts/injection";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -23,6 +23,7 @@ import util = require('util');
 import {VamootProxy} from 'vamoot';
 import * as chalk from 'chalk';
 import * as async from 'async';
+
 const _ = require('underscore');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
@@ -35,6 +36,7 @@ import su from 'suman-utils';
 import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
 import {makeBlockInjector} from './injection/make-block-injector';
+import {makeInjectionContainer} from './injection/injection-container';
 import {makeTestSuiteMaker} from './test-suite-helpers/make-test-suite';
 
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
@@ -52,12 +54,13 @@ export const execSuite = function (suman: ISuman): Function {
 
   // we set this so that after.always hooks can run
   _suman.whichSuman = suman;
-  const onSumanCompleted = makeOnSumanCompleted(suman);
-  const blockInjector = makeBlockInjector(suman);
   suman.dateSuiteStarted = Date.now();
+  const onSumanCompleted = makeOnSumanCompleted(suman);
+  const container = makeInjectionContainer(suman);
+  const blockInjector = makeBlockInjector(suman, container);
   const allDescribeBlocks = suman.allDescribeBlocks;
   const gracefulExit = makeGracefulExit(suman);
-  const mTestSuite = makeTestSuiteMaker(suman, gracefulExit);
+  const mTestSuite = makeTestSuiteMaker(suman, gracefulExit, blockInjector);
 
   return function runRootSuite(): void {
 
@@ -159,7 +162,7 @@ export const execSuite = function (suman: ISuman): Function {
 
       });
 
-      d.run(function () {
+      d.run(function acquireIocDepsDomainRun() {
 
         acquireIocDeps(suman, deps, suite, function (err: IPseudoError, depz: IInjectionDeps) {
 
@@ -208,12 +211,12 @@ export const execSuite = function (suman: ISuman): Function {
 
           if (delayOptionElected) {
 
-            suite.__proto__.isDelayed = true;
+            Object.getPrototypeOf(suite).isDelayed = true;
 
             const to = setTimeout(function () {
               console.log('\n\n => Suman fatal error => suite.resume() function was not called within alloted time.');
               process.exit(constants.EXIT_CODES.DELAY_FUNCTION_TIMED_OUT);
-            }, _suman.weAreDebugging ? 500000 : 11000);
+            }, _suman.weAreDebugging ? 5000000 : 11000);
 
             if (_suman.sumanOpts.verbosity > 8) {
               console.log(' => Waiting for delay() function to be called...');
@@ -221,13 +224,13 @@ export const execSuite = function (suman: ISuman): Function {
 
             let callable = true;
 
-            suite.__proto__.__resume = function (val: any) {
+            Object.getPrototypeOf(suite).__resume = function (val: any) {
 
               if (callable) {
                 callable = false;
                 clearTimeout(to);
                 process.nextTick(function () {
-                  _suman.ctx = null; // no suite here; don't need to call __bindExtras here, because root suite has no parent
+                  suman.ctx = null; // no suite here; don't need to call __bindExtras here, because root suite has no parent
                   suite.__proto__.isSetupComplete = true; // keep this, needs be called asynchronously
                   //pass start function all the way through program until last child delay call is invoked!
                   suite.__invokeChildren(val, start);
@@ -282,7 +285,7 @@ export const execSuite = function (suman: ISuman): Function {
 
     }
 
-    function start() {
+    const start = function () {
 
       _suman.suiteResultEmitter.emit('suman-test-registered', function () {
 

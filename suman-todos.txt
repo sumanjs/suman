@@ -6,6 +6,77 @@ three SO profiles:
 
 ///
 
+ => wrapErrorFirst should also trap errors with try/catch just like wrap?
+
+///
+
+// after always may not be run in the right order
+async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
+
+///
+
+ => chai 4.0.2 works.
+
+///
+
+ _suman.ctx => suman.ctx ?
+
+///
+
+ _suman.whichSuman => needs to get fixed
+
+///
+
+ we should be able to create a test file with suman --create
+ and run the file, without running suman --init on a directory, see unnecessary error:
+
+ => Suman could *not* locate your <suman-helpers-dir>; perhaps you need to update your suman.conf.js file, please see: ***
+  => http://sumanjs.org/conf.html
+  => We expected to find your <suman-helpers-dir> here =>
+ /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-types/suman
+
+ => If there is NO SUMAN HELPERS DIR, flip a boolean, and just use all the default files.
+
+ // >>>>> or just run the test with node instead of suman?
+
+///
+
+ => describe.only / context.only does not work
+
+Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, describe) {
+
+  it.cb('second', t => {
+    setTimeout(t, 100);
+  });
+
+  describe.only('innner', function () {
+
+    it.cb('third', t => {
+      setTimeout(t, 100);
+    });
+  });
+
+  describe('outer', function () {
+
+    it.cb('fourth', t => {
+      setTimeout(t, 100);
+    });
+  });
+
+});
+
+
+///
+
+   ⚑  Suman fatal error  => making a graceful exit =>
+   TypeError: context.skip is not a function
+       at TestSuiteBase.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/simple.js:24:11)
+       at Domain.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/exec-suite.js:184:24)
+       at startWholeShebang (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/exec-suite.js:135:15)
+
+
+///
+
    [3]  ✘  => test fail   "get collection info based off duplicate users"
         Error: no success property on body => { status: 500,
         at /Users/alexamil/WebstormProjects/cisco/cdt-now/scripts/find-duplicate-users/js/get-cookies-with-selenium.js:80:16
@@ -13,6 +84,11 @@ three SO profiles:
 
   => if error message is multi-line, it gets removed...for example when we call "'no success property on body => ' + util.inspect(x) "
 
+
+///
+
+  in --series mode -> we should put currently executing test or hook in global space
+  especially for the browser.
 
 ///
 
@@ -33,7 +109,23 @@ The first option does not work with zsh due to a little bit different syntax.
 
 ///
 
+node test/src/exp.js | grep -v [[suman]]
+
+///
+
+ class Suman should implement ISuman?
+
+///
+
+ before hooks can be stubbed? => before('merry');
+
+///
+
  improve tables -> they should work on Jenkins, etc.
+
+///
+
+ enforceUniqueTestCaseNames:true
 
 ///
 
@@ -79,7 +171,8 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 ///
 
-run Test.creates suman.ioc.js files in parallel?
+ using suman.ctx instead of _suman.ctx would allow this
+ run Test.creates suman.ioc.js files in parallel?
 
 ///
 
@@ -111,7 +204,7 @@ run Test.creates suman.ioc.js files in parallel?
 
 ///
 
-"please report this on the Github issue..." => add a link to these instance in the codebase to sumanjs/suman#issues
+ "please report this on the Github issue..." => add a link to these instance in the codebase to sumanjs/suman#issues
 
 ///
 
@@ -119,7 +212,6 @@ run Test.creates suman.ioc.js files in parallel?
  to the runner, e.g.:
 
   => [suman child stderr] => ./suman/test/src/mocha/@run.sh: line 6: mocha: command not found
-
 
 ////
 
@@ -169,7 +261,7 @@ run Test.creates suman.ioc.js files in parallel?
 
 ////
 
-    give the user the option to run suman.once.pre.js and suman.once.post.js in child process ??
+   give the user the option to run suman.once.pre.js and suman.once.post.js in child process ??
 
 ////
 
@@ -184,11 +276,6 @@ run Test.creates suman.ioc.js files in parallel?
      at runChild (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:26:15)
      at TestSuiteMaker.TestSuite.__invokeChildren (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:205:19)
 
-
-////
-
-  create suman reporter stdin stream, can use any reporter
-  --reporter=x
 
 ////
 
@@ -214,9 +301,9 @@ run Test.creates suman.ioc.js files in parallel?
 
 ////
 
-put a "twitter like" button on the webpage
-Please Share on Twitter if you like #mockgoose
-Please Share on Twitter if you like #suman
+    put a "twitter like" button on the webpage
+    Please Share on Twitter if you like #mockgoose
+    Please Share on Twitter if you like #suman
 
 ////
 
@@ -230,7 +317,7 @@ Please Share on Twitter if you like #suman
 
 ////
 
-  need to create injection routine for suman.static.ioc.js, inject core and deps, at least.
+  create acceptable hook / test case options, if option is not real, give the user a warning
 
 ////
 
@@ -281,11 +368,11 @@ brew install sumanjs ?
 
 ////
 
-https://github.com/avajs/karma-ava
+ https://github.com/avajs/karma-ava
 
 ////
 
-include yaml "diagnostics" as part of TAP
+ include yaml "diagnostics" as part of TAP
 
 ////
 
@@ -429,7 +516,7 @@ writable.end('})');
 ////
 
   supports non-NPM projects (global installation)
-   => need to look for suman.conf.js and package.json, whichever comes first.
+    => need to look for suman.conf.js and package.json, whichever comes first.
 
 ////
 
@@ -471,16 +558,15 @@ https://askubuntu.com/questions/936040/edit-compose-key-in-system-preferences-ke
 
 //
 
-typeof
-https://stackoverflow.com/questions/44686446/generate-typescript-interface-from-const
+typeof https://stackoverflow.com/questions/44686446/generate-typescript-interface-from-const
 
 //
 
-brew cask install osxfuse
-brew install bindfs
+ brew cask install osxfuse
+ brew install bindfs
 
   bindfs
-https://apple.stackexchange.com/questions/97920/mount-folder-as-a-volume-osx
+  https://apple.stackexchange.com/questions/97920/mount-folder-as-a-volume-osx
 
 //
 
@@ -1120,11 +1206,6 @@ regexes get converted to objects...
 
 ///
 
-  give user option to attach assertion library to t.x() in hooks
-  => see scripts/bundle-chai.js
-
-///
-
  suman test/e2e/\@target/backend-user-roles.test.js --runner --inspect-children --inherit-stdio
 
 ///
@@ -1188,10 +1269,6 @@ skip running @transform.sh because "we have already transpiled.".
 
 ///
 
- how expensive is it to freeze properties?
-
-///
-
   ioc deps should be injected only at the root suite
   inject.cb() values should only be injected for non-root suites
 
@@ -1227,20 +1304,6 @@ EACCES: permission denied,
 ///
 
  npm set progress=false  => faster installs
-
-///
-
- add a force transpile option
-
-///
-
- add an --tsc-mult-watch option, which will programmatically invoke tscmultiwatch
-
-///
-
- add --transpile-all-files-first option, so that user can see if compilation/transpilation succeeded
-
-///
 
   source matching - find files to run
   run matching  - file types that are actually runnable
@@ -1289,23 +1352,6 @@ EACCES: permission denied,
 
 ///
 
-  reformat output table for runner.
-
-  SUITES =>           | total | skipped | TEST CASES =>
-
-  change SUITES => to "name"
-
-  remove total and skipped,
-
-  "TEST CASES" should become "cases"
-
-///
-
- => Suman "uncaughtException" event occurred =>
- Error: ENOENT: no such file or directory, open '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/lib/default-conf-files/suman.default.once.js'
-
-///
-
  change module.exports in suman.once.pre.js, suman.ioc.js to exports.default
 
 ///
@@ -1322,20 +1368,12 @@ EACCES: permission denied,
 
 ///
 
- if postinstall is daemon - always install babel deps, just do them last
-
-///
-
  for suman.conf.js =>
   => module.exports = {}, should become exports.default = {};
 
 ///
 
 after.always should complete before any suman.post hooks begin
-
-///
-
-node test/e2e/import.test.js --seed | grep -v " => \[suman\]"
 
 ///
 
@@ -1349,11 +1387,6 @@ nested data here in suman.once.pre.js =>
 
 
 https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript
-
-///
-
-intersection types - typescript
-https://www.typescriptlang.org/docs/handbook/advanced-types.html#intersection-types
 
 ///
 
@@ -1518,25 +1551,25 @@ Argument is *not* required at argument index = 2, but type was wrong
 
 ////
 
-the following output does not show which hook (we need a file and line number) caused the problem
+    the following output does not show which hook (we need a file and line number) caused the problem
 
- => Suman runner => there was a fatal test suite error - an error was encountered in your test code that prevents Suman
- from continuing with a particular test suite within the following path:
+     => Suman runner => there was a fatal test suite error - an error was encountered in your test code that prevents Suman
+     from continuing with a particular test suite within the following path:
 
- => /usr/local/cdt-tests/test/e2e/all/export.test.js
+     => /usr/local/cdt-tests/test/e2e/all/export.test.js
 
-(note that despite this fatal error, other test processes will continue running, as would be expected, use the --bail option, if you wish otherwise.)
+    (note that despite this fatal error, other test processes will continue running, as would be expected, use the --bail option, if you wish otherwise.)
 
 
-⚑  => Suman fatal error  => making a graceful exit =>
-Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? You may have forgotten to fire a callback or perhaps the timeout quantity is too short.
-   at TestSuiteBase.before (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-before.js:78:29)
-   at TestSuiteBase.<anonymous> (/usr/local/cdt-tests/test/e2e/all/export.test.js:73:3)
-   at Domain.<anonymous> (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:216:24)
-   at Domain.run (domain.js:221:14)
-   at startWholeShebang (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:169:15)
-   at _combinedTickCallback (internal/process/next_tick.js:77:11)
-   at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+    ⚑  => Suman fatal error  => making a graceful exit =>
+    Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? You may have forgotten to fire a callback or perhaps the timeout quantity is too short.
+       at TestSuiteBase.before (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-before.js:78:29)
+       at TestSuiteBase.<anonymous> (/usr/local/cdt-tests/test/e2e/all/export.test.js:73:3)
+       at Domain.<anonymous> (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:216:24)
+       at Domain.run (domain.js:221:14)
+       at startWholeShebang (/usr/local/cdt-tests/node_modules/suman/lib/exec-suite.js:169:15)
+       at _combinedTickCallback (internal/process/next_tick.js:77:11)
+       at process._tickDomainCallback (internal/process/next_tick.js:128:9)
 
 ////
 

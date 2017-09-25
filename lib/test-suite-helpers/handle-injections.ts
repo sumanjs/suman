@@ -1,6 +1,6 @@
 'use strict';
-import {IInjectionObj, ITestSuite} from "../../dts/test-suite";
-import {IPseudoError} from "../../dts/global";
+import {IInjectionObj, ITestSuite} from "suman-types/dts/test-suite";
+import {IPseudoError} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

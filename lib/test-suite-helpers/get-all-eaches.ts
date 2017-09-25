@@ -1,11 +1,11 @@
 'use strict';
 
 //dts
-import {ITestSuite} from "../../dts/test-suite";
-import {IGlobalSumanObj} from "../../dts/global";
-import {ISuman} from "../../dts/suman";
-import {IBeforeEachObj} from "../../dts/before-each";
-import {IAFterEachObj} from "../../dts/after-each";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ISuman} from "suman-types/dts/suman";
+import {IBeforeEachObj} from "suman-types/dts/before-each";
+import {IAFterEachObj} from "suman-types/dts/after-each";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -19,8 +19,6 @@ import assert = require('assert');
 //npm
 import * as _ from 'lodash';
 
-
-
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
@@ -31,7 +29,7 @@ export const getAllBeforesEaches = function (zuite: ITestSuite) {
   const beforeEaches: Array<Array<IBeforeEachObj>> = [];
   beforeEaches.unshift(zuite.getBeforeEaches());
 
-  if(!zuite.alreadyHandledAfterAllParentHooks){
+  if (!zuite.alreadyHandledAfterAllParentHooks) {
     zuite.alreadyHandledAfterAllParentHooks = true;
     beforeEaches.unshift(zuite.getAfterAllParentHooks());
   }
@@ -81,7 +79,6 @@ export const getAllAfterEaches = function (zuite: ITestSuite) {
 
   return _.flatten(afterEaches);
 };
-
 
 const $exports = module.exports;
 export default $exports;

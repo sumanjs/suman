@@ -1,10 +1,10 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj} from "../../dts/global";
-import {ITestSuite} from "../../dts/test-suite";
-import {ISuman} from "../../dts/suman";
-import {IInjectionDeps} from "../../dts/injection";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {ISuman} from "suman-types/dts/suman";
+import {IInjectionDeps} from "suman-types/dts/injection";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -28,8 +28,8 @@ const includes = require('lodash.includes');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
-import container from './injection-container';
 import {getCoreAndDeps} from './$core-n-$deps';
+
 const rules = require('../helpers/handle-varargs');
 import {getProjectModule, lastDitchRequire} from './helpers';
 
@@ -41,10 +41,11 @@ import {getProjectModule, lastDitchRequire} from './helpers';
 
  //////////////////////////////////////////////////////////////////////////////////////////*/
 
-export const makeBlockInjector = function (suman: ISuman) {
+export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
-  // => suman is unused, but just in case we need it, we will keep this functor pattern
   return function (suite: ITestSuite, parentSuite: ITestSuite, depsObj: IInjectionDeps): Array<any> {
+
+    const {sumanOpts} = _suman;
 
     return Object.keys(depsObj).map(key => {
 
@@ -63,9 +64,9 @@ export const makeBlockInjector = function (suman: ISuman) {
       switch (key) {
 
         case '$args':
-          return String(_suman.sumanOpts.user_args || '').split(/ +/).filter(i => i);
+          return String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
         case '$argsRaw':
-          return _suman.sumanOpts.user_args || '';
+          return sumanOpts.user_args || '';
         case '$ioc':
           return _suman.$staticIoc;
         case '$block':

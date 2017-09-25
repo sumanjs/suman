@@ -1,8 +1,8 @@
 'use strict';
 
 //typescript imports
-import {IGlobalSumanObj} from "../../dts/global";
-import {IIntegrantsMessage, ISumanModuleExtended} from "../../dts/index-init";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {IIntegrantsMessage, ISumanModuleExtended} from "suman-types/dts/index-init";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

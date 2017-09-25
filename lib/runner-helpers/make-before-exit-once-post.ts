@@ -1,5 +1,5 @@
 'use strict';
-import {IGlobalSumanObj} from "../../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -21,12 +21,11 @@ import * as _ from 'lodash';
 const {events} = require('suman-events');
 import * as fnArgs from 'function-arguments';
 import su from 'suman-utils';
-import {IRunnerObj} from "../../dts/runner";
+import {IRunnerObj} from "suman-types/dts/runner";
 import {IIntegrantHash, IOncePost, TOncePostKeys} from "../runner";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const callbackOrPromise = require('../callback-or-promise');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {makePostInjector} from '../injection/make-post-injector';
 import {acquirePostDeps} from '../acquire-dependencies/acquire-post-deps';

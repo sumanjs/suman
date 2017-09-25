@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IRunnerObj, ISumanChildProcess} from "../../dts/runner";
+import {IRunnerObj, ISumanChildProcess} from "suman-types/dts/runner";
 import {IIntegrantHash, TOncePostKeys} from "../runner";
 
 //polyfills

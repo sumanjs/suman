@@ -15,7 +15,7 @@ import util = require('util');
 const async = require('async');
 const flattenDeep = require('lodash.flattendeep');
 import * as chalk from 'chalk';
-import {IGlobalSumanObj, ISumanOpts} from "../../../dts/global";
+import {IGlobalSumanObj, ISumanOpts} from "suman-types/dts/global";
 
 const chmodr = require('chmodr');
 const semver = require('semver');

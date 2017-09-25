@@ -2,24 +2,31 @@
 
 const suman = require('suman');
 const Test = suman.init(module);
-// const Promise = require('bluebird');
 
-// Test.create(function (assert, it, before, afterEach, describe, after, beforeEach) {
 
-Test.create(function(it, before, beforeEach, describe, context){
+Test.create(function (it, before, beforeEach, describe, context, after) {
 
 
   // beforeEach.cb(h => {
   //   return Promise.delay(2000);
   // });
 
-  beforeEach.cb(h => {
-    console.log('before each');
-    setTimeout(h, 1000);
+  it('should pass');
+
+  after.always.last(h => {
+      console.log('after always last');
   });
 
-  it.cb('is normal', t => {
-    t.done();
+  before('merry', [{fatal:false}, t => {
+    throw new Error('marf is not a marf');
+  }]);
+
+  beforeEach.cb('alpha', h => {
+    setTimeout(h, 1);
+  });
+
+  it.cb('is normal xxx', ({done, ctn}) => {
+    ctn();
   });
 
   // after('ooooooo', function () {
@@ -30,16 +37,9 @@ Test.create(function(it, before, beforeEach, describe, context){
     t.done();
   });
 
-
   it.cb('is NOT skipped', t => {
     t.done();
   });
-
-
-  it.cb('is NOT skipped', t => {
-    t.done();
-  });
-
 
   it.cb('is NOT skipped', t => {
     t.done();
@@ -49,22 +49,50 @@ Test.create(function(it, before, beforeEach, describe, context){
     t.done();
   });
 
+  it.cb.skip('is NOT 222 skipped', t => {
+    t.done();
+  });
 
   it.cb('is NOT skipped', t => {
     t.done();
   });
+
   // after('xxxx', function (t) {
   //   console.log(`original thought ${t.desc}.`);
   // });
 
   it.cb('is stubbed 1');
 
-  describe('pajamas', function(){
+  describe.skip('foo', function(){
 
-    it.cb('is stubbed 2');
   });
 
+  describe('pajamas', function () {
 
+    this.describe('rudolph',function(){
+       this.it('is cool', t => {
+
+       });
+    });
+
+    it.cb.skip('is NOT 222 skipped', t => {
+      t.done();
+    });
+
+
+    beforeEach.cb('beta1', h => {
+      setTimeout(h, 10);
+    });
+
+    beforeEach.cb('beta2', h => {
+      setTimeout(h, 10);
+    });
+
+    it('is stubbed 2', t => {
+      return 3
+    });
+
+  });
 
   // describe('running', function () {
   //

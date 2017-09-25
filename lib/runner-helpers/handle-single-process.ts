@@ -1,6 +1,6 @@
 'use strict';
-import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
-import {IRunnerObj, IRunObj} from "../../dts/runner";
+import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
+import {IRunnerObj, IRunObj} from "suman-types/dts/runner";
 import {ISumanCPMessages} from "./handle-multiple-processes";
 
 //polyfills

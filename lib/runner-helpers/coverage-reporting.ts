@@ -7,7 +7,7 @@ import path = require('path');
 //npm
 import su from 'suman-utils';
 import * as chalk from 'chalk';
-import {IGlobalSumanObj} from "../../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

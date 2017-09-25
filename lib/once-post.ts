@@ -1,5 +1,5 @@
 'use strict';
-import {IGlobalSumanObj} from "../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 import {ISumanErrorFirstCB} from "./index";
 
 //polyfills
@@ -16,7 +16,6 @@ import * as async from 'async';
 import * as chalk from 'chalk';
 import su from 'suman-utils';
 import * as _ from 'lodash';
-
 const fnArgs = require('function-arguments');
 
 //project
@@ -43,6 +42,7 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
   }
   catch (err) {
     _suman.logError('\n', su.decomposeError(err), '\n\n');
+    return process.nextTick(cb);
   }
 
   const oncePostKeys = _.flattenDeep($oncePostKeys).filter(function (v, i, a) {
@@ -60,7 +60,6 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
   }
 
   let postInjector = makePostInjector(userDataObj, null);
-
   const first: ISumanErrorFirstCB = su.onceAsync(this, cb);
 
   let oncePostModule: Function,

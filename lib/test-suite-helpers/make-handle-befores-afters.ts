@@ -2,8 +2,8 @@
 
 //dts
 import {IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
-import {ISuman} from "../../dts/suman";
-import {IGlobalSumanObj, IPseudoError, ISumanAllHookDomain, ISumanDomain} from "../../dts/global";
+import {ISuman} from "suman-types/dts/suman";
+import {IGlobalSumanObj, IPseudoError, ISumanAllHookDomain, ISumanDomain} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -17,6 +17,7 @@ import util = require('util');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su from 'suman-utils';
+import chalk = require('chalk');
 import {makeCallback} from './handle-callback-helper';
 
 const helpers = require('./handle-promise-generator');
@@ -32,11 +33,11 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
   return function handleBeforesAndAfters(self: ITestSuite, aBeforeOrAfter: IOnceHookObj, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program in file:\n[${__filename}]`);
       return;
     }
 
-    //records whether a hook was actually attempted
+    // records whether a hook was actually attempted
     // IMPORTANT: this should appear after the _suman.sumanUncaughtExceptionTriggered check
     // because an after.always hook needs to run even in the presence of an uncaught exception
     aBeforeOrAfter.alreadyInitiated = true;
@@ -51,7 +52,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
     const d = domain.create() as ISumanAllHookDomain;
     d.sumanAllHook = true;
-    d.sumanAllHookName = aBeforeOrAfter.desc || '(unknown)';
+    d.sumanAllHookName = aBeforeOrAfter.desc || '(unknown all-hook name)';
 
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfter, timerObj, gracefulExit, cb);
     const fnStr = aBeforeOrAfter.fn.toString();
@@ -103,6 +104,12 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
     process.nextTick(function () {
 
+      const {sumanOpts} = _suman;
+
+      if (sumanOpts.debug_hooks) {
+        _suman.log(`now running all hook with name '${chalk.yellow(aBeforeOrAfter.desc)}'.`);
+      }
+
       // need to d.run instead process.next so that errors thrown in same-tick get trapped by "Node.js domains in browser"
       // process.nextTick is necessary in the first place, so that async module does not experience Zalgo
 
@@ -116,25 +123,24 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
         const isGeneratorFn = su.isGeneratorFn(aBeforeOrAfter.fn);
 
-        function timeout(val: number) {
+        const timeout = function (val: number) {
           clearTimeout(timerObj.timer);
+          assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
-        }
+        };
 
-        function handleNonCallbackMode(err: IPseudoError) {
+        const handleNonCallbackMode = function (err: IPseudoError) {
           err = err ? ('Also, you have this error => ' + err.stack || err) : '';
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
-        }
+        };
 
-        const HookObj = makeHookObj(aBeforeOrAfter, assertCount);
-        const t = new HookObj(handleError);
+        const t = makeHookObj(aBeforeOrAfter, assertCount, handleError);
         t.shared = self.shared;
         t.$inject = suman.$inject;
         t.desc = aBeforeOrAfter.desc;
 
         fini.th = t;
         t.timeout = timeout;
-
         t.fatal = function fatal(err: IPseudoError) {
           err = err || new Error('Suman placeholder error since this function was not explicitly passed an error object as first argument.');
           fini(err, null);
@@ -143,7 +149,6 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         let arg;
 
         if (isGeneratorFn) {
-
           const handleGenerator = helpers.makeHandleGenerator(fini);
           arg = [freezeExistingProps(t)];
           handleGenerator(aBeforeOrAfter.fn, arg, aBeforeOrAfter.ctx);
@@ -152,12 +157,12 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
           t.callbackMode = true;
 
-          // TODO: in the future, we may be able to check for presence of callback, if no callback fire error
+          // TODO: in the future, we may be able to check for presence of callback, if no callback, then fire error
           // if (!su.checkForValInStr(fnStr, /done/g)) {
           //    throw aBeforeOrAfter.NO_DONE;
           // }
 
-          const d = function done(err: IPseudoError) {
+          const dne = function done(err: IPseudoError) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }
@@ -184,7 +189,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
             }
           };
 
-          arg = Object.setPrototypeOf(d, freezeExistingProps(t));
+          arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
 
           if (aBeforeOrAfter.fn.call(aBeforeOrAfter.ctx, arg)) {  //check to see if we have a defined return value
             _suman.writeTestError(cloneError(aBeforeOrAfter.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);

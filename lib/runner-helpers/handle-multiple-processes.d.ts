@@ -1,4 +1,4 @@
-import { IRunnerObj, ISumanChildProcess, ITableRows } from "../../dts/runner";
+import { IRunnerObj, ISumanChildProcess, ITableRows } from "suman-types/dts/runner";
 export interface ISumanCPMessages {
     code: number;
     signal: any;

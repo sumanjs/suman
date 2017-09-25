@@ -1,8 +1,8 @@
 'use strict';
 
 //tsc
-import {ISuman} from "../../dts/suman";
-import {IGlobalSumanObj} from "../../dts/global";
+import {ISuman} from "suman-types/dts/suman";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 import {ITableDataCallbackObj} from "../suman";
 
 //polyfills

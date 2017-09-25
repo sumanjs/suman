@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj} from "../../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -15,7 +15,7 @@ import EE = require('events');
 const {events} = require('suman-events');
 import su = require('suman-utils');
 import * as chalk from 'chalk';
-import {ISumanChildProcess} from "../../dts/runner";
+import {ISumanChildProcess} from "suman-types/dts/runner";
 
 
 

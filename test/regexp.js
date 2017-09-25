@@ -13,7 +13,6 @@ const Test = suman.init(module, {
 Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks, $project) {
 
   before(t => {
-    console.error('parent before');
     this.shared.set('x', 2);
   });
 

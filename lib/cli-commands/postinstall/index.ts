@@ -1,5 +1,5 @@
 'use strict';
-import {IGlobalSumanObj} from "../../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -12,7 +12,7 @@ import util = require('util');
 import assert = require('assert');
 import EE = require('events');
 import cp = require('child_process');
-import {ISumanOpts} from "../../../dts/global";
+import {ISumanOpts} from "suman-types/dts/global";
 
 
 //npm

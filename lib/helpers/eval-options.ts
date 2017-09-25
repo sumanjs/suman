@@ -1,8 +1,8 @@
 
 
 
-import {IAllOpts} from "../../dts/test-suite";
-import {IGlobalSumanObj} from "../../dts/global";
+import {IAllOpts} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

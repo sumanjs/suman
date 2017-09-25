@@ -1,2 +1,2 @@
-import { ISumanOpts } from "../../dts/global";
+import { ISumanOpts } from "suman-types/dts/global";
 export declare const run: (opts: ISumanOpts) => void;

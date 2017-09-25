@@ -1,5 +1,5 @@
 'use strict';
-import {ITestSuite} from "../../dts/test-suite";
+import {ITestSuite} from "suman-types/dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

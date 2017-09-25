@@ -1,9 +1,9 @@
 'use strict';
 
 //dts
-import {IInjectionDeps} from "../../dts/injection";
-import {IPseudoError} from "../../dts/global";
-import {ITestSuite} from "../../dts/test-suite";
+import {IInjectionDeps} from "suman-types/dts/injection";
+import {IPseudoError} from "suman-types/dts/global";
+import {ITestSuite} from "suman-types/dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -27,11 +27,12 @@ const fnArgs = require('function-arguments');
 //project
 const _suman = global.__suman = (global.__suman || {});
 import {constants} from '../../config/suman-constants';
-import {ISuman} from "../../dts/suman";
+import {ISuman} from "suman-types/dts/suman";
 import {makeIocInjector} from '../injection/ioc-injector';
 import {loadSumanConfig} from '../helpers/load-suman-config';
 import {resolveSharedDirs} from '../helpers/resolve-shared-dirs';
 import {loadSharedObjects} from '../helpers/load-shared-objects'
+
 const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
 /////////////////////////////////////////////////////////////
@@ -57,7 +58,13 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
     // only the root suite can receive IoC injected deps
     // non-root suites can get injected deps via inject
     assert(!suite.isRootSuite, 'Suman implementation error => we expect a non-root suite here. Please report.');
-    return process.nextTick(cb, null, {});
+
+    let ret = deps.reduce(function (a, b) {
+      a[b] = undefined;
+      return a;
+    }, {});
+
+    return process.nextTick(cb, null, ret);
   }
 
   const iocPromiseContainer: IIocPromiseContainer = {};

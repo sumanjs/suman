@@ -1,7 +1,7 @@
 'use strict';
 
 //typescript
-import {IGlobalSumanObj} from "../../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 import {Writable} from "stream";
 
 //polyfills

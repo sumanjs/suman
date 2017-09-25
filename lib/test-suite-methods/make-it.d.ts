@@ -1,3 +1,4 @@
-import { ITestSuite } from "../../dts/test-suite";
-import { ISuman } from "../../dts/suman";
-export declare const makeIt: (suman: ISuman, zuite: ITestSuite) => Function;
+import { ITestSuite } from "suman-types/dts/test-suite";
+import { Suman } from "../suman";
+import { ItFn } from "suman-types/dts/it";
+export declare const makeIt: (suman: Suman, zuite: ITestSuite) => ItFn;

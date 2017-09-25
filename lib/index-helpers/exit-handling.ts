@@ -1,5 +1,5 @@
 //typescript imports
-import {IGlobalSumanObj, IPromiseWithDomain, ISumanDomain, SumanErrorRace} from "../../dts/global";
+import {IGlobalSumanObj, IPromiseWithDomain, ISumanDomain, SumanErrorRace} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

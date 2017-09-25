@@ -1,9 +1,10 @@
 'use strict';
 
 //dts
-import {IHandleError, ITestDataObj, ITestSuite} from "../../dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanDomain, ISumanTestCaseDomain} from "../../dts/global";
-import {ISuman} from "../../dts/suman";
+import {IHandleError, ITestSuite} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain, ISumanTestCaseDomain} from "suman-types/dts/global";
+import {ISuman} from "../suman";
+import {ITestDataObj} from "suman-types/dts/it";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -16,6 +17,7 @@ import util = require('util');
 import EE = require('events');
 
 //npm
+import chalk = require('chalk');
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 
@@ -24,11 +26,11 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 import su = require('suman-utils');
 import {makeCallback} from './handle-callback-helper';
-
 const helpers = require('./handle-promise-generator');
 import {cloneError} from '../misc/clone-error';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
+
 
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -107,13 +109,19 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         // after second call to error, that's about enough
         // d.removeAllListeners();
         // d.exit()  should take care of removing listeners
-        _suman.writeTestError(' => Suman error => Error in test => \n' + stack);
+        _suman.writeTestError('Suman error => Error in test => \n' + stack);
       }
     };
 
     d.on('error', handleErr);
 
     process.nextTick(function () {
+
+      const {sumanOpts} = _suman;
+
+      if(sumanOpts.debug_hooks){
+        _suman.log(`now starting to run test with name '${chalk.magenta(test.desc)}'.`);
+      }
 
       d.run(function runHandleTest() {
 
@@ -128,30 +136,30 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         const isGeneratorFn = su.isGeneratorFn(test.fn);
 
         let timeout = function (val: number) {
-          timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 500000 : val);
+          clearTimeout(timerObj.timer);
+          assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
+          timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
         };
 
-        function $throw(str: any) {
+        const $throw = function (str: any) {
           handleErr(str instanceof Error ? str : new Error(str));
-        }
+        };
 
-        function handle(fn: Function) {
+        const handle = function (fn: Function) {
           try {
             fn.call(self);
           }
           catch (e) {
             handleErr(e);
           }
-        }
+        };
 
-        let handleNonCallbackMode = function (err: IPseudoError) {
+        const handleNonCallbackMode = function (err: IPseudoError) {
           err = err ? ('Also, you have this error => ' + err.stack || err) : '';
           handleErr(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
 
-        const TestCase = makeTestCase(test, assertCount);
-        const t = new TestCase(handleErr);
-
+        const t = makeTestCase(test, assertCount, handleErr);
         fini.th = t;
         t.handleAssertions = handle;
         t.throw = $throw;
@@ -182,16 +190,12 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-
         test.dateStarted = Date.now();
 
         let args;
 
         if (isGeneratorFn) {
           const handleGenerator = helpers.makeHandleGenerator(fini);
-          if (test.cb === true) {
-            throw new Error('Generator function callback is also asking for callback mode => inconsistent.');
-          }
           args = [freezeExistingProps(t)];
           handleGenerator(test.fn, args, self);
         }
@@ -199,7 +203,12 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
           t.callbackMode = true;
 
-          const d = function done(err: Error) {
+          // TODO: in the future, we may be able to check for presence of callback, if no callback, then fire error
+          // if (!su.checkForValInStr(fnStr, /done/g)) {
+          //    throw aBeforeOrAfter.NO_DONE;
+          // }
+
+          const dne = function done(err: Error) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }
@@ -208,7 +217,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
             }
           };
 
-          fini.th = d;
+          fini.th = dne;
 
           t.done = function done(err: Error) {
             if (!t.callbackMode) {
@@ -239,7 +248,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
             }
           };
 
-          args = Object.setPrototypeOf(d, freezeExistingProps(t));
+          args = Object.setPrototypeOf(dne, freezeExistingProps(t));
           if (test.fn.call(self, args)) {  ///run the fn, but if it returns something, then add warning
             _suman.writeTestError(cloneError(test.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
@@ -258,9 +267,3 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
   }
 };
 
-///////////// support node style imports //////////////////////////////////////////////////
-
-let $exports = module.exports;
-export default $exports;
-
-//////////////////////////////////////////////////////////////////////////////////////////

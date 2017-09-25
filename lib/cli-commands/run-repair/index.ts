@@ -1,7 +1,7 @@
 'use strict';
 
 //typescript
-import {ISumanOpts} from "../../dts/global";
+import {ISumanOpts} from "suman-types/dts/global";
 import {IMap} from 'suman-utils';
 import {ISumanErrorFirstCB} from "../index";
 

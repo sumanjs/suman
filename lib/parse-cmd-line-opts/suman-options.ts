@@ -38,9 +38,14 @@ module.exports = [
     help: 'Tells the NPM colors module to not use any control chars for color.'
   },
   {
-    names: ['containerize', 'ctz'],
+    names: ['containerize', 'ctrz'],
     type: 'bool',
     help: 'Tells Suman to containerize all tests into a Docker container.'
+  },
+  {
+    names: ['debug-hooks'],
+    type: 'bool',
+    help: 'Tells Suman to write a log when hooks begin and end for debugging purposes.'
   },
   {
     names: ['version', 'vn'],
@@ -97,9 +102,9 @@ module.exports = [
     help: 'Initialize Suman in your project; install it globally first (or use suman-clis.sh).'
   },
   {
-    names: ['wait-for-all-transforms', 'wait-for-transforms'],
+    names: ['wait-for-all-transforms', 'wait-for-transforms'], // => transpile-all-files-first
     type: 'bool',
-    help: 'Initialize Suman in your project; install it globally first (or use suman-clis.sh).'
+    help: 'Use this option so that no test is executed until all test sources have fininished transforming/transpiling/compiling.'
   },
   {
     names: ['uninstall-suman'],
@@ -107,19 +112,19 @@ module.exports = [
     help: 'Uninstall Suman in your project. Will clean up various directories safely.'
   },
   {
-    names: ['no-runner-lock'],
-    type: 'bool',
-    help: 'Don\'t user runner lock'
-  },
-  {
-    names: ['runner-lock'],
-    type: 'bool',
-    help: 'Use a global runner lock'
-  },
-  {
     names: ['home'],
     type: 'bool',
     help: 'Use this option to cd to the project root.'
+  },
+  {
+    names: ['allow-skip'],
+    type: 'bool',
+    help: 'Allow tests to be skipped.'
+  },
+  {
+    names: ['allow-only'],
+    type: 'bool',
+    help: 'Allow tests to be skipped using the only feature.'
   },
   {
     names: ['series'],
@@ -434,6 +439,11 @@ module.exports = [
     names: ['daemon', 'd'],
     type: 'bool',
     help: 'Allows certain Suman processes to run as a daemon.'
+  },
+  {
+    names: ['single-process', 'sp'],
+    type: 'bool',
+    help: 'Run multiple test scripts in the same node.js process.'
   },
   {
     names: ['dest'],
