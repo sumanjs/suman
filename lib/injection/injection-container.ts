@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {ISuman} from "../suman";
+import {ISuman, Suman} from "../suman";
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
@@ -43,7 +43,9 @@ export const makeInjectionContainer = function (suman: ISuman) {
           return a.indexOf(v) === i;
         });
 
-        let method = newProps[0];
+        let method = newProps.shift();
+        newProps = newProps.sort();
+        newProps.unshift(method);
 
         if (hasSkip) {
           newProps = [method, 'skip'];
@@ -51,9 +53,9 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
         let cache, cacheId = newProps.join('-');
 
-        // if (cache = suman.testBlockMethodCache[cacheId]) {
-        //   return cache;
-        // }
+        if (cache = suman.testBlockMethodCache[cacheId]) {
+          return cache;
+        }
 
         let fn = function () {
 

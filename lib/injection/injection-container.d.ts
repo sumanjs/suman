@@ -1,12 +1,2 @@
-declare const container: {
-    before: () => any;
-    after: () => any;
-    beforeEach: () => any;
-    afterEach: () => any;
-    describe: () => any;
-    context: () => any;
-    it: () => any;
-    inject: () => any;
-    afterAllParentHooks: () => any;
-};
-export default container;
+import { Suman } from "../suman";
+export declare const makeInjectionContainer: (suman: Suman) => any;
