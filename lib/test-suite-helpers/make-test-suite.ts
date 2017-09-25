@@ -1,22 +1,17 @@
 'use strict';
 
 //dts
-import {IInjectOpts, IInjectHookCallbackMode, IInjectHookRegularMode, IInjectFn} from "suman-types/dts/inject";
+import {IInjectFn} from "suman-types/dts/inject";
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {BeforeHookCallbackMode, BeforeHookRegularMode, IBeforeFn, IBeforeOpts} from "suman-types/dts/before";
+import {IBeforeFn} from "suman-types/dts/before";
 import {ITestSuite} from "suman-types/dts/test-suite";
 import {ITestSuiteMakerOpts, TTestSuiteMaker} from "suman-types/dts/test-suite-maker";
 import {ISuman, Suman} from "../suman";
-import {IItOpts, ItFn, ItHookCallbackMode, ItHookRegularMode} from "suman-types/dts/it";
-import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
-
-import {
-  BeforeEachHookCallbackMode, BeforeEachHookRegularMode, IBeforeEachFn,
-  IBeforeEachOpts
-} from "suman-types/dts/before-each";
-
-import {IAfterEachFn, IAfterEachOpts, TAfterEachHook} from "suman-types/dts/after-each";
-import {AfterHookCallbackMode, AfterHookRegularMode, IAfterFn, IAfterOpts} from "suman-types/dts/after";
+import {ItFn} from "suman-types/dts/it";
+import {IDescribeFn} from "suman-types/dts/describe";
+import {IBeforeEachFn} from "suman-types/dts/before-each";
+import {IAfterEachFn} from "suman-types/dts/after-each";
+import {IAfterFn} from "suman-types/dts/after";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -98,8 +93,6 @@ export const makeTestSuiteMaker
         });
       };
 
-      // _interface === 'TDD' ? this.setup = before : this.before = before;
-
       ////////////////////////////////////////////////////////////////////////////
 
       const inject: IInjectFn = makeInject(suman, zuite);
@@ -174,6 +167,7 @@ export const makeTestSuiteMaker
         });
       };
 
+      // _interface === 'TDD' ? this.setup = before : this.before = before;
       this.describe = this.context = this.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
       this.it = this.test = getProxy(it, rules.testCaseSignature) as ItFn;
       this.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
@@ -183,7 +177,7 @@ export const makeTestSuiteMaker
       this.afterEach = this.teardownTest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
       this.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature);
 
-      ///////////////////////////////////////////////////////////////////////////
+      //////////////////  the following getters are used with the injection container ////////////////////////
 
       Object.getPrototypeOf(this).get_describe = function () {
         return describe;
