@@ -217,7 +217,7 @@ export const makeTestSuiteMaker
     TestSuite.prototype.testBlockMethodCache = new Map();
 
     TestSuite.prototype.__bindExtras = function bindExtras() {
-      const ctx = suman.ctx = this;
+      suman.ctx = this;
     };
 
     TestSuite.prototype.__invokeChildren = function (val: any, start: Function) {
