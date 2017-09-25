@@ -49,6 +49,9 @@ const acceptableOptions = <IAcceptableOptions> {
   skip: true,
   only: true,
   delay: true,
+  parallel: true,
+  series: true,
+  mode: true,
   __preParsed: true
 };
 
@@ -56,7 +59,7 @@ const handleBadOptions = function (opts: IDescribeOpts) {
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
       const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
-      throw new Error(`'${k}' is not a valid option property for an ${typeName} hook. See: ${url}`);
+      throw new Error(`'${k}' is not a valid option property for ${typeName} hooks. See: ${url}`);
     }
   });
 };

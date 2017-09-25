@@ -5,7 +5,7 @@ const Test = suman.init(module);
 
 Test.create(function (it, beforeEach, describe, assert, after) {
 
-  beforeEach('<assert stuff>',h => {
+  beforeEach('hook', h => {
     h.assert('i', 'melon');
     h.assert.equal(true, true, 'moo');
   });
@@ -14,13 +14,30 @@ Test.create(function (it, beforeEach, describe, assert, after) {
     setTimeout(t, 100);
   });
 
-  Number(1).times(() => {
+  100..times(() => {
 
-    describe('inner', function () {
+    describe.parallel('inner',function () {
 
-      it('makes good', t => {
-        t.assert(true, 'fudge.');
-        t.assert.equal(true, true, 'damn');
+      it('makes good 1', t => {
+
+        return Promise.resolve(null).then(function () {
+          t.assert(true, 'fudge.');
+          t.assert.equal(true, false, 'damn');
+        });
+
+      });
+
+      it.cb('makes good 2', t => {
+
+        return Promise.resolve(null).then(function () {
+          setTimeout(function () {
+            t.assert(true, 'fudge.');
+            t.assert.equal(true, false, 'shazam');
+            t.done();
+          }, 100);
+
+        });
+
       });
 
     });
