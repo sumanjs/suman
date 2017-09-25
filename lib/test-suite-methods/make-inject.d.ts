@@ -1,3 +1,4 @@
-import { ITestSuite } from "../../dts/test-suite";
-import { ISuman } from "../../dts/suman";
-export declare const makeInject: (suman: ISuman, zuite: ITestSuite) => Function;
+import { IInjectFn } from "suman-types/dts/inject";
+import { ITestSuite } from "suman-types/dts/test-suite";
+import { Suman } from "../suman";
+export declare const makeInject: (suman: Suman, zuite: ITestSuite) => IInjectFn;

@@ -1,9 +1,9 @@
 'use strict';
 
 import {IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
-import {ISuman} from "../../dts/suman";
-import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "../../dts/global";
-import {IAfterObj} from "../../dts/after";
+import {ISuman} from "suman-types/dts/suman";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
+import {IAfterObj} from "suman-types/dts/after";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -24,7 +24,6 @@ import {cloneError} from '../misc/clone-error';
 import {makeHookObj} from '../test-suite-helpers/t-proto-hook';
 import {freezeExistingProps} from 'freeze-existing-props'
 import {constants} from '../../config/suman-constants';
-
 
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
@@ -79,7 +78,7 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
       const fini = function (err: IPseudoError, someBool: boolean) {
         err && console.error(' Error (this error was ignored by Suman) => ', err.stack || err);
         clearTimeout(timerObj.timer);
-        process.nextTick(cb);
+        process.nextTick(cb, null);
       };
 
       let dError = false;
@@ -108,96 +107,91 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
         fini(cloneError(anAfter.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR), true);
       }
 
-      // need to d.run instead process.next so that errors thrown in same-tick get trapped by "Node.js domains in browser"
-      // process.nextTick is necessary in the first place, so that async module does not experience Zalgo
+      process.nextTick(function () {
 
-      d.run(function () {
+        d.run(function () {
 
-        let warn = false;
+          let warn = false;
 
-        if (fnStr.indexOf('Promise') > 0 || fnStr.indexOf('async') === 0) {
-          warn = true;
-        }
-
-        const isGeneratorFn = su.isGeneratorFn(anAfter.fn);
-
-        function timeout(val: number) {
-          clearTimeout(timerObj.timer);
-          timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
-        }
-
-        function handleNonCallbackMode(err: IPseudoError) {
-          err = err ? ('Also, you have this error => ' + err.stack || err) : '';
-          handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
-        }
-
-        const HookObj = makeHookObj(anAfter, assertCount);
-        const t = new HookObj(handleError);
-
-        fini.th = t;
-        t.timeout = timeout;
-
-        t.fatal = function fatal(err: IPseudoError) {
-          err = err || new Error('Suman placeholder error since this function was not explicitly passed an error object as first argument.');
-          fini(err, false);
-        };
-
-        let arg;
-
-        if (isGeneratorFn) {
-
-          if (anAfter.cb) {
-            throw new Error('Generator function callback also asking for done param => inconsistent.');
-          }
-          const handleGenerator = helpers.makeHandleGenerator(fini);
-          arg = [freezeExistingProps(t)];
-          handleGenerator(anAfter.fn, arg, anAfter.ctx);
-        }
-        else if (anAfter.cb) {
-
-          t.callbackMode = true;
-
-          const d = function done(err: IPseudoError) {
-            if (!t.callbackMode) {
-              handleNonCallbackMode(err);
-            }
-            else {
-              fini(err, false);
-            }
-          };
-
-          t.done = function done(err: IPseudoError) {
-            if (!t.callbackMode) {
-              handleNonCallbackMode(err);
-            }
-            else {
-              fini(err, false);
-            }
-          };
-
-          t.ctn = function ctn(err: IPseudoError) {
-            if (!t.callbackMode) {
-              handleNonCallbackMode(err);
-            }
-            else {
-              fini(null, false);
-            }
-
-          };
-
-          arg = Object.setPrototypeOf(d, freezeExistingProps(t));
-
-          if (anAfter.fn.call(anAfter.ctx, arg)) {  //check to see if we have a defined return value
-            _suman.writeTestError(cloneError(anAfter.warningErr,
-              constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
+          if (fnStr.indexOf('Promise') > 0 || fnStr.indexOf('async') === 0) {
+            warn = true;
           }
 
-        }
-        else {
-          const handlePotentialPromise = helpers.handlePotentialPromise(fini, fnStr);
-          arg = freezeExistingProps(t);
-          handlePotentialPromise(anAfter.fn.call(anAfter.ctx, arg), warn);
-        }
+          const isGeneratorFn = su.isGeneratorFn(anAfter.fn);
+
+          function timeout(val: number) {
+            clearTimeout(timerObj.timer);
+            timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
+          }
+
+          function handleNonCallbackMode(err: IPseudoError) {
+            err = err ? ('Also, you have this error => ' + err.stack || err) : '';
+            handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
+          }
+
+          const t = makeHookObj(anAfter, assertCount, handleError);
+          fini.th = t;
+          t.timeout = timeout;
+
+          t.fatal = function fatal(err: IPseudoError) {
+            err = err || new Error('Suman placeholder error since this function was not explicitly passed an error object as first argument.');
+            fini(err, false);
+          };
+
+          let arg;
+
+          if (isGeneratorFn) {
+            const handleGenerator = helpers.makeHandleGenerator(fini);
+            arg = [freezeExistingProps(t)];
+            handleGenerator(anAfter.fn, arg, anAfter.ctx);
+          }
+          else if (anAfter.cb) {
+
+            t.callbackMode = true;
+
+            const d = function done(err: IPseudoError) {
+              if (!t.callbackMode) {
+                handleNonCallbackMode(err);
+              }
+              else {
+                fini(err, false);
+              }
+            };
+
+            t.done = function done(err: IPseudoError) {
+              if (!t.callbackMode) {
+                handleNonCallbackMode(err);
+              }
+              else {
+                fini(err, false);
+              }
+            };
+
+            t.ctn = function ctn(err: IPseudoError) {
+              if (!t.callbackMode) {
+                handleNonCallbackMode(err);
+              }
+              else {
+                fini(null, false);
+              }
+
+            };
+
+            arg = Object.setPrototypeOf(d, freezeExistingProps(t));
+
+            if (anAfter.fn.call(anAfter.ctx, arg)) {  //check to see if we have a defined return value
+              _suman.writeTestError(cloneError(anAfter.warningErr,
+                constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
+            }
+
+          }
+          else {
+            const handlePotentialPromise = helpers.handlePotentialPromise(fini, fnStr);
+            arg = freezeExistingProps(t);
+            handlePotentialPromise(anAfter.fn.call(anAfter.ctx, arg), warn);
+          }
+
+        });
 
       });
 

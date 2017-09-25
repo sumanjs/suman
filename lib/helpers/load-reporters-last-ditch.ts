@@ -1,5 +1,5 @@
 'use strict';
-import {IGlobalSumanObj} from "../../dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //core
 import cp = require('child_process');

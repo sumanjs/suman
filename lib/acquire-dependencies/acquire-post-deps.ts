@@ -1,7 +1,7 @@
 'use strict';
 import Timer = NodeJS.Timer;
-import {IDepContainer} from "../../dts/integrant-value-container";
-import {IGlobalSumanObj, IPseudoError, ISumanGlobal} from "../../dts/global";
+import {IDepContainer} from "suman-types/dts/integrant-value-container";
+import {IGlobalSumanObj, IPseudoError, ISumanGlobal} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

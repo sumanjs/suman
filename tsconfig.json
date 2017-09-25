@@ -2,10 +2,17 @@
   "compilerOptions": {
     "declaration": true,
     "baseUrl": ".",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/suman-types/dts",
+      "./node_modules/suman-types/dts/*",
+      "./node_modules/suman-types"
+    ],
     "types": [
       "node",
       "async",
-      "lodash"
+      "lodash",
+      "chai"
     ],
     "allowJs": false,
     "target": "es5",
@@ -24,10 +31,6 @@
   },
   "allowJs": true,
   "compileOnSave": false,
-  "include": [
-    "dts",
-    "./**/*.ts"
-  ],
   "exclude": [
     "test",
     "node_modules"

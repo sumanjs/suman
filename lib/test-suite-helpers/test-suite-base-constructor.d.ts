@@ -1,6 +1,6 @@
-import { ITestSuiteBaseInitObj } from "../../dts/test-suite";
-import { ISuman } from "../../dts/suman";
-export default class TestSuiteBase {
+import { ITestSuiteBaseInitObj } from "suman-types/dts/test-suite";
+import { ISuman } from "../suman";
+export declare class TestSuiteBase {
     opts: Object;
     testId: number;
     isSetupComplete: boolean;

@@ -1,6 +1,6 @@
 'use strict';
-import {IRunnerObj, IRunnerRunFn, IRunObj, ISumanChildProcess, ITableRows} from "../../dts/runner";
-import {IGlobalSumanObj, IPseudoError} from "../../dts/global";
+import {IRunnerObj, IRunnerRunFn, IRunObj, ISumanChildProcess, ITableRows} from "suman-types/dts/runner";
+import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 import * as fs from "fs";
 
 //polyfills

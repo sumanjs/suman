@@ -1,5 +1,5 @@
 
-import {ISumanOpts} from "../../dts/global";
+import {ISumanOpts} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

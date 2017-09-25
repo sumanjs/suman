@@ -1,5 +1,5 @@
 'use strict';
-import {IHandleBlocking, IRunnerObj, IRunnerRunFn, ISumanChildProcess} from "../../dts/runner";
+import {IHandleBlocking, IRunnerObj, IRunnerRunFn, ISumanChildProcess} from "suman-types/dts/runner";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

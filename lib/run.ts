@@ -1,7 +1,7 @@
 'use strict';
 
 //ts
-import {IGlobalSumanObj, ISumanOpts} from "../dts/global";
+import {IGlobalSumanObj, ISumanOpts} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -19,13 +19,10 @@ import cp = require('child_process');
 
 //npm
 import * as async from 'async';
-
 const shuffle = require('lodash.shuffle');
 import * as chalk from 'chalk';
 import su, {IMapValue} from 'suman-utils';
 import {IGetFilePathObj} from "./runner-helpers/get-file-paths";
-import {ISumanErrorFirstCB} from "./index";
-
 const rimraf = require('rimraf');
 const {events} = require('suman-events');
 const debug = require('suman-debug')('s:cli');
@@ -310,8 +307,8 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
         'Suman will execute test files from the following locations:'), '\n', files, '\n');
     }
 
-    if (sumanOpts.dry_run) {
-      _suman.log('exitting here, because "--dry-run" option was used.');
+    if (sumanOpts.dry_run || sumanOpts.$dryRun) {
+      _suman.log('exiting here, because "--dry-run" option was used.');
       return process.exit(0);
     }
 
@@ -340,9 +337,9 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
         changeCWDToRootOrTestDir(files[0]);
         require('./run-child-not-runner').run(files);
       });
+
     }
     else {
-
       _suman.processIsRunner = true;
       const {createRunner} = require('./runner-helpers/create-suman-runner');
       d.run(function () {

@@ -1,5 +1,2 @@
-import { ITestSuite } from "../../dts/test-suite";
-import { ISuman } from "../../dts/suman";
-export declare const makeHandleTest: (suman: ISuman, gracefulExit: Function) => (self: ITestSuite, test: any, cb: Function) => any;
-declare let $exports: any;
-export default $exports;
+import { ITestSuite } from "suman-types/dts/test-suite";
+export declare const makeHandleTest: (suman: any, gracefulExit: Function) => (self: ITestSuite, test: any, cb: Function) => any;

@@ -1,5 +1,5 @@
 'use strict';
-import {IPseudoError} from "../../dts/global";
+import {IPseudoError} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

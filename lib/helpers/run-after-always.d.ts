@@ -1,2 +1,1 @@
-import { ISuman } from "../../dts/suman";
-export declare const runAfterAlways: (suman: ISuman, cb: Function) => void;
+export declare const runAfterAlways: (suman: any, cb: Function) => void;

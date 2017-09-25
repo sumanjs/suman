@@ -8,7 +8,7 @@ import path = require('path');
 import util = require('util');
 import assert = require('assert');
 import EE = require('events');
-import {ISumanConfig} from "../dts/global";
+import {ISumanConfig} from "suman-types/dts/global";
 
 //npm
 import * as chalk from 'chalk';

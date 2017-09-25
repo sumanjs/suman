@@ -1,5 +1,5 @@
 import su from 'suman-utils';
-import {IPseudoError} from "../../dts/global";
+import {IPseudoError} from "suman-types/dts/global";
 import Timer = NodeJS.Timer;
 
 //core

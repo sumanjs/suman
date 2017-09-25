@@ -17,7 +17,7 @@ import * as stream from 'stream';
 import su from 'suman-utils';
 import * as chalk from 'chalk';
 import {run as runWatch} from 'suman-watch';
-import {IGlobalSumanObj, ISumanConfig, ISumanOpts} from "../../../dts/global";
+import {IGlobalSumanObj, ISumanConfig, ISumanOpts} from "suman-types/dts/global";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

@@ -1,7 +1,10 @@
 'use strict';
-import {IBeforeFn, IBeforeOpts} from "../../dts/before";
-import {IAllOpts, ITestSuite} from "../../dts/test-suite";
-import {ISuman} from "../../dts/suman";
+
+//dts
+import {IBeforeFn, IBeforeOpts} from "suman-types/dts/before";
+import {IAllOpts, ITestSuite, IAcceptableOptions} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ISuman, Suman} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -15,7 +18,6 @@ import util = require('util');
 import assert = require('assert');
 import EE = require('events');
 
-
 //npm
 const pragmatik = require('pragmatik');
 import async = require('async');
@@ -23,21 +25,40 @@ import * as chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
 import evalOptions from '../helpers/eval-options';
 import parseArgs from '../helpers/parse-pragmatik-args';
 
+//////////////////////////////////////////////////////////////////////////////
 
-function handleBadOptions(opts: IBeforeOpts) {
+const typeName = 'before';
+const acceptableOptions = <IAcceptableOptions> {
+  plan: true,
+  throws: true,
+  fatal: true,
+  cb: true,
+  timeout: true,
+  skip: true,
+  __preParsed: true
+};
+
+const handleBadOptions = function (opts: IBeforeOpts) {
+
+  Object.keys(opts).forEach(function (k) {
+    if (!acceptableOptions[k]) {
+      const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
+      throw new Error(`'${k}' is not a valid option property for a ${typeName} hook. See: ${url}`);
+    }
+  });
+
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
-    console.error(' => Suman usage error => "plan" option is not an integer.');
+    _suman.logError(new Error('Suman usage error => "plan" option is not an integer.').stack);
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
-    return;
   }
-}
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -56,7 +77,6 @@ export const makeBefore = function (suman: ISuman, zuite: ITestSuite): IBeforeFn
     const arrayDeps = vetted.arrayDeps;
     handleBadOptions(opts);
 
-
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);
     }
@@ -71,14 +91,13 @@ export const makeBefore = function (suman: ISuman, zuite: ITestSuite): IBeforeFn
 
       zuite.getBefores().push({
         ctx: zuite,
-        desc: desc || fn.name,
+        desc: desc || fn.name || '(unknown before-hook name)',
         timeout: opts.timeout || 11000,
         cb: opts.cb || false,
         throws: opts.throws,
         planCountExpected: opts.plan,
         fatal: !(opts.fatal === false),
         fn: fn,
-        timeOutError: new Error('*timed out* - did you forget to call done/ctn/fatal()?'),
         type: 'before/setup',
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')
       });

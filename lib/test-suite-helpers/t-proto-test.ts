@@ -1,8 +1,10 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj} from "../../dts/global";
-import {ITestDataObj} from "../../dts/it";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ITestDataObj} from "suman-types/dts/it";
+import {IHandleError, ITestCaseParam} from "suman-types/dts/test-suite";
+import AssertStatic = Chai.AssertStatic;
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -17,7 +19,7 @@ const chai = require('chai');
 const chaiAssert = chai.assert;
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {tProto} from './t-proto';
 
 //////////////////////////////////////////////////////////////////////
@@ -28,69 +30,62 @@ export interface IAssertCount {
 
 ///////////////////////////////////////////////////////////////////////
 
-export const makeTestCase = function (test: ITestDataObj, assertCount: IAssertCount) {
+export const makeTestCase =
+  function (test: ITestDataObj, assertCount: IAssertCount, handleError: IHandleError): ITestCaseParam {
 
-  //  !!!
-  //
-  // IMPORTANT NOTE: do not make any references to "this" in any prototype function because "this" may not be bound if the
-  // the user passes the function directly, and does not call the function with "t" as in "t.x()" but instead
-  // just calls "x()"
+    let planCalled = false;
+    const v = Object.create(tProto);
+    v.value = test.value;
+    v.testId = test.testId;
+    v.desc = v.title = test.desc;
+    v.data = test.data;
 
-  function T(handleError: Function) {
-    this.__handle = handleError;
-    this.value = test.value;
-    this.testId = test.testId;
-    this.desc = this.title = test.desc;
-    this.data = test.data;
-
-    this.assert = function () {
+    const assrt = <Partial<AssertStatic>> function () {
       try {
-        return chaiAssert.apply(this, arguments);
+        return chaiAssert.apply(null, arguments);
       }
       catch (e) {
-        return this.__handle(e, false);
+        return handleError(e);
       }
     };
 
-    const self = this;
-    Object.keys(chaiAssert).forEach((key) => {
-      self.assert[key] = function () {
-        try {
-          return chaiAssert[key].apply(chaiAssert, arguments);
-        }
-        catch (e) {
-          debugger;
-          return self.__handle(e, false);
+    v.assert = new Proxy(assrt, {
+      get: function (target, prop) {
+        return function () {
+          try {
+            return chaiAssert[prop].apply(null, arguments);
+          }
+          catch (e) {
+            return handleError(e);
+          }
         }
       }
     });
-  }
 
-  T.prototype = Object.create(tProto);
+    v.plan = function (num: number) {
 
-  let planCalled = false;
+      if (planCalled) {
+        _suman.writeTestError(new Error(' => Suman warning => t.plan() called more than once for ' +
+          'the same test case.').stack);
+        return;
+      }
 
-  T.prototype.plan = function _plan(num: number) {
-    if (!planCalled) {
       planCalled = true;
       if (test.planCountExpected !== undefined) {
         _suman.writeTestError(new Error(' => Suman warning => t.plan() called, even though plan ' +
           'was already passed as an option.').stack);
       }
+
       assert(Number.isInteger(num), ' => Suman usage error => value passed to t.plan() is not an integer.');
-      test.planCountExpected = num;
-    }
-    else {
-      _suman.writeTestError(new Error(' => Suman warning => t.plan() called more than once for ' +
-        'the same test case.').stack);
-    }
+      test.planCountExpected = v.planCountExpected = num;
+
+    };
+
+    v.confirm = function () {
+      assertCount.num++;
+    };
+
+    return v;
+
   };
-
-  T.prototype.confirm = function _confirm() {
-    assertCount.num++;
-  };
-
-  return T;
-
-};
 

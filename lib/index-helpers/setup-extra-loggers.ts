@@ -1,6 +1,6 @@
 //typescript imports
-import {IGlobalSumanObj} from "../../dts/global";
-import {ISumanModuleExtended} from "../../dts/index-init";
+import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ISumanModuleExtended} from "suman-types/dts/index-init";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

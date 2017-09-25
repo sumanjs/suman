@@ -1,2 +1,1 @@
-import { ISuman } from "../../dts/suman";
-export declare const makeOnSumanCompleted: (suman: ISuman) => (code: number, msg: string) => void;
+export declare const makeOnSumanCompleted: (suman: any) => (code: number, msg: string) => void;

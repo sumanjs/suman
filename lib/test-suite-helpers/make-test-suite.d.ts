@@ -1,3 +1,3 @@
-import { TTestSuiteMaker } from "../../dts/test-suite-maker";
-import { ISuman } from "../../dts/suman";
-export declare const makeTestSuiteMaker: (suman: ISuman, gracefulExit: Function) => TTestSuiteMaker;
+import { TTestSuiteMaker } from "suman-types/dts/test-suite-maker";
+import { Suman } from "../suman";
+export declare const makeTestSuiteMaker: (suman: Suman, gracefulExit: Function, blockInjector: Function) => TTestSuiteMaker;
