@@ -23,7 +23,6 @@ import util = require('util');
 import {VamootProxy} from 'vamoot';
 import * as chalk from 'chalk';
 import * as async from 'async';
-
 const _ = require('underscore');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
@@ -32,18 +31,18 @@ const pragmatik = require('pragmatik');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('./helpers/handle-varargs');
 import {constants} from '../config/suman-constants';
+import {getQueue} from './helpers/job-queue';
 import su from 'suman-utils';
 import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
 import {makeBlockInjector} from './injection/make-block-injector';
 import {makeInjectionContainer} from './injection/injection-container';
 import {makeTestSuiteMaker} from './test-suite-helpers/make-test-suite';
-
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 import {handleInjections} from './test-suite-helpers/handle-injections';
 import {makeOnSumanCompleted} from './helpers/on-suman-completed';
 import evalOptions from './helpers/eval-options';
-import parseArgs from './helpers/parse-pragmatik-args';
+import {parseArgs} from './helpers/parse-pragmatik-args';
 
 /*////////////// what it do ///////////////////////////////////////////////
 
@@ -356,7 +355,14 @@ export const execSuite = function (suman: ISuman): Function {
             return;
           }
 
-          onSumanCompleted(0, null);
+          if (sumanOpts.parallel_max) {
+            getQueue().drain = function () {
+              onSumanCompleted(0, null);
+            }
+          }
+          else {
+            onSumanCompleted(0, null);
+          }
 
         });
 

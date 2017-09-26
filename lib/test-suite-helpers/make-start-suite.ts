@@ -29,6 +29,12 @@ const {getQueue} = require('../helpers/job-queue');
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+interface ITestSet {
+  tests: Array<ITestDataObj>
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function,
                                         notifyParentThatChildIsComplete: Function) {
 
@@ -55,32 +61,38 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
     const itOnlyIsTriggered = suman.itOnlyIsTriggered;
     const q = getQueue();
 
+    let earlyCallback = Boolean(sumanOpts.parallel_max);
+
     q.push(function (queueCB: Function) {
 
       async.series({
 
-        runBefores: function _runBefores(cb: Function) {
+        runBefores: function (cb: Function) {
 
-          //TODO: need to look ahead to see if children are skipped too? Might be hard
-          if (self.getChildren().length < 1 && self.skipped) {
-            process.nextTick(cb);
-          }
-          else {
-            //TODO: can probably prevent befores from running by checking self.tests.length < 1
-            async.eachSeries(self.getBefores(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
-              handleBeforesAndAfters(self, aBeforeOrAfter, cb);
-            }, function complete(err: IPseudoError) {
-              implementationError(err);
-              process.nextTick(cb);
+          //TODO: can probably prevent befores from running by checking self.tests.length < 1
+
+          // NOTE: we always run before hooks, even if
+          async.eachSeries(self.getBefores(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
+            handleBeforesAndAfters(self, aBeforeOrAfter, cb);
+          }, function complete(err: IPseudoError) {
+            implementationError(err);
+            process.nextTick(function () {
+              earlyCallback && finished();
+              cb();
             });
-          }
+          });
+
         },
 
-        runTests: function _runTests(cb: Function) {
+        runTests: function (cb: Function) {
+
+          if (self.skipped || self.skippedDueToOnly) {
+            // note: we don't run the tests if a block is skipped due to only
+            return process.nextTick(cb);
+          }
 
           let fn1 = (self.parallel && !sumanOpts.series) ? async.parallel : async.series;
           let fn2 = async.eachLimit; // formerly => let fn2 = self.parallel ? async.each : async.eachSeries;
-
           let limit = 1;
 
           if (self.parallel && !sumanOpts.series) {
@@ -92,8 +104,8 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             }
           }
 
-          assert(Number.isInteger(limit) && limit > 0 && limit < 91,
-            'limit must be an integer between 1 and 90, inclusive.');
+          const condition = Number.isInteger(limit) && limit > 0 && limit < 91;
+          assert(condition, 'limit must be an integer between 1 and 90, inclusive.');
 
           fn1([
               function runPotentiallySerialTests(cb: Function) {
@@ -112,9 +124,8 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
                       test.skippedDueToItOnly = test.skipped = true;
                     }
 
-                    runTheTrap(self, test, {
-                      parallel: false  //TODO: what is this for LOL
-                    }, cb);
+                    // parallel is false because these are serial tests
+                    runTheTrap(self, test, {parallel: false}, cb);
                   },
 
                   function complete(err: IPseudoError) {
@@ -126,10 +137,6 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
               function runParallelTests(cb: Function) {
 
                 const flattened = [{tests: self.getParallelTests()}];
-
-                interface ITestSet {
-                  tests: Array<ITestDataObj>
-                }
 
                 // => run all parallel sets in series
                 fn2(flattened, limit, function ($set: ITestSet, cb: Function) {
@@ -149,9 +156,8 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
                           test.skippedDueToItOnly = test.skipped = true;
                         }
 
-                        runTheTrap(self, test, {
-                          parallel: true
-                        }, cb);
+                        // parallel is true because these are parallel tests
+                        runTheTrap(self, test, {parallel: true}, cb);
 
                       },
                       function done(err: IPseudoError) {
@@ -171,33 +177,39 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             });
 
         },
-        runAfters: function _runAfters(cb: Function) {
-          if (self.getChildren().length < 1 && !self.skipped && !self.skippedDueToOnly) {
-            async.eachSeries(self.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
+        runAfters: function (cb: Function) {
+
+          if (self.getChildren().length > 0) {
+            // note: we only run the after hooks *here* if the block has no children
+            // otherwise, we run any after hooks for a block by notifying a parent when a child has completed
+            return process.nextTick(cb);
+          }
+
+          async.eachSeries(self.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
               handleBeforesAndAfters(self, aBeforeOrAfter, cb);
-            }, function complete(err: IPseudoError) {
+            },
+            function complete(err: IPseudoError) {
               implementationError(err);
               process.nextTick(cb);
             });
-          }
-          else {
-            process.nextTick(cb);
-          }
+
         }
 
       }, function allDone(err: IPseudoError, results: Array<any>) {
         implementationError(err);
+
         if (self.getChildren().length < 1 && self.parent) {
+
           notifyParentThatChildIsComplete(self.parent, self, function () {
             process.nextTick(function () {
               queueCB();
-              finished();
+              !earlyCallback && finished();
             });
           });
         } else {
           process.nextTick(function () {
             queueCB();
-            finished();
+            !earlyCallback && finished();
           });
         }
       });

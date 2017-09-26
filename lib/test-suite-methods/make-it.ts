@@ -27,7 +27,7 @@ const {constants} = require('../../config/suman-constants');
 import {incr} from '../misc/incrementer';
 
 const {handleSetupComplete} = require('../handle-setup-complete');
-import parseArgs from '../helpers/parse-pragmatik-args';
+import {parseArgs} from '../helpers/parse-pragmatik-args';
 import evalOptions from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,10 @@ const acceptableOptions = <IAcceptableOptions> {
   throws: true,
   fatal: true,
   cb: true,
+  parallel: true,
+  series: true,
   timeout: true,
+  only: true,
   skip: true,
   __preParsed: true
 };

@@ -1,5 +1,5 @@
 import { IAllOpts } from "suman-types/dts/test-suite";
-export default function (args: Array<any>, fnIsRequired?: boolean): {
+export declare const parseArgs: (args: any[], fnIsRequired?: boolean) => {
     arrayDeps: IAllOpts[];
     args: any[];
 };

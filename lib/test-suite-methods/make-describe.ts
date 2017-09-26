@@ -39,7 +39,7 @@ import {IInjectionDeps} from "suman-types/dts/injection";
 const {handleSetupComplete} = require('../handle-setup-complete');
 import {makeBlockInjector} from '../injection/make-block-injector';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
-import parseArgs from '../helpers/parse-pragmatik-args';
+import {parseArgs} from '../helpers/parse-pragmatik-args';
 import evalOptions from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////
