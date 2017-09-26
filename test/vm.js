@@ -3,7 +3,7 @@ const Test = suman.init(module);
 
 Test.create('A', function (it, beforeEach, assert, describe, after) {
 
-  describe('inner', function () {
+  describe('B', function () {
 
     it.cb('1', t => {
       setTimeout(t, 3000);
@@ -13,7 +13,7 @@ Test.create('A', function (it, beforeEach, assert, describe, after) {
       console.log('after 1');
     });
 
-    describe('inner', function () {
+    describe('C', function () {
 
       it.cb('2', t => {
         setTimeout(t, 2000);
@@ -23,7 +23,7 @@ Test.create('A', function (it, beforeEach, assert, describe, after) {
         console.log('after 2');
       });
 
-      describe('inner', function () {
+      describe('D', function () {
 
         after(h => {
           console.log('after 3');

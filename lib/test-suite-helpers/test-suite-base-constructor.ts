@@ -33,6 +33,7 @@ export class TestSuiteBase {
   // public
   opts: Object;
   testId: number;
+  childCompletionCount: number;
   isSetupComplete: boolean;
   parallel: boolean;
   skipped: boolean;
@@ -70,6 +71,7 @@ export class TestSuiteBase {
     this.skipped = this.opts.skip || false;
     this.only = this.opts.only || false;
     this.filename = suman.filename;
+    this.childCompletionCount = 0;
 
     const children: Array<ITestSuite> = [];
     const tests: Array<ITestDataObj> = [];

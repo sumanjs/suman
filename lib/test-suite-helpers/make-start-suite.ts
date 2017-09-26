@@ -38,11 +38,10 @@ interface ITestSet {
 export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function,
                                         notifyParentThatChildIsComplete: Function) {
 
-  const runTheTrap = makeTheTrap(suman, gracefulExit);
-
   return function startSuite(finished: Function) {
 
     const self = this;
+    const runTheTrap = makeTheTrap(suman, gracefulExit);
     const {sumanOpts, sumanConfig} = _suman;
 
     if (sumanOpts.series) {
@@ -198,15 +197,32 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
       }, function allDone(err: IPseudoError, results: Array<any>) {
         implementationError(err);
 
-        if (self.getChildren().length < 1 && self.parent) {
+        // isCompleted means
+        Object.getPrototypeOf(self).isCompleted = true;
 
+        if(self.parent){
+          let count = ++self.parent.childCompletionCount;
+          if(count === self.parent.getChildren().length){
+
+          }
+        }
+
+        if(earlyCallback){
+          //TODO: we check to see if all children are completed
+          // if so, we mark ourselves as allChildBlocksCompleted = true
+        }
+
+        if (self.getChildren().length < 1 && self.parent) {
+          console.log(self.title, 'notifying parent');
           notifyParentThatChildIsComplete(self.parent, self, function () {
             process.nextTick(function () {
               queueCB();
               !earlyCallback && finished();
             });
           });
-        } else {
+        }
+        else {
+          console.log(self.title, '*not* notifying parent');
           process.nextTick(function () {
             queueCB();
             !earlyCallback && finished();

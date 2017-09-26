@@ -180,6 +180,25 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 ///
 
+ there seems to be some faulty logic in the notifyParentThatChild is complete:
+
+     let children = parent.getChildren();
+     let lastIndex = children.length - 1;
+     let lastChild = children[lastIndex];
+
+     if (lastChild !== child) {
+       return process.nextTick(cb);
+     }
+
+     above it says that we only run the after hooks if the child that has completed is the last one in the array,
+     but that's not correct, because the last child in the array may complete before an earlier element in the array.
+
+     instead we should flip a boolean on each testsuite, when it completes. we run the after hooks for a parent,
+     once all child suites complete.
+
+
+///
+
  suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
  suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
 

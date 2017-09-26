@@ -64,7 +64,6 @@ const makeRunChild = function (val: any) {
 export const makeTestSuiteMaker
   = function (suman: ISuman, gracefulExit: Function, blockInjector: Function): TTestSuiteMaker {
 
-  const allDescribeBlocks = suman.allDescribeBlocks;
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
   const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
   // notify parent that child is complete

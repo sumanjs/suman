@@ -3,6 +3,7 @@ import { ISuman } from "../suman";
 export declare class TestSuiteBase {
     opts: Object;
     testId: number;
+    childCompletionCount: number;
     isSetupComplete: boolean;
     parallel: boolean;
     skipped: boolean;

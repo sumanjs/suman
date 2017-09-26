@@ -1,12 +1,12 @@
 'use strict';
-import {IPseudoError} from "suman-types/dts/global";
+import {IPseudoError, IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 
 ///////////////////////////////////////////////////////////////////////
