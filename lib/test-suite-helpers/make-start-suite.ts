@@ -195,15 +195,16 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         }
 
       }, function allDone(err: IPseudoError, results: Array<any>) {
+
         implementationError(err);
 
-        // isCompleted means
+        // isCompleted means this block has completed, nothing more
         Object.getPrototypeOf(self).isCompleted = true;
 
         if(self.parent){
           let count = ++self.parent.childCompletionCount;
           if(count === self.parent.getChildren().length){
-
+            Object.getPrototypeOf(self.parent).allChildBlocksCompleted = true;
           }
         }
 
@@ -212,7 +213,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
           // if so, we mark ourselves as allChildBlocksCompleted = true
         }
 
-        if (self.getChildren().length < 1 && self.parent) {
+        if (self.getChildren().length < 1 && self.parent && self.parent.allChildBlocksCompleted) {
           console.log(self.title, 'notifying parent');
           notifyParentThatChildIsComplete(self.parent, self, function () {
             process.nextTick(function () {

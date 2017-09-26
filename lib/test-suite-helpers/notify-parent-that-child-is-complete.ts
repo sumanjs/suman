@@ -39,12 +39,16 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
 
   return function notifyParentThatChildIsComplete(parent: ITestSuite, child: ITestSuite, cb: Function) {
 
-    let children = parent.getChildren();
-    let lastIndex = children.length - 1;
-    let lastChild = children[lastIndex];
+    // let children = parent.getChildren();
+    // let lastIndex = children.length - 1;
+    // let lastChild = children[lastIndex];
+    //
+    // if (lastChild !== child) {
+    //   //TODO: this is incorrect, need to fix
+    //   return process.nextTick(cb);
+    // }
 
-    if (lastChild !== child) {
-      //TODO: this is incorrect, need to fix
+    if(!parent.allChildBlocksCompleted){
       return process.nextTick(cb);
     }
 
