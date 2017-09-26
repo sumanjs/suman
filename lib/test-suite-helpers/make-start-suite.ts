@@ -208,7 +208,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
           combined = self.allChildBlocksCompleted;
         }
 
-        if (self.parent && combined) { // && self.allChildBlocksCompleted
+        if (self.parent && combined) {
           let count = ++self.parent.childCompletionCount;
           if (count === self.parent.getChildren().length) {
             Object.getPrototypeOf(self.parent).allChildBlocksCompleted = true;

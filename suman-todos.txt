@@ -180,6 +180,10 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 ///
 
+ after hooks should be fatal:false by default?
+
+///
+
  there seems to be some faulty logic in the notifyParentThatChild is complete:
 
      let children = parent.getChildren();

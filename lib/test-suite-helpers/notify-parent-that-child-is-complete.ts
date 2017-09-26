@@ -50,11 +50,12 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
 
     if(!parent.allChildBlocksCompleted){
       // allChildBlocksCompleted is an integer that gets incremeted as each child completes
+      // if parent.childCompletionCount < parent.getChildren().length, then we can't run afters yet.
       return process.nextTick(cb);
     }
 
     // formerly mapSeries
-    async.eachSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
+    async.mapSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
         handleBeforesAndAfters(child, aBeforeOrAfter, cb);
       },
 
