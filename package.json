@@ -64,7 +64,7 @@
     "proxy-mcproxy": "0.0.1003",
     "replacestream": "^4.0.2",
     "request": "^2.79.0",
-    "require-from-string": "^1.1.0",
+    "require-from-string": "^2.0.0",
     "residence": "latest",
     "rimraf": "^2.5.4",
     "semver": "^5.3.0",
