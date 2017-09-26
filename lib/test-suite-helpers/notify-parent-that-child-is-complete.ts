@@ -49,6 +49,7 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
     // }
 
     if(!parent.allChildBlocksCompleted){
+      // allChildBlocksCompleted is an integer that gets incremeted as each child completes
       return process.nextTick(cb);
     }
 

@@ -201,14 +201,21 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         // isCompleted means this block has completed, nothing more
         Object.getPrototypeOf(self).isCompleted = true;
 
-        if(self.parent){
+
+        let combined = true;
+
+        if(earlyCallback){
+          combined = self.allChildBlocksCompleted;
+        }
+
+        if (self.parent && combined) { // && self.allChildBlocksCompleted
           let count = ++self.parent.childCompletionCount;
-          if(count === self.parent.getChildren().length){
+          if (count === self.parent.getChildren().length) {
             Object.getPrototypeOf(self.parent).allChildBlocksCompleted = true;
           }
         }
 
-        if(earlyCallback){
+        if (earlyCallback) {
           //TODO: we check to see if all children are completed
           // if so, we mark ourselves as allChildBlocksCompleted = true
         }
