@@ -138,7 +138,6 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         t.shared = self.shared;
         t.$inject = suman.$inject;
         t.desc = aBeforeOrAfter.desc;
-
         fini.th = t;
         t.timeout = timeout;
         t.fatal = function fatal(err: IPseudoError) {

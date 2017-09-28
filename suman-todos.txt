@@ -15,6 +15,10 @@ async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
 ///
 
+ => test suman itself with suman, then we can make final adjustments before release
+
+///
+
  => chai 4.0.2 works.
 
 ///
@@ -113,6 +117,11 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
+ use es6 symbols to hide properties?
+ https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
+
+///
+
  before hooks can be stubbed? => before('merry');
 
 ///
@@ -162,7 +171,7 @@ fatal error in hook does not have cause or reason (the first line!):
 
 ///
 
-put Patreon link in all repos except main Suman repo
+ => put Patreon link in all repos except main Suman repo
 
 ///
 
@@ -184,22 +193,8 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 ///
 
- there seems to be some faulty logic in the notifyParentThatChild is complete:
-
-     let children = parent.getChildren();
-     let lastIndex = children.length - 1;
-     let lastChild = children[lastIndex];
-
-     if (lastChild !== child) {
-       return process.nextTick(cb);
-     }
-
-     above it says that we only run the after hooks if the child that has completed is the last one in the array,
-     but that's not correct, because the last child in the array may complete before an earlier element in the array.
-
-     instead we should flip a boolean on each testsuite, when it completes. we run the after hooks for a parent,
-     once all child suites complete.
-
+ when `suman --init` is run, we should create a dir called .suman not suman
+ and suman-default-config.js should be updated to reflect that
 
 ///
 
@@ -251,7 +246,7 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 /////
 
-  make-graceful-exit =>
+    make-graceful-exit =>
 
     1. cb({stack: {'seed-database-exit-code': code}});
 

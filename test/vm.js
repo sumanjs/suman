@@ -1,12 +1,17 @@
 const suman = require('suman');//
 const Test = suman.init(module);
 
-Test.create('A', function (it, beforeEach, assert, describe, after) {
+Test.create('A', function (it, before, beforeEach, assert, describe, after) {
+
+  before(h => {
+    h.$inject.foo = 3;
+  });
 
   describe('B', function () {
 
-    it.cb('1', t => {
-      setTimeout(t, 3000);
+    it('1', t => {
+      t.assert.equal(t.$inject.foo, 3);
+      t.$inject.foo = 4;
     });
 
     after(h => {
@@ -15,8 +20,9 @@ Test.create('A', function (it, beforeEach, assert, describe, after) {
 
     describe('C', function () {
 
-      it.cb('2', t => {
-        setTimeout(t, 2000);
+      it('2', t => {
+        t.assert.equal(t.$inject.foo, 3);
+        t.$inject.zoo = 5;
       });
 
       after(h => {
@@ -29,8 +35,8 @@ Test.create('A', function (it, beforeEach, assert, describe, after) {
           console.log('after 3');
         });
 
-        it.cb('3', t => {
-          setTimeout(t, 1000);
+        it('3', t => {
+          t.assert.equal(t.$inject.zoo, undefined);
         });
 
       });

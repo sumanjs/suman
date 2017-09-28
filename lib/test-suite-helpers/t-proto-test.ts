@@ -51,6 +51,18 @@ export const makeTestCase =
 
     v.assert = new Proxy(assrt, {
       get: function (target, prop) {
+
+        if (typeof prop === 'symbol') {
+          return Reflect.get(...arguments);
+        }
+
+        if (!(prop in chaiAssert)) {
+          return handleError(
+            // new Error(`The assertion library used does not have property or method.`)
+            new Error(`The assertion library used does not have '${prop}' property or method.`)
+          );
+        }
+
         return function () {
           try {
             return chaiAssert[prop].apply(null, arguments);
@@ -65,18 +77,18 @@ export const makeTestCase =
     v.plan = function (num: number) {
 
       if (planCalled) {
-        _suman.writeTestError(new Error(' => Suman warning => t.plan() called more than once for ' +
+        _suman.writeTestError(new Error('Suman warning => t.plan() called more than once for ' +
           'the same test case.').stack);
         return;
       }
 
       planCalled = true;
       if (test.planCountExpected !== undefined) {
-        _suman.writeTestError(new Error(' => Suman warning => t.plan() called, even though plan ' +
+        _suman.writeTestError(new Error('Suman warning => t.plan() called, even though plan ' +
           'was already passed as an option.').stack);
       }
 
-      assert(Number.isInteger(num), ' => Suman usage error => value passed to t.plan() is not an integer.');
+      assert(Number.isInteger(num), 'Suman usage error => value passed to t.plan() is not an integer.');
       test.planCountExpected = v.planCountExpected = num;
 
     };

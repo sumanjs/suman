@@ -37,6 +37,14 @@ export const areAllChildBlocksCompleted = function (block: ITestSuite): boolean 
 
 export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function) {
 
+
+  let notifyChildThatParentIsComplete = function(){
+
+
+  };
+
+
+
   return function notifyParentThatChildIsComplete(parent: ITestSuite, child: ITestSuite, cb: Function) {
 
     // let children = parent.getChildren();

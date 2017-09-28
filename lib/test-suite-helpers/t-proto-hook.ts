@@ -34,8 +34,29 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
     }
   };
 
+  let badProps = {
+    inspect: true,
+    constructor: true
+  };
+
   v.assert = new Proxy(assrt, {
     get: function (target, prop) {
+
+      if (typeof prop === 'symbol') {
+        return Reflect.get(...arguments);
+      }
+
+      // if (badProps[String(prop)]) {
+      //   return Reflect.get(...arguments);
+      // }
+
+      if(!(prop in chaiAssert)){
+        return handleError(
+          // new Error(`The assertion library used does not have property or method.`)
+          new Error(`The assertion library used does not have '${prop}' property or method.`)
+        );
+      }
+
       return function () {
         try {
           return chaiAssert[prop].apply(null, arguments);

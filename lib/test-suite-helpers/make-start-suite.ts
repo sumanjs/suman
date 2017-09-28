@@ -184,6 +184,11 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             return process.nextTick(cb);
           }
 
+          if(earlyCallback && self.parent && !self.parent.isCompleted){
+            // is parent is completed, then we can run after hooks here
+            return process.nextTick(cb);
+          }
+
           async.eachSeries(self.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
               handleBeforesAndAfters(self, aBeforeOrAfter, cb);
             },
@@ -221,7 +226,6 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         }
 
         if (self.getChildren().length < 1 && self.parent && self.parent.allChildBlocksCompleted) {
-          console.log(self.title, 'notifying parent');
           notifyParentThatChildIsComplete(self.parent, self, function () {
             process.nextTick(function () {
               queueCB();
@@ -230,7 +234,6 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
           });
         }
         else {
-          console.log(self.title, '*not* notifying parent');
           process.nextTick(function () {
             queueCB();
             !earlyCallback && finished();
