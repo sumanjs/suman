@@ -1,10 +1,16 @@
 const suman = require('suman');//
 const Test = suman.init(module);
 
-Test.create('A', function (it, before, beforeEach, assert, describe, after) {
+Test.create('A', function (it, before, afterEach, beforeEach, assert, describe, after, util) {
 
   before(h => {
     h.$inject.foo = 3;
+  });
+
+  afterEach(h => {
+
+    console.log('h is => ',util.inspect(h));
+    debugger;
   });
 
   describe('B', function () {

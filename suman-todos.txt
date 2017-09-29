@@ -15,6 +15,10 @@ async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
 ///
 
+ => afterEach should have test info, not just value/data
+
+////
+
  => test suman itself with suman, then we can make final adjustments before release
 
 ///
