@@ -61,7 +61,7 @@
     "pragmatik": "latest",
     "prepend-transform": "latest",
     "progress": "^2.0.0",
-    "proxy-mcproxy": "0.0.1003",
+    "proxy-mcproxy": "0.0.1005",
     "replacestream": "^4.0.2",
     "request": "^2.79.0",
     "require-from-string": "^1.1.0",
