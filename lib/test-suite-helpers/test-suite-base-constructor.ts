@@ -34,12 +34,14 @@ export class TestSuiteBase {
   opts: Object;
   testId: number;
   childCompletionCount: number;
+  allChildBlocksCompleted: boolean;
   isSetupComplete: boolean;
   parallel: boolean;
   skipped: boolean;
   only: boolean;
   filename: string;
   getAfterAllParentHooks: Function;
+  completedChildrenMap: Map<ITestSuite,boolean>;
 
   // private
   private mergeAfters: Function;
@@ -86,6 +88,9 @@ export class TestSuiteBase {
 
     const afterEaches: Array<IAFterEachObj> = [];
     const injections: Array<IInjectionObj> = [];
+
+
+    this.completedChildrenMap = new Map();
 
     const getAfterAllParentHooks: Array<IAfterAllParentHooks> = [];
 

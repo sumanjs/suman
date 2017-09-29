@@ -37,27 +37,34 @@ export const areAllChildBlocksCompleted = function (block: ITestSuite): boolean 
 
 export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function) {
 
-
-  let notifyChildThatParentIsComplete = function(){
-
+  let notifyChildThatParentIsComplete = function () {
 
   };
 
+  return function notifyParentThatChildIsComplete(child: ITestSuite, cb: Function) {
 
+    const parent = child.parent;
 
-  return function notifyParentThatChildIsComplete(parent: ITestSuite, child: ITestSuite, cb: Function) {
+    if (!parent) {
+      return process.nextTick(cb);
+    }
 
-    // let children = parent.getChildren();
-    // let lastIndex = children.length - 1;
-    // let lastChild = children[lastIndex];
-    //
-    // if (lastChild !== child) {
-    //   //TODO: this is incorrect, need to fix
-    //   return process.nextTick(cb);
-    // }
+    if (child.getChildren().length > 0) {
+      if (!child.allChildBlocksCompleted) {
+        return process.nextTick(cb);
+      }
+    }
 
-    if(!parent.allChildBlocksCompleted){
-      // allChildBlocksCompleted is an integer that gets incremeted as each child completes
+    if (!parent.completedChildrenMap.get(child)) {
+      parent.completedChildrenMap.set(child, true);
+      parent.childCompletionCount++;
+    }
+
+    if (parent.childCompletionCount === parent.getChildren().length) {
+      Object.getPrototypeOf(parent).allChildBlocksCompleted = true;
+    }
+
+    if (!parent.allChildBlocksCompleted) {
       // if parent.childCompletionCount < parent.getChildren().length, then we can't run afters yet.
       return process.nextTick(cb);
     }
@@ -72,12 +79,7 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
         implementationError(err);
 
         gracefulExit(results, function () {
-          if (parent.parent) {
-            notifyParentThatChildIsComplete(parent.parent, parent, cb);
-          }
-          else {
-            process.nextTick(cb);
-          }
+          notifyParentThatChildIsComplete(parent, cb);
         });
       });
 

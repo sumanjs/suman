@@ -70,12 +70,13 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                                       zuite: ITestSuite, notifyParentThatChildIsComplete: Function,
                                       blockInjector: Function): IDescribeFn {
 
-  const allDescribeBlocks = suman.allDescribeBlocks;
+  //////////////////////////////////////////////////////////////////////
 
   return function ($$desc: string, $opts: IDescribeOpts) {
 
     const {sumanOpts} = _suman;
     handleSetupComplete(zuite, 'describe');
+
 
     const args = pragmatik.parse(arguments, rules.blockSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
@@ -90,6 +91,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       evalOptions(arrayDeps, opts);
     }
 
+    const allDescribeBlocks = suman.allDescribeBlocks;
     const isGenerator = su.isGeneratorFn(cb);
     const isAsync = su.isAsyncFn(cb);
 
@@ -152,10 +154,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     suiteProto._run = function run(val: any, callback: Function) {
 
       if (zuite.skipped || zuite.skippedDueToDescribeOnly) {
-        _suman.logWarning(' => Now entering dubious routine in Suman lib.');
-        if (zuite.parent) {
-          notifyParentThatChildIsComplete(zuite.parent, zuite, callback);
-        }
+        notifyParentThatChildIsComplete(zuite, callback);
         return;
       }
 

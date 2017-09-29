@@ -184,7 +184,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             return process.nextTick(cb);
           }
 
-          if(earlyCallback && self.parent && !self.parent.isCompleted){
+          if (earlyCallback && self.parent && !self.parent.isCompleted) {
             // is parent is completed, then we can run after hooks here
             return process.nextTick(cb);
           }
@@ -206,39 +206,31 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         // isCompleted means this block has completed, nothing more
         Object.getPrototypeOf(self).isCompleted = true;
 
-
-        let combined = true;
-
-        if(earlyCallback){
-          combined = self.allChildBlocksCompleted;
-        }
-
-        if (self.parent && combined) {
-          let count = ++self.parent.childCompletionCount;
-          if (count === self.parent.getChildren().length) {
-            Object.getPrototypeOf(self.parent).allChildBlocksCompleted = true;
-          }
-        }
+        // let combined = true;
+        //
+        // if (earlyCallback) {
+        //   combined = self.allChildBlocksCompleted;
+        // }
+        //
+        // if (self.parent && combined) {
+        //   let count = ++self.parent.childCompletionCount;
+        //   if (count === self.parent.getChildren().length) {
+        //     Object.getPrototypeOf(self.parent).allChildBlocksCompleted = true;
+        //   }
+        // }
 
         if (earlyCallback) {
           //TODO: we check to see if all children are completed
           // if so, we mark ourselves as allChildBlocksCompleted = true
         }
 
-        if (self.getChildren().length < 1 && self.parent && self.parent.allChildBlocksCompleted) {
-          notifyParentThatChildIsComplete(self.parent, self, function () {
-            process.nextTick(function () {
-              queueCB();
-              !earlyCallback && finished();
-            });
-          });
-        }
-        else {
+        notifyParentThatChildIsComplete(self, function () {
           process.nextTick(function () {
             queueCB();
             !earlyCallback && finished();
           });
-        }
+        });
+
       });
 
     });

@@ -15,6 +15,8 @@ Test.create('hotels', function (it, before, beforeEach, after, context, afterAll
     console.log('before each hook', t.shared.get('x'));
   });
 
+  const x = this;
+
   it('makes assertion', t => {
     t.$inject.v = 5;
     t.assert(false, 'this was a problem');

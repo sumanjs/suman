@@ -51,6 +51,8 @@ export const makeInjectionContainer = function (suman: ISuman) {
           newProps = [method, 'skip'];
         }
 
+        newProps = newProps.map(v => String(v).toLowerCase());
+
         let cache, cacheId = newProps.join('-');
 
         if (cache = suman.testBlockMethodCache[cacheId]) {
@@ -80,8 +82,14 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
           args[1].__preParsed = true;
 
-          let getter = `get_${method}`;
-          return suman.ctx[getter]().apply(suman.ctx, args);
+          try {
+            let getter = `get_${method}`;
+            return suman.ctx[getter]().apply(suman.ctx, args);
+          }
+          catch (err) {
+            throw new Error(`property '${method}' is not available on test suite object.\n` + err.stack);
+          }
+
         };
 
         return suman.testBlockMethodCache[cacheId] = getProxy(fn, newProps);

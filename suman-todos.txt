@@ -10,6 +10,10 @@ three SO profiles:
 
 ///
 
+  options should have "successEvents", "errorEvents"
+
+///
+
 // after always may not be run in the right order
 async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
