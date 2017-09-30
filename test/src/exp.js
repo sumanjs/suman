@@ -17,8 +17,9 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
     console.log('after always last xxx');
   });
 
-  after.always(h => {
+  after.always.cb(h => {
     console.log('after always last yyy');
+    h();
   });
 
   before('merry', [{fatal: false}, t => {

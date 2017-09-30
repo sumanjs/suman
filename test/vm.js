@@ -1,15 +1,29 @@
 const suman = require('suman');//
 const Test = suman.init(module);
 
+const Promise = require('bluebird');
+
 Test.create('A', function (it, before, afterEach, beforeEach, assert, describe, after, util) {
 
   before(h => {
     h.$inject.foo = 3;
   });
 
-  afterEach(h => {
+  after.last(h => {
+    console.log('after 00');
+    return Promise.delay(100);
+  });
 
-    console.log('h is',h);
+
+  after(h => {
+    console.log('after 01');
+    return Promise.delay(1000);
+  });
+
+  afterEach.cb(h => {
+
+    console.log('h is', h);
+    setTimeout(h.done, 300);
     // console.log('h is => ',util.inspect(h));
   });
 
@@ -20,8 +34,35 @@ Test.create('A', function (it, before, afterEach, beforeEach, assert, describe, 
       t.$inject.foo = 4;
     });
 
+    describe('F', function(){
+
+      it('d',t => {
+        return Promise.delay(1000);
+      });
+
+      after(h => {
+        console.log('after zzz2');
+        return Promise.delay(300);
+      });
+
+    });
+
+    describe('F', function(){
+
+      it('sd',t => {
+        return Promise.delay(1000);
+      });
+
+      after(h => {
+        console.log('after zzz1');
+        return Promise.delay(100);
+      });
+
+    });
+
     after(h => {
       console.log('after 1');
+      return Promise.delay(300);
     });
 
     describe('C', function () {

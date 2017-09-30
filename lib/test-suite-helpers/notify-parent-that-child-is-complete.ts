@@ -30,14 +30,9 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
       return process.nextTick(cb);
     }
 
-    if (child.desc === 'rudolph' || parent.desc === 'rudolph') {
-      debugger;
-    }
-
     const parentProto = Object.getPrototypeOf(parent);
 
     if (!child.allChildBlocksCompleted && child.getChildren().length > 0) {
-      debugger;
       return process.nextTick(cb);
     }
 
@@ -58,12 +53,10 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
 
     if (!parent.allChildBlocksCompleted) {
       // if parent.childCompletionCount < parent.getChildren().length, then we can't run afters yet.
-      debugger;
       return process.nextTick(cb);
     }
 
     if (parent.alreadyStartedAfterHooks) {
-      debugger;
       return process.nextTick(cb);
     }
 
@@ -87,7 +80,6 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
     };
 
     if (parent.couldNotRunAfterHooksFirstPass) {
-      debugger;
       parent.afterHooksCallback(cb);
     }
     else {
