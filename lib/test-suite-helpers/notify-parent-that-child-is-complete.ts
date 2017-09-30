@@ -69,6 +69,8 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
 
     parentProto.afterHooksCallback = function (cb: Function) {
 
+      parent.alreadyStartedAfterHooks = true;
+
       async.mapSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
           handleBeforesAndAfters(child, aBeforeOrAfter, cb);
         },
