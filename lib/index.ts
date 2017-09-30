@@ -156,7 +156,7 @@ const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Fun
 
 testSuiteRegistrationQueue.drain = function () {
   _suman.log(`Pushing ${testRuns.length} test suites onto queue with concurrency ${c}.\n`);
-  while(testRuns.length > 0){  //explicit for your pleasure
+  while (testRuns.length > 0) {  //explicit for your pleasure
     testSuiteQueue.push(testRuns.shift());
   }
 };
@@ -164,7 +164,6 @@ testSuiteRegistrationQueue.drain = function () {
 testSuiteQueue.drain = function () {
   suiteResultEmitter.emit('suman-test-file-complete');
 };
-
 
 suiteResultEmitter.on('suman-test-registered', function (fn: Function) {
   testRuns.push(fn);
@@ -176,17 +175,9 @@ suiteResultEmitter.on('suman-test-registered', function (fn: Function) {
 
 suiteResultEmitter.on('suman-completed', function () {
   // we set this to null because no suman should be in progress
-
   process.nextTick(function () {
     let fn = testSuiteQueueCallbacks.pop();
-    if (fn) {
-      fn.call(null);
-    }
-    // else if (sumanOpts.parallel_max) {
-    //   debugger;
-    //   suiteResultEmitter.emit('suman-test-file-complete');
-    // }
-
+    fn && fn.call(null);
   });
 });
 
@@ -409,7 +400,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   const create = init.$ingletonian.create = start;
   _interface === 'TDD' ? init.$ingletonian.suite = create : init.$ingletonian.describe = create;
-
 
   loaded = true;
   return init.$ingletonian;
