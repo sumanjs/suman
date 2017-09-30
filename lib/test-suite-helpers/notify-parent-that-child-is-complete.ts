@@ -18,28 +18,9 @@ const implementationError = require('../helpers/implementation-error');
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-export const areAllChildBlocksCompleted = function (block: ITestSuite): boolean {
-
-  if (block.allChildBlocksCompleted) {
-    return true;
-  }
-
-  const children = block.getChildren();
-  for (let i = 0; i < children.length; i++) {
-    if (!children[i].allChildBlocksCompleted) {
-      return false;
-    }
-  }
-
-  return block.allChildBlocksCompleted = true;
-
-};
-
 export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function) {
 
-  let notifyChildThatParentIsComplete = function () {
-
-  };
+  //////////////////////////////////////////////////////////
 
   return function notifyParentThatChildIsComplete(child: ITestSuite, cb: Function) {
 
@@ -49,10 +30,10 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
       return process.nextTick(cb);
     }
 
-    if (child.getChildren().length > 0) {
-      if (!child.allChildBlocksCompleted) {
-        return process.nextTick(cb);
-      }
+    const parentProto = Object.getPrototypeOf(parent);
+
+    if (!child.allChildBlocksCompleted && child.getChildren().length > 0) {
+      return process.nextTick(cb);
     }
 
     if (!parent.completedChildrenMap.get(child)) {
@@ -61,7 +42,13 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
     }
 
     if (parent.childCompletionCount === parent.getChildren().length) {
-      Object.getPrototypeOf(parent).allChildBlocksCompleted = true;
+      parent.allChildBlocksCompleted = true;
+    }
+
+    if (parent.childCompletionCount > parent.getChildren().length) {
+      parent.allChildBlocksCompleted = true;
+      _suman.logWarning('Suman implementation warning => parent.childCompletionCount should never be greater than ' +
+        'parent.getChildren().length');
     }
 
     if (!parent.allChildBlocksCompleted) {
@@ -69,19 +56,30 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
       return process.nextTick(cb);
     }
 
-    // formerly mapSeries
-    async.mapSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
-        handleBeforesAndAfters(child, aBeforeOrAfter, cb);
-      },
+    if (parent.alreadyStartedAfterHooks === true) {
+      return process.nextTick(cb);
+    }
 
-      function complete(err: IPseudoError, results: Array<IPseudoError>) {
+    parentProto.afterHooksCallback = function (callback: Function) {
 
-        implementationError(err);
+      async.mapSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
+          handleBeforesAndAfters(child, aBeforeOrAfter, cb);
+        },
 
-        gracefulExit(results, function () {
-          notifyParentThatChildIsComplete(parent, cb);
+        function complete(err: IPseudoError, results: Array<IPseudoError>) {
+
+          implementationError(err);
+          gracefulExit(results, function () {
+            notifyParentThatChildIsComplete(parent, cb);
+          });
         });
-      });
+
+    };
+
+    if (parent.couldNotRunAfterHooksFirstPass) {
+      parent.afterHooksCallback(cb);
+    }
+
 
   }
 };

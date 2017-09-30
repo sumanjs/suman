@@ -178,23 +178,33 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         },
         runAfters: function (cb: Function) {
 
-          if (self.getChildren().length > 0) {
+          debugger;
+
+          if (self.afterHooksCallback) {
+            debugger;
+            return self.afterHooksCallback(cb);
+          }
+
+          if (!self.allChildBlocksCompleted && self.getChildren().length > 0) {
+            self.couldNotRunAfterHooksFirstPass = true;
+            debugger;
+            console.log('children length are greater than 0');
             // note: we only run the after hooks *here* if the block has no children
             // otherwise, we run any after hooks for a block by notifying a parent when a child has completed
             return process.nextTick(cb);
           }
 
-          if (earlyCallback && self.parent && !self.parent.isCompleted) {
-            // is parent is completed, then we can run after hooks here
-            return process.nextTick(cb);
-          }
+          Object.getPrototypeOf(self).alreadyStartedAfterHooks = true;
+          debugger;
 
           async.eachSeries(self.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
               handleBeforesAndAfters(self, aBeforeOrAfter, cb);
             },
             function complete(err: IPseudoError) {
+              debugger;
               implementationError(err);
-              process.nextTick(cb);
+              // cb();
+              notifyParentThatChildIsComplete(self, cb);
             });
 
         }
@@ -203,32 +213,15 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
         implementationError(err);
 
+        debugger;
+
         // isCompleted means this block has completed, nothing more
         Object.getPrototypeOf(self).isCompleted = true;
 
-        // let combined = true;
-        //
-        // if (earlyCallback) {
-        //   combined = self.allChildBlocksCompleted;
-        // }
-        //
-        // if (self.parent && combined) {
-        //   let count = ++self.parent.childCompletionCount;
-        //   if (count === self.parent.getChildren().length) {
-        //     Object.getPrototypeOf(self.parent).allChildBlocksCompleted = true;
-        //   }
-        // }
-
-        if (earlyCallback) {
-          //TODO: we check to see if all children are completed
-          // if so, we mark ourselves as allChildBlocksCompleted = true
-        }
-
-        notifyParentThatChildIsComplete(self, function () {
-          process.nextTick(function () {
-            queueCB();
-            !earlyCallback && finished();
-          });
+        process.nextTick(function () {
+          queueCB();
+          // if earlyCallback is true, we have already called finished, cannot call it twice!
+          !earlyCallback && finished();
         });
 
       });

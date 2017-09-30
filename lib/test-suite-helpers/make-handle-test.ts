@@ -164,10 +164,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         t.throw = $throw;
         t.timeout = timeout;
         t.shared = self.shared;
-        debugger;
-        // t.$inject = suman.__inject;
         t.$inject = Object.assign({}, suman.__inject);
-
 
         // t.skip = function () {
         // TODO: we probably should not attempt to support this as it may cause unexpected problems
