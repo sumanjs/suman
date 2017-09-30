@@ -208,7 +208,6 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         // isCompleted means this block has completed, nothing more
         Object.getPrototypeOf(self).isCompleted = true;
 
-        console.log('suite is done', self.desc);
         process.nextTick(function () {
           queueCB();
           // if earlyCallback is true, we have already called finished, cannot call it twice!

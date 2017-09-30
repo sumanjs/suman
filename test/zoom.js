@@ -12,6 +12,8 @@ Test.create(function (it, beforeEach, describe, assert, after) {
     h.assert.equal(true, true, 'moo');
   });
 
+  return;
+
   it.cb.parallel('glue', t => {
     setTimeout(t, 100);
   });

@@ -82,13 +82,14 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
           args[1].__preParsed = true;
 
-          try {
-            let getter = `get_${method}`;
-            return suman.ctx[getter]().apply(suman.ctx, args);
+          let getter = `get_${method}`;
+          let meth = suman.ctx[getter];
+
+          if (!meth) {
+            throw new Error(`property '${method}' is not available on test suite object.`)
           }
-          catch (err) {
-            throw new Error(`property '${method}' is not available on test suite object.\n` + err.stack);
-          }
+
+          return meth().apply(suman.ctx, args);
 
         };
 
