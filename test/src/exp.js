@@ -50,7 +50,9 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
   });
 
   it.cb('is NOT skipped', t => {
-    t.done();
+    setTimeout(function(){
+      t.done();
+    }, 1000);
   });
 
   it.cb.skip('is NOT 222 skipped', t => {

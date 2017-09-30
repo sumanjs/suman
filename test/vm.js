@@ -8,7 +8,9 @@ Test.create('A', function (it, before, afterEach, beforeEach, assert, describe, 
   });
 
   afterEach(h => {
-    console.log('h is => ',util.inspect(h));
+
+    console.log('h is',h);
+    // console.log('h is => ',util.inspect(h));
   });
 
   describe('B', function () {
