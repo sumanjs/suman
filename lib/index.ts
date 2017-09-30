@@ -155,20 +155,16 @@ const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Fun
 }, c);
 
 testSuiteRegistrationQueue.drain = function () {
-  _suman.log(`Pushing ${testRuns.length} test suites onto queue with concurrency ${c}.`);
-  debugger;
+  _suman.log(`Pushing ${testRuns.length} test suites onto queue with concurrency ${c}.\n`);
   while(testRuns.length > 0){  //explicit for your pleasure
     testSuiteQueue.push(testRuns.shift());
   }
 };
 
 testSuiteQueue.drain = function () {
-  debugger;
-  console.log('DRAIN DRAIN DRAIN suman-test-file-complete event!!');
   suiteResultEmitter.emit('suman-test-file-complete');
 };
 
-console.log('util.inspect(testSuiteQueue)\n',util.inspect(testSuiteQueue));
 
 suiteResultEmitter.on('suman-test-registered', function (fn: Function) {
   testRuns.push(fn);
@@ -182,16 +178,14 @@ suiteResultEmitter.on('suman-completed', function () {
   // we set this to null because no suman should be in progress
 
   process.nextTick(function () {
-    debugger;
     let fn = testSuiteQueueCallbacks.pop();
     if (fn) {
-      debugger;
       fn.call(null);
     }
-    else if (sumanOpts.parallel_max) {
-      debugger;
-      suiteResultEmitter.emit('suman-test-file-complete');
-    }
+    // else if (sumanOpts.parallel_max) {
+    //   debugger;
+    //   suiteResultEmitter.emit('suman-test-file-complete');
+    // }
 
   });
 });

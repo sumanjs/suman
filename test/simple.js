@@ -13,12 +13,39 @@ Test.create('hotels1', {parallel: false}, function (it, before, beforeEach) {
 
 });
 
+const Promise = require('bluebird');
 
-Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, describe) {
 
-  it.cb('second', t => {
-    setTimeout(t, 100);
+Test.create('hotels2', function (it, before, beforeEach, describe) {
+
+
+  before(h => {
+     return Promise.delay(100);
   });
+
+  it('first', t => {
+
+  });
+
+  describe('one',function () {
+
+    it('second', t => {
+
+    });
+
+    describe('two',function () {
+
+
+      it('third', t => {
+
+      });
+
+
+
+    });
+
+  });
+
 
   // describe('innner1', function ($block) {
   //

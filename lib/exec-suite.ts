@@ -356,7 +356,6 @@ export const execSuite = function (suman: ISuman): Function {
           if (sumanOpts.parallel_max) {
             suman.getQueue().drain = function () {
               debugger;
-              console.log('parallel max queue drained.');
               onSumanCompleted(0, null);
             }
           }
