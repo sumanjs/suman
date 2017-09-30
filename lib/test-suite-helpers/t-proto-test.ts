@@ -28,6 +28,17 @@ export interface IAssertCount {
   num: number
 }
 
+interface IBadProps {
+  [key: string]: true
+}
+
+///////////////////////////////////////////////////////////////////////
+
+let badProps = <IBadProps> {
+  inspect: true,
+  constructor: true
+};
+
 ///////////////////////////////////////////////////////////////////////
 
 export const makeTestCase =
@@ -42,7 +53,7 @@ export const makeTestCase =
 
     const assrt = <Partial<AssertStatic>> function () {
       try {
-        return chaiAssert.apply(null, arguments);
+        return chaiAssert.apply(chaiAssert, arguments);
       }
       catch (e) {
         return handleError(e);
@@ -56,16 +67,20 @@ export const makeTestCase =
           return Reflect.get(...arguments);
         }
 
+        if (badProps[String(prop)]) {
+          return Reflect.get(...arguments);
+        }
+
         if (!(prop in chaiAssert)) {
           return handleError(
             // new Error(`The assertion library used does not have property or method.`)
-            new Error(`The assertion library used does not have '${prop}' property or method.`)
+            new Error(`The assertion library used does not have a '${prop}' property or method.`)
           );
         }
 
         return function () {
           try {
-            return chaiAssert[prop].apply(null, arguments);
+            return chaiAssert[prop].apply(chaiAssert, arguments);
           }
           catch (e) {
             return handleError(e);

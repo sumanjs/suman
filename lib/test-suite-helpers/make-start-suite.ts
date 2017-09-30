@@ -178,30 +178,23 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         },
         runAfters: function (cb: Function) {
 
-          debugger;
-
           if (self.afterHooksCallback) {
-            debugger;
             return self.afterHooksCallback(cb);
           }
 
           if (!self.allChildBlocksCompleted && self.getChildren().length > 0) {
             self.couldNotRunAfterHooksFirstPass = true;
-            debugger;
-            console.log('children length are greater than 0');
             // note: we only run the after hooks *here* if the block has no children
             // otherwise, we run any after hooks for a block by notifying a parent when a child has completed
             return process.nextTick(cb);
           }
 
           Object.getPrototypeOf(self).alreadyStartedAfterHooks = true;
-          debugger;
 
           async.eachSeries(self.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
               handleBeforesAndAfters(self, aBeforeOrAfter, cb);
             },
             function complete(err: IPseudoError) {
-              debugger;
               implementationError(err);
               // cb();
               notifyParentThatChildIsComplete(self, cb);

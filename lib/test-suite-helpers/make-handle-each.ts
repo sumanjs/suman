@@ -84,6 +84,8 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       const stck = typeof stk === 'string' ? stk : util.inspect(stk);
       const formatedStk = String(stck).split('\n').map(item => '\t' + item).join('\n');
 
+      console.error(formatedStk);
+
       if (!dError) {
         dError = true;
         if (aBeforeOrAfterEach.fatal === false) {

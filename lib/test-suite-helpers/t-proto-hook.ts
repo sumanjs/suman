@@ -18,6 +18,17 @@ const chaiAssert = chai.assert;
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {tProto} from './t-proto';
 
+////////////////////////////////////////////////////////////////////////////////////
+
+interface IBadProps {
+  [key: string]: true
+}
+
+let badProps = <IBadProps> {
+  inspect: true,
+  constructor: true
+};
+
 /////////////////////////////////////////////////////////////////////////////////
 
 export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError): IHookParam {
@@ -27,16 +38,11 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
 
   const assrt = <Partial<AssertStatic>>  function () {
     try {
-      return chaiAssert.apply(null, arguments);
+      return chaiAssert.apply(chaiAssert, arguments);
     }
     catch (e) {
       return handleError(e);
     }
-  };
-
-  let badProps = {
-    inspect: true,
-    constructor: true
   };
 
   v.assert = new Proxy(assrt, {
@@ -46,20 +52,20 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
         return Reflect.get(...arguments);
       }
 
-      // if (badProps[String(prop)]) {
-      //   return Reflect.get(...arguments);
-      // }
+      if (badProps[String(prop)]) {
+        return Reflect.get(...arguments);
+      }
 
-      if(!(prop in chaiAssert)){
+      if (!(prop in chaiAssert)) {
         return handleError(
           // new Error(`The assertion library used does not have property or method.`)
-          new Error(`The assertion library used does not have '${prop}' property or method.`)
+          new Error(`The assertion library used does not have a '${prop}' property or method.`)
         );
       }
 
       return function () {
         try {
-          return chaiAssert[prop].apply(null, arguments);
+          return chaiAssert[prop].apply(chaiAssert, arguments);
         }
         catch (e) {
           return handleError(e);

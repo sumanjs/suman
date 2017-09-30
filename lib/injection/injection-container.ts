@@ -43,7 +43,7 @@ export const makeInjectionContainer = function (suman: ISuman) {
           return a.indexOf(v) === i;
         });
 
-        let method = newProps.shift();
+        let method = String(newProps.shift()).toLowerCase();
         newProps = newProps.sort();
         newProps.unshift(method);
 
@@ -63,10 +63,10 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
           let rule;
 
-          if (method === 'describe') {
+          if (method === 'describe' || method === 'context') {
             rule = rules.blockSignature;
           }
-          else if (method === 'it') {
+          else if (method === 'it' || method === 'test') {
             rule = rules.testCaseSignature;
           }
           else {
