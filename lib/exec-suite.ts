@@ -300,8 +300,6 @@ export const execSuite = function (suman: ISuman): Function {
             return;
           }
 
-          const fn: Function = async.eachLimit;
-
           let limit = 1;
           if (suite.parallel) {
             if (suite.limit) {
@@ -316,33 +314,31 @@ export const execSuite = function (suman: ISuman): Function {
 
           suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
-            results && _suman.logError('results => ', results);
-            err && _suman.logError('Test error data before log:', suite);
+            results && _suman.logError('Suman extraneous results:', results);
+            err && _suman.logError('Suman extraneous test error:', suite);
 
             const children = suite.getChildren().filter(function (child: ITestSuite) {
-              //TODO: this might be wrong, may need to omit filter
               return !child.skipped;
             });
 
             if (children.length < 1) {
-              process.nextTick(cb)
+              return process.nextTick(cb)
             }
-            else {
 
-              sumanOpts.series && (_suman.currentPaddingCount.val += 3);
+            sumanOpts.series && (_suman.currentPaddingCount.val += 3);
 
-              fn(children, limit, function (child: ITestSuite, cb: Function) {
+            async.eachLimit(children, limit, function (child: ITestSuite, cb: Function) {
 
-                runSuite(child, cb);
+              runSuite(child, cb);
 
-              }, function (err: IPseudoError) {
+            }, function (err: IPseudoError) {
 
-                sumanOpts.series && (_suman.currentPaddingCount.val -= 3);
-                err && _suman.logError('Suman implementation error => ', err.stack || err);
-                process.nextTick(cb);
+              sumanOpts.series && (_suman.currentPaddingCount.val -= 3);
+              err && _suman.logError('Suman implementation error => ', err.stack || err);
+              process.nextTick(cb);
 
-              });
-            }
+            });
+
           });
         }
 
@@ -358,7 +354,7 @@ export const execSuite = function (suman: ISuman): Function {
           debugger;
 
           if (sumanOpts.parallel_max) {
-            getQueue().drain = function () {
+            suman.getQueue().drain = function () {
               debugger;
               console.log('parallel max queue drained.');
               onSumanCompleted(0, null);

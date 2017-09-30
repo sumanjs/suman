@@ -34,6 +34,8 @@ export const makeOnSumanCompleted = function (suman: ISuman) {
 
     suman.sumanCompleted = true;
 
+    console.log('a suman has completed!');
+
     process.nextTick(function () {
 
       suman.logFinished(code || 0, msg, function (err: Error | string, val: any) {

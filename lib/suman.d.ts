@@ -28,6 +28,7 @@ export declare class Suman {
     extraArgs: Array<string>;
     sumanCompleted: boolean;
     desc: string;
+    getQueue: Function;
     constructor(obj: ISumanInputs);
     getTableData(): void;
     logFinished($exitCode: number, skippedString: string, cb: Function): void;

@@ -33,6 +33,8 @@ const results: Array<ITableDataCallbackObj> = _suman.tableResults = (_suman.tabl
 
 suiteResultEmitter.once('suman-test-file-complete', function () {
 
+  debugger;
+
   let fn, resultz;
 
   if (_suman.usingRunner) {

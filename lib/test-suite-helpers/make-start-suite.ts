@@ -58,7 +58,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
     this.mergeAfters();
 
     const itOnlyIsTriggered = suman.itOnlyIsTriggered;
-    const q = getQueue();
+    const q = suman.getQueue();
 
     let earlyCallback = Boolean(sumanOpts.parallel_max);
 

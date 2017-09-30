@@ -137,15 +137,17 @@ fs.writeFileSync(testLogPath, '\n => New Suman run @' + new Date(), {flag: 'w'})
 
 let loaded = false;
 const testSuiteQueueCallbacks: Array<Function> = [];
+const testRuns: Array<Function> = [];
+const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
+
 const c = (sumanOpts && sumanOpts.series) ? 1 : 3;
 
 const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
+  debugger;
   testSuiteQueueCallbacks.unshift(cb);
   process.nextTick(task);
 }, c);
 
-const testRuns: Array<Function> = [];
-const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
 const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Function) {
   // important! => Test.creates need to be registered only one at a time
   testSuiteRegistrationQueueCallbacks.unshift(cb);
@@ -153,14 +155,20 @@ const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Fun
 }, c);
 
 testSuiteRegistrationQueue.drain = function () {
-  testRuns.forEach(function (fn) {
-    testSuiteQueue.push(fn);
-  });
+  _suman.log(`Pushing ${testRuns.length} test suites onto queue with concurrency ${c}.`);
+  debugger;
+  while(testRuns.length > 0){  //explicit for your pleasure
+    testSuiteQueue.push(testRuns.shift());
+  }
 };
 
 testSuiteQueue.drain = function () {
+  debugger;
+  console.log('DRAIN DRAIN DRAIN suman-test-file-complete event!!');
   suiteResultEmitter.emit('suman-test-file-complete');
 };
+
+console.log('util.inspect(testSuiteQueue)\n',util.inspect(testSuiteQueue));
 
 suiteResultEmitter.on('suman-test-registered', function (fn: Function) {
   testRuns.push(fn);
@@ -172,9 +180,19 @@ suiteResultEmitter.on('suman-test-registered', function (fn: Function) {
 
 suiteResultEmitter.on('suman-completed', function () {
   // we set this to null because no suman should be in progress
+
   process.nextTick(function () {
+    debugger;
     let fn = testSuiteQueueCallbacks.pop();
-    fn && fn.call(null);
+    if (fn) {
+      debugger;
+      fn.call(null);
+    }
+    else if (sumanOpts.parallel_max) {
+      debugger;
+      suiteResultEmitter.emit('suman-test-file-complete');
+    }
+
   });
 });
 
@@ -367,7 +385,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       _suman.logError(err.stack || err);
       _suman.writeTestError(err.stack || err);
       process.exit(constants.EXIT_CODES.PRE_VALS_ERROR);
-    })
+    });
 
   };
 
@@ -397,6 +415,8 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   const create = init.$ingletonian.create = start;
   _interface === 'TDD' ? init.$ingletonian.suite = create : init.$ingletonian.describe = create;
+
+
   loaded = true;
   return init.$ingletonian;
 
