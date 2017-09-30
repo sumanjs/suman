@@ -10,7 +10,8 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
   //   return Promise.delay(2000);
   // });
 
-  it('should pass');
+  it.Cb('should pass');
+
 
   after.always.last(h => {
     console.log('after always last xxx');

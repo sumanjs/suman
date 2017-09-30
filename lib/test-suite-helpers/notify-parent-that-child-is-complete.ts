@@ -56,7 +56,7 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
       return process.nextTick(cb);
     }
 
-    if (parent.alreadyStartedAfterHooks === true) {
+    if (parent.alreadyStartedAfterHooks) {
       return process.nextTick(cb);
     }
 
