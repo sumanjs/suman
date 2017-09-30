@@ -39,7 +39,7 @@ import {IInjectionDeps} from "suman-types/dts/injection";
 const {handleSetupComplete} = require('../handle-setup-complete');
 import {makeBlockInjector} from '../injection/make-block-injector';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
-import parseArgs from '../helpers/parse-pragmatik-args';
+import {parseArgs} from '../helpers/parse-pragmatik-args';
 import evalOptions from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////
@@ -49,6 +49,9 @@ const acceptableOptions = <IAcceptableOptions> {
   skip: true,
   only: true,
   delay: true,
+  parallel: true,
+  series: true,
+  mode: true,
   __preParsed: true
 };
 
@@ -56,7 +59,7 @@ const handleBadOptions = function (opts: IDescribeOpts) {
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
       const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
-      throw new Error(`'${k}' is not a valid option property for an ${typeName} hook. See: ${url}`);
+      throw new Error(`'${k}' is not a valid option property for ${typeName} hooks. See: ${url}`);
     }
   });
 };
@@ -67,12 +70,13 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                                       zuite: ITestSuite, notifyParentThatChildIsComplete: Function,
                                       blockInjector: Function): IDescribeFn {
 
-  const allDescribeBlocks = suman.allDescribeBlocks;
+  //////////////////////////////////////////////////////////////////////
 
   return function ($$desc: string, $opts: IDescribeOpts) {
 
     const {sumanOpts} = _suman;
     handleSetupComplete(zuite, 'describe');
+
 
     const args = pragmatik.parse(arguments, rules.blockSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
@@ -87,6 +91,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       evalOptions(arrayDeps, opts);
     }
 
+    const allDescribeBlocks = suman.allDescribeBlocks;
     const isGenerator = su.isGeneratorFn(cb);
     const isAsync = su.isAsyncFn(cb);
 
@@ -149,10 +154,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     suiteProto._run = function run(val: any, callback: Function) {
 
       if (zuite.skipped || zuite.skippedDueToDescribeOnly) {
-        _suman.logWarning(' => Now entering dubious routine in Suman lib.');
-        if (zuite.parent) {
-          notifyParentThatChildIsComplete(zuite.parent, zuite, callback);
-        }
+        notifyParentThatChildIsComplete(zuite, callback);
         return;
       }
 

@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {ISuman} from "../suman";
+import {ISuman, Suman} from "../suman";
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
@@ -43,26 +43,30 @@ export const makeInjectionContainer = function (suman: ISuman) {
           return a.indexOf(v) === i;
         });
 
-        let method = newProps[0];
+        let method = String(newProps.shift()).toLowerCase();
+        newProps = newProps.sort();
+        newProps.unshift(method);
 
         if (hasSkip) {
           newProps = [method, 'skip'];
         }
 
+        newProps = newProps.map(v => String(v).toLowerCase());
+
         let cache, cacheId = newProps.join('-');
 
-        // if (cache = suman.testBlockMethodCache[cacheId]) {
-        //   return cache;
-        // }
+        if (cache = suman.testBlockMethodCache[cacheId]) {
+          return cache;
+        }
 
         let fn = function () {
 
           let rule;
 
-          if (method === 'describe') {
+          if (method === 'describe' || method === 'context') {
             rule = rules.blockSignature;
           }
-          else if (method === 'it') {
+          else if (method === 'it' || method === 'test') {
             rule = rules.testCaseSignature;
           }
           else {
@@ -78,8 +82,14 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
           args[1].__preParsed = true;
 
-          let getter = `get_${method}`;
-          return suman.ctx[getter]().apply(suman.ctx, args);
+          try {
+            let getter = `get_${method}`;
+            return suman.ctx[getter]().apply(suman.ctx, args);
+          }
+          catch (err) {
+            throw new Error(`property '${method}' is not available on test suite object.\n` + err.stack);
+          }
+
         };
 
         return suman.testBlockMethodCache[cacheId] = getProxy(fn, newProps);

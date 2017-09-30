@@ -1,1 +1,2 @@
-export declare const makeInjectionContainer: (suman: any) => any;
+import { Suman } from "../suman";
+export declare const makeInjectionContainer: (suman: Suman) => any;

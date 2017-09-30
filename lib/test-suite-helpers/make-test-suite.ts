@@ -4,7 +4,7 @@
 import {IInjectFn} from "suman-types/dts/inject";
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {IBeforeFn} from "suman-types/dts/before";
-import {ITestSuite} from "suman-types/dts/test-suite";
+import {ITestSuite, TestSuiteMethodType} from "suman-types/dts/test-suite";
 import {ITestSuiteMakerOpts, TTestSuiteMaker} from "suman-types/dts/test-suite-maker";
 import {ISuman, Suman} from "../suman";
 import {ItFn} from "suman-types/dts/it";
@@ -64,27 +64,22 @@ const makeRunChild = function (val: any) {
 export const makeTestSuiteMaker
   = function (suman: ISuman, gracefulExit: Function, blockInjector: Function): TTestSuiteMaker {
 
-  const allDescribeBlocks = suman.allDescribeBlocks;
-  const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
-  const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
-  const notifyParentThatChildIsComplete = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
+  //////////////////////////////////////////////////////////////////////////////////////////////
 
   return function TestSuiteMaker(data: ITestSuiteMakerOpts): ITestSuite {
 
-    const TestSuite: ITestSuiteConstructor = function (obj: ITestSuiteMakerOpts): void {   // this fn is a constructor
+    const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
+    const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
+    // notify parent that child is complete
+    const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
+
+
+    const TestSuite: ITestSuiteConstructor = function (obj: ITestSuiteMakerOpts) {
 
       this.interface = suman.interface;
       this.desc = this.title = obj.desc;
-
-      this.timeout = function () {
-        console.error(' => this.timeout is not implemented yet.');
-      };
-
-      this.slow = function () {
-        console.error(' => this.slow is not implemented yet.');
-      };
-
       const zuite = this;
+      const ctx = this;
 
       this.resume = function () {
         const args = Array.from(arguments);
@@ -93,7 +88,7 @@ export const makeTestSuiteMaker
         });
       };
 
-      ////////////////////////////////////////////////////////////////////////////
+      /////////////////////////////////////////////////////////////////////////////////////////
 
       const inject: IInjectFn = makeInject(suman, zuite);
       const before: IBeforeFn = makeBefore(suman, zuite);
@@ -101,13 +96,10 @@ export const makeTestSuiteMaker
       const beforeEach: IBeforeEachFn = makeBeforeEach(suman, zuite);
       const afterEach: IAfterEachFn = makeAfterEach(suman, zuite);
       const it: ItFn = makeIt(suman, zuite);
-      const describe: IDescribeFn
-        = makeDescribe(suman, gracefulExit, TestSuiteMaker, zuite, notifyParentThatChildIsComplete, blockInjector);
       const afterAllParentHooks = makeAfterAllParentHooks(suman, zuite);
+      const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestSuiteMaker, zuite, notifyParent, blockInjector);
 
-      ////////////////////////////////////////////////////////////////////////////
-
-      const ctx = this;
+      /////////////////////////////////////////////////////////////////////////////////////////
 
       const getProxy = function (method: Function, rule: Object, props?: Array<string>): Function {
 
@@ -125,15 +117,19 @@ export const makeTestSuiteMaker
             props = props || [];
             let hasSkip = false;
             let newProps = props.concat(String(prop)).filter(function (v, i, a) {
-              if (String(v) === 'skip') {
+              if (String(v).toLowerCase() === 'skip') {
                 // if skip, none of the other properties matter
                 hasSkip = true;
               }
               // we use this filter to get a unique list
               return a.indexOf(v) === i;
-            });
+            })
+            // sort the properties alphabetically so that we need to use fewer number of caches
+            .sort()
+            .map(v => String(v).toLowerCase());
 
             if (hasSkip) {
+              // if any of the props are "skip" then we can reduce it to just "skip"
               newProps = ['skip'];
             }
 
@@ -175,7 +171,7 @@ export const makeTestSuiteMaker
       this.beforeEach = this.setupTest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
       this.after = this.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
       this.afterEach = this.teardownTest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
-      this.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature);
+      this.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
 
       //////////////////  the following getters are used with the injection container ////////////////////////
 
@@ -203,11 +199,13 @@ export const makeTestSuiteMaker
         return after;
       };
 
-      Object.getPrototypeOf(this).get_afterEach = function () {
+      // lowercase for a reason
+      Object.getPrototypeOf(this).get_aftereach = function () {
         return afterEach;
       };
 
-      Object.getPrototypeOf(this).get_beforeEach = function () {
+      // lowercase for a reason
+      Object.getPrototypeOf(this).get_beforeeach = function () {
         return beforeEach;
       }
     };
@@ -228,9 +226,7 @@ export const makeTestSuiteMaker
       return this.constructor + ':' + this.desc;
     };
 
-    TestSuite.prototype.log = function () {
-      console.log(' [TESTSUITE LOGGER] => ', ...Array.from(arguments));
-    };
+    TestSuite.prototype.log = console.log.bind(console, 'my test suite =>');
 
     TestSuite.prototype.series = function (cb: Function) {
       if (typeof cb === 'function') {
@@ -239,12 +235,10 @@ export const makeTestSuiteMaker
       return this;
     };
 
-    TestSuite.prototype.__startSuite = makeStartSuite(suman, gracefulExit,
-      handleBeforesAndAfters, notifyParentThatChildIsComplete);
+    TestSuite.prototype.__startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
 
     // freezeExistingProps(TestSuite.prototype);
     // return freezeExistingProps(new TestSuite(data));
-
     return new TestSuite(data);
 
   };

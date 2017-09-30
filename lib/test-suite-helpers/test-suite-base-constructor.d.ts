@@ -1,14 +1,17 @@
-import { ITestSuiteBaseInitObj } from "suman-types/dts/test-suite";
+import { ITestSuite, ITestSuiteBaseInitObj } from "suman-types/dts/test-suite";
 import { ISuman } from "../suman";
 export declare class TestSuiteBase {
     opts: Object;
     testId: number;
+    childCompletionCount: number;
+    allChildBlocksCompleted: boolean;
     isSetupComplete: boolean;
     parallel: boolean;
     skipped: boolean;
     only: boolean;
     filename: string;
     getAfterAllParentHooks: Function;
+    completedChildrenMap: Map<ITestSuite, boolean>;
     private mergeAfters;
     private getAfters;
     private getAfterEaches;

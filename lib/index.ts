@@ -38,7 +38,6 @@ import stream = require('stream');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
 import async = require('async');
-
 const pragmatik = require('pragmatik');
 
 //project
@@ -48,7 +47,6 @@ _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
 import {getClient} from './index-helpers/socketio-child-client';
-
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
 const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
@@ -97,10 +95,8 @@ const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import setupExtraLoggers from './index-helpers/setup-extra-loggers';
-
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
-
 const {execSuite} = require('./exec-suite');
 import {loadSumanConfig} from './helpers/load-suman-config';
 import {resolveSharedDirs} from './helpers/resolve-shared-dirs';
@@ -367,6 +363,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     })
     .then(onPreVals)
     .catch(function (err: Error) {
+      clearTimeout(to);
       _suman.logError(err.stack || err);
       _suman.writeTestError(err.stack || err);
       process.exit(constants.EXIT_CODES.PRE_VALS_ERROR);

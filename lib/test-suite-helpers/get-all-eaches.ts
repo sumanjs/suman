@@ -3,7 +3,7 @@
 //dts
 import {ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman, Suman} from "../suman";
 import {IBeforeEachObj} from "suman-types/dts/before-each";
 import {IAFterEachObj} from "suman-types/dts/after-each";
 
@@ -35,17 +35,10 @@ export const getAllBeforesEaches = function (zuite: ITestSuite) {
   }
 
   function getParentBefores(parent: ITestSuite) {
-
-    if (parent) {
-      beforeEaches.unshift(parent.getBeforeEaches());
-      if (parent.parent) {
-        getParentBefores(parent.parent);
-      }
+    beforeEaches.unshift(parent.getBeforeEaches());
+    if (parent.parent) {
+      getParentBefores(parent.parent);
     }
-    else {
-      throw new Error(' => Suman implementation error => please report on Github.');
-    }
-
   }
 
   if (zuite.parent) {
@@ -61,15 +54,9 @@ export const getAllAfterEaches = function (zuite: ITestSuite) {
   afterEaches.push(zuite.getAfterEaches());
 
   function getParentAfters(parent: ITestSuite) {
-
-    if (parent) {
-      afterEaches.push(parent.getAfterEaches());
-      if (parent.parent) {
-        getParentAfters(parent.parent);
-      }
-    }
-    else {
-      throw new Error(' => Suman implementation error => please report on Github.');
+    afterEaches.push(parent.getAfterEaches());
+    if (parent.parent) {
+      getParentAfters(parent.parent);
     }
   }
 
@@ -80,8 +67,6 @@ export const getAllAfterEaches = function (zuite: ITestSuite) {
   return _.flatten(afterEaches);
 };
 
-const $exports = module.exports;
-export default $exports;
 
 
 

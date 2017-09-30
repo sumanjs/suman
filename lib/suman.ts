@@ -22,14 +22,11 @@ import EE = require('events');
 const flattenDeep = require('lodash.flattendeep');
 const readline = require('readline');
 import * as chalk from 'chalk';
-
 const AsciiTable = require('ascii-table');
 import async = require('async');
-
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 import su from 'suman-utils';
-
 const McProxy = require('proxy-mcproxy');
 
 //project
@@ -50,6 +47,7 @@ export class Suman {
   ctx?: ITestSuite;
   interface: string;
   $inject: Object;
+  private __inject: Object;
   testBlockMethodCache: Object;
   iocData: Object;
   fileName: string;
@@ -86,7 +84,8 @@ export class Suman {
     this.sumanId = ++sumanId;
 
     // initialize
-    this.$inject = McProxy.create();
+    let v = this.__inject = {};
+    this.$inject = McProxy.create(v);
     this.testBlockMethodCache = {};
     this.allDescribeBlocks = [];
     this.describeOnlyIsTriggered = false;

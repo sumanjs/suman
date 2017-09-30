@@ -27,6 +27,12 @@ Starting with Suman is very easy, but you will find it has extremely powerful fe
 Suman is not officially released yet - expected release date ~October 2017.
 Until then, expect bugs, missing docs, etc. Proceed at your own risk :D
 
+# &#9658; Documentation 
+
+ >   The Suman docs => [sumanjs.org](http://sumanjs.org "Suman Docs")  
+
+ ---
+
 
 ### Suman is made up of two independent pieces:
 
@@ -83,7 +89,7 @@ it will not necessarily be clear that it is the junior developer's test which ca
 
 ### &#9658; Disclaimers: 
 >
-> Suman supports Node versions >= 4.0.0.
+> Suman supports Node versions >= 6.0.0, since it makes heavy use of the Proxy class.
 >
 > Windows support is on the roadmap, but will not be ready anytime soon. Currently, MacOS and *nix support only.
 >
@@ -147,12 +153,6 @@ Quick list of problems with other test runners:
 
 <div> x  By default, Mocha runs all tests in a single process which has a lot of problems, including running out memory</div>
 <div> x  AVA uses Babel transpilation for all tests which also increases memory consumption heavily.</div>
-
- ---
-
-# &#9658; Documentation 
-
- >   The Suman docs => [sumanjs.org](http://sumanjs.org "Suman Docs")  
 
  ---
 

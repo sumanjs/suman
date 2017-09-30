@@ -6,6 +6,7 @@ export declare class Suman {
     ctx?: ITestSuite;
     interface: string;
     $inject: Object;
+    private __inject;
     testBlockMethodCache: Object;
     iocData: Object;
     fileName: string;

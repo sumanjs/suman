@@ -33,12 +33,15 @@ export class TestSuiteBase {
   // public
   opts: Object;
   testId: number;
+  childCompletionCount: number;
+  allChildBlocksCompleted: boolean;
   isSetupComplete: boolean;
   parallel: boolean;
   skipped: boolean;
   only: boolean;
   filename: string;
   getAfterAllParentHooks: Function;
+  completedChildrenMap: Map<ITestSuite,boolean>;
 
   // private
   private mergeAfters: Function;
@@ -70,6 +73,7 @@ export class TestSuiteBase {
     this.skipped = this.opts.skip || false;
     this.only = this.opts.only || false;
     this.filename = suman.filename;
+    this.childCompletionCount = 0;
 
     const children: Array<ITestSuite> = [];
     const tests: Array<ITestDataObj> = [];
@@ -84,6 +88,9 @@ export class TestSuiteBase {
 
     const afterEaches: Array<IAFterEachObj> = [];
     const injections: Array<IInjectionObj> = [];
+
+
+    this.completedChildrenMap = new Map();
 
     const getAfterAllParentHooks: Array<IAfterAllParentHooks> = [];
 

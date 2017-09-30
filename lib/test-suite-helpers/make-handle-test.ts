@@ -31,7 +31,6 @@ import {cloneError} from '../misc/clone-error';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
 
-
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -119,7 +118,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
       const {sumanOpts} = _suman;
 
-      if(sumanOpts.debug_hooks){
+      if (sumanOpts.debug_hooks) {
         _suman.log(`now starting to run test with name '${chalk.magenta(test.desc)}'.`);
       }
 
@@ -165,7 +164,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         t.throw = $throw;
         t.timeout = timeout;
         t.shared = self.shared;
-        t.$inject = suman.$inject;
+        t.$inject = Object.assign({}, suman.__inject);
 
         // t.skip = function () {
         // TODO: we probably should not attempt to support this as it may cause unexpected problems
