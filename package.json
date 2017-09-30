@@ -2,7 +2,7 @@
   "name": "suman",
   "version": "1.1.512246",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.0.0"
   },
   "bin": {
     "suman": "cli/suman.sh",
@@ -61,7 +61,7 @@
     "pragmatik": "latest",
     "prepend-transform": "latest",
     "progress": "^2.0.0",
-    "proxy-mcproxy": "0.0.1003",
+    "proxy-mcproxy": "latest",
     "replacestream": "^4.0.2",
     "request": "^2.79.0",
     "require-from-string": "^1.1.0",

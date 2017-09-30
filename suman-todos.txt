@@ -10,8 +10,20 @@ three SO profiles:
 
 ///
 
+  options should have "successEvents", "errorEvents"
+
+///
+
 // after always may not be run in the right order
 async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
+
+///
+
+ => afterEach should have test info, not just value/data
+
+////
+
+ => test suman itself with suman, then we can make final adjustments before release
 
 ///
 
@@ -113,7 +125,8 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
- class Suman should implement ISuman?
+ use es6 symbols to hide properties?
+ https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
 
 ///
 
@@ -166,6 +179,10 @@ fatal error in hook does not have cause or reason (the first line!):
 
 ///
 
+ => put Patreon link in all repos except main Suman repo
+
+///
+
 use git submodules to publish suman-types
 https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
@@ -180,8 +197,22 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 ///
 
+ after hooks should be fatal:false by default?
+
+///
+
+ when `suman --init` is run, we should create a dir called .suman not suman
+ and suman-default-config.js should be updated to reflect that
+
+///
+
  suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
  suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
+
+//
+
+ in order for parallel-max to work properly,
+ the last test suite to be put on the queue, needs to wait.
 
 //
 
@@ -191,16 +222,6 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 //
 
  --use-tap prevents tables from being printed by runner, weird.
-
-////
-
-  fire domain error events in unhandledRejection handlers
-
-  it.cb('second', t => {
-    return Promise.resolve({}).then(function(){
-      throw 'marf';
-    });
-  });
 
 ///
 
@@ -233,7 +254,7 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 /////
 
-  make-graceful-exit =>
+    make-graceful-exit =>
 
     1. cb({stack: {'seed-database-exit-code': code}});
 
@@ -245,17 +266,12 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 ////
 
-    => for learning and debugging purposes, it would be good to log when hooks execute
-
-////
-
     create vorpal-like command line app that can do tab completion
     should be able to recognize commands, so when command is recognized it is highlighted
 
 ////
 
     when we install suman
-
     [object Object]
     => Suman message => Suman was successfully installed locally.
 
@@ -317,14 +333,6 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 ////
 
-  create acceptable hook / test case options, if option is not real, give the user a warning
-
-////
-
-  log when when hooks complete option in suman.conf.js => "logCompletedHooks:true"
-
-////
-
  inject only works when we do not need to use a before/beforeEach to load data beforehand
 
 ////
@@ -347,14 +355,12 @@ it(x, t => {
 
 using tsc --watch to transpile files according to rules
 https://github.com/Microsoft/TypeScript/issues/16779
-
 => tsc --p <name of your tsconfig.json> --watch --outDir <your new outDir>
 
 ////
 
 brew install phantomjs
 https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
-
 brew install sumanjs ?
 
 ////
@@ -594,11 +600,6 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 
 //
 
-    use symlinks to solve docker problem and suman.groups.js
-    symlink whole project dir into local dir for dockerfile
-
-//
-
     => which CLI parser does Istanbul use? they have istanbul cover, istanbul report, etc.
 
 //
@@ -634,10 +635,6 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 
 //
 
-    https://github.com/mochajs/mocha/issues/2914#issuecomment-313580872
-
-///
-
     cannot seem to run cli.sh files directly from suman project
 
 ///
@@ -647,7 +644,6 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 ///
 
     take a screenshot with each test failure
-
     https://github.com/avajs/ava/issues/840
     Is there a way to get test status on afterEach() method ? #840
 
@@ -706,16 +702,16 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 
 //
 
-new Test('z', function (assert) {
+    new Test('z', function (assert) {
 
-  setTimeout(this.resume,2000);
+      setTimeout(this.resume,2000);
 
-  this.describe('A', function(){
-    this.it('a', function(){
-      console.log('a');
+      this.describe('A', function(){
+        this.it('a', function(){
+          console.log('a');
+        });
+      });
     });
-  });
-});
 
 ///
 

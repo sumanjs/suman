@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
-const suman = require('suman');
+import suman, {ITestCaseParam, ItFn} from 'suman';
 const Test = suman.init(module);
 
-Test.create(function(it){
+Test.create(function (it: ItFn) {
 
-  it('is a bird', t => {
+  it('is a bird', (t: ITestCaseParam) => {
 
-    //
+
+
   });
 
 });

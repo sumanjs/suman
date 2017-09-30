@@ -14,7 +14,6 @@ Test.create('hotels1', {parallel: false}, function (it, before, beforeEach) {
 });
 
 
-
 Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, describe) {
 
   it.cb('second', t => {

@@ -40,12 +40,11 @@ export const getQueue = function () {
       c = envTotal || envConfig || constants.DEFAULT_PARALLEL_TOTAL_LIMIT;
     }
 
-
     assert(Number.isInteger(c) && c > 0 && c < 301,
       'DEFAULT_PARALLEL_TOTAL_LIMIT must be an integer between 1 and 300 inclusive.');
 
-    queue = async.queue(function (task: Function, callback: Function) {
-      task(callback);
+    queue = async.queue(function (task: Function, cb: Function) {
+      task(cb);
     }, c);
 
   }

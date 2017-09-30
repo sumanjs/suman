@@ -3,7 +3,6 @@
 const suman = require('suman');
 const Test = suman.init(module);
 
-
 Test.create(function (it, before, beforeEach, describe, context, after) {
 
 
@@ -11,13 +10,19 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
   //   return Promise.delay(2000);
   // });
 
-  it('should pass');
+  it.Cb('should pass');
+
 
   after.always.last(h => {
-      console.log('after always last');
+    console.log('after always last xxx');
   });
 
-  before('merry', [{fatal:false}, t => {
+  after.always.cb(h => {
+    console.log('after always last yyy');
+    h();
+  });
+
+  before('merry', [{fatal: false}, t => {
     throw new Error('marf is not a marf');
   }]);
 
@@ -46,7 +51,9 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
   });
 
   it.cb('is NOT skipped', t => {
-    t.done();
+    setTimeout(function(){
+      t.done();
+    }, 1000);
   });
 
   it.cb.skip('is NOT 222 skipped', t => {
@@ -63,22 +70,31 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
 
   it.cb('is stubbed 1');
 
-  describe.skip('foo', function(){
+  describe.skip('foo', function () {
 
   });
 
   describe('pajamas', function () {
 
-    this.describe('rudolph',function(){
-       this.it('is cool', t => {
+    this.describe('rudolph', function () {
+      this.it('is cool', t => {
 
-       });
+      });
+
+      after.always.last(h => {
+        console.log('after always last xxx 111');
+      });
+
+      after.always(h => {
+        console.log('after always last yyy 222');
+      });
+
+
     });
 
     it.cb.skip('is NOT 222 skipped', t => {
       t.done();
     });
-
 
     beforeEach.cb('beta1', h => {
       setTimeout(h, 10);

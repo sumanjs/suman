@@ -136,6 +136,12 @@ module.exports = [
     names: ['parallel'],
     type: 'bool',
     env: 'SUMAN_PARALLEL',
+    help: 'All sibling test cases run in parallel (with a "sane default" cap on parallelism).'
+  },
+  {
+    names: ['parallel-max'],
+    type: 'bool',
+    env: 'SUMAN_PARALLEL_MAX',
     help: 'Absolutely all test cases run in parallel (with a "sane default cap" on parallelism).'
   },
   {

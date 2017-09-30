@@ -59,7 +59,6 @@ export const makeHandleMultipleProcesses =
 
     return function (runObj: IRunObj) {
 
-      debugger;
       process.stderr.setMaxListeners(runObj.files.length + 11);
       process.stdout.setMaxListeners(runObj.files.length + 11);
 

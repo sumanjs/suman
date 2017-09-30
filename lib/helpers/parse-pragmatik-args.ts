@@ -25,7 +25,7 @@ const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 
  */////////////////////////////////////////////////////////////////
 
-export default function (args: Array<any>, fnIsRequired?: boolean) {
+export const parseArgs =  function (args: Array<any>, fnIsRequired?: boolean) {
 
   let [desc, opts, arr, fn] = args;
 
@@ -63,4 +63,4 @@ export default function (args: Array<any>, fnIsRequired?: boolean) {
     // we don't need to pass the array back
     args: [desc, opts, fn]
   }
-}
+};

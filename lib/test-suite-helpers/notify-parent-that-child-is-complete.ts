@@ -20,30 +20,71 @@ const implementationError = require('../helpers/implementation-error');
 
 export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function) {
 
-  return function notifyParentThatChildIsComplete(parent: ITestSuite, child: ITestSuite, cb: Function) {
+  //////////////////////////////////////////////////////////
 
-    let children = parent.getChildren();
-    let lastIndex = children.length = 1;
-    let lastChild = children[lastIndex];
+  return function notifyParentThatChildIsComplete(child: ITestSuite, cb: Function) {
 
-    if (lastChild !== child) {
+    const parent = child.parent;
+
+    if (!parent) {
       return process.nextTick(cb);
     }
 
-    // formerly mapSeries
-    async.eachSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
-        handleBeforesAndAfters(child, aBeforeOrAfter, cb);
-      },
-      function complete(err: IPseudoError, results: Array<IPseudoError>) {
-        implementationError(err);
-        gracefulExit(results, function () {
-          if (parent.parent) {
-            notifyParentThatChildIsComplete(parent.parent, parent, cb);
-          } else {
-            process.nextTick(cb);
-          }
+    const parentProto = Object.getPrototypeOf(parent);
+
+    if (!child.allChildBlocksCompleted && child.getChildren().length > 0) {
+      return process.nextTick(cb);
+    }
+
+    if (!parent.completedChildrenMap.get(child)) {
+      parent.completedChildrenMap.set(child, true);
+      parent.childCompletionCount++;
+    }
+
+    if (parent.childCompletionCount === parent.getChildren().length) {
+      parent.allChildBlocksCompleted = true;
+    }
+
+    if (parent.childCompletionCount > parent.getChildren().length) {
+      parent.allChildBlocksCompleted = true;
+      _suman.logWarning('Suman implementation warning => parent.childCompletionCount should never be greater than ' +
+        'parent.getChildren().length');
+    }
+
+    if (!parent.allChildBlocksCompleted) {
+      // if parent.childCompletionCount < parent.getChildren().length, then we can't run afters yet.
+      return process.nextTick(cb);
+    }
+
+    if (parent.alreadyStartedAfterHooks) {
+      return process.nextTick(cb);
+    }
+
+    parentProto.afterHooksCallback = function (cb: Function) {
+
+      parent.alreadyStartedAfterHooks = true;
+
+      async.mapSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
+          handleBeforesAndAfters(child, aBeforeOrAfter, cb);
+        },
+
+        function complete(err: IPseudoError, results: Array<IPseudoError>) {
+
+          debugger;
+          implementationError(err);
+          gracefulExit(results, function () {
+            notifyParentThatChildIsComplete(parent, cb);
+          });
         });
-      });
+
+    };
+
+    if (parent.couldNotRunAfterHooksFirstPass) {
+      parent.afterHooksCallback(cb);
+    }
+    else {
+      process.nextTick(cb);
+    }
 
   }
 };
