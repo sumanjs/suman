@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 debugger;
 var process = require('suman-browser-polyfills/modules/process');
@@ -53,6 +53,7 @@ process.on('uncaughtException', function (err) {
     }, 500);
 });
 process.on('unhandledRejection', function (err, p) {
+    debugger;
     if (typeof err !== 'object') {
         console.error(new Error("err passed to unhandledRejection was not an object => '" + err + "'").stack);
         err = new Error(typeof err === 'string' ? err : util.inspect(err));

@@ -11,6 +11,8 @@
 
 // hi
 
+//
+
 const path = require('path');
 
 console.error(`${path.basename(__dirname)} reporter may be unable to properly indent output.`);

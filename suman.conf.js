@@ -80,21 +80,24 @@ module.exports = Object.freeze({
       'node-dev': {
         exec: 'suman test/src/dev/node',
         includes: [__dirname],
-        excludes: ['/test/'],
+        excludes: ['/test/', /\.ts$/],
         confOverride: {}
       }
     },
     'browser-dev': {
       exec: 'suman test/src/dev/browser',
       includes: [__dirname],
-      excludes: ['/test/'],
+      excludes: ['/test/',/\.ts$/],
       confOverride: {}
     }
   },
 
+
+  ///////////////
+
   scripts: {
     // usage: $ suman --scripts example
-    example: 'export NODE_ENV=test; echo "I love hippos"; echo "zoom => ${NODE_ENV}"'
+    example: 'export NODE_ENV=test; echo "I love 45"; echo "NODE_ENV value => ${NODE_ENV}"'
   },
 
   reporters: {

@@ -45,8 +45,7 @@ export const run = function (paths: Array<string>, sumanOpts: ISumanOpts, sumanC
     watchPer = sumanConfig.watch.per[sumanOpts.watch_per];
 
     assert(su.isObject(watchPer),
-      chalk.red(` => Suman usage error => key "${sumanOpts.watch_per}", 
-      does not exist on the {suman.conf.js}.watch.per object.`));
+      chalk.red(`Suman usage error => key "${sumanOpts.watch_per}" does not exist on the {suman.conf.js}.watch.per object.`));
   }
 
   const watchOpts = Object.freeze({

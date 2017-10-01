@@ -1,18 +1,10 @@
 #!/usr/bin/env node
+'use strict';
 
-///////////////////////////////////////////////////////////////////
-
-import {IGlobalSumanObj} from "./dts/global";
+//dts
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 debugger;  //leave here forever so users can easily debug with "node --inspect" or "node debug"
-
-///////////////////////////////////////////////////////////////////
-
-/*
- Note for the reader: Suman uses dashdash to parse command line arguments
- We found dashdash to be a better alternative to other option parsers
- => https://github.com/trentm/node-dashdash
- */
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -84,6 +76,8 @@ process.on('uncaughtException', function (err: Error) {
 });
 
 process.on('unhandledRejection', function (err: Error, p: Promise<any>) {
+
+  debugger;
 
   if (typeof err !== 'object') {
     console.error(new Error(`err passed to unhandledRejection was not an object => '${err}'`).stack);
@@ -572,7 +566,6 @@ else if (uninstall) {
     removeBabel: removeBabel,
   });
 }
-
 else if (convert) {
   require('./lib/cli-commands/convert-mocha').run(projectRoot, src, dest, force);
 }
