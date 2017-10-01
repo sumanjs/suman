@@ -34,7 +34,7 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
 
     after(h => {
       count++;
-      h.assert.equal(count, 6);
+      h.assert.equal(count, 5);
     });
 
     describe('nested2', () => {
@@ -48,7 +48,7 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
 
       after(h => {
         count++;
-        h.assert.equal(count, 5);
+        h.assert.equal(count, 4);
       });
 
     });
@@ -61,7 +61,7 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
 
     before('zoomy', h => {
       count++;
-      h.assert.equal(count, 4);
+      h.assert.equal(count, 6);
     });
 
   });
@@ -71,7 +71,7 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
     h.assert.equal(count, 8);
   });
 
-  after('roomy', h => {
+  after.always('roomy', h => {
     count++;
     h.assert.equal(count, 7);
   });
