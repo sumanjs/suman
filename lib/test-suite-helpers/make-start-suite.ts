@@ -46,7 +46,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
     if (sumanOpts.series) {
       console.log('\n', su.padWithXSpaces(_suman.currentPaddingCount.val),
-        chalk.underline('▽ ' + chalk.gray.bold.italic(self.desc)));
+        chalk.underline.gray.bold.italic(`▶ ${self.desc} ▷ `));
     }
 
     //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent

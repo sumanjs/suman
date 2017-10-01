@@ -291,7 +291,7 @@ export const execSuite = function (suman: ISuman): Function {
         const sumanOpts = _suman.sumanOpts;
 
         _suman.currentPaddingCount = _suman.currentPaddingCount || {};
-        _suman.currentPaddingCount.val = 1; // always reset to 4...
+        _suman.currentPaddingCount.val = 1; // always reset
 
         function runSuite(suite: ITestSuite, cb: Function) {
 

@@ -20,13 +20,13 @@ if [[ "$1" != "--force" ]]; then
         echo "a process is already listening on the default port"
         echo "please choose another port with --port=x"
         echo "suman-daemon may already be running - check with 'ps aux | grep suman-daemon'"
+        echo "otherwise, use '$ suman-daemon --force'."
         exit 1;
     fi
 
 else
     pkill -f suman-daemon  # kill any existing suman-daemon process
 fi
-
 
 
 # we use supervisor, so do not need to force kill

@@ -18,6 +18,7 @@ test/
 dist/
 
 ### files
+exp.js
 .gitignore
 .github
 .npmignore

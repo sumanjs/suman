@@ -1,3 +1,4 @@
+/// <reference types="socket.io-client" />
 import { ISumanChildProcess } from "suman-types/dts/runner";
 export interface ICpHash {
     [key: string]: ISumanChildProcess;

@@ -12,6 +12,11 @@ three SO profiles:
 
 ///
 
+ the following should be in yellow or magenta:
+ (note that your test ran with suman-f, not suman)
+
+///
+
  babel:
 
  removed these from {package.json}.devDependencies:
@@ -27,6 +32,10 @@ three SO profiles:
 ///
 
   options should have "successEvents", "errorEvents"
+
+///
+
+ before / beforeEach hooks should attach a value to suman.$inject if a value is returned
 
 ///
 

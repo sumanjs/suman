@@ -36,6 +36,9 @@ const acceptableOptions = <IAcceptableOptions> {
   skip: true,
   always: true,
   last: true,
+  events: true,
+  successEvents: true,
+  errorEvents: true,
   __preParsed: true
 };
 

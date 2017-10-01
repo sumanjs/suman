@@ -18,7 +18,7 @@ module.exports = Object.freeze({
 
   //string
   testDir: 'test',
-  testSrcDir: 'test/src',
+  testSrcDir: 'test/src/dev/node',
   testTargetDir: 'test/target',
   sumanHelpersDir: 'test/_suman',
   uniqueAppName: '<your-app-name-here>',
