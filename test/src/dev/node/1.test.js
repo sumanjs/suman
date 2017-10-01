@@ -12,14 +12,16 @@ const opts = {series: true, fixed: true};
 
 Test.create(opts, function (assert, describe, before, beforeEach, after, afterEach, it) {
 
+
+  it('sync test', t => {
+    assert(true);
+  });
+
   before(h => {
     count++;
     h.assert.equal(count, 1);
   });
 
-  it('sync test', t => {
-    assert(true);
-  });
 
   describe('nested1', () => {
 

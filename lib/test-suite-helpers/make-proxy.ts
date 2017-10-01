@@ -26,17 +26,17 @@ export const makeProxy = function (suman: ISuman, ctx: ITestSuite) : Function {
 
         props = props || [];
         let hasSkip = false;
-        let newProps = props.concat(String(prop)).filter(function (v, i, a) {
-          if (String(v).toLowerCase() === 'skip') {
-            // if skip, none of the other properties matter
+        let newProps = props.concat(String(prop))
+        .map(v => String(v).toLowerCase()) // we map to lowercase first, so we can use indexOf afterwards
+        .filter(function (v, i, a) {
+          if (v === 'skip') {  // if skip, none of the other properties matter
             hasSkip = true;
           }
-          // we use this filter to get a unique list
-          return a.indexOf(v) === i;
+          return a.indexOf(v) === i;  // we use this filter to get a unique list
         })
         // sort the properties alphabetically so that we need to use fewer number of caches
-        .sort()
-        .map(v => String(v).toLowerCase());
+        .sort();
+
 
         if (hasSkip) {
           // if any of the props are "skip" then we can reduce it to just "skip"

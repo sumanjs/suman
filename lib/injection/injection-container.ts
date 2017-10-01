@@ -83,12 +83,13 @@ export const makeInjectionContainer = function (suman: ISuman) {
         debugger;
 
         let hasSkip = false;
-        let newProps = props.concat(String(prop)).filter(function (v, i, a) {
-          if (String(v) === 'skip') {
+        let newProps = props.concat(String(prop))
+        .map(v => String(v).toLowerCase()) // we map to lowercase first, so we can use indexOf afterwards
+        .filter(function (v, i, a) {
+          if (v === 'skip') {
             hasSkip = true;
           }
-          // we use this filter to get a unique list
-          return a.indexOf(v) === i;
+          return a.indexOf(v) === i;  // we use this filter to get a unique list
         });
 
         let method = String(newProps.shift()).toLowerCase();
