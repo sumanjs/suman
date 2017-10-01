@@ -19,8 +19,7 @@ module.exports = Object.freeze({
   //string
   testDir: 'test',
   testSrcDir: 'test/src/dev/node',
-  testTargetDir: 'test/target',
-  sumanHelpersDir: 'test/_suman',
+  sumanHelpersDir: 'test/.suman',
   uniqueAppName: '<your-app-name-here>',
   browser: 'Firefox',                 // browser to open test results with
   logsDir: process.env['SUMAN_LOGS_DIR'],

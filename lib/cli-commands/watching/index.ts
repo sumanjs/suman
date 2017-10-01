@@ -1,5 +1,8 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj, ISumanConfig, ISumanOpts} from "suman-types/dts/global";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -12,12 +15,10 @@ import EE = require('events');
 import fs = require('fs');
 import * as stream from 'stream';
 
-
 //npm
 import su from 'suman-utils';
 import * as chalk from 'chalk';
 import {run as runWatch} from 'suman-watch';
-import {IGlobalSumanObj, ISumanConfig, ISumanOpts} from "suman-types/dts/global";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -48,24 +49,24 @@ export const run = function (paths: Array<string>, sumanOpts: ISumanOpts, sumanC
       does not exist on the {suman.conf.js}.watch.per object.`));
   }
 
-  runWatch(Object.freeze({
-      paths,
-      watchPer,
-      noTranspile: sumanOpts.no_transpile,
-      noRun: sumanOpts.no_run
-    }),
+  const watchOpts = Object.freeze({
+    paths,
+    watchPer,
+    noTranspile: sumanOpts.no_transpile,
+    noRun: sumanOpts.no_run
+  });
 
-    function (err: Error) {
-      if (err) {
-        console.log('\n');
-        console.error(err.stack || err);
-        process.exit(1);
-      }
-      else {
-        console.log('\n');
-        _suman.logInfo(chalk.underline('Suman watch successfully initialized.'));
-      }
-    })
+  runWatch(watchOpts, function (err: Error) {
+    if (err) {
+      console.log('\n');
+      console.error(err.stack || err);
+      process.exit(1);
+    }
+    else {
+      console.log('\n');
+      _suman.logInfo(chalk.underline('Suman watch successfully initialized.'));
+    }
+  })
 
 };
 
