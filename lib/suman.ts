@@ -46,6 +46,12 @@ if (process.env.DEFAULT_PARALLEL_TOTAL_LIMIT && (envTotal = Number(process.env.D
 
 //////////////////////////////////////////////////////////////////////////////
 
+export interface ITestBlockMethodCache {
+  [key: string]: Function
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 let sumanId = 0;
 
 export class Suman {
@@ -54,7 +60,7 @@ export class Suman {
   interface: string;
   $inject: Object;
   private __inject: Object;
-  testBlockMethodCache: Object;
+  testBlockMethodCache: ITestBlockMethodCache;
   iocData: Object;
   fileName: string;
   slicedFileName: string;

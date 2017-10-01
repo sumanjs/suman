@@ -40,6 +40,7 @@ const acceptableOptions = <IAcceptableOptions> {
   cb: true,
   parallel: true,
   series: true,
+  mode: true,
   timeout: true,
   only: true,
   skip: true,
@@ -130,6 +131,11 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): ItFn {
       suman.itOnlyIsTriggered = true;
     }
 
+    const isSeries = zuite.series || opts.series === true || opts.parallel === false;
+    const isFixedParallel = !isSeries && (zuite.parallel || opts.parallel === true || opts.mode === 'parallel');
+    const isParallel = (sumanOpts.parallel || sumanOpts.parallel_max) || (!sumanOpts.series && isFixedParallel);
+    const isOverallParallel = (opts.fixed && isFixedParallel) || isParallel;
+
     const testData: ITestDataObj = {
       alreadyInitiated: false,
       testId: inc,
@@ -141,7 +147,8 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): ItFn {
       skip: opts.skip,
       value: opts.value,
       throws: opts.throws,
-      parallel: (!sumanOpts.series && (opts.parallel === true || opts.mode === 'parallel')),
+      fixed: opts.fixed,
+      parallel: isOverallParallel,
       mode: opts.mode,
       delay: opts.delay,
       cb: opts.cb,
@@ -155,7 +162,7 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): ItFn {
       error: null
     };
 
-    if (sumanOpts.parallel || (!sumanOpts.series && (opts.parallel || (zuite.parallel && opts.parallel !== false)))) {
+    if (isOverallParallel) {
       zuite.getParallelTests().push(testData);
     }
     else {

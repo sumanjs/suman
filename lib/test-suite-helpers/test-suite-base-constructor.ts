@@ -38,6 +38,7 @@ export class TestSuiteBase {
   isSetupComplete: boolean;
   parallel: boolean;
   skipped: boolean;
+  fixed: boolean;
   only: boolean;
   filename: string;
   getAfterAllParentHooks: Function;
@@ -68,8 +69,10 @@ export class TestSuiteBase {
     this.opts = obj.opts;
     this.testId = incr();
     this.isSetupComplete = false;
-    this.parallel = sumanOpts.parallel ||
-      (!sumanOpts.series && (obj.opts.parallel === true || obj.opts.mode === 'parallel'));
+    let parallel = obj.opts.parallel;
+    let mode = obj.opts.mode;
+    let fixed = this.fixed = (this.opts.fixed || false);
+    this.parallel = (sumanOpts.parallel && !fixed) || (!sumanOpts.series && (parallel === true || mode === 'parallel'));
     this.skipped = this.opts.skip || false;
     this.only = this.opts.only || false;
     this.filename = suman.filename;

@@ -27,12 +27,60 @@ const rules = require('../helpers/handle-varargs');
 
  //////////////////////////////////////////////////////////////////*/
 
+const possibleProps = <any> {
+
+  //methods
+  describe: true,
+  beforeeach: true,
+  aftereach: true,
+  after: true,
+  before: true,
+  context: true,
+  it: true,
+  test: true,
+
+  // options
+  skip: true,
+  fatal: true,
+  parallel: true,
+  series: true,
+  cb: true,
+  only: true,
+  plan: true,
+  throws: true,
+  timeout: true,
+  always: true,
+  last: true,
+  __preParsed: true
+
+};
+
 export const makeInjectionContainer = function (suman: ISuman) {
 
   const getProxy = function (val: Object, props: Array<string>): any {
 
     return new Proxy(val, {
       get: function (target, prop) {
+
+        debugger;
+
+        if (typeof prop === 'symbol') {
+          return Reflect.get(...arguments);
+        }
+
+        let meth = String(prop).toLowerCase();
+
+        if (!possibleProps[meth] /*&& !(prop in target)*/) {
+          try {
+            debugger;
+            return Reflect.get(...arguments);
+          }
+          catch (err) {
+            throw new Error(`Test suite may not have a '${prop}' property or method.\n${err.stack}`)
+          }
+        }
+
+        debugger;
 
         let hasSkip = false;
         let newProps = props.concat(String(prop)).filter(function (v, i, a) {

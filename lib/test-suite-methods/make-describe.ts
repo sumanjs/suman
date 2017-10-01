@@ -50,6 +50,7 @@ const acceptableOptions = <IAcceptableOptions> {
   only: true,
   delay: true,
   parallel: true,
+  limit: true,
   series: true,
   mode: true,
   __preParsed: true
@@ -76,7 +77,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
     const {sumanOpts} = _suman;
     handleSetupComplete(zuite, 'describe');
-
 
     const args = pragmatik.parse(arguments, rules.blockSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
