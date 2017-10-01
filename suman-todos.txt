@@ -6,6 +6,10 @@ three SO profiles:
 
 ///
 
+ the runner hangs every few runs, there must be a race condition
+
+///
+
  suman --scripts abc
 
  => should run the script that's in suman.conf.js

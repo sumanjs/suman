@@ -2,7 +2,7 @@
 
 //dts
 import {ITestSuite} from "suman-types/dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain, ICurrentPaddingCount} from "suman-types/dts/global";
 import {ISuman, Suman} from "./suman";
 import {ICreateOpts, TCreateHook} from "suman-types/dts/index-init";
 import {IInjectionDeps} from "suman-types/dts/injection";
@@ -290,8 +290,9 @@ export const execSuite = function (suman: ISuman): Function {
 
         const sumanOpts = _suman.sumanOpts;
 
-        _suman.currentPaddingCount = _suman.currentPaddingCount || {};
-        _suman.currentPaddingCount.val = 1; // always reset
+        const currentPaddingCount = _suman.currentPaddingCount
+          = (_suman.currentPaddingCount || ({} as ICurrentPaddingCount));
+        currentPaddingCount.val = 1; // always reset
 
         function runSuite(suite: ITestSuite, cb: Function) {
 
@@ -325,16 +326,17 @@ export const execSuite = function (suman: ISuman): Function {
               return process.nextTick(cb)
             }
 
-            sumanOpts.series && (_suman.currentPaddingCount.val += 3);
+            sumanOpts.series && (currentPaddingCount.val += 3);
 
             async.eachLimit(children, limit, function (child: ITestSuite, cb: Function) {
 
+              // this could be reduced, but leave it for clarity
               runSuite(child, cb);
 
             }, function (err: IPseudoError) {
 
-              sumanOpts.series && (_suman.currentPaddingCount.val -= 3);
-              err && _suman.logError('Suman implementation error => ', err.stack || err);
+              sumanOpts.series && (currentPaddingCount.val -= 3);
+              err && _suman.logError('Suman implementation error:', err.stack || err);
               process.nextTick(cb);
 
             });
@@ -355,7 +357,6 @@ export const execSuite = function (suman: ISuman): Function {
 
           if (sumanOpts.parallel_max) {
             suman.getQueue().drain = function () {
-              debugger;
               onSumanCompleted(0, null);
             }
           }

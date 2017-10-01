@@ -1,4 +1,5 @@
-### all files
+
+### matching files
 *.sh
 *.ts
 *.md
@@ -8,7 +9,7 @@
 *.yml
 *.DS_Store
 
-### directories
+### folders
 .idea
 node_modules
 coverage/
@@ -16,17 +17,17 @@ coverage/
 yarn.lock
 test/
 dist/
+.github
+.tscmultiwatch
 
 ### files
 exp.js
 .gitignore
-.github
 .npmignore
 webpack.config.js
 .gitattributes
 suman.conf.js
 .editorconfig
-.tscmultiwatch
 .babelrc
 .dockerignore
 
