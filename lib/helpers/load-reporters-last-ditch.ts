@@ -1,5 +1,11 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
+
+//polyfills
+const process = require('suman-browser-polyfills/modules/process');
+const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import cp = require('child_process');
@@ -31,9 +37,8 @@ export const run = function () {
   }
 
   _suman.currentPaddingCount = _suman.currentPaddingCount || {};
-  const optsCopy = Object.assign({}, _suman.sumanOpts);
   // we do not want the user to modify sumanOpts at runtime! so we copy it
-  optsCopy.currPadCount = _suman.currentPaddingCount;
+  const optsCopy = Object.assign({}, _suman.sumanOpts);
 
   if (sumanReporters.length < 1) {
     let fn: Function;

@@ -46,7 +46,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
     if (sumanOpts.series) {
       console.log('\n', su.padWithXSpaces(_suman.currentPaddingCount.val),
-        chalk.underline('▽ ' + chalk.gray.bold.italic(self.desc)));
+        chalk.underline.gray.bold.italic(`▶ ${self.desc} ▷ `));
     }
 
     //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
@@ -58,7 +58,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
     this.mergeAfters();
 
     const itOnlyIsTriggered = suman.itOnlyIsTriggered;
-    const q = getQueue();
+    const q = suman.getQueue();
 
     let earlyCallback = Boolean(sumanOpts.parallel_max);
 
@@ -208,7 +208,6 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         // isCompleted means this block has completed, nothing more
         Object.getPrototypeOf(self).isCompleted = true;
 
-        console.log('suite is done', self.desc);
         process.nextTick(function () {
           queueCB();
           // if earlyCallback is true, we have already called finished, cannot call it twice!

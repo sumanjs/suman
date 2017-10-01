@@ -67,15 +67,19 @@ export const makeTestCase =
           return Reflect.get(...arguments);
         }
 
-        if (badProps[String(prop)]) {
-          return Reflect.get(...arguments);
-        }
+        // if (badProps[String(prop)]) {
+        //   return Reflect.get(...arguments);
+        // }
 
         if (!(prop in chaiAssert)) {
-          return handleError(
-            // new Error(`The assertion library used does not have property or method.`)
-            new Error(`The assertion library used does not have a '${prop}' property or method.`)
-          );
+          try {
+            return Reflect.get(...arguments);
+          }
+          catch (err) {
+            return handleError(
+              new Error(`The assertion library used does not have a '${prop}' property or method.`)
+            );
+          }
         }
 
         return function () {

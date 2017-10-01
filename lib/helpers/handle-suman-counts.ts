@@ -33,6 +33,8 @@ const results: Array<ITableDataCallbackObj> = _suman.tableResults = (_suman.tabl
 
 suiteResultEmitter.once('suman-test-file-complete', function () {
 
+  debugger;
+
   let fn, resultz;
 
   if (_suman.usingRunner) {
@@ -94,7 +96,6 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
     };
 
     waitForStdioToDrain(function () {
-      _suman.log('suman child is all done and exitting.');
       process.exit(highestExitCode)
     });
 

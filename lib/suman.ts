@@ -38,7 +38,19 @@ import {constants} from '../config/suman-constants';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
 
+let envTotal: number, envConfig: number;
+
+if (process.env.DEFAULT_PARALLEL_TOTAL_LIMIT && (envTotal = Number(process.env.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
+  assert(Number.isInteger(envTotal), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
+}
+
 //////////////////////////////////////////////////////////////////////////////
+
+export interface ITestBlockMethodCache {
+  [key: string]: Function
+}
+
+///////////////////////////////////////////////////////////////////////////////
 
 let sumanId = 0;
 
@@ -48,7 +60,7 @@ export class Suman {
   interface: string;
   $inject: Object;
   private __inject: Object;
-  testBlockMethodCache: Object;
+  testBlockMethodCache: ITestBlockMethodCache;
   iocData: Object;
   fileName: string;
   slicedFileName: string;
@@ -69,6 +81,7 @@ export class Suman {
   extraArgs: Array<string>;
   sumanCompleted: boolean;
   desc: string;
+  getQueue: Function;
 
   ////////////////////////////////////
 
@@ -93,6 +106,40 @@ export class Suman {
     this.numHooksSkipped = 0;
     this.numHooksStubbed = 0;
     this.numBlocksSkipped = 0;
+
+    let queue: any;
+
+    this.getQueue = function () {
+
+      if (!queue) {
+
+        const {sumanConfig, sumanOpts} = _suman;
+        // note: we have to create the queue after loading this file, so that _suman.sumanConfig is defined.
+
+        if (sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT &&
+          (envConfig = Number(_suman.sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
+          assert(Number.isInteger(envConfig), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
+        }
+
+        let c = 1;  // concurrency
+
+        if (!sumanOpts.series) {
+          c = envTotal || envConfig || constants.DEFAULT_PARALLEL_TOTAL_LIMIT;
+        }
+
+        assert(Number.isInteger(c) && c > 0 && c < 301,
+          'DEFAULT_PARALLEL_TOTAL_LIMIT must be an integer between 1 and 300 inclusive.');
+
+        queue = async.queue(function (task: Function, cb: Function) {
+          task(cb);
+        }, c);
+
+      }
+
+      return queue;
+
+    };
+
   }
 
   getTableData() {

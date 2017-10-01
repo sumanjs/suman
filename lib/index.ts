@@ -137,15 +137,17 @@ fs.writeFileSync(testLogPath, '\n => New Suman run @' + new Date(), {flag: 'w'})
 
 let loaded = false;
 const testSuiteQueueCallbacks: Array<Function> = [];
+const testRuns: Array<Function> = [];
+const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
+
 const c = (sumanOpts && sumanOpts.series) ? 1 : 3;
 
 const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
+  debugger;
   testSuiteQueueCallbacks.unshift(cb);
   process.nextTick(task);
 }, c);
 
-const testRuns: Array<Function> = [];
-const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
 const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Function) {
   // important! => Test.creates need to be registered only one at a time
   testSuiteRegistrationQueueCallbacks.unshift(cb);
@@ -153,9 +155,10 @@ const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Fun
 }, c);
 
 testSuiteRegistrationQueue.drain = function () {
-  testRuns.forEach(function (fn) {
-    testSuiteQueue.push(fn);
-  });
+  _suman.log(`Pushing ${testRuns.length} test suites onto queue with concurrency ${c}.\n`);
+  while (testRuns.length > 0) {  //explicit for your pleasure
+    testSuiteQueue.push(testRuns.shift());
+  }
 };
 
 testSuiteQueue.drain = function () {
@@ -367,7 +370,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       _suman.logError(err.stack || err);
       _suman.writeTestError(err.stack || err);
       process.exit(constants.EXIT_CODES.PRE_VALS_ERROR);
-    })
+    });
 
   };
 
@@ -397,6 +400,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   const create = init.$ingletonian.create = start;
   _interface === 'TDD' ? init.$ingletonian.suite = create : init.$ingletonian.describe = create;
+
   loaded = true;
   return init.$ingletonian;
 

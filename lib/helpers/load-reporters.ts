@@ -1,5 +1,7 @@
 'use strict';
-import {ISumanConfig, ISumanOpts} from "suman-types/dts/global";
+
+//dts
+import {ISumanConfig, ISumanOpts, IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -20,7 +22,7 @@ import {events} from 'suman-events';
 import * as _ from 'lodash';
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 let loaded = false;
@@ -37,7 +39,6 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
 
   _suman.currentPaddingCount = _suman.currentPaddingCount || {};
   const optsCopy = Object.assign({}, sumanOpts);
-  optsCopy.currPadCount = _suman.currentPaddingCount;
 
   const sumanReporters = _suman.sumanReporters = _.flattenDeep([sumanOpts.reporter_paths || []])
   .filter(v => {
@@ -45,7 +46,8 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
       _suman.logWarning('a reporter path was undefined.');
     }
     return v;
-  }).map(function (item: string) {
+  })
+  .map(function (item: string) {
     if (!path.isAbsolute(item)) {
       item = path.resolve(projectRoot + '/' + item);
     }
@@ -116,19 +118,17 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
       }
     }
 
-    try{
+    try {
       fn = fn.default || fn;
       assert(typeof fn === 'function',
         'reporter module does not export a function, at path = "' + val + '"');
       fn.pathToReporter = val;  // val might not refer to a path...
       sumanReporters.push(fn);
     }
-    catch(err){
+    catch (err) {
       throw new Error(chalk.red('Could not load reporter with name => "' + item + '"')
         + '\n => ' + (err.stack || err) + '\n');
     }
-
-
 
   });
 

@@ -2,7 +2,7 @@
 
 //dts
 import {ITestSuite} from "suman-types/dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanDomain, ICurrentPaddingCount} from "suman-types/dts/global";
 import {ISuman, Suman} from "./suman";
 import {ICreateOpts, TCreateHook} from "suman-types/dts/index-init";
 import {IInjectionDeps} from "suman-types/dts/injection";
@@ -290,8 +290,9 @@ export const execSuite = function (suman: ISuman): Function {
 
         const sumanOpts = _suman.sumanOpts;
 
-        _suman.currentPaddingCount = _suman.currentPaddingCount || {};
-        _suman.currentPaddingCount.val = 1; // always reset to 4...
+        const currentPaddingCount = _suman.currentPaddingCount
+          = (_suman.currentPaddingCount || ({} as ICurrentPaddingCount));
+        currentPaddingCount.val = 1; // always reset
 
         function runSuite(suite: ITestSuite, cb: Function) {
 
@@ -299,8 +300,6 @@ export const execSuite = function (suman: ISuman): Function {
             _suman.logError(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
             return;
           }
-
-          const fn: Function = async.eachLimit;
 
           let limit = 1;
           if (suite.parallel) {
@@ -316,33 +315,32 @@ export const execSuite = function (suman: ISuman): Function {
 
           suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
-            results && _suman.logError('results => ', results);
-            err && _suman.logError('Test error data before log:', suite);
+            results && _suman.logError('Suman extraneous results:', results);
+            err && _suman.logError('Suman extraneous test error:', suite);
 
             const children = suite.getChildren().filter(function (child: ITestSuite) {
-              //TODO: this might be wrong, may need to omit filter
               return !child.skipped;
             });
 
             if (children.length < 1) {
-              process.nextTick(cb)
+              return process.nextTick(cb)
             }
-            else {
 
-              sumanOpts.series && (_suman.currentPaddingCount.val += 3);
+            sumanOpts.series && (currentPaddingCount.val += 3);
 
-              fn(children, limit, function (child: ITestSuite, cb: Function) {
+            async.eachLimit(children, limit, function (child: ITestSuite, cb: Function) {
 
-                runSuite(child, cb);
+              // this could be reduced, but leave it for clarity
+              runSuite(child, cb);
 
-              }, function (err: IPseudoError) {
+            }, function (err: IPseudoError) {
 
-                sumanOpts.series && (_suman.currentPaddingCount.val -= 3);
-                err && _suman.logError('Suman implementation error => ', err.stack || err);
-                process.nextTick(cb);
+              sumanOpts.series && (currentPaddingCount.val -= 3);
+              err && _suman.logError('Suman implementation error:', err.stack || err);
+              process.nextTick(cb);
 
-              });
-            }
+            });
+
           });
         }
 
@@ -358,9 +356,7 @@ export const execSuite = function (suman: ISuman): Function {
           debugger;
 
           if (sumanOpts.parallel_max) {
-            getQueue().drain = function () {
-              debugger;
-              console.log('parallel max queue drained.');
+            suman.getQueue().drain = function () {
               onSumanCompleted(0, null);
             }
           }
