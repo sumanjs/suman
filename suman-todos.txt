@@ -12,6 +12,16 @@ three SO profiles:
 
 ///
 
+ babel:
+
+ removed these from {package.json}.devDependencies:
+
+    "babel-loader": "^6.4.1",
+     "babel-polyfill": "^6.23.0",
+     "babel-preset-latest": "^6.24.0",
+
+///
+
  => wrapErrorFirst should also trap errors with try/catch just like wrap?
 
 ///

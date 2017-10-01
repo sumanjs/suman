@@ -9,6 +9,8 @@
 // console.log(obj[sym2]);
 //
 
+// hi
+
 
 console.log('the beginning');
 const chai = require('chai');
