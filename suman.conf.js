@@ -75,36 +75,30 @@ module.exports = Object.freeze({
   expireResultsAfter: 10000000,     // test results will be deleted after this amount of time
 
   watch: {
-
-    'all-tests': './node_modules/.bin/suman',
-    'unit-tests': './node_modules/.bin/suman test/unit/**/*.js',
-
-    '//tests': {
-      'default': {  // (re) execute the test file that changed
-        script: function (p) {
-          return `./node_modules/.bin/suman ${p}`
-        },
-        include: [],
-        exclude: ['^test.*']
+    options: {},
+    per: {
+      'node-dev': {
+        exec: 'suman test/src/dev/node',
+        includes: [__dirname],
+        excludes: ['/test/'],
+        confOverride: {}
       }
     },
-
-    '//project': {
-      script: './node_modules/.bin/suman',
-      include: [],
-      exclude: ['^test.*'],
-
-    },
-
-    'default': {  //run all tests when a file changes in project
-      script: './node_modules/.bin/suman',
-      include: [],
-      exclude: ['^test.*']
+    'browser-dev': {
+      exec: 'suman test/src/dev/browser',
+      includes: [__dirname],
+      excludes: ['/test/'],
+      confOverride: {}
     }
   },
 
+  scripts: {
+    // usage: $ suman --scripts example
+    example: 'export NODE_ENV=test; echo "I love hippos"; echo "zoom => ${NODE_ENV}"'
+  },
+
   reporters: {
-    'tap': 'node_modules/suman/lib/reporters/tap-reporter'
+    'tap': 'suman-reporters/modules/tap-reporter'
   },
 
   // servers: {                           // list of servers to output test result data to, with the os.hostname() as the key

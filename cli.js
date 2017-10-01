@@ -180,6 +180,7 @@ var tscMultiWatch = sumanOpts.tsc_multi_watch;
 var sumanD = sumanOpts.suman_d;
 var watchPer = sumanOpts.watch_per;
 var singleProcess = sumanOpts.single_process;
+var script = sumanOpts.script;
 if (singleProcess) {
     process.env.SUMAN_SINGLE_PROCESS = 'yes';
 }
@@ -304,7 +305,7 @@ var preOptCheck = {
     convert: convert, groups: groups, s: s, tailTest: tailTest,
     tailRunner: tailRunner, interactive: interactive, uninstallBabel: uninstallBabel,
     diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
-    repair: repair, sumanD: sumanD
+    repair: repair, sumanD: sumanD, script: script
 };
 var optCheck = Object.keys(preOptCheck).filter(function (key, index) {
     return preOptCheck[key];
@@ -357,6 +358,9 @@ if (!process.stdout.isTTY && !useTAPOutput) {
 }
 if (diagnostics) {
     require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
+}
+else if (script) {
+    require('./lib/cli-commands/run-scripts').run(sumanConfig, sumanOpts);
 }
 else if (tscMultiWatch) {
     require('./lib/cli-commands/run-tscmultiwatch').run(sumanOpts);

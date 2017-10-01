@@ -38,6 +38,9 @@ const acceptableOptions = <IAcceptableOptions> {
   plan: true,
   fatal: true,
   skip: true,
+  events: true,
+  successEvents: true,
+  errorEvents: true,
   __preParsed: true
 };
 
