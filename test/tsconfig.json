@@ -1,9 +1,5 @@
 {
   "compilerOptions": {
-    "outDir": "test/target",
-    "types": [
-      "node"
-    ],
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -21,9 +17,6 @@
       "dom"
     ]
   },
-  "include": [
-    "test/src/**/*.ts"
-  ],
   "exclude": [
     "node_modules"
   ]
