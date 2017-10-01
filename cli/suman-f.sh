@@ -10,7 +10,7 @@ fi
 mkdir -p "${HOME}/.suman/global"
 mkdir -p "${HOME}/.suman/logs"
 
-trap 'echo " (note that your test ran with suman-f, not suman)   "; echo ""' INT
+trap 'echo ""; echo " (note that your test ran with suman-f, not suman)   "; echo "";' INT
 
 BASH_PID="$$"
 

@@ -46,15 +46,13 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
   it('is cool story bro 2', t => {
 
     setTimeout(function(){
-      throw Error('radical');
+      // throw Error('radical');
     },10);
 
   });
 
   context('zoo', function () {
-
     console.log('this.shared real', this.shared.getAll());
-
   });
 
 });

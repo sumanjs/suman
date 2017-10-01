@@ -27,6 +27,34 @@ const rules = require('../helpers/handle-varargs');
 
  //////////////////////////////////////////////////////////////////*/
 
+const possibleProps = <any> {
+
+  //methods
+  describe: true,
+  beforeeach: true,
+  aftereach: true,
+  after: true,
+  before: true,
+  context: true,
+  it: true,
+  test: true,
+
+  // options
+  skip: true,
+  fatal: true,
+  parallel: true,
+  series: true,
+  cb: true,
+  only: true,
+  plan: true,
+  throws: true,
+  timeout: true,
+  always: true,
+  last: true,
+  __preParsed: true
+
+};
+
 export const makeInjectionContainer = function (suman: ISuman) {
 
   const getProxy = function (val: Object, props: Array<string>): any {
@@ -34,13 +62,34 @@ export const makeInjectionContainer = function (suman: ISuman) {
     return new Proxy(val, {
       get: function (target, prop) {
 
+        debugger;
+
+        if (typeof prop === 'symbol') {
+          return Reflect.get(...arguments);
+        }
+
+        let meth = String(prop).toLowerCase();
+
+        if (!possibleProps[meth] /*&& !(prop in target)*/) {
+          try {
+            debugger;
+            return Reflect.get(...arguments);
+          }
+          catch (err) {
+            throw new Error(`Test suite may not have a '${prop}' property or method.\n${err.stack}`)
+          }
+        }
+
+        debugger;
+
         let hasSkip = false;
-        let newProps = props.concat(String(prop)).filter(function (v, i, a) {
-          if (String(v) === 'skip') {
+        let newProps = props.concat(String(prop))
+        .map(v => String(v).toLowerCase()) // we map to lowercase first, so we can use indexOf afterwards
+        .filter(function (v, i, a) {
+          if (v === 'skip') {
             hasSkip = true;
           }
-          // we use this filter to get a unique list
-          return a.indexOf(v) === i;
+          return a.indexOf(v) === i;  // we use this filter to get a unique list
         });
 
         let method = String(newProps.shift()).toLowerCase();
@@ -82,13 +131,14 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
           args[1].__preParsed = true;
 
-          try {
-            let getter = `get_${method}`;
-            return suman.ctx[getter]().apply(suman.ctx, args);
+          let getter = `get_${method}`;
+          let meth = suman.ctx[getter];
+
+          if (!meth) {
+            throw new Error(`property '${method}' is not available on test suite object.`)
           }
-          catch (err) {
-            throw new Error(`property '${method}' is not available on test suite object.\n` + err.stack);
-          }
+
+          return meth().apply(suman.ctx, args);
 
         };
 

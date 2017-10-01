@@ -8,6 +8,7 @@ export declare class TestSuiteBase {
     isSetupComplete: boolean;
     parallel: boolean;
     skipped: boolean;
+    fixed: boolean;
     only: boolean;
     filename: string;
     getAfterAllParentHooks: Function;

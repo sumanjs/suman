@@ -2,12 +2,15 @@ import { ITestSuite } from "suman-types/dts/test-suite";
 import { ISumanConfig } from "suman-types/dts/global";
 import { ISumanInputs } from "suman-types/dts/suman";
 import { ITestDataObj } from "suman-types/dts/it";
+export interface ITestBlockMethodCache {
+    [key: string]: Function;
+}
 export declare class Suman {
     ctx?: ITestSuite;
     interface: string;
     $inject: Object;
     private __inject;
-    testBlockMethodCache: Object;
+    testBlockMethodCache: ITestBlockMethodCache;
     iocData: Object;
     fileName: string;
     slicedFileName: string;
@@ -28,6 +31,7 @@ export declare class Suman {
     extraArgs: Array<string>;
     sumanCompleted: boolean;
     desc: string;
+    getQueue: Function;
     constructor(obj: ISumanInputs);
     getTableData(): void;
     logFinished($exitCode: number, skippedString: string, cb: Function): void;

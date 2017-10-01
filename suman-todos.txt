@@ -6,11 +6,55 @@ three SO profiles:
 
 ///
 
+ the runner hangs every few runs, there must be a race condition
+
+///
+
+cd $(dirname "$0")
+[ ! -d "node_modules/babel-runtime" ] && npm install babel-runtime
+[ ! -d "node_modules/babel-core" ] && npm install babel-core
+[ ! -d "node_modules/babel-plugin-transform-runtime" ] && npm install babel-plugin-transform-runtime
+[ ! -d "node_modules/babel-preset-es2015" ] && npm install babel-preset-es2015
+[ ! -d "node_modules/babel-preset-es2016" ] && npm install babel-preset-es2016
+[ ! -d "node_modules/babel-polyfill" ] && npm install babel-polyfill
+[ ! -d "node_modules/babel-preset-stage-0" ] && npm install babel-preset-stage-0
+[ ! -d "node_modules/babel-preset-stage-1" ] && npm install babel-preset-stage-1
+[ ! -d "node_modules/babel-preset-stage-2" ] && npm install babel-preset-stage-2
+[ ! -d "node_modules/babel-preset-stage-3" ] &&  npm install babel-preset-stage-3
+
+
+////
+
+ suman --scripts abc
+
+ => should run the script that's in suman.conf.js
+
+///
+
+ the following should be in yellow or magenta:
+ (note that your test ran with suman-f, not suman)
+
+///
+
+ babel:
+
+ removed these from {package.json}.devDependencies:
+
+    "babel-loader": "^6.4.1",
+     "babel-polyfill": "^6.23.0",
+     "babel-preset-latest": "^6.24.0",
+
+///
+
  => wrapErrorFirst should also trap errors with try/catch just like wrap?
 
 ///
 
   options should have "successEvents", "errorEvents"
+
+///
+
+ before / beforeEach hooks should attach a value to suman.$inject if a value is returned
 
 ///
 

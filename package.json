@@ -97,9 +97,7 @@
     "@types/node": "^7.0.29",
     "@types/socket.io": "^1.4.29",
     "@types/socket.io-client": "^1.4.29",
-    "babel-loader": "^6.4.1",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-latest": "^6.24.0",
+
     "bluebird": "^3.4.7",
     "browserify-fs": "^1.0.0",
     "ignore-loader": "^0.1.2",
