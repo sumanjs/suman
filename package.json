@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.512247",
+  "version": "1.1.512248",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -97,7 +97,6 @@
     "@types/node": "^7.0.29",
     "@types/socket.io": "^1.4.29",
     "@types/socket.io-client": "^1.4.29",
-
     "bluebird": "^3.4.7",
     "browserify-fs": "^1.0.0",
     "ignore-loader": "^0.1.2",
