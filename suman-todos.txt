@@ -6,6 +6,12 @@ three SO profiles:
 
 ///
 
+ suman --scripts abc
+
+ => should run the script that's in suman.conf.js
+
+///
+
  => wrapErrorFirst should also trap errors with try/catch just like wrap?
 
 ///
