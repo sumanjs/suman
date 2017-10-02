@@ -5,6 +5,7 @@ export declare const constants: Readonly<{
     DEFAULT_PARALLEL_TOTAL_LIMIT: number;
     DEFAULT_PARALLEL_TEST_LIMIT: number;
     DEFAULT_PARALLEL_BLOCK_LIMIT: number;
+    DEFAULT_CHILD_PROCESS_TIMEOUT: number;
     OLDEST_SUPPORTED_NODE_VERSION: string;
     DEBUGGING_ENV: {
         name: string;

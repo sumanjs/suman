@@ -10,6 +10,11 @@ three SO profiles:
 
 ///
 
+suman-watch should be optionalDep?
+suman-interactive should be optionalDep?
+
+///
+
 cd $(dirname "$0")
 [ ! -d "node_modules/babel-runtime" ] && npm install babel-runtime
 [ ! -d "node_modules/babel-core" ] && npm install babel-core
@@ -22,6 +27,10 @@ cd $(dirname "$0")
 [ ! -d "node_modules/babel-preset-stage-2" ] && npm install babel-preset-stage-2
 [ ! -d "node_modules/babel-preset-stage-3" ] &&  npm install babel-preset-stage-3
 
+
+////
+
+ => give user choice as to use bash or zsh or whatever for suman watch
 
 ////
 

@@ -78,7 +78,7 @@ module.exports = Object.freeze({
     options: {},
     per: {
       'node-dev': {
-        exec: 'suman test/src/dev/node',
+        exec: 'suman test/src/dev/node --verbosity=5 --inherit-stdio',
         includes: [__dirname],
         excludes: ['/test/', /\.ts$/],
         confOverride: {}
@@ -93,7 +93,7 @@ module.exports = Object.freeze({
   },
 
 
-  ///////////////
+  ////////////////////////////////////////////////////
 
   scripts: {
     // usage: $ suman --scripts example

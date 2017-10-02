@@ -16,10 +16,8 @@ const replaceStrm = require('replacestream');
 import * as chalk from 'chalk';
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
-
-
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +34,7 @@ export const run = function (filePath: string) {
 
   if (process.env.MAKE_SUMAN_LOG !== 'no') {
 
-    _suman.log('we are logging child stdout/stderr to files.','\n');
+    _suman.log('we are logging child stdout/stderr to files.', '\n');
     const timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
     const runId = process.env.SUMAN_RUN_ID;
     const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
@@ -80,7 +78,7 @@ export const run = function (filePath: string) {
       process.stderr.write = function () {
         _suman.isStrmDrained = false;
         isDeleteFile = false;
-        if(writeToFileStream){
+        if (writeToFileStream) {
           try {
             strm.write.apply(strm, arguments);
           }
@@ -99,7 +97,7 @@ export const run = function (filePath: string) {
       process.stdout.write = function () {
         _suman.isStrmDrained = false;
         isDeleteFile = false;
-        if(writeToFileStream){
+        if (writeToFileStream) {
           strm.write.apply(strm, arguments);
         }
         stdoutWrite.apply(process.stdout, arguments);

@@ -573,7 +573,7 @@ else if (s) {
   require('./lib/cli-commands/start-suman-server')(sumanServerInstalled, sumanConfig, serverName);
 }
 else if (watch || watchPer) {
-  require('./lib/cli-commands/watching').run(paths, sumanOpts, sumanConfig);
+  require('./lib/cli-commands/watching').run(projectRoot, paths, sumanOpts, sumanConfig);
 }
 else if (groups) {
   require('./lib/cli-commands/groups').run(paths);

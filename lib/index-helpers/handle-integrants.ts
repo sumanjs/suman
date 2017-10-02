@@ -57,14 +57,22 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
     postOnlyReady = false;
   }
 
+  let client: SocketIOClient.Socket, usingRunner = _suman.usingRunner;
+
   if (integrants.length < 1) {
+
+    if (usingRunner) {
+      // we need to establish a connection now, to get ahead of things
+      client = getClient();
+    }
+
     integrantsFn = function () {
       return Promise.resolve({});
     }
   }
-  else if (_suman.usingRunner) {
+  else if (usingRunner) {
 
-    const client = getClient();
+    client = getClient();
 
     integrantsFn = function () {
 
@@ -143,7 +151,7 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
 
         d.run(function () {
 
-          if(!integPreConfiguration){
+          if (!integPreConfiguration) {
             throw new Error('suman implementation error, missing definition.');
           }
           // with suman single process, or not, we acquire integrants the same way

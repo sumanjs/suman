@@ -112,31 +112,30 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
       runnerObj.endTime = Date.now();
       runnerObj.listening = false;
 
-      const waitForTAP = function () {
-        async.parallel([
-            beforeExitRunOncePost,
-            handleTestCoverageReporting
-          ] as any,
+      const onTAPOutputComplete = function () {
 
-          function (err: IPseudoError) {
-            err && _suman.logError(err.stack || err);
-            makeExit(messages, {
-              total: runnerObj.endTime - _suman.startTime,
-              runner: runnerObj.endTime - runnerObj.startTime
-            });
+        const tasks = [beforeExitRunOncePost, handleTestCoverageReporting] as any;
+
+        async.parallel(tasks, function (err: IPseudoError) {
+          err && _suman.logError(err.stack || err);
+          makeExit(messages, {
+            total: runnerObj.endTime - _suman.startTime,
+            runner: runnerObj.endTime - runnerObj.startTime
           });
+        });
+
       };
 
       if ('tapOutputIsComplete' in n) {
         if (n.tapOutputIsComplete === true) {
-          process.nextTick(waitForTAP);
+          process.nextTick(onTAPOutputComplete);
         }
         else {
-          n.once('tap-output-is-complete', waitForTAP);
+          n.once('tap-output-is-complete', onTAPOutputComplete);
         }
       }
       else {
-        process.nextTick(waitForTAP);
+        process.nextTick(onTAPOutputComplete);
       }
 
     }

@@ -16,29 +16,25 @@ import EE = require('events');
 
 //npm
 import semver = require('semver');
-
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 import * as async from 'async';
-
 const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const runnerUtils = require('./runner-utils');
 import {cpHash, socketHash, ganttHash, IGanttHash, IGanttData} from './socket-cp-hash';
-
 const {getTapParser} = require('./handle-tap');
 const {getTapJSONParser} = require('./handle-tap-json');
 const {constants} = require('../../config/suman-constants');
 const debug = require('suman-debug')('s:runner');
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import onExitFn from './multiple-process-each-on-exit';
 import pt from 'prepend-transform';
-
 const runChildPath = require.resolve(__dirname + '/run-child.js');
 import uuidV4 = require('uuid/v4');
 
@@ -157,6 +153,8 @@ export const makeHandleMultipleProcesses =
       const istanbulExecPath = _suman.istanbulExecPath || 'istanbul';
       const isStdoutSilent = sumanOpts.stdout_silent || sumanOpts.silent;
       const isStderrSilent = sumanOpts.stderr_silent || sumanOpts.silent;
+      const inheritTransformStdio =
+        sumanOpts.inherit_all_stdio || sumanOpts.inherit_transform_stdio || process.env.SUMAN_INHERIT_STDIO
 
       fileObjArray.forEach(function (fileShortAndFull: Array<Array<string>>) {
 
@@ -244,7 +242,7 @@ export const makeHandleMultipleProcesses =
                 k.stdout.pipe(fileStrm).once('error', onError);
               }
 
-              if (sumanOpts.inherit_all_stdio || sumanOpts.inherit_transform_stdio || process.env.SUMAN_INHERIT_STDIO) {
+              if (inheritTransformStdio) {
 
                 let onError = function (e: Error) {
                   _suman.logError('\n', su.getCleanErrorString(e), '\n');
@@ -310,6 +308,8 @@ export const makeHandleMultipleProcesses =
       });
 
       let childId = 1;
+      const inheritRunStdio =
+        sumanOpts.inherit_stdio || sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes'
 
       const outer = function (file: string, shortFile: string, stdout: string, gd: IGanttData) {
 
@@ -453,13 +453,13 @@ export const makeHandleMultipleProcesses =
 
           if (!_suman.weAreDebugging) {
             n.to = setTimeout(function () {
-              console.error(' => Suman killed child process because it timed out => \n',
-                (n.fileName || n.filename));
+              _suman.logError(`Suman killed a child process because it timed out: '${n.fileName || n.filename}'.`);
               n.kill('SIGINT');
               setTimeout(function () {
+                // note that we wait 8 seconds for the child process to clean up before sending it a SIGKILL signal
                 n.kill('SIGKILL');
-              }, 18000);
-            }, 6000000);
+              }, 8000);
+            }, constants.DEFAULT_CHILD_PROCESS_TIMEOUT);
           }
 
           n.testPath = file;
@@ -512,7 +512,7 @@ export const makeHandleMultipleProcesses =
               }
             }
 
-            if (sumanOpts.inherit_stdio || sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes') {
+            if (inheritRunStdio) {
 
               let onError = function (e: Error) {
                 _suman.logError('\n', su.getCleanErrorString(e), '\n');
@@ -525,16 +525,12 @@ export const makeHandleMultipleProcesses =
             }
 
             if (true || sumanOpts.$useTAPOutput) {
+
               n.tapOutputIsComplete = false;
 
               n.stdout.pipe(getTapParser())
               .on('error', function (e: Error) {
-                _suman.logError('error parsing TAP output => ', su.getCleanErrorString(e));
-              });
-
-              n.stdout.pipe(getTapJSONParser())
-              .on('error', function (e: Error) {
-                _suman.logError('error parsing TAP JSON output => ', su.getCleanErrorString(e));
+                _suman.logError('error parsing TAP output =>', su.getCleanErrorString(e));
               })
               .once('finish', function () {
                 n.tapOutputIsComplete = true;
@@ -542,6 +538,12 @@ export const makeHandleMultipleProcesses =
                   n.emit('tap-output-is-complete', true);
                 });
               });
+
+              n.stdout.pipe(getTapJSONParser())
+              .on('error', function (e: Error) {
+                _suman.logError('error parsing TAP JSON output =>', su.getCleanErrorString(e));
+              })
+
             }
 
             n.stdio[2].setEncoding('utf-8');
@@ -549,9 +551,11 @@ export const makeHandleMultipleProcesses =
 
               const d = String(data).split('\n').filter(function (line) {
                 return String(line).length;
-              }).map(function (line) {
+              })
+              .map(function (line) {
                 return '[' + n.shortTestPath + '] ' + line;
-              }).join('\n');
+              })
+              .join('\n');
 
               _suman.sumanStderrStream.write('\n\n');
               _suman.sumanStderrStream.write(d);
@@ -594,7 +598,7 @@ export const makeHandleMultipleProcesses =
         if (waitForAllTranformsToFinish) {
 
           if (forkedCPs.length < 1 && runnerObj.queuedCPs.length > 0) {
-            throw new Error(' => Suman internal error => fatal start order algorithm error, ' +
+            throw new Error('Suman internal error => fatal start order algorithm error, ' +
               'please file an issue on Github, thanks.');
           }
 

@@ -34,10 +34,8 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {findSumanServer} from './helpers/find-suman-server';
 import {ITestDataObj} from "suman-types/dts/it";
 import {constants} from '../config/suman-constants';
-
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
-
 let envTotal: number, envConfig: number;
 
 if (process.env.DEFAULT_PARALLEL_TOTAL_LIMIT && (envTotal = Number(process.env.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
@@ -356,10 +354,10 @@ export class Suman {
     // str = str.replace(/(\r\n|\n|\r)/gm, ''); ///This javascript code removes all 3 types of line breaks
     // process.send(JSON.parse(str));
 
-    const client = getClient();
     const LOG_RESULT = constants.runner_message_type.LOG_RESULT;
 
     if (global.usingBrowserEtcEtc) {
+      const client = getClient();
       // TODO: note for the web browser, we need to use this
       client.emit(LOG_RESULT, JSON.parse(str));
     }
