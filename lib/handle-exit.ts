@@ -33,6 +33,8 @@ if (!process.prependListener) {
 
 process.prependListener('exit', function (code: number) {
 
+  _suman.logError('beginning of final exit call...');
+
   if (errors.length > 0) {
     code = code || constants.EXIT_CODES.UNEXPECTED_NON_FATAL_ERROR;
     errors.forEach(function (e: Error) {
@@ -106,11 +108,12 @@ process.prependListener('exit', function (code: number) {
   }
 
   if (typeof _suman.absoluteLastHook === 'function') {
-    _suman.log('killing daemon process, using absolute last hook.');
+    _suman.logError('killing daemon process, using absolute last hook.');
     _suman.absoluteLastHook(code);
   }
 
   // => we probably don't need this...
+  _suman.logError('making final call to process.exit()');
   process.exit(code);
 
 });

@@ -31,7 +31,6 @@ const pragmatik = require('pragmatik');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('./helpers/handle-varargs');
 import {constants} from '../config/suman-constants';
-import {getQueue} from './helpers/job-queue';
 import su from 'suman-utils';
 import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
