@@ -16,9 +16,8 @@ import assert = require('assert');
 import * as chalk from 'chalk';
 import su from 'suman-utils';
 
-
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../config/suman-constants');
 const testErrors = _suman.testErrors = _suman.testErrors || [];
 const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
@@ -31,7 +30,7 @@ if (!process.prependListener) {
   process.prependListener = process.on.bind(process);
 }
 
-process.prependListener('exit', function (code: number) {
+process.prependOnceListener('exit', function (code: number) {
 
   _suman.logError('beginning of final exit call...');
 
@@ -39,8 +38,8 @@ process.prependListener('exit', function (code: number) {
     code = code || constants.EXIT_CODES.UNEXPECTED_NON_FATAL_ERROR;
     errors.forEach(function (e: Error) {
       let eStr = su.getCleanErrorString(e);
-      _suman.usingRunner &&  process.stderr.write(eStr);
-      _suman.writeTestError &&  _suman.writeTestError(eStr);
+      _suman.usingRunner && process.stderr.write(eStr);
+      _suman.writeTestError && _suman.writeTestError(eStr);
     });
   }
   else if (testErrors.length > 0) {

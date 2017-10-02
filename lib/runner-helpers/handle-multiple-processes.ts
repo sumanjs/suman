@@ -492,7 +492,7 @@ export const makeHandleMultipleProcesses =
             n.stdout.setEncoding('utf8');
             n.stderr.setEncoding('utf8');
 
-            if (sumanOpts.log_stdio_to_files || sumanOpts.log_stdout_to_files || sumanOpts.log_stderr_to_files) {
+            if ((sumanOpts.log_stdio_to_files || sumanOpts.log_stdout_to_files || sumanOpts.log_stderr_to_files)) {
 
               let onError = function (e: Error) {
                 _suman.logError('\n', su.getCleanErrorString(e), '\n');
@@ -502,6 +502,8 @@ export const makeHandleMultipleProcesses =
               let onlyFile = String(temp).replace(/\//g, '.');
               let logfile = path.resolve(f + '/' + onlyFile + '.log');
               let fileStrm = fs.createWriteStream(logfile);
+
+              console.log('logFile => ', logfile);
 
               if (sumanOpts.log_stdio_to_files || sumanOpts.log_stderr_to_files) {
                 n.stderr.pipe(fileStrm).once('error', onError);

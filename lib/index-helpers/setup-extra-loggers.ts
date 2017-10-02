@@ -36,6 +36,8 @@ export default function (usingRunner: boolean, testDebugLogPath: string, testLog
 
     _suman.writeTestError = function (data: string, options: any) {
 
+      // return;
+
       // assert(typeof data === 'string', 'Implementation error => data passed to ' +
       //   'writeTestError should already be in string format => \n' + util.inspect(data));
 
@@ -56,6 +58,8 @@ export default function (usingRunner: boolean, testDebugLogPath: string, testLog
     };
 
     _suman._writeLog = function (data: string) {
+
+      // return;
       // use process.send to send data to runner? or no-op
       if (IS_SUMAN_DEBUG) {
         fs.appendFileSync(testDebugLogPath, data);
@@ -74,10 +78,16 @@ export default function (usingRunner: boolean, testDebugLogPath: string, testLog
     }
 
     _suman._writeLog = function (data: string) {
+
+      // return;
+
       fs.appendFileSync(testLogPath, data);
     };
 
     _suman.writeTestError = function (data: string, ignore: boolean) {
+
+      // return;
+
       if (!ignore) {
         _suman.checkTestErrorLog = true;
       }
