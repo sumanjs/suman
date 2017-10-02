@@ -78,7 +78,7 @@ module.exports = Object.freeze({
     options: {},
     per: {
       'node-dev': {
-        exec: 'suman test/src/dev/node --verbosity=5 --inherit-stdio',
+        exec: 'suman test/src/dev/node --verbosity=4',
         includes: [__dirname],
         excludes: ['/test/', /\.ts$/],
         confOverride: {}
