@@ -14,8 +14,6 @@ import {pt} from 'prepend-transform';
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
-debugger;
-
 if (!('SUMAN_INCEPTION_LEVEL' in process.env) || process.argv.indexOf('--force-inception-level-zero')) {
   _suman.inceptionLevel = 0;
   process.env.SUMAN_INCEPTION_LEVEL = 0;

@@ -53,7 +53,7 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
   }
   catch (err) {
     console.error('\n\n', chalk.magenta('=> Suman could *not* locate your <suman-helpers-dir>; ' +
-        'perhaps you need to update your suman.conf.js file, please see: ***'), '\n',
+      'perhaps you need to update your suman.conf.js file, please see: ***'), '\n',
       chalk.cyan(' => http://sumanjs.org/conf.html'), '\n',
       ' => We expected to find your <suman-helpers-dir> here =>', '\n',
       chalk.bgBlack.cyan(sumanHelpersDir), '\n');
@@ -71,8 +71,7 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
   const testSrcDirDefined = !!sumanConfig.testSrcDir; //TODO: check for valid string
   const testDir = process.env.TEST_DIR = _suman.testDir = path.resolve(projectRoot + '/' + (sumanConfig.testDir || 'test'));
   const testSrcDir = process.env.TEST_SRC_DIR = _suman.testSrcDir = path.resolve(projectRoot + '/' + (sumanConfig.testSrcDir || 'test'));
-  const errStrmPath = path.resolve(sumanHelpersDir + '/logs/test-debug.log');
-
+  const debugStreamPath = path.resolve(sumanHelpersDir + '/logs/test-debug.log');
 
   return loaded = Object.freeze({
     sumanHelpersDir: _suman.sumanHelperDirRoot = process.env.SUMAN_HELPERS_DIR_ROOT = sumanHelpersDir,
@@ -80,7 +79,7 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
     integPrePath: _suman.integPrePath = integPrePath,
     integPostPath: _suman.integPostPath = integPostPath,
     sumanHelpersDirLocated: sumanHelpersDirLocated,
-    testDebugLogPath: errStrmPath
+    testDebugLogPath: _suman.testDebugLogPath = debugStreamPath
   });
 
 };

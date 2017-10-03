@@ -332,29 +332,29 @@ node test/src/exp.js | grep -v [[suman]]
      at TestSuiteMaker.TestSuite.__invokeChildren (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:205:19)
 
 
-////
+///
 
  _suman.log and _suman.logError need to split everything by newline
  so that [suman] appears on each line
 
-////
+///
 
  suman child id should be a uuid not an integer
 
-////
+///
 
  suman needs to take a node path as argument SUMAN_NODEJS_EXEC_PATH=x
 
-////
+///
 
  use -- --seed instead of --user-args?
 
-////
+///
 
   if @run.sh exists for a file x, but the command is just "suman x", then the runner won't be used and @run.sh won't
   be used. If @run.sh is found, we must use the runner.
 
-////
+///
 
     put a "twitter like" button on the webpage
     Please Share on Twitter if you like #mockgoose
@@ -373,14 +373,6 @@ node test/src/exp.js | grep -v [[suman]]
 ////
 
  inject only works when we do not need to use a before/beforeEach to load data beforehand
-
-////
-
-it(x, t => {
-
-   t.$inject => could contain the before values that are created by before/beforeEach
-
-});
 
 ////
 

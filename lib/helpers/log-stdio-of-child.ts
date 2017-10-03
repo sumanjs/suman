@@ -61,12 +61,13 @@ export const run = function (filePath: string) {
       _suman.logError(e.stack || e);
     });
 
-    // _suman.endLogStream = function () {
-    //   // _suman.logError('endLogStream finished.');
-    //   // rstrm.unpipe();
-    //   writeToFileStream = false;
-    //   // strm.end();
-    // };
+    _suman.endLogStream = function () {
+      // _suman.logError('endLogStream finished.');
+      // rstrm.unpipe();
+      writeToFileStream = false;
+      strm.end('this is the end\n');
+
+    };
 
     strm.on('drain', function () {
       _suman.isStrmDrained = true;
@@ -86,7 +87,11 @@ export const run = function (filePath: string) {
         //     _suman.logError(e.stack || e);
         //   }
         // }
-        strm.write.apply(strm, arguments);
+
+        if (writeToFileStream) {
+          strm.write.apply(strm, arguments);
+        }
+
         stderrWrite.apply(process.stderr, arguments);
       };
     }
@@ -98,10 +103,9 @@ export const run = function (filePath: string) {
       process.stdout.write = function () {
         _suman.isStrmDrained = false;
         isDeleteFile = false;
-        // if (writeToFileStream) {
-        //   strm.write.apply(strm, arguments);
-        // }
-        strm.write.apply(strm, arguments);
+        if (writeToFileStream) {
+          strm.write.apply(strm, arguments);
+        }
         stdoutWrite.apply(process.stdout, arguments);
       };
     }
@@ -118,7 +122,7 @@ export const run = function (filePath: string) {
         }
       }
       else {
-        fs.appendFileSync(logfile, '\n => This is the end of the test.');
+        // fs.appendFileSync(logfile, '\n => This is the end of the test.');
       }
     });
   }

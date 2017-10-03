@@ -70,7 +70,6 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
 
         function complete(err: IPseudoError, results: Array<IPseudoError>) {
 
-          debugger;
           implementationError(err);
           gracefulExit(results, function () {
             notifyParentThatChildIsComplete(parent, cb);

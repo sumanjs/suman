@@ -53,7 +53,7 @@ function handleExceptionsAndRejections() {
 
 process.on('uncaughtException', function (err: Error) {
 
-  debugger;
+  debugger; // leave it here :)
 
   if (typeof err !== 'object') {
     console.error(new Error(`err passed to uncaughtException was not an object => ${err}`).stack);
@@ -77,7 +77,7 @@ process.on('uncaughtException', function (err: Error) {
 
 process.on('unhandledRejection', function (err: Error, p: Promise<any>) {
 
-  debugger;
+  debugger; // leave it here :)
 
   if (typeof err !== 'object') {
     console.error(new Error(`err passed to unhandledRejection was not an object => '${err}'`).stack);

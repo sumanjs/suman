@@ -36,6 +36,12 @@ if (!process.prependOnceListener) {
 
 process.prependOnceListener('exit', function (code: number) {
 
+  const testDebugLogPath = _suman.testDebugLogPath;
+
+  debugger;
+
+  _suman.logError('beginning of exit handler.');
+
   if (errors.length > 0) {
     code = code || constants.EXIT_CODES.UNEXPECTED_NON_FATAL_ERROR;
     errors.forEach(function (e: Error) {
@@ -46,6 +52,22 @@ process.prependOnceListener('exit', function (code: number) {
   }
   else if (testErrors.length > 0) {
     code = code || constants.EXIT_CODES.TEST_CASE_FAIL;
+  }
+
+  if(testDebugLogPath){
+    _suman.logError('BEGIN of log log log.');
+    let reached = false;
+    setTimeout(function(){
+      if(!reached){
+        debugger;
+      }
+    }, 100);
+    fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
+    fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
+    fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
+    fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
+    reached = true;
+    _suman.logError('END of log log log.');
   }
 
   _suman.writeTestError('\n\n ### Suman end run ### \n\n\n\n', {suppress: true});
@@ -99,6 +121,8 @@ process.prependOnceListener('exit', function (code: number) {
     _suman.absoluteLastHook(code);
   }
 
+  _suman.logError('doing the very last thing whoa.');
+  _suman.logError('setting final exit code now.');
   // => we probably don't need this...
   // _suman.logError('making final call to process.exit()');
   process.exitCode = code;

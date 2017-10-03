@@ -12,7 +12,7 @@ const opts = {series: true, fixed: true};
 Test.create(opts, function (assert, describe, before, beforeEach, after, afterEach, it) {
 
   it('sync test', t => {
-    assert(false);
+    assert(true);
   });
 
   before(h => {

@@ -310,8 +310,10 @@ export const makeHandleMultipleProcesses =
       });
 
       let childId = 1;
-      const inheritRunStdio =
-        sumanOpts.inherit_stdio || sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes';
+
+      const debugChildren = sumanOpts.debug_child || sumanOpts.inspect_child;
+      const inheritRunStdio = debugChildren || sumanOpts.inherit_stdio ||
+        sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes';
 
       const outer = function (file: string, shortFile: string, stdout: string, gd: IGanttData) {
 
@@ -331,16 +333,16 @@ export const makeHandleMultipleProcesses =
           const execArgz = ['--expose-gc'];
 
           if (sumanOpts.debug_child) {
-            execArgz.push('--debug-brk');
             execArgz.push('--debug=' + (5303 + runnerObj.processId++));
+            execArgz.push('--debug-brk');
           }
 
           if (sumanOpts.inspect_child) {
             if (semver.gt(process.version, '7.8.0')) {
-              execArgz.push('--inspect-brk');
+              execArgz.push('--inspect-brk=' + (5303 + runnerObj.processId++));
             }
             else {
-              execArgz.push('--inspect');
+              execArgz.push('--inspect=' + (5303 + runnerObj.processId++));
               execArgz.push('--debug-brk');
             }
           }
@@ -376,7 +378,6 @@ export const makeHandleMultipleProcesses =
 
           let $childId = childId++;
           let childUuid = uuidV4();
-
           const inherit = _suman.$forceInheritStdio ? 'inherit' : '';
 
           if (inherit) {
@@ -391,7 +392,7 @@ export const makeHandleMultipleProcesses =
               'ignore',
               inherit || (isStdoutSilent ? 'ignore' : 'pipe'),
               inherit || (isStderrSilent ? 'ignore' : 'pipe'),
-              'ipc'  //TODO: assume 'ipc' is ignored if not a .js file..
+              // 'ipc'  => we don't need IPC anymore, but also can we assume 'ipc' is ignored if not a .js file?
             ],
             env: Object.assign({}, sumanEnv, {
               SUMAN_CHILD_TEST_PATH: file,
@@ -494,7 +495,7 @@ export const makeHandleMultipleProcesses =
             n.stdout.setEncoding('utf8');
             n.stderr.setEncoding('utf8');
 
-            if ((sumanOpts.log_stdio_to_files || sumanOpts.log_stdout_to_files || sumanOpts.log_stderr_to_files)) {
+            if (false && (sumanOpts.log_stdio_to_files || sumanOpts.log_stdout_to_files || sumanOpts.log_stderr_to_files)) {
 
               let onError = function (e: Error) {
                 _suman.logError('\n', su.getCleanErrorString(e), '\n');
@@ -561,7 +562,7 @@ export const makeHandleMultipleProcesses =
               })
               .join('\n');
 
-              _suman.sumanStderrStream.write('\n' +d);
+              _suman.sumanStderrStream.write('\n' + d);
 
               if (_suman.weAreDebugging) {  //TODO: add check for NODE_ENV=dev_local_debug
                 //TODO: go through code and make sure that no console.log statements should in fact be console.error

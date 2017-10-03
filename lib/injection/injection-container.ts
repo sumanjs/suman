@@ -62,8 +62,6 @@ export const makeInjectionContainer = function (suman: ISuman) {
     return new Proxy(val, {
       get: function (target, prop) {
 
-        debugger;
-
         if (typeof prop === 'symbol') {
           return Reflect.get(...arguments);
         }
@@ -72,15 +70,12 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
         if (!possibleProps[meth] /*&& !(prop in target)*/) {
           try {
-            debugger;
             return Reflect.get(...arguments);
           }
           catch (err) {
             throw new Error(`Test suite may not have a '${prop}' property or method.\n${err.stack}`)
           }
         }
-
-        debugger;
 
         let hasSkip = false;
         let newProps = props.concat(String(prop))

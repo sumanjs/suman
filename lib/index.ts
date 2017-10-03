@@ -139,7 +139,6 @@ const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
 const c = (sumanOpts && sumanOpts.series) ? 1 : 3;
 
 const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
-  debugger;
   testSuiteQueueCallbacks.unshift(cb);
   process.nextTick(task);
 }, c);

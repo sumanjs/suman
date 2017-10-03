@@ -30,8 +30,6 @@ const results: Array<ITableDataCallbackObj> = _suman.tableResults = _suman.table
 
 suiteResultEmitter.once('suman-test-file-complete', function () {
 
-  debugger;
-
   let fn, resultz;
 
   if (_suman.usingRunner) {
@@ -70,7 +68,7 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
       }
 
       let timedout = false;
-      let timeout = _suman.usingRunner ? 20 : 10;
+      let timeout = _suman.usingRunner ? 200 : 100;
 
       let onTimeout = function () {
         timedout = true;
@@ -93,7 +91,15 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
       }
     };
 
+    _suman.log(' => about to waitForStdioToDrain');
+    _suman.log(' => about to call process.exit1');
+    _suman.log(' => about to call process.exit2');
+    _suman.log(' => about to call process.exit3');
+
     waitForStdioToDrain(function () {
+      _suman.log(' => about to call process.exit4');
+      _suman.log(' => about to call process.exit5');
+      _suman.log(' => about to call process.exit6');
       process.exit(highestExitCode)
     });
 

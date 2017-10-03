@@ -47,7 +47,7 @@ process.send = process.send || function (data) {
 
 process.on('uncaughtException', function (err: Error) {
 
-  debugger;
+  debugger;  // leave it here :)
 
   if (_suman.afterAlwaysEngaged) {
     // after.always hooks are running, let them complete as much as possible
