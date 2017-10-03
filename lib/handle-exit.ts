@@ -36,8 +36,6 @@ if (!process.prependOnceListener) {
 
 process.prependOnceListener('exit', function (code: number) {
 
-  // _suman.logError('beginning of final exit call...');
-
   if (errors.length > 0) {
     code = code || constants.EXIT_CODES.UNEXPECTED_NON_FATAL_ERROR;
     errors.forEach(function (e: Error) {

@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IRunnerObj, IRunnerRunFn, IRunObj, ISumanChildProcess, ITableRows} from "suman-types/dts/runner";
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 
@@ -559,8 +561,7 @@ export const makeHandleMultipleProcesses =
               })
               .join('\n');
 
-              _suman.sumanStderrStream.write('\n\n');
-              _suman.sumanStderrStream.write(d);
+              _suman.sumanStderrStream.write('\n' +d);
 
               if (_suman.weAreDebugging) {  //TODO: add check for NODE_ENV=dev_local_debug
                 //TODO: go through code and make sure that no console.log statements should in fact be console.error

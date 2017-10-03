@@ -18,8 +18,8 @@ const {events} = require('suman-events');
 import su = require('suman-utils');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const _suman: IGlobalSumanObj = global.__suman = global.__suman || {};
+const resultBroadcaster = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -46,6 +46,6 @@ export const onExit = function (code: number) {
   resultBroadcaster.emit(String(events.RUNNER_EXIT_CODE), code);
 
   //write synchronously to ensure it gets written
-  fs.appendFileSync(_suman.sumanRunnerStderrStreamPath, '\n\n\n### Suman runner end ###\n\n\n\n\n');
+  fs.appendFileSync(_suman.sumanRunnerStderrStreamPath, '\n\n### Suman runner end ###\n\n');
 
 };

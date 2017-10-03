@@ -139,7 +139,6 @@ export const makeInjectionContainer = function (suman: ISuman) {
           }
 
           return meth().apply(suman.ctx, args);
-
         };
 
         return suman.testBlockMethodCache[cacheId] = getProxy(fn, newProps);

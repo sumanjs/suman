@@ -107,7 +107,7 @@ import {acquireIocStaticDeps} from './acquire-dependencies/acquire-ioc-static-de
 //integrants
 const allOncePreKeys: Array<Array<string>> = _suman.oncePreKeys = [];
 const allOncePostKeys: Array<Array<string>> = _suman.oncePostKeys = [];
-const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
+const suiteResultEmitter = _suman.suiteResultEmitter = _suman.suiteResultEmitter || new EE();
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -118,7 +118,7 @@ if (!SUMAN_SINGLE_PROCESS) {
 require('./index-helpers/verify-local-global-version');
 const projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
 const main = require.main.filename;
-const usingRunner = _suman.usingRunner = (_suman.usingRunner || process.env.SUMAN_RUNNER === 'yes');
+const usingRunner = _suman.usingRunner = _suman.usingRunner || process.env.SUMAN_RUNNER === 'yes';
 //could potentially pass dynamic path to suman config here, but for now is static
 const sumanConfig = loadSumanConfig(null, null);
 if (!_suman.usingRunner && !_suman.viaSuman) {
