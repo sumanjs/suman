@@ -309,7 +309,7 @@ export const makeHandleMultipleProcesses =
 
       let childId = 1;
       const inheritRunStdio =
-        sumanOpts.inherit_stdio || sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes'
+        sumanOpts.inherit_stdio || sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes';
 
       const outer = function (file: string, shortFile: string, stdout: string, gd: IGanttData) {
 
@@ -576,8 +576,7 @@ export const makeHandleMultipleProcesses =
           }
 
           n.dateStartedMillis = gd.startDate = Date.now();
-          n.once('exit',
-            onExitFn(n, runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit, gd));
+          n.once('exit', onExitFn(n, runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit, gd));
 
         };
 

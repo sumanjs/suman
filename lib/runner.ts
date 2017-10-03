@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IRunnerObj, ISumanChildProcess, ITableRows} from "suman-types/dts/runner";
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 
@@ -48,35 +50,27 @@ import cp = require('child_process');
 const fnArgs = require('function-arguments');
 const mapValues = require('lodash.mapvalues');
 import * as chalk from 'chalk';
-
 const a8b = require('ansi-256-colors'), fg = a8b.fg, bg = a8b.bg;
 import {events} from 'suman-events';
 import su from 'suman-utils';
-
 const debug = require('suman-debug')('s:runner');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import integrantInjector from './injection/integrant-injector';
 import {constants} from '../config/suman-constants';
-
 const ascii = require('./helpers/ascii');
 import makeHandleBlocking from './runner-helpers/make-handle-blocking';
-
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {handleFatalMessage} from './runner-helpers/handle-fatal-message';
 import {logTestResult} from './runner-helpers/log-test-result';
-
 const {onExit} = require('./runner-helpers/on-exit');
 import {makeExit} from './runner-helpers/make-exit';
-
 const {makeHandleIntegrantInfo} = require('./runner-helpers/handle-integrant-info');
 import {makeBeforeExit} from './runner-helpers/make-before-exit-once-post';
-
 const makeSingleProcess = require('./runner-helpers/handle-single-process');
 const {makeContainerize} = require('./runner-helpers/handle-containerize');
 import {makeHandleMultipleProcesses} from './runner-helpers/handle-multiple-processes';
-
 const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 import {getSocketServer, initializeSocketServer} from './runner-helpers/socketio-server';
 import {cpHash, socketHash} from './runner-helpers/socket-cp-hash';
@@ -121,8 +115,12 @@ const runnerObj: IRunnerObj = {
 const handleIntegrantInfo = makeHandleIntegrantInfo(runnerObj, allOncePostKeys);
 const exit = makeExit(runnerObj, tableRows);
 const beforeExitRunOncePost = makeBeforeExit(runnerObj, oncePosts, allOncePostKeys);
-global.__suman.isActualExitHandlerRegistered = true;
-process.once('exit', onExit);
+
+{
+  //register exit here !
+  _suman.isActualExitHandlerRegistered = true;
+  process.once('exit', onExit);
+}
 
 process.on('error', function (e: IPseudoError) {
   _suman.logError(`${chalk.magenta('Whoops! "error" event in runner process:')} \n ${chalk.bold(su.getCleanErrorString(e))}`);

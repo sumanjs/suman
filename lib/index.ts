@@ -94,7 +94,6 @@ const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
-import setupExtraLoggers from './index-helpers/setup-extra-loggers';
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
 const {execSuite} = require('./exec-suite');
@@ -129,9 +128,7 @@ const sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
 const sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 const {integrantPreFn} = sumanObj;
 const testDebugLogPath = sumanPaths.testDebugLogPath;
-const testLogPath = sumanPaths.testLogPath;
-fs.writeFileSync(testDebugLogPath, '\n', {flag: 'w'});
-fs.writeFileSync(testLogPath, '\n => New Suman run @' + new Date(), {flag: 'w'});
+fs.writeFileSync(testDebugLogPath, '\n');
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -139,7 +136,6 @@ let loaded = false;
 const testSuiteQueueCallbacks: Array<Function> = [];
 const testRuns: Array<Function> = [];
 const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
-
 const c = (sumanOpts && sumanOpts.series) ? 1 : 3;
 
 const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
@@ -180,6 +176,19 @@ suiteResultEmitter.on('suman-completed', function () {
     fn && fn.call(null);
   });
 });
+
+_suman.writeTestError = function (data: string, ignore: boolean) {
+  if (IS_SUMAN_DEBUG && !_suman.usingRunner) {
+    if (!ignore) _suman.checkTestErrorLog = true;
+    if (!data) data = new Error('falsy data passed to writeTestError').stack;
+    if (typeof data !== 'string') data = util.inspect(data);
+    fs.appendFileSync(testDebugLogPath, data);
+  }
+};
+
+fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
+_suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);
+_suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
 
 export const init: IInit = function ($module, $opts, confOverride): IStartCreate {
 
@@ -298,7 +307,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   //////////////////////////////////////////////////////////////////
 
-  setupExtraLoggers(usingRunner, testDebugLogPath, testLogPath, $module);
   const integrantsFn = handleIntegrants(integrants, $oncePost, integrantPreFn, $module);
   init.tooLate = false;
 

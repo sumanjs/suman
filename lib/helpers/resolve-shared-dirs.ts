@@ -72,7 +72,7 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
   const testDir = process.env.TEST_DIR = _suman.testDir = path.resolve(projectRoot + '/' + (sumanConfig.testDir || 'test'));
   const testSrcDir = process.env.TEST_SRC_DIR = _suman.testSrcDir = path.resolve(projectRoot + '/' + (sumanConfig.testSrcDir || 'test'));
   const errStrmPath = path.resolve(sumanHelpersDir + '/logs/test-debug.log');
-  const strmStdoutPath = path.resolve(sumanHelpersDir + '/logs/test-output.log');
+
 
   return loaded = Object.freeze({
     sumanHelpersDir: _suman.sumanHelperDirRoot = process.env.SUMAN_HELPERS_DIR_ROOT = sumanHelpersDir,
@@ -80,8 +80,7 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
     integPrePath: _suman.integPrePath = integPrePath,
     integPostPath: _suman.integPostPath = integPostPath,
     sumanHelpersDirLocated: sumanHelpersDirLocated,
-    testDebugLogPath: errStrmPath,
-    testLogPath: strmStdoutPath
+    testDebugLogPath: errStrmPath
   });
 
 };

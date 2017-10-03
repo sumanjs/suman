@@ -31,10 +31,8 @@ if (!('integrantHashKeyVals' in _suman)) {
 const {acquirePreDeps} = require('../acquire-dependencies/acquire-pre-deps');
 import {constants} from '../../config/suman-constants';
 import integrantInjector from '../injection/integrant-injector';
-
 const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 import {getClient} from './socketio-child-client';
-
 let integPreConfiguration: any = null;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,8 +60,8 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
   if (integrants.length < 1) {
 
     if (usingRunner) {
-      // we need to establish a connection now, to get ahead of things
-      client = getClient();
+      // we should start establishing a connection now, to get ahead of things
+      getClient();
     }
 
     integrantsFn = function () {

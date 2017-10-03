@@ -150,11 +150,6 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
     }
   }
 
-  /*
-
-  @benjamingr yeah I am working on sumanjs/suman - it's a test runner - TapJS and Lab among others also see the same need for domains. Once Node.js test runners started parallelizing tests, putting the current executing test in the global scope was no longer possible, since tests/hooks would interleave. So all these test runners are using domains to solve the problem atm. AVA parallelizes tests, but they are relying on promises and async/await to trap errors. IMO for edge cases it's not quite good enough yet, so like TapJS and Lab, I decided to use domains.
-  */
-
   if (err._alreadyHandledBySuman) {
     console.error(' => Error already handled => \n', (err.stack || err));
     return;

@@ -30,9 +30,13 @@ if (!process.prependListener) {
   process.prependListener = process.on.bind(process);
 }
 
+if (!process.prependOnceListener) {
+  process.prependOnceListener = process.on.bind(process);
+}
+
 process.prependOnceListener('exit', function (code: number) {
 
-  _suman.logError('beginning of final exit call...');
+  // _suman.logError('beginning of final exit call...');
 
   if (errors.length > 0) {
     code = code || constants.EXIT_CODES.UNEXPECTED_NON_FATAL_ERROR;
@@ -46,31 +50,19 @@ process.prependOnceListener('exit', function (code: number) {
     code = code || constants.EXIT_CODES.TEST_CASE_FAIL;
   }
 
-  if (_suman.writeTestError) {
-    _suman.writeTestError('\n\n ### Suman end run ### \n\n\n\n', {suppress: true});
-  }
+  _suman.writeTestError('\n\n ### Suman end run ### \n\n\n\n', {suppress: true});
 
-  if (_suman._writeLog) {
-    if (process.env.SUMAN_SINGLE_PROCESS === 'yes') {
-      _suman._writeLog('\n\n\ [ end of Suman run in SUMAN_SINGLE_PROCESS mode ]');
-    }
-    else {
-      _suman._writeLog('\n\n\ [ end of Suman individual test run for file => "' + _suman._currentModule + '" ]');
-    }
-  }
-
-  if (code > 0 && testErrors.length < 1) {   //TODO: fix this with logic saying if code > 0 and code < 60 or something
+  if (code > 0 && testErrors.length < 1) {
     if (!_suman.usingRunner) { //TODO: need to fix this
-      process.stdout.write('\n\n =>' + chalk.underline.bold.yellow(' Suman test process experienced a fatal error during the run, ' +
+      console.log(chalk.underline.bold.yellow(' Suman test process experienced a fatal error during the run, ' +
         'most likely the majority of tests, if not all tests, were not run.') + '\n');
     }
   }
 
   if (_suman.checkTestErrorLog) {
-    process.stdout.write('\n\n =>' + chalk.yellow(' You have some additional errors/warnings - ' +
-      'check the test debug log for more information.' + '\n'));
-    process.stdout.write(' => ' + chalk.underline.bold.yellow(_suman.sumanHelperDirRoot + '/logs/test-debug.log'));
-    process.stdout.write('\n\n');
+    console.log(chalk.yellow(' You have some additional errors/warnings - check the test debug log for more information.'));
+    console.log(' => ' + chalk.underline.bold.yellow(_suman.sumanHelperDirRoot + '/logs/test-debug.log'));
+    console.log('\n');
   }
 
   if (Number.isInteger(_suman.expectedExitCode)) {
@@ -92,9 +84,7 @@ process.prependOnceListener('exit', function (code: number) {
   if (!_suman.usingRunner) {
 
     let extra = '';
-    if (code > 0) {
-      extra = ' => see http://sumanjs.org/exit-codes.html';
-    }
+    if (code > 0) extra = ' => see http://sumanjs.org/exit-codes.html';
 
     console.log('\n');
 
@@ -112,8 +102,9 @@ process.prependOnceListener('exit', function (code: number) {
   }
 
   // => we probably don't need this...
-  _suman.logError('making final call to process.exit()');
-  process.exit(code);
+  // _suman.logError('making final call to process.exit()');
+  process.exitCode = code;
+  // process.exit(code);
 
 });
 

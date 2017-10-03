@@ -10,8 +10,8 @@ three SO profiles:
 
 ///
 
-suman-watch should be optionalDep?
-suman-interactive should be optionalDep?
+    suman-watch should be optionalDep?
+    suman-interactive should be optionalDep?
 
 ///
 

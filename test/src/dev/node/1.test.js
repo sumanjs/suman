@@ -9,9 +9,7 @@ const Test = suman.init(module);
 let count = 0;
 const opts = {series: true, fixed: true};
 
-
 Test.create(opts, function (assert, describe, before, beforeEach, after, afterEach, it) {
-
 
   it('sync test', t => {
     assert(true);
@@ -21,7 +19,6 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
     count++;
     h.assert.equal(count, 1);
   });
-
 
   describe('nested1', () => {
 

@@ -1,5 +1,8 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from "../../../suman-types/dts/global";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -11,12 +14,11 @@ import EE = require('events');
 
 //npm
 import * as chalk from 'chalk';
-
 const {events} = require('suman-events');
-const sumanUtils = require('suman-utils');
+import su = require('suman-utils');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 ////////////////////////////////////////////////////////////////////////////////////////

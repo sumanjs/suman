@@ -114,7 +114,10 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
 
       const onTAPOutputComplete = function () {
 
-        const tasks = [beforeExitRunOncePost, handleTestCoverageReporting] as any;
+        const tasks = [
+          beforeExitRunOncePost, 
+          handleTestCoverageReporting
+        ] as any;
 
         async.parallel(tasks, function (err: IPseudoError) {
           err && _suman.logError(err.stack || err);

@@ -9,7 +9,7 @@ const numOfCPUs = os.cpus().length || 1;
 
 module.exports = Object.freeze({
 
-  //☺,♫
+  //☺,♫  //
 
   //regex
   matchAny: [/\.js$/, /.sh$/, /\.jar$/, /\.java$/, /\.go$/, /\.ts$/],
@@ -75,7 +75,14 @@ module.exports = Object.freeze({
   expireResultsAfter: 10000000,     // test results will be deleted after this amount of time
 
   watch: {
-    options: {},
+    options: {
+      shellExecutable: 'bash',
+      soundFilePaths: {
+        runtimeError: path.resolve(process.env.HOME + '/fail-trombone-02.mp3'),
+        success: path.resolve(process.env.HOME + '/ta_da_sound.mp3'),
+        testFailure: path.resolve(process.env.HOME + '/fail-trombone-02.mp3')
+      }
+    },
     per: {
       'node-dev': {
         exec: 'suman test/src/dev/node --verbosity=4',
@@ -87,11 +94,10 @@ module.exports = Object.freeze({
     'browser-dev': {
       exec: 'suman test/src/dev/browser',
       includes: [__dirname],
-      excludes: ['/test/',/\.ts$/],
+      excludes: ['/test/', /\.ts$/],
       confOverride: {}
     }
   },
-
 
   ////////////////////////////////////////////////////
 
