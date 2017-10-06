@@ -56,17 +56,10 @@ process.prependOnceListener('exit', function (code: number) {
 
   if(testDebugLogPath){
     _suman.logError('BEGIN of log log log.');
-    let reached = false;
-    setTimeout(function(){
-      if(!reached){
-        debugger;
-      }
-    }, 100);
     // fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
     // fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
     // fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
     // fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
-    reached = true;
     _suman.logError('END of log log log.');
   }
 

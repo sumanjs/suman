@@ -68,7 +68,7 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
       }
 
       let timedout = false;
-      let timeout = _suman.usingRunner ? 200 : 100;
+      let timeout = _suman.usingRunner ? 20 : 10;
 
       let onTimeout = function () {
         timedout = true;

@@ -17,18 +17,15 @@ import util = require('util');
 
 //npm
 import chalk = require('chalk');
-
 const fnArgs = require('function-arguments');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
-
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../misc/clone-error';
 import {makeHookObj} from './t-proto-hook';
 import {makeCallback} from './handle-callback-helper';
-
 const helpers = require('./handle-promise-generator');
 import {freezeExistingProps} from 'freeze-existing-props'
 
@@ -153,6 +150,8 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         t.desc = test.desc;
         t.value = test.value;
         t.testId = test.testId;
+        t.result = test.error ? 'failed' : 'passed';
+        t.error = test.error;
         t.state = 'pending';
         t.shared = self.shared;
         t.$inject = suman.$inject;

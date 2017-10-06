@@ -1,24 +1,24 @@
 'use strict';
 
-//typescript imports
+// dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {IIntegrantsMessage, ISumanModuleExtended} from "suman-types/dts/index-init";
 
-//polyfills
+// polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
-//core
+// core
 import domain = require('domain');
 import util = require('util');
 import EE = require('events');
 
-//npm
+// npm
 import * as chalk from 'chalk';
 import * as fnArgs from 'function-arguments';
 import su from 'suman-utils';
 
-//project
+// project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 if (!('integrantHashKeyVals' in _suman)) {

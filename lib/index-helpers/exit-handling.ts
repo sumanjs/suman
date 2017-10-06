@@ -1,4 +1,6 @@
-//typescript imports
+'use strict';
+
+//dts
 import {IGlobalSumanObj, IPromiseWithDomain, ISumanDomain, SumanErrorRace} from "suman-types/dts/global";
 
 //polyfills
@@ -18,18 +20,21 @@ const {fatalRequestReply} = require('../helpers/fatal-request-reply');
 import {constants} from '../../config/suman-constants';
 import {oncePostFn} from '../helpers/handle-suman-once-post';
 import {runAfterAlways} from '../helpers/run-after-always';
-
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 const weAreDebugging = require('../helpers/we-are-debugging');
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+type AsyncFuncType = AsyncResultArrayCallback<Dictionary<any>, Error>;
+
+//////////////////////////////////////////////////////////////////////////////////////
+
 const shutdownSuman = function (msg: string) {
 
   async.parallel([
-    function (cb: AsyncResultArrayCallback<Dictionary<any>, Error>) {
+    function (cb: AsyncFuncType) {
       async.series([
-        function (cb: AsyncResultArrayCallback<Dictionary<any>, Error>) {
+        function (cb: AsyncFuncType) {
           if (runAfterAlways && _suman.whichSuman) {
             runAfterAlways(_suman.whichSuman, cb);
           }
@@ -38,12 +43,12 @@ const shutdownSuman = function (msg: string) {
           }
         },
 
-        function (cb: AsyncResultArrayCallback<Dictionary<any>, Error>) {
+        function (cb: AsyncFuncType) {
           if (oncePostFn) {
             oncePostFn(cb);
           }
           else {
-            _suman.logError('Suman internal warning, oncePostFn not yet defined.');
+            _suman.logError('Suman internal warning, "oncePostFn" not yet defined.');
             process.nextTick(cb);
           }
         },
@@ -119,7 +124,7 @@ process.on('SIGTERM', function () {
     process.exit(1);
   }
   else if (sigtermCount === 1) {
-    shutdownSuman('SIGINT received');
+    shutdownSuman('SIGTERM received');
   }
 
 });
