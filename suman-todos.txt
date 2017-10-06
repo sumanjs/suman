@@ -20,6 +20,12 @@ three SO profiles:
 
 ///
 
+@ORESoftware It depends on the version of node the running process uses.
+If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` to enable the --inspect behavior after the fact.
+
+
+///
+
     suman-watch should be optionalDep?
     suman-interactive should be optionalDep?
 

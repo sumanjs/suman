@@ -62,10 +62,10 @@ process.prependOnceListener('exit', function (code: number) {
         debugger;
       }
     }, 100);
-    fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
-    fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
-    fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
-    fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
+    // fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
+    // fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
+    // fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
+    // fs.appendFileSync(testDebugLogPath, 'nonsesnse nonsesnse nosneses\n');
     reached = true;
     _suman.logError('END of log log log.');
   }
