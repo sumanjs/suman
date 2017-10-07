@@ -29,6 +29,8 @@ export const getTapParser = function () {
     _suman.log('we are handling TAP.');
   }
 
+  first = false;
+
   const p = parser();
 
   p.on('complete', function (data: string) {
