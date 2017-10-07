@@ -25,7 +25,6 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const implementationError = require('../helpers/implementation-error');
 const {constants} = require('../../config/suman-constants');
 const {makeTheTrap} = require('./make-the-trap');
-const {getQueue} = require('../helpers/job-queue');
 
 ////////////////////////////////////////////////////////////////////////////////////
 

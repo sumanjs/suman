@@ -1,5 +1,4 @@
 import { ITestSuite } from "suman-types/dts/test-suite";
-import { ISumanConfig } from "suman-types/dts/global";
 import { ISumanInputs } from "suman-types/dts/suman";
 import { ITestDataObj } from "suman-types/dts/it";
 export interface ITestBlockMethodCache {
@@ -12,6 +11,7 @@ export declare class Suman {
     private __inject;
     testBlockMethodCache: ITestBlockMethodCache;
     iocData: Object;
+    force: boolean;
     fileName: string;
     slicedFileName: string;
     timestamp: number;
@@ -38,4 +38,4 @@ export declare class Suman {
     logResult(test: ITestDataObj): void;
 }
 export declare type ISuman = Suman;
-export declare const makeSuman: ($module: NodeModule, _interface: string, shouldCreateResultsDir: boolean, config: ISumanConfig) => Suman;
+export declare const makeSuman: ($module: NodeModule, _interface: string, opts: any) => any;

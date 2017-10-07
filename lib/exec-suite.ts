@@ -31,7 +31,6 @@ const pragmatik = require('pragmatik');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('./helpers/handle-varargs');
 import {constants} from '../config/suman-constants';
-import {getQueue} from './helpers/job-queue';
 import su from 'suman-utils';
 import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
@@ -93,8 +92,9 @@ export const execSuite = function (suman: ISuman): Function {
           msg: msg
         }
       }, function () {
-        console.log(msg + '\n\n');
-        console.error(new Error(' => Suman usage error => invalid arrow/generator function usage.').stack);
+        console.error(msg + '\n\n');
+        let err = new Error('Suman usage error => invalid arrow/generator function usage.').stack;
+        _suman.logError(err); _suman.writeTestError(err);
         process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
       });
 
@@ -352,8 +352,6 @@ export const execSuite = function (suman: ISuman): Function {
             _suman.logError(`"UncaughtException" event => halting program.\n[${__filename}]`);
             return;
           }
-
-          debugger;
 
           if (sumanOpts.parallel_max) {
             suman.getQueue().drain = function () {

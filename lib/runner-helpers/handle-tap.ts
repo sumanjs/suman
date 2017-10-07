@@ -25,7 +25,7 @@ let first = true;
 
 export const getTapParser = function () {
 
-  if(first){
+  if (first) {
     _suman.log('we are handling TAP.');
   }
 
@@ -37,15 +37,12 @@ export const getTapParser = function () {
 
   p.on('assert', function (testpoint: Object) {
 
-    debugger;
-
     if (first) {
       first = false;
       console.log('\n');
       _suman.log(chalk.yellow.bold('suman we have received at least one test result via TAP.'));
       console.log('\n');
     }
-
 
     resultBroadcaster.emit(String(events.TEST_CASE_END), testpoint);
 

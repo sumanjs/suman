@@ -94,7 +94,6 @@ const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
-import setupExtraLoggers from './index-helpers/setup-extra-loggers';
 const rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
 const {execSuite} = require('./exec-suite');
@@ -108,7 +107,7 @@ import {acquireIocStaticDeps} from './acquire-dependencies/acquire-ioc-static-de
 //integrants
 const allOncePreKeys: Array<Array<string>> = _suman.oncePreKeys = [];
 const allOncePostKeys: Array<Array<string>> = _suman.oncePostKeys = [];
-const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
+const suiteResultEmitter = _suman.suiteResultEmitter = _suman.suiteResultEmitter || new EE();
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -119,7 +118,7 @@ if (!SUMAN_SINGLE_PROCESS) {
 require('./index-helpers/verify-local-global-version');
 const projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
 const main = require.main.filename;
-const usingRunner = _suman.usingRunner = (_suman.usingRunner || process.env.SUMAN_RUNNER === 'yes');
+const usingRunner = _suman.usingRunner = _suman.usingRunner || process.env.SUMAN_RUNNER === 'yes';
 //could potentially pass dynamic path to suman config here, but for now is static
 const sumanConfig = loadSumanConfig(null, null);
 if (!_suman.usingRunner && !_suman.viaSuman) {
@@ -129,9 +128,7 @@ const sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
 const sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 const {integrantPreFn} = sumanObj;
 const testDebugLogPath = sumanPaths.testDebugLogPath;
-const testLogPath = sumanPaths.testLogPath;
-fs.writeFileSync(testDebugLogPath, '\n', {flag: 'w'});
-fs.writeFileSync(testLogPath, '\n => New Suman run @' + new Date(), {flag: 'w'});
+fs.writeFileSync(testDebugLogPath, '\n');
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -139,11 +136,9 @@ let loaded = false;
 const testSuiteQueueCallbacks: Array<Function> = [];
 const testRuns: Array<Function> = [];
 const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
-
 const c = (sumanOpts && sumanOpts.series) ? 1 : 3;
 
 const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
-  debugger;
   testSuiteQueueCallbacks.unshift(cb);
   process.nextTick(task);
 }, c);
@@ -155,7 +150,11 @@ const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Fun
 }, c);
 
 testSuiteRegistrationQueue.drain = function () {
-  _suman.log(`Pushing ${testRuns.length} test suites onto queue with concurrency ${c}.\n`);
+  if (su.vgt(5)) {
+    const suites = testRuns.length === 1 ? 'suite' : 'suites';
+    _suman.log(`Pushing ${testRuns.length} test ${suites} onto queue with concurrency ${c}.\n\n`);
+  }
+
   while (testRuns.length > 0) {  //explicit for your pleasure
     testSuiteQueue.push(testRuns.shift());
   }
@@ -180,6 +179,19 @@ suiteResultEmitter.on('suman-completed', function () {
     fn && fn.call(null);
   });
 });
+
+_suman.writeTestError = function (data: string, ignore: boolean) {
+  if (IS_SUMAN_DEBUG && !_suman.usingRunner) {
+    if (!ignore) _suman.checkTestErrorLog = true;
+    if (!data) data = new Error('falsy data passed to writeTestError').stack;
+    if (typeof data !== 'string') data = util.inspect(data);
+    fs.appendFileSync(testDebugLogPath, data);
+  }
+};
+
+fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
+_suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);
+_suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
 
 export const init: IInit = function ($module, $opts, confOverride): IStartCreate {
 
@@ -298,7 +310,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   //////////////////////////////////////////////////////////////////
 
-  setupExtraLoggers(usingRunner, testDebugLogPath, testLogPath, $module);
   const integrantsFn = handleIntegrants(integrants, $oncePost, integrantPreFn, $module);
   init.tooLate = false;
 
@@ -329,7 +340,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       _suman.userData = JSON.parse(su.customStringify(iocData));
 
       // suman instance is the main object that flows through entire program
-      let suman = makeSuman($module, _interface, true, sumanConfig);
+      let suman = makeSuman($module, _interface, opts);
       suman.iocData = JSON.parse(su.customStringify(iocData));
       const run = execSuite(suman);
 
@@ -402,6 +413,8 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   _interface === 'TDD' ? init.$ingletonian.suite = create : init.$ingletonian.describe = create;
 
   loaded = true;
+
+  init.$ingletonian.Test = init.$ingletonian;
   return init.$ingletonian;
 
 };

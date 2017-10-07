@@ -65,7 +65,7 @@ function suman-inspect {
         handle_global_suman node_exec_args "$@"
     else
         echo "running node against local suman"
-        NODE_PATH=${NEW_NODE_PATH} PATH=${NEW_PATH} node --inspect-brk "$LOCAL_SUMAN" "$@";
+        NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" node --inspect-brk "$LOCAL_SUMAN" "$@";
     fi
 }
 

@@ -1,15 +1,19 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from 'suman-types/dts/global';
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //npm
 import * as Client from 'socket.io-client';
-
+import su = require('suman-utils');
 
 //project
-let client : SocketIOClient.Socket = null;
+let client: SocketIOClient.Socket = null;
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 ////////////////////////////////////////////////////////////////
 
@@ -17,15 +21,24 @@ export const getClient = function () {
 
   if (!client) {
 
-    client = Client(`http://localhost:${process.env.SUMAN_SOCKETIO_SERVER_PORT}`);
+    const port = process.env.SUMAN_SOCKETIO_SERVER_PORT;
+
+    if (!port) {
+      throw new Error('Suman implementation error, no port specified by "SUMAN_SOCKETIO_SERVER_PORT" env var.');
+    }
+
+    client = Client(`http://localhost:${port}`);
+
     client.on('connect', function () {
-      console.log('client connected.');
+      _suman.logWarning('client connected.');
     });
+
     client.on('event', function (data: string) {
-      console.log('event data => ', data);
+      _suman.log('event data => ', data);
     });
+
     client.on('disconnect', function () {
-      console.log('client disconnected.');
+      _suman.logError('client disconnected.');
     });
 
   }

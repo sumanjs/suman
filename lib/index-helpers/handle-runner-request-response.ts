@@ -61,7 +61,7 @@ export const handleRequestResponseWithRunner = function (data: Array<any>) {
       timedout = true;
       _suman.logError('Action to receive table data response from runner timed out.');
       cb(null);
-    }, 100);
+    }, 1000);
 
     client.on(TABLE_DATA, function onTableDataReceived(data: Object) {
       if (data.info = 'table-data-received' && timedout === false) {

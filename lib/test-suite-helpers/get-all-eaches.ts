@@ -34,12 +34,12 @@ export const getAllBeforesEaches = function (zuite: ITestSuite) {
     beforeEaches.unshift(zuite.getAfterAllParentHooks());
   }
 
-  function getParentBefores(parent: ITestSuite) {
+  const getParentBefores = function (parent: ITestSuite) {
     beforeEaches.unshift(parent.getBeforeEaches());
     if (parent.parent) {
       getParentBefores(parent.parent);
     }
-  }
+  };
 
   if (zuite.parent) {
     getParentBefores(zuite.parent);
@@ -53,12 +53,12 @@ export const getAllAfterEaches = function (zuite: ITestSuite) {
   const afterEaches: Array<Array<IAFterEachObj>> = [];
   afterEaches.push(zuite.getAfterEaches());
 
-  function getParentAfters(parent: ITestSuite) {
+  const getParentAfters = function (parent: ITestSuite) {
     afterEaches.push(parent.getAfterEaches());
     if (parent.parent) {
       getParentAfters(parent.parent);
     }
-  }
+  };
 
   if (zuite.parent) {
     getParentAfters(zuite.parent);

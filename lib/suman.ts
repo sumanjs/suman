@@ -5,7 +5,7 @@ import {ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "suman-types/dts/global";
 import {ITableData} from "suman-types/dts/table-data";
 import {ISumanInputs} from "suman-types/dts/suman";
-import {ISuman, ITableDataCallbackObj, ISumanServerInfo} from "suman-types/dts/suman";
+import {ITableDataCallbackObj, ISumanServerInfo} from "suman-types/dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -34,10 +34,8 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {findSumanServer} from './helpers/find-suman-server';
 import {ITestDataObj} from "suman-types/dts/it";
 import {constants} from '../config/suman-constants';
-
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
-
 let envTotal: number, envConfig: number;
 
 if (process.env.DEFAULT_PARALLEL_TOTAL_LIMIT && (envTotal = Number(process.env.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
@@ -62,6 +60,7 @@ export class Suman {
   private __inject: Object;
   testBlockMethodCache: ITestBlockMethodCache;
   iocData: Object;
+  force: boolean;
   fileName: string;
   slicedFileName: string;
   timestamp: number;
@@ -106,6 +105,7 @@ export class Suman {
     this.numHooksSkipped = 0;
     this.numHooksStubbed = 0;
     this.numBlocksSkipped = 0;
+    this.force = obj.force || false;
 
     let queue: any;
 
@@ -356,10 +356,10 @@ export class Suman {
     // str = str.replace(/(\r\n|\n|\r)/gm, ''); ///This javascript code removes all 3 types of line breaks
     // process.send(JSON.parse(str));
 
-    const client = getClient();
     const LOG_RESULT = constants.runner_message_type.LOG_RESULT;
 
     if (global.usingBrowserEtcEtc) {
+      const client = getClient();
       // TODO: note for the web browser, we need to use this
       client.emit(LOG_RESULT, JSON.parse(str));
     }
@@ -388,8 +388,7 @@ export type ISuman = Suman;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeSuman = function ($module: NodeModule, _interface: string,
-                                   shouldCreateResultsDir: boolean, config: ISumanConfig) {
+export const makeSuman = function ($module: NodeModule, _interface: string, opts: Objects) {
 
   let liveSumanServer = false;
 
@@ -432,6 +431,7 @@ export const makeSuman = function ($module: NodeModule, _interface: string,
     fileName: path.resolve($module.filename),
     usingLiveSumanServer: liveSumanServer,
     server,
+    force: opts.force,
     timestamp,
     interface: _interface
   });

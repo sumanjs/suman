@@ -1,24 +1,24 @@
 'use strict';
 
-//typescript imports
+// dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {IIntegrantsMessage, ISumanModuleExtended} from "suman-types/dts/index-init";
 
-//polyfills
+// polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
-//core
+// core
 import domain = require('domain');
 import util = require('util');
 import EE = require('events');
 
-//npm
+// npm
 import * as chalk from 'chalk';
 import * as fnArgs from 'function-arguments';
 import su from 'suman-utils';
 
-//project
+// project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 if (!('integrantHashKeyVals' in _suman)) {
@@ -31,10 +31,8 @@ if (!('integrantHashKeyVals' in _suman)) {
 const {acquirePreDeps} = require('../acquire-dependencies/acquire-pre-deps');
 import {constants} from '../../config/suman-constants';
 import integrantInjector from '../injection/integrant-injector';
-
 const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 import {getClient} from './socketio-child-client';
-
 let integPreConfiguration: any = null;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,14 +55,22 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
     postOnlyReady = false;
   }
 
+  let client: SocketIOClient.Socket, usingRunner = _suman.usingRunner;
+
   if (integrants.length < 1) {
+
+    if (usingRunner) {
+      // we should start establishing a connection now, to get ahead of things
+      getClient();
+    }
+
     integrantsFn = function () {
       return Promise.resolve({});
     }
   }
-  else if (_suman.usingRunner) {
+  else if (usingRunner) {
 
-    const client = getClient();
+    client = getClient();
 
     integrantsFn = function () {
 
@@ -143,7 +149,7 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
 
         d.run(function () {
 
-          if(!integPreConfiguration){
+          if (!integPreConfiguration) {
             throw new Error('suman implementation error, missing definition.');
           }
           // with suman single process, or not, we acquire integrants the same way

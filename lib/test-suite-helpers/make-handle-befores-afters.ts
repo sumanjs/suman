@@ -19,7 +19,6 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su from 'suman-utils';
 import chalk = require('chalk');
 import {makeCallback} from './handle-callback-helper';
-
 const helpers = require('./handle-promise-generator');
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../misc/clone-error';
@@ -51,6 +50,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     };
 
     const d = domain.create() as ISumanAllHookDomain;
+    _suman.activeDomain = d;
     d.sumanAllHook = true;
     d.sumanAllHookName = aBeforeOrAfter.desc || '(unknown all-hook name)';
 
