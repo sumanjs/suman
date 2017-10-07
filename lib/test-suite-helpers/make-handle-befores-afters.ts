@@ -50,6 +50,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     };
 
     const d = domain.create() as ISumanAllHookDomain;
+    _suman.activeDomain = d;
     d.sumanAllHook = true;
     d.sumanAllHookName = aBeforeOrAfter.desc || '(unknown all-hook name)';
 

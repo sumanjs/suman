@@ -103,14 +103,13 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
 
           });
 
-          it('xxx', t => {
-
+          it.skip('xxx', t => {
+              // skipped tests should not reach beforeEach/afterEach hooks
           });
 
-          it('xxx');
+          it('xxx'); // stubbed tests should not reach beforeEach/afterEach hooks
 
           after.cb(h => {
-
             h.ctn();
           });
 

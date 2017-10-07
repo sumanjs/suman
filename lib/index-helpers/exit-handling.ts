@@ -141,6 +141,8 @@ process.on('warning', function (w: Error) {
   }
 });
 
+// remove all pre-existing listeners
+process.removeAllListeners('uncaughtException');
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
   if (!err) {
@@ -166,6 +168,13 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
   if (_suman.afterAlwaysEngaged) {
     // we are running after always hooks, and any uncaught exceptions will be ignored in this case
     return;
+  }
+
+  if (_suman.sumanOpts && _suman.sumanOpts.series) {
+    if (_suman.activeDomain) {
+      _suman.activeDomain.emit('error', err);
+      return;
+    }
   }
 
   if (!_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
@@ -201,23 +210,31 @@ process.removeAllListeners('unhandledRejection');
 
 process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
 
+  const reason = $reason ? ($reason.stack || $reason) : new Error('no reason passed to unhandledRejection handler.');
+
   if (p && p.domain) {
     if (p.domain.sumanTestCase || p.domain.sumanEachHook || p.domain.sumanAllHook) {
-      $reason && typeof $reason === 'object' && ($reason._alreadyHandledBySuman = true);
-      p.domain.emit('error', $reason);
+      typeof reason === 'object' && (reason._alreadyHandledBySuman = true);
+      p.domain.emit('error', reason);
       return;
     }
   }
 
   if (process.domain) {
     if (process.domain.sumanTestCase || process.domain.sumanEachHook || process.domain.sumanAllHook) {
-      $reason && typeof $reason === 'object' && ($reason._alreadyHandledBySuman = true);
-      process.domain.emit('error', $reason);
+      typeof reason === 'object' && ($reason._alreadyHandledBySuman = true);
+      process.domain.emit('error', reason);
       return;
     }
   }
 
-  const reason = ($reason.stack || $reason);
+  if (_suman.sumanOpts && _suman.sumanOpts.series) {
+    if (_suman.activeDomain) {
+      _suman.activeDomain.emit('error', reason);
+      return;
+    }
+  }
+
   console.error('\n');
   _suman.logError(chalk.magenta.bold('Unhandled Rejection at Promise:'), chalk.magenta(util.inspect(p)));
   console.error('\n');

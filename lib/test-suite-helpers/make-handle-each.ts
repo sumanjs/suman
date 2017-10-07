@@ -61,6 +61,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     };
 
     const d = domain.create() as ISumanEachHookDomain;
+    _suman.activeDomain = d;
     d.sumanEachHook = true;
     d.sumanEachHookName = aBeforeOrAfterEach.desc || '(unknown hook name)';
     d.testDescription = test.desc || '(unknown test case name)';
@@ -92,8 +93,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           gracefulExit({
             sumanFatal: true,
             sumanExitCode: constants.EXIT_CODES.FATAL_HOOK_ERROR,
-            stack: ' => fatal error in hook => (to continue even in the event of an error ' +
-            'in a hook, use option {fatal:false}) =>' + '\n' + formatedStk
+            stack: constants.SUMAN_HOOK_FATAL_MESSAGE + formatedStk
           });
         }
       }
@@ -145,8 +145,13 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         t.test = {};
         t.test.desc = test.desc;
         t.test.testId = test.testId;
-        t.test.result = test.error ? 'failed' : 'passed';
-        t.test.error = test.error;
+
+        if(aBeforeOrAfterEach.type === 'afterEach/teardownTest'){
+          // these properties are sent to afterEach hooks, but not beforeEach hooks
+          t.test.result = test.error ? 'failed' : 'passed';
+          t.test.error = test.error;
+        }
+
         t.data = test.data;
         t.desc = aBeforeOrAfterEach.desc;
         t.value = test.value;
