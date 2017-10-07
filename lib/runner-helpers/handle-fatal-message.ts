@@ -29,19 +29,23 @@ export const handleFatalMessage = function  ($msg: Object, n: ISumanChildProcess
 
   let msg = String(typeof $msg.error === 'string' ? $msg.error : util.inspect($msg)).replace(/\n/g, '\n').replace('\t', '');
 
-  msg = msg.split('\n').map(function (item, index) {
+  msg = msg.split('\n')
+  .concat(su.repeatCharXTimes('_',115))
+  .map(function (item, index) {
     if (index === 0) {
       return item;
     }
     else {
-      return su.padWithXSpaces(8) + item;
+      return su.padWithXSpaces(3) + item;
     }
+  })
+  .join('\n');
 
-  }).join('\n');
+  const padding = su.padWithXSpaces(2);
 
   const message = [
     '\n',
-    chalk.bgWhite.magenta.bold(' => Suman runner => there was a fatal test suite error - an error was encountered in ' +
+    chalk.bgWhite.magenta.bold(' There was a fatal test suite error - an error was encountered in ' +
       'your test code that prevents Suman '),
     chalk.bgWhite.magenta.bold(' from continuing with a particular test suite within the following path: '),
     ' ',
@@ -54,11 +58,10 @@ export const handleFatalMessage = function  ($msg: Object, n: ISumanChildProcess
       }
       return null;
     })(),
-    ' ', //chalk.bgBlack.white(' '),
     chalk.magenta.bold(msg),
     // chalk.magenta.bold(String(msg.error ? msg.error : JSON.stringify(msg)).replace(/\n/g, '\n\t')),
     '\n\n'
-  ].filter(item => item).join('\n\t'); //filter out null/undefined
+  ].filter(item => item).join('\n' + padding); //filter out null/undefined
 
   resultBroadcaster.emit(String(events.FATAL_TEST_ERROR), message);
 

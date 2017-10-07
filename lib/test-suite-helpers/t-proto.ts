@@ -53,7 +53,7 @@ proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
 };
 
 proto.log = function() {
-  _suman._writeLog.apply(null, arguments);
+  _suman.writeLog.apply(null, arguments);
 };
 
 proto.slow = function () {

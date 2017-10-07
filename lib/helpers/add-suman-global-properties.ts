@@ -9,11 +9,10 @@ const global = require('suman-browser-polyfills/modules/global');
 //npm
 import * as chalk from 'chalk';
 import {lp} from 'log-prepend';
+import {pt} from 'prepend-transform';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-
-debugger;
 
 if (!('SUMAN_INCEPTION_LEVEL' in process.env) || process.argv.indexOf('--force-inception-level-zero')) {
   _suman.inceptionLevel = 0;

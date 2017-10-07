@@ -6,7 +6,28 @@ three SO profiles:
 
 ///
 
+  in --series mode -> we should put currently executing test or hook in global space
+  especially for the browser.
+
+///
+
+ use es6 symbols to hide properties?
+ https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
+
+///
+
  the runner hangs every few runs, there must be a race condition
+
+///
+
+@ORESoftware It depends on the version of node the running process uses.
+If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` to enable the --inspect behavior after the fact.
+
+
+///
+
+    suman-watch should be optionalDep?
+    suman-interactive should be optionalDep?
 
 ///
 
@@ -25,8 +46,15 @@ cd $(dirname "$0")
 
 ////
 
- suman --scripts abc
+    it.skipped() should be an alias of it.skip()
 
+////
+
+ => give user choice as to use bash or zsh or whatever for suman watch
+
+////
+
+ suman --scripts abc
  => should run the script that's in suman.conf.js
 
 ///
@@ -37,12 +65,10 @@ cd $(dirname "$0")
 ///
 
  babel:
-
  removed these from {package.json}.devDependencies:
-
     "babel-loader": "^6.4.1",
-     "babel-polyfill": "^6.23.0",
-     "babel-preset-latest": "^6.24.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-latest": "^6.24.0",
 
 ///
 
@@ -54,28 +80,24 @@ cd $(dirname "$0")
 
 ///
 
- before / beforeEach hooks should attach a value to suman.$inject if a value is returned
+    before / beforeEach hooks should attach a value to suman.$inject if a value is returned
 
 ///
 
-// after always may not be run in the right order
-async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
+    after always may not be run in the right order
+    async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
 ///
 
- => afterEach should have test info, not just value/data
+    => afterEach should have test info, not just value/data
 
 ////
 
- => test suman itself with suman, then we can make final adjustments before release
+    => test suman itself with suman, then we can make final adjustments before release
 
 ///
 
- => chai 4.0.2 works.
-
-///
-
- _suman.ctx => suman.ctx ?
+    => chai 4.0.2 works.
 
 ///
 
@@ -83,17 +105,17 @@ async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
 ///
 
- we should be able to create a test file with suman --create
- and run the file, without running suman --init on a directory, see unnecessary error:
+  we should be able to create a test file with suman --create
+  and run the file, without running suman --init on a directory, see unnecessary error:
 
- => Suman could *not* locate your <suman-helpers-dir>; perhaps you need to update your suman.conf.js file, please see: ***
+  => Suman could *not* locate your <suman-helpers-dir>; perhaps you need to update your suman.conf.js file, please see: ***
   => http://sumanjs.org/conf.html
   => We expected to find your <suman-helpers-dir> here =>
- /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-types/suman
+  /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-types/suman
 
- => If there is NO SUMAN HELPERS DIR, flip a boolean, and just use all the default files.
+  => If there is NO SUMAN HELPERS DIR, flip a boolean, and just use all the default files.
 
- // >>>>> or just run the test with node instead of suman?
+  // >>>>> or just run the test with node instead of suman?
 
 ///
 
@@ -121,7 +143,6 @@ Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, desc
 
 });
 
-
 ///
 
    ⚑  Suman fatal error  => making a graceful exit =>
@@ -139,12 +160,6 @@ Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, desc
         _____________________________________________________________________
 
   => if error message is multi-line, it gets removed...for example when we call "'no success property on body => ' + util.inspect(x) "
-
-
-///
-
-  in --series mode -> we should put currently executing test or hook in global space
-  especially for the browser.
 
 ///
 
@@ -169,24 +184,19 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
- use es6 symbols to hide properties?
- https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
+    before hooks can be stubbed? => before('merry');
 
 ///
 
- before hooks can be stubbed? => before('merry');
+    improve tables -> they should work on Jenkins, etc.
 
 ///
 
- improve tables -> they should work on Jenkins, etc.
+    enforceUniqueTestCaseNames:true
 
 ///
 
- enforceUniqueTestCaseNames:true
-
-///
-
-fatal error in hook does not have cause or reason (the first line!):
+    fatal error in hook does not have cause or reason (the first line!):
 
    ⚑  Suman fatal error  => making a graceful exit =>
    Error:  => fatal error in hook => (to continue even in the event of an error in a hook, use option {fatal:false}) =>
@@ -227,56 +237,51 @@ fatal error in hook does not have cause or reason (the first line!):
 
 ///
 
-use git submodules to publish suman-types
-https://git-scm.com/book/en/v2/Git-Tools-Submodules
+    use git submodules to publish suman-types
+    https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 ///
 
- using suman.ctx instead of _suman.ctx would allow this
- run Test.creates suman.ioc.js files in parallel?
+    use https://github.com/tunnckoCore/parse-function, instead of function-arguments
 
 ///
 
- use https://github.com/tunnckoCore/parse-function, instead of function-arguments
+    after hooks should be fatal:false by default?
 
 ///
 
- after hooks should be fatal:false by default?
+    when `suman --init` is run, we should create a dir called .suman not suman
+    and suman-default-config.js should be updated to reflect that
 
 ///
 
- when `suman --init` is run, we should create a dir called .suman not suman
- and suman-default-config.js should be updated to reflect that
-
-///
-
- suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
- suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
+    suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
+    suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
 
 //
 
- in order for parallel-max to work properly,
- the last test suite to be put on the queue, needs to wait.
+    in order for parallel-max to work properly,
+    the last test suite to be put on the queue, needs to wait.
 
 //
 
- => absolute --parallel would just mean unleashing things in exec-suite.js so that a parent does *not* need to complete
- before a child starts.
+    => absolute --parallel would just mean unleashing things in exec-suite.js so that a parent does *not* need to complete
+    before a child starts.
 
 //
 
- --use-tap prevents tables from being printed by runner, weird.
+    --use-tap prevents tables from being printed by runner, weird.
 
 ///
 
- "please report this on the Github issue..." => add a link to these instance in the codebase to sumanjs/suman#issues
+    "please report this on the Github issue..." => add a link to these instance in the codebase to sumanjs/suman#issues
 
 ///
 
- when a command in run.sh fails, we need to send that stderr
- to the runner, e.g.:
+    when a command in run.sh fails, we need to send that stderr
+    to the runner, e.g.:
 
-  => [suman child stderr] => ./suman/test/src/mocha/@run.sh: line 6: mocha: command not found
+    => [suman child stderr] => ./suman/test/src/mocha/@run.sh: line 6: mocha: command not found
 
 ////
 
@@ -337,29 +342,29 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
      at TestSuiteMaker.TestSuite.__invokeChildren (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:205:19)
 
 
-////
+///
 
  _suman.log and _suman.logError need to split everything by newline
  so that [suman] appears on each line
 
-////
+///
 
  suman child id should be a uuid not an integer
 
-////
+///
 
  suman needs to take a node path as argument SUMAN_NODEJS_EXEC_PATH=x
 
-////
+///
 
  use -- --seed instead of --user-args?
 
-////
+///
 
   if @run.sh exists for a file x, but the command is just "suman x", then the runner won't be used and @run.sh won't
   be used. If @run.sh is found, we must use the runner.
 
-////
+///
 
     put a "twitter like" button on the webpage
     Please Share on Twitter if you like #mockgoose
@@ -378,14 +383,6 @@ https://git-scm.com/book/en/v2/Git-Tools-Submodules
 ////
 
  inject only works when we do not need to use a before/beforeEach to load data beforehand
-
-////
-
-it(x, t => {
-
-   t.$inject => could contain the before values that are created by before/beforeEach
-
-});
 
 ////
 

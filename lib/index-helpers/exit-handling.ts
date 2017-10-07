@@ -1,4 +1,6 @@
-//typescript imports
+'use strict';
+
+//dts
 import {IGlobalSumanObj, IPromiseWithDomain, ISumanDomain, SumanErrorRace} from "suman-types/dts/global";
 
 //polyfills
@@ -18,18 +20,21 @@ const {fatalRequestReply} = require('../helpers/fatal-request-reply');
 import {constants} from '../../config/suman-constants';
 import {oncePostFn} from '../helpers/handle-suman-once-post';
 import {runAfterAlways} from '../helpers/run-after-always';
-
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 const weAreDebugging = require('../helpers/we-are-debugging');
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+type AsyncFuncType = AsyncResultArrayCallback<Dictionary<any>, Error>;
+
+//////////////////////////////////////////////////////////////////////////////////////
+
 const shutdownSuman = function (msg: string) {
 
   async.parallel([
-    function (cb: AsyncResultArrayCallback<Dictionary<any>, Error>) {
+    function (cb: AsyncFuncType) {
       async.series([
-        function (cb: AsyncResultArrayCallback<Dictionary<any>, Error>) {
+        function (cb: AsyncFuncType) {
           if (runAfterAlways && _suman.whichSuman) {
             runAfterAlways(_suman.whichSuman, cb);
           }
@@ -38,12 +43,12 @@ const shutdownSuman = function (msg: string) {
           }
         },
 
-        function (cb: AsyncResultArrayCallback<Dictionary<any>, Error>) {
+        function (cb: AsyncFuncType) {
           if (oncePostFn) {
             oncePostFn(cb);
           }
           else {
-            _suman.logError('Suman internal warning, oncePostFn not yet defined.');
+            _suman.logError('Suman internal warning, "oncePostFn" not yet defined.');
             process.nextTick(cb);
           }
         },
@@ -119,7 +124,7 @@ process.on('SIGTERM', function () {
     process.exit(1);
   }
   else if (sigtermCount === 1) {
-    shutdownSuman('SIGINT received');
+    shutdownSuman('SIGTERM received');
   }
 
 });
@@ -136,6 +141,8 @@ process.on('warning', function (w: Error) {
   }
 });
 
+// remove all pre-existing listeners
+process.removeAllListeners('uncaughtException');
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
   if (!err) {
@@ -150,11 +157,6 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
     }
   }
 
-  /*
-
-  @benjamingr yeah I am working on sumanjs/suman - it's a test runner - TapJS and Lab among others also see the same need for domains. Once Node.js test runners started parallelizing tests, putting the current executing test in the global scope was no longer possible, since tests/hooks would interleave. So all these test runners are using domains to solve the problem atm. AVA parallelizes tests, but they are relying on promises and async/await to trap errors. IMO for edge cases it's not quite good enough yet, so like TapJS and Lab, I decided to use domains.
-  */
-
   if (err._alreadyHandledBySuman) {
     console.error(' => Error already handled => \n', (err.stack || err));
     return;
@@ -166,6 +168,13 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
   if (_suman.afterAlwaysEngaged) {
     // we are running after always hooks, and any uncaught exceptions will be ignored in this case
     return;
+  }
+
+  if (_suman.sumanOpts && _suman.sumanOpts.series) {
+    if (_suman.activeDomain) {
+      _suman.activeDomain.emit('error', err);
+      return;
+    }
   }
 
   if (!_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
@@ -201,23 +210,31 @@ process.removeAllListeners('unhandledRejection');
 
 process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
 
+  const reason = $reason ? ($reason.stack || $reason) : new Error('no reason passed to unhandledRejection handler.');
+
   if (p && p.domain) {
     if (p.domain.sumanTestCase || p.domain.sumanEachHook || p.domain.sumanAllHook) {
-      $reason && typeof $reason === 'object' && ($reason._alreadyHandledBySuman = true);
-      p.domain.emit('error', $reason);
+      typeof reason === 'object' && (reason._alreadyHandledBySuman = true);
+      p.domain.emit('error', reason);
       return;
     }
   }
 
   if (process.domain) {
     if (process.domain.sumanTestCase || process.domain.sumanEachHook || process.domain.sumanAllHook) {
-      $reason && typeof $reason === 'object' && ($reason._alreadyHandledBySuman = true);
-      process.domain.emit('error', $reason);
+      typeof reason === 'object' && ($reason._alreadyHandledBySuman = true);
+      process.domain.emit('error', reason);
       return;
     }
   }
 
-  const reason = ($reason.stack || $reason);
+  if (_suman.sumanOpts && _suman.sumanOpts.series) {
+    if (_suman.activeDomain) {
+      _suman.activeDomain.emit('error', reason);
+      return;
+    }
+  }
+
   console.error('\n');
   _suman.logError(chalk.magenta.bold('Unhandled Rejection at Promise:'), chalk.magenta(util.inspect(p)));
   console.error('\n');

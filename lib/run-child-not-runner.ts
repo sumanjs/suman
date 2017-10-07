@@ -10,10 +10,8 @@ const path = require('path');
 import util = require('util');
 
 //npm
+import su = require('suman-utils');
 import chalk = require('chalk');
-
-const sumanUtils = require('suman-utils');
-const debug = require('suman-debug')('s');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -81,7 +79,11 @@ export const run = function (files: Array<string>) {
     process.prependListener = process.on.bind(process);
   }
 
-  process.prependListener('exit', function (code: number) {
+  if (!process.prependOnceListener) {
+    process.prependOnceListener = process.on.bind(process);
+  }
+
+  process.prependOnceListener('exit', function (code: number) {
     if (!_suman.isActualExitHandlerRegistered) {
       _suman.logError(chalk.magenta('Warning, you may have failed to point Suman to an actual Suman test file.');
       _suman.logError(chalk.magenta('Or there was an immediate error, which prevented any other exit handlers from being registered.'));
@@ -89,11 +91,17 @@ export const run = function (files: Array<string>) {
   });
 
   if (SUMAN_SINGLE_PROCESS) {
-    _suman.log('we are in SUMAN_SINGLE_PROCESS mode.');
+    if (su.vgt(5)) {
+      _suman.log('We are in "SUMAN_SINGLE_PROCESS" mode: all JavaScript-based tests will be run in a single process.');
+    }
+
     require('./handle-single-proc').run(files);
   }
   else {
-    _suman.log(`running this single test file => "${files[0]}"`);
+    if (su.vgt(5)) {
+      _suman.log(`running this single test file => "${chalk.bold(files[0])}"`);
+    }
+
     require('./helpers/log-stdio-of-child').run(files[0]);
     require(files[0]);
   }

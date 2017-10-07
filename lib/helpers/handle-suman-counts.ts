@@ -2,7 +2,7 @@
 
 //dts
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
-import {ITableDataCallbackObj} from "../suman";
+import {ITableDataCallbackObj} from "suman-types/dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -16,24 +16,19 @@ import fs = require('fs');
 //npm
 import {events} from 'suman-events';
 import su = require('suman-utils');
-import chalk = require('chalk');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {handleRequestResponseWithRunner} from '../index-helpers/handle-runner-request-response';
-
 const counts = require('./suman-counts');
 import {oncePostFn} from './handle-suman-once-post';
-
-const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-const results: Array<ITableDataCallbackObj> = _suman.tableResults = (_suman.tableResults || []);
+const suiteResultEmitter = _suman.suiteResultEmitter = _suman.suiteResultEmitter || new EE();
+const resultBroadcaster = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
+const results: Array<ITableDataCallbackObj> = _suman.tableResults = _suman.tableResults || [];
 
 ///////////////////////////////////////////////////////////////////
 
 suiteResultEmitter.once('suman-test-file-complete', function () {
-
-  debugger;
 
   let fn, resultz;
 
@@ -46,7 +41,6 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
 
     // i may not be defined if testsuite (rootsuite) was skipped
     resultz = results.map(i => i ? i : null).filter(i => i);
-
     resultz.forEach(function (r) {
       resultBroadcaster.emit(String(events.STANDARD_TABLE), r.tableData, r.exitCode);
     });
@@ -55,7 +49,9 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
   }
 
   const codes = results.map(i => i.exitCode);
-  _suman.log(' => All "exit" codes from test suites => ', codes);
+  if (su.vgt(6)) {
+    _suman.log(' => All "exit" codes from test suites => ', util.inspect(codes));
+  }
 
   const highestExitCode = Math.max.apply(null, codes);
 
@@ -64,7 +60,6 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
     err && _suman.logError(err.stack || err);
     // this is for testing expected test result counts
     resultBroadcaster.emit(String(events.META_TEST_ENDED));
-
     _suman.endLogStream && _suman.endLogStream();
 
     let waitForStdioToDrain = function (cb: Function) {
@@ -75,11 +70,14 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
       }
 
       let timedout = false;
-      let to = setTimeout(function () {
+      let timeout = _suman.usingRunner ? 20 : 10;
+
+      let onTimeout = function () {
         timedout = true;
-        _suman.logWarning('Drain callback timed out, exitting +.');
         cb(null);
-      }, _suman.usingRunner ? 20 : 10);
+      };
+
+      let to = setTimeout(onTimeout, timeout);
 
       _suman.drainCallback = function (logpath: string) {
         clearTimeout(to);

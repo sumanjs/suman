@@ -23,19 +23,20 @@ import su = require('suman-utils');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const cwd = process.cwd();
 import {initializeSocketServer} from './socketio-server';
+const runnerDebugLogPath = _suman.sumanRunnerStderrStreamPath =
+  path.resolve(_suman.sumanHelperDirRoot + '/logs/runner-debug.log');
 
 ////////////////////////////////////////////////////////////////////////////
 
 export const createRunner = function (obj: Object) {
 
   const runObj = obj.runObj;
-  const strmPath = _suman.sumanRunnerStderrStreamPath = path.resolve(_suman.sumanHelperDirRoot + '/logs/runner-debug.log');
-  const strm = _suman.sumanStderrStream = fs.createWriteStream(strmPath);
+  const strm = _suman.sumanStderrStream = fs.createWriteStream(runnerDebugLogPath);
 
   strm.write('\n\n### Suman runner start ###\n\n');
   strm.write('Beginning of run at ' + Date.now() + ' = [' + new Date() + ']' + '\n');
-  strm.write('Command issued from the following directory "' + cwd + '"\n');
-  strm.write('Command = ' + JSON.stringify(process.argv) + '\n');
+  strm.write('Suman command issued from the following directory "' + cwd + '"\n');
+  strm.write('Suman "process.argv" => \n' + util.inspect(process.argv) + '\n');
 
   /////////////// validate suman.once.js //////////////////////////////////////////////////////////
 

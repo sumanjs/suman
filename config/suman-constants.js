@@ -8,6 +8,7 @@ exports.constants = Object.freeze({
     DEFAULT_PARALLEL_TOTAL_LIMIT: 30,
     DEFAULT_PARALLEL_TEST_LIMIT: 10,
     DEFAULT_PARALLEL_BLOCK_LIMIT: 10,
+    DEFAULT_CHILD_PROCESS_TIMEOUT: 6000000,
     OLDEST_SUPPORTED_NODE_VERSION: 'v4.0.0',
     DEBUGGING_ENV: {
         name: 'SUMAN_DEBUG',
@@ -17,6 +18,8 @@ exports.constants = Object.freeze({
     GIT_IGNORE: [
         '**suman/logs/**'
     ],
+    SUMAN_HOOK_FATAL_WARNING_MESSAGE: 'Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false =>\n',
+    SUMAN_HOOK_FATAL_MESSAGE: ' => fatal error in hook => (to continue even in the event of an error in a hook, use option {fatal:false}) =>\n',
     SUMAN_HARD_LIST: Object.keys({
         describe: true,
         before: true,

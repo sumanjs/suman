@@ -5,6 +5,7 @@ export declare const constants: Readonly<{
     DEFAULT_PARALLEL_TOTAL_LIMIT: number;
     DEFAULT_PARALLEL_TEST_LIMIT: number;
     DEFAULT_PARALLEL_BLOCK_LIMIT: number;
+    DEFAULT_CHILD_PROCESS_TIMEOUT: number;
     OLDEST_SUPPORTED_NODE_VERSION: string;
     DEBUGGING_ENV: {
         name: string;
@@ -12,6 +13,8 @@ export declare const constants: Readonly<{
     };
     SUMAN_SERVER_MESSAGE: string;
     GIT_IGNORE: string[];
+    SUMAN_HOOK_FATAL_WARNING_MESSAGE: string;
+    SUMAN_HOOK_FATAL_MESSAGE: string;
     SUMAN_HARD_LIST: string[];
     CORE_MODULE_LIST: any;
     CLI_EXIT_CODES: {

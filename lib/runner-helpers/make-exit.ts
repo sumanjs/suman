@@ -17,7 +17,7 @@ import cp = require('child_process');
 const {events} = require('suman-events');
 const sumanUtils = require('suman-utils');
 import async = require('async');
-
+const player = require('play-sound')();
 const sortBy = require('lodash.sortby');
 const AsciiTable = require('ascii-table');
 import chalk  = require('chalk');
@@ -192,20 +192,59 @@ export const makeExit = function (runnerObj, tableRows) {
 
     async.autoInject({
 
-      handleAsyncReporters: function (cb: Function) {
-        async.each(reporterRets, function (item: Object, cb: Function) {
+      makeErrorOrSuccessSound: function (cb: any) {
 
-          if (!item || item.count < 1) {
+        if (process.env.SUMAN_WATCH_TEST_RUN === 'yes') {
+
+          let soundFilePath;
+
+          if (exitCode === 0) {
+            soundFilePath = null;
+          }
+          else {
+            soundFilePath = path.resolve(process.env.HOME + '/fail-trombone-02.mp3');
+          }
+
+          if(!soundFilePath){
+            return process.nextTick(cb);
+          }
+
+          player.play(soundFilePath, {timeout: 5000}, function (err: Error) {
+            err && _suman.logError(err);
+            cb(null);
+          });
+
+        }
+        else {
+          process.nextTick(cb);
+        }
+
+      },
+
+      handleAsyncReporters: function (cb: Function) {
+        async.eachLimit(reporterRets, 5, function (item: Object, cb: Function) {
+
+          if (item && item.count > 0) {
+
+            let timedout = false;
+            let timeoutFn = function () {
+              timedout = true;
+              console.error(`async reporter ${util.inspect(item.reporterName || item)}, appears to have timed out.`);
+              cb(null);
+            };
+
+            setTimeout(timeoutFn, 5000);
+
+            item.cb = function (err: Error) {
+              err && _suman.logError(err.stack || err);
+              process.nextTick(cb);
+            };
+          }
+          else {
             // if nothing is returned from the reporter module, we can't do anything
             // and we assume it was all sync
             // likewise if count is less than 1 then we are ready to go
             process.nextTick(cb);
-          }
-          else {
-            item.cb = function (err: Error) {
-              err && _suman.logError(err.stack || err);
-              process.nextTick(cb);
-            }
           }
         }, cb);
       },

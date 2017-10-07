@@ -9,7 +9,7 @@ const numOfCPUs = os.cpus().length || 1;
 
 module.exports = Object.freeze({
 
-  //☺,♫
+  //☺,♫  //
 
   //regex
   matchAny: [/\.js$/, /.sh$/, /\.jar$/, /\.java$/, /\.go$/, /\.ts$/],
@@ -19,8 +19,7 @@ module.exports = Object.freeze({
   //string
   testDir: 'test',
   testSrcDir: 'test/src/dev/node',
-  testTargetDir: 'test/target',
-  sumanHelpersDir: 'test/_suman',
+  sumanHelpersDir: 'test/.suman',
   uniqueAppName: '<your-app-name-here>',
   browser: 'Firefox',                 // browser to open test results with
   logsDir: process.env['SUMAN_LOGS_DIR'],
@@ -76,36 +75,39 @@ module.exports = Object.freeze({
   expireResultsAfter: 10000000,     // test results will be deleted after this amount of time
 
   watch: {
-
-    'all-tests': './node_modules/.bin/suman',
-    'unit-tests': './node_modules/.bin/suman test/unit/**/*.js',
-
-    '//tests': {
-      'default': {  // (re) execute the test file that changed
-        script: function (p) {
-          return `./node_modules/.bin/suman ${p}`
-        },
-        include: [],
-        exclude: ['^test.*']
+    options: {
+      shellExecutable: 'bash',
+      soundFilePaths: {
+        runtimeError: path.resolve(process.env.HOME + '/fail-trombone-02.mp3'),
+        success: path.resolve(process.env.HOME + '/ta_da_sound.mp3'),
+        testFailure: path.resolve(process.env.HOME + '/fail-trombone-02.mp3')
       }
     },
-
-    '//project': {
-      script: './node_modules/.bin/suman',
-      include: [],
-      exclude: ['^test.*'],
-
+    per: {
+      'node-dev': {
+        exec: 'suman test/src/dev/node --verbosity=4',
+        includes: [__dirname],
+        excludes: ['/test/', /\.ts$/],
+        confOverride: {}
+      }
     },
-
-    'default': {  //run all tests when a file changes in project
-      script: './node_modules/.bin/suman',
-      include: [],
-      exclude: ['^test.*']
+    'browser-dev': {
+      exec: 'suman test/src/dev/browser',
+      includes: [__dirname],
+      excludes: ['/test/', /\.ts$/],
+      confOverride: {}
     }
   },
 
+  ////////////////////////////////////////////////////
+
+  scripts: {
+    // usage: $ suman --scripts example
+    example: 'export NODE_ENV=test; echo "I love 45"; echo "NODE_ENV value => ${NODE_ENV}"'
+  },
+
   reporters: {
-    'tap': 'node_modules/suman/lib/reporters/tap-reporter'
+    'tap': 'suman-reporters/modules/tap-reporter'
   },
 
   // servers: {                           // list of servers to output test result data to, with the os.hostname() as the key
