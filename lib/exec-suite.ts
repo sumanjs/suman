@@ -92,8 +92,9 @@ export const execSuite = function (suman: ISuman): Function {
           msg: msg
         }
       }, function () {
-        console.log(msg + '\n\n');
-        console.error(new Error(' => Suman usage error => invalid arrow/generator function usage.').stack);
+        console.error(msg + '\n\n');
+        let err = new Error('Suman usage error => invalid arrow/generator function usage.').stack;
+        _suman.logError(err); _suman.writeTestError(err);
         process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
       });
 

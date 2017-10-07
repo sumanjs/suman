@@ -5,7 +5,7 @@ import {ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "suman-types/dts/global";
 import {ITableData} from "suman-types/dts/table-data";
 import {ISumanInputs} from "suman-types/dts/suman";
-import {ISuman, ITableDataCallbackObj, ISumanServerInfo} from "suman-types/dts/suman";
+import {ITableDataCallbackObj, ISumanServerInfo} from "suman-types/dts/suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -60,6 +60,7 @@ export class Suman {
   private __inject: Object;
   testBlockMethodCache: ITestBlockMethodCache;
   iocData: Object;
+  force: boolean;
   fileName: string;
   slicedFileName: string;
   timestamp: number;
@@ -104,6 +105,7 @@ export class Suman {
     this.numHooksSkipped = 0;
     this.numHooksStubbed = 0;
     this.numBlocksSkipped = 0;
+    this.force = obj.force || false;
 
     let queue: any;
 
@@ -386,8 +388,7 @@ export type ISuman = Suman;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeSuman = function ($module: NodeModule, _interface: string,
-                                   shouldCreateResultsDir: boolean, config: ISumanConfig) {
+export const makeSuman = function ($module: NodeModule, _interface: string, opts: Objects) {
 
   let liveSumanServer = false;
 
@@ -430,6 +431,7 @@ export const makeSuman = function ($module: NodeModule, _interface: string,
     fileName: path.resolve($module.filename),
     usingLiveSumanServer: liveSumanServer,
     server,
+    force: opts.force,
     timestamp,
     interface: _interface
   });

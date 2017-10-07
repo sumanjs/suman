@@ -41,7 +41,6 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
 
     // i may not be defined if testsuite (rootsuite) was skipped
     resultz = results.map(i => i ? i : null).filter(i => i);
-
     resultz.forEach(function (r) {
       resultBroadcaster.emit(String(events.STANDARD_TABLE), r.tableData, r.exitCode);
     });
@@ -50,7 +49,10 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
   }
 
   const codes = results.map(i => i.exitCode);
-  _suman.log(' => All "exit" codes from test suites => ', util.inspect(codes));
+  if (su.vgt(6)) {
+    _suman.log(' => All "exit" codes from test suites => ', util.inspect(codes));
+  }
+
   const highestExitCode = Math.max.apply(null, codes);
 
   fn(function (err: IPseudoError) {
@@ -91,11 +93,7 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
       }
     };
 
-    _suman.log(' => about to waitForStdioToDrain');
-    _suman.log(' => about to call process.exit1');
-
     waitForStdioToDrain(function () {
-      _suman.log(' => about to call process.exit2');
       process.exit(highestExitCode)
     });
 

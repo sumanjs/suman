@@ -150,8 +150,11 @@ const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Fun
 }, c);
 
 testSuiteRegistrationQueue.drain = function () {
-  const suites = testRuns.length === 1 ? 'suite' : 'suites';
-  _suman.log(`Pushing ${testRuns.length} test ${suites} onto queue with concurrency ${c}.\n`);
+  if (su.vgt(5)) {
+    const suites = testRuns.length === 1 ? 'suite' : 'suites';
+    _suman.log(`Pushing ${testRuns.length} test ${suites} onto queue with concurrency ${c}.\n\n`);
+  }
+
   while (testRuns.length > 0) {  //explicit for your pleasure
     testSuiteQueue.push(testRuns.shift());
   }
@@ -337,7 +340,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       _suman.userData = JSON.parse(su.customStringify(iocData));
 
       // suman instance is the main object that flows through entire program
-      let suman = makeSuman($module, _interface, true, sumanConfig);
+      let suman = makeSuman($module, _interface, opts);
       suman.iocData = JSON.parse(su.customStringify(iocData));
       const run = execSuite(suman);
 
@@ -410,6 +413,8 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   _interface === 'TDD' ? init.$ingletonian.suite = create : init.$ingletonian.describe = create;
 
   loaded = true;
+
+  init.$ingletonian.Test = init.$ingletonian;
   return init.$ingletonian;
 
 };

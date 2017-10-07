@@ -2,7 +2,7 @@
 'use strict';
 
 const suman = require('suman');
-const Test = suman.init(module);
+const {Test} = suman.init(module);
 
 ///////////////////////////////////////////////////////////////////////
 

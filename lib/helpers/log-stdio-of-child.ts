@@ -34,7 +34,10 @@ export const run = function (filePath: string) {
 
   if (process.env.MAKE_SUMAN_LOG !== 'no') {
 
-    _suman.log('we are logging child stdout/stderr to files.', '\n');
+    if (su.vgt(6)) {
+      _suman.log('we are logging child stdout/stderr to files.', '\n');
+    }
+
     const timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
     const runId = process.env.SUMAN_RUN_ID;
     const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
@@ -127,5 +130,4 @@ export const run = function (filePath: string) {
     });
   }
 
-  console.log('\n');
 };
