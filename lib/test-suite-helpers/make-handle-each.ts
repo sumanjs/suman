@@ -81,24 +81,20 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       const stck = typeof stk === 'string' ? stk : util.inspect(stk);
       const formatedStk = String(stck).split('\n').map(item => '\t' + item).join('\n');
 
-      console.error(formatedStk);
-
       if (!dError) {
         dError = true;
         if (aBeforeOrAfterEach.fatal === false) {
-          const msg = ' => Suman non-fatal error => Error in hook and "fatal" option for the hook ' +
-            'is set to false => \n' + formatedStk;
-          console.log('\n\n', msg, '\n\n');
-          _suman.writeTestError(msg);
+          _suman.writeTestError(constants.SUMAN_HOOK_FATAL_WARNING_MESSAGE + formatedStk);
           fini(null);
         }
         else {
           //note we want to exit right away, that's why this is commented out :)
-          err = new Error(' => fatal error in hook => (to continue even in the event of an error ' +
-            'in a hook, use option {fatal:false}) =>' + '\n\n' + formatedStk);
-          err.sumanFatal = true;
-          err.sumanExitCode = constants.EXIT_CODES.FATAL_HOOK_ERROR;
-          gracefulExit(err);  //always fatal error in beforeEach/afterEach
+          gracefulExit({
+            sumanFatal: true,
+            sumanExitCode: constants.EXIT_CODES.FATAL_HOOK_ERROR,
+            stack: ' => fatal error in hook => (to continue even in the event of an error ' +
+            'in a hook, use option {fatal:false}) =>' + '\n' + formatedStk
+          });
         }
       }
       else {
@@ -146,12 +142,14 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         const t = makeHookObj(aBeforeOrAfterEach, assertCount, handleError);
         fini.th = t;
         t.timeout = timeout;
+        t.test = {};
+        t.test.desc = test.desc;
+        t.test.testId = test.testId;
+        t.test.result = test.error ? 'failed' : 'passed';
+        t.test.error = test.error;
         t.data = test.data;
-        t.desc = test.desc;
+        t.desc = aBeforeOrAfterEach.desc;
         t.value = test.value;
-        t.testId = test.testId;
-        t.result = test.error ? 'failed' : 'passed';
-        t.error = test.error;
         t.state = 'pending';
         t.shared = self.shared;
         t.$inject = suman.$inject;

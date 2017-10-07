@@ -150,7 +150,8 @@ const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Fun
 }, c);
 
 testSuiteRegistrationQueue.drain = function () {
-  _suman.log(`Pushing ${testRuns.length} test suites onto queue with concurrency ${c}.\n`);
+  const suites = testRuns.length === 1 ? 'suite' : 'suites';
+  _suman.log(`Pushing ${testRuns.length} test ${suites} onto queue with concurrency ${c}.\n`);
   while (testRuns.length > 0) {  //explicit for your pleasure
     testSuiteQueue.push(testRuns.shift());
   }

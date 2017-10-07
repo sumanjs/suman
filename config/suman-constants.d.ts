@@ -13,6 +13,8 @@ export declare const constants: Readonly<{
     };
     SUMAN_SERVER_MESSAGE: string;
     GIT_IGNORE: string[];
+    SUMAN_HOOK_FATAL_WARNING_MESSAGE: string;
+    SUMAN_HOOK_FATAL_MESSAGE: string;
     SUMAN_HARD_LIST: string[];
     CORE_MODULE_LIST: any;
     CLI_EXIT_CODES: {

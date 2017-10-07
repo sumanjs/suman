@@ -18,6 +18,8 @@ exports.constants = Object.freeze({
     GIT_IGNORE: [
         '**suman/logs/**'
     ],
+    SUMAN_HOOK_FATAL_WARNING_MESSAGE: 'Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false =>\n',
+    SUMAN_HOOK_FATAL_MESSAGE: ' => fatal error in hook => (to continue even in the event of an error in a hook, use option {fatal:false}) =>',
     SUMAN_HARD_LIST: Object.keys({
         describe: true,
         before: true,

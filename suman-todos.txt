@@ -46,6 +46,10 @@ cd $(dirname "$0")
 
 ////
 
+    it.skipped() should be an alias of it.skip()
+
+////
+
  => give user choice as to use bash or zsh or whatever for suman watch
 
 ////
