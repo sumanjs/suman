@@ -44,6 +44,9 @@ const acceptableOptions = <IAcceptableOptions> {
   timeout: true,
   only: true,
   skip: true,
+  events: true,
+  successEvents: true,
+  errorEvents: true,
   __preParsed: true
 };
 

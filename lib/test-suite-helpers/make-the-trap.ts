@@ -3,7 +3,7 @@
 //dts
 import {ITestSuite} from "suman-types/dts/test-suite";
 import {ISuman, Suman} from "../suman";
-import {IPseudoError} from "suman-types/dts/global";
+import {IPseudoError, IGlobalSumanObj} from "suman-types/dts/global";
 import {IItOpts, ITestDataObj} from "suman-types/dts/it";
 import {IBeforeEachObj} from "suman-types/dts/before-each";
 import {IAFterEachObj} from "suman-types/dts/after-each";
@@ -20,7 +20,7 @@ import * as async from 'async';
 import {events} from 'suman-events';
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {makeHandleTestResults} = require('./handle-test-result');
 const {makeHandleTest} = require('./make-handle-test');
 const {getAllAfterEaches, getAllBeforesEaches} = require('./get-all-eaches');
@@ -77,7 +77,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
         async.series([
             function (cb: Function) {
 
-              function handleTestContainer() {
+              const handleTestContainer = function () {
                 handleTest(self, test, function (err: IPseudoError, result: any) {
                   implementationError(err);
                   let $result = handleTestResult(result, test);
@@ -90,7 +90,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
                     process.nextTick(cb, null, result);
                   }
                 });
-              }
+              };
 
               if (delaySum) { // if non-zero / non-falsy value
                 setTimeout(handleTestContainer, delaySum);

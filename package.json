@@ -106,6 +106,10 @@
     "should": "^11.2.0",
     "webpack": "^2.4.0"
   },
+  "optionalDependencies": {
+    "suman-watch": "latest",
+    "play-sound": "^1.1.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sumanjs/suman.git"

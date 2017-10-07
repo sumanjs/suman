@@ -30,7 +30,6 @@ const helpers = require('./handle-promise-generator');
 import {cloneError} from '../misc/clone-error';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
-
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +70,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     };
 
     const d = domain.create() as ISumanTestCaseDomain;
+    _suman.activeDomain = d;
     d.sumanTestCase = true;
     d.sumanTestName = test.desc;
 

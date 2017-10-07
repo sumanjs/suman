@@ -10,15 +10,14 @@
 *.DS_Store
 
 ### folders
-.idea
-node_modules
+.idea/
+node_modules/
 coverage/
-.nyc_output
-yarn.lock
+.nyc_output/
 test/
 dist/
-.github
-.tscmultiwatch
+.github/
+.tscmultiwatch/
 
 ### files
 exp.js
@@ -30,6 +29,8 @@ suman.conf.js
 .editorconfig
 .babelrc
 .dockerignore
+package-lock.json
+yarn.lock
 
 ### negation
 !lib/**/*.sh

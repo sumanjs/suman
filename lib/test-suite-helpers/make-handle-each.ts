@@ -17,18 +17,15 @@ import util = require('util');
 
 //npm
 import chalk = require('chalk');
-
 const fnArgs = require('function-arguments');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
-
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../misc/clone-error';
 import {makeHookObj} from './t-proto-hook';
 import {makeCallback} from './handle-callback-helper';
-
 const helpers = require('./handle-promise-generator');
 import {freezeExistingProps} from 'freeze-existing-props'
 
@@ -64,6 +61,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     };
 
     const d = domain.create() as ISumanEachHookDomain;
+    _suman.activeDomain = d;
     d.sumanEachHook = true;
     d.sumanEachHookName = aBeforeOrAfterEach.desc || '(unknown hook name)';
     d.testDescription = test.desc || '(unknown test case name)';
@@ -84,24 +82,19 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       const stck = typeof stk === 'string' ? stk : util.inspect(stk);
       const formatedStk = String(stck).split('\n').map(item => '\t' + item).join('\n');
 
-      console.error(formatedStk);
-
       if (!dError) {
         dError = true;
         if (aBeforeOrAfterEach.fatal === false) {
-          const msg = ' => Suman non-fatal error => Error in hook and "fatal" option for the hook ' +
-            'is set to false => \n' + formatedStk;
-          console.log('\n\n', msg, '\n\n');
-          _suman.writeTestError(msg);
+          _suman.writeTestError(constants.SUMAN_HOOK_FATAL_WARNING_MESSAGE + formatedStk);
           fini(null);
         }
         else {
           //note we want to exit right away, that's why this is commented out :)
-          err = new Error(' => fatal error in hook => (to continue even in the event of an error ' +
-            'in a hook, use option {fatal:false}) =>' + '\n\n' + formatedStk);
-          err.sumanFatal = true;
-          err.sumanExitCode = constants.EXIT_CODES.FATAL_HOOK_ERROR;
-          gracefulExit(err);  //always fatal error in beforeEach/afterEach
+          gracefulExit({
+            sumanFatal: true,
+            sumanExitCode: constants.EXIT_CODES.FATAL_HOOK_ERROR,
+            stack: constants.SUMAN_HOOK_FATAL_MESSAGE + formatedStk
+          });
         }
       }
       else {
@@ -149,10 +142,19 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         const t = makeHookObj(aBeforeOrAfterEach, assertCount, handleError);
         fini.th = t;
         t.timeout = timeout;
+        t.test = {};
+        t.test.desc = test.desc;
+        t.test.testId = test.testId;
+
+        if(aBeforeOrAfterEach.type === 'afterEach/teardownTest'){
+          // these properties are sent to afterEach hooks, but not beforeEach hooks
+          t.test.result = test.error ? 'failed' : 'passed';
+          t.test.error = test.error;
+        }
+
         t.data = test.data;
-        t.desc = test.desc;
+        t.desc = aBeforeOrAfterEach.desc;
         t.value = test.value;
-        t.testId = test.testId;
         t.state = 'pending';
         t.shared = self.shared;
         t.$inject = suman.$inject;

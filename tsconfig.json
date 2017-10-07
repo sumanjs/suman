@@ -3,8 +3,8 @@
     "declaration": true,
     "baseUrl": ".",
     "typeRoots": [
-      "node_modules/@types",
-      "node_modules/suman-types/dts"
+      "./node_modules/@types",
+      "./node_modules/suman-types/dts"
     ],
     "allowJs": false,
     "target": "es5",

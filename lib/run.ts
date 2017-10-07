@@ -1,6 +1,6 @@
 'use strict';
 
-//ts
+//dts
 import {IGlobalSumanObj, ISumanOpts} from "suman-types/dts/global";
 
 //polyfills
@@ -21,7 +21,7 @@ import cp = require('child_process');
 import * as async from 'async';
 const shuffle = require('lodash.shuffle');
 import * as chalk from 'chalk';
-import su, {IMapValue} from 'suman-utils';
+import * as su from 'suman-utils';
 import {IGetFilePathObj} from "./runner-helpers/get-file-paths";
 const rimraf = require('rimraf');
 const {events} = require('suman-events');
@@ -36,10 +36,9 @@ const noFilesFoundError = require('./helpers/no-files-found-error');
 const ascii = require('./helpers/ascii');
 const {constants} = require('../config/suman-constants');
 import {findSumanServer} from './helpers/find-suman-server';
-
 const {findFilesToRun} = require('./runner-helpers/get-file-paths');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-const dbPth = path.resolve(process.env.HOME + '/.suman/database/exec_db');
+const dbPth = path.resolve(sumanHome + '/database/exec_db');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 

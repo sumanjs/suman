@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 debugger;
 var process = require('suman-browser-polyfills/modules/process');
@@ -53,6 +53,7 @@ process.on('uncaughtException', function (err) {
     }, 500);
 });
 process.on('unhandledRejection', function (err, p) {
+    debugger;
     if (typeof err !== 'object') {
         console.error(new Error("err passed to unhandledRejection was not an object => '" + err + "'").stack);
         err = new Error(typeof err === 'string' ? err : util.inspect(err));
@@ -180,6 +181,7 @@ var tscMultiWatch = sumanOpts.tsc_multi_watch;
 var sumanD = sumanOpts.suman_d;
 var watchPer = sumanOpts.watch_per;
 var singleProcess = sumanOpts.single_process;
+var script = sumanOpts.script;
 if (singleProcess) {
     process.env.SUMAN_SINGLE_PROCESS = 'yes';
 }
@@ -304,7 +306,7 @@ var preOptCheck = {
     convert: convert, groups: groups, s: s, tailTest: tailTest,
     tailRunner: tailRunner, interactive: interactive, uninstallBabel: uninstallBabel,
     diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
-    repair: repair, sumanD: sumanD
+    repair: repair, sumanD: sumanD, script: script
 };
 var optCheck = Object.keys(preOptCheck).filter(function (key, index) {
     return preOptCheck[key];
@@ -357,6 +359,9 @@ if (!process.stdout.isTTY && !useTAPOutput) {
 }
 if (diagnostics) {
     require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
+}
+else if (script) {
+    require('./lib/cli-commands/run-scripts').run(sumanConfig, sumanOpts);
 }
 else if (tscMultiWatch) {
     require('./lib/cli-commands/run-tscmultiwatch').run(sumanOpts);
@@ -411,7 +416,7 @@ else if (s) {
     require('./lib/cli-commands/start-suman-server')(sumanServerInstalled, sumanConfig, serverName);
 }
 else if (watch || watchPer) {
-    require('./lib/cli-commands/watching').run(paths, sumanOpts, sumanConfig);
+    require('./lib/cli-commands/watching').run(projectRoot, paths, sumanOpts, sumanConfig);
 }
 else if (groups) {
     require('./lib/cli-commands/groups').run(paths);

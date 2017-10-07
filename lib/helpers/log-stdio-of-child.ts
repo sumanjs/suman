@@ -16,10 +16,8 @@ const replaceStrm = require('replacestream');
 import * as chalk from 'chalk';
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
-
-
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +34,10 @@ export const run = function (filePath: string) {
 
   if (process.env.MAKE_SUMAN_LOG !== 'no') {
 
-    _suman.log('we are logging child stdout/stderr to files.','\n');
+    if (su.vgt(6)) {
+      _suman.log('we are logging child stdout/stderr to files.', '\n');
+    }
+
     const timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
     const runId = process.env.SUMAN_RUN_ID;
     const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
@@ -67,10 +68,11 @@ export const run = function (filePath: string) {
       // _suman.logError('endLogStream finished.');
       // rstrm.unpipe();
       writeToFileStream = false;
-      // strm.end();
+      strm.end('this is the end\n');
+
     };
 
-    strm.once('end', function () {
+    strm.on('drain', function () {
       _suman.isStrmDrained = true;
       _suman.drainCallback && _suman.drainCallback(logfile);
     });
@@ -80,14 +82,19 @@ export const run = function (filePath: string) {
       process.stderr.write = function () {
         _suman.isStrmDrained = false;
         isDeleteFile = false;
-        if(writeToFileStream){
-          try {
-            strm.write.apply(strm, arguments);
-          }
-          catch (e) {
-            _suman.logError(e.stack || e);
-          }
+        // if (writeToFileStream) {
+        //   try {
+        //     strm.write.apply(strm, arguments);
+        //   }
+        //   catch (e) {
+        //     _suman.logError(e.stack || e);
+        //   }
+        // }
+
+        if (writeToFileStream) {
+          strm.write.apply(strm, arguments);
         }
+
         stderrWrite.apply(process.stderr, arguments);
       };
     }
@@ -99,7 +106,7 @@ export const run = function (filePath: string) {
       process.stdout.write = function () {
         _suman.isStrmDrained = false;
         isDeleteFile = false;
-        if(writeToFileStream){
+        if (writeToFileStream) {
           strm.write.apply(strm, arguments);
         }
         stdoutWrite.apply(process.stdout, arguments);
@@ -118,10 +125,9 @@ export const run = function (filePath: string) {
         }
       }
       else {
-        fs.appendFileSync(logfile, '\n => This is the end of the test.');
+        // fs.appendFileSync(logfile, '\n => This is the end of the test.');
       }
     });
   }
 
-  console.log('\n');
 };

@@ -1,18 +1,10 @@
 #!/usr/bin/env node
+'use strict';
 
-///////////////////////////////////////////////////////////////////
-
-import {IGlobalSumanObj} from "./dts/global";
+//dts
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 debugger;  //leave here forever so users can easily debug with "node --inspect" or "node debug"
-
-///////////////////////////////////////////////////////////////////
-
-/*
- Note for the reader: Suman uses dashdash to parse command line arguments
- We found dashdash to be a better alternative to other option parsers
- => https://github.com/trentm/node-dashdash
- */
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -61,7 +53,7 @@ function handleExceptionsAndRejections() {
 
 process.on('uncaughtException', function (err: Error) {
 
-  debugger;
+  debugger; // leave it here :)
 
   if (typeof err !== 'object') {
     console.error(new Error(`err passed to uncaughtException was not an object => ${err}`).stack);
@@ -84,6 +76,8 @@ process.on('uncaughtException', function (err: Error) {
 });
 
 process.on('unhandledRejection', function (err: Error, p: Promise<any>) {
+
+  debugger; // leave it here :)
 
   if (typeof err !== 'object') {
     console.error(new Error(`err passed to unhandledRejection was not an object => '${err}'`).stack);
@@ -114,19 +108,17 @@ import tty = require('tty');
 
 //npm
 import semver = require('semver');
-
 const dashdash = require('dashdash');
 import * as chalk from 'chalk';
 import async = require('async');
 import su = require('suman-utils');
 import _ = require('lodash');
-
 const uniqBy = require('lodash.uniqby');
 const {events} = require('suman-events');
 const debug = require('suman-debug')('s:cli');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
 import {loadReporters} from './lib/helpers/load-reporters';
@@ -260,8 +252,9 @@ const tscMultiWatch = sumanOpts.tsc_multi_watch;
 const sumanD = sumanOpts.suman_d;
 const watchPer = sumanOpts.watch_per;
 const singleProcess = sumanOpts.single_process;
+const script = sumanOpts.script;
 
-if(singleProcess){
+if (singleProcess) {
   process.env.SUMAN_SINGLE_PROCESS = 'yes';
 }
 
@@ -444,7 +437,7 @@ const preOptCheck = <IPreOptCheck> {
   convert, groups, s, tailTest,
   tailRunner, interactive, uninstallBabel,
   diagnostics, installGlobals, postinstall,
-  repair, sumanD
+  repair, sumanD, script
 };
 
 const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
@@ -524,6 +517,9 @@ if (!process.stdout.isTTY && !useTAPOutput) {
 if (diagnostics) {
   require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
 }
+else if (script) {
+  require('./lib/cli-commands/run-scripts').run(sumanConfig, sumanOpts);
+}
 else if (tscMultiWatch) {
   require('./lib/cli-commands/run-tscmultiwatch').run(sumanOpts);
 }
@@ -570,7 +566,6 @@ else if (uninstall) {
     removeBabel: removeBabel,
   });
 }
-
 else if (convert) {
   require('./lib/cli-commands/convert-mocha').run(projectRoot, src, dest, force);
 }
@@ -578,7 +573,7 @@ else if (s) {
   require('./lib/cli-commands/start-suman-server')(sumanServerInstalled, sumanConfig, serverName);
 }
 else if (watch || watchPer) {
-  require('./lib/cli-commands/watching').run(paths, sumanOpts, sumanConfig);
+  require('./lib/cli-commands/watching').run(projectRoot, paths, sumanOpts, sumanConfig);
 }
 else if (groups) {
   require('./lib/cli-commands/groups').run(paths);
