@@ -10,30 +10,36 @@ const {Test} = suman.init(module, {
 
 let count = 0;
 
-
 Test.create(function (assert, describe, before, beforeEach, after, afterEach, it, util, domain) {
 
-  before.cb(h => {
+  before.cb(['fatal:true', h => {
 
     const d = domain.create();
+    d.xxx =  'foo';
 
-    process.on('uncaughtException', function (e) {
-      console.log('ue => ', e);
-    });
+    const d2 = process.domain;
+    d2.yyy = 'bar';
 
-    d.on('error', function(){
-       throw new Error('ahhh shiiit');
-    });
+    debugger;
 
-    d.run(function(){
+    // throw 'samsam';
+    // process.on('uncaughtException', function (e) {
+    //   console.log('ue => ', e);
+    // });
 
-      setTimeout(function(){
+    d.run(function () {
+
+      setTimeout(function () {
+
+        console.log('d2',d2);
+        const d3 = process.domain;
+        debugger;
         throw new Error('foobar');
-      },100);
+      }, 100);
 
     });
 
-  });
+  }]);
 
   it.cb('passing', t => {
     t.done();
@@ -123,7 +129,7 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
           });
 
           it.skip('xxx', t => {
-              // skipped tests should not reach beforeEach/afterEach hooks
+            // skipped tests should not reach beforeEach/afterEach hooks
           });
 
           it('xxx'); // stubbed tests should not reach beforeEach/afterEach hooks
