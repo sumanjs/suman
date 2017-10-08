@@ -25,10 +25,7 @@ let first = true;
 
 export const getTapParser = function () {
 
-  if (first) {
-    _suman.log('we are handling TAP.');
-  }
-
+  first && _suman.log(chalk.black.bold('we are handling TAP.'));
   first = false;
 
   const p = parser();

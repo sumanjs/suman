@@ -107,7 +107,8 @@ export default function (order: Object): IHandleBlocking {
 
       if (cpFn) {
         started.push(cpFn);
-        _suman.log('Test path started and is now running => ', cpFn.testPath);
+        _suman.log(chalk.cyan.bold('Test path was blocked, but is now running => '),
+          chalk.gray(`'${cpFn.testPath}'.`));
         cpFn.call(null);
       }
 
