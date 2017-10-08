@@ -10,14 +10,14 @@
 *.DS_Store
 
 ### folders
-.idea/
-node_modules/
-coverage/
-.nyc_output/
-test/
-dist/
-.github/
-.tscmultiwatch/
+.idea
+node_modules
+coverage
+.nyc_output
+test
+dist
+.github
+.tscmultiwatch
 
 ### files
 exp.js
