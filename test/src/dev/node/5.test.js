@@ -10,9 +10,28 @@ const {Test} = suman.init(module, {
 
 let count = 0;
 
-Test.create(function (assert, describe, before, beforeEach, after, afterEach, it, util) {
 
-  before(h => {
+Test.create(function (assert, describe, before, beforeEach, after, afterEach, it, util, domain) {
+
+  before.cb(h => {
+
+    const d = domain.create();
+
+    process.on('uncaughtException', function (e) {
+      console.log('ue => ', e);
+    });
+
+    d.on('error', function(){
+       throw new Error('ahhh shiiit');
+    });
+
+    d.run(function(){
+
+      setTimeout(function(){
+        throw new Error('foobar');
+      },100);
+
+    });
 
   });
 

@@ -119,11 +119,13 @@ module.exports = [
   {
     names: ['allow-skip'],
     type: 'bool',
+    env: 'SUMAN_ALLOW_SKIP',
     help: 'Allow tests to be skipped.'
   },
   {
     names: ['allow-only'],
     type: 'bool',
+    env: 'SUMAN_ALLOW_ONLY',
     help: 'Allow tests to be skipped using the only feature.'
   },
   {
@@ -566,7 +568,7 @@ module.exports = [
     help: 'Pass exec arguments through command line.'
   },
   {
-    names: ['user-args'],
+    names: ['user-args','child-args'],
     type: 'string',
     help: 'Pass user arguments through command line.'
   },

@@ -593,7 +593,7 @@ export const makeHandleMultipleProcesses =
         else {
           runnerObj.queuedCPs.push(run);
           if(su.vgt(3)){
-            _suman.log(chalk.yellow.bold('File must wait, and will run later =>'), chalk.grey.bold(`'${file}'.`));
+            _suman.log(chalk.yellow('File must wait, and will run later =>'), chalk.grey.bold(`'${file}'.`));
           }
         }
 

@@ -17,20 +17,18 @@ import su = require('suman-utils');
 import * as chalk from 'chalk';
 import {ISumanChildProcess} from "suman-types/dts/runner";
 
-
-
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 ///////////////////////////////////
 
-export const handleFatalMessage = function  ($msg: Object, n: ISumanChildProcess, socket: SocketIOClient.Socket) {
+export const handleFatalMessage = function ($msg: Object, n: ISumanChildProcess, socket: SocketIOClient.Socket) {
 
   let msg = String(typeof $msg.error === 'string' ? $msg.error : util.inspect($msg)).replace(/\n/g, '\n').replace('\t', '');
 
   msg = msg.split('\n')
-  .concat(su.repeatCharXTimes('_',115))
+  .concat(su.repeatCharXTimes('_', 115))
   .map(function (item, index) {
     if (index === 0) {
       return item;
@@ -45,9 +43,9 @@ export const handleFatalMessage = function  ($msg: Object, n: ISumanChildProcess
 
   const message = [
     '\n',
-    chalk.bgWhite.magenta.bold(' There was a fatal test suite error - an error was encountered in ' +
+    chalk.bgWhite.black.bold(' There was a fatal test suite error - an error was encountered in ' +
       'your test code that prevents Suman '),
-    chalk.bgWhite.magenta.bold(' from continuing with a particular test suite within the following path: '),
+    chalk.bgWhite.black.bold(' from continuing with a particular test suite within the following path: '),
     ' ',
     chalk.bgWhite.black.bold(' => ' + n.testPath + ' '),
     ' ', //chalk.bgBlack.white(' '),
