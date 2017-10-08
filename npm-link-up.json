@@ -16,6 +16,7 @@
     "poolio",
     "freeze-existing-props",
 
+    "suman-r",
     "suman-types",
     "suman-watch",
     "suman-d",
