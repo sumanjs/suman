@@ -3,8 +3,8 @@
 //dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {ITestSuite} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
 import {IInjectionDeps} from "suman-types/dts/injection";
+import {ISuman, Suman} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -28,6 +28,7 @@ const includes = require('lodash.includes');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getCoreAndDeps} from './$core-n-$deps';
 import {getProjectModule, lastDitchRequire} from './helpers';
+
 
 /*///////////// => what it do ///////////////////////////////////////////////////////////////
 

@@ -188,7 +188,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             return process.nextTick(cb);
           }
 
-          Object.getPrototypeOf(self).alreadyStartedAfterHooks = true;
+          self.alreadyStartedAfterHooks = true;
 
           async.eachSeries(self.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
               handleBeforesAndAfters(self, aBeforeOrAfter, cb);
@@ -205,7 +205,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         implementationError(err);
 
         // isCompleted means this block has completed, nothing more
-        Object.getPrototypeOf(self).isCompleted = true;
+        self.isCompleted = true;
 
         process.nextTick(function () {
           queueCB();

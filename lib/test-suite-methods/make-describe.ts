@@ -67,7 +67,7 @@ const handleBadOptions = function (opts: IDescribeOpts) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestSuiteMaker: TTestSuiteMaker,
+export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestSuite: ITestSuite,
                                       zuite: ITestSuite, notifyParentThatChildIsComplete: Function,
                                       blockInjector: Function): IDescribeFn {
 
@@ -132,7 +132,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
 
     // note: zuite is the parent of suite; aka, suite is the child of zuite
-    const suite = TestSuiteMaker({desc, title: desc, opts});
+    const suite = new TestSuite({desc, title: desc, opts});
 
     if(zuite.fixed){
       suite.fixed = true;
@@ -153,9 +153,9 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     zuite.getChildren().push(suite);
     allDescribeBlocks.push(suite);
     const deps = fnArgs(cb);
-    const suiteProto: Object = Object.getPrototypeOf(suite);
 
-    suiteProto._run = function run(val: any, callback: Function) {
+
+    suite._run = function run(val: any, callback: Function) {
 
       if (zuite.skipped || zuite.skippedDueToDescribeOnly) {
         notifyParentThatChildIsComplete(zuite, callback);
@@ -184,6 +184,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
         };
 
         suite.__bindExtras();
+
+        debugger;
 
         Object.defineProperty(suite, 'shared', {
           value: zuite.shared.clone(),
@@ -221,12 +223,12 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
             if (!delayOptionElected) {
 
-              suiteProto.__resume = function () {
+              suite.__resume = function () {
                 _suman.logWarning('usage warning => suite.resume() has become a no-op since delay option is falsy.');
               };
 
               // Object.freeze(suite);
-              // Object.freeze(suiteProto);
+              // Object.freeze(suite);
               cb.apply(suite, $deps);
 
               handleInjections(suite, function (err: Error) {
@@ -236,7 +238,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                 }
                 else {
                   d.exit();
-                  suiteProto.isSetupComplete = true;
+                  suite.isSetupComplete = true;
                   process.nextTick(function () {
                     zuite.__bindExtras();  //bind extras back to parent test
                     suite.__invokeChildren(null, callback);
@@ -247,7 +249,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
             }
 
             else {
-              suiteProto.isDelayed = true;
+              suite.isDelayed = true;
 
               const str = cb.toString();
               //TODO this will not work when delay is simply commented out
@@ -272,14 +274,14 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
               let callable = true;
 
-              suiteProto.__resume = function (val: any) {
+              suite.__resume = function (val: any) {
                 if (callable) {
                   callable = false;
                   clearTimeout(to);
                   d.exit();
                   //need to make sure delay is called asynchronously, but this should take care of it
                   process.nextTick(function () {
-                    suiteProto.isSetupComplete = true; // keep this, needs to be called asynchronously
+                    suite.isSetupComplete = true; // keep this, needs to be called asynchronously
                     zuite.__bindExtras();  //bind extras back to parent test
                     suite.__invokeChildren(val, callback); // pass callback
                   });
@@ -293,7 +295,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
               };
 
               // Object.freeze(suite);
-              // Object.freeze(suiteProto);
+              // Object.freeze(suite);
               cb.apply(suite, $deps);
             }
 

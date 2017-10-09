@@ -30,8 +30,6 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
       return process.nextTick(cb);
     }
 
-    const parentProto = Object.getPrototypeOf(parent);
-
     if (!child.allChildBlocksCompleted && child.getChildren().length > 0) {
       return process.nextTick(cb);
     }
@@ -60,7 +58,7 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
       return process.nextTick(cb);
     }
 
-    parentProto.afterHooksCallback = function (cb: Function) {
+    parent.afterHooksCallback = function (cb: Function) {
 
       parent.alreadyStartedAfterHooks = true;
 

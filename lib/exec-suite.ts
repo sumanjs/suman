@@ -36,7 +36,7 @@ import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
 import {makeBlockInjector} from './injection/make-block-injector';
 import {makeInjectionContainer} from './injection/injection-container';
-import {makeTestSuiteMaker} from './test-suite-helpers/make-test-suite';
+import {makeTestSuite} from './test-suite-helpers/make-test-suite';
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 import {handleInjections} from './test-suite-helpers/handle-injections';
 import {makeOnSumanCompleted} from './helpers/on-suman-completed';
@@ -58,7 +58,7 @@ export const execSuite = function (suman: ISuman): Function {
   const blockInjector = makeBlockInjector(suman, container);
   const allDescribeBlocks = suman.allDescribeBlocks;
   const gracefulExit = makeGracefulExit(suman);
-  const mTestSuite = makeTestSuiteMaker(suman, gracefulExit, blockInjector);
+  const TestSuite = makeTestSuite(suman, gracefulExit, blockInjector);
 
   return function runRootSuite(): void {
 
@@ -94,7 +94,8 @@ export const execSuite = function (suman: ISuman): Function {
       }, function () {
         console.error(msg + '\n\n');
         let err = new Error('Suman usage error => invalid arrow/generator function usage.').stack;
-        _suman.logError(err); _suman.writeTestError(err);
+        _suman.logError(err);
+        _suman.writeTestError(err);
         process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
       });
 
@@ -120,7 +121,7 @@ export const execSuite = function (suman: ISuman): Function {
       return;
     }
 
-    const suite = mTestSuite({desc, isTopLevel: true, opts});
+    const suite = new TestSuite({desc, isTopLevel: true, opts});
     suite.isRootSuite = true;
     suite.__bindExtras();
     allDescribeBlocks.push(suite);
@@ -210,7 +211,7 @@ export const execSuite = function (suman: ISuman): Function {
 
           if (delayOptionElected) {
 
-            Object.getPrototypeOf(suite).isDelayed = true;
+            suite.isDelayed = true;
 
             const to = setTimeout(function () {
               console.log('\n\n => Suman fatal error => suite.resume() function was not called within alloted time.');
@@ -223,7 +224,7 @@ export const execSuite = function (suman: ISuman): Function {
 
             let callable = true;
 
-            Object.getPrototypeOf(suite).__resume = function (val: any) {
+            suite.__resume = function (val: any) {
 
               if (callable) {
                 callable = false;
@@ -256,12 +257,12 @@ export const execSuite = function (suman: ISuman): Function {
           }
           else {
 
-            Object.getPrototypeOf(suite).__resume = function () {
+            suite.__resume = function () {
               _suman.logWarning('usage warning => suite.resume() has become a noop since delay option is falsy.');
             };
 
             cb.apply(suite, deps);
-            Object.getPrototypeOf(suite).isSetupComplete = true;
+            suite.isSetupComplete = true;
 
             handleInjections(suite, function (err: IPseudoError) {
 
@@ -313,7 +314,7 @@ export const execSuite = function (suman: ISuman): Function {
 
           assert(Number.isInteger(limit) && limit > 0 && limit < 100, 'limit must be an integer between 1 and 100, inclusive.');
 
-          suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
+          suite.startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
             results && _suman.logError('Suman extraneous results:', results);
             err && _suman.logError('Suman extraneous test error:', suite);

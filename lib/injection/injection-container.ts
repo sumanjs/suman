@@ -18,6 +18,7 @@ const pragmatik = require('pragmatik');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
+import symbols from '../helpers/symbols';
 
 /*///////////////////// what it do //////////////////////////////////////
 
@@ -137,7 +138,9 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
           args[1].__preParsed = true;
 
-          let getter = `get_${method}`;
+          // let getter = `get_${method}`;
+
+          let getter = symbols[method];
           let meth = suman.ctx[getter];
 
           if (!meth) {
