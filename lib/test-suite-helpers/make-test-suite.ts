@@ -74,7 +74,13 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
   const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
   const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
 
-  return class TestSuite {
+  // class TestSuiteBase {
+  //   constructor(){
+  //     this.startSuite =  makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
+  //   }
+  // }
+
+  class TestSuite {
 
     // public
     opts: Object;
@@ -107,6 +113,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
     private getAftersLast: Function;
 
     constructor(obj: ITestSuiteMakerOpts) {
+      // super();
 
       const sumanOpts = _suman.sumanOpts;
 
@@ -297,12 +304,12 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
         return this;
       };
 
-      Object.getPrototypeOf(this).startSuite
-        = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
-
     }
 
-  };
+  }
+
+  TestSuite.prototype.startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
+  return TestSuite;
 
 };
 
