@@ -29,17 +29,28 @@ const rules = require('../helpers/handle-varargs');
 
 const possibleProps = <any> {
 
+  // ALL LOWERCASE HERE
+
   //methods
   describe: true,
   beforeeach: true,
   aftereach: true,
+  beforeall: true,
+  afterall: true,
   after: true,
   before: true,
   context: true,
   it: true,
   test: true,
+  setuptest: true,
+  teardowntest: true,
+  setup: true,
+  teardown: true,
 
   // options
+  events: true,
+  errorevents: true,
+  successevents: true,
   skip: true,
   fatal: true,
   parallel: true,
@@ -51,7 +62,7 @@ const possibleProps = <any> {
   timeout: true,
   always: true,
   last: true,
-  __preParsed: true
+  __preparsed: true
 
 };
 

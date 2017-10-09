@@ -22,15 +22,11 @@ import cp = require('child_process');
 const pragmatik = require('pragmatik');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
-
 const includes = require('lodash.includes');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {constants} = require('../../config/suman-constants');
 import {getCoreAndDeps} from './$core-n-$deps';
-
-const rules = require('../helpers/handle-varargs');
 import {getProjectModule, lastDitchRequire} from './helpers';
 
 /*///////////// => what it do ///////////////////////////////////////////////////////////////
@@ -97,19 +93,23 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
         case 'afterAllParentHooks':
         case 'before':
         case 'after':
+        case 'beforeAll':
+        case 'afterAll':
+        case 'beforeall':
+        case 'afterall':
         case 'beforeEach':
         case 'afterEach':
+        case 'beforeeach':
+        case 'aftereach':
         case 'it':
-          assert(suite.interface === 'BDD', ' => Suman usage error, using the wrong interface.');
-          return container[key];
-
         case 'test':
         case 'setup':
         case 'teardown':
         case 'setupTest':
         case 'teardownTest':
-          assert(suite.interface === 'TDD', ' => Suman usage error, using the wrong interface.');
-          return suite[key];
+        case 'setuptest':
+        case 'teardowntest':
+          return container[key];
 
         case 'userData':
           return _suman.userData;

@@ -6,11 +6,6 @@ three SO profiles:
 
 ///
 
-  in --series mode -> we should put currently executing test or hook in global space
-  especially for the browser.
-
-///
-
  use es6 symbols to hide properties?
  https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
 
@@ -1416,30 +1411,30 @@ after.always should complete before any suman.post hooks begin
 
 ///
 
-nested data here in suman.once.pre.js =>
-=> Drop-db data =>  { 'launch-server': { 'launch-server': 'early resolve, because server is already available.' } }
+    nested data here in suman.once.pre.js =>
+    => Drop-db data =>  { 'launch-server': { 'launch-server': 'early resolve, because server is already available.' } }
 
 
-https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript
-
-///
-
-use macports to update readline on macos?
-sudo port -d selfupdate
+    https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript
 
 ///
 
-https://help.github.com/articles/user-organization-and-project-pages/
+    use macports to update readline on macos?
+    sudo port -d selfupdate
 
 ///
 
-http://typedoc.org/guides/installation/#task-runners
+    https://help.github.com/articles/user-organization-and-project-pages/
 
 ///
 
-Error: table suman_run_info already exists
-Error: table suman_run_id already exists
-Error: UNIQUE constraint failed: suman_run_id.id
+    http://typedoc.org/guides/installation/#task-runners
+
+///
+
+    Error: table suman_run_info already exists
+    Error: table suman_run_id already exists
+    Error: UNIQUE constraint failed: suman_run_id.id
 
 ///
 

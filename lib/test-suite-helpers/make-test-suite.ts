@@ -74,7 +74,6 @@ export const makeTestSuiteMaker
     // notify parent that child is complete
     const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
 
-
     const TestSuite: ITestSuiteConstructor = function (obj: ITestSuiteMakerOpts) {
 
       this.interface = suman.interface;
@@ -107,45 +106,45 @@ export const makeTestSuiteMaker
       this.describe = this.context = this.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
       this.it = this.test = getProxy(it, rules.testCaseSignature) as ItFn;
       this.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
-      this.before = this.setup = getProxy(before, rules.hookSignature) as IBeforeFn;
+      this.before = this.beforeAll = this.setup = getProxy(before, rules.hookSignature) as IBeforeFn;
       this.beforeEach = this.setupTest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
-      this.after = this.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
+      this.after = this.afterAll = this.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
       this.afterEach = this.teardownTest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
       this.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
 
       //////////////////  the following getters are used with the injection container ////////////////////////
 
-      Object.getPrototypeOf(this).get_describe = function () {
+      const proto = Object.getPrototypeOf(this);
+
+      proto.get_describe = proto.get_context = function () {
         return describe;
       };
 
-      Object.getPrototypeOf(this).get_context = function () {
-        return describe;
-      };
-
-      Object.getPrototypeOf(this).get_inject = function () {
+      proto.get_inject = function () {
         return inject;
       };
 
-      Object.getPrototypeOf(this).get_it = function () {
+      proto.get_it = proto.get_test = function () {
         return it;
       };
 
-      Object.getPrototypeOf(this).get_before = function () {
+      // lowercase for a reason
+      proto.get_before = proto.get_beforeall = proto.get_setup = function () {
         return before;
       };
 
-      Object.getPrototypeOf(this).get_after = function () {
+      // lowercase for a reason
+      proto.get_after = proto.get_afterall = proto.get_teardown = function () {
         return after;
       };
 
       // lowercase for a reason
-      Object.getPrototypeOf(this).get_aftereach = function () {
+      proto.get_aftereach = proto.get_teardowntest = function () {
         return afterEach;
       };
 
       // lowercase for a reason
-      Object.getPrototypeOf(this).get_beforeeach = function () {
+      proto.get_beforeeach = proto.get_setuptest = function () {
         return beforeEach;
       }
     };

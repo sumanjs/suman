@@ -10,7 +10,11 @@ const {Test} = suman.init(module, {
 
 let count = 0;
 
-Test.create(function (assert, describe, before, beforeEach, after, afterEach, it, util, domain) {
+Test.create(function (assert, describe, before, beforeEach, after, afterEach, it, util, domain, beforeAll) {
+
+  beforeAll(h => {
+     console.log('before all');
+  });
 
   before.cb(['fatal:true', h => {
 
