@@ -297,9 +297,11 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
         return this;
       };
 
-      this.startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
+
 
     }
+
+    startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
 
   };
 
