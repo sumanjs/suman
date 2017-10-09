@@ -33,6 +33,7 @@ import util = require('util');
 const pragmatik = require('pragmatik');
 const _ = require('underscore');
 import async = require('async');
+import {freezeExistingProps} from 'freeze-existing-props';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -128,6 +129,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
       this.only = this.opts.only || false;
       this.filename = suman.filename;
       this.childCompletionCount = 0;
+      this.completedChildrenMap = new Map();
 
       const children: Array<ITestSuite> = [];
       const tests: Array<ITestDataObj> = [];
@@ -140,9 +142,6 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
       const aftersLast: Array<IAfterObj> = [];
       const afterEaches: Array<IAFterEachObj> = [];
       const injections: Array<IInjectionObj> = [];
-
-      this.completedChildrenMap = new Map();
-
       const getAfterAllParentHooks: Array<IAfterAllParentHooks> = [];
 
       this.getAfterAllParentHooks = function () {
@@ -281,34 +280,36 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
         return beforeEach;
       };
 
-      this.__bindExtras = function bindExtras() {
-        suman.ctx = this;
-      };
-
-      this.__invokeChildren = function (val: any, start: Function) {
-        async.eachSeries(this.getChildren(), makeRunChild(val), start);
-      };
-
       this.testBlockMethodCache = new Map();
 
-      this.toString = function () {
-        return 'cheeseburger' + this.desc;
-      };
 
-      this.log = console.log.bind(console, 'my test suite =>');
-
-      this.series = function (cb: Function) {
-        if (typeof cb === 'function') {
-          cb.apply(this, [(_interface === 'TDD' ? this.test : this.it).bind(this)]);
-        }
-        return this;
-      };
+      // freezeExistingProps(this);
 
     }
-
   }
 
+  TestSuite.prototype.toString = function () {
+    debugger;
+    return 'cheeseburger:' + this.desc;
+  };
+
+  TestSuite.prototype.invokeChildren = function (val: any, start: Function) {
+    async.eachSeries(this.getChildren(), makeRunChild(val), start);
+  };
+
+  TestSuite.prototype.series = function (cb: Function) {
+    if (typeof cb === 'function') {
+      cb.apply(this, [(_interface === 'TDD' ? this.test : this.it).bind(this)]);
+    }
+    return this;
+  };
+
+  TestSuite.prototype.bindExtras = function bindExtras() {
+    suman.ctx = this;
+  };
+
   TestSuite.prototype.startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
+
   return TestSuite;
 
 };

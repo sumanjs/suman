@@ -15,7 +15,8 @@ Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest,
   test('here we go');
 
   const x = this;
-
+  debugger;
+  // console.log(this);
   debugger;
 
   setup(h => {

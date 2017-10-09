@@ -123,7 +123,7 @@ export const execSuite = function (suman: ISuman): Function {
 
     const suite = new TestSuite({desc, isTopLevel: true, opts});
     suite.isRootSuite = true;
-    suite.__bindExtras();
+    suite.bindExtras();
     allDescribeBlocks.push(suite);
 
     try {
@@ -230,10 +230,10 @@ export const execSuite = function (suman: ISuman): Function {
                 callable = false;
                 clearTimeout(to);
                 process.nextTick(function () {
-                  suman.ctx = null; // no suite here; don't need to call __bindExtras here, because root suite has no parent
+                  suman.ctx = null; // no suite here; don't need to call bindExtras here, because root suite has no parent
                   suite.isSetupComplete = true; // keep this, needs be called asynchronously
                   //pass start function all the way through program until last child delay call is invoked!
-                  suite.__invokeChildren(val, start);
+                  suite.invokeChildren(val, start);
                 });
               }
               else {
@@ -272,7 +272,7 @@ export const execSuite = function (suman: ISuman): Function {
               }
               else {
                 process.nextTick(function () {
-                  suite.__invokeChildren(null, start); //pass start function all the way through program until last child delay call is invoked!
+                  suite.invokeChildren(null, start); //pass start function all the way through program until last child delay call is invoked!
                 });
               }
 

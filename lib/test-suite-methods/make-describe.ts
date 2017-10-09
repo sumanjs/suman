@@ -183,7 +183,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
           return val;
         };
 
-        suite.__bindExtras();
+        suite.bindExtras();
 
         debugger;
 
@@ -240,8 +240,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                   d.exit();
                   suite.isSetupComplete = true;
                   process.nextTick(function () {
-                    zuite.__bindExtras();  //bind extras back to parent test
-                    suite.__invokeChildren(null, callback);
+                    zuite.bindExtras();  //bind extras back to parent test
+                    suite.invokeChildren(null, callback);
                   });
                 }
               });
@@ -282,8 +282,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                   //need to make sure delay is called asynchronously, but this should take care of it
                   process.nextTick(function () {
                     suite.isSetupComplete = true; // keep this, needs to be called asynchronously
-                    zuite.__bindExtras();  //bind extras back to parent test
-                    suite.__invokeChildren(val, callback); // pass callback
+                    zuite.bindExtras();  //bind extras back to parent test
+                    suite.invokeChildren(val, callback); // pass callback
                   });
                 }
                 else {
