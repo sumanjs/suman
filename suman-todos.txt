@@ -21,7 +21,8 @@ three SO profiles:
 ///
 
 @ORESoftware It depends on the version of node the running process uses.
-If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` to enable the --inspect behavior after the fact.
+If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` to enable the
+--inspect behavior after the fact.
 
 
 ///
@@ -88,10 +89,6 @@ cd $(dirname "$0")
     async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
 ///
-
-    => afterEach should have test info, not just value/data
-
-////
 
     => test suman itself with suman, then we can make final adjustments before release
 
