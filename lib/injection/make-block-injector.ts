@@ -66,7 +66,7 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
           return sumanOpts.user_args || '';
         case '$ioc':
           return _suman.$staticIoc;
-        case '$block':
+        case 'b':
           return suite;
         case '$pre':
           return _suman['$pre'];
@@ -79,6 +79,7 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
           return _suman.projectRoot;
         case '$index':
         case '$project':
+        case '$proj':
           return getProjectModule();
 
         case 'resume':
@@ -91,13 +92,17 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
         case 'describe':
         case 'context':
+        case 'suite':
         case 'afterAllParentHooks':
+
         case 'before':
         case 'after':
+
         case 'beforeAll':
         case 'afterAll':
         case 'beforeall':
         case 'afterall':
+
         case 'beforeEach':
         case 'afterEach':
         case 'beforeeach':

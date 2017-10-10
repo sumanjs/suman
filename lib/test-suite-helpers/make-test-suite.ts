@@ -282,7 +282,6 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
 
       this.testBlockMethodCache = new Map();
 
-
       // freezeExistingProps(this);
 
     }

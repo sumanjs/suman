@@ -30,22 +30,48 @@ Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest,
     console.log('this is setupTest..');
   });
 
-  describe('this is a nested thign', function () {
+  Number(4).times(function () {
 
-    debugger;
-    this.shared.set('users', 999);
+    describe('this is a nested thign', function (b) {
 
-    test('here we go', t => {
-      console.log('this is test.');
-      console.log(t.get('users'));
-    });
+      const x = b;
 
-    setupTest(h => {
-      console.log('this is setupTest..');
-    });
+      debugger;
+      // this.shared.set('users', 999);
 
-    teardownTest(h => {
-      console.log('this is teardownTest..');
+      test('here we go', t => {
+        console.log('this is test.');
+        console.log(t.get('users'));
+      });
+
+      setupTest(h => {
+        console.log('this is setupTest..');
+      });
+
+      teardownTest(h => {
+        console.log('this is teardownTest..');
+      });
+
+      describe('this is a nested thign', b => {
+
+        debugger;
+        // this.shared.set('users', 999);
+
+        test('here we go', t => {
+          console.log('this is test.');
+          console.log(t.get('users'));
+        });
+
+        setupTest(h => {
+          console.log('this is setupTest..');
+        });
+
+        teardownTest(h => {
+          console.log('this is teardownTest..');
+        });
+
+      });
+
     });
 
   });

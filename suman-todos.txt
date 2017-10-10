@@ -201,6 +201,13 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
+  refactor create-injector so that it's used
+  block injector should be for the other blocks
+  all blocks should at least have one parameter b, or s
+
+
+///
+
     before hooks can be stubbed? => before('merry');
 
 ///
