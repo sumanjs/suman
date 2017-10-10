@@ -2,9 +2,9 @@
 
 //dts
 import {IOnceHookObj} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 import {ITestDataObj} from "suman-types/dts/it";
+import {ISuman, Suman} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -47,6 +47,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
       console.log('\n', su.padWithXSpaces(_suman.currentPaddingCount.val),
         chalk.underline.gray.bold.italic(`▶ ${self.desc} ▷ `));
     }
+
 
     //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
     if (suman.describeOnlyIsTriggered && !this.only) {

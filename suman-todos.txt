@@ -94,6 +94,7 @@ cd $(dirname "$0")
 ///
 
     before / beforeEach hooks should attach a value to suman.$inject if a value is returned
+    if before hook has the {injectId: 'foo'} option, then it will attach to that?
 
 ///
 
@@ -190,6 +191,13 @@ The first option does not work with zsh due to a little bit different syntax.
 ///
 
 node test/src/exp.js | grep -v [[suman]]
+
+///
+
+ h.set('x', y);
+ t.set('x', y):
+
+ ???
 
 ///
 
