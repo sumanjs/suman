@@ -24,6 +24,8 @@ export const makeProxy = function (suman: ISuman, ctx: ITestSuite) : Function {
     return new Proxy(method, {
       get: function (target, prop) {
 
+        debugger;
+
         props = props || [];
         let hasSkip = false;
         let newProps = props.concat(String(prop))
@@ -56,6 +58,8 @@ export const makeProxy = function (suman: ISuman, ctx: ITestSuite) : Function {
         }
 
         let fn = function () {
+
+          debugger;
 
           let args = pragmatik.parse(arguments, rule);
 

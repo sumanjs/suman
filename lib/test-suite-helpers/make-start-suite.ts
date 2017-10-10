@@ -56,9 +56,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
     // important - push all afters "last" onto afters array
     this.mergeAfters();
 
-    const itOnlyIsTriggered = suman.itOnlyIsTriggered;
     const q = suman.getQueue();
-
     let earlyCallback = Boolean(sumanOpts.parallel_max);
 
     q.push(function (queueCB: Function) {
@@ -110,6 +108,8 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
                 fn2(self.getTests(), limit, function (test: ITestDataObj, cb: Function) {
 
+                    const itOnlyIsTriggered = suman.itOnlyIsTriggered;
+
                     if (self.skipped) {
                       test.skippedDueToParentSkipped = test.skipped = true;
                     }
@@ -141,6 +141,8 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
                     // => but individual sets of parallel tests can run in parallel
                     async.each($set.tests, function (test: ITestDataObj, cb: Function) {
+
+                        const itOnlyIsTriggered = suman.itOnlyIsTriggered;
 
                         if (self.skipped) {
                           test.skippedDueToParentSkipped = test.skipped = true;

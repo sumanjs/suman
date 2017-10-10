@@ -11,6 +11,14 @@ three SO profiles:
 
 ///
 
+
+Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest, describe) {
+
+  console.log(this); // this call causes problems with the proxy
+  console.log(this.describe); // same thing as above
+
+///
+
  the runner hangs every few runs, there must be a race condition
 
 ///
@@ -24,6 +32,15 @@ If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` t
 
     suman-watch should be optionalDep?
     suman-interactive should be optionalDep?
+
+///
+
+ "screenshots of suman in action"
+
+///
+
+ https://oresoftware.gitbooks.io/sumanjs/content/
+ https://github.com/GitbookIO/gitbook
 
 ///
 
