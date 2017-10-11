@@ -81,7 +81,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
   //   }
   // }
 
-  class TestSuite {
+  class TestBlock {
 
     // public
     opts: Object;
@@ -230,7 +230,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
       const afterEach: IAfterEachFn = makeAfterEach(suman, zuite);
       const it: ItFn = makeIt(suman, zuite);
       const afterAllParentHooks = makeAfterAllParentHooks(suman, zuite);
-      const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestSuite, zuite, notifyParent, blockInjector);
+      const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestBlock, zuite, notifyParent, blockInjector);
 
       /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -287,29 +287,29 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
     }
   }
 
-  TestSuite.prototype.toString = function () {
+  TestBlock.prototype.toString = function () {
     debugger;
     return 'cheeseburger:' + this.desc;
   };
 
-  TestSuite.prototype.invokeChildren = function (val: any, start: Function) {
+  TestBlock.prototype.invokeChildren = function (val: any, start: Function) {
     async.eachSeries(this.getChildren(), makeRunChild(val), start);
   };
 
-  TestSuite.prototype.series = function (cb: Function) {
+  TestBlock.prototype.series = function (cb: Function) {
     if (typeof cb === 'function') {
       cb.apply(this, [(_interface === 'TDD' ? this.test : this.it).bind(this)]);
     }
     return this;
   };
 
-  TestSuite.prototype.bindExtras = function bindExtras() {
+  TestBlock.prototype.bindExtras = function bindExtras() {
     suman.ctx = this;
   };
 
-  TestSuite.prototype.startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
+  TestBlock.prototype.startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
 
-  return TestSuite;
+  return TestBlock;
 
 };
 

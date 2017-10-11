@@ -41,6 +41,7 @@ If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` t
 
  https://oresoftware.gitbooks.io/sumanjs/content/
  https://github.com/GitbookIO/gitbook
+ https://wordpress.com/me => oresoftware / pqiw...
 
 ///
 
@@ -187,6 +188,11 @@ The first option does not work with zsh due to a little bit different syntax.
 /////
 
 ∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆
+
+///
+
+ --bisect, to find which tests cause problems
+ http://make.bettermistak.es/2016/03/05/rspecs-bisect/
 
 ///
 

@@ -4,12 +4,15 @@
 import {ISuman, Suman} from "../suman";
 import {ITestSuite} from "suman-types/dts/test-suite";
 
+//core
+const assert = require('assert');
+
 //npm
 const pragmatik = require('pragmatik');
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeProxy = function (suman: ISuman, ctx: ITestSuite) : Function {
+export const makeProxy = function (suman: ISuman, ctx: ITestSuite): Function {
 
   return function getProxy(method: Function, rule: Object, props?: Array<string>): Function {
 
@@ -24,8 +27,6 @@ export const makeProxy = function (suman: ISuman, ctx: ITestSuite) : Function {
     return new Proxy(method, {
       get: function (target, prop) {
 
-        debugger;
-
         props = props || [];
         let hasSkip = false;
         let newProps = props.concat(String(prop))
@@ -38,7 +39,6 @@ export const makeProxy = function (suman: ISuman, ctx: ITestSuite) : Function {
         })
         // sort the properties alphabetically so that we need to use fewer number of caches
         .sort();
-
 
         if (hasSkip) {
           // if any of the props are "skip" then we can reduce it to just "skip"
@@ -59,8 +59,6 @@ export const makeProxy = function (suman: ISuman, ctx: ITestSuite) : Function {
 
         let fn = function () {
 
-          debugger;
-
           let args = pragmatik.parse(arguments, rule);
 
           newProps.forEach(function (p) {
@@ -68,6 +66,7 @@ export const makeProxy = function (suman: ISuman, ctx: ITestSuite) : Function {
           });
 
           args[1].__preParsed = true;
+          // assert.equal(suman.ctx, ctx, 'Fatal usage error - test block method was registered asynchronously.');
           return method.apply(ctx, args);
         };
 

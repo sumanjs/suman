@@ -35,7 +35,6 @@ const rules = require('../helpers/handle-varargs');
 import {constants} from '../../config/suman-constants';
 import {acquireIocDeps} from '../acquire-dependencies/acquire-ioc-deps';
 import {IInjectionDeps} from "suman-types/dts/injection";
-
 const {handleSetupComplete} = require('../handle-setup-complete');
 import {makeBlockInjector} from '../injection/make-block-injector';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
@@ -67,7 +66,7 @@ const handleBadOptions = function (opts: IDescribeOpts) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestSuite: ITestSuite,
+export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestBlock: ITestSuite,
                                       zuite: ITestSuite, notifyParentThatChildIsComplete: Function,
                                       blockInjector: Function): IDescribeFn {
 
@@ -132,7 +131,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
 
     // note: zuite is the parent of suite; aka, suite is the child of zuite
-    const suite = new TestSuite({desc, title: desc, opts});
+    const suite = new TestBlock({desc, title: desc, opts});
 
     if(zuite.fixed){
       suite.fixed = true;
@@ -189,7 +188,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
         Object.defineProperty(suite, 'shared', {
           value: zuite.shared.clone(),
-          //Object.assign({}, zuite.shared)
           writable: false
         });
 

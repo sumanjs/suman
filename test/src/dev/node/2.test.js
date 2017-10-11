@@ -7,11 +7,8 @@ const Test = suman.init(module);
 ///////////////////////////////////////////////////////////////////////
 
 let count = 0;
-const opts = {series: true, fixed: true};
 
-
-Test.create(opts, function (assert, describe, before, beforeEach, after, afterEach, it) {
-
+Test.create('X', {series: true, fixed: true}, function (ƒ, b, assert, describe, before, beforeEach, after, afterEach, it) {
 
   it('sync test', t => {
     assert(true);
@@ -22,14 +19,18 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
     h.assert.equal(count, 1);
   });
 
-
-  describe('nested1', () => {
+  b.describe('A', (b, afterEach, after, before, ste) => {
 
     // console.log('before => ', before);
 
+
+    b.test('we have a test here', t => {
+
+    });
+
     assert.equal(count, 0);
 
-    before(h => {
+    b.before(h => {
       count++;
       h.assert.equal(count, 2);
     });
@@ -43,7 +44,7 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
       h.assert.equal(count, 5);
     });
 
-    describe('nested2', () => {
+    describe('C', () => {
 
       assert.equal(count, 0);
 
@@ -65,7 +66,7 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
 
   });
 
-  describe('nested3', () => {
+  describe('B', () => {
 
     assert.equal(count, 0);
 

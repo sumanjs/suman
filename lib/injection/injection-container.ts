@@ -75,14 +75,14 @@ export const makeInjectionContainer = function (suman: ISuman) {
       get: function (target, prop) {
 
         if (typeof prop === 'symbol') {
-          return Reflect.get(...arguments);
+          return Reflect.get.apply(Reflect, arguments);
         }
 
         let meth = String(prop).toLowerCase();
 
         if (!possibleProps[meth] /*&& !(prop in target)*/) {
           try {
-            return Reflect.get(...arguments);
+            return Reflect.get.apply(Reflect, arguments);
           }
           catch (err) {
             throw new Error(`Test suite may not have a '${prop}' property or method.\n${err.stack}`)

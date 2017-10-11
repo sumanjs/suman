@@ -20,7 +20,7 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
     h.assert.equal(count, 1);
   });
 
-  describe('nested1', () => {
+  describe('nested1', b => {
 
     // console.log('before => ', before);
 
