@@ -8,33 +8,36 @@ const Test = suman.init(module);
 
 let count = 0;
 
-Test.create('X', {series: true, fixed: true}, function (ƒ, b, assert, describe, before, beforeEach, after, afterEach, it) {
+Test.create('X', {
+  series: true,
+  fixed: true
+}, (s, b, assert, describe, before, beforeEach, after, afterEach, it) => {
+
 
   it('sync test', t => {
     assert(true);
   });
-
-  const x = this;
-
-  debugger;
 
   before(h => {
     count++;
     h.assert.equal(count, 1);
   });
 
-  b.describe('A', (b, afterEach, after, before, ste) => {
+  describe('xx', b => {
+
+  });
+
+  describe('A', (b, afterEach, after, before, test) => {
 
     // console.log('before => ', before);
 
-
-    b.test('we have a test here', t => {
+    test('we have a test here', t => {
 
     });
 
     assert.equal(count, 0);
 
-    b.before(h => {
+    before(h => {
       count++;
       h.assert.equal(count, 2);
     });
@@ -48,7 +51,7 @@ Test.create('X', {series: true, fixed: true}, function (ƒ, b, assert, describe,
       h.assert.equal(count, 5);
     });
 
-    describe('C', () => {
+    describe('C', ß => {
 
       assert.equal(count, 0);
 

@@ -177,6 +177,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
         return afterEaches;
       };
 
+
       this.interface = suman.interface;
       this.desc = this.title = obj.desc;
 
@@ -250,7 +251,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
         return beforeEach;
       };
 
-      this.testBlockMethodCache = new Map();
+
 
       // freezeExistingProps(this);
 

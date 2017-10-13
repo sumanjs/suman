@@ -28,6 +28,10 @@ If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` t
 --inspect behavior after the fact.
 
 
+////
+
+ => use async.queue not just for transpiling tests, but also for running them?
+
 ///
 
     suman-watch should be optionalDep?
@@ -432,7 +436,7 @@ https://github.com/Microsoft/TypeScript/issues/16779
 
 brew install phantomjs
 https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
-brew install sumanjs ?
+brew install sumanjs ???
 
 ////
 
@@ -3149,7 +3153,7 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //https://github.com/maxogden/hexbin/tree/gh-pages/hexagons
 // t.plan/t.confirm for hooks?
 
-//--concurrency option should just be "--processes"
+// --concurrency option should just be "--processes"
 
 
 
