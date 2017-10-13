@@ -23,10 +23,9 @@ import domain = require('domain');
 //npm
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
-const _ = require('underscore');
 import async = require('async');
 import * as chalk from 'chalk';
-import su from 'suman-utils';
+import su = require('suman-utils');
 import {VamootProxy} from 'vamoot';
 
 //project
@@ -66,7 +65,7 @@ const handleBadOptions = function (opts: IDescribeOpts) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestBlock: ITestSuite,
+export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestBlock: any,
                                       zuite: ITestSuite, notifyParentThatChildIsComplete: Function,
                                       blockInjector: Function): IDescribeFn {
 
@@ -183,8 +182,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
         };
 
         suite.bindExtras();
-
-        debugger;
 
         Object.defineProperty(suite, 'shared', {
           value: zuite.shared.clone(),

@@ -19,6 +19,7 @@ import {IBeforeEachObj} from "suman-types/dts/before-each";
 import {IAfterObj} from "suman-types/dts/after";
 import {IAFterEachObj} from "suman-types/dts/after-each";
 import {IInjectionObj} from "suman-types/dts/test-suite";
+import {TestBlockBase} from "./test-block-base";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -55,6 +56,7 @@ import {makeDescribe} from '../test-suite-methods/make-describe';
 import {makeAfterAllParentHooks} from '../test-suite-methods/make-after-all-parent-hooks';
 import symbols from '../helpers/symbols';
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 type ITestSuiteConstructor = (obj: ITestSuiteMakerOpts) => void;
@@ -69,52 +71,17 @@ const makeRunChild = function (val: any) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, blockInjector: Function): any {
+export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, blockInjector: Function): TestBlockBase {
 
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
   const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
   const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
 
-  // class TestSuiteBase {
-  //   constructor(){
-  //     this.startSuite =  makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
-  //   }
-  // }
-
-  class TestBlock {
-
-    // public
-    opts: Object;
-    testId: number;
-    childCompletionCount: number;
-    allChildBlocksCompleted: boolean;
-    isSetupComplete: boolean;
-    parallel: boolean;
-    skipped: boolean;
-    fixed: boolean;
-    only: boolean;
-    filename: string;
-    getAfterAllParentHooks: Function;
-    completedChildrenMap: Map<ITestSuite, boolean>;
-
-    // private
-    private mergeAfters: Function;
-    private getAfters: Function;
-    private getAfterEaches: Function;
-    private getBefores: Function;
-    private getBeforeEaches: Function;
-    private injectedValues: Object;
-    private getInjectedValue: Function;
-    private getInjections: Function;
-    private getChildren: Function;
-    private getTests: Function;
-    private getParallelTests: Function;
-    private getTestsParallel: Function;
-    private getLoopTests: Function;
-    private getAftersLast: Function;
+  class TestBlock extends TestBlockBase {
 
     constructor(obj: ITestSuiteMakerOpts) {
-      // super();
+
+      super();
 
       const sumanOpts = _suman.sumanOpts;
 
@@ -212,6 +179,9 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
 
       this.interface = suman.interface;
       this.desc = this.title = obj.desc;
+
+      //////////////////////////////////////////////////////////////////////////////////////
+
       const zuite = this;
 
       this.resume = function () {
@@ -223,18 +193,18 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
 
       /////////////////////////////////////////////////////////////////////////////////////////
 
-      const inject: IInjectFn = makeInject(suman, zuite);
-      const before: IBeforeFn = makeBefore(suman, zuite);
-      const after: IAfterFn = makeAfter(suman, zuite);
-      const beforeEach: IBeforeEachFn = makeBeforeEach(suman, zuite);
-      const afterEach: IAfterEachFn = makeAfterEach(suman, zuite);
-      const it: ItFn = makeIt(suman, zuite);
-      const afterAllParentHooks = makeAfterAllParentHooks(suman, zuite);
-      const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestBlock, zuite, notifyParent, blockInjector);
+      const inject: IInjectFn = makeInject(suman, this);
+      const before: IBeforeFn = makeBefore(suman, this);
+      const after: IAfterFn = makeAfter(suman, this);
+      const beforeEach: IBeforeEachFn = makeBeforeEach(suman, this);
+      const afterEach: IAfterEachFn = makeAfterEach(suman, this);
+      const it: ItFn = makeIt(suman, this);
+      const afterAllParentHooks = makeAfterAllParentHooks(suman, this);
+      const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestBlock, this, notifyParent, blockInjector);
 
       /////////////////////////////////////////////////////////////////////////////////////////
 
-      const getProxy = makeProxy(suman, zuite);
+      const getProxy = makeProxy(suman, this);
 
       // _interface === 'TDD' ? this.setup = before : this.before = before;
       this.describe = this.context = this.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
@@ -285,6 +255,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
       // freezeExistingProps(this);
 
     }
+
   }
 
   TestBlock.prototype.toString = function () {

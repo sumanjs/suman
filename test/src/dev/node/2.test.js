@@ -14,6 +14,10 @@ Test.create('X', {series: true, fixed: true}, function (ƒ, b, assert, describe,
     assert(true);
   });
 
+  const x = this;
+
+  debugger;
+
   before(h => {
     count++;
     h.assert.equal(count, 1);

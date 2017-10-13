@@ -1,2 +1,3 @@
 import { Suman } from "../suman";
-export declare const makeTestSuite: (suman: Suman, gracefulExit: Function, blockInjector: Function) => any;
+import { TestBlockBase } from "./test-block-base";
+export declare const makeTestSuite: (suman: Suman, gracefulExit: Function, blockInjector: Function) => TestBlockBase;
