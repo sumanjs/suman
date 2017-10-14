@@ -149,8 +149,8 @@ _suman.log('Node.js version:', nodeVersion);
 const sumanLibRoot = _suman.sumanLibRoot = String(__dirname);
 const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
-_suman.log(chalk.yellow.italic('Suman v' + sumanVersion + ' running...'));
-_suman.log('[pid] => ', process.pid);
+_suman.log(chalk.italic('Suman v' + sumanVersion + ' running...'));
+_suman.log('[process.pid] => ', process.pid);
 
 ////////////////////////////////////////////////////////////////////
 

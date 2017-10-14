@@ -18,6 +18,7 @@ const pragmatik = require('pragmatik');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
+import symbols from '../helpers/symbols';
 
 /*///////////////////// what it do //////////////////////////////////////
 
@@ -29,17 +30,28 @@ const rules = require('../helpers/handle-varargs');
 
 const possibleProps = <any> {
 
+  // ALL LOWERCASE HERE
+
   //methods
   describe: true,
   beforeeach: true,
   aftereach: true,
+  beforeall: true,
+  afterall: true,
   after: true,
   before: true,
   context: true,
   it: true,
   test: true,
+  setuptest: true,
+  teardowntest: true,
+  setup: true,
+  teardown: true,
 
   // options
+  events: true,
+  errorevents: true,
+  successevents: true,
   skip: true,
   fatal: true,
   parallel: true,
@@ -51,7 +63,7 @@ const possibleProps = <any> {
   timeout: true,
   always: true,
   last: true,
-  __preParsed: true
+  __preparsed: true
 
 };
 
@@ -63,14 +75,14 @@ export const makeInjectionContainer = function (suman: ISuman) {
       get: function (target, prop) {
 
         if (typeof prop === 'symbol') {
-          return Reflect.get(...arguments);
+          return Reflect.get.apply(Reflect, arguments);
         }
 
         let meth = String(prop).toLowerCase();
 
         if (!possibleProps[meth] /*&& !(prop in target)*/) {
           try {
-            return Reflect.get(...arguments);
+            return Reflect.get.apply(Reflect, arguments);
           }
           catch (err) {
             throw new Error(`Test suite may not have a '${prop}' property or method.\n${err.stack}`)
@@ -126,7 +138,9 @@ export const makeInjectionContainer = function (suman: ISuman) {
 
           args[1].__preParsed = true;
 
-          let getter = `get_${method}`;
+          // let getter = `get_${method}`;
+
+          let getter = symbols[method];
           let meth = suman.ctx[getter];
 
           if (!meth) {

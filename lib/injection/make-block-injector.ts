@@ -3,8 +3,8 @@
 //dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {ITestSuite} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
 import {IInjectionDeps} from "suman-types/dts/injection";
+import {ISuman, Suman} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -22,28 +22,25 @@ import cp = require('child_process');
 const pragmatik = require('pragmatik');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
-
 const includes = require('lodash.includes');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {constants} = require('../../config/suman-constants');
 import {getCoreAndDeps} from './$core-n-$deps';
-
-const rules = require('../helpers/handle-varargs');
 import {getProjectModule, lastDitchRequire} from './helpers';
 
-/*///////////// => what it do ///////////////////////////////////////////////////////////////
+
+/*///////////// => what it do ///////////////////////////////////////////////////////////////////
 
  this module is responsible for +++synchronously+++ injecting values;
  => values may be procured +asynchronously+ prior to this, but here we
  finish creating the entire arguments array, all synchronously
 
- //////////////////////////////////////////////////////////////////////////////////////////*/
+ //////////////////////////////////////////////////////////////////////////////////////////////*/
 
 export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
-  return function (suite: ITestSuite, parentSuite: ITestSuite, depsObj: IInjectionDeps): Array<any> {
+  return function (suite: ITestSuite, parent: ITestSuite, depsObj: IInjectionDeps): Array<any> {
 
     const {sumanOpts} = _suman;
 
@@ -57,19 +54,22 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
       //   }
       // }
 
+      const lowerCaseKey = String(key).toLowerCase();
+
+
       if (depsObj[key] && depsObj[key] !== '[suman reserved - no ioc match]') {
         return depsObj[key];
       }
 
-      switch (key) {
+      switch (lowerCaseKey) {
 
         case '$args':
           return String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
-        case '$argsRaw':
+        case '$argsraw':
           return sumanOpts.user_args || '';
         case '$ioc':
           return _suman.$staticIoc;
-        case '$block':
+        case 'b':
           return suite;
         case '$pre':
           return _suman['$pre'];
@@ -78,46 +78,45 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
         case '$core':
           return getCoreAndDeps().$core;
         case '$root':
-        case '$projectRoot':
+        case '$projectroot':
           return _suman.projectRoot;
         case '$index':
         case '$project':
+        case '$proj':
           return getProjectModule();
 
         case 'resume':
-        case 'extraArgs':
-        case 'getResumeValue':
-        case 'getResumeVal':
+        case 'getresumevalue':
+        case 'getresumeval':
         case 'writable':
         case 'inject':
           return suite[key];
 
         case 'describe':
         case 'context':
-        case 'afterAllParentHooks':
+        case 'suite':
+        case 'afterallparenthooks':
         case 'before':
         case 'after':
-        case 'beforeEach':
-        case 'afterEach':
+        case 'beforeall':
+        case 'afterall':
+        case 'beforeeach':
+        case 'aftereach':
         case 'it':
-          assert(suite.interface === 'BDD', ' => Suman usage error, using the wrong interface.');
-          return container[key];
-
         case 'test':
         case 'setup':
         case 'teardown':
-        case 'setupTest':
-        case 'teardownTest':
-          assert(suite.interface === 'TDD', ' => Suman usage error, using the wrong interface.');
-          return suite[key];
+        case 'setuptest':
+        case 'teardowntest':
+          return container[lowerCaseKey];
 
-        case 'userData':
+        case 'userdata':
           return _suman.userData;
       }
 
-      if (parentSuite) {
+      if (parent) {
         let val;
-        if (val = parentSuite.getInjectedValue(key)) {
+        if (val = parent.getInjectedValue(key)) {
           // note! if the injected value is falsy, it will get passed over
           return val;
         }

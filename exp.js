@@ -1,28 +1,61 @@
+import * as suman from 'suman';
+const Test = suman.init(module);
+
+Test.create('example', (baz, http, beforeEach, context, inject, foo, x, beforeAll) => {
+
+  // Suman uses simple old-school style JavaScript DI
+  // we have injected some core modules by name (http, assert, path)
+  // we have also injected a module from our own project, baz
+
+  inject('bar', () => {
+    return baz(foo).then(v => {
+      return v.filter(val => val.isGreen())
+    })
+  })
+
+  beforeAll(h => {
+    return x.anything().then(function(v){
+      h.assert(typeof v === 'boolean');
+      h.$inject.v = v;
+    });
+  });
 
 
-//
-// let sym = Symbol('foo');
-// let sym2 = Symbol('foo');
-// let obj = {};
-// obj[sym] = 5;
-// console.log(obj[sym]);
-// console.log(obj[sym2]);
-//
+  beforeEach(t => {
+    t.data.v = (t.value.v * 2) + t.$inject.v;
+  })
 
-// hi
+  context('foo', {mode: 'series'}, (bar, it) => {
 
-//////
+    it('a', {value: 5}, t => {
+      t.assert.equal(t.title,'a')
+      t.assert.equal(t.data.v,10)
+    })
 
-console.log('this is the beginning.');
-const path = require('path');
+    it('b', t => {
+      t.assert.equal(t.title, 'b')
+    })
 
-console.error(`${path.basename(__dirname)} reporter may be unable to properly indent output.`);
+    it('c', t => {
+      t.assert.equal(t.title, 'c')
+    })
 
+    context('nested child', {mode: 'parallel'}, (bar, it) => {
 
-var player = require('play-sound')(opts = {});
+      it('a', t => {
+        t.assert.equal(t.title, 'a')
+      })
 
-const failTrombonePath = path.resolve(process.env.HOME + '/fail-trombone-02.mp3');
+      it('b', t => {
+        t.assert.equal(t.title, 'b')
+      })
 
-player.play(failTrombonePath, { timeout: 6000 }, function(err){
-  if (err) throw err
-});
+      it('c', t => {
+        t.assert.equal(t.title, 'c')
+      })
+
+    })
+
+  })
+
+})

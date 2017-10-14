@@ -3,75 +3,94 @@
 
 const suman = require('suman');
 const Test = suman.init(module);
+const Promise = require('bluebird');
 
 ///////////////////////////////////////////////////////////////////////
 
 let count = 0;
-const opts = {series: true, fixed: true};
 
+Test.create('X', {
+  series: true,
+  fixed: true
+}, (s, b, assert, describe, before, beforeEach, after, afterEach, it, afterAll, afterall) => {
 
-Test.create(opts, function (assert, describe, before, beforeEach, after, afterEach, it) {
+  const x = this;
+  debugger;
 
+  beforeEach(h => {
+    console.log('h.value', h.value);
+    h.data.x = 3;
+  });
 
-  it('sync test', t => {
+  it('sync test', {value: 4}, t => {
     assert(true);
+    console.log(t.data);
   });
 
   before(h => {
-    count++;
-    h.assert.equal(count, 1);
+    h.assert.equal(++count, 1);
   });
 
+  describe('xx', b => {
 
-  describe('nested1', () => {
+  });
 
-    // console.log('before => ', before);
+  1..times(function (v) {
 
-    assert.equal(count, 0);
+    describe('A', (b, afterEach, after, before, test) => {
 
-    before(h => {
-      count++;
-      h.assert.equal(count, 2);
-    });
+      // console.log('before => ', before);
 
-    it('sync test', t => {
-      assert(true);
-    });
-
-    after(h => {
-      count++;
-      h.assert.equal(count, 5);
-    });
-
-    describe('nested2', () => {
+      test('we have a test here', t => {
+        console.log(t.data);
+      });
 
       assert.equal(count, 0);
+
+      before(async function (h) {
+        h.assert.equal(++count, 2);
+        return Promise.delay(399).then(function () {
+          console.log('delaying more.');
+          return Promise.delay(1000);
+        });
+      });
 
       it('sync test', t => {
         assert(true);
       });
 
-      before(h => {
-        count++;
-        h.assert.equal(count, 3);
+      after(h => {
+        h.assert.equal(++count, 5);
       });
 
-      after(h => {
-        count++;
-        h.assert.equal(count, 4);
+      describe('C', ß => {
+
+        assert.equal(count, 0);
+
+        it('sync test', t => {
+          assert(true);
+        });
+
+        before(h => {
+          h.assert.equal(++count, 3);
+        });
+
+        after(h => {
+          h.assert.equal(++count, 4);
+        });
+
       });
 
     });
 
   });
 
-  describe('nested3', () => {
+  describe('B', () => {
 
     assert.equal(count, 0);
 
     before('zoomy', h => {
-      count++;
-      h.assert.equal(count, 6);
+      h.assert.equal(++count, 6);
     });
 
     it('sync test', t => {
@@ -81,13 +100,11 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
   });
 
   after.last('roomy', h => {
-    count++;
-    h.assert.equal(count, 8);
+    h.assert.equal(++count, 8);
   });
 
-  after.always('roomy', h => {
-    count++;
-    h.assert.equal(count, 7);
+  afterAll.always('roomy', h => {
+    h.assert.equal(++count, 7);
   });
 
 });

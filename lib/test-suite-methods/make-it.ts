@@ -25,7 +25,6 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import {incr} from '../misc/incrementer';
-
 const {handleSetupComplete} = require('../handle-setup-complete');
 import {parseArgs} from '../helpers/parse-pragmatik-args';
 import evalOptions from '../helpers/eval-options';
@@ -38,6 +37,8 @@ const acceptableOptions = <IAcceptableOptions> {
   throws: true,
   fatal: true,
   cb: true,
+  val: true,
+  value: true,
   parallel: true,
   series: true,
   mode: true,
@@ -69,11 +70,12 @@ const handleBadOptions = function (opts: IItOpts) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-export const makeIt = function (suman: ISuman, zuite: ITestSuite): ItFn {
+export const makeIt = function (suman: ISuman): ItFn {
 
   return function ($desc: string, $opts: IItOpts): ITestSuite {
 
     const {sumanOpts} = _suman;
+    const zuite = suman.ctx;
     handleSetupComplete(zuite, 'it');
 
     const args = pragmatik.parse(arguments, rules.testCaseSignature, {
@@ -140,6 +142,7 @@ export const makeIt = function (suman: ISuman, zuite: ITestSuite): ItFn {
     const isOverallParallel = (opts.fixed && isFixedParallel) || isParallel;
 
     const testData: ITestDataObj = {
+      // ctx: ctx,
       alreadyInitiated: false,
       testId: inc,
       stubbed: false,

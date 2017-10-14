@@ -64,7 +64,7 @@ export const makeTestCase =
       get: function (target, prop) {
 
         if (typeof prop === 'symbol') {
-          return Reflect.get(...arguments);
+          return Reflect.get.apply(Reflect, arguments);
         }
 
         // if (badProps[String(prop)]) {
@@ -73,7 +73,7 @@ export const makeTestCase =
 
         if (!(prop in chaiAssert)) {
           try {
-            return Reflect.get(...arguments);
+            return Reflect.get.apply(Reflect, arguments);
           }
           catch (err) {
             return handleError(

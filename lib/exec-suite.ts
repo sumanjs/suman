@@ -34,14 +34,16 @@ import {constants} from '../config/suman-constants';
 import su from 'suman-utils';
 import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
-import {makeBlockInjector} from './injection/make-block-injector';
 import {makeInjectionContainer} from './injection/injection-container';
-import {makeTestSuiteMaker} from './test-suite-helpers/make-test-suite';
+import {makeTestSuite} from './test-suite-helpers/make-test-suite';
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 import {handleInjections} from './test-suite-helpers/handle-injections';
 import {makeOnSumanCompleted} from './helpers/on-suman-completed';
 import evalOptions from './helpers/eval-options';
 import {parseArgs} from './helpers/parse-pragmatik-args';
+import {makeSumanMethods} from "./test-suite-helpers/suman-methods";
+import {makeHandleBeforesAndAfters} from './test-suite-helpers/make-handle-befores-afters';
+import {makeNotifyParent} from './test-suite-helpers/notify-parent-that-child-is-complete';
 
 /*////////////// what it do ///////////////////////////////////////////////
 
@@ -54,11 +56,14 @@ export const execSuite = function (suman: ISuman): Function {
   _suman.whichSuman = suman;
   suman.dateSuiteStarted = Date.now();
   const onSumanCompleted = makeOnSumanCompleted(suman);
-  const container = makeInjectionContainer(suman);
-  const blockInjector = makeBlockInjector(suman, container);
-  const allDescribeBlocks = suman.allDescribeBlocks;
   const gracefulExit = makeGracefulExit(suman);
-  const mTestSuite = makeTestSuiteMaker(suman, gracefulExit, blockInjector);
+  const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
+  const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
+  const TestBlock = makeTestSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
+  const blockInjector = makeSumanMethods(suman, TestBlock, gracefulExit, notifyParent);
+  const allDescribeBlocks = suman.allDescribeBlocks;
+
+  ////////////////////////////////////////////////////////////////////////////////////////
 
   return function runRootSuite(): void {
 
@@ -94,7 +99,8 @@ export const execSuite = function (suman: ISuman): Function {
       }, function () {
         console.error(msg + '\n\n');
         let err = new Error('Suman usage error => invalid arrow/generator function usage.').stack;
-        _suman.logError(err); _suman.writeTestError(err);
+        _suman.logError(err);
+        _suman.writeTestError(err);
         process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
       });
 
@@ -120,9 +126,9 @@ export const execSuite = function (suman: ISuman): Function {
       return;
     }
 
-    const suite = mTestSuite({desc, isTopLevel: true, opts});
+    const suite = new TestBlock({desc, isTopLevel: true, opts});
     suite.isRootSuite = true;
-    suite.__bindExtras();
+    suite.bindExtras();
     allDescribeBlocks.push(suite);
 
     try {
@@ -210,7 +216,7 @@ export const execSuite = function (suman: ISuman): Function {
 
           if (delayOptionElected) {
 
-            Object.getPrototypeOf(suite).isDelayed = true;
+            suite.isDelayed = true;
 
             const to = setTimeout(function () {
               console.log('\n\n => Suman fatal error => suite.resume() function was not called within alloted time.');
@@ -223,16 +229,16 @@ export const execSuite = function (suman: ISuman): Function {
 
             let callable = true;
 
-            Object.getPrototypeOf(suite).__resume = function (val: any) {
+            suite.__resume = function (val: any) {
 
               if (callable) {
                 callable = false;
                 clearTimeout(to);
                 process.nextTick(function () {
-                  suman.ctx = null; // no suite here; don't need to call __bindExtras here, because root suite has no parent
-                  suite.__proto__.isSetupComplete = true; // keep this, needs be called asynchronously
+                  suman.ctx = null; // no suite here; don't need to call bindExtras here, because root suite has no parent
+                  suite.isSetupComplete = true; // keep this, needs be called asynchronously
                   //pass start function all the way through program until last child delay call is invoked!
-                  suite.__invokeChildren(val, start);
+                  suite.invokeChildren(val, start);
                 });
               }
               else {
@@ -256,12 +262,12 @@ export const execSuite = function (suman: ISuman): Function {
           }
           else {
 
-            Object.getPrototypeOf(suite).__resume = function () {
+            suite.__resume = function () {
               _suman.logWarning('usage warning => suite.resume() has become a noop since delay option is falsy.');
             };
 
             cb.apply(suite, deps);
-            Object.getPrototypeOf(suite).isSetupComplete = true;
+            suite.isSetupComplete = true;
 
             handleInjections(suite, function (err: IPseudoError) {
 
@@ -271,7 +277,7 @@ export const execSuite = function (suman: ISuman): Function {
               }
               else {
                 process.nextTick(function () {
-                  suite.__invokeChildren(null, start); //pass start function all the way through program until last child delay call is invoked!
+                  suite.invokeChildren(null, start); //pass start function all the way through program until last child delay call is invoked!
                 });
               }
 
@@ -313,7 +319,7 @@ export const execSuite = function (suman: ISuman): Function {
 
           assert(Number.isInteger(limit) && limit > 0 && limit < 100, 'limit must be an integer between 1 and 100, inclusive.');
 
-          suite.__startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
+          suite.startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
             results && _suman.logError('Suman extraneous results:', results);
             err && _suman.logError('Suman extraneous test error:', suite);

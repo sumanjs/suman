@@ -67,10 +67,11 @@ const handleBadOptions = function (opts: IInjectOpts) {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeInject = function (suman: ISuman, zuite: ITestSuite): IInjectFn {
+export const makeInject = function (suman: ISuman): IInjectFn {
 
   return function ($desc: string, $opts: IInjectOpts, $fn: Function) {
 
+    const zuite = suman.ctx;
     handleSetupComplete(zuite, 'inject');
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {

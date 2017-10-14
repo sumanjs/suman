@@ -26,6 +26,14 @@ proto.skip = function () {
   throw new Error('Dynamic skip functionality is not supported by Suman, yet.');
 };
 
+proto.set = function (k: string, v: any) {
+  return this.shared.set(k, v);
+};
+
+proto.get = function (k: string) {
+  return this.shared.get(k);
+};
+
 proto.wrap = function (fn: Function) {
   const self = this;
   return function () {
@@ -52,12 +60,12 @@ proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
   }
 };
 
-proto.log = function() {
+proto.log = function () {
   _suman.writeLog.apply(null, arguments);
 };
 
 proto.slow = function () {
-  this.timeout(20000);
+  this.timeout(30000);
 };
 
 export const tProto = freezeExistingProps(proto);

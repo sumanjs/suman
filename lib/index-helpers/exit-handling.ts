@@ -9,6 +9,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import util = require('util');
+import Domain = require('domain');
 
 //npm
 import * as async from 'async';
@@ -145,6 +146,8 @@ process.on('warning', function (w: Error) {
 process.removeAllListeners('uncaughtException');
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
+  debugger;
+
   if (!err) {
     err = new Error('falsy value passed to uncaught exception handler.');
   }
@@ -165,23 +168,80 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
   err._alreadyHandledBySuman = true;
   sumanRuntimeErrors.push(err);
 
+  let avoidShutdown = false;
+
+  let d;
+  if (err && (d = err.domain)) {
+    if (d.sumanTestCase || d.sumanEachHook || d.sumanAllHook) {
+      typeof err === 'object' && (err._alreadyHandledBySuman = true);
+      d.emit('error', err);
+      return;
+    }
+  }
+
+  if (d = process.domain) {
+    if (d.sumanTestCase || d.sumanEachHook || d.sumanAllHook) {
+      typeof err === 'object' && (err._alreadyHandledBySuman = true);
+      d.emit('error', err);
+      return;
+    }
+  }
+
+  if (_suman.sumanOpts && _suman.sumanOpts.series) {
+    if (d = _suman.activeDomain) {
+      d.emit('error', err);
+      return;
+    }
+  }
+
   if (_suman.afterAlwaysEngaged) {
     // we are running after always hooks, and any uncaught exceptions will be ignored in this case
     return;
   }
 
-  if (_suman.sumanOpts && _suman.sumanOpts.series) {
-    if (_suman.activeDomain) {
-      _suman.activeDomain.emit('error', err);
-      return;
+  process.domain && process.domain.exit();
+
+  process.nextTick(function () {
+
+    debugger;
+
+    let d;
+    if (d = process.domain) {
+      if (d.sumanTestCase || d.sumanEachHook || d.sumanAllHook) {
+        avoidShutdown = true;
+        typeof err === 'object' && (err._alreadyHandledBySuman = true);
+        d.emit('error', err);
+        return;
+      }
     }
-  }
+
+    debugger;
+
+    if (d = Domain._stack && Domain._stack.pop()) {
+      debugger;
+      if (d.sumanTestCase || d.sumanEachHook || d.sumanAllHook) {
+        avoidShutdown = true;
+        typeof err === 'object' && (err._alreadyHandledBySuman = true);
+        d.emit('error', err);
+        return;
+      }
+    }
+  });
+
 
   if (!_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
 
     _suman.sumanUncaughtExceptionTriggered = err;
 
     setTimeout(function () {
+
+      if (avoidShutdown) {
+        debugger;
+        _suman.logWarning('suman avoided a shutdown, by catching the domain.');
+        return;
+      }
+
+      debugger;
 
       let msg = err.stack || err;
 
@@ -190,16 +250,15 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       }
 
       console.error('\n');
-      console.error(chalk.magenta.bold(' => Suman uncaught exception => \n', chalk.magenta(msg)));
-      _suman.logError('Given the event of an uncaught exception,' +
-        ' Suman will now run "suman.once.post.js" shutdown hooks...');
+      _suman.logError(chalk.magenta.bold(' => Suman uncaught exception => \n', chalk.magenta(msg)), '\n');
+      _suman.logError('Given the event of an uncaught exception, Suman will now run "suman.once.post.js" shutdown hooks...');
       console.error('\n');
       _suman.logError(' ( => TO IGNORE UNCAUGHT EXCEPTIONS AND CONTINUE WITH YOUR TEST(S), use ' +
         'the "--ignore-uncaught-exceptions" option.)');
 
       shutdownSuman(msg);
 
-    }, 400);
+    }, 500);
 
   }
 
@@ -210,7 +269,9 @@ process.removeAllListeners('unhandledRejection');
 
 process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
 
-  const reason = $reason ? ($reason.stack || $reason) : new Error('no reason passed to unhandledRejection handler.');
+  debugger;
+
+  const reason = $reason ? ($reason.stack || $reason) : new Error('no reason passed to "unhandledRejection" handler.');
 
   if (p && p.domain) {
     if (p.domain.sumanTestCase || p.domain.sumanEachHook || p.domain.sumanAllHook) {

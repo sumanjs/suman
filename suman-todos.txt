@@ -6,8 +6,8 @@ three SO profiles:
 
 ///
 
-  in --series mode -> we should put currently executing test or hook in global space
-  especially for the browser.
+ suman --default  => should run default tests given by config
+ suman-d => should just become suman
 
 ///
 
@@ -16,18 +16,39 @@ three SO profiles:
 
 ///
 
+Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest, describe) {
+  console.log(this); // this call causes problems with the proxy
+  console.log(this.describe); // same thing as above
+
+///
+
  the runner hangs every few runs, there must be a race condition
 
 ///
 
 @ORESoftware It depends on the version of node the running process uses.
-If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` to enable the --inspect behavior after the fact.
+If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` to enable the
+--inspect behavior after the fact.
 
+
+///
+
+ => use async.queue not just for transpiling tests, but also for running them?
 
 ///
 
     suman-watch should be optionalDep?
     suman-interactive should be optionalDep?
+
+///
+
+ "screenshots of suman in action"
+
+///
+
+ https://oresoftware.gitbooks.io/sumanjs/content/
+ https://github.com/GitbookIO/gitbook
+ https://wordpress.com/me => oresoftware / pqiw...
 
 ///
 
@@ -76,11 +97,12 @@ cd $(dirname "$0")
 
 ///
 
-  options should have "successEvents", "errorEvents"
+    options should have "successEvents", "errorEvents"
 
 ///
 
     before / beforeEach hooks should attach a value to suman.$inject if a value is returned
+    if before hook has the {injectId: 'foo'} option, then it will attach to that?
 
 ///
 
@@ -88,10 +110,6 @@ cd $(dirname "$0")
     async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
 ///
-
-    => afterEach should have test info, not just value/data
-
-////
 
     => test suman itself with suman, then we can make final adjustments before release
 
@@ -101,7 +119,7 @@ cd $(dirname "$0")
 
 ///
 
- _suman.whichSuman => needs to get fixed
+    _suman.whichSuman => needs to get fixed
 
 ///
 
@@ -174,13 +192,32 @@ set -o pipefail
 ...
 The first option does not work with zsh due to a little bit different syntax.
 
-/////
+///
 
 ∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆
 
 ///
 
+ --bisect, to find which tests cause problems
+ http://make.bettermistak.es/2016/03/05/rspecs-bisect/
+
+///
+
 node test/src/exp.js | grep -v [[suman]]
+
+///
+
+ h.set('x', y);
+ t.set('x', y):
+
+ ???
+
+///
+
+  refactor create-injector so that it's used
+  block injector should be for the other blocks
+  all blocks should at least have one parameter b, or s
+
 
 ///
 
@@ -402,7 +439,7 @@ https://github.com/Microsoft/TypeScript/issues/16779
 
 brew install phantomjs
 https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
-brew install sumanjs ?
+brew install sumanjs ???
 
 ////
 
@@ -1419,30 +1456,30 @@ after.always should complete before any suman.post hooks begin
 
 ///
 
-nested data here in suman.once.pre.js =>
-=> Drop-db data =>  { 'launch-server': { 'launch-server': 'early resolve, because server is already available.' } }
+    nested data here in suman.once.pre.js =>
+    => Drop-db data =>  { 'launch-server': { 'launch-server': 'early resolve, because server is already available.' } }
 
 
-https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript
-
-///
-
-use macports to update readline on macos?
-sudo port -d selfupdate
+    https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript
 
 ///
 
-https://help.github.com/articles/user-organization-and-project-pages/
+    use macports to update readline on macos?
+    sudo port -d selfupdate
 
 ///
 
-http://typedoc.org/guides/installation/#task-runners
+    https://help.github.com/articles/user-organization-and-project-pages/
 
 ///
 
-Error: table suman_run_info already exists
-Error: table suman_run_id already exists
-Error: UNIQUE constraint failed: suman_run_id.id
+    http://typedoc.org/guides/installation/#task-runners
+
+///
+
+    Error: table suman_run_info already exists
+    Error: table suman_run_id already exists
+    Error: UNIQUE constraint failed: suman_run_id.id
 
 ///
 
@@ -3119,7 +3156,7 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //https://github.com/maxogden/hexbin/tree/gh-pages/hexagons
 // t.plan/t.confirm for hooks?
 
-//--concurrency option should just be "--processes"
+// --concurrency option should just be "--processes"
 
 
 
