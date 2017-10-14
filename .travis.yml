@@ -18,7 +18,7 @@ addons:
 before_install: 'if [[ `npm -v` != 4* ]]; then npm i -g npm@4; fi'
 install:
   - npm install
-script: 'rm -rf node_modules && npm cache clean && npm install istanbul && npm link && npm link suman && suman test/src/dev/node/injection.test.js'
+script: 'rm -rf node_modules && npm cache clean && npm install istanbul --silent && npm link && npm link suman && suman test/src/dev/node/injection.test.js'
 after_script: 'npm install -g coveralls && cat coverage/lcov.info | coveralls'
 notifications:
   email: false
