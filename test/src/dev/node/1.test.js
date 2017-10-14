@@ -7,7 +7,11 @@ const Test = suman.init(module);
 ///////////////////////////////////////////////////////////////////////
 
 let count = 0;
-const opts = {series: true, fixed: true};
+
+const opts = {
+  series: true,
+  fixed: true
+};
 
 Test.create(opts, function (assert, describe, before, beforeEach, after, afterEach, it) {
 
@@ -16,19 +20,16 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
   });
 
   before(h => {
-    count++;
-    h.assert.equal(count, 1);
+    h.assert.equal(++count, 1);
   });
 
-  describe('nested1', b => {
+  describe('nested1', opts, () => {
 
     // console.log('before => ', before);
-
     assert.equal(count, 0);
 
     before(h => {
-      count++;
-      h.assert.equal(count, 2);
+      h.assert.equal(++count, 2);
     });
 
     it('sync test', t => {
@@ -36,8 +37,7 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
     });
 
     after(h => {
-      count++;
-      h.assert.equal(count, 5);
+      h.assert.equal(++count, 5);
     });
 
     describe('nested2', () => {
@@ -49,13 +49,11 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
       });
 
       before(h => {
-        count++;
-        h.assert.equal(count, 3);
+        h.assert.equal(++count, 3);
       });
 
       after(h => {
-        count++;
-        h.assert.equal(count, 4);
+        h.assert.equal(++count, 4);
       });
 
     });
@@ -67,8 +65,7 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
     assert.equal(count, 0);
 
     before('zoomy', h => {
-      count++;
-      h.assert.equal(count, 6);
+      h.assert.equal(++count, 6);
     });
 
     it('sync test', t => {
@@ -78,13 +75,11 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
   });
 
   after.last('roomy', h => {
-    count++;
-    h.assert.equal(count, 8);
+    h.assert.equal(++count, 8);
   });
 
   after.always('roomy', h => {
-    count++;
-    h.assert.equal(count, 7);
+    h.assert.equal(++count, 7);
   });
 
 });

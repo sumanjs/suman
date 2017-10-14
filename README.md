@@ -22,16 +22,34 @@ compiling from source to target for any language. Suman has strong support for T
 for maintainability). Suman is a batteries-included test runner which encourages testing best practices through its design. 
 Starting with Suman is very easy, but you will find it has extremely powerful features, as your demands increase.
 
+## I wrote Suman because I thought Mocha was hugely lacking, and that AVA was too tightly coupled with Babel.
+## If your team is interested in speeding up your testing cycles, Suman is the absolute right place to look for answers.
+## Suman is designed to be 'better all-around' than AVA, TapJS and Mocha, etc. If there were no room for improvement, 
+## Suman would never have been written in the first place.
+
+
+### &#9658; Disclaimers: 
+>
+> Suman supports Node versions >= 6.0.0, since it makes heavy use of the Proxy class and Symbols.
+>
+> Windows support is on the roadmap, but will not be ready anytime soon. Currently, MacOS and *nix support only.
+>
+> Browser will be supported, but not until ~Summer 2018.
+>
+
+---
+
 # Expected official release date
 
 Suman is not officially released yet - expected release date ~October 2017.
 Until then, expect bugs, missing docs, etc. Proceed at your own risk :D
 
+
 # &#9658; Documentation 
 
- >   The Suman docs => [sumanjs.org](http://sumanjs.org "Suman Docs")  
+>   The Suman docs => [sumanjs.org](http://sumanjs.org "Suman Docs")  
 
- ---
+----
 
 
 ### Suman is made up of two independent pieces:
@@ -48,10 +66,6 @@ You do not need to run suman tests to use the CLI. <br>
 They are completely independent, while obviously being designed to work great together. <br>
 
 <p>
-
-## If your team is interested in speeding up your testing cycles, Suman is the absolute right place to look for answers.
-## Suman is designed to be 'better all-around' than AVA, TapJS and Mocha, etc. If there were no room for improvement, 
-## Suman would never have been written in the first place.
 
 ---
 
@@ -72,7 +86,7 @@ ___
 
 # Top 5 reasons to use Suman, instead of Mocha or AVA
 
-1. Run tests in any language, not just Node.js/JavaScript.
+1. Run tests in any language or executable, not just Node.js/JavaScript.
 
 2. You can run Mocha tests and AVA tests using the Suman CLI, but not the other way around!
 
@@ -87,14 +101,6 @@ it will not necessarily be clear that it is the junior developer's test which ca
 5. Suman is much faster than AVA, because Suman does not require transpilation.
 
 
-### &#9658; Disclaimers: 
->
-> Suman supports Node versions >= 6.0.0, since it makes heavy use of the Proxy class.
->
-> Windows support is on the roadmap, but will not be ready anytime soon. Currently, MacOS and *nix support only.
->
-
----
 
 # Suman CLI features
 
@@ -169,12 +175,6 @@ you would need to call Java from a shell script.
 
 It is designed for maximum test performance, via careful parallelization at
 every juncture in the testing process/pipeline. 
-
-
-# A simple relationship:
-
-##  Suman = ( AVA + Mocha + Lab )
-
 
 ---
 
@@ -260,57 +260,63 @@ Suman is designed to interop well with the most common libraries in the ecosyste
 ```js
 
 import * as suman from 'suman';
-const Test = suman.init(module);
+const {Test} = suman.init(module);
 
-Test.create('example', (baz, assert, http, beforeEach, describe, inject, foo) => {  
+Test.create('example', (baz, http, beforeEach, context, inject, foo, x, beforeAll) => {
 
-    // Suman uses simple old-school style JavaScript DI
-    // we have injected some core modules by name (http, assert, path) 
-    // we have also injected a module from our own project, baz
-    
-     inject('bar', () => {
-         return baz(foo).then(v => {
-            return v.filter(val => val.isGreen())
-         })
-     })
+  // Suman uses simple old-school style JavaScript DI
+  // we have injected some core modules by name (http, assert, path)
+  // we have also injected a module from our own project, baz
 
-     beforeEach(t => {
-         console.log('this runs before each test')
-     })
-     
-     describe('foo', {mode:'series'}, (bar, it, describe) => {
-       
-        it('a', t => {
-             assert.equal(t.title,'a')
-        })
-          
-        it('b', t => {
-             assert.equal(t.title,'b') 
-        })
-          
-        it('c', t => {
-             assert.equal(t.title,'c')           
-        })
-        
-         describe('nested child', {mode:'parallel'}, (bar, it) => {
-               
-                it('a', t => {
-                     assert.equal(t.title,'a')
-                })
-                  
-                it('b', t => {
-                     assert.equal(t.title,'b') 
-                })
-                  
-                it('c', t => {
-                     assert.equal(t.title,'c')           
-                })
-                
-               
-             })
-        
-       
-     })
+  inject('bar', () => {
+    return baz(foo).then(v => {
+      return v.filter(val => val.isGreen())
+    })
+  })
+
+  beforeAll(h => {
+    return x.anything().then(function(v){
+      h.assert(typeof v === 'boolean');
+    });
+  });
+
+
+  beforeEach(t => {
+    t.data.v = t.value.v * 2;
+  })
+
+  context('foo', {mode: 'series'}, (bar, it) => {
+
+    it('a', {value: 5}, t => {
+      t.assert.equal(t.title,'a')
+      t.assert.equal(t.data.v,10)
+    })
+
+    it('b', t => {
+      t.assert.equal(t.title, 'b')
+    })
+
+    it('c', t => {
+      t.assert.equal(t.title, 'c')
+    })
+
+    context('nested child', {mode: 'parallel'}, (bar, it) => {
+
+      it('a', t => {
+        t.assert.equal(t.title, 'a')
+      })
+
+      it('b', t => {
+        t.assert.equal(t.title, 'b')
+      })
+
+      it('c', t => {
+        t.assert.equal(t.title, 'c')
+      })
+
+    })
+
+  })
 
 })
 
@@ -536,151 +542,10 @@ guarantee that we can pin an error to a particular test case or hook, no matter 
 
 
 ## We can say with confidence that Suman is the most powerful test framework for serverside JavaScript on planet Earth
- => as it gives the developer total control and access to a very large set of features, with the explicit goal of being bug-free first, full-featured second.
+ => as it gives the developer total control and access to a very large set of features, 
+ with the explicit goal of being bug-free first, full-featured second.
 
 
-## Simple usage examples
-
-#### example using ES6/ES7 API:  
-
-<i> Suman is as simple as you want it to be; but it's also packed with features that you can use. </i>
-
-```js
-
-import * as suman from 'suman'
-const Test = suman.init(module)
-
-
-Test.create('ES6/ES7 API Example', (baz, assert, path, http, beforeEach, it) => {  
-
-    // we have injected some core modules by name (http, assert, path) 
-    // we have also injected a module from our own project, baz
-    
-
-     beforeEach(t => {
-     
-       const req = http.request({
-          hostname: 'example.com'
-        }, res => {
-        
-           let data = '';
-           
-           res.on('data', function($data){
-                  data += $data;
-           })
-           
-           res.on('end', function(){
-                  t.data.foo = data;
-                  t.done()
-           })
-        
-        
-        })
-        
-        req.on('error', fatal)
-        req.end()
-        
-     
-     })
-
-
-     it('detects metal', t => {
-         assert(t.moo = 'kabab')             
-     })
-
-     
-     it('ES7 is not necessary because we can achieve the same thing with generators', async t => {
-     
-        const val = await baz.doSomethingAsync()  
-        assert(path.resolve(val.foo) === '/bar')
-         
-     })
-
-     it('you dont need to transpile, because achieves the same as above', function*(t){
-
-        const val = yield baz.doSomethingAsync()
-        assert(path.resolve(val.foo) === '/bar')
-
-     })
-
-})
-
-
-```
-
-### basic ES5 API:
-
-<i> It is recommended to avoid adding the extra complexity of transpiling your tests from ES7</i>
-<i> So using ES5 with some sprinkles of ES6 is just fine :)</i>
-
-```js
-
-const suman = require('suman')
-const Test = suman.init(module)  
-
-Test.create('ES5 API Example', {mode: 'parallel'}, function(delay, assert, fs){
-
-   //we have declared the root suite to be parallel, so all direct children will run in parallel with each other
-   //note that instead of using "this.describe" we can choose to inject the describe method
-   
-   //test cases will run in parallel with child block 2,3
-    this.describe('child block 1', function(){     
-
-        this.it('red wine', t => {
-             assert(true)
-        })
-
-        this.it('white wine', t => {
-             assert(true)
-        })
-
-    })
-
-    //test cases will run in parallel with child block 1,3
-    this.describe('child block 2', function(){    
-
-        this.it('lager', t => {
-             assert(true)
-        })
-
-        this.it('IPA', t => {
-             assert(true)
-        })
-
-    })
-
-
-    //test cases will run in parallel with child block 1,2
-    this.describe('child block 3', function(){    
-
-
-     // child block 3 is not declared to be parallel, and
-     // because series is the default, its direct children will run in series
-
-
-         //test cases will run in series with child block b
-         this.describe('child block a', function(){    
-
-
-
-
-         })
-
-        //test cases will run in series with child block a
-        this.describe('child block b', function(){    
-
-
-
-
-         })
-
-    })
-
-})
-
-
-
-```
 
 
 ### More Suman Examples

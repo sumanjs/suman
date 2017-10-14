@@ -37,6 +37,8 @@ const acceptableOptions = <IAcceptableOptions> {
   throws: true,
   fatal: true,
   cb: true,
+  val: true,
+  value: true,
   parallel: true,
   series: true,
   mode: true,

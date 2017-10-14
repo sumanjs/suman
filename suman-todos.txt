@@ -11,9 +11,7 @@ three SO profiles:
 
 ///
 
-
 Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest, describe) {
-
   console.log(this); // this call causes problems with the proxy
   console.log(this.describe); // same thing as above
 
@@ -28,7 +26,7 @@ If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` t
 --inspect behavior after the fact.
 
 
-////
+///
 
  => use async.queue not just for transpiling tests, but also for running them?
 
@@ -94,7 +92,7 @@ cd $(dirname "$0")
 
 ///
 
-  options should have "successEvents", "errorEvents"
+    options should have "successEvents", "errorEvents"
 
 ///
 
@@ -116,7 +114,7 @@ cd $(dirname "$0")
 
 ///
 
- _suman.whichSuman => needs to get fixed
+    _suman.whichSuman => needs to get fixed
 
 ///
 
@@ -189,7 +187,7 @@ set -o pipefail
 ...
 The first option does not work with zsh due to a little bit different syntax.
 
-/////
+///
 
 ∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆
 

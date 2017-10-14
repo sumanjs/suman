@@ -14,13 +14,17 @@ Test.create('X', {
   fixed: true
 }, (s, b, assert, describe, before, beforeEach, after, afterEach, it, afterAll, afterall) => {
 
-
   const x = this;
-
   debugger;
 
-  it('sync test', t => {
+  beforeEach(h => {
+    console.log('h.value', h.value);
+    h.data.x = 3;
+  });
+
+  it('sync test', {value: 4}, t => {
     assert(true);
+    console.log(t.data);
   });
 
   before(h => {
@@ -31,14 +35,14 @@ Test.create('X', {
 
   });
 
-  1..times(function () {
+  1..times(function (v) {
 
     describe('A', (b, afterEach, after, before, test) => {
 
       // console.log('before => ', before);
 
       test('we have a test here', t => {
-
+        console.log(t.data);
       });
 
       assert.equal(count, 0);

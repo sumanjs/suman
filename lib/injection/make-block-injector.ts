@@ -30,13 +30,13 @@ import {getCoreAndDeps} from './$core-n-$deps';
 import {getProjectModule, lastDitchRequire} from './helpers';
 
 
-/*///////////// => what it do ///////////////////////////////////////////////////////////////
+/*///////////// => what it do ///////////////////////////////////////////////////////////////////
 
  this module is responsible for +++synchronously+++ injecting values;
  => values may be procured +asynchronously+ prior to this, but here we
  finish creating the entire arguments array, all synchronously
 
- //////////////////////////////////////////////////////////////////////////////////////////*/
+ //////////////////////////////////////////////////////////////////////////////////////////////*/
 
 export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
@@ -86,8 +86,8 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
           return getProjectModule();
 
         case 'resume':
-        case 'getResumeValue':
-        case 'getResumeVal':
+        case 'getresumevalue':
+        case 'getresumeval':
         case 'writable':
         case 'inject':
           return suite[key];
