@@ -14,9 +14,9 @@ echo "checking if existing process is listening on port"
 if [[ "$1" != "--force" ]]; then
 
     nc -zv localhost 9091  > /dev/null 2>&1
-    nc_exit=$?
+    nc_exit="$?"
 
-    if [ ${nc_exit} -eq 0 ]; then
+    if [ "${nc_exit}" -eq "0" ]; then
         echo "a process is already listening on the default port"
         echo "please choose another port with --port=x"
         echo "suman-daemon may already be running - check with 'ps aux | grep suman-daemon'"
