@@ -53,6 +53,11 @@ module.exports = [
     help: 'Print tool version and exit.'
   },
   {
+    names: ['default'],
+    type: 'bool',
+    help: 'Run the files represented by the settings in suman.conf.js.'
+  },
+  {
     names: ['force-match'],
     type: 'bool',
     help: 'Any files passed at the command line will be run, even if they do not match any regex mentioned in config or command line.'
@@ -372,10 +377,10 @@ module.exports = [
     help: 'Use this option to tell Suman runner to interpret TAP output from child process(es) stdout.'
   },
   {
-    names: ['suman-d'],
+    names: ['suman-shell'],
     type: 'bool',
     internal: true,  //only visible to lib authors?
-    help: 'Run suman-d.'
+    help: 'Run suman-shell.'
   },
   {
     names: ['no-tap'],

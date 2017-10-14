@@ -178,7 +178,7 @@ var diagnostics = sumanOpts.diagnostics;
 var installGlobals = sumanOpts.install_globals;
 var postinstall = sumanOpts.postinstall;
 var tscMultiWatch = sumanOpts.tsc_multi_watch;
-var sumanD = sumanOpts.suman_d;
+var sumanShell = sumanOpts.suman_shell;
 var watchPer = sumanOpts.watch_per;
 var singleProcess = sumanOpts.single_process;
 var script = sumanOpts.script;
@@ -306,7 +306,7 @@ var preOptCheck = {
     convert: convert, groups: groups, s: s, tailTest: tailTest,
     tailRunner: tailRunner, interactive: interactive, uninstallBabel: uninstallBabel,
     diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
-    repair: repair, sumanD: sumanD, script: script
+    repair: repair, sumanShell: sumanShell, script: script
 };
 var optCheck = Object.keys(preOptCheck).filter(function (key, index) {
     return preOptCheck[key];
@@ -375,7 +375,7 @@ else if (postinstall) {
 else if (installGlobals) {
     require('./lib/cli-commands/install-global-deps')(paths);
 }
-else if (sumanD) {
+else if (sumanShell) {
     require('./lib/cli-commands/run-suman-d').run(projectRoot, sumanLibRoot, sumanOpts.suman_d_opts);
 }
 else if (interactive) {

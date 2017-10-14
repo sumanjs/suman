@@ -249,7 +249,7 @@ const diagnostics = sumanOpts.diagnostics;
 const installGlobals = sumanOpts.install_globals;
 const postinstall = sumanOpts.postinstall;
 const tscMultiWatch = sumanOpts.tsc_multi_watch;
-const sumanD = sumanOpts.suman_d;
+const sumanShell = sumanOpts.suman_shell;
 const watchPer = sumanOpts.watch_per;
 const singleProcess = sumanOpts.single_process;
 const script = sumanOpts.script;
@@ -437,7 +437,7 @@ const preOptCheck = <IPreOptCheck> {
   convert, groups, s, tailTest,
   tailRunner, interactive, uninstallBabel,
   diagnostics, installGlobals, postinstall,
-  repair, sumanD, script
+  repair, sumanShell, script
 };
 
 const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
@@ -532,7 +532,7 @@ else if (postinstall) {
 else if (installGlobals) {
   require('./lib/cli-commands/install-global-deps')(paths);
 }
-else if (sumanD) {
+else if (sumanShell) {
   require('./lib/cli-commands/run-suman-d').run(projectRoot, sumanLibRoot, sumanOpts.suman_d_opts)
 }
 else if (interactive) {

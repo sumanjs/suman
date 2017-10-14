@@ -6,6 +6,13 @@ fi
 
 #. shared-functions.sh # source this shared file
 
+if test "$#" -eq "0"; then
+    exec "$(dirname "$0")/suman-shell"
+    exit;
+fi
+
+echo "length of args => $#"
+
 echo " => Original path of Suman executable => \"$0\""
 DIRN="$(dirname "$0")"
 RL="$(readlink "$0")";
@@ -19,7 +26,7 @@ NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin"
 if [[ "${LOCAL_SUMAN_ALREADY_FOUND}" == "yes" ]]; then
     # we know that this directory contains the local version of suman we want to use
     echo "local suman version already found.";
-    NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE=yes node "${X}/cli.js" "$@"
+    NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE="yes" node "${X}/cli.js" "$@"
 else
     # we are probably in the global install space, so let's find the local installation given pwd/cwd
     LOCAL_SUMAN="$(node ${X}/scripts/find-local-suman-executable.js)"
