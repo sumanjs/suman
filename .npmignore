@@ -18,6 +18,7 @@ test
 dist
 .github
 .tscmultiwatch
+dev-scripts
 
 ### files
 exp.js
