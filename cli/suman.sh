@@ -11,15 +11,12 @@ if test "$#" -eq "0"; then
     exit;
 fi
 
-echo "length of args => $#"
-
-echo " => Original path of Suman executable => \"$0\""
+echo " [suman] Original path of Suman executable => \"$0\""
 DIRN="$(dirname "$0")"
 RL="$(readlink "$0")";
 EXECDIR="$(dirname $(dirname "$RL"))";
 MYPATH="$DIRN/$EXECDIR";
 X="$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})"
-
 NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules"
 NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin"
 
