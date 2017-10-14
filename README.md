@@ -22,10 +22,11 @@ compiling from source to target for any language. Suman has strong support for T
 for maintainability). Suman is a batteries-included test runner which encourages testing best practices through its design. 
 Starting with Suman is very easy, but you will find it has extremely powerful features, as your demands increase.
 
-## I wrote Suman because I thought Mocha was hugely lacking, and that AVA was too tightly coupled with Babel.
-## If your team is interested in speeding up your testing cycles, Suman is the absolute right place to look for answers.
-## Suman is designed to be 'better all-around' than AVA, TapJS and Mocha, etc. If there were no room for improvement, 
-## Suman would never have been written in the first place.
+# Why
+>  I wrote Suman because I thought Mocha was woefully lacking, and that AVA was too tightly coupled with Babel.
+>  If your team is interested in speeding up your testing cycles, Suman is the absolute right place to look for answers.
+>  Suman is designed to be 'better all-around' than AVA, TapJS and Mocha, etc. 
+>
 
 
 ### &#9658; Disclaimers: 
