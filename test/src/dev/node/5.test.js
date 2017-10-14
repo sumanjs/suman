@@ -13,37 +13,31 @@ let count = 0;
 Test.create(function (assert, describe, before, beforeEach, after, afterEach, it, util, domain, beforeAll) {
 
   beforeAll(h => {
-     console.log('before all');
+    console.log('before all hook');
   });
 
-  before.cb(['fatal:true', h => {
-
-    const d = domain.create();
-    d.xxx =  'foo';
-
-    const d2 = process.domain;
-    d2.yyy = 'bar';
-
-    debugger;
-
-    // throw 'samsam';
-    // process.on('uncaughtException', function (e) {
-    //   console.log('ue => ', e);
-    // });
-
-    d.run(function () {
-
-      setTimeout(function () {
-
-        console.log('d2',d2);
-        const d3 = process.domain;
-        debugger;
-        throw new Error('foobar');
-      }, 100);
-
-    });
-
-  }]);
+  // before.cb(['fatal:false', h => {
+  //
+  //   const d = domain.create();
+  //   d.xxx = 'foo';
+  //
+  //   const d2 = process.domain;
+  //   d2.yyy = 'bar';
+  //
+  //   debugger;
+  //
+  //   // throw 'samsam';
+  //   // process.on('uncaughtException', function (e) {
+  //   //   console.log('ue => ', e);
+  //   // });
+  //
+  //   d.run(function () {
+  //
+  //     throw new Error('barf');
+  //
+  //   });
+  //
+  // }]);
 
   it.cb('passing', t => {
     t.done();

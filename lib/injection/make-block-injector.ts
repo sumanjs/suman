@@ -40,7 +40,7 @@ import {getProjectModule, lastDitchRequire} from './helpers';
 
 export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
-  return function (suite: ITestSuite, parentSuite: ITestSuite, depsObj: IInjectionDeps): Array<any> {
+  return function (suite: ITestSuite, parent: ITestSuite, depsObj: IInjectionDeps): Array<any> {
 
     const {sumanOpts} = _suman;
 
@@ -121,9 +121,9 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
           return _suman.userData;
       }
 
-      if (parentSuite) {
+      if (parent) {
         let val;
-        if (val = parentSuite.getInjectedValue(key)) {
+        if (val = parent.getInjectedValue(key)) {
           // note! if the injected value is falsy, it will get passed over
           return val;
         }

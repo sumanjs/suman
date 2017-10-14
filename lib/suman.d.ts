@@ -2,14 +2,14 @@ import { ITestSuite } from "suman-types/dts/test-suite";
 import { ISumanInputs } from "suman-types/dts/suman";
 import { ITestDataObj } from "suman-types/dts/it";
 export interface ITestBlockMethodCache {
-    [key: string]: Function;
+    [key: string]: Object;
 }
 export declare class Suman {
     ctx?: ITestSuite;
     interface: string;
     $inject: Object;
     private __inject;
-    testBlockMethodCache: ITestBlockMethodCache;
+    testBlockMethodCache: Map<Function, ITestBlockMethodCache>;
     iocData: Object;
     force: boolean;
     fileName: string;

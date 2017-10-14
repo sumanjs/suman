@@ -20,6 +20,7 @@ import {IDescribeFn} from "suman-types/dts/describe";
 import {IBeforeEachFn} from "suman-types/dts/before-each";
 import {IAfterEachFn} from "suman-types/dts/after-each";
 import {IAfterFn} from "suman-types/dts/after";
+import {TestBlockBase} from "./test-block-base";
 
 //core
 import domain = require('domain');
@@ -32,37 +33,41 @@ const pragmatik = require('pragmatik');
 //project
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-import {makeProxy} from './make-proxy';
+import {makeProxy} from './make-proxy2';
+import {makeBlockInjector} from '../injection/make-block-injector';
 
 /////////////////////////////////////////////////////////////////////
 
-export const makeSumanMethods = function (suman: ISuman, TestBlock: any) {
+export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBase,
+                                          gracefulExit: Function, notifyParent: Function): any {
 
-  const methods = {};
+  const m = {} as any;
 
-  const inject: IInjectFn = makeInject(suman, this);
-  const before: IBeforeFn = makeBefore(suman, this);
-  const after: IAfterFn = makeAfter(suman, this);
-  const beforeEach: IBeforeEachFn = makeBeforeEach(suman, this);
-  const afterEach: IAfterEachFn = makeAfterEach(suman, this);
-  const it: ItFn = makeIt(suman, this);
-  const afterAllParentHooks = makeAfterAllParentHooks(suman, this);
-  const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestBlock, this, notifyParent, blockInjector);
+  const blockInjector = makeBlockInjector(suman, m);
+
+  const inject: IInjectFn = makeInject(suman);
+  const before: IBeforeFn = makeBefore(suman);
+  const after: IAfterFn = makeAfter(suman);
+  const beforeEach: IBeforeEachFn = makeBeforeEach(suman);
+  const afterEach: IAfterEachFn = makeAfterEach(suman);
+  const it: ItFn = makeIt(suman);
+  const afterAllParentHooks = makeAfterAllParentHooks(suman);
+  const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestBlock, notifyParent, blockInjector);
 
   /////////////////////////////////////////////////////////////////////////////////////////
 
   const getProxy = makeProxy(suman);
 
-  // _interface === 'TDD' ? this.setup = before : this.before = before;
-  this.describe = this.context = this.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
-  this.it = this.test = getProxy(it, rules.testCaseSignature) as ItFn;
-  this.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
-  this.before = this.beforeAll = this.setup = getProxy(before, rules.hookSignature) as IBeforeFn;
-  this.beforeEach = this.setupTest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
-  this.after = this.afterAll = this.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
-  this.afterEach = this.teardownTest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
-  this.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
+  // _interface === 'TDD' ? m.setup = before : m.before = before;
+  m.describe = m.context = m.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
+  m.it = m.test = getProxy(it, rules.testCaseSignature) as ItFn;
+  m.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
+  m.before = m.beforeAll = m.setup = getProxy(before, rules.hookSignature) as IBeforeFn;
+  m.beforeEach = m.setupTest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
+  m.after = m.afterAll = m.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
+  m.afterEach = m.teardownTest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
+  m.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
 
-  return methods;
+  return blockInjector;
 
 };

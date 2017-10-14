@@ -42,8 +42,7 @@ const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import {makeProxy} from './make-proxy';
 const {makeStartSuite} = require('./make-start-suite');
-import {makeHandleBeforesAndAfters} from './make-handle-befores-afters';
-const {makeNotifyParent} = require('./notify-parent-that-child-is-complete');
+
 
 // TestSuite methods
 import {makeIt} from '../test-suite-methods/make-it';
@@ -71,11 +70,10 @@ const makeRunChild = function (val: any) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, blockInjector: Function): TestBlockBase {
+export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
+                                       handleBeforesAndAfters: Function, notifyParent: Function): TestBlockBase {
 
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
-  const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
-  const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
 
   class TestBlock extends TestBlockBase {
 
@@ -194,7 +192,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
 
       /////////////////////////////////////////////////////////////////////////////////////////
 
-      const inject: IInjectFn = makeInject(suman, this);
+     /* const inject: IInjectFn = makeInject(suman, this);
       const before: IBeforeFn = makeBefore(suman, this);
       const after: IAfterFn = makeAfter(suman, this);
       const beforeEach: IBeforeEachFn = makeBeforeEach(suman, this);
@@ -250,7 +248,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function, bl
       this[symbols.beforeeach] = this[symbols.setuptest] = function () {
         return beforeEach;
       };
-
+*/
 
 
       // freezeExistingProps(this);

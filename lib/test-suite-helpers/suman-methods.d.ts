@@ -1,2 +1,3 @@
 import { Suman } from "../suman";
-export declare const makeSumanMethods: (suman: Suman, TestBlock: any) => {};
+import { TestBlockBase } from "./test-block-base";
+export declare const makeSumanMethods: (suman: Suman, TestBlock: TestBlockBase, gracefulExit: Function, notifyParent: Function) => any;

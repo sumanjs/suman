@@ -34,7 +34,6 @@ import {constants} from '../config/suman-constants';
 import su from 'suman-utils';
 import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
-import {makeBlockInjector} from './injection/make-block-injector';
 import {makeInjectionContainer} from './injection/injection-container';
 import {makeTestSuite} from './test-suite-helpers/make-test-suite';
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
@@ -42,6 +41,9 @@ import {handleInjections} from './test-suite-helpers/handle-injections';
 import {makeOnSumanCompleted} from './helpers/on-suman-completed';
 import evalOptions from './helpers/eval-options';
 import {parseArgs} from './helpers/parse-pragmatik-args';
+import {makeSumanMethods} from "./test-suite-helpers/suman-methods";
+import {makeHandleBeforesAndAfters} from './test-suite-helpers/make-handle-befores-afters';
+import {makeNotifyParent} from './test-suite-helpers/notify-parent-that-child-is-complete';
 
 /*////////////// what it do ///////////////////////////////////////////////
 
@@ -54,11 +56,14 @@ export const execSuite = function (suman: ISuman): Function {
   _suman.whichSuman = suman;
   suman.dateSuiteStarted = Date.now();
   const onSumanCompleted = makeOnSumanCompleted(suman);
-  const container = makeInjectionContainer(suman);
-  const blockInjector = makeBlockInjector(suman, container);
-  const allDescribeBlocks = suman.allDescribeBlocks;
   const gracefulExit = makeGracefulExit(suman);
-  const TestSuite = makeTestSuite(suman, gracefulExit, blockInjector);
+  const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
+  const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
+  const TestBlock = makeTestSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
+  const blockInjector = makeSumanMethods(suman, TestBlock, gracefulExit, notifyParent);
+  const allDescribeBlocks = suman.allDescribeBlocks;
+
+  ////////////////////////////////////////////////////////////////////////////////////////
 
   return function runRootSuite(): void {
 
@@ -121,7 +126,7 @@ export const execSuite = function (suman: ISuman): Function {
       return;
     }
 
-    const suite = new TestSuite({desc, isTopLevel: true, opts});
+    const suite = new TestBlock({desc, isTopLevel: true, opts});
     suite.isRootSuite = true;
     suite.bindExtras();
     allDescribeBlocks.push(suite);
