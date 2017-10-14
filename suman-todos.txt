@@ -6,6 +6,11 @@ three SO profiles:
 
 ///
 
+ suman --default  => should run default tests given by config
+ suman-d => should just become suman
+
+///
+
  use es6 symbols to hide properties?
  https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
 

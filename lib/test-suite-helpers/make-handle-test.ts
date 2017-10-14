@@ -70,7 +70,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     };
 
     const d = domain.create() as ISumanTestCaseDomain;
-    _suman.activeDomain = d;
     d.sumanTestCase = true;
     d.sumanTestName = test.desc;
 
@@ -118,12 +117,14 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
       const {sumanOpts} = _suman;
 
+
       if (sumanOpts.debug_hooks) {
         _suman.log(`now starting to run test with name '${chalk.magenta(test.desc)}'.`);
       }
 
       d.run(function runHandleTest() {
 
+        _suman.activeDomain = d;
         let warn = false;
         let isAsyncAwait = false;
 

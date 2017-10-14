@@ -2,7 +2,7 @@
 
 //dts
 import {IEachHookObj, IHandleError, ITestSuite} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman, Suman} from "../suman";
 import {IGlobalSumanObj, IPseudoError, ISumanEachHookDomain} from "suman-types/dts/global";
 import {ITestDataObj} from "suman-types/dts/it";
 
@@ -61,7 +61,6 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     };
 
     const d = domain.create() as ISumanEachHookDomain;
-    _suman.activeDomain = d;
     d.sumanEachHook = true;
     d.sumanEachHookName = aBeforeOrAfterEach.desc || '(unknown hook name)';
     d.testDescription = test.desc || '(unknown test case name)';
@@ -72,7 +71,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
     const handleError: IHandleError = function (err: IPseudoError) {
 
-      err = err || new Error('unknown hook error.');
+      err = err || new Error('unknown/falsy hook error.');
 
       if (typeof err === 'string') {
         err = new Error(err);
@@ -109,13 +108,12 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     process.nextTick(function () {
 
       const {sumanOpts} = _suman;
+      _suman.activeDomain = d;
 
       if (sumanOpts.debug_hooks) {
         _suman.log(`now running each hook with name '${chalk.yellow.bold(aBeforeOrAfterEach.desc)}', ` +
           `for test case with name '${chalk.magenta(test.desc)}'.`);
       }
-
-      const sumanOpts = _suman.sumanOpts;
 
       d.run(function runHandleEachHook() {
 
@@ -187,7 +185,6 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           // }
 
           const dne = function done(err: IPseudoError) {
-
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }
@@ -197,7 +194,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
             }
           };
 
-          t.done = function done(err: IPseudoError) {
+          t.done = function (err: IPseudoError) {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }

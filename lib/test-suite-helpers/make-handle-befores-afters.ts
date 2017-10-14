@@ -50,7 +50,6 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     };
 
     const d = domain.create() as ISumanAllHookDomain;
-    _suman.activeDomain = d;
     d.sumanAllHook = true;
     d.sumanAllHookName = aBeforeOrAfter.desc || '(unknown all-hook name)';
 
@@ -115,6 +114,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
       d.run(function runAllHook() {
 
+        _suman.activeDomain = d;
         let warn = false;
 
         if (fnStr.indexOf('Promise') > 0 || fnStr.indexOf('async') === 0) {

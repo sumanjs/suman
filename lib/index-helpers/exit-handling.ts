@@ -271,7 +271,7 @@ process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
 
   debugger;
 
-  const reason = $reason ? ($reason.stack || $reason) : new Error('no reason passed to unhandledRejection handler.');
+  const reason = $reason ? ($reason.stack || $reason) : new Error('no reason passed to "unhandledRejection" handler.');
 
   if (p && p.domain) {
     if (p.domain.sumanTestCase || p.domain.sumanEachHook || p.domain.sumanAllHook) {

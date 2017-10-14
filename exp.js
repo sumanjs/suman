@@ -16,12 +16,13 @@ Test.create('example', (baz, http, beforeEach, context, inject, foo, x, beforeAl
   beforeAll(h => {
     return x.anything().then(function(v){
       h.assert(typeof v === 'boolean');
+      h.$inject.v = v;
     });
   });
 
 
   beforeEach(t => {
-    t.data.v = t.value.v * 2;
+    t.data.v = (t.value.v * 2) + t.$inject.v;
   })
 
   context('foo', {mode: 'series'}, (bar, it) => {
