@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 
 //polyfills
@@ -6,7 +8,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const path = require('path');
+import path = require('path');
 import util = require('util');
 
 //npm

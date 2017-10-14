@@ -43,7 +43,6 @@ export const fatalRequestReply = function (obj: Object, $cb: Function) {
   }
 
   if (!_suman.usingRunner) {
-    _suman.logError('warning => Not using runner in this process, so we will never get reply, firing callback now.');
     return process.nextTick(cb);
   }
 

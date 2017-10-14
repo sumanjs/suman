@@ -1,5 +1,8 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from "suman-types/dts/global";
+
 //polyfills
 const global = require('suman-browser-polyfills/modules/global');
 const process = require('suman-browser-polyfills/modules/process');
@@ -16,14 +19,12 @@ import dashdash = require('dashdash');
 import * as chalk from 'chalk';
 import flattenDeep = require('lodash.flattendeep');
 import flatten = require('lodash.flatten');
-
-//project
-const _suman = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
 
+//project
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 const options = _suman.allSumanOptions = require('./suman-options');
-
 const IS_SUMAN_DEBUG = process.env['SUMAN_DEBUG'] === 'yes';
 
 ////////////////////////////////////////////////////////////////////

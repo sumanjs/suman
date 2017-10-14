@@ -3,7 +3,7 @@
 //dts
 import {IHandleError, ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanDomain, ISumanTestCaseDomain} from "suman-types/dts/global";
-import {ISuman} from "../suman";
+import {ISuman, Suman} from "../suman";
 import {ITestDataObj} from "suman-types/dts/it";
 
 //polyfills
@@ -70,7 +70,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     };
 
     const d = domain.create() as ISumanTestCaseDomain;
-    _suman.activeDomain = d;
     d.sumanTestCase = true;
     d.sumanTestName = test.desc;
 
@@ -118,12 +117,14 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
       const {sumanOpts} = _suman;
 
+
       if (sumanOpts.debug_hooks) {
         _suman.log(`now starting to run test with name '${chalk.magenta(test.desc)}'.`);
       }
 
       d.run(function runHandleTest() {
 
+        _suman.activeDomain = d;
         let warn = false;
         let isAsyncAwait = false;
 
@@ -189,14 +190,15 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////
+
         test.dateStarted = Date.now();
 
         let args;
 
         if (isGeneratorFn) {
-          const handleGenerator = helpers.makeHandleGenerator(fini);
+          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
           args = [freezeExistingProps(t)];
-          handleGenerator(test.fn, args, self);
+          handlePotentialPromise(helpers.handleGenerator(test.fn, args));
         }
         else if (test.cb === true) {
 
@@ -248,15 +250,15 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           };
 
           args = Object.setPrototypeOf(dne, freezeExistingProps(t));
-          if (test.fn.call(self, args)) {  ///run the fn, but if it returns something, then add warning
+          if (test.fn.call(null, args)) {  ///run the fn, but if it returns something, then add warning
             _suman.writeTestError(cloneError(test.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
 
         }
         else {
-          const handlePotentialPromise = helpers.handlePotentialPromise(fini, fnStr);
+          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
           args = freezeExistingProps(t);
-          handlePotentialPromise(test.fn.call(self, args), warn, d);
+          handlePotentialPromise(test.fn.call(null, args), warn, d);
         }
 
       });

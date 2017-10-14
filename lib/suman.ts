@@ -45,7 +45,7 @@ if (process.env.DEFAULT_PARALLEL_TOTAL_LIMIT && (envTotal = Number(process.env.D
 //////////////////////////////////////////////////////////////////////////////
 
 export interface ITestBlockMethodCache {
-  [key: string]: Function
+  [key: string]: Object
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ export class Suman {
   interface: string;
   $inject: Object;
   private __inject: Object;
-  testBlockMethodCache: ITestBlockMethodCache;
+  testBlockMethodCache: Map<Function, ITestBlockMethodCache>;
   iocData: Object;
   force: boolean;
   fileName: string;
@@ -98,7 +98,6 @@ export class Suman {
     // initialize
     let v = this.__inject = {};
     this.$inject = McProxy.create(v);
-    this.testBlockMethodCache = {};
     this.allDescribeBlocks = [];
     this.describeOnlyIsTriggered = false;
     this.deps = null;
@@ -106,6 +105,7 @@ export class Suman {
     this.numHooksStubbed = 0;
     this.numBlocksSkipped = 0;
     this.force = obj.force || false;
+    this.testBlockMethodCache = new Map();
 
     let queue: any;
 

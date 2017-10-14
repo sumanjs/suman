@@ -9,11 +9,11 @@ const global = require('suman-browser-polyfills/modules/global');
 
 export = function async(makeGenerator: Function, ctx: any) {
 
-  return function () : Promise<any> {
+  return function (): Promise<any> {
 
     const generator = makeGenerator.apply(ctx, arguments);
 
-    function handle(result: any) : Promise<any> {
+    const handle = function (result: any): Promise<any> {
 
       // result => { done: [Boolean], value: [Object] }
       if (result.done) {
@@ -26,7 +26,7 @@ export = function async(makeGenerator: Function, ctx: any) {
           return handle(generator.throw(e));
         });
       }
-    }
+    };
 
     try {
       return handle(generator.next());

@@ -10,6 +10,9 @@ import {IAfterFn, IAfterObj, IAfterOpts} from "suman-types/dts/after";
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
+//core
+import assert = require('assert');
+
 //npm
 const pragmatik = require('pragmatik');
 import * as chalk from 'chalk';
@@ -60,10 +63,11 @@ const handleBadOptions = function (opts: IAfterOpts): void {
 
 ////////////////////////////////////////////////////////////////////////////
 
-export const makeAfter = function (suman: ISuman, zuite: ITestSuite): IAfterFn {
+export const makeAfter = function (suman: ISuman): IAfterFn {
 
   return function ($desc: string, $opts: IAfterOpts): ITestSuite {
 
+    const zuite = suman.ctx;
     handleSetupComplete(zuite, typeName);
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {

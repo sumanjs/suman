@@ -2,6 +2,21 @@
 
 # How to start contributing to Suman
 
+
+### Basics
+
+ Suman uses itself to test itself :) As it should.
+ The right way to do this is as follows:
+ 
+ ```
+ set -e;
+ git clone https://github.com/sumanjs/suman.git 
+ npm install 
+ npm link 
+ npm link suman 
+ npm test
+ ```
+
 ### Longterm
 
 In the long-term the plan is to slowly convert this into a TypeScript project, for type safety

@@ -49,7 +49,7 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
     get: function (target, prop) {
 
       if (typeof prop === 'symbol') {
-        return Reflect.get(...arguments);
+        return Reflect.get.apply(Reflect, arguments);
       }
 
       // if (badProps[String(prop)]) {
@@ -59,9 +59,9 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
       if (!(prop in chaiAssert)) {
 
         try {
-          return Reflect.get(...arguments);
+          return Reflect.get.apply(Reflect, arguments);
         }
-        catch(err){
+        catch (err) {
           return handleError(
             new Error(`The assertion library used does not have a '${prop}' property or method.`)
           );

@@ -1,10 +1,10 @@
 'use strict';
 
 //dts
-import {IOnceHookObj} from "suman-types/dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
-import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
-import {ITestDataObj} from "suman-types/dts/it";
+import {IOnceHookObj} from 'suman-types/dts/test-suite';
+import {IGlobalSumanObj, IPseudoError} from 'suman-types/dts/global';
+import {ITestDataObj} from 'suman-types/dts/it';
+import {ISuman, Suman} from '../suman';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -28,7 +28,7 @@ const {makeTheTrap} = require('./make-the-trap');
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface ITestSet {
+export interface ITestSet {
   tests: Array<ITestDataObj>
 }
 
@@ -53,12 +53,10 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
       this.skippedDueToOnly = this.skipped = true;
     }
 
-    // important - push all afters "last" onto afters array
+    // important - push all afters 'last' onto afters array
     this.mergeAfters();
 
-    const itOnlyIsTriggered = suman.itOnlyIsTriggered;
     const q = suman.getQueue();
-
     let earlyCallback = Boolean(sumanOpts.parallel_max);
 
     q.push(function (queueCB: Function) {
@@ -67,9 +65,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
         runBefores: function (cb: Function) {
 
-          //TODO: can probably prevent befores from running by checking self.tests.length < 1
-
-          // NOTE: we always run before hooks, even if
+          // NOTE: we always run before hooks, because child suites might have tests
           async.eachSeries(self.getBefores(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
             handleBeforesAndAfters(self, aBeforeOrAfter, cb);
           }, function complete(err: IPseudoError) {
@@ -110,6 +106,8 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
                 fn2(self.getTests(), limit, function (test: ITestDataObj, cb: Function) {
 
+                    const itOnlyIsTriggered = suman.itOnlyIsTriggered;
+
                     if (self.skipped) {
                       test.skippedDueToParentSkipped = test.skipped = true;
                     }
@@ -141,6 +139,8 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
                     // => but individual sets of parallel tests can run in parallel
                     async.each($set.tests, function (test: ITestDataObj, cb: Function) {
+
+                        const itOnlyIsTriggered = suman.itOnlyIsTriggered;
 
                         if (self.skipped) {
                           test.skippedDueToParentSkipped = test.skipped = true;
@@ -188,7 +188,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             return process.nextTick(cb);
           }
 
-          Object.getPrototypeOf(self).alreadyStartedAfterHooks = true;
+          self.alreadyStartedAfterHooks = true;
 
           async.eachSeries(self.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
               handleBeforesAndAfters(self, aBeforeOrAfter, cb);
@@ -205,7 +205,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         implementationError(err);
 
         // isCompleted means this block has completed, nothing more
-        Object.getPrototypeOf(self).isCompleted = true;
+        self.isCompleted = true;
 
         process.nextTick(function () {
           queueCB();

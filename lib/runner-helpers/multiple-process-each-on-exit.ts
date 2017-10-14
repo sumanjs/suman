@@ -104,7 +104,7 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
 
         if (sumanOpts.verbosity > 4) {
           console.log('\n');
-          _suman.log(chalk.blue.bold.underline(' All scheduled child processes have exited.'));
+          _suman.log(chalk.gray.bold.underline(' All scheduled child processes have exited.'));
           console.log('\n');
         }
       }

@@ -1,9 +1,13 @@
+'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
+//project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 ///////////////////////////////////////////////////////////////////////

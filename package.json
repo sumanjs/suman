@@ -23,8 +23,8 @@
   "typings": "lib/index.d.ts",
   "main": "lib/index.js",
   "scripts": {
-    "start": "./∆start.sh",
-    "test": "./∆test.sh",
+    "start": "echo 'this is not what you are looking for.'",
+    "test": "./dev-scripts/test.sh",
     "postinstall": "./scripts/suman-postinstall.sh"
   },
   "author": "Olegzandr Denman",
@@ -71,7 +71,7 @@
     "siamese": "latest",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
-    "sqlite3": "^3.1.8",
+    "sqlite3": "^3.1.13",
     "suman-browser-polyfills": "latest",
     "suman-debug": "latest",
     "suman-events": "latest",

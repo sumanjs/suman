@@ -14,7 +14,7 @@ import EE = require('events');
 
 //npm
 import * as chalk from 'chalk';
-
+import dashdash = require('dashdash');
 const debug = require('suman-debug')('child');
 import su = require('suman-utils');
 
@@ -34,7 +34,34 @@ if (process.env.NPM_COLORS === 'no') {
 
 //////////////////////////////////////////////////////////////////////////////
 
-const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || JSON.parse(process.env.SUMAN_OPTS));
+let sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || JSON.parse(process.env.SUMAN_OPTS));
+const options = require('../parse-cmd-line-opts/suman-options');
+
+const childArgs = String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
+
+if (childArgs.length) {
+
+  //we have to push these two on to the front of the array so that dashdash parsers correctly
+  childArgs.unshift('foo');  // foo is node
+  childArgs.unshift('baz'); // baz is like index.js
+  console.error('child args => ', childArgs);
+
+  let opts, parser = dashdash.createParser({options: options});
+
+  try {
+    opts = parser.parse(childArgs);
+  } catch (err) {
+    console.error(chalk.red(' => Suman command line options error: %s'), err.message);
+    console.error(' => Try "suman --help" or visit sumanjs.org');
+    process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
+  }
+
+  console.error('before  opts => ', opts);
+  console.error('before suman opts => ', sumanOpts);
+  sumanOpts = _suman.sumanOpts = Object.assign(sumanOpts, opts);
+  console.error('after suman opts => ', sumanOpts);
+}
+
 const usingRunner = _suman.usingRunner = true;
 const projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT;
 

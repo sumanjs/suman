@@ -130,7 +130,7 @@ export const makeGracefulExit = function (suman: ISuman) {
       const s = padded.join('\n');
       // do not delete the following console.error call, this is the primary logging mechanism for errors
       console.log('\n');
-      console.error(s);
+      _suman.logError(s);
       return s;
 
     });
