@@ -12,7 +12,8 @@ let count = 0;
 Test.create('X', {
   series: true,
   fixed: true
-}, (s, b, assert, describe, before, beforeEach, after, afterEach, it, afterAll) => {
+}, (s, b, assert, describe, before, beforeEach, after, afterEach, it, afterAll, afterall) => {
+
 
   const x = this;
 
@@ -23,59 +24,57 @@ Test.create('X', {
   });
 
   before(h => {
-    count++;
-    h.assert.equal(count, 1);
+    h.assert.equal(++count, 1);
   });
 
   describe('xx', b => {
 
   });
 
-  describe('A', (b, afterEach, after, before, test) => {
+  1..times(function () {
 
-    // console.log('before => ', before);
+    describe('A', (b, afterEach, after, before, test) => {
 
+      // console.log('before => ', before);
 
-    test('we have a test here', t => {
+      test('we have a test here', t => {
 
-    });
-
-    assert.equal(count, 0);
-
-    before(async function (h){
-      count++;
-      h.assert.equal(count, 2);
-      return Promise.delay(399).then(function(){
-        console.log('delaying more.');
-        return Promise.delay(1000);
       });
-    });
-
-    it('sync test', t => {
-      assert(true);
-    });
-
-    after(h => {
-      count++;
-      h.assert.equal(count, 5);
-    });
-
-    describe('C', ß => {
 
       assert.equal(count, 0);
+
+      before(async function (h) {
+        h.assert.equal(++count, 2);
+        return Promise.delay(399).then(function () {
+          console.log('delaying more.');
+          return Promise.delay(1000);
+        });
+      });
 
       it('sync test', t => {
         assert(true);
       });
 
-      before(h => {
-        count++;
-        h.assert.equal(count, 3);
+      after(h => {
+        h.assert.equal(++count, 5);
       });
 
-      after(h => {
-        count++;
-        h.assert.equal(count, 4);
+      describe('C', ß => {
+
+        assert.equal(count, 0);
+
+        it('sync test', t => {
+          assert(true);
+        });
+
+        before(h => {
+          h.assert.equal(++count, 3);
+        });
+
+        after(h => {
+          h.assert.equal(++count, 4);
+        });
+
       });
 
     });
@@ -87,8 +86,7 @@ Test.create('X', {
     assert.equal(count, 0);
 
     before('zoomy', h => {
-      count++;
-      h.assert.equal(count, 6);
+      h.assert.equal(++count, 6);
     });
 
     it('sync test', t => {
@@ -98,13 +96,11 @@ Test.create('X', {
   });
 
   after.last('roomy', h => {
-    count++;
-    h.assert.equal(count, 8);
+    h.assert.equal(++count, 8);
   });
 
   afterAll.always('roomy', h => {
-    count++;
-    h.assert.equal(count, 7);
+    h.assert.equal(++count, 7);
   });
 
 });

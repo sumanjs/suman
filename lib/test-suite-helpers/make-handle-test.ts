@@ -3,7 +3,7 @@
 //dts
 import {IHandleError, ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanDomain, ISumanTestCaseDomain} from "suman-types/dts/global";
-import {ISuman} from "../suman";
+import {ISuman, Suman} from "../suman";
 import {ITestDataObj} from "suman-types/dts/it";
 
 //polyfills
@@ -189,6 +189,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////
+
         test.dateStarted = Date.now();
 
         let args;

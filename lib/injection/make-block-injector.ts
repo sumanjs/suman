@@ -54,15 +54,18 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
       //   }
       // }
 
+      const lowerCaseKey = String(key).toLowerCase();
+
+
       if (depsObj[key] && depsObj[key] !== '[suman reserved - no ioc match]') {
         return depsObj[key];
       }
 
-      switch (key) {
+      switch (lowerCaseKey) {
 
         case '$args':
           return String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
-        case '$argsRaw':
+        case '$argsraw':
           return sumanOpts.user_args || '';
         case '$ioc':
           return _suman.$staticIoc;
@@ -75,7 +78,7 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
         case '$core':
           return getCoreAndDeps().$core;
         case '$root':
-        case '$projectRoot':
+        case '$projectroot':
           return _suman.projectRoot;
         case '$index':
         case '$project':
@@ -83,7 +86,6 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
           return getProjectModule();
 
         case 'resume':
-        case 'extraArgs':
         case 'getResumeValue':
         case 'getResumeVal':
         case 'writable':
@@ -93,31 +95,22 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
         case 'describe':
         case 'context':
         case 'suite':
-        case 'afterAllParentHooks':
-
+        case 'afterallparenthooks':
         case 'before':
         case 'after':
-
-        case 'beforeAll':
-        case 'afterAll':
         case 'beforeall':
         case 'afterall':
-
-        case 'beforeEach':
-        case 'afterEach':
         case 'beforeeach':
         case 'aftereach':
         case 'it':
         case 'test':
         case 'setup':
         case 'teardown':
-        case 'setupTest':
-        case 'teardownTest':
         case 'setuptest':
         case 'teardowntest':
-          return container[key];
+          return container[lowerCaseKey];
 
-        case 'userData':
+        case 'userdata':
           return _suman.userData;
       }
 

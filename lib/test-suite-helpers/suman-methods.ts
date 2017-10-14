@@ -62,11 +62,11 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBas
   m.describe = m.context = m.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
   m.it = m.test = getProxy(it, rules.testCaseSignature) as ItFn;
   m.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
-  m.before = m.beforeAll = m.setup = getProxy(before, rules.hookSignature) as IBeforeFn;
-  m.beforeEach = m.setupTest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
-  m.after = m.afterAll = m.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
-  m.afterEach = m.teardownTest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
-  m.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
+  m.before = m.beforeall = m.setup = getProxy(before, rules.hookSignature) as IBeforeFn;
+  m.beforeeach = m.setuptest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
+  m.after = m.afterall = m.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
+  m.aftereach = m.teardowntest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
+  m.afterallparenthooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
 
   return blockInjector;
 
