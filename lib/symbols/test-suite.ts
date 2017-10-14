@@ -5,7 +5,8 @@ export interface ISumanSymbols {
 
 export default {
 
-  describe: Symbol('bindExtras'),
-  context: Symbol('context'),
+  bindExtras: Symbol('bindExtras'),
+  getInjections: Symbol('bindExtras'),
+
 
 } as ISumanSymbols;

@@ -68,16 +68,13 @@ const handleBadOptions = function (opts: IItOpts) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-export const makeIt = function (suman: ISuman, zuite: ITestSuite): ItFn {
+export const makeIt = function (suman: ISuman): ItFn {
 
   return function ($desc: string, $opts: IItOpts): ITestSuite {
 
     const {sumanOpts} = _suman;
+    const zuite = suman.ctx;
     handleSetupComplete(zuite, 'it');
-
-    // const ctx = suman.ctx;
-    // console.log('zuite => ', zuite.desc);
-    // console.log('ctx => ', ctx.desc);
 
     const args = pragmatik.parse(arguments, rules.testCaseSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null

@@ -2,14 +2,14 @@
 
 //dts
 import {ISuman, Suman} from "../suman";
-import {makeIt} from '../test-suite-methods2/make-it';
-import {makeAfter} from '../test-suite-methods2/make-after';
-import {makeAfterEach} from '../test-suite-methods2/make-after-each';
-import {makeBeforeEach} from '../test-suite-methods2/make-before-each';
-import {makeBefore} from '../test-suite-methods2/make-before';
-import {makeInject} from '../test-suite-methods2/make-inject';
-import {makeDescribe} from '../test-suite-methods2/make-describe';
-import {makeAfterAllParentHooks} from '../test-suite-methods2/make-after-all-parent-hooks';
+import {makeIt} from '../test-suite-methods/make-it';
+import {makeAfter} from '../test-suite-methods/make-after';
+import {makeAfterEach} from '../test-suite-methods/make-after-each';
+import {makeBeforeEach} from '../test-suite-methods/make-before-each';
+import {makeBefore} from '../test-suite-methods/make-before';
+import {makeInject} from '../test-suite-methods/make-inject';
+import {makeDescribe} from '../test-suite-methods/make-describe';
+import {makeAfterAllParentHooks} from '../test-suite-methods/make-after-all-parent-hooks';
 import {IInjectFn} from "suman-types/dts/inject";
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {IBeforeFn} from "suman-types/dts/before";
@@ -33,7 +33,7 @@ const pragmatik = require('pragmatik');
 //project
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-import {makeProxy} from './make-proxy2';
+import {makeProxy} from './make-proxy';
 import {makeBlockInjector} from '../injection/make-block-injector';
 
 /////////////////////////////////////////////////////////////////////

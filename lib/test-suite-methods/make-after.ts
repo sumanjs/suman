@@ -63,13 +63,12 @@ const handleBadOptions = function (opts: IAfterOpts): void {
 
 ////////////////////////////////////////////////////////////////////////////
 
-export const makeAfter = function (suman: ISuman, zuite: ITestSuite): IAfterFn {
+export const makeAfter = function (suman: ISuman): IAfterFn {
 
   return function ($desc: string, $opts: IAfterOpts): ITestSuite {
 
+    const zuite = suman.ctx;
     handleSetupComplete(zuite, typeName);
-    const ctx = suman.ctx;
-    assert.equal(ctx, zuite, 'Fatal usage error - test block method was registered asynchronously.');
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
@@ -97,7 +96,7 @@ export const makeAfter = function (suman: ISuman, zuite: ITestSuite): IAfterFn {
     else {
 
       let obj: IAfterObj = {
-        ctx: ctx,
+        ctx: zuite,
         timeout: opts.timeout || 11000,
         desc: desc || fn.name,
         cb: opts.cb || false,

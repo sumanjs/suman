@@ -1,10 +1,10 @@
 'use strict';
 
 //dts
-import {IOnceHookObj} from "suman-types/dts/test-suite";
-import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
-import {ITestDataObj} from "suman-types/dts/it";
-import {ISuman, Suman} from "../suman";
+import {IOnceHookObj} from 'suman-types/dts/test-suite';
+import {IGlobalSumanObj, IPseudoError} from 'suman-types/dts/global';
+import {ITestDataObj} from 'suman-types/dts/it';
+import {ISuman, Suman} from '../suman';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -28,7 +28,7 @@ const {makeTheTrap} = require('./make-the-trap');
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface ITestSet {
+export interface ITestSet {
   tests: Array<ITestDataObj>
 }
 
@@ -48,13 +48,12 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
         chalk.underline.gray.bold.italic(`▶ ${self.desc} ▷ `));
     }
 
-
     //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
     if (suman.describeOnlyIsTriggered && !this.only) {
       this.skippedDueToOnly = this.skipped = true;
     }
 
-    // important - push all afters "last" onto afters array
+    // important - push all afters 'last' onto afters array
     this.mergeAfters();
 
     const q = suman.getQueue();
@@ -66,9 +65,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
         runBefores: function (cb: Function) {
 
-          //TODO: can probably prevent befores from running by checking self.tests.length < 1
-
-          // NOTE: we always run before hooks, even if
+          // NOTE: we always run before hooks, because child suites might have tests
           async.eachSeries(self.getBefores(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
             handleBeforesAndAfters(self, aBeforeOrAfter, cb);
           }, function complete(err: IPseudoError) {

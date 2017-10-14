@@ -1,25 +1,25 @@
 'use strict';
 
 //dts
-import {IInjectFn} from "suman-types/dts/inject";
-import {IGlobalSumanObj} from "suman-types/dts/global";
-import {IBeforeFn} from "suman-types/dts/before";
-import {ITestSuite, TestSuiteMethodType} from "suman-types/dts/test-suite";
-import {ITestSuiteMakerOpts, TTestSuiteMaker} from "suman-types/dts/test-suite-maker";
-import {ISuman, Suman} from "../suman";
-import {ItFn} from "suman-types/dts/it";
-import {IDescribeFn} from "suman-types/dts/describe";
-import {IBeforeEachFn} from "suman-types/dts/before-each";
-import {IAfterEachFn} from "suman-types/dts/after-each";
-import {IAfterFn} from "suman-types/dts/after";
+import {IInjectFn} from 'suman-types/dts/inject';
+import {IGlobalSumanObj} from 'suman-types/dts/global';
+import {IBeforeFn} from 'suman-types/dts/before';
+import {ITestSuite, TestSuiteMethodType} from 'suman-types/dts/test-suite';
+import {ITestSuiteMakerOpts, TTestSuiteMaker} from 'suman-types/dts/test-suite-maker';
+import {ISuman, Suman} from '../suman';
+import {ItFn} from 'suman-types/dts/it';
+import {IDescribeFn} from 'suman-types/dts/describe';
+import {IBeforeEachFn} from 'suman-types/dts/before-each';
+import {IAfterEachFn} from 'suman-types/dts/after-each';
+import {IAfterFn} from 'suman-types/dts/after';
 import {incr} from '../misc/incrementer';
-import {ITestDataObj} from "suman-types/dts/it";
-import {IBeforeObj} from "suman-types/dts/before";
-import {IBeforeEachObj} from "suman-types/dts/before-each";
-import {IAfterObj} from "suman-types/dts/after";
-import {IAFterEachObj} from "suman-types/dts/after-each";
-import {IInjectionObj} from "suman-types/dts/test-suite";
-import {TestBlockBase} from "./test-block-base";
+import {ITestDataObj} from 'suman-types/dts/it';
+import {IBeforeObj} from 'suman-types/dts/before';
+import {IBeforeEachObj} from 'suman-types/dts/before-each';
+import {IAfterObj} from 'suman-types/dts/after';
+import {IAFterEachObj} from 'suman-types/dts/after-each';
+import {IInjectionObj} from 'suman-types/dts/test-suite';
+import {TestBlockBase} from './test-block-base';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -40,21 +40,8 @@ import {freezeExistingProps} from 'freeze-existing-props';
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-import {makeProxy} from './make-proxy';
 const {makeStartSuite} = require('./make-start-suite');
-
-
-// TestSuite methods
-import {makeIt} from '../test-suite-methods/make-it';
-import {makeAfter} from '../test-suite-methods/make-after';
-import {makeAfterEach} from '../test-suite-methods/make-after-each';
-import {makeBeforeEach} from '../test-suite-methods/make-before-each';
-import {makeBefore} from '../test-suite-methods/make-before';
-import {makeInject} from '../test-suite-methods/make-inject';
-import {makeDescribe} from '../test-suite-methods/make-describe';
-import {makeAfterAllParentHooks} from '../test-suite-methods/make-after-all-parent-hooks';
 import symbols from '../helpers/symbols';
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -175,7 +162,6 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
         return afterEaches;
       };
 
-
       this.interface = suman.interface;
       this.desc = this.title = obj.desc;
 
@@ -189,67 +175,6 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
           zuite.__resume.apply(zuite, args);
         });
       };
-
-      /////////////////////////////////////////////////////////////////////////////////////////
-
-     /* const inject: IInjectFn = makeInject(suman, this);
-      const before: IBeforeFn = makeBefore(suman, this);
-      const after: IAfterFn = makeAfter(suman, this);
-      const beforeEach: IBeforeEachFn = makeBeforeEach(suman, this);
-      const afterEach: IAfterEachFn = makeAfterEach(suman, this);
-      const it: ItFn = makeIt(suman, this);
-      const afterAllParentHooks = makeAfterAllParentHooks(suman, this);
-      const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestBlock, this, notifyParent, blockInjector);
-
-      /////////////////////////////////////////////////////////////////////////////////////////
-
-      const getProxy = makeProxy(suman, this);
-
-      // _interface === 'TDD' ? this.setup = before : this.before = before;
-      this.describe = this.context = this.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
-      this.it = this.test = getProxy(it, rules.testCaseSignature) as ItFn;
-      this.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
-      this.before = this.beforeAll = this.setup = getProxy(before, rules.hookSignature) as IBeforeFn;
-      this.beforeEach = this.setupTest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
-      this.after = this.afterAll = this.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
-      this.afterEach = this.teardownTest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
-      this.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
-
-      //////////////////  the following getters are used with the injection container ////////////////////////
-
-      this[symbols.context] = this[symbols.describe] = this[symbols.suite] = function () {
-        return describe;
-      };
-
-      this.get_inject = function () {
-        return inject;
-      };
-
-      this[symbols.test] = this[symbols.it] = function () {
-        return it;
-      };
-
-      // lowercase for a reason
-      this[symbols.before] = this[symbols.setup] = this[symbols.beforeall] = function () {
-        return before;
-      };
-
-      // lowercase for a reason
-      this[symbols.after] = this[symbols.afterall] = this[symbols.teardown] = function () {
-        return after;
-      };
-
-      // lowercase for a reason
-      this[symbols.aftereach] = this[symbols.teardowntest] = function () {
-        return afterEach;
-      };
-
-      // lowercase for a reason
-      this[symbols.beforeeach] = this[symbols.setuptest] = function () {
-        return beforeEach;
-      };
-*/
-
 
       // freezeExistingProps(this);
 

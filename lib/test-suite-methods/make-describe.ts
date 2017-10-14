@@ -66,7 +66,7 @@ const handleBadOptions = function (opts: IDescribeOpts) {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestBlock: any,
-                                      zuite: ITestSuite, notifyParentThatChildIsComplete: Function,
+                                      notifyParentThatChildIsComplete: Function,
                                       blockInjector: Function): IDescribeFn {
 
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,6 +74,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
   return function ($$desc: string, $opts: IDescribeOpts) {
 
     const {sumanOpts} = _suman;
+    const zuite = suman.ctx;
     handleSetupComplete(zuite, 'describe');
 
     const args = pragmatik.parse(arguments, rules.blockSignature, {
@@ -153,7 +154,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     const deps = fnArgs(cb);
 
 
-    suite._run = function run(val: any, callback: Function) {
+    suite._run = function (val: any, callback: Function) {
 
       if (zuite.skipped || zuite.skippedDueToDescribeOnly) {
         notifyParentThatChildIsComplete(zuite, callback);
@@ -288,10 +289,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                 }
 
               };
-
-              // Object.freeze(suite);
-              // Object.freeze(suite);
-              cb.apply(suite, $deps);
+              
+              cb.apply(null, $deps);
             }
 
           });

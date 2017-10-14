@@ -59,10 +59,11 @@ const handleBadOptions = function (opts: IAfterEachOpts): void {
 //////////////////////////////////////////////////////////////////////////////
 
 
-export const makeAfterEach = function (suman: ISuman, zuite: ITestSuite): IAfterEachFn {
+export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
 
   return function ($$desc: string, $opts: IAfterEachOpts): ITestSuite {
 
+    const zuite = suman.ctx;
     handleSetupComplete(zuite, typeName);
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {

@@ -12,7 +12,7 @@ const pragmatik = require('pragmatik');
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeProxy = function (suman: ISuman, ctx: ITestSuite): Function {
+export const makeProxy = function (suman: ISuman): Function {
 
   return function getProxy(method: Function, rule: Object, props?: Array<string>): Function {
 
@@ -23,6 +23,8 @@ export const makeProxy = function (suman: ISuman, ctx: ITestSuite): Function {
      this way we only create the functions we need, instead of enumerating them all here.
      this makes for a leaner and more maintenable codebase as well as potentially higher performance.
     */
+
+    ///////////////////////////////////////////////////////
 
     return new Proxy(method, {
       get: function (target, prop) {
@@ -47,13 +49,13 @@ export const makeProxy = function (suman: ISuman, ctx: ITestSuite): Function {
 
         let cache, cacheId = newProps.join('-');
 
-        let fnCache = ctx.testBlockMethodCache.get(method);
+        let fnCache = suman.testBlockMethodCache.get(method);
         if (!fnCache) {
           fnCache = {};
-          ctx.testBlockMethodCache.set(method, fnCache);
+          suman.testBlockMethodCache.set(method, fnCache);
         }
 
-        if (cache = ctx.testBlockMethodCache.get(method)[cacheId]) {
+        if (cache = suman.testBlockMethodCache.get(method)[cacheId]) {
           return cache;
         }
 
@@ -67,11 +69,10 @@ export const makeProxy = function (suman: ISuman, ctx: ITestSuite): Function {
 
           args[1].__preParsed = true;
           // assert.equal(suman.ctx, ctx, 'Fatal usage error - test block method was registered asynchronously.');
-          return method.apply(ctx, args);
+          return method.apply(null, args);
         };
 
         return fnCache[cacheId] = getProxy(fn, rule, newProps);
-
       }
     });
   };

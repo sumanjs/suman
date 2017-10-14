@@ -148,9 +148,9 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         let arg;
 
         if (isGeneratorFn) {
-          const handleGenerator = helpers.makeHandleGenerator(fini);
+          const handleReturnVal = helpers.handleReturnVal(fini, fnStr);
           arg = [freezeExistingProps(t)];
-          handleGenerator(aBeforeOrAfter.fn, arg, aBeforeOrAfter.ctx);
+          handleReturnVal(helpers.handleGenerator(aBeforeOrAfter.fn, arg));
         }
         else if (aBeforeOrAfter.cb) {
 
@@ -190,15 +190,15 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
           arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
 
-          if (aBeforeOrAfter.fn.call(aBeforeOrAfter.ctx, arg)) {  //check to see if we have a defined return value
+          if (aBeforeOrAfter.fn.call(null, arg)) {  //check to see if we have a defined return value
             _suman.writeTestError(cloneError(aBeforeOrAfter.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
 
         }
         else {
-          const handlePotentialPromise = helpers.handlePotentialPromise(fini, fnStr);
+          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
           arg = freezeExistingProps(t);
-          handlePotentialPromise(aBeforeOrAfter.fn.call(aBeforeOrAfter.ctx, arg), warn);
+          handlePotentialPromise(aBeforeOrAfter.fn.call(null, arg), warn);
         }
 
       });

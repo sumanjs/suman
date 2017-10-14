@@ -17,7 +17,7 @@ const makeGen = require('../helpers/async-gen');
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-export const handlePotentialPromise = function (done: Function, str: string) {
+export const handleReturnVal = function (done: Function, str: string) {
 
   return function handle(val: any, warn: boolean, d: ISumanDomain) {
 
@@ -89,15 +89,9 @@ export const handlePotentialPromise = function (done: Function, str: string) {
   }
 };
 
-export const makeHandleGenerator = function (done: Function) {
-
-  return function (fn: Function, args: Array<any>, ctx: Object) {
-    const gen = makeGen(fn, ctx);
-    gen.apply(ctx, args).then(function (val: any) {
-      done(null, val);
-    }, done);
-
-  }
+export const handleGenerator = function (fn: Function, args: Array<any>) {
+    const gen = makeGen(fn, null);
+    return gen.apply(null, args);
 };
 
 ///////////// support node style imports //////////////////////////////////////////////////

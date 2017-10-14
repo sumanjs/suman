@@ -146,7 +146,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         t.test.desc = test.desc;
         t.test.testId = test.testId;
 
-        if(aBeforeOrAfterEach.type === 'afterEach/teardownTest'){
+        if (aBeforeOrAfterEach.type === 'afterEach/teardownTest') {
           // these properties are sent to afterEach hooks, but not beforeEach hooks
           t.test.result = test.error ? 'failed' : 'passed';
           t.test.error = test.error;
@@ -173,9 +173,9 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         let args;
 
         if (isGeneratorFn) {
-          const handleGenerator = helpers.makeHandleGenerator(fini);
+          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
           args = [freezeExistingProps(t)];
-          handleGenerator(aBeforeOrAfterEach.fn, args, aBeforeOrAfterEach.ctx);
+          handlePotentialPromise(helpers.handleGenerator(aBeforeOrAfterEach.fn, args));
         }
         else if (aBeforeOrAfterEach.cb) {
 
@@ -220,16 +220,16 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
           args = Object.setPrototypeOf(dne, freezeExistingProps(t));
 
-          if (aBeforeOrAfterEach.fn.call(aBeforeOrAfterEach.ctx, args)) {
+          if (aBeforeOrAfterEach.fn.call(null, args)) {
             _suman.writeTestError(cloneError(aBeforeOrAfterEach.warningErr,
               constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
         }
         else {
 
-          const handlePotentialPromise = helpers.handlePotentialPromise(fini, fnStr);
+          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
           args = freezeExistingProps(t);
-          handlePotentialPromise(aBeforeOrAfterEach.fn.call(aBeforeOrAfterEach.ctx, args), false);
+          handlePotentialPromise(aBeforeOrAfterEach.fn.call(null, args), false);
         }
 
       });

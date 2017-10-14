@@ -65,10 +65,11 @@ const handleBadOptions = function (opts: IBeforeOpts) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-export const makeBefore = function (suman: ISuman, zuite: ITestSuite): IBeforeFn {
+export const makeBefore = function (suman: ISuman): IBeforeFn {
 
   return function ($$desc: string, $opts: IBeforeOpts) {
 
+    const zuite = suman.ctx;
     handleSetupComplete(zuite, 'before');
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {

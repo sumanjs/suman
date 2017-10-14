@@ -186,7 +186,7 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
 
           }
           else {
-            const handlePotentialPromise = helpers.handlePotentialPromise(fini, fnStr);
+            const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
             arg = freezeExistingProps(t);
             handlePotentialPromise(anAfter.fn.call(anAfter.ctx, arg), warn);
           }
