@@ -6,8 +6,6 @@ node_js:
   - '8'
   - '7'
   - '6'
-  - '5'
-  - '4'
 env:
   - CXX=g++-4.8
 cache:
@@ -24,8 +22,8 @@ addons:
 before_install: 'if [[ `npm -v` != 4* ]]; then npm i -g npm@4; fi'
 install:
   - npm install
-script: 'npm install istanbul && npm link && npm link suman && suman test/src/dev/node/injection.test.js'
-after_script: 'npm install coveralls && cat coverage/lcov.info | ./node_modules/.bin/coveralls'
+script: 'npm cache clean && npm install istanbul && npm link && npm link suman && suman test/src/dev/node/injection.test.js'
+after_script: 'npm install -g coveralls && cat coverage/lcov.info | coveralls'
 notifications:
   email: false
   slack:
