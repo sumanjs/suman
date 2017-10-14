@@ -100,7 +100,14 @@ process.prependOnceListener('exit', function (code: number) {
     if (start = process.env['SUMAN_START_TIME']) {
       _suman.log('Absolute total time => ', (Date.now() - start));
     }
-    _suman.log('Suman test is exiting with code ' + code + ' ', extra);
+
+    if(code > 0){
+      _suman.log(`Suman test is exiting with code ${code}  ${extra}`);
+    }
+    else{
+      _suman.log(chalk.bold(`Suman test is exiting with code ${code}  ${extra}`));
+    }
+
     console.log('\n');
   }
 
