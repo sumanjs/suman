@@ -27,4 +27,4 @@ npm install -S babel-preset-latest
 #[ ! -d "node_modules/babel-preset-stage-2" ] && npm install babel-preset-stage-2
 #[ ! -d "node_modules/babel-preset-stage-3" ] &&  npm install babel-preset-stage-3
 
-cd $(dirname "$0") && NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules webpack
+cd $(dirname "$0") && NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules" webpack
