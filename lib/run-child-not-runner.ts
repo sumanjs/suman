@@ -87,7 +87,7 @@ export const run = function (files: Array<string>) {
 
   process.prependOnceListener('exit', function (code: number) {
     if (!_suman.isActualExitHandlerRegistered) {
-      _suman.logError(chalk.magenta('Warning, you may have failed to point Suman to an actual Suman test file.');
+      _suman.logError(chalk.magenta('Warning - you may have failed to point Suman to an actual Suman test file.');
       _suman.logError(chalk.magenta('Or there was an immediate error, which prevented any other exit handlers from being registered.'));
     }
   });

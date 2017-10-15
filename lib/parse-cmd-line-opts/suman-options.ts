@@ -33,6 +33,12 @@ module.exports = [
     'but do not want failing to tests to unnecessarily break things.'
   },
   {
+    names: ['color', 'force-color'],
+    type: 'string',
+    help: 'Tells the NPM colors module use control chars for color.',
+    env: 'FORCE_COLOR'
+  },
+  {
     names: ['no-color', 'no-colors'],
     type: 'bool',
     help: 'Tells the NPM colors module to not use any control chars for color.'
@@ -53,7 +59,7 @@ module.exports = [
     help: 'Print tool version and exit.'
   },
   {
-    names: ['default'],
+    names: ['default'],  // "suman --default" is same as "suman --"
     type: 'bool',
     help: 'Run the files represented by the settings in suman.conf.js.'
   },
@@ -573,7 +579,7 @@ module.exports = [
     help: 'Pass exec arguments through command line.'
   },
   {
-    names: ['user-args','child-args'],
+    names: ['user-args', 'child-args'],
     type: 'string',
     help: 'Pass user arguments through command line.'
   },
