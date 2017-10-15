@@ -146,7 +146,7 @@ process.on('warning', function (w: Error) {
 process.removeAllListeners('uncaughtException');
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
-  debugger;
+  debugger; // leave debugger statement here
 
   if (!err) {
     err = new Error('falsy value passed to uncaught exception handler.');
@@ -203,8 +203,6 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 
   process.nextTick(function () {
 
-    debugger;
-
     let d;
     if (d = process.domain) {
       if (d.sumanTestCase || d.sumanEachHook || d.sumanAllHook) {
@@ -215,10 +213,8 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       }
     }
 
-    debugger;
 
     if (d = Domain._stack && Domain._stack.pop()) {
-      debugger;
       if (d.sumanTestCase || d.sumanEachHook || d.sumanAllHook) {
         avoidShutdown = true;
         typeof err === 'object' && (err._alreadyHandledBySuman = true);
@@ -235,13 +231,12 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 
     setTimeout(function () {
 
+      debugger; // leave debugger statement here
+
       if (avoidShutdown) {
-        debugger;
         _suman.logWarning('suman avoided a shutdown, by catching the domain.');
         return;
       }
-
-      debugger;
 
       let msg = err.stack || err;
 

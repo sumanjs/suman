@@ -10,7 +10,7 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
 
   const {child_process, http} = $core;
 
-  debugger;
+
 
   describe('here we go', function () {
 

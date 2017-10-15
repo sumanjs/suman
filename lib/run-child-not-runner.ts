@@ -24,6 +24,8 @@ const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 process.on('uncaughtException', function (err: IPseudoError) {
 
+  debugger;
+
   if (!err) {
     err = new Error('falsy value passed to uncaught exception handler.');
   }

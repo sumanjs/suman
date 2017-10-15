@@ -1,2 +1,3 @@
-const chalk = require('chalk');
-console.log(chalk.red('foobar'));
+
+
+console.log([4].slice(-3));
