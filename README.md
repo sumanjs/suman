@@ -5,11 +5,11 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/sumanjs/suman.svg)](https://greenkeeper.io/)
 
-[![Build Status](https://travis-ci.org/sumanjs/suman.svg?branch=master)](https://travis-ci.org/ORESoftware/suman)
+[![Build Status](https://travis-ci.org/sumanjs/suman.svg?branch=master)](https://travis-ci.org/sumanjs/suman)
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1072/badge)](https://bestpractices.coreinfrastructure.org/projects/1072)
 
-[![Coverage Status](https://coveralls.io/repos/github/ORESoftware/suman/badge.svg?branch=master)](https://coveralls.io/github/ORESoftware/suman?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/sumanjs/suman/badge.svg?branch=master)](https://coveralls.io/github/sumanjs/suman?branch=master)
 
 
 # Suman: universal test runner, primarily for Node.js and front-end JavaScript
