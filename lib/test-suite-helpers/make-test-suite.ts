@@ -58,11 +58,12 @@ const makeRunChild = function (val: any) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
-                                       handleBeforesAndAfters: Function, notifyParent: Function): TestBlockBase {
+                                       handleBeforesAndAfters: Function, notifyParent: Function): any {
 
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
+  const startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
 
-  class TestBlock extends TestBlockBase {
+  return class TestBlock extends TestBlockBase {
 
     constructor(obj: ITestSuiteMakerOpts) {
 
@@ -180,31 +181,29 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
 
     }
 
-  }
-
-  TestBlock.prototype.toString = function () {
-    debugger;
-    return 'cheeseburger:' + this.desc;
-  };
-
-  TestBlock.prototype.invokeChildren = function (val: any, start: Function) {
-    async.eachSeries(this.getChildren(), makeRunChild(val), start);
-  };
-
-  TestBlock.prototype.series = function (cb: Function) {
-    if (typeof cb === 'function') {
-      cb.apply(this, [(_interface === 'TDD' ? this.test : this.it).bind(this)]);
+    startSuite() {
+      return startSuite.apply(this, arguments);
     }
-    return this;
-  };
 
-  TestBlock.prototype.bindExtras = function bindExtras() {
-    suman.ctx = this;
-  };
+    toString() {
+      return 'cheeseburger:' + this.desc;
+    }
 
-  TestBlock.prototype.startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
+    series(cb: Function) {
+      if (typeof cb === 'function') {
+        cb.apply(this, [(_interface === 'TDD' ? this.test : this.it).bind(this)]);
+      }
+      return this;
+    }
 
-  return TestBlock;
+    invokeChildren(val: any, start: Function) {
+      async.eachSeries(this.getChildren(), makeRunChild(val), start);
+    }
+
+    bindExtras() {
+      return suman.ctx = this;
+    }
+  }
 
 };
 

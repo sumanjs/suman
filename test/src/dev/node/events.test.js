@@ -6,7 +6,7 @@ const {Test} = suman.init(module);
 
 ///////////////////////////////////////////////////////////////////////
 
-Test.create(function (assert, describe, before, beforeEach, after, afterEach, it, $core, events) {
+Test.create(function (b, assert, describe, before, beforeEach, after, afterEach, it, $core, events) {
 
   const EventEmitter = events.EventEmitter;
 
