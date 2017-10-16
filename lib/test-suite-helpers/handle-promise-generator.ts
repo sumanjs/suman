@@ -51,12 +51,12 @@ export const handleReturnVal = function (done: Function, str: string, testOrHook
     }
     else if (su.isSubscriber(val)) {
 
-      const _next = val._next;
+      const next = val._next;
       const _error = val._error;
-      const _complete = val._complete;
+      const complete = val._complete;
 
       val._next = function () {
-        _next.apply(val, arguments);
+        next.apply(val, arguments);
       };
 
       val._error = function (e: IPseudoError) {
@@ -65,7 +65,7 @@ export const handleReturnVal = function (done: Function, str: string, testOrHook
       };
 
       val._complete = function () {
-        _complete.apply(val, arguments);
+        complete.apply(val, arguments);
         done();
       }
 
@@ -92,12 +92,28 @@ export const handleReturnVal = function (done: Function, str: string, testOrHook
         }
       };
 
-      const successEvents = _.union(defaultSuccessEvents, _.flattenDeep([testOrHook.successEvents]));
+      const eventsSuccess = testOrHook.events && testOrHook.events.success;
+      const eventsError = testOrHook.events && testOrHook.events.error;
+
+      /*
+        options could look like:
+
+        test('example', {
+           events: { success: 'done', error: ['error', 'bubba']}
+           successEvents: ['foobar'],
+           errorEvents: 'fizzbar',
+        }, t => {});
+
+      */
+
+      const successEvents = (testOrHook.successEvents || eventsSuccess) ?
+        _.flattenDeep([testOrHook.successEvents, eventsSuccess]) : defaultSuccessEvents;
       successEvents.forEach(function (name: string) {
         val.once(name, onSuccess);
       });
 
-      const errorEvents = _.union(defaultErrorEvents, _.flattenDeep([testOrHook.errorEvents]));
+      const errorEvents = (testOrHook.errorEvents || eventsError)
+        ? _.flattenDeep([testOrHook.errorEvents, eventsError]) : defaultErrorEvents;
       errorEvents.forEach(function (name: string) {
         val.once(name, onError);
       });

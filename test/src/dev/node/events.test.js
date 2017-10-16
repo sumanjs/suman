@@ -15,7 +15,6 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
     const ee = new EventEmitter();
 
     setTimeout(function () {
-      console.log('emitting done');
       ee.emit('done');
     }, 300);
 
@@ -23,13 +22,24 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
 
   });
 
-  it('test successEvents', {errorEvents: ['bubba']}, t => {
+  it('test successEvents', {throws: /zoom/, errorEvents: ['bubba']}, t => {
 
     const ee = new EventEmitter();
 
     setTimeout(function () {
-      console.log('emitting bubba error');
-      ee.emit('bubba',new Error('zoom'));
+      ee.emit('bubba', new Error('zoom'));
+    }, 300);
+
+    return ee;
+
+  });
+
+  it('test successEvents', {throws: /zoom/, events: {error: ['bubba']}}, t => {
+
+    const ee = new EventEmitter();
+
+    setTimeout(function () {
+      ee.emit('bubba', new Error('zoom'));
     }, 300);
 
     return ee;
