@@ -92,7 +92,7 @@
     "@types/chalk": "^0.4.31",
     "@types/core-js": "^0.9.35",
     "@types/lodash": "^4.14.50",
-    "@types/node": "^7.0.29",
+    "@types/node": "^8.0.35",
     "@types/socket.io": "^1.4.29",
     "@types/socket.io-client": "^1.4.29",
     "bluebird": "^3.4.7",
