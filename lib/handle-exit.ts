@@ -111,10 +111,10 @@ process.prependOnceListener('exit', function (code: number) {
     console.log('\n');
   }
 
-  if (typeof _suman.absoluteLastHook === 'function') {
-    _suman.logError('killing daemon process, using absolute last hook.');
-    _suman.absoluteLastHook(code);
-  }
+  // if (typeof _suman.absoluteLastHook === 'function') {
+  //   _suman.logError('killing daemon process, using absolute last hook.');
+  //   _suman.absoluteLastHook(code);
+  // }
 
   // this is important, because we *can* change the exit code by using this call
   process.exitCode = code;

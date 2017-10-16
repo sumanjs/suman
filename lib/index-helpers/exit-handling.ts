@@ -2,6 +2,7 @@
 
 //dts
 import {IGlobalSumanObj, IPromiseWithDomain, ISumanDomain, SumanErrorRace} from "suman-types/dts/global";
+import {Dictionary} from "async";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -98,6 +99,8 @@ let sigintCount = 0;
 
 process.on('SIGINT', function () {
 
+  debugger; // leave debugger statement here
+
   sigintCount++;
   console.log('\n');
   _suman.logError(chalk.red('SIGINT signal caught by suman process.'));
@@ -115,6 +118,8 @@ process.on('SIGINT', function () {
 let sigtermCount = 0;
 
 process.on('SIGTERM', function () {
+
+  debugger; // leave debugger statement here
 
   sigtermCount++;
   console.log('\n');
