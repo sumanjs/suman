@@ -12,18 +12,19 @@
 [![Coverage Status](https://coveralls.io/repos/github/sumanjs/suman/badge.svg?branch=master)](https://coveralls.io/github/sumanjs/suman?branch=master)
 
 
-# Suman: universal test runner, primarily for Node.js and front-end JavaScript
+# Suman: universal test runner - a CLI tool to run tests in the language of your choice.
 
 Designed to run tests written in any language - because Suman runs tests as child processes - just write TAP to stdout
-via the runtime of choice (Golang, Java, Python, whatever). Intended to work with Selenium, in the browser, 
+via the runtime of choice (Golang, Java, Python, Node.js, Bash, whatever). Intended to work with Selenium, in the browser, 
 and to do large-scale backend system, integration testing and unit testing.  Suman has support for generic transpilation and 
 compilation for any language. Originally designed for TypeScript and Babel transpilation, Suman was written to support
-compiling from source to target for any language. Suman has strong support for TypeScript. (Suman is written in TypeScript,
+compiling from source to target for any language. Suman has strong support for TypeScript, and Suman is written in TypeScript,
 for maintainability). Suman is a batteries-included test runner which encourages testing best practices through its design. 
 Starting with Suman is very easy, but you will find it has extremely powerful features, as your demands increase.
 
-# Why
->  I wrote Suman because I thought Mocha was woefully lacking, and that AVA was too tightly coupled with Babel.
+# Purpose of project - why.
+>  I wrote Suman because I found test runners and harnesses in the Node.js ecosystem to be lacking.
+>  I consider Mocha to be woeful, and AVA to be too tightly coupled with Babel.
 >  If your team is interested in speeding up your testing cycles, Suman is the absolute right place to look for answers.
 >  Suman is designed to be 'better all-around' than AVA, TapJS and Mocha, etc. Reading the issue tracker for Mocha
 >  made it very apparent that Mocha was never going to be vastly improved.
@@ -32,7 +33,7 @@ Starting with Suman is very easy, but you will find it has extremely powerful fe
 
 ### &#9658; Disclaimers: 
 >
-> Suman supports Node versions >= 6.0.0, since it makes heavy use of the Proxy class and Symbols.
+> Suman supports Node versions >= 6.0.0, since it makes heavy use of the Proxy class and Symbol's.
 >
 > Windows support is on the roadmap, but will not be ready anytime soon. Currently, MacOS and *nix support only.
 >
