@@ -5,7 +5,7 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/sumanjs/suman.svg)](https://greenkeeper.io/)
 
-[![Build Status](https://travis-ci.org/ORESoftware/suman.svg?branch=master)](https://travis-ci.org/ORESoftware/suman)
+[![Build Status](https://travis-ci.org/sumanjs/suman.svg?branch=master)](https://travis-ci.org/ORESoftware/suman)
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1072/badge)](https://bestpractices.coreinfrastructure.org/projects/1072)
 

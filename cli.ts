@@ -53,7 +53,7 @@ function handleExceptionsAndRejections() {
 
 process.on('uncaughtException', function (err: Error) {
 
-  debugger; // leave it here :)
+  debugger; // leave debugger statement here
 
   if (typeof err !== 'object') {
     console.error(new Error(`err passed to uncaughtException was not an object => ${err}`).stack);
@@ -138,18 +138,18 @@ const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
 
 if (semver.lt(nodeVersion, oldestSupported)) {
   _suman.logError(chalk.red('warning => Suman is not well-tested against Node versions prior to ' +
-    oldestSupported + '; your Node version: ' + nodeVersion));
+    oldestSupported + '; your Node version: ' + chalk.bold(nodeVersion)));
   throw 'Please upgrade to a Node.js version newer than v4.0.0. Suman recommends usage of NVM.';
 }
 
-_suman.log('Node.js version:', nodeVersion);
+_suman.log('Node.js version:', chalk.bold(nodeVersion));
 
 ////////////////////////////////////////////////////////////////////
 
 const sumanLibRoot = _suman.sumanLibRoot = String(__dirname);
 const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
-_suman.log(chalk.italic('Suman v' + sumanVersion + ' running...'));
+_suman.log(chalk.italic('Suman v' + chalk.bold(sumanVersion) + ' running...'));
 _suman.log('[process.pid] => ', process.pid);
 
 ////////////////////////////////////////////////////////////////////
@@ -249,7 +249,7 @@ const diagnostics = sumanOpts.diagnostics;
 const installGlobals = sumanOpts.install_globals;
 const postinstall = sumanOpts.postinstall;
 const tscMultiWatch = sumanOpts.tsc_multi_watch;
-const sumanD = sumanOpts.suman_d;
+const sumanShell = sumanOpts.suman_shell;
 const watchPer = sumanOpts.watch_per;
 const singleProcess = sumanOpts.single_process;
 const script = sumanOpts.script;
@@ -437,7 +437,7 @@ const preOptCheck = <IPreOptCheck> {
   convert, groups, s, tailTest,
   tailRunner, interactive, uninstallBabel,
   diagnostics, installGlobals, postinstall,
-  repair, sumanD, script
+  repair, sumanShell, script
 };
 
 const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
@@ -532,8 +532,8 @@ else if (postinstall) {
 else if (installGlobals) {
   require('./lib/cli-commands/install-global-deps')(paths);
 }
-else if (sumanD) {
-  require('./lib/cli-commands/run-suman-d').run(projectRoot, sumanLibRoot, sumanOpts.suman_d_opts)
+else if (sumanShell) {
+  require('./lib/cli-commands/run-suman-shell').run(projectRoot, sumanLibRoot, sumanOpts.suman_d_opts)
 }
 else if (interactive) {
   require('./lib/cli-commands/run-suman-interactive').run();

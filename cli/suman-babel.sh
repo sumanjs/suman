@@ -10,7 +10,6 @@ RL=$(readlink "$0");
 EXECDIR=$(dirname $(dirname "${RL}"));
 MYPATH="$DIRN/$EXECDIR";
 X=$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})
-
 NEW_NODE_PATH=${NODE_PATH}:~/.suman/global/node_modules
 NEW_PATH=${PATH}:~/.suman/global/node_modules/.bin
 

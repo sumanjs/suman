@@ -100,14 +100,21 @@ process.prependOnceListener('exit', function (code: number) {
     if (start = process.env['SUMAN_START_TIME']) {
       _suman.log('Absolute total time => ', (Date.now() - start));
     }
-    _suman.log('Suman test is exiting with code ' + code + ' ', extra);
+
+    if(code > 0){
+      _suman.log(`Suman test is exiting with code ${code}  ${extra}`);
+    }
+    else{
+      _suman.log(chalk.bold(`Suman test is exiting with code ${code}  ${extra}`));
+    }
+
     console.log('\n');
   }
 
-  if (typeof _suman.absoluteLastHook === 'function') {
-    _suman.logError('killing daemon process, using absolute last hook.');
-    _suman.absoluteLastHook(code);
-  }
+  // if (typeof _suman.absoluteLastHook === 'function') {
+  //   _suman.logError('killing daemon process, using absolute last hook.');
+  //   _suman.absoluteLastHook(code);
+  // }
 
   // this is important, because we *can* change the exit code by using this call
   process.exitCode = code;

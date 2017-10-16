@@ -1,12 +1,12 @@
 {
   "name": "suman",
-  "version": "1.1.512250",
+  "version": "1.1.51227",
   "engines": {
     "node": ">=6.0.0"
   },
   "bin": {
     "suman": "cli/suman.sh",
-    "suman-d": "cli/suman-d.sh",
+    "suman-shell": "cli/suman-shell.sh",
     "suman-f": "cli/suman-f.sh",
     "suman-debug": "cli/suman-debug.sh",
     "suman--debug": "cli/suman--debug.sh",
@@ -14,8 +14,6 @@
     "suman-inspect": "cli/suman-inspect.sh",
     "suman-troubleshoot": "cli/suman-troubleshoot.js",
     "suman-daemon": "cli/suman-daemon.sh",
-    "sumand": "cli/suman-daemon.sh",
-    "suman-daemon-old": "cli/suman-daemon-old.sh",
     "sumanw": "cli/suman-watch.sh",
     "suman-w": "cli/suman-watch.sh",
     "suman-watch": "cli/suman-watch.sh"
@@ -27,7 +25,7 @@
     "test": "./dev-scripts/test.sh",
     "postinstall": "./scripts/suman-postinstall.sh"
   },
-  "author": "Olegzandr Denman",
+  "author": "Olegzandr VD",
   "license": "ISC",
   "dependencies": {
     "JSONStream": "^1.3.1",

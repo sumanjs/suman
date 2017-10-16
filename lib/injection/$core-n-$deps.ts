@@ -1,5 +1,8 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from "suman-types/dts/global";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -17,7 +20,7 @@ import su = require('suman-utils');
 const camelcase = require('camelcase');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
 
 ///////////////////////////////////////////////////////////////////
@@ -28,7 +31,7 @@ export interface ICoreAndDeps {
   mappedPkgJSONDeps: Array<string>
 }
 
-let values : ICoreAndDeps = null;
+let values: ICoreAndDeps = null;
 
 ///////////////////////////////////////////////////////////////////
 
@@ -36,77 +39,34 @@ export const getCoreAndDeps = function () {
 
   if (!values) {
 
-    const cwd = process.cwd();
-    const projectRoot = (_suman.projectRoot || su.findProjectRoot(cwd));
-    const mappedPkgJSONDeps: Array<string> = [];
-    const $deps = {};
-    const $core = {};
+    const p = new Proxy({}, {
+      get: function (target, prop) {
 
-    let pkgJSONDeps: Array<string>;
-    try {
-      const pkgJSON = path.resolve(projectRoot + '/package.json');
-      const pkg = require(pkgJSON);
-      pkgJSONDeps = Object.keys(pkg.dependencies || {});
+        const trimmed = String(prop).trim();
 
-      if (true) {  //TODO: allow a command line option to not import devDeps
-        pkgJSONDeps = pkgJSONDeps.concat(Object.keys(pkg.devDependencies || {}));
-        pkgJSONDeps = pkgJSONDeps.filter(function (item, i) {
-          //get a unique list
-          return pkgJSONDeps.indexOf(item) === i;
-        });
-      }
-    }
-    catch (err) {
-      console.log('\n', (err.stack || err), '\n');
-      pkgJSONDeps = [];
-    }
+        try {
+          return require(trimmed);
+        }
+        catch (err) { /* ignore */}
 
-// here we create container for all top-level dependencies in package.json
-// we do *not* do this for devDependencies since they are contingent and not always installed
-
-    pkgJSONDeps.forEach(function (d) {
-
-      const dashToLodash = String(d).replace('-', '_');
-      let camel = camelcase(d);
-      mappedPkgJSONDeps.push(dashToLodash);
-
-      try {
-        Object.defineProperty($deps, dashToLodash, {
-          get: function () {
-            return require(d);
+        const replaceLodashWithDash = trimmed.replace(/_/g, '-');
+        if (replaceLodashWithDash !== trimmed) {
+          try {
+            return require(replaceLodashWithDash);
           }
-        });
+          catch (err) { /* ignore */}
 
-        if (camel !== dashToLodash) {
-          camel = camel.charAt(0).toUpperCase() + camel.slice(1);
-          mappedPkgJSONDeps.push(camel);
-          Object.defineProperty($deps, camel, {
-            get: function () {
-              return require(d);
-            }
-          });
+          throw new Error(`could not require dependencies with names '${trimmed}' or '${replaceLodashWithDash}'.`)
         }
-      }
-      catch (err) {
-        _suman.logWarning('warning => ', err.message || err);
-        console.error('\n');
-      }
 
-    });
-
-// $core contains potential reference to any core modules
-    constants.CORE_MODULE_LIST.forEach(function (c) {
-      Object.defineProperty($core, c, {
-        get: function () {
-          return require(c);
-        }
-      });
+        throw new Error(`could not require dependency with name '${trimmed}'`);
+      }
     });
 
     values = {
-      $core,
-      $deps,
-      mappedPkgJSONDeps
+      $core: p,
+      $deps: p,
+      $require: p
     }
 
   }
