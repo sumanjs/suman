@@ -59,6 +59,7 @@ else if (process.argv.indexOf('--force') > 0) {
 }
 
 process.on('error', function (e: Error) {
+  debugger; // please leave it here, thx
   _suman.logError(su.getCleanErrorString(e));
 });
 
@@ -116,19 +117,11 @@ if (!SUMAN_SINGLE_PROCESS) {
 }
 
 require('./index-helpers/verify-local-global-version');
-const projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
-const main = require.main.filename;
-const usingRunner = _suman.usingRunner = _suman.usingRunner || process.env.SUMAN_RUNNER === 'yes';
-//could potentially pass dynamic path to suman config here, but for now is static
-const sumanConfig = loadSumanConfig(null, null);
-if (!_suman.usingRunner && !_suman.viaSuman) {
-  require('./helpers/print-version-info'); // just want to run this once
-}
-const sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
-const sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
-const {integrantPreFn} = sumanObj;
-const testDebugLogPath = sumanPaths.testDebugLogPath;
-fs.writeFileSync(testDebugLogPath, '\n');
+
+let projectRoot: string, sumanConfig, main: string,
+  usingRunner: boolean, testDebugLogPath: string, sumanPaths: Array<string>,
+  sumanObj: Object, integrantPreFn: Function;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -189,9 +182,7 @@ _suman.writeTestError = function (data: string, ignore: boolean) {
   }
 };
 
-fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
-_suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);
-_suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
+
 
 export const init: IInit = function ($module, $opts, confOverride): IStartCreate {
 
@@ -212,6 +203,25 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     _suman.logError('Suman usage warning: no need to use "new" keyword with the suman.init()' +
       ' function as it is not a standard constructor');
     return init.apply(null, arguments);
+  }
+
+  if(!projectRoot){
+     projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
+     main = require.main.filename;
+     usingRunner = _suman.usingRunner = _suman.usingRunner || process.env.SUMAN_RUNNER === 'yes';
+    //could potentially pass dynamic path to suman config here, but for now is static
+     sumanConfig = loadSumanConfig(null, null);
+    if (!_suman.usingRunner && !_suman.viaSuman) {
+      require('./helpers/print-version-info'); // just want to run this once
+    }
+     sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+     sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
+     integrantPreFn = sumanObj.integrantPreFn;
+     testDebugLogPath = sumanPaths.testDebugLogPath;
+    fs.writeFileSync(testDebugLogPath, '\n');
+    fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
+    _suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);
+    _suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
   }
 
   require('./handle-exit'); // handle exit here

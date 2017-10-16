@@ -37,11 +37,17 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
   _suman.afterAlwaysEngaged = true;
 
   process.on('uncaughtException', function (e: IPseudoError) {
+
+    debugger;  // leave debugger statement here
+
     _suman.logError('There was an uncaught exception, however, we are currently processing after.always blocks, ' +
       'so this exception will be ignored. => \n', chalk.magenta(su.getCleanErrStr(e)));
   });
 
   process.on('unhandledRejection', function (e: IPseudoError) {
+
+    debugger; // leave debugger statement here
+
     _suman.logError('There was an unhandled rejection, however, we are currently processing after.always blocks, ' +
       'so this exception will be ignored. => \n', chalk.magenta(su.getCleanErrStr(e)));
   });

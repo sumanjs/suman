@@ -74,6 +74,10 @@ module.exports = Object.freeze({
   defaultTestSuiteTimeout: 15000,
   expireResultsAfter: 10000000,     // test results will be deleted after this amount of time
 
+
+  ////////
+  //
+
   watch: {
     options: {
       shellExecutable: 'bash',
@@ -85,18 +89,19 @@ module.exports = Object.freeze({
     },
     per: {
       'node-dev': {
-        exec: 'suman test/src/dev/node --verbosity=4',
+        exec: 'FORCE_COLOR=0 suman test/src/dev/node --verbosity=4',
+        includes: [__dirname],
+        excludes: ['/test/', /\.ts$/],
+        confOverride: {}
+      },
+      'browser-dev': {
+        exec: 'suman test/src/dev/browser',
         includes: [__dirname],
         excludes: ['/test/', /\.ts$/],
         confOverride: {}
       }
     },
-    'browser-dev': {
-      exec: 'suman test/src/dev/browser',
-      includes: [__dirname],
-      excludes: ['/test/', /\.ts$/],
-      confOverride: {}
-    }
+
   },
 
   ////////////////////////////////////////////////////

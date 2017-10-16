@@ -21,7 +21,7 @@ export const makeProxy = function (suman: ISuman): Function {
      this function allows us to dynamically generate functions such as
      => after.last.always.skip();
      this way we only create the functions we need, instead of enumerating them all here.
-     this makes for a leaner and more maintenable codebase as well as potentially higher performance.
+     this makes for a leaner and more maintenable codebase as well as higher performance.
     */
 
     ///////////////////////////////////////////////////////
