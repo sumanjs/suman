@@ -171,7 +171,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         let args;
 
         if (isGeneratorFn) {
-          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
+          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfterEach);
           args = [freezeExistingProps(t)];
           handlePotentialPromise(helpers.handleGenerator(aBeforeOrAfterEach.fn, args));
         }
@@ -224,7 +224,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         }
         else {
 
-          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
+          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfterEach);
           args = freezeExistingProps(t);
           handlePotentialPromise(aBeforeOrAfterEach.fn.call(null, args), false);
         }

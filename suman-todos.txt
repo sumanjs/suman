@@ -6,8 +6,11 @@ three SO profiles:
 
 ///
 
+https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
+
+///
+
  suman --default  => should run default tests given by config
- suman-d => should just become suman
 
 ///
 

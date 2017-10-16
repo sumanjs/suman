@@ -196,7 +196,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         let args;
 
         if (isGeneratorFn) {
-          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
+          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr, test);
           args = [freezeExistingProps(t)];
           handlePotentialPromise(helpers.handleGenerator(test.fn, args));
         }
@@ -256,7 +256,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
         }
         else {
-          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
+          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr, test);
           args = freezeExistingProps(t);
           handlePotentialPromise(test.fn.call(null, args), warn, d);
         }

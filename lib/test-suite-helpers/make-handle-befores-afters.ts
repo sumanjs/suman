@@ -148,7 +148,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         let arg;
 
         if (isGeneratorFn) {
-          const handleReturnVal = helpers.handleReturnVal(fini, fnStr);
+          const handleReturnVal = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfter);
           arg = [freezeExistingProps(t)];
           handleReturnVal(helpers.handleGenerator(aBeforeOrAfter.fn, arg));
         }
@@ -196,7 +196,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
         }
         else {
-          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
+          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfter);
           arg = freezeExistingProps(t);
           handlePotentialPromise(aBeforeOrAfter.fn.call(null, arg), warn);
         }

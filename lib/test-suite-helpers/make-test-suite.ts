@@ -101,7 +101,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       };
 
       this.mergeAfters = function () {
-        // this is for supporting after.last feature
+        // mergeAfters is for supporting after.last feature
         while (aftersLast.length > 0) {
           afters.push(aftersLast.shift());
         }

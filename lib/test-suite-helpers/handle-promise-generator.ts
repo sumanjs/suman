@@ -1,5 +1,7 @@
 'use strict';
 import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
+import {ITestDataObj} from "suman-types/dts/it";
+import {IHookObj} from "suman-types/dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -9,6 +11,7 @@ const global = require('suman-browser-polyfills/modules/global');
 import util = require('util');
 
 //npm
+import _ = require('lodash');
 import su = require('suman-utils');
 
 //project
@@ -17,7 +20,12 @@ const makeGen = require('../helpers/async-gen');
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-export const handleReturnVal = function (done: Function, str: string) {
+const defaultSuccessEvents = ['success', 'finish', 'close', 'end', 'done'];
+const defaultErrorEvents = ['error'];
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+export const handleReturnVal = function (done: Function, str: string, testOrHook: ITestDataObj | IHookObj) {
 
   return function handle(val: any, warn: boolean, d: ISumanDomain) {
 
@@ -62,19 +70,36 @@ export const handleReturnVal = function (done: Function, str: string) {
       }
 
     }
-    else if (su.isStream(val)) {
+    else if (su.isStream(val) || su.isEventEmitter(val)) {
 
-      let success = function () {
+      let first = true;
+
+      let onSuccess = function () {
         // happens in nextTick so that if error occurs, error has a chance to sneak in
-        process.nextTick(done)
+        if (first) {
+          first = false;
+          process.nextTick(done);
+        }
       };
 
-      val.once('end', success);
-      val.once('close', success);
-      val.once('done', success);
-      val.once('finish', success);
-      val.once('error', function (e: IPseudoError) {
-        done(e || new Error('Suman dummy error.'));
+      let onError = function (e: Error) {
+        // happens in nextTick so that if error occurs, error has a chance to sneak in
+        if (first) {
+          first = false;
+          process.nextTick(function () {
+            done(e || new Error('Suman dummy error.'));
+          });
+        }
+      };
+
+      const successEvents = _.union(defaultSuccessEvents, _.flattenDeep([testOrHook.successEvents]));
+      successEvents.forEach(function (name: string) {
+        val.once(name, onSuccess);
+      });
+
+      const errorEvents = _.union(defaultErrorEvents, _.flattenDeep([testOrHook.errorEvents]));
+      errorEvents.forEach(function (name: string) {
+        val.once(name, onError);
       });
 
     }
@@ -90,15 +115,10 @@ export const handleReturnVal = function (done: Function, str: string) {
 };
 
 export const handleGenerator = function (fn: Function, args: Array<any>) {
-    const gen = makeGen(fn, null);
-    return gen.apply(null, args);
+  const gen = makeGen(fn, null);
+  return gen.apply(null, args);
 };
 
-///////////// support node style imports //////////////////////////////////////////////////
 
-let $exports = module.exports;
-export default $exports;
-
-//////////////////////////////////////////////////////////////////////////////////////////
 
 
