@@ -162,10 +162,9 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
     }
 
     resume() {
-      const self = this;
       const args = Array.from(arguments);
-      process.nextTick(function () {
-        self.__resume.apply(self, args);
+      process.nextTick(() => {
+        this.__resume.apply(this, args);
       });
     }
 
