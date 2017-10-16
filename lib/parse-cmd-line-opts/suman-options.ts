@@ -33,6 +33,12 @@ module.exports = [
     'but do not want failing to tests to unnecessarily break things.'
   },
   {
+    names: ['color', 'force-color'],
+    type: 'string',
+    help: 'Tells the NPM colors module use control chars for color.',
+    env: 'FORCE_COLOR'
+  },
+  {
     names: ['no-color', 'no-colors'],
     type: 'bool',
     help: 'Tells the NPM colors module to not use any control chars for color.'
@@ -51,6 +57,11 @@ module.exports = [
     names: ['version', 'vn'],
     type: 'bool',
     help: 'Print tool version and exit.'
+  },
+  {
+    names: ['default'],  // "suman --default" is same as "suman --"
+    type: 'bool',
+    help: 'Run the files represented by the settings in suman.conf.js.'
   },
   {
     names: ['force-match'],
@@ -372,10 +383,10 @@ module.exports = [
     help: 'Use this option to tell Suman runner to interpret TAP output from child process(es) stdout.'
   },
   {
-    names: ['suman-d'],
+    names: ['suman-shell'],
     type: 'bool',
     internal: true,  //only visible to lib authors?
-    help: 'Run suman-d.'
+    help: 'Run suman-shell.'
   },
   {
     names: ['no-tap'],
@@ -568,7 +579,7 @@ module.exports = [
     help: 'Pass exec arguments through command line.'
   },
   {
-    names: ['user-args','child-args'],
+    names: ['user-args', 'child-args'],
     type: 'string',
     help: 'Pass user arguments through command line.'
   },

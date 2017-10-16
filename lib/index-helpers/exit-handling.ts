@@ -2,6 +2,7 @@
 
 //dts
 import {IGlobalSumanObj, IPromiseWithDomain, ISumanDomain, SumanErrorRace} from "suman-types/dts/global";
+import {Dictionary} from "async";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -98,6 +99,8 @@ let sigintCount = 0;
 
 process.on('SIGINT', function () {
 
+  debugger; // leave debugger statement here
+
   sigintCount++;
   console.log('\n');
   _suman.logError(chalk.red('SIGINT signal caught by suman process.'));
@@ -115,6 +118,8 @@ process.on('SIGINT', function () {
 let sigtermCount = 0;
 
 process.on('SIGTERM', function () {
+
+  debugger; // leave debugger statement here
 
   sigtermCount++;
   console.log('\n');
@@ -146,7 +151,7 @@ process.on('warning', function (w: Error) {
 process.removeAllListeners('uncaughtException');
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
-  debugger;
+  debugger; // leave debugger statement here
 
   if (!err) {
     err = new Error('falsy value passed to uncaught exception handler.');
@@ -203,8 +208,6 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 
   process.nextTick(function () {
 
-    debugger;
-
     let d;
     if (d = process.domain) {
       if (d.sumanTestCase || d.sumanEachHook || d.sumanAllHook) {
@@ -215,10 +218,8 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       }
     }
 
-    debugger;
 
     if (d = Domain._stack && Domain._stack.pop()) {
-      debugger;
       if (d.sumanTestCase || d.sumanEachHook || d.sumanAllHook) {
         avoidShutdown = true;
         typeof err === 'object' && (err._alreadyHandledBySuman = true);
@@ -235,13 +236,12 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 
     setTimeout(function () {
 
+      debugger; // leave debugger statement here
+
       if (avoidShutdown) {
-        debugger;
         _suman.logWarning('suman avoided a shutdown, by catching the domain.');
         return;
       }
-
-      debugger;
 
       let msg = err.stack || err;
 

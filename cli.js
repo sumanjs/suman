@@ -90,14 +90,14 @@ var nodeVersion = process.version;
 var oldestSupported = suman_constants_1.constants.OLDEST_SUPPORTED_NODE_VERSION;
 if (semver.lt(nodeVersion, oldestSupported)) {
     _suman.logError(chalk.red('warning => Suman is not well-tested against Node versions prior to ' +
-        oldestSupported + '; your Node version: ' + nodeVersion));
+        oldestSupported + '; your Node version: ' + chalk.bold(nodeVersion)));
     throw 'Please upgrade to a Node.js version newer than v4.0.0. Suman recommends usage of NVM.';
 }
-_suman.log('Node.js version:', nodeVersion);
+_suman.log('Node.js version:', chalk.bold(nodeVersion));
 var sumanLibRoot = _suman.sumanLibRoot = String(__dirname);
 var pkgJSON = require('./package.json');
 var sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
-_suman.log(chalk.italic('Suman v' + sumanVersion + ' running...'));
+_suman.log(chalk.italic('Suman v' + chalk.bold(sumanVersion) + ' running...'));
 _suman.log('[process.pid] => ', process.pid);
 _suman.startTime = Date.now();
 var cwd = process.cwd();
@@ -178,7 +178,7 @@ var diagnostics = sumanOpts.diagnostics;
 var installGlobals = sumanOpts.install_globals;
 var postinstall = sumanOpts.postinstall;
 var tscMultiWatch = sumanOpts.tsc_multi_watch;
-var sumanD = sumanOpts.suman_d;
+var sumanShell = sumanOpts.suman_shell;
 var watchPer = sumanOpts.watch_per;
 var singleProcess = sumanOpts.single_process;
 var script = sumanOpts.script;
@@ -306,7 +306,7 @@ var preOptCheck = {
     convert: convert, groups: groups, s: s, tailTest: tailTest,
     tailRunner: tailRunner, interactive: interactive, uninstallBabel: uninstallBabel,
     diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
-    repair: repair, sumanD: sumanD, script: script
+    repair: repair, sumanShell: sumanShell, script: script
 };
 var optCheck = Object.keys(preOptCheck).filter(function (key, index) {
     return preOptCheck[key];
@@ -375,8 +375,8 @@ else if (postinstall) {
 else if (installGlobals) {
     require('./lib/cli-commands/install-global-deps')(paths);
 }
-else if (sumanD) {
-    require('./lib/cli-commands/run-suman-d').run(projectRoot, sumanLibRoot, sumanOpts.suman_d_opts);
+else if (sumanShell) {
+    require('./lib/cli-commands/run-suman-shell').run(projectRoot, sumanLibRoot, sumanOpts.suman_d_opts);
 }
 else if (interactive) {
     require('./lib/cli-commands/run-suman-interactive').run();

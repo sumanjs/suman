@@ -127,11 +127,17 @@ process.on('error', function (e: IPseudoError) {
 });
 
 process.once('uncaughtException', function (e: IPseudoError) {
+
+  debugger; // leave debugger statement here please
+
   _suman.logError(`${chalk.magenta('Suman runner "uncaughtException" event:')} \n ${chalk.bold(su.getCleanErrorString(e))}`);
   process.exit(1);
 });
 
 process.on('message', function (data: any) {
+
+  debugger; // leave debugger statement here please
+
   _suman.logError('Weird! => Suman runner received an IPC message:\n',
     chalk.magenta(typeof data === 'string' ? data : util.inspect(data)));
 });
