@@ -10,6 +10,10 @@ Test.create(function (b, assert, describe, before, beforeEach, after, afterEach,
 
   const EventEmitter = events.EventEmitter;
 
+  const x = b;
+
+  debugger;
+
   it('test successEvents', {successEvents: null}, t => {
 
     const ee = new EventEmitter();
