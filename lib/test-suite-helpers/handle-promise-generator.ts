@@ -16,7 +16,7 @@ import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const makeGen = require('../helpers/async-gen');
+import {makeRunGenerator} from '../helpers/async-gen';
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,9 +86,7 @@ export const handleReturnVal = function (done: Function, str: string, testOrHook
         // happens in nextTick so that if error occurs, error has a chance to sneak in
         if (first) {
           first = false;
-          process.nextTick(function () {
-            done(e || new Error('Suman dummy error.'));
-          });
+          process.nextTick(done, e || new Error('Suman dummy error.'));
         }
       };
 
@@ -112,8 +110,8 @@ export const handleReturnVal = function (done: Function, str: string, testOrHook
         val.once(name, onSuccess);
       });
 
-      const errorEvents = (testOrHook.errorEvents || eventsError)
-        ? _.flattenDeep([testOrHook.errorEvents, eventsError]) : defaultErrorEvents;
+      const errorEvents = (testOrHook.errorEvents || eventsError) ?
+        _.flattenDeep([testOrHook.errorEvents, eventsError]) : defaultErrorEvents;
       errorEvents.forEach(function (name: string) {
         val.once(name, onError);
       });
@@ -131,7 +129,7 @@ export const handleReturnVal = function (done: Function, str: string, testOrHook
 };
 
 export const handleGenerator = function (fn: Function, args: Array<any>) {
-  const gen = makeGen(fn, null);
+  const gen = makeRunGenerator(fn, null);
   return gen.apply(null, args);
 };
 

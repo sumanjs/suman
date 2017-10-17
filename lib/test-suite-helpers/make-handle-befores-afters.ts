@@ -41,6 +41,10 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     // because an after.always hook needs to run even in the presence of an uncaught exception
     aBeforeOrAfter.alreadyInitiated = true;
 
+    const onTimeout = function () {
+      fini(cloneError(aBeforeOrAfter.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR), true);
+    };
+
     const timerObj = {
       timer: setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : aBeforeOrAfter.timeout)
     };
@@ -56,9 +60,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfter, timerObj, gracefulExit, cb);
     const fnStr = aBeforeOrAfter.fn.toString();
 
-    function onTimeout() {
-      fini(cloneError(aBeforeOrAfter.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR), true);
-    }
+
 
     //TODO: need to add more info to logging statement below and also handle if fatal:false
     let dError = false;
@@ -148,9 +150,9 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         let arg;
 
         if (isGeneratorFn) {
-          const handleReturnVal = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfter);
+          const handle = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfter);
           arg = [freezeExistingProps(t)];
-          handleReturnVal(helpers.handleGenerator(aBeforeOrAfter.fn, arg));
+          handle(helpers.handleGenerator(aBeforeOrAfter.fn, arg));
         }
         else if (aBeforeOrAfter.cb) {
 
@@ -196,9 +198,9 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
         }
         else {
-          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfter);
+          const handle = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfter);
           arg = freezeExistingProps(t);
-          handlePotentialPromise(aBeforeOrAfter.fn.call(null, arg), warn);
+          handle(aBeforeOrAfter.fn.call(null, arg), warn);
         }
 
       });

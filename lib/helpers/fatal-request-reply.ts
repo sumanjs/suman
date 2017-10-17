@@ -1,5 +1,8 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from "suman-types/dts/global";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
@@ -12,9 +15,10 @@ const debug = require('suman-debug')('s:cli');
 import su = require('suman-utils');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {constants} from '../../config/suman-constants';
 import {getClient} from '../index-helpers/socketio-child-client';
+
 let callable = true;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

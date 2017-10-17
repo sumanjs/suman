@@ -149,7 +149,7 @@ _suman.log('Node.js version:', chalk.bold(nodeVersion));
 const sumanLibRoot = _suman.sumanLibRoot = String(__dirname);
 const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
-_suman.log(chalk.italic('Suman v' + chalk.bold(sumanVersion) + ' running...'));
+_suman.log(chalk.italic('Suman ' + chalk.bold('v' + sumanVersion) + ' running...'));
 _suman.log('[process.pid] => ', process.pid);
 
 ////////////////////////////////////////////////////////////////////
@@ -441,11 +441,10 @@ const preOptCheck = <IPreOptCheck> {
 };
 
 const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
-
   // we return non-falsy values
   return preOptCheck[key];
-
-}).map(function (key) {
+})
+.map(function (key) {
   const value = preOptCheck[key];
   const obj = <Partial<IPreOptCheck>> {};
   obj[key] = value;
@@ -511,6 +510,7 @@ let isTTY = process.stdout.isTTY;
 if (!process.stdout.isTTY && !useTAPOutput) {
   _suman.logError(chalk.red('you may need to turn on TAP output for test results to be captured in destination process.'));
 }
+
 
 ////////////////////// dynamically call files to minimize load, etc //////////////////////////////
 

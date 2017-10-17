@@ -97,7 +97,7 @@ _suman.log('Node.js version:', chalk.bold(nodeVersion));
 var sumanLibRoot = _suman.sumanLibRoot = String(__dirname);
 var pkgJSON = require('./package.json');
 var sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
-_suman.log(chalk.italic('Suman v' + chalk.bold(sumanVersion) + ' running...'));
+_suman.log(chalk.italic('Suman ' + chalk.bold('v' + sumanVersion) + ' running...'));
 _suman.log('[process.pid] => ', process.pid);
 _suman.startTime = Date.now();
 var cwd = process.cwd();
@@ -310,7 +310,8 @@ var preOptCheck = {
 };
 var optCheck = Object.keys(preOptCheck).filter(function (key, index) {
     return preOptCheck[key];
-}).map(function (key) {
+})
+    .map(function (key) {
     var value = preOptCheck[key];
     var obj = {};
     obj[key] = value;

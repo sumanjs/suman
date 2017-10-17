@@ -26,7 +26,7 @@ const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
 import {parseArgs} from '../helpers/parse-pragmatik-args';
-import evalOptions from '../helpers/eval-options';
+import {evalOptions} from '../helpers/eval-options';
 
 /////////////////////////////////////////////////////////////////////////////////
 

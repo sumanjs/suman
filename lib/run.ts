@@ -94,10 +94,9 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
       paths = [testSrcDir];
     }
     else {
-      throw new Error(' => Suman usage error => No "testSrcDir" prop specified in config or by command line.');
+      throw new Error('Suman usage error => No "testSrcDir" prop specified in config or by command line.');
     }
   }
-
 
   async.autoInject({
 
@@ -127,7 +126,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
       ], cb);
     },
 
-    rimrafLogs: function (cb: AsyncResultArrayCallback<Iterable<any>, Error>) {
+    rimrafLogs: function (cb: Function) {
 
       fs.mkdir(sumanCPLogs, function (err) {
 
@@ -137,7 +136,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
         async.parallel({
 
-          removeOutdated: function (cb: AsyncResultArrayCallback<Iterable<any>, Error>) {
+          removeOutdated: function (cb: Function) {
 
             fs.readdir(sumanCPLogs, function (err: Error, items) {
               if (err) {
@@ -156,7 +155,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
           },
 
-          createNew: function (cb: AsyncResultArrayCallback<Iterable<any>, Error>) {
+          createNew: function (cb: Function) {
             // let p = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
             // fs.mkdir(p, 0o777, cb);
             return process.nextTick(cb);
@@ -168,7 +167,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
     },
 
-    checkIfTSCMultiWatchLock: function (cb: ISumanErrorFirstCB) {
+    checkIfTSCMultiWatchLock: function (cb: Function) {
 
       //fs.exists is deprecated
       fs.stat(path.resolve(projectRoot + '/suman-watch.lock'), function (err) {
@@ -180,7 +179,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
       });
     },
 
-    getFilesToRun: function (cb: ISumanErrorFirstCB) {
+    getFilesToRun: function (cb: Function) {
       findFilesToRun(paths, cb);
     },
 
@@ -243,7 +242,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
             db.serialize(function () {
 
               if (rows.length > 1) {
-                console.log(' => Suman internal warning => "suman_run_id" rows length is greater than 1.');
+                _suman.logError('Suman internal warning => "suman_run_id" rows length is greater than 1.');
               }
 
               const val = rows[0] ? rows[0].run_id : 1;
@@ -314,7 +313,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
     // note: if only one file is used with the runner, then there is no possible blocking,
     // so we can ignore the suman.order.js file, and pretend it does not exist.
 
-    if (IS_SUMAN_SINGLE_PROCESS && !sumanOpts.runner && !sumanOpts.coverage) {
+    if (IS_SUMAN_SINGLE_PROCESS && !sumanOpts.runner && !sumanOpts.coverage && !sumanOpts.containerize) {
 
       console.log(ascii.suman_slant, '\n');
 

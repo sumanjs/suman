@@ -38,7 +38,7 @@ const {handleSetupComplete} = require('../handle-setup-complete');
 import {makeBlockInjector} from '../injection/make-block-injector';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
 import {parseArgs} from '../helpers/parse-pragmatik-args';
-import evalOptions from '../helpers/eval-options';
+import {evalOptions} from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -225,7 +225,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
               // Object.freeze(suite);
               // Object.freeze(suite);
-              cb.apply(suite, $deps);
+              cb.apply(null, $deps);
 
               handleInjections(suite, function (err: Error) {
 

@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {ITestSuite} from "suman-types/dts/test-suite";
 
 //polyfills
@@ -7,11 +9,11 @@ const global = require('suman-browser-polyfills/modules/global');
 
 /////////////////////////////////////////////////////////////
 
-export = function async(makeGenerator: Function, ctx: any) {
+export const makeRunGenerator =  function (fn: Function, ctx: any) {
 
   return function (): Promise<any> {
 
-    const generator = makeGenerator.apply(ctx, arguments);
+    const generator = fn.apply(ctx, arguments);
 
     const handle = function (result: any): Promise<any> {
 

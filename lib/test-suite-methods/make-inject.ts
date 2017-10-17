@@ -27,7 +27,7 @@ import su from 'suman-utils';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import evalOptions from '../helpers/eval-options';
+import {evalOptions} from '../helpers/eval-options';
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');

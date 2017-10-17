@@ -5,8 +5,8 @@ suman_watch_location="$HOME/.suman/global/node_modules/suman-watch";
 watch_log="$HOME/.suman/logs/suman-watch.log";
 
 echo "start of suman watch process" > "$HOME/.suman/logs/suman-watch.log"
-npm_global_root=$(npm root -g);
-suman_watch_global=${npm_global_root}/suman-watch/cli.js
+npm_global_root="$(npm root -g)";
+suman_watch_global="${npm_global_root}/suman-watch/cli.js"
 
 
 if [[ -L ${suman_watch_global} || -f ${suman_watch_global} ]]; then

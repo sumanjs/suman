@@ -1,2 +1,1 @@
-declare const _default: (makeGenerator: Function, ctx: any) => () => Promise<any>;
-export = _default;
+export declare const makeRunGenerator: (fn: Function, ctx: any) => () => Promise<any>;

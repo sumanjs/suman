@@ -59,7 +59,7 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
     userDataObj = {};
   }
 
-  let postInjector = makePostInjector(userDataObj, null);
+  let postInjector = makePostInjector(userDataObj, null, null);
   const first: ISumanErrorFirstCB = su.onceAsync(this, cb);
 
   let oncePostModule: Function,
