@@ -23,7 +23,7 @@ const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
-import evalOptions from '../helpers/eval-options';
+import {evalOptions} from '../helpers/eval-options';
 import {parseArgs} from '../helpers/parse-pragmatik-args';
 
 
@@ -102,6 +102,9 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
         cb: opts.cb || false,
         throws: opts.throws,
         always: opts.always,
+        successEvents: opts.successEvents,
+        errorEvents: opts.errorEvents,
+        events: opts.events,
         last: opts.last,
         planCountExpected: opts.plan,
         fatal: !(opts.fatal === false),

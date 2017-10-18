@@ -23,7 +23,7 @@ const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 
 const stckMapFn = function (item: string, index: number) {
 
-  const fst = _suman.sumanOpts.full_stack_traces;
+  const fst = _suman.sumanOpts && _suman.sumanOpts.full_stack_traces;
 
   if(!item){
     return '';
@@ -85,7 +85,7 @@ export const makeHandleTestResults = function (suman: ISuman) {
         .concat('\n');
       }
       else {
-        throw new Error('Suman internal implementation error => invalid error format.');
+        throw new Error('Suman internal implementation error => invalid error format, please report this.');
       }
 
       if (su.isSumanDebug()) {

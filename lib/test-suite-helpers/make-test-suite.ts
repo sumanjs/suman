@@ -42,6 +42,7 @@ const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {makeStartSuite} = require('./make-start-suite');
 import symbols from '../helpers/symbols';
+import {TestBlockSymbols} from '../symbols/test-suite';
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,11 +59,12 @@ const makeRunChild = function (val: any) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
-                                       handleBeforesAndAfters: Function, notifyParent: Function): TestBlockBase {
+                                       handleBeforesAndAfters: Function, notifyParent: Function): any {
 
   const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
+  const startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
 
-  class TestBlock extends TestBlockBase {
+  return class TestBlock extends TestBlockBase {
 
     constructor(obj: ITestSuiteMakerOpts) {
 
@@ -82,129 +84,113 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       this.filename = suman.filename;
       this.childCompletionCount = 0;
       this.completedChildrenMap = new Map();
-
-      const children: Array<ITestSuite> = [];
-      const tests: Array<ITestDataObj> = [];
-      const parallelTests: Array<ITestDataObj> = [];
-      const testsParallel: Array<any> = [];
-      const loopTests: Array<any> = [];
-      const befores: Array<IBeforeObj> = [];
-      const beforeEaches: Array<IBeforeEachObj> = [];
-      const afters: Array<IAfterObj> = [];
-      const aftersLast: Array<IAfterObj> = [];
-      const afterEaches: Array<IAFterEachObj> = [];
-      const injections: Array<IInjectionObj> = [];
-      const getAfterAllParentHooks: Array<IAfterAllParentHooks> = [];
-
-      this.getAfterAllParentHooks = function () {
-        return getAfterAllParentHooks;
-      };
-
-      this.mergeAfters = function () {
-        // this is for supporting after.last feature
-        while (aftersLast.length > 0) {
-          afters.push(aftersLast.shift());
-        }
-      };
-
       this.injectedValues = {};
-
-      this.getInjectedValue = function (key: string) {
-        if (key in this.injectedValues) {
-          return this.injectedValues[key];
-        }
-        else if (this.parent) {
-          return this.parent.getInjectedValue(key);
-        }
-      };
-
-      this.getInjections = function () {
-        return injections;
-      };
-
-      this.getChildren = function () {
-        return children;
-      };
-
-      this.getTests = function () {
-        return tests;
-      };
-
-      this.getParallelTests = function () {
-        return parallelTests;
-      };
-
-      this.getTestsParallel = function () {
-        return testsParallel;
-      };
-
-      this.getLoopTests = function () {
-        return loopTests;
-      };
-
-      this.getBefores = function () {
-        return befores;
-      };
-
-      this.getBeforeEaches = function () {
-        return beforeEaches;
-      };
-
-      this.getAftersLast = function () {
-        return aftersLast;
-      };
-
-      this.getAfters = function () {
-        return afters;
-      };
-
-      this.getAfterEaches = function () {
-        return afterEaches;
-      };
-
       this.interface = suman.interface;
       this.desc = this.title = obj.desc;
 
+      this[TestBlockSymbols.children] = [] as Array<ITestSuite>;
+      this[TestBlockSymbols.tests] = [] as Array<ITestDataObj>;
+      this[TestBlockSymbols.parallelTests] = [] as Array<ITestDataObj>;
+      this[TestBlockSymbols.befores] = [] as Array<IBeforeObj>;
+      this[TestBlockSymbols.beforeEaches] = [] as Array<IBeforeEachObj>;
+      this[TestBlockSymbols.afters] = [] as Array<IAfterObj>;
+      this[TestBlockSymbols.aftersLast] = [] as Array<IAfterObj>;
+      this[TestBlockSymbols.afterEaches] = [] as Array<IAFterEachObj>;
+      this[TestBlockSymbols.injections] = [] as Array<IInjectionObj>;
+      this[TestBlockSymbols.getAfterAllParentHooks] = [] as Array<IAfterAllParentHooks>;
+
       //////////////////////////////////////////////////////////////////////////////////////
-
-      const zuite = this;
-
-      this.resume = function () {
-        const args = Array.from(arguments);
-        process.nextTick(function () {
-          zuite.__resume.apply(zuite, args);
-        });
-      };
 
       // freezeExistingProps(this);
 
     }
 
-  }
-
-  TestBlock.prototype.toString = function () {
-    debugger;
-    return 'cheeseburger:' + this.desc;
-  };
-
-  TestBlock.prototype.invokeChildren = function (val: any, start: Function) {
-    async.eachSeries(this.getChildren(), makeRunChild(val), start);
-  };
-
-  TestBlock.prototype.series = function (cb: Function) {
-    if (typeof cb === 'function') {
-      cb.apply(this, [(_interface === 'TDD' ? this.test : this.it).bind(this)]);
+    getAfterAllParentHooks() {
+      return this[TestBlockSymbols.getAfterAllParentHooks];
     }
-    return this;
-  };
 
-  TestBlock.prototype.bindExtras = function bindExtras() {
-    suman.ctx = this;
-  };
+    mergeAfters() {
+      // mergeAfters is for supporting after.last feature
+      while (this[TestBlockSymbols.aftersLast].length > 0) {
+        this[TestBlockSymbols.afters].push(this[TestBlockSymbols.aftersLast].shift());
+      }
+    }
 
-  TestBlock.prototype.startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
+    getInjectedValue(key: string) {
+      if (key in this.injectedValues) {
+        return this.injectedValues[key];
+      }
+      else if (this.parent) {
+        return this.parent.getInjectedValue(key);
+      }
+    }
 
-  return TestBlock;
+    getInjections() {
+      return this[TestBlockSymbols.injections];
+    }
+
+    getChildren() {
+      return this[TestBlockSymbols.children];
+    }
+
+    getTests() {
+      return this[TestBlockSymbols.tests];
+    }
+
+    getParallelTests() {
+      return this[TestBlockSymbols.parallelTests];
+    }
+
+    getBefores() {
+      return this[TestBlockSymbols.befores];
+    }
+
+    getBeforeEaches() {
+      return this[TestBlockSymbols.beforeEaches];
+    }
+
+    getAftersLast() {
+      return this[TestBlockSymbols.aftersLast];
+    }
+
+    getAfters() {
+      return this[TestBlockSymbols.afters];
+    }
+
+    getAfterEaches() {
+      return this[TestBlockSymbols.afterEaches];
+    }
+
+    resume() {
+      const args = Array.from(arguments);
+      process.nextTick(() => {
+        this.__resume.apply(this, args);
+      });
+    }
+
+    startSuite() {
+      return startSuite.apply(this, arguments);
+    }
+
+    toString() {
+      return 'Suman test block: ' + this.desc;
+    }
+
+    series(cb: Function) {
+      if (typeof cb === 'function') {
+        cb.apply(this, [(_interface === 'TDD' ? this.test : this.it).bind(this)]);
+      }
+      return this;
+    }
+
+    invokeChildren(val: any, start: Function) {
+      async.eachSeries(this.getChildren(), makeRunChild(val), start);
+    }
+
+    bindExtras() {
+      return suman.ctx = this;
+    }
+  }
 
 };
 

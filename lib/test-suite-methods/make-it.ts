@@ -27,7 +27,7 @@ const {constants} = require('../../config/suman-constants');
 import {incr} from '../misc/incrementer';
 const {handleSetupComplete} = require('../handle-setup-complete');
 import {parseArgs} from '../helpers/parse-pragmatik-args';
-import evalOptions from '../helpers/eval-options';
+import {evalOptions} from '../helpers/eval-options';
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -153,6 +153,9 @@ export const makeIt = function (suman: ISuman): ItFn {
       skip: opts.skip,
       value: opts.value,
       throws: opts.throws,
+      successEvents: opts.successEvents,
+      errorEvents: opts.errorEvents,
+      events: opts.events,
       fixed: opts.fixed,
       parallel: isOverallParallel,
       mode: opts.mode,

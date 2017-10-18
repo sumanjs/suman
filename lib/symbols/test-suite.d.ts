@@ -1,5 +1,4 @@
 export interface ISumanSymbols {
-    [key: string]: Symbol;
+    [key: string]: symbol;
 }
-declare const _default: ISumanSymbols;
-export default _default;
+export declare const TestBlockSymbols: ISumanSymbols;

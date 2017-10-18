@@ -36,9 +36,8 @@ fi
 mkdir -p "$HOME/.suman/global"
 mkdir -p "$HOME/.suman/logs"
 
-NPM_ROOT_GLOBAL="$(npm root -g)";
-
-export NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules"
+NPM_ROOT_GLOBAL="${suman_global_npm_modules_path:-"$(npm root -g)"}"
+export NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules":"${NPM_ROOT_GLOBAL}"
 export PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin":"${NPM_ROOT_GLOBAL}/suman-daemon/node_modules/.bin"
 export SUMAN_LIBRARY_ROOT_PATH="${NPM_ROOT_GLOBAL}/suman";
 

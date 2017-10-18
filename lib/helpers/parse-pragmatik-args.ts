@@ -1,6 +1,6 @@
 'use strict';
 
-//typesscript
+//dts
 import {IAllOpts} from "suman-types/dts/test-suite";
 
 //polyfills
@@ -31,7 +31,7 @@ export const parseArgs =  function (args: Array<any>, fnIsRequired?: boolean) {
 
   if (arr && fn) {
     //TODO: we should reference the clone error from each hook or test case
-    throw new Error(' => Suman usage error. Please define either an array or callback.');
+    throw new Error('Suman usage error. Please define either an array or callback.');
   }
 
   let arrayDeps: Array<IAllOpts>;

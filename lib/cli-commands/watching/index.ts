@@ -33,22 +33,6 @@ export const run = function (projectRoot: string, paths: Array<string>, sumanOpt
       'you can also configure Suman to do whatever you want based off a file change.');
   }
 
-
-  // const watchOpts = Object.freeze({
-  //   paths,
-  //   watchPer,
-  //   noTranspile: sumanOpts.no_transpile,
-  //   noRun: sumanOpts.no_run
-  // });
-
-
-  // const watchOpts = {
-  //   paths,
-  //   watchPer: sumanOpts.watch_per,
-  //   noRun: sumanOpts.no_run,
-  //   noTranspile: sumanOpts.no_transpile
-  // };
-
   runWatch(projectRoot, paths, sumanConfig, sumanOpts, function (err: Error) {
     if (err) {
       console.log('\n');

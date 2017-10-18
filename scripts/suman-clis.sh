@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
-# note to reader - if you wish to modify this file please move outside the ~/.suman dir, because suman
+# NOTE TO READER - if you wish to modify this file please move it outside the ~/.suman dir, because suman
 # may periodically update this file's contents which would overwrite your changes
 # if you do so, just change your .bashrc or .zshrc, or whatever, to source your file instead of this one
+
+# we use this to cache this value in subshells
+# we should not cache, because switching between nvm versions
+export suman_global_npm_modules_path="$(npm root -g)";
+
 
 function handle_global_suman {
 
     WHICH_SUMAN=$(which suman);
-
     GLOBAL_MODULES="$(npm root -g)";
     NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules":"${GLOBAL_MODULES}"
 
@@ -98,7 +102,7 @@ function suman-debug {
     echo " [suman] => Using 'suman-debug' alias in suman-clis.sh..."
     LOCAL_SUMAN="$(node "$HOME/.suman/find-local-suman-executable.js")";
     NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules";
-    NEW_PATH=${PATH}:"$HOME/.suman/global/node_modules/.bin";
+    NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin";
 
     if [ -z "$LOCAL_SUMAN" ]; then
         echo "No local Suman executable could be found, given the current directory => $PWD"
@@ -114,8 +118,7 @@ function suman-debug {
 function suman--debug {
 
     echo " => Using 'suman--debug' alias in suman-clis.sh..."
-    LOCAL_SUMAN=$(node "$HOME/.suman/find-local-suman-executable.js");
-
+    LOCAL_SUMAN="$(node "$HOME/.suman/find-local-suman-executable.js")";
     NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules";
     NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin";
 

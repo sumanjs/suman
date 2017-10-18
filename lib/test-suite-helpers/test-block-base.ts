@@ -43,7 +43,5 @@ export class TestBlockBase {
   protected getChildren: Function;
   protected getTests: Function;
   protected getParallelTests: Function;
-  protected getTestsParallel: Function;
-  protected getLoopTests: Function;
   protected getAftersLast: Function;
 }

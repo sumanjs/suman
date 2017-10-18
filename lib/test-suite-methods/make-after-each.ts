@@ -21,7 +21,7 @@ const rules = require('../helpers/handle-varargs');
 const implementationError = require('../helpers/implementation-error');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
-import evalOptions from '../helpers/eval-options';
+import {evalOptions} from '../helpers/eval-options';
 import {parseArgs} from '../helpers/parse-pragmatik-args';
 
 //////////////////////////////////////////////////////////////////////////////
@@ -91,6 +91,9 @@ export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
         timeout: opts.timeout || 11000,
         desc: desc || fn.name || '(unknown afterEach-hook name)',
         cb: opts.cb || false,
+        successEvents: opts.successEvents,
+        errorEvents: opts.errorEvents,
+        events: opts.events,
         throws: opts.throws,
         planCountExpected: opts.plan,
         fatal: !(opts.fatal === false),

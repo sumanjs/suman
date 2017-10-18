@@ -39,7 +39,7 @@ import {makeTestSuite} from './test-suite-helpers/make-test-suite';
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 import {handleInjections} from './test-suite-helpers/handle-injections';
 import {makeOnSumanCompleted} from './helpers/on-suman-completed';
-import evalOptions from './helpers/eval-options';
+import {evalOptions} from './helpers/eval-options';
 import {parseArgs} from './helpers/parse-pragmatik-args';
 import {makeSumanMethods} from "./test-suite-helpers/suman-methods";
 import {makeHandleBeforesAndAfters} from './test-suite-helpers/make-handle-befores-afters';
@@ -266,7 +266,7 @@ export const execSuite = function (suman: ISuman): Function {
               _suman.logWarning('usage warning => suite.resume() has become a noop since delay option is falsy.');
             };
 
-            cb.apply(suite, deps);
+            cb.apply(null, deps);
             suite.isSetupComplete = true;
 
             handleInjections(suite, function (err: IPseudoError) {

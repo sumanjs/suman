@@ -4,7 +4,7 @@ import fs = require('fs');
 import path = require('path');
 
 
-(function findRoot(pth) : void {
+(function findRoot(pth: string) : void {
 
     let possiblePkgDotJsonPath = path.resolve(String(pth) + '/package.json');
 

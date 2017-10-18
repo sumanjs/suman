@@ -69,7 +69,6 @@ export const run = function (filePath: string) {
       // rstrm.unpipe();
       writeToFileStream = false;
       strm.end('this is the end\n');
-
     };
 
     strm.on('drain', function () {
