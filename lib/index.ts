@@ -122,7 +122,6 @@ let projectRoot: string, sumanConfig, main: string,
   usingRunner: boolean, testDebugLogPath: string, sumanPaths: Array<string>,
   sumanObj: Object, integrantPreFn: Function;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 
 let loaded = false;
@@ -183,26 +182,55 @@ _suman.writeTestError = function (data: string, ignore: boolean) {
 };
 
 
+const initMap = new Map() as Map<Object, Object>;
 
 export const init: IInit = function ($module, $opts, confOverride): IStartCreate {
 
-  //////////////////////////////////////////////////////
-
-  debugger;  // leave this here forever for debugging child processes
-
-  ///////////////////////////////////////////////////////
-
-  if (init.$ingletonian) {
-    if (!SUMAN_SINGLE_PROCESS) {
-      _suman.logError(chalk.red('Suman usage warning => suman.init() only needs to be called once per test script.'));
-      return init.$ingletonian;
-    }
-  }
+  debugger;  // leave this here forever for debugging child processes, etc
 
   if (this instanceof init) {
-    _suman.logError('Suman usage warning: no need to use "new" keyword with the suman.init()' +
-      ' function as it is not a standard constructor');
-    return init.apply(null, arguments);
+    throw new Error('no need to use "new" keyword with the suman.init() function as it is not a constructor');
+  }
+
+  if (initMap.size > 0 && !SUMAN_SINGLE_PROCESS) {
+    _suman.logError(chalk.red('Suman usage warning => suman.init() only needs to be called once per test script.'));
+  }
+
+  if (!$module) {
+    throw new Error('please pass a module instance to suman.init(), e.g., suman.init(module).')
+  }
+
+  if (initMap.get($module)) {
+    return initMap.get($module) as any;
+  }
+
+  if (!$module.filename) {
+    _suman.logWarning(`warning: module instance did not have a 'filename' property.`);
+    $module.filename = '/';
+  }
+
+  if (!$module.exports) {
+    _suman.logWarning(`warning: module instance did not have an 'exports' property.`);
+    $module.exports = {};
+  }
+
+  if (!projectRoot) {
+    projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
+    main = require.main.filename;
+    usingRunner = _suman.usingRunner = _suman.usingRunner || process.env.SUMAN_RUNNER === 'yes';
+    //could potentially pass dynamic path to suman config here, but for now is static
+    sumanConfig = loadSumanConfig(null, null);
+    if (!_suman.usingRunner && !_suman.viaSuman) {
+      require('./helpers/print-version-info'); // just want to run this once
+    }
+    sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+    sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
+    integrantPreFn = sumanObj.integrantPreFn;
+    testDebugLogPath = sumanPaths.testDebugLogPath;
+    fs.writeFileSync(testDebugLogPath, '\n');
+    fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
+    _suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);
+    _suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
   }
 
   if(!projectRoot){
@@ -226,7 +254,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   require('./handle-exit'); // handle exit here
   require('./helpers/load-reporters-last-ditch').run();
-  $module = ($module || {filename: '/', exports: {}}) as ISumanModuleExtended;
 
   if (!inBrowser) {
     assert(($module.constructor && $module.constructor.name === 'Module'),
@@ -260,7 +287,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   }
 
   $module.sumanInitted = true;
-
   opts.integrants && assert(Array.isArray(opts.integrants), `'integrants' option must be an array.`);
   opts.pre && assert(Array.isArray(opts.pre), `'pre' option must be an array.`);
 
@@ -395,37 +421,15 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
 
   };
 
-  init.$ingletonian = {
+  const ret = {
     parent: $module.parent, //parent is who required the original $module
-    file: _suman.sumanTestFile = $module.filename
+    file: $module.filename,
+    create: start
   };
 
-  start.skip = init.$ingletonian.skip = function () {
-    const args = pragmatik.parse(arguments, rules.createSignature);
-    args[1].skip = true;
-    start.apply(this, args);
-  };
-
-  start.only = init.$ingletonian.only = function () {
-    const args = pragmatik.parse(arguments, rules.createSignature);
-    _suman.describeOnlyIsTriggered = true;
-    args[1].only = true;
-    start.apply(this, args);
-  };
-
-  start.delay = init.$ingletonian.delay = function () {
-    const args = pragmatik.parse(arguments, rules.createSignature);
-    args[1].delay = true;
-    start.apply(this, args);
-  };
-
-  const create = init.$ingletonian.create = start;
-  _interface === 'TDD' ? init.$ingletonian.suite = create : init.$ingletonian.describe = create;
-
+  initMap.set($module, ret);
   loaded = true;
-
-  init.$ingletonian.Test = init.$ingletonian;
-  return init.$ingletonian;
+  return ret.Test = ret;
 
 };
 
@@ -472,6 +476,8 @@ try {
 }
 catch (err) {
 }
+
+///////////////////////////////////////////////////////////////////////////////////
 
 const $exports = module.exports;
 export default $exports;

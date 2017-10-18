@@ -1,9 +1,9 @@
 'use strict';
 
-import {IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
+import {IHandleError, IOnceHookObj, ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
 import {IAfterObj} from "suman-types/dts/after";
+import {ISuman, Suman} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -24,6 +24,7 @@ import {cloneError} from '../misc/clone-error';
 import {makeHookObj} from '../test-suite-helpers/t-proto-hook';
 import {freezeExistingProps} from 'freeze-existing-props'
 import {constants} from '../../config/suman-constants';
+
 
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 

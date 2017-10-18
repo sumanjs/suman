@@ -20,7 +20,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
-import evalOptions from '../helpers/eval-options';
+import {evalOptions} from '../helpers/eval-options';
 import {parseArgs} from '../helpers/parse-pragmatik-args';
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +71,9 @@ export const makeAfterAllParentHooks = function (suman: ISuman): IAfterFn {
         desc: desc || fn.name,
         cb: opts.cb || false,
         throws: opts.throws,
+        successEvents: opts.successEvents,
+        errorEvents: opts.errorEvents,
+        events: opts.events,
         always: opts.always,
         last: opts.last,
         planCountExpected: opts.plan,

@@ -28,12 +28,6 @@ const {makeTheTrap} = require('./make-the-trap');
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ITestSet {
-  tests: Array<ITestDataObj>
-}
-
-////////////////////////////////////////////////////////////////////////////////////
-
 export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function,
                                         notifyParentThatChildIsComplete: Function) {
 
@@ -86,7 +80,6 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
           }
 
           let fn1 = (self.parallel && !sumanOpts.series) ? async.parallel : async.series;
-          let fn2 = async.eachLimit; // formerly => let fn2 = self.parallel ? async.each : async.eachSeries;
           let limit = 1;
 
           if (self.parallel && !sumanOpts.series) {
@@ -104,7 +97,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
           fn1([
               function runPotentiallySerialTests(cb: Function) {
 
-                fn2(self.getTests(), limit, function (test: ITestDataObj, cb: Function) {
+                async.eachLimit(self.getTests(), limit, function (test: ITestDataObj, cb: Function) {
 
                     const itOnlyIsTriggered = suman.itOnlyIsTriggered;
 
@@ -132,40 +125,29 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
               },
               function runParallelTests(cb: Function) {
 
-                const flattened = [{tests: self.getParallelTests()}];
+                async.eachLimit(self.getParallelTests(), limit, function (test: ITestDataObj, cb: Function) {
 
-                // => run all parallel sets in series
-                fn2(flattened, limit, function ($set: ITestSet, cb: Function) {
+                    const itOnlyIsTriggered = suman.itOnlyIsTriggered;
 
-                    // => but individual sets of parallel tests can run in parallel
-                    async.each($set.tests, function (test: ITestDataObj, cb: Function) {
+                    if (self.skipped) {
+                      test.skippedDueToParentSkipped = test.skipped = true;
+                    }
 
-                        const itOnlyIsTriggered = suman.itOnlyIsTriggered;
+                    if (self.skippedDueToOnly) {
+                      test.skippedDueToParentOnly = test.skipped = true;
+                    }
 
-                        if (self.skipped) {
-                          test.skippedDueToParentSkipped = test.skipped = true;
-                        }
+                    if (itOnlyIsTriggered && !test.only) {
+                      test.skippedDueToItOnly = test.skipped = true;
+                    }
 
-                        if (self.skippedDueToOnly) {
-                          test.skippedDueToParentOnly = test.skipped = true;
-                        }
+                    // parallel is true because these are parallel tests!
+                    runTheTrap(self, test, {parallel: true}, cb);
 
-                        if (itOnlyIsTriggered && !test.only) {
-                          test.skippedDueToItOnly = test.skipped = true;
-                        }
-
-                        // parallel is true because these are parallel tests
-                        runTheTrap(self, test, {parallel: true}, cb);
-
-                      },
-                      function done(err: IPseudoError) {
-                        implementationError(err);
-                        process.nextTick(cb);
-                      });
                   },
-                  function done(err: IPseudoError, results: Array<any>) {
+                  function done(err: IPseudoError) {
                     implementationError(err);
-                    process.nextTick(cb, null, results);
+                    process.nextTick(cb, null);
                   });
               }
             ],
@@ -200,7 +182,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
         }
 
-      }, function allDone(err: IPseudoError, results: Array<any>) {
+      }, function allDone(err: IPseudoError, results: Object) {
 
         implementationError(err);
 

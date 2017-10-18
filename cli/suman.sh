@@ -32,7 +32,7 @@ else
         # no local version found, so we fallback on the version in this directory, global or not
         echo " => No local Suman executable could be found, given the current directory => $PWD"
         echo " => Attempting to run installed version of Suman here => '${X}/cli.js'"
-        GLOBAL_MODULES="$(npm root -g)"
+        GLOBAL_MODULES="${suman_global_npm_modules_path:-"$(npm root -g)"}"
         NODE_PATH="${NEW_NODE_PATH}":"${GLOBAL_MODULES}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE="yes" node "${X}/cli.js" "$@"
 
     else

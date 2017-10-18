@@ -26,7 +26,7 @@ const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
 import {parseArgs} from '../helpers/parse-pragmatik-args';
-import evalOptions from '../helpers/eval-options';
+import {evalOptions} from '../helpers/eval-options';
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -95,6 +95,9 @@ export const makeBeforeEach = function (suman: ISuman): IBeforeEachFn {
         timeout: opts.timeout || 11000,
         desc: desc || fn.name || '(unknown before-each-hook name)',
         fn: fn,
+        successEvents: opts.successEvents,
+        errorEvents: opts.errorEvents,
+        events: opts.events,
         throws: opts.throws,
         planCountExpected: opts.plan,
         fatal: !(opts.fatal === false),

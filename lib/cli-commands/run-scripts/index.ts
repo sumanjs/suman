@@ -51,10 +51,10 @@ export const run = function (sumanConfig: ISumanConfig, opts: ISumanOpts) {
   k.stderr.setEncoding('utf8');
 
   console.log('\n');
-  _suman.log(`Your script with key '${scriptKey}' is now running, and its output follows:\n`);
+  _suman.log(`Your script with key '${chalk.magenta(scriptKey)}' is now running, and its output follows:\n`);
 
-  k.stdout.pipe(pt(chalk.blue(' stdout: '))).pipe(process.stdout);
-  k.stderr.pipe(pt(chalk.red(' stderr: '))).pipe(process.stderr);
+  k.stdout.pipe(pt(chalk.blue(' [suman script stdout]: '))).pipe(process.stdout);
+  k.stderr.pipe(pt(chalk.red(' [suman script stderr]: '))).pipe(process.stderr);
 
   k.stdin.write('\n');
   k.stdin.write(scriptValue);

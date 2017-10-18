@@ -1,6 +1,6 @@
+'use strict';
 
-
-
+//dts
 import {IAllOpts} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
@@ -12,7 +12,7 @@ const global = require('suman-browser-polyfills/modules/global');
 import util = require('util');
 
 //npm
-import su from 'suman-utils';
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -24,7 +24,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
  */////////////////////////////////////////////////////////////////
 
 
-export default function evalOptions(arrayDeps: Array<IAllOpts>, opts: IAllOpts){
+export const evalOptions = function (arrayDeps: Array<IAllOpts>, opts: IAllOpts){
 
   const preVal = arrayDeps.filter(function (a: IAllOpts) {
     if(typeof a === 'string'){
@@ -58,4 +58,4 @@ export default function evalOptions(arrayDeps: Array<IAllOpts>, opts: IAllOpts){
     console.error('\n');
   }
 
-}
+};

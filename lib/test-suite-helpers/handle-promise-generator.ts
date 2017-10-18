@@ -1,5 +1,7 @@
 'use strict';
 import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
+import {ITestDataObj} from "suman-types/dts/it";
+import {IHookObj} from "suman-types/dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -9,15 +11,21 @@ const global = require('suman-browser-polyfills/modules/global');
 import util = require('util');
 
 //npm
+import _ = require('lodash');
 import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const makeGen = require('../helpers/async-gen');
+import {makeRunGenerator} from '../helpers/async-gen';
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-export const handleReturnVal = function (done: Function, str: string) {
+const defaultSuccessEvents = ['success', 'finish', 'close', 'end', 'done'];
+const defaultErrorEvents = ['error'];
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+export const handleReturnVal = function (done: Function, str: string, testOrHook: ITestDataObj | IHookObj) {
 
   return function handle(val: any, warn: boolean, d: ISumanDomain) {
 
@@ -43,12 +51,12 @@ export const handleReturnVal = function (done: Function, str: string) {
     }
     else if (su.isSubscriber(val)) {
 
-      const _next = val._next;
+      const next = val._next;
       const _error = val._error;
-      const _complete = val._complete;
+      const complete = val._complete;
 
       val._next = function () {
-        _next.apply(val, arguments);
+        next.apply(val, arguments);
       };
 
       val._error = function (e: IPseudoError) {
@@ -57,24 +65,55 @@ export const handleReturnVal = function (done: Function, str: string) {
       };
 
       val._complete = function () {
-        _complete.apply(val, arguments);
+        complete.apply(val, arguments);
         done();
       }
 
     }
-    else if (su.isStream(val)) {
+    else if (su.isStream(val) || su.isEventEmitter(val)) {
 
-      let success = function () {
+      let first = true;
+
+      let onSuccess = function () {
         // happens in nextTick so that if error occurs, error has a chance to sneak in
-        process.nextTick(done)
+        if (first) {
+          first = false;
+          process.nextTick(done);
+        }
       };
 
-      val.once('end', success);
-      val.once('close', success);
-      val.once('done', success);
-      val.once('finish', success);
-      val.once('error', function (e: IPseudoError) {
-        done(e || new Error('Suman dummy error.'));
+      let onError = function (e: Error) {
+        // happens in nextTick so that if error occurs, error has a chance to sneak in
+        if (first) {
+          first = false;
+          process.nextTick(done, e || new Error('Suman dummy error.'));
+        }
+      };
+
+      const eventsSuccess = testOrHook.events && testOrHook.events.success;
+      const eventsError = testOrHook.events && testOrHook.events.error;
+
+      /*
+        options could look like:
+
+        test('example', {
+           events: { success: 'done', error: ['error', 'bubba']}
+           successEvents: ['foobar'],
+           errorEvents: 'fizzbar',
+        }, t => {});
+
+      */
+
+      const successEvents = (testOrHook.successEvents || eventsSuccess) ?
+        _.flattenDeep([testOrHook.successEvents, eventsSuccess]) : defaultSuccessEvents;
+      successEvents.forEach(function (name: string) {
+        val.once(name, onSuccess);
+      });
+
+      const errorEvents = (testOrHook.errorEvents || eventsError) ?
+        _.flattenDeep([testOrHook.errorEvents, eventsError]) : defaultErrorEvents;
+      errorEvents.forEach(function (name: string) {
+        val.once(name, onError);
       });
 
     }
@@ -90,15 +129,10 @@ export const handleReturnVal = function (done: Function, str: string) {
 };
 
 export const handleGenerator = function (fn: Function, args: Array<any>) {
-    const gen = makeGen(fn, null);
-    return gen.apply(null, args);
+  const gen = makeRunGenerator(fn, null);
+  return gen.apply(null, args);
 };
 
-///////////// support node style imports //////////////////////////////////////////////////
 
-let $exports = module.exports;
-export default $exports;
-
-//////////////////////////////////////////////////////////////////////////////////////////
 
 

@@ -1,4 +1,6 @@
-import su from 'suman-utils';
+'use strict';
+
+//dts
 import {IPseudoError} from "suman-types/dts/global";
 import Timer = NodeJS.Timer;
 
@@ -6,10 +8,11 @@ import Timer = NodeJS.Timer;
 import util = require('util');
 
 //npm
+import su = require('suman-utils');
 const fnArgs = require('function-arguments');
 
 //project
-const makeGen = require('./async-gen');
+import {makeRunGenerator} from './async-gen';
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +29,7 @@ export const asyncHelper =
       reject({key, error: e});
     }
     else if (su.isGeneratorFn(fn)) {
-      const gen = makeGen(fn, null);
+      const gen = makeRunGenerator(fn, null);
       gen.apply(null, $args).then(resolve, function (e: Error | string) {
         reject({key: key, error: e});
       });

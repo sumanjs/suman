@@ -1,1 +1,2 @@
-export declare const runAfterAlways: (suman: any, cb: Function) => void;
+import { Suman } from "../suman";
+export declare const runAfterAlways: (suman: Suman, cb: Function) => void;

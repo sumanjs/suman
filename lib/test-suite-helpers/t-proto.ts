@@ -19,8 +19,8 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 /////////////////////////////////////////////////////////////////////////////////
 
-const $proto = Object.create(Function.prototype);
-const proto = Object.create(Object.assign($proto, EE.prototype));
+const fproto = Object.create(Function.prototype);
+const proto = Object.create(Object.assign(fproto, EE.prototype));
 
 proto.skip = function () {
   throw new Error('Dynamic skip functionality is not supported by Suman, yet.');

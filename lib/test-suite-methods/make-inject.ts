@@ -27,7 +27,7 @@ import su from 'suman-utils';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import evalOptions from '../helpers/eval-options';
+import {evalOptions} from '../helpers/eval-options';
 const rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {handleSetupComplete} = require('../handle-setup-complete');
@@ -118,6 +118,9 @@ export const makeInject = function (suman: ISuman): IInjectFn {
         timeout: opts.timeout || 11000,
         cb: opts.cb || false,
         throws: opts.throws,
+        successEvents: opts.successEvents,
+        errorEvents: opts.errorEvents,
+        events: opts.events,
         planCountExpected: opts.plan,
         fatal: !(opts.fatal === false),
         fn: fn,

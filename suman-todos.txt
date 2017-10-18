@@ -6,8 +6,44 @@ three SO profiles:
 
 ///
 
+global_npm_modules_path="$(npm root -g)";
+this npm command is slow, and I am looking to speed up this script. One thing I could do is "cache" the result of the npm command, something like this:
+
+export global_npm_modules_path=${global_npm_modules_path:-"$(npm root -g)"}
+but my question is - how can I set global_npm_modules_path so that it's held in store by the parent shell / parent process?
+
+@AlexanderMills, look at how programs like ssh-agent do it -- they instruct the user to eval "$(ssh-agent -s)". If there were a prettier way to do things (that didn't break the security model), it would be in use in common/standard UNIX tools with comparable needs. – Charles Duffy 3 mins ago
+
+@CharlesDuffy thanks what does that eval command accomplish though? How is it different than just running ssh-agent directly? – Alexander Mills 1 min ago   edit
+1	upvote
+
+@AlexanderMills, the eval command tells the shell to run the output from ssh-agent as a series of shell commands. Thus, it enables ssh-agent to modify the environment of the shell that calls it. – Charles Duffy 18 secs ago
+
+///
+
+ if a beforeEach hook fails, it should not be as fatal as a beforeAll hook failing.
+
+///
+
+https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
+
+///
+
  suman --default  => should run default tests given by config
- suman-d => should just become suman
+
+///
+
+suman --watch --per instead of suman --watch-per
+
+///
+
+create ctrl-c or ctrl-f icons
+
+<kbd>Ctrl</kbd>-<kbd>C</kbd>
+
+///
+
+FORCE_COLOR=0 suman -- => will use colors for watch, etc.
 
 ///
 
@@ -451,9 +487,9 @@ https://github.com/Microsoft/TypeScript/issues/16779
 
 ////
 
-brew install phantomjs
-https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
-brew install sumanjs ???
+    brew install phantomjs
+    https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
+    brew install sumanjs ???
 
 ////
 
@@ -479,8 +515,8 @@ Getting a list of failing/passing tests after test suite execution
 
 ////
 
-  SUCCEEDED/FAILED/KILLED/BAILED
-  need to add transpile/transform block before run block in gantt chart
+    SUCCEEDED/FAILED/KILLED/BAILED
+    need to add transpile/transform block before run block in gantt chart
 
     d3 gantt chart
     https://gist.github.com/dk8996/5449641

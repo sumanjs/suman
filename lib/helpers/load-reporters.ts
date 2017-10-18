@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {ISumanConfig, ISumanOpts, IGlobalSumanObj} from "suman-types/dts/global";
+import {ISumanConfig, ISumanOpts, IGlobalSumanObj, ICurrentPaddingCount} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -36,9 +36,8 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
   }
 
   loaded = true;
-
-  _suman.currentPaddingCount = _suman.currentPaddingCount || {};
-  const optsCopy = Object.assign({}, sumanOpts);
+  _suman.currentPaddingCount = _suman.currentPaddingCount || {} as ICurrentPaddingCount;
+  const optsCopy = JSON.parse(su.customStringify(sumanOpts));
 
   const sumanReporters = _suman.sumanReporters = _.flattenDeep([sumanOpts.reporter_paths || []])
   .filter(v => {
@@ -159,7 +158,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
       fn = fn.default || fn;
       assert(typeof fn === 'function', 'Suman implementation error - reporter fail.');
       sumanReporters.push(fn);
-      reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}, su));
+      reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}));
     }
   }
 
@@ -176,7 +175,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
 
   if (process.env.SUMAN_INCEPTION_LEVEL < 1) {
     sumanReporters.forEach(function (reporter) {
-      reporterRets.push((reporter.default || reporter).call(null, resultBroadcaster, optsCopy, {}, su));
+      reporterRets.push((reporter.default || reporter).call(null, resultBroadcaster, optsCopy, {}));
     });
   }
 
