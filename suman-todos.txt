@@ -47,6 +47,20 @@ FORCE_COLOR=0 suman -- => will use colors for watch, etc.
 
 ///
 
+suman --watch --per instead of suman --watch-per
+
+///
+
+create ctrl-c or ctrl-f icons
+
+<kbd>Ctrl</kbd>-<kbd>C</kbd>
+
+///
+
+FORCE_COLOR=0 suman -- => will use colors for watch, etc.
+
+///
+
  use es6 symbols to hide properties?
  https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
 

@@ -181,6 +181,7 @@ _suman.writeTestError = function (data: string, ignore: boolean) {
   }
 };
 
+
 const initMap = new Map() as Map<Object, Object>;
 
 export const init: IInit = function ($module, $opts, confOverride): IStartCreate {
@@ -226,6 +227,25 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
     integrantPreFn = sumanObj.integrantPreFn;
     testDebugLogPath = sumanPaths.testDebugLogPath;
+    fs.writeFileSync(testDebugLogPath, '\n');
+    fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
+    _suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);
+    _suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
+  }
+
+  if(!projectRoot){
+     projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
+     main = require.main.filename;
+     usingRunner = _suman.usingRunner = _suman.usingRunner || process.env.SUMAN_RUNNER === 'yes';
+    //could potentially pass dynamic path to suman config here, but for now is static
+     sumanConfig = loadSumanConfig(null, null);
+    if (!_suman.usingRunner && !_suman.viaSuman) {
+      require('./helpers/print-version-info'); // just want to run this once
+    }
+     sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+     sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
+     integrantPreFn = sumanObj.integrantPreFn;
+     testDebugLogPath = sumanPaths.testDebugLogPath;
     fs.writeFileSync(testDebugLogPath, '\n');
     fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
     _suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);

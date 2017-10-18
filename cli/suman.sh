@@ -11,7 +11,6 @@ if test "$#" -eq "0"; then
     exit;
 fi
 
-
 echo " [suman] Original path of Suman executable => \"$0\""
 DIRN="$(dirname "$0")"
 RL="$(readlink "$0")";
