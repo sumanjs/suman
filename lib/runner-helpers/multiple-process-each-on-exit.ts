@@ -144,12 +144,6 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
         }
 
       }
-      else {
-        handleBlocking.releaseNextTests(n.testPath, runnerObj);
-        if (su.isSumanDebug()) {
-          _suman.log(`Time required to release next test(s) => ${Date.now() - _suman.timeOfMostRecentExit}ms`);
-        }
-      }
 
     }
   }
