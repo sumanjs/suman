@@ -47,7 +47,6 @@ export interface ISumanCPMessages {
 export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tableRows: ITableRows,
                                                      messages: Array<ISumanCPMessages>,
                                                      forkedCPs: Array<ISumanChildProcess>,
-                                                     handleMessage: Function,
                                                      beforeExitRunOncePost: Function, makeExit: Function): Function {
 
   return function (runObj: IRunObj) {

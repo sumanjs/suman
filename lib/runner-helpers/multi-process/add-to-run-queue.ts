@@ -211,7 +211,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       forkedCPs.push(n);
 
       n.on('message', function (msg) {
-        _suman.logError('Suman runner does not handle standard Node.js IPC messages.');
+        _suman.logError('Warning - Suman runner does not handle standard Node.js IPC messages.');
       });
 
       n.on('error', function (err) {

@@ -54,7 +54,6 @@ const a8b = require('ansi-256-colors'), fg = a8b.fg, bg = a8b.bg;
 import {events} from 'suman-events';
 import su = require('suman-utils');
 
-
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import integrantInjector from './injection/integrant-injector';
@@ -129,7 +128,6 @@ process.on('error', function (e: IPseudoError) {
 process.once('uncaughtException', function (e: IPseudoError) {
 
   debugger; // leave debugger statement here please
-
   _suman.logError(`${chalk.magenta('Suman runner "uncaughtException" event:')} \n ${chalk.bold(su.getCleanErrorString(e))}`);
   process.exit(1);
 });
@@ -137,7 +135,6 @@ process.once('uncaughtException', function (e: IPseudoError) {
 process.on('message', function (data: any) {
 
   debugger; // leave debugger statement here please
-
   _suman.logError('Weird! => Suman runner received an IPC message:\n',
     chalk.magenta(typeof data === 'string' ? data : util.inspect(data)));
 });
@@ -184,71 +181,9 @@ server.on('connection', function (socket: SocketIOClient.Socket) {
 
 });
 
-function handleMessageForSingleProcess(msg: Object, n: ISumanChildProcess) {
-
-  switch (msg.type) {
-
-    case constants.runner_message_type.TABLE_DATA:
-      // handleTableData(n, msg.data);
-      break;
-
-    case constants.runner_message_type.INTEGRANT_INFO:
-      handleIntegrantInfo(msg, n);
-      break;
-    case constants.runner_message_type.LOG_RESULT:
-      logTestResult(msg, n);
-      break;
-    case constants.runner_message_type.FATAL:
-      n.send({info: 'fatal-message-received'});
-      //TODO: need to make sure this is only called once per file
-      handleFatalMessage(msg.data, n);
-      break;
-    case constants.runner_message_type.NON_FATAL_ERR:
-      console.error('\n\n ' + chalk.red('non-fatal suite error: ' + msg.msg + '\n'));
-      break;
-    case constants.runner_message_type.MAX_MEMORY:
-      console.log('\nmax memory: ' + util.inspect(msg.msg));
-      break;
-    default:
-      throw new Error(' => Suman internal error => bad msg.type in runner');
-  }
-}
-
-function handleMessage(msg: Object, n: ISumanChildProcess) {
-
-  switch (msg.type) {
-    case constants.runner_message_type.TABLE_DATA:
-      handleTableData(n, msg.data);
-      break;
-    case constants.runner_message_type.INTEGRANT_INFO:
-      handleIntegrantInfo(msg, n);
-      break;
-    case constants.runner_message_type.LOG_RESULT:
-      logTestResult(msg, n);
-      break;
-    case constants.runner_message_type.FATAL:
-      n.send({info: 'fatal-message-received'});
-      handleFatalMessage(msg.data, n);
-      break;
-    case constants.runner_message_type.WARNING:
-      console.error('\n\n ' + chalk.bgYellow('Suman warning: ' + msg.msg + '\n'));
-      break;
-    case constants.runner_message_type.NON_FATAL_ERR:
-      console.error('\n\n ' + chalk.red('non-fatal suite error: ' + msg.msg + '\n'));
-      break;
-    default:
-      throw new Error(' => Suman implementation error => Bad msg.type in runner, perhaps the user sent a message with process.send?');
-  }
-}
-
-const runSingleOrMultipleDirs =
-  makeHandleMultipleProcesses(runnerObj, tableRows, messages, forkedCPs, handleMessage, beforeExitRunOncePost, exit);
-
-const runAllTestsInSingleProcess =
-  makeSingleProcess(runnerObj, handleMessageForSingleProcess, messages, beforeExitRunOncePost, exit);
-
-const runAllTestsInContainer =
-  makeContainerize(runnerObj, handleMessageForSingleProcess, messages, beforeExitRunOncePost, exit);
+const runSingleOrMultipleDirs = makeHandleMultipleProcesses(runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, exit);
+const runAllTestsInSingleProcess = makeSingleProcess(runnerObj, messages, beforeExitRunOncePost, exit);
+const runAllTestsInContainer = makeContainerize(runnerObj, messages, beforeExitRunOncePost, exit);
 
 ///////////////
 
@@ -257,20 +192,12 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
   debugger; // leave it here
 
   const {sumanOpts} = _suman;
-
   if (sumanOpts.errors_only) {
     resultBroadcaster.emit(String(events.ERRORS_ONLY_OPTION));
   }
 
   //need to get rid of this property so child processes cannot require Suman index file
   delete process.env.SUMAN_EXTRANEOUS_EXECUTABLE;
-
-  const projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd());
-
-  runnerObj.handleBlocking = makeHandleBlocking(mapValues($order, function (val) {
-    val.testPath = path.resolve(projectRoot + '/' + val.testPath);
-    return val;
-  }));
 
   process.nextTick(function () {
 
