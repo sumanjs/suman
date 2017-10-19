@@ -3,6 +3,7 @@
 //dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {ITableRows} from "suman-types/dts/runner";
+import {AsyncQueue} from "async";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -26,7 +27,7 @@ import {IGanttHash} from "../socket-cp-hash";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeAddToTranspileQueue = function (f: string, transpileQueue: Object, tableRows: ITableRows,
+export const makeAddToTranspileQueue = function (f: string, transpileQueue: AsyncQueue<Function>, tableRows: ITableRows,
                                                  ganttHash: IGanttHash, projectRoot: string) {
 
   const {sumanOpts} = _suman;

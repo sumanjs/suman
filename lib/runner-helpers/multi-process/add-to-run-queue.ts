@@ -4,6 +4,7 @@
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {IGanttData} from "../socket-cp-hash";
 import {IRunnerRunFn, ISumanChildProcess} from "suman-types/dts/runner";
+import {AsyncQueue} from "async";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -32,8 +33,9 @@ const runChildPath = require.resolve(__dirname + '/../run-child.js');
 
 //////////////////////////////////////////////////////////////////////
 
-export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string>, runQueue: Object, projectRoot: string,
-                                           cpHash: Object, forkedCPs: Array<any>, onExitFn: Function) {
+export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string>, runQueue: AsyncQueue<Function>,
+                                           projectRoot: string, cpHash: Object, forkedCPs: Array<any>,
+                                           onExitFn: Function) {
 
   const {sumanOpts, sumanConfig, maxProcs} = _suman;
   const execFile = path.resolve(__dirname + '/../run-child.js');

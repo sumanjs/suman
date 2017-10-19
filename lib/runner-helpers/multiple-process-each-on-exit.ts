@@ -61,7 +61,7 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
       n.removeAllListeners();
 
       const sumanOpts = _suman.sumanOpts;
-      const transpileQ = getTranspileQueue();
+      const transpileQueue = getTranspileQueue();
 
       resultBroadcaster.emit(String(events.TEST_FILE_CHILD_PROCESS_EXITED), {
         testPath: n.testPath,
@@ -90,14 +90,14 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
       tableRows[n.shortTestPath].actualExitCode = n.expectedExitCode !== undefined ?
         (n.expectedExitCode + '/' + originalExitCode) : originalExitCode;
 
-      // console.log('transpileQ:', util.inspect(transpileQ));
+      // console.log('transpileQ:', util.inspect(transpileQueue));
 
-      if (weHaveBailed(code) || (allDone(runQueue) && allDone(transpileQ))) {
+      if (weHaveBailed(code) || (allDone(runQueue) && allDone(transpileQueue))) {
 
         if (runnerObj.bailed) {
 
           runQueue.kill();
-          transpileQ.kill();
+          transpileQueue.kill();
 
           console.log('\n');
           _suman.logError(chalk.magenta('We have ' + chalk.red.bold('bailed') +
