@@ -52,8 +52,8 @@ const mapValues = require('lodash.mapvalues');
 import * as chalk from 'chalk';
 const a8b = require('ansi-256-colors'), fg = a8b.fg, bg = a8b.bg;
 import {events} from 'suman-events';
-import su from 'suman-utils';
-const debug = require('suman-debug')('s:runner');
+import su = require('suman-utils');
+
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -275,7 +275,7 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
   process.nextTick(function () {
 
     const args: Array<string> = fnArgs(runOnce);
-    const ret = runOnce.apply(null, integrantInjector(args));
+    const ret = runOnce.apply(null, integrantInjector(args, null));
 
     if (ret.dependencies) {
       if (su.isObject(ret.dependencies)) {

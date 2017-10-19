@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IHandleBlocking, IRunnerObj, IRunnerRunFn, ISumanChildProcess} from "suman-types/dts/runner";
 
 //polyfills
@@ -49,7 +51,8 @@ export default function (order: Object): IHandleBlocking {
           return ended.every(function (item) {
             return (String(item.testPath) !== String($item.testPath));
           });
-        }).map(function (item) {
+        })
+        .map(function (item) {
           return '\n  ' + item.testPath;
         });
 
@@ -64,11 +67,11 @@ export default function (order: Object): IHandleBlocking {
     }, interval);
   }
 
-  function findQueuedCPsToStart(queuedCPsObj: IRunnerObj): IRunnerRunFn {
+  const findQueuedCPsToStart = function (queuedCPsObj: IRunnerObj): IRunnerRunFn {
     if (started.length - ended.length < maxProcs) {
       return queuedCPsObj.queuedCPs.pop();
     }
-  }
+  };
 
   return {
 

@@ -9,11 +9,9 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import {ChildProcess} from "child_process";
-
 const cp = require('child_process');
 const path = require('path');
 import util = require('util');
-
 const EE = require('events');
 
 //npm
@@ -23,7 +21,6 @@ import {events} from 'suman-events';
 import {ISumanCPMessages} from "./handle-multiple-processes";
 import su = require('suman-utils');
 import async = require('async');
-
 const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
 import {IGanttData} from "./socket-cp-hash";
@@ -32,128 +29,128 @@ import {IGanttData} from "./socket-cp-hash";
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
 import {handleTestCoverageReporting} from './coverage-reporting';
-
 const {constants} = require('../../config/suman-constants');
-const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows: ITableRows,
-                         messages: Array<ISumanCPMessages>, forkedCPs: Array<ISumanChildProcess>,
-                         beforeExitRunOncePost: Function, makeExit: Function, gd: IGanttData, transpileQueue: any) {
+export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRows,
+                                      messages: Array<ISumanCPMessages>, forkedCPs: Array<ISumanChildProcess>,
+                                      beforeExitRunOncePost: Function, makeExit: Function, gd: IGanttData, transpileQueue: any) {
 
-  let weHaveBailed = function (code: number) {
-    if (code > 0 && _suman.sumanOpts.bail) {
-      return runnerObj.bailed = true;
-    }
-  };
+  return function (n: ISumanChildProcess) {
 
-  return function (code: number, signal: number) {
-
-    n.dateEndedMillis = gd.endDate = Date.now();
-    n.sumanExitCode = gd.sumanExitCode = code;
-    n.removeAllListeners();
-
-    const sumanOpts = _suman.sumanOpts;
-    // handleBlocking gets initialized weirdly in runner.js, but we will deal for now
-    const handleBlocking = runnerObj.handleBlocking;
-
-    resultBroadcaster.emit(String(events.TEST_FILE_CHILD_PROCESS_EXITED), {
-      testPath: n.testPath,
-      exitCode: code
-    });
-
-    if (su.isSumanDebug() || su.vgt(5)) {
-      _suman.log(chalk.black.bgYellow(`process given by => '${n.shortTestPath}' exited with code: ${code} `));
-    }
-
-    if (su.isSumanDebug()) {
-      _suman.timeOfMostRecentExit = Date.now();
-    }
-
-    const originalExitCode = code;
-
-    if (n.expectedExitCode !== undefined) {
-      if (code === n.expectedExitCode) {
-        code = 0;
+    let weHaveBailed = function (code: number) {
+      if (code > 0 && _suman.sumanOpts.bail) {
+        return runnerObj.bailed = true;
       }
-    }
+    };
 
-    runnerObj.doneCount++;
-    messages.push({code, signal});
+    return function (code: number, signal: number) {
 
-    tableRows[n.shortTestPath].actualExitCode = n.expectedExitCode !== undefined ?
-      (n.expectedExitCode + '/' + originalExitCode) : originalExitCode;
+      n.dateEndedMillis = gd.endDate = Date.now();
+      n.sumanExitCode = gd.sumanExitCode = code;
+      n.removeAllListeners();
 
-    if (transpileQueue.length() < 1 && (weHaveBailed(code) || (runnerObj.doneCount >= forkedCPs.length && runnerObj.queuedCPs.length < 1))) {
+      const sumanOpts = _suman.sumanOpts;
+      // handleBlocking gets initialized weirdly in runner.js, but we will deal for now
+      const handleBlocking = runnerObj.handleBlocking;
 
-      if (runnerObj.bailed) {
+      resultBroadcaster.emit(String(events.TEST_FILE_CHILD_PROCESS_EXITED), {
+        testPath: n.testPath,
+        exitCode: code
+      });
 
-        console.log('\n');
-        _suman.logError(chalk.magenta('We have ' + chalk.red.bold('bailed') +
-          ' the test runner because a child process experienced an error and exitted with a non-zero code.'));
-
-        _suman.logError(chalk.magenta('Since we have bailed, Suman will send a SIGTERM signal ' +
-          'to any outstanding child processes.'));
-
-        forkedCPs.forEach(function (n: ISumanChildProcess) {
-          n.kill('SIGTERM');
-          setTimeout(function () {
-            n.kill('SIGKILL');
-          }, 3000);
-        });
-
+      if (su.isSumanDebug() || su.vgt(5)) {
+        _suman.log(chalk.black.bgYellow(`process given by => '${n.shortTestPath}' exited with code: ${code} `));
       }
-      else {
 
-        if (sumanOpts.verbosity > 4) {
-          console.log('\n');
-          _suman.log(chalk.gray.bold.underline(' All scheduled child processes have exited.'));
-          console.log('\n');
+      if (su.isSumanDebug()) {
+        _suman.timeOfMostRecentExit = Date.now();
+      }
+
+      const originalExitCode = code;
+
+      if (n.expectedExitCode !== undefined) {
+        if (code === n.expectedExitCode) {
+          code = 0;
         }
       }
 
-      runnerObj.endTime = Date.now();
-      runnerObj.listening = false;
+      runnerObj.doneCount++;
+      messages.push({code, signal});
 
-      const onTAPOutputComplete = function () {
+      tableRows[n.shortTestPath].actualExitCode = n.expectedExitCode !== undefined ?
+        (n.expectedExitCode + '/' + originalExitCode) : originalExitCode;
 
-        const tasks = [
-          beforeExitRunOncePost,
-          handleTestCoverageReporting
-        ] as any;
+      if (transpileQueue.length() < 1 && (weHaveBailed(code) || (runnerObj.doneCount >= forkedCPs.length && runnerObj.queuedCPs.length < 1))) {
 
-        async.parallel(tasks, function (err: IPseudoError) {
-          err && _suman.logError(err.stack || err);
-          makeExit(messages, {
-            total: runnerObj.endTime - _suman.startTime,
-            runner: runnerObj.endTime - runnerObj.startTime
+        if (runnerObj.bailed) {
+
+          console.log('\n');
+          _suman.logError(chalk.magenta('We have ' + chalk.red.bold('bailed') +
+            ' the test runner because a child process experienced an error and exitted with a non-zero code.'));
+
+          _suman.logError(chalk.magenta('Since we have bailed, Suman will send a SIGTERM signal ' +
+            'to any outstanding child processes.'));
+
+          forkedCPs.forEach(function (n: ISumanChildProcess) {
+            n.kill('SIGTERM');
+            setTimeout(function () {
+              n.kill('SIGKILL');
+            }, 3000);
           });
-        });
 
-      };
-
-      if ('tapOutputIsComplete' in n) {
-        if (n.tapOutputIsComplete === true) {
-          process.nextTick(onTAPOutputComplete);
         }
         else {
-          n.once('tap-output-is-complete', onTAPOutputComplete);
+
+          if (sumanOpts.verbosity > 4) {
+            console.log('\n');
+            _suman.log(chalk.gray.bold.underline(' All scheduled child processes have exited.'));
+            console.log('\n');
+          }
         }
+
+        runnerObj.endTime = Date.now();
+        runnerObj.listening = false;
+
+        const onTAPOutputComplete = function () {
+
+          const tasks = [
+            beforeExitRunOncePost,
+            handleTestCoverageReporting
+          ] as any;
+
+          async.parallel(tasks, function (err: IPseudoError) {
+            err && _suman.logError(err.stack || err);
+            makeExit(messages, {
+              total: runnerObj.endTime - _suman.startTime,
+              runner: runnerObj.endTime - runnerObj.startTime
+            });
+          });
+
+        };
+
+        if ('tapOutputIsComplete' in n) {
+          if (n.tapOutputIsComplete === true) {
+            process.nextTick(onTAPOutputComplete);
+          }
+          else {
+            n.once('tap-output-is-complete', onTAPOutputComplete);
+          }
+        }
+        else {
+          process.nextTick(onTAPOutputComplete);
+        }
+
       }
       else {
-        process.nextTick(onTAPOutputComplete);
+        handleBlocking.releaseNextTests(n.testPath, runnerObj);
+        if (su.isSumanDebug()) {
+          _suman.log(`Time required to release next test(s) => ${Date.now() - _suman.timeOfMostRecentExit}ms`);
+        }
       }
 
     }
-    else {
-      handleBlocking.releaseNextTests(n.testPath, runnerObj);
-      if (su.isSumanDebug()) {
-        _suman.log(`Time required to release next test(s) => ${Date.now() - _suman.timeOfMostRecentExit}ms`);
-      }
-    }
-
   }
-
-}
+};
