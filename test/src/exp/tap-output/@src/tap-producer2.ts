@@ -10,10 +10,14 @@ Test.create(function (it: ItFn) {
 
   });
 
-  it('fails', (t: ITestCaseParam) => {
+  it.cb('fails', (t: ITestCaseParam) => {
 
     // t.skip();
     throw new Error('whole me 2')
+
+    setTimeout(function () {
+      t.done();
+    }, 1000);
 
   });
 

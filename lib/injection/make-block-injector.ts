@@ -89,7 +89,6 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
         case 'getresumevalue':
         case 'getresumeval':
         case 'writable':
-        case 'inject':
           return suite[key];
 
         case 'describe':
@@ -98,6 +97,7 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
         case 'afterallparenthooks':
         case 'before':
         case 'after':
+        case 'inject':
         case 'beforeall':
         case 'afterall':
         case 'beforeeach':

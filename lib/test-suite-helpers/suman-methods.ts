@@ -59,8 +59,6 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBas
   /////////////////////////////////////////////////////////////////////////////////////////
 
   const getProxy = makeProxy(suman);
-
-  // _interface === 'TDD' ? m.setup = before : m.before = before;
   m.describe = m.context = m.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
   m.it = m.test = getProxy(it, rules.testCaseSignature) as ItFn;
   m.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
