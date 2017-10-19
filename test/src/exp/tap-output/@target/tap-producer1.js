@@ -11,12 +11,12 @@ Test.create(function (it, before, describe, beforeEach, afterEach, after) {
     });
     it('zoom', function (t) {
         // t.assert.deepEqual(false, true);
-        throw new Error('whole me 3');
-    })
-        .it('rudolph', function (t) {
+        // throw new Error('whole me 3');
+    });
+    it('rudolph', function (t) {
         throw new Error('whole me 4');
-    })
-        .afterEach('ram', function (h) {
+    });
+    afterEach('ram', function (h) {
     });
     after('b', function (h) {
         h.slow();

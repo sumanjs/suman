@@ -69,7 +69,9 @@ export const makeHandleMultipleProcesses =
       const {sumanOpts, sumanConfig, maxProcs, projectRoot} = _suman;
       const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
 
-      _suman.log('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
+      if (waitForAllTranformsToFinish) {
+        _suman.log('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
+      }
 
       const args: Array<string> = ['--user-args', sumanOpts.user_args];
       let queuedTestFns: Array<Function> = [];
@@ -79,22 +81,29 @@ export const makeHandleMultipleProcesses =
 
         task(function (err: Error, file: string, shortFile: string, stdout: string, stderr: string, gd: IGanttData) {
 
-          setImmediate(cb);
-
           if (err) {
             _suman.logError('tranpile error => ', err.stack || err);
             failedTransformObjects.push({err, file, shortFile, stdout, stderr});
             return;
           }
 
-          if (waitForAllTranformsToFinish) {
-            queuedTestFns.push(function () {
+          setImmediate(function () {
+
+            console.log(chalk.red('pushing file '), file);
+
+            if (waitForAllTranformsToFinish) {
+              queuedTestFns.push(function () {
+                outer(file, shortFile, stdout, gd);
+              });
+            }
+            else {
               outer(file, shortFile, stdout, gd);
-            });
-          }
-          else {
-            outer(file, shortFile, stdout, gd);
-          }
+            }
+
+            cb(null);
+
+          });
+
         });
 
       }, 3);
@@ -156,7 +165,7 @@ export const makeHandleMultipleProcesses =
       const isStdoutSilent = sumanOpts.stdout_silent || sumanOpts.silent;
       const isStderrSilent = sumanOpts.stderr_silent || sumanOpts.silent;
       const inheritTransformStdio =
-        sumanOpts.inherit_all_stdio || sumanOpts.inherit_transform_stdio || process.env.SUMAN_INHERIT_STDIO
+        sumanOpts.inherit_all_stdio || sumanOpts.inherit_transform_stdio || process.env.SUMAN_INHERIT_STDIO;
 
       fileObjArray.forEach(function (fileShortAndFull: Array<Array<string>>) {
 
@@ -223,6 +232,8 @@ export const makeHandleMultipleProcesses =
                 })
               });
 
+              console.log(chalk.red('startttting..'));
+
               k.once('error', cb);
 
               k.stderr.setEncoding('utf8');
@@ -277,7 +288,9 @@ export const makeHandleMultipleProcesses =
                 stderr += data;
               });
 
-              k.once('close', function (code: number) {
+              k.once('exit', function (code: number) {
+
+                console.log(chalk.red('exxxxited.'));
 
                 gd.transformEndDate = Date.now();
 
@@ -578,7 +591,7 @@ export const makeHandleMultipleProcesses =
           }
 
           n.dateStartedMillis = gd.startDate = Date.now();
-          n.once('exit', onExitFn(n, runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit, gd));
+          n.once('exit', onExitFn(n, runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit, gd, transpileQueue));
 
         };
 
@@ -592,7 +605,7 @@ export const makeHandleMultipleProcesses =
         }
         else {
           runnerObj.queuedCPs.push(run);
-          if(su.vgt(3)){
+          if (su.vgt(3)) {
             _suman.log(chalk.yellow('File must wait, and will run later =>'), chalk.grey.bold(`'${file}'.`));
           }
         }

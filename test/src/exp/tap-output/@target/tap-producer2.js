@@ -7,8 +7,11 @@ Test.create(function (it) {
         // t.skip();
         throw new Error('whole me 1');
     });
-    it('fails', function (t) {
+    it.cb('fails', function (t) {
         // t.skip();
         throw new Error('whole me 2');
+        setTimeout(function () {
+            t.done();
+        }, 1000);
     });
 });

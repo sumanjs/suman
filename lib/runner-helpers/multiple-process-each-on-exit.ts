@@ -41,7 +41,13 @@ const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster |
 
 export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows: ITableRows,
                          messages: Array<ISumanCPMessages>, forkedCPs: Array<ISumanChildProcess>,
-                         beforeExitRunOncePost: Function, makeExit: Function, gd: IGanttData) {
+                         beforeExitRunOncePost: Function, makeExit: Function, gd: IGanttData, transpileQueue: any) {
+
+  let weHaveBailed = function (code: number) {
+    if (code > 0 && _suman.sumanOpts.bail) {
+      return runnerObj.bailed = true;
+    }
+  };
 
   return function (code: number, signal: number) {
 
@@ -80,8 +86,7 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
     tableRows[n.shortTestPath].actualExitCode = n.expectedExitCode !== undefined ?
       (n.expectedExitCode + '/' + originalExitCode) : originalExitCode;
 
-    if ((runnerObj.bailed = (code > 0 && _suman.sumanOpts.bail)) ||
-      (runnerObj.doneCount >= forkedCPs.length && runnerObj.queuedCPs.length < 1)) {
+    if (transpileQueue.length() < 1 && (weHaveBailed(code) || (runnerObj.doneCount >= forkedCPs.length && runnerObj.queuedCPs.length < 1))) {
 
       if (runnerObj.bailed) {
 
@@ -115,7 +120,7 @@ export default function (n: ISumanChildProcess, runnerObj: IRunnerObj, tableRows
       const onTAPOutputComplete = function () {
 
         const tasks = [
-          beforeExitRunOncePost, 
+          beforeExitRunOncePost,
           handleTestCoverageReporting
         ] as any;
 

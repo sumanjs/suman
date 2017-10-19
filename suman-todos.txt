@@ -165,10 +165,6 @@ cd $(dirname "$0")
 
 ///
 
-    => test suman itself with suman, then we can make final adjustments before release
-
-///
-
     => chai 4.0.2 works.
 
 ///
@@ -272,6 +268,10 @@ node test/src/exp.js | grep -v [[suman]]
   block injector should be for the other blocks
   all blocks should at least have one parameter b, or s
 
+///
+
+ in handle-multiple-processes - if a transpile action takes too long, it won't be put on the run queue, and the whole thing
+ will exit because all child processes have exitted.
 
 ///
 
@@ -296,31 +296,6 @@ node test/src/exp.js | grep -v [[suman]]
             at Domain.runHandleEachHook (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-each.js:151:66)
             at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-each.js:75:15
        at Domain.handleError (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-each.js:61:27)
-
-////
-
- [watch-worker] (node:5440) Warning: Possible EventEmitter memory leak detected. 11 finish listeners added. Use emitter.setMaxListeners() to increase limit
- [watch-worker]   => Suman-Utils warning =>  Warning: Possible EventEmitter memory leak detected. 11 finish listeners added. Use emitter.setMaxListeners() to increase limit
- [watch-worker]     at _addListener (events.js:259:19)
- [watch-worker]     at Socket.addListener (events.js:275:10)
- [watch-worker]     at Socket.Readable.on (_stream_readable.js:687:35)
- [watch-worker]     at Socket.once (events.js:301:8)
- [watch-worker]     at Socket.Readable.pipe (_stream_readable.js:596:8)
- [watch-worker]     at handleStdioAndExit (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-watch/lib/make-execute.js:38:22)
- [watch-worker]     at noDaemon_1 (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-watch/lib/make-execute.js:89:21)
- [watch-worker]     at _combinedTickCallback (internal/process/next_tick.js:73:7)
- [watch-worker]     at process._tickCallback (internal/process/next_tick.js:104:9)
- [watch-worker]   => Suman warning =>  Warning: Possible EventEmitter memory leak detected. 11 finish listeners added. Use emitter.setMaxListeners() to increase limit
- [watch-worker]     at _addListener (events.js:259:19)
- [watch-worker]     at Socket.addListener (events.js:275:10)
- [watch-worker]     at Socket.Readable.on (_stream_readable.js:687:35)
- [watch-worker]     at Socket.once (events.js:301:8)
- [watch-worker]     at Socket.Readable.pipe (_stream_readable.js:596:8)
- [watch-worker]     at handleStdioAndExit (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-watch/lib/make-execute.js:38:22)
- [watch-worker]     at noDaemon_1 (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-watch/lib/make-execute.js:89:21)
- [watch-worker]     at _combinedTickCallback (internal/process/next_tick.js:73:7)
- [watch-worker]     at process._tickCallback (internal/process/next_tick.js:104:9)
-
 
 ///
 
