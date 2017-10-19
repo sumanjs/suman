@@ -114,7 +114,7 @@ export const makeInject = function (suman: ISuman): IInjectFn {
 
       zuite.getInjections().push({
         ctx: zuite,
-        desc: desc || fn.name || '(unknonw inject-hook name)',
+        desc: desc || fn.name || constants.UNKNOWN_INJECT_HOOK_NAME,
         timeout: opts.timeout || 11000,
         cb: opts.cb || false,
         throws: opts.throws,

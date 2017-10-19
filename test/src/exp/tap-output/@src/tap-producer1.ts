@@ -21,13 +21,15 @@ Test.create(function (it: ItFn, before: IBeforeFn, describe: IDescribeFn,
   it('zoom', (t: ITestCaseParam) => {
 
     // t.assert.deepEqual(false, true);
-    throw new Error('whole me 3');
+    // throw new Error('whole me 3');
 
-  })
-  .it('rudolph', t => {
-    throw new Error('whole me 4');
-  })
-  .afterEach('ram', (h: IHookParam) => {
+  });
+
+  it('rudolph', t => {
+    // throw new Error('whole me 4');
+  });
+
+  afterEach('ram', (h: IHookParam) => {
 
   });
 

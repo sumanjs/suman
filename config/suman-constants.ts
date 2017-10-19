@@ -27,6 +27,8 @@ export const constants = Object.freeze({
     '**suman/logs/**'
   ],
 
+  UNKNOWN_INJECT_HOOK_NAME: '(unknown inject-hook name)',
+
   SUMAN_HOOK_FATAL_WARNING_MESSAGE:
     'Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false =>\n',
 

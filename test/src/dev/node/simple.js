@@ -10,7 +10,7 @@ let count = 0;
 
 Test.create('X', (test, context) => {
 
-  700..times(function () {
+  1..times(function () {
 
     context('silly', function () {
 

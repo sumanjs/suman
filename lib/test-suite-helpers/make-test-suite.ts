@@ -176,13 +176,6 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       return 'Suman test block: ' + this.desc;
     }
 
-    series(cb: Function) {
-      if (typeof cb === 'function') {
-        cb.apply(this, [(_interface === 'TDD' ? this.test : this.it).bind(this)]);
-      }
-      return this;
-    }
-
     invokeChildren(val: any, start: Function) {
       async.eachSeries(this.getChildren(), makeRunChild(val), start);
     }

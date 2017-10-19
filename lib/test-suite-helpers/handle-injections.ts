@@ -17,6 +17,7 @@ import {freezeExistingProps as freeze} from 'freeze-existing-props';
 //project
 const _suman = global.__suman = (global.__suman || {});
 import {tProto} from './t-proto';
+import {constants} from "../../config/suman-constants";
 const weAreDebugging = require('../helpers/we-are-debugging');
 
 ///////////////////////////////////////////////////////////////////
@@ -29,21 +30,23 @@ interface IInjectionRetObj {
 
 export const handleInjections = function (suite: ITestSuite, cb: Function) {
 
-  function addValuesToSuiteInjections(k: string, val: any) {
+  const addValuesToSuiteInjections = function (k: string, val: any) : void {
     if (k in suite.injectedValues) {
-      throw new Error(' => Injection value ' + k + ' was used more than once;' +
-        ' this value needs to be unique.');
+      throw new Error(` => Injection value '${k}' was used more than once; this value needs to be unique.`);
     }
-    else {
-      // freeze the property so it cannot be modified by user after the fact
-      Object.defineProperty(suite.injectedValues, k, {
-        enumerable: true,
-        writable: false,
-        configurable: true,
-        value: val
-      });
-    }
-  }
+
+    // freeze the property so it cannot be modified by user after the fact
+    Object.defineProperty(suite.injectedValues, k, {
+      enumerable: true,
+      writable: false,
+      configurable: true,
+      value: val
+    });
+  };
+
+  const isDescValid = function(desc: string){
+    return desc && String(desc) !== String(constants.UNKNOWN_INJECT_HOOK_NAME)
+  };
 
   const injections = suite.getInjections();
 
@@ -76,12 +79,12 @@ export const handleInjections = function (suite: ITestSuite, cb: Function) {
 
         Promise.resolve(results).then(ret => {
 
-          if (inj.desc) {
-            addValuesToSuiteInjections(inj.desc, ret);
+          if (isDescValid(inj.desc)) {
+            addValuesToSuiteInjections(String(inj.desc), ret);
           }
           else {
             Object.keys(ret).forEach(function (k) {
-              addValuesToSuiteInjections(k, freeze(ret[k]));
+              addValuesToSuiteInjections(String(k), freeze(ret[k]));
             });
           }
 
@@ -97,7 +100,7 @@ export const handleInjections = function (suite: ITestSuite, cb: Function) {
 
       Promise.resolve(inj.fn.call(suite)).then(ret => {
 
-        if (inj.desc) {
+        if (isDescValid(inj.desc)) {
           addValuesToSuiteInjections(inj.desc, freeze(ret));
           return first(undefined);
         }
@@ -124,7 +127,7 @@ export const handleInjections = function (suite: ITestSuite, cb: Function) {
         Promise.all(potentialPromises).then(function (vals) {
 
           keys.forEach(function (k, index) {
-            addValuesToSuiteInjections(k, freeze(vals[index]));
+            addValuesToSuiteInjections(String(k), freeze(vals[index]));
           });
 
           first(undefined);
@@ -140,9 +143,3 @@ export const handleInjections = function (suite: ITestSuite, cb: Function) {
 };
 
 
-///////////// support node style imports //////////////////////////////////////////////
-
-let $exports = module.exports;
-export default $exports;
-
-////////////////////////////////////////////////////////////////////////////////////////

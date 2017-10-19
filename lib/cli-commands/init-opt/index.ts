@@ -16,7 +16,7 @@ const async = require('async');
 const flattenDeep = require('lodash.flattendeep');
 import * as chalk from 'chalk';
 import {IGlobalSumanObj, ISumanOpts} from "suman-types/dts/global";
-
+import su = require('suman-utils');
 const chmodr = require('chmodr');
 const semver = require('semver');
 
@@ -28,7 +28,6 @@ const {writeSumanFiles} = require('./install-suman-files');
 const {determineIfReadlinkAvail} = require('./determine-if-readlink-avail');
 const {makeAppendToBashProfile} = require('./append-to-bash-profile');
 const {constants} = require('../../../config/suman-constants');
-const su = require('suman-utils');
 const helpers = require('./init-helpers');
 const debug = require('suman-debug')('s:init');
 
@@ -167,8 +166,8 @@ export const run = (opts: ISumanOpts, projectRoot: string, cwd: string) => {
     appendToSumanHelpersDir = '-' + timestamp;
   }
 
-  const newSumanHelperDir = '/suman' + appendToSumanHelpersDir;
-  const newSumanHelperDirAbsPath = path.resolve(projectRoot + '/suman' + appendToSumanHelpersDir);
+  const newSumanHelperDir = '/.suman' + appendToSumanHelpersDir;
+  const newSumanHelperDirAbsPath = path.resolve(projectRoot + '/.suman' + appendToSumanHelpersDir);
 
   async.series([
 

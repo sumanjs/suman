@@ -3,7 +3,8 @@
 
 const suman = require('suman');
 const {Test} = suman.init(module, {
-  forceParallel: true  // parallel, not parallel-max
+  forceParallel: true,  // parallel, not parallel-max
+  __expectedExitCode: 56
 });
 
 ///////////////////////////////////////////////////////////////////////

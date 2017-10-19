@@ -13,7 +13,7 @@ module.exports = Object.freeze({
 
   //regex
   matchAny: [/\.js$/, /.sh$/, /\.jar$/, /\.java$/, /\.go$/, /\.ts$/],
-  matchNone: [/fixture/, /correct-exit-codes/, /@transform.sh/, /@run.sh/, /\/target\//],
+  matchNone: [/fixture/, /correct-exit-codes/, /@transform.sh/, /@run.sh/, /\/@target\//],
   matchAll: [],
 
   //string
