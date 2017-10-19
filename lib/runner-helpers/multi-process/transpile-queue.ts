@@ -17,12 +17,18 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 //////////////////////////////////////////////////////////////////////////
 
+let q  = null;
+
+export const getTranspileQueue = function(){
+  return q;
+};
+
 export const makeTranspileQueue = function (failedTransformObjects, runFile, queuedTestFns) {
 
   const {sumanOpts, sumanConfig, projectRoot} = _suman;
   const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
 
-  return async.queue(function (task: Function, cb: Function) {
+  return q = async.queue(function (task: Function, cb: Function) {
 
     task(function (err: Error, file: string, shortFile: string, stdout: string, stderr: string, gd: IGanttData) {
 

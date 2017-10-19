@@ -33,7 +33,7 @@ const runChildPath = require.resolve(__dirname + '/../run-child.js');
 //////////////////////////////////////////////////////////////////////
 
 export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string>, runQueue: Object, projectRoot: string,
-                                     cpHash: Object, forkedCPs: Array<any>, onExitFn: Function) {
+                                           cpHash: Object, forkedCPs: Array<any>, onExitFn: Function) {
 
   const {sumanOpts, sumanConfig, maxProcs} = _suman;
   const execFile = path.resolve(__dirname + '/../run-child.js');
@@ -53,16 +53,13 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
     SUMAN_PROJECT_ROOT: projectRoot,
     SUMAN_RUN_ID: _suman.runId,
     SUMAN_RUNNER_TIMESTAMP: _suman.timestamp,
-    NPM_COLORS: process.env.NPM_COLORS || (sumanOpts.no_color ? 'no' : 'yes')
+    NPM_COLORS: process.env.NPM_COLORS || (sumanOpts.no_color ? 'no' : 'yes'),
+    SUMAN_SOCKETIO_SERVER_PORT: _suman.socketServerPort > 0 ? _suman.socketServerPort : undefined
   });
-
-  if (_suman.socketServerPort > 0) {
-    sumanEnv['SUMAN_SOCKETIO_SERVER_PORT'] = _suman.socketServerPort;
-  }
 
   return function (file: string, shortFile: string, stdout: string, gd: IGanttData) {
 
-    runQueue.push(function () {
+    runQueue.push(function (cb: Function) {
 
       if (runnerObj.bailed) {
         // should not fork any more child processes if we have bailed
@@ -319,7 +316,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
 
       _suman.log(chalk.black('File has just started running =>'), chalk.grey.bold(`'${file}'.`));
       n.dateStartedMillis = gd.startDate = Date.now();
-      n.once('exit', onExitFn(n, gd));
+      n.once('exit', onExitFn(n, gd, cb));
 
       // if (waitForAllTranformsToFinish) {
       //

@@ -1,7 +1,8 @@
 'use strict';
+
+//dts
 import {IRunnerObj, IRunnerRunFn, IRunObj, ISumanChildProcess, ITableRows} from "suman-types/dts/runner";
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
-import * as fs from "fs";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -30,15 +31,16 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
 import {handleTestCoverageReporting} from './coverage-reporting';
 const {constants} = require('../../config/suman-constants');
+import {getTranspileQueue} from './multi-process/transpile-queue';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRows,
                                       messages: Array<ISumanCPMessages>, forkedCPs: Array<ISumanChildProcess>,
-                                      beforeExitRunOncePost: Function, makeExit: Function) {
+                                      beforeExitRunOncePost: Function, makeExit: Function, runQueue: any) {
 
-  return function (n: ISumanChildProcess, gd: IGanttData) {
+  return function (n: ISumanChildProcess, gd: IGanttData, cb: Function) {
 
     let weHaveBailed = function (code: number) {
       if (code > 0 && _suman.sumanOpts.bail) {
@@ -46,15 +48,20 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
       }
     };
 
+    let allDone = function (q: Object) {
+      return q.length() < 1 && q.running() < 1;
+    };
+
     return function (code: number, signal: number) {
+
+      cb(null);  // fire run queue callback
 
       n.dateEndedMillis = gd.endDate = Date.now();
       n.sumanExitCode = gd.sumanExitCode = code;
       n.removeAllListeners();
 
       const sumanOpts = _suman.sumanOpts;
-      // handleBlocking gets initialized weirdly in runner.js, but we will deal for now
-      const handleBlocking = runnerObj.handleBlocking;
+      const transpileQ = getTranspileQueue();
 
       resultBroadcaster.emit(String(events.TEST_FILE_CHILD_PROCESS_EXITED), {
         testPath: n.testPath,
@@ -83,9 +90,14 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
       tableRows[n.shortTestPath].actualExitCode = n.expectedExitCode !== undefined ?
         (n.expectedExitCode + '/' + originalExitCode) : originalExitCode;
 
-      if ((weHaveBailed(code) || (runnerObj.doneCount >= forkedCPs.length && runnerObj.queuedCPs.length < 1))) {
+      // console.log('transpileQ:', util.inspect(transpileQ));
+
+      if (weHaveBailed(code) || (allDone(runQueue) && allDone(transpileQ))) {
 
         if (runnerObj.bailed) {
+
+          runQueue.kill();
+          transpileQ.kill();
 
           console.log('\n');
           _suman.logError(chalk.magenta('We have ' + chalk.red.bold('bailed') +
