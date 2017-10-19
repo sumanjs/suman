@@ -25,6 +25,10 @@ but my question is - how can I set global_npm_modules_path so that it's held in 
 
 ///
 
+ give user option to bundle with selenium webdriver
+
+///
+
 https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
 
 ///
