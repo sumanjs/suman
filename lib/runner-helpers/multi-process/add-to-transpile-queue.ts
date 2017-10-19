@@ -8,6 +8,10 @@ import {ITableRows} from "suman-types/dts/runner";
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
+//core
+import path = require('path');
+import cp = require('child_process');
+
 //npm
 import async = require('async');
 import chalk = require('chalk');

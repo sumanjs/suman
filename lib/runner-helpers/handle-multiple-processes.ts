@@ -32,7 +32,7 @@ const {constants} = require('../../config/suman-constants');
 import {makeTranspileQueue} from './multi-process/transpile-queue';
 import {makeAddToTranspileQueue} from './multi-process/add-to-transpile-queue';
 import {makeOnExitFn} from './multiple-process-each-on-exit';
-import {makeRunFile} from "./multi-process/run-file";
+import {makeAddToRunQueue} from "./multi-process/add-to-run-queue";
 import {makeRunQueue} from "./multi-process/run-queue";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,14 +63,12 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
     const onExitFn = makeOnExitFn(runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit);
     const args: Array<string> = ['--user-args', sumanOpts.user_args];
     const runQueue = makeRunQueue();
-    const runFile = makeRunFile(runnerObj, args, runQueue, projectRoot, cpHash, forkedCPs, onExitFn);
-
+    const runFile = makeAddToRunQueue(runnerObj, args, runQueue, projectRoot, cpHash, forkedCPs, onExitFn);
 
     const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
     if (waitForAllTranformsToFinish) {
       _suman.log('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
     }
-
 
     let queuedTestFns: Array<Function> = [];
     let failedTransformObjects: Array<Object> = [];
@@ -93,7 +91,6 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
           'and will not be listening for websocket messages.'));
       }
     }
-
 
     let files = runObj.files;
 

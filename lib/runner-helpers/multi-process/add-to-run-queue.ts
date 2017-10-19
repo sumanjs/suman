@@ -11,6 +11,8 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import util = require('util');
+import path = require('path');
+import cp = require('child_process');
 
 //npm
 import async = require('async');
@@ -30,10 +32,10 @@ const runChildPath = require.resolve(__dirname + '/../run-child.js');
 
 //////////////////////////////////////////////////////////////////////
 
-export const makeRunFile = function (runnerObj: Object, args: Array<string>, runQueue: Object, projectRoot: string,
+export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string>, runQueue: Object, projectRoot: string,
                                      cpHash: Object, forkedCPs: Array<any>, onExitFn: Function) {
 
-  const {sumanOpts, sumanConfig} = _suman;
+  const {sumanOpts, sumanConfig, maxProcs} = _suman;
   const execFile = path.resolve(__dirname + '/../run-child.js');
   const istanbulExecPath = _suman.istanbulExecPath || 'istanbul';
   const isStdoutSilent = sumanOpts.stdout_silent || sumanOpts.silent;

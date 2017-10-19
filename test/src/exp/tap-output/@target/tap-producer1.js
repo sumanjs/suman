@@ -14,7 +14,7 @@ Test.create(function (it, before, describe, beforeEach, afterEach, after) {
         // throw new Error('whole me 3');
     });
     it('rudolph', function (t) {
-        throw new Error('whole me 4');
+        // throw new Error('whole me 4');
     });
     afterEach('ram', function (h) {
     });

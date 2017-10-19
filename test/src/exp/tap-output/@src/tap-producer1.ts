@@ -26,7 +26,7 @@ Test.create(function (it: ItFn, before: IBeforeFn, describe: IDescribeFn,
   });
 
   it('rudolph', t => {
-    throw new Error('whole me 4');
+    // throw new Error('whole me 4');
   });
 
   afterEach('ram', (h: IHookParam) => {
