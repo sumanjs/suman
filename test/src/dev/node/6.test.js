@@ -10,16 +10,11 @@ const {Test} = suman.init(module, {
 
 let count = 0;
 
-Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest, describe) {
+Test.create(function (b, test, setup, setupTest, setuptest, teardown, teardownTest, describe) {
 
   test('here we go');
 
-  const x = this;
-  debugger;
-  // console.log(this.describe);
-  debugger;
-
-  this.shared.set('users', 888);
+  b.shared.set('users', 888);
 
   setup({}, h => {
     console.log('this is a setup..');

@@ -25,6 +25,17 @@ but my question is - how can I set global_npm_modules_path so that it's held in 
 
 ///
 
+describe('nested1', opts, () => {});  ---> this makes an error (see 1.test.js)
+
+ [suman]    ⚑  Suman fatal error  => making a graceful exit =>
+ [suman]    TypeError: arr.slice is not a function
+ [suman]        at Object.exports.parseArgs (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/helpers/parse-pragmatik-args.js:20:29)
+ [suman]        at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-methods/make-describe.js:45:45
+
+ [suman]        at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/1.test.js:27:3
+
+///
+
  give user option to bundle with selenium webdriver
 
 ///

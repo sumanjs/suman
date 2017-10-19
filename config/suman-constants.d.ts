@@ -13,6 +13,7 @@ export declare const constants: Readonly<{
     };
     SUMAN_SERVER_MESSAGE: string;
     GIT_IGNORE: string[];
+    UNKNOWN_INJECT_HOOK_NAME: string;
     SUMAN_HOOK_FATAL_WARNING_MESSAGE: string;
     SUMAN_HOOK_FATAL_MESSAGE: string;
     SUMAN_HARD_LIST: string[];
