@@ -1,2 +1,2 @@
 import { IGanttData } from "../socket-cp-hash";
-export declare const makeRunFile: (runnerObj: any, args: any, runQueue: any, projectRoot: string, cpHash: any, forkedCPs: any, onExitFn: any) => (file: string, shortFile: string, stdout: string, gd: IGanttData) => void;
+export declare const makeRunFile: (runnerObj: Object, args: string[], runQueue: Object, projectRoot: string, cpHash: Object, forkedCPs: any[], onExitFn: Function) => (file: string, shortFile: string, stdout: string, gd: IGanttData) => void;

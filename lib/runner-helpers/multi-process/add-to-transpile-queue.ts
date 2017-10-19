@@ -2,6 +2,7 @@
 
 //dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ITableRows} from "suman-types/dts/runner";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -17,10 +18,12 @@ import uuidV4 = require('uuid/v4');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {findPathOfTransformDotSh} from '../runner-utils';
+import {IGanttHash} from "../socket-cp-hash";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeAddToTranspileQueue = function (f: string, transpileQueue, tableRows, ganttHash, projectRoot: string) {
+export const makeAddToTranspileQueue = function (f: string, transpileQueue: Object, tableRows: ITableRows,
+                                                 ganttHash: IGanttHash, projectRoot: string) {
 
   const {sumanOpts} = _suman;
   const inheritTransformStdio = sumanOpts.inherit_all_stdio ||

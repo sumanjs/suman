@@ -33,7 +33,7 @@ import {makeTranspileQueue} from './multi-process/transpile-queue';
 import {makeAddToTranspileQueue} from './multi-process/add-to-transpile-queue';
 import {makeOnExitFn} from './multiple-process-each-on-exit';
 import {makeRunFile} from "./multi-process/run-file";
-
+import {makeRunQueue} from "./multi-process/run-queue";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,25 +52,26 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
 
   return function (runObj: IRunObj) {
 
+    const {sumanOpts, sumanConfig, projectRoot} = _suman;
     _suman.startDateMillis = Date.now();
-
     process.stderr.setMaxListeners(runObj.files.length + 11);
     process.stdout.setMaxListeners(runObj.files.length + 11);
 
     const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
     const sumanCPLogs = path.resolve(logsDir + '/runs/');
     const f = path.resolve(sumanCPLogs + '/' + _suman.timestamp + '-' + _suman.runId);
-    const onExitFn = makeOnExitFn(runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit, transpileQueue);
-    const runFile = makeRunFile(onExitFn);
+    const onExitFn = makeOnExitFn(runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit);
+    const args: Array<string> = ['--user-args', sumanOpts.user_args];
+    const runQueue = makeRunQueue();
+    const runFile = makeRunFile(runnerObj, args, runQueue, projectRoot, cpHash, forkedCPs, onExitFn);
 
-    const {sumanOpts, sumanConfig, projectRoot} = _suman;
+
     const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
-
     if (waitForAllTranformsToFinish) {
       _suman.log('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
     }
 
-    const args: Array<string> = ['--user-args', sumanOpts.user_args];
+
     let queuedTestFns: Array<Function> = [];
     let failedTransformObjects: Array<Object> = [];
 
@@ -93,9 +94,6 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
       }
     }
 
-    if (_suman.usingLiveSumanServer) {
-      args.push('--live_suman_server');
-    }
 
     let files = runObj.files;
 

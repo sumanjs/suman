@@ -21,6 +21,8 @@ export const makeRunQueue = function () {
 
   return async.queue(function (task, cb) {
 
+    task(cb);
+
   }, maxProcs);
 
 };

@@ -36,9 +36,9 @@ const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster |
 
 export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRows,
                                       messages: Array<ISumanCPMessages>, forkedCPs: Array<ISumanChildProcess>,
-                                      beforeExitRunOncePost: Function, makeExit: Function, gd: IGanttData, transpileQueue: any) {
+                                      beforeExitRunOncePost: Function, makeExit: Function) {
 
-  return function (n: ISumanChildProcess) {
+  return function (n: ISumanChildProcess, gd: IGanttData) {
 
     let weHaveBailed = function (code: number) {
       if (code > 0 && _suman.sumanOpts.bail) {
@@ -83,7 +83,7 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
       tableRows[n.shortTestPath].actualExitCode = n.expectedExitCode !== undefined ?
         (n.expectedExitCode + '/' + originalExitCode) : originalExitCode;
 
-      if (transpileQueue.length() < 1 && (weHaveBailed(code) || (runnerObj.doneCount >= forkedCPs.length && runnerObj.queuedCPs.length < 1))) {
+      if ((weHaveBailed(code) || (runnerObj.doneCount >= forkedCPs.length && runnerObj.queuedCPs.length < 1))) {
 
         if (runnerObj.bailed) {
 

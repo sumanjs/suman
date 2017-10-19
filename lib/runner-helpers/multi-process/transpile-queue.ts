@@ -12,17 +12,15 @@ const global = require('suman-browser-polyfills/modules/global');
 import async = require('async');
 import chalk = require('chalk');
 
-
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 //////////////////////////////////////////////////////////////////////////
 
-export const makeTranspileQueue = function (failedTransformObjects, outer, queuedTestFns) {
+export const makeTranspileQueue = function (failedTransformObjects, runFile, queuedTestFns) {
 
   const {sumanOpts, sumanConfig, projectRoot} = _suman;
   const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
-
 
   return async.queue(function (task: Function, cb: Function) {
 
@@ -34,22 +32,18 @@ export const makeTranspileQueue = function (failedTransformObjects, outer, queue
         return;
       }
 
-      setImmediate(function () {
+      setImmediate(cb);
 
-        console.log(chalk.red('pushing file '), file);
+      console.log(chalk.red('pushing file '), file);
 
-        if (waitForAllTranformsToFinish) {
-          queuedTestFns.push(function () {
-            outer(file, shortFile, stdout, gd);
-          });
-        }
-        else {
-          outer(file, shortFile, stdout, gd);
-        }
-
-        cb(null);
-
-      });
+      if (waitForAllTranformsToFinish) {
+        queuedTestFns.push(function () {
+          runFile(file, shortFile, stdout, gd);
+        });
+      }
+      else {
+        runFile(file, shortFile, stdout, gd);
+      }
 
     });
 
