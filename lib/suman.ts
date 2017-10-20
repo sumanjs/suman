@@ -277,8 +277,7 @@ export class Suman {
         TEST_CASES_SKIPPED: testsSkipped,
         TEST_CASES_STUBBED: testsStubbed,
         TEST_SUMAN_MILLIS: deltaStrg,
-        TEST_FILE_MILLIS: deltaTotalStr,
-        OVERALL_DESIGNATOR: 'received'
+        TEST_FILE_MILLIS: deltaTotalStr
       };
 
       process.nextTick(cb, null, {

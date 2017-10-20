@@ -28,8 +28,7 @@ export const handleRequestResponseWithRunner = function (data: Array<any>) {
     TEST_CASES_PASSED: 0,
     TEST_CASES_SKIPPED: 0,
     TEST_CASES_STUBBED: 0,
-    TEST_FILE_MILLIS: Date.now() - _suman.sumanInitStartDate,
-    OVERALL_DESIGNATOR: 'received'
+    TEST_FILE_MILLIS: Date.now() - _suman.sumanInitStartDate
   };
 
   data.forEach(function (d) {
