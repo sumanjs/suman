@@ -24,11 +24,11 @@ export const handleTestCoverageReporting = function (cb: Function) {
   console.log('\n');
   _suman.log(chalk.blue.bold('Suman is running the Istanbul collated report.'));
   _suman.log(chalk.blue.bold('To disable automatic report generation, use "--no-coverage-report".'));
-  let coverageDir = path.resolve(_suman.projectRoot + '/coverage');
-  const k = cp.spawn(_suman.istanbulExecPath || 'istanbul',
-    ['report', '--dir', coverageDir, '--include', '**/*coverage.json', 'lcov'], {
-      cwd: _suman.projectRoot
-    });
+  const coverageDir = path.resolve(_suman.projectRoot + '/coverage');
+  const args = ['report', '--dir', coverageDir, '--include', '**/*coverage.json', 'lcov'];
+  const k = cp.spawn(_suman.istanbulExecPath || 'istanbul', args, {
+    cwd: _suman.projectRoot
+  });
 
   // k.stdout.pipe(process.stdout);
   k.stderr.pipe(process.stderr);
