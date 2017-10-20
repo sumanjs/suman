@@ -172,7 +172,7 @@ export const makeExit = function (runnerObj, tableRows) {
 
     totals.filesInfo = [filesPassed, filesFailed, filesTotal].join(' / ');
 
-    overallResultsTable.setHeading('Bailed?', 'Files ➣', '(Passed/Failed/Total)', 'Test cases ➣', 'Passed',
+    overallResultsTable.setHeading('Bailed?', 'Files ➣', '(Passed/Failed/Total)', 'totals:', 'Passed',
       'Failed', 'Skipped', 'Stubbed', 'All Tests', 'Total Time');
     overallResultsTable.addRow(Object.keys(totals).map(key => totals[key]));
 

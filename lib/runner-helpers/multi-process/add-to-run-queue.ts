@@ -173,9 +173,9 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
 
           if (sumanOpts.coverage) {
             let coverageDir = path.resolve(_suman.projectRoot + '/coverage/' + String(shortFile).replace(/\//g, '-'));
-            n = cp.spawn(istanbulExecPath,
-              //'--include-all-sources'
-              ['cover', execFile, '--dir', coverageDir, '--'].concat(args), cpOptions) as ISumanChildProcess;
+            let argzz =  ['cover', execFile, '--dir', coverageDir, '--'].concat(args);
+            //'--include-all-sources'
+            n = cp.spawn(istanbulExecPath, argzz, cpOptions) as ISumanChildProcess;
           }
           else {
             argz.unshift(execFile);
