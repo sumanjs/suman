@@ -25,15 +25,18 @@ exports.constants = Object.freeze({
         describe: true,
         before: true,
         after: true,
-        beforeEach: true,
-        afterEach: true,
+        beforeall: true,
+        afterall: true,
+        beforeeach: true,
+        aftereach: true,
         it: true,
         suite: true,
         test: true,
         setup: true,
         teardown: true,
-        setupTest: true,
-        teardownTest: true,
+        setuptest: true,
+        teardowntest: true,
+        context: true,
         $root: true,
         inject: true,
         $injections: true,
@@ -42,15 +45,8 @@ exports.constants = Object.freeze({
         $pre: true,
         $core: true,
         $deps: true,
-        resume: true,
-        getResumeVal: true,
-        getResumeValue: true,
-        extraArgs: true,
-        userData: true,
-        context: true,
-        extra: true,
-        $uda: true,
-        writable: true
+        extraargs: true,
+        userdata: true,
     }),
     CORE_MODULE_LIST: require('builtin-modules'),
     CLI_EXIT_CODES: {
@@ -156,7 +152,7 @@ exports.constants = Object.freeze({
             default: '(!! suman error !!)'
         },
         TEST_CASES_DESIGNATOR: {
-            name: 'Test cases ▶',
+            name: 'tests ▶',
             default: ''
         },
         TEST_CASES_TOTAL: {
@@ -178,11 +174,6 @@ exports.constants = Object.freeze({
         TEST_CASES_STUBBED: {
             name: 'stubbed',
             default: '-'
-        },
-        OVERALL_DESIGNATOR: {
-            name: ' Overall ▶',
-            default: '(not received)',
-            allowEmptyString: true
         },
         TEST_FILE_MILLIS: {
             name: 'millis',

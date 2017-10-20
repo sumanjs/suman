@@ -40,8 +40,6 @@ export const makeTranspileQueue = function (failedTransformObjects, runFile, que
 
       setImmediate(cb);
 
-      console.log(chalk.red('pushing file '), file);
-
       if (waitForAllTranformsToFinish) {
         queuedTestFns.push(function () {
           runFile(file, shortFile, stdout, gd);
