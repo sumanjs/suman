@@ -144,8 +144,6 @@ export const makeAddToTranspileQueue = function (f: string, transpileQueue: Asyn
 
           k.once('exit', function (code: number) {
 
-            console.log(chalk.red('exxxxited.'));
-
             gd.transformEndDate = Date.now();
 
             if (code > 0) {

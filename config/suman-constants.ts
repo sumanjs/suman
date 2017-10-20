@@ -37,21 +37,21 @@ export const constants = Object.freeze({
 
   SUMAN_HARD_LIST: Object.keys({
 
-    //bdd
     describe: true,
     before: true,
     after: true,
-    beforeEach: true,
-    afterEach: true,
+    beforeall: true,
+    afterall: true,
+    beforeeach: true,
+    aftereach: true,
     it: true,
-
-    //tdd
     suite: true,
     test: true,
     setup: true,
     teardown: true,
-    setupTest: true,
-    teardownTest: true,
+    setuptest: true,
+    teardowntest: true,
+    context: true,
 
     //all
     $root: true, // root of project
@@ -62,15 +62,8 @@ export const constants = Object.freeze({
     $pre: true,
     $core: true,
     $deps: true,
-    resume: true,
-    getResumeVal: true,
-    getResumeValue: true,
-    extraArgs: true,
-    userData: true,
-    context: true,
-    extra: true,
-    $uda: true,
-    writable: true
+    extraargs: true,
+    userdata: true,
 
   }),
 
@@ -186,7 +179,7 @@ export const constants = Object.freeze({
       default: '(!! suman error !!)'
     },
     TEST_CASES_DESIGNATOR: {
-      name: 'Test cases ▶',
+      name: 'tests ▶',
       default: ''
     },
     TEST_CASES_TOTAL: {
@@ -208,11 +201,6 @@ export const constants = Object.freeze({
     TEST_CASES_STUBBED: {
       name: 'stubbed',
       default: '-'
-    },
-    OVERALL_DESIGNATOR: {
-      name: ' Overall ▶',
-      default: '(not received)',
-      allowEmptyString: true
     },
     TEST_FILE_MILLIS: {
       name: 'millis',

@@ -134,11 +134,6 @@ export declare const constants: Readonly<{
             name: string;
             default: string;
         };
-        OVERALL_DESIGNATOR: {
-            name: string;
-            default: string;
-            allowEmptyString: boolean;
-        };
         TEST_FILE_MILLIS: {
             name: string;
             default: any;

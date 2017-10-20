@@ -5,4 +5,4 @@ set -e;
 git checkout dev;
 git pull;
 
-git
+git checkout master package.json; # this is the only file we want to merge from master
