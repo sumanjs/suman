@@ -44,10 +44,7 @@ import {makeSumanMethods} from "./test-suite-helpers/suman-methods";
 import {makeHandleBeforesAndAfters} from './test-suite-helpers/make-handle-befores-afters';
 import {makeNotifyParent} from './test-suite-helpers/notify-parent-that-child-is-complete';
 
-/*////////////// what it do ///////////////////////////////////////////////
-
-
- */////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const execSuite = function (suman: ISuman): Function {
 

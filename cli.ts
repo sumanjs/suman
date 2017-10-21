@@ -128,6 +128,7 @@ require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
 import {loadReporters} from './lib/helpers/load-reporters';
 import {constants} from './config/suman-constants';
+import {resolveSharedDirs, loadSharedObjects} from "./lib/helpers/general";
 
 const weAreDebugging = su.weAreDebugging;
 
@@ -391,8 +392,8 @@ else {
   sumanInstalledLocally = installObj.sumanInstalledLocally;
 }
 
-const sumanPaths = require('./lib/helpers/resolve-shared-dirs').resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
-const sumanObj = require('./lib/helpers/load-shared-objects').loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
+const sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+const sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 
 ///////////////////// Here we reconcile and merge command line args with config  ///////////////////////////
 //////////////////// as usual, command line args take precedence over static configuration (suman.conf.js)

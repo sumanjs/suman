@@ -1,10 +1,24 @@
 import { IPseudoError } from "suman-types/dts/global";
+import { ISumanConfig, ISumanOpts } from "suman-types/dts/global";
 import { IAllOpts } from "suman-types/dts/test-suite";
 import { Suman } from "../suman";
 import { ISumanServerInfo } from "suman-types/dts/suman";
 export interface ICloneErrorFn {
     (err: Error, newMessage: string, stripAllButTestFilePathMatch?: boolean): IPseudoError;
 }
+export declare const extractVals: (val: any) => {
+    timeout: number;
+    subDeps: string[];
+    fn: Function;
+    props: string[];
+};
+export declare const makeRunGenerator: (fn: Function, ctx: any) => () => Promise<any>;
+export declare const asyncHelper: (key: string, resolve: Function, reject: Function, $args: any[], ln: number, fn: Function) => any;
+export declare const implementationError: (err: IPseudoError, isThrow: boolean) => void;
+export declare const loadSumanConfig: (configPath: string, opts: Object) => any;
+export declare const resolveSharedDirs: (sumanConfig: ISumanConfig, projectRoot: string, sumanOpts: ISumanOpts) => any;
+export declare const loadSharedObjects: (pathObj: Object, projectRoot: string, sumanOpts: ISumanOpts) => any;
+export declare const vetPaths: (paths: string[]) => void;
 export declare const fatalRequestReply: (obj: Object, $cb: Function) => any;
 export declare const findSumanServer: (serverName?: string) => ISumanServerInfo;
 export declare const makeOnSumanCompleted: (suman: Suman) => (code: number, msg: string) => void;

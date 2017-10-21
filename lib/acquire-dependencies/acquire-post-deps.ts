@@ -21,8 +21,7 @@ import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {asyncHelper} from '../helpers/async-helper';
-import {extractVals} from './helpers/extract-vals';
+import {asyncHelper, extractVals} from '../helpers/general';
 
 ////////////////////////////////////////////////////////////////////
 

@@ -87,7 +87,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
   const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
   // this should get refactored into runner get-file-paths.js
-  require('./helpers/vet-paths').run(paths);
+  require('./helpers/general').vetPaths(paths);
 
   if (paths.length < 1) {
     if (testSrcDir) {

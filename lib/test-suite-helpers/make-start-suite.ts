@@ -22,7 +22,7 @@ import chalk = require('chalk');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const implementationError = require('../helpers/implementation-error');
+import {implementationError} from '../helpers/general';
 import {constants} from '../../config/suman-constants';
 import {makeTheTrap} from './make-the-trap';
 

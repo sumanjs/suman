@@ -19,7 +19,7 @@ import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {makeRunGenerator} from '../helpers/async-gen';
+import {makeRunGenerator} from '../helpers/general';
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

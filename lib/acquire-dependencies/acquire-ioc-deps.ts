@@ -27,11 +27,9 @@ const fnArgs = require('function-arguments');
 //project
 const _suman = global.__suman = (global.__suman || {});
 import {constants} from '../../config/suman-constants';
-import {ISuman} from "suman-types/dts/suman";
+import {ISuman, Suman} from "../suman";
 import {makeIocInjector} from '../injection/ioc-injector';
-import {loadSumanConfig} from '../helpers/load-suman-config';
-import {resolveSharedDirs} from '../helpers/resolve-shared-dirs';
-import {loadSharedObjects} from '../helpers/load-shared-objects'
+import {loadSumanConfig, resolveSharedDirs, loadSharedObjects} from '../helpers/general';
 
 const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 

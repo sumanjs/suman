@@ -25,7 +25,7 @@ import su = require('suman-utils');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {makeHandleTest} from './make-handle-test';
 import {makeHandleBeforeOrAfterEach} from './make-handle-each';
-const implementationError = require('../helpers/implementation-error');
+import {implementationError} from '../helpers/general';
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const testErrors = _suman.testErrors = _suman.testErrors || [];
 const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];

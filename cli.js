@@ -86,6 +86,7 @@ require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
 var load_reporters_1 = require("./lib/helpers/load-reporters");
 var suman_constants_1 = require("./config/suman-constants");
+var general_1 = require("./lib/helpers/general");
 var weAreDebugging = su.weAreDebugging;
 if (weAreDebugging) {
     console.log(' => Suman is in debug mode (we are debugging).');
@@ -281,8 +282,8 @@ else {
     sumanServerInstalled = installObj.sumanServerInstalled;
     sumanInstalledLocally = installObj.sumanInstalledLocally;
 }
-var sumanPaths = require('./lib/helpers/resolve-shared-dirs').resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
-var sumanObj = require('./lib/helpers/load-shared-objects').loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
+var sumanPaths = general_1.resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+var sumanObj = general_1.loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 if (sumanOpts.parallel && sumanOpts.series) {
     throw chalk.red('suman usage error => "--series" and "--parallel" options were both used, ' +
         'please choose one or neither...but not both!');

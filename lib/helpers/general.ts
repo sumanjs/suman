@@ -2,6 +2,7 @@
 
 //dts
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
+import {ISumanConfig, ISumanOpts} from "suman-types/dts/global";
 import {IAllOpts} from "suman-types/dts/test-suite";
 import {ISuman, Suman} from "../suman";
 import {ISumanServerInfo} from "suman-types/dts/suman";
@@ -15,9 +16,12 @@ import util = require('util');
 import assert = require('assert');
 import EE = require('events');
 import os = require('os');
+import path = require('path');
+import fs = require('fs');
 
 //npm
 import su = require('suman-utils');
+import chalk  = require('chalk');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -28,6 +32,7 @@ const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitte
 const results: Array<ITableDataCallbackObj> = _suman.tableResults = (_suman.tableResults || []);
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from '../index-helpers/socketio-child-client';
+const fnArgs = require('function-arguments');
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -35,12 +40,379 @@ export interface ICloneErrorFn {
   (err: Error, newMessage: string, stripAllButTestFilePathMatch?: boolean): IPseudoError
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-let fatalRequestReplyCallable = true;
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+export const extractVals = function (val: any) {
+
+  let fn: Function, subDeps: Array<string>, props: Array<string>, timeout: number;
+
+  if (Array.isArray(val)) {
+    fn = val[val.length - 1];
+    val.pop();
+    subDeps = val.filter(function (v) {
+      if (v) {
+        if (typeof v !== 'string') {
+          throw new Error(' => There is a problem in your suman.once.pre.js file - ' +
+            'the following key was not a string => ' + util.inspect(v));
+        }
+        if (String(v).indexOf(':') > -1) {
+          props = props || [];
+          props.push(v);
+          return false;
+        }
+        return true;
+      }
+      else {
+        console.error(' => You have an empty key in your suman.once.pre.js file.');
+        console.error(' => Suman will continue optimistically.');
+        return false;
+      }
+    });
+  }
+  else {
+    subDeps = [];
+    fn = val;
+  }
+
+  return {
+    timeout,
+    subDeps,
+    fn,
+    props
+  }
+};
+
+export const makeRunGenerator =  function (fn: Function, ctx: any) {
+
+  return function (): Promise<any> {
+
+    const generator = fn.apply(ctx, arguments);
+
+    const handle = function (result: any): Promise<any> {
+
+      // result => { done: [Boolean], value: [Object] }
+      if (result.done) {
+        return Promise.resolve(result.value);
+      }
+      else {
+        return Promise.resolve(result.value).then(function (res) {
+          return handle(generator.next(res));
+        }, function (e) {
+          return handle(generator.throw(e));
+        });
+      }
+    };
+
+    try {
+      return handle(generator.next());
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+};
+
+export const asyncHelper =
+  function (key: string, resolve: Function, reject: Function, $args: Array<any>, ln: number, fn: Function) {
+
+    // ln is length of function arguments before callback argument
+    if (typeof fn !== 'function') {
+      let e = new Error('Suman usage error: would-be function was undefined or otherwise not a function =>\n' + String(fn));
+      reject({key, error: e});
+    }
+    else if (fn.length > 1 && su.isGeneratorFn(fn)) {
+      let e = new Error('Suman usage error: function was a generator function but also took a callback =>\n' + String(fn));
+      reject({key, error: e});
+    }
+    else if (su.isGeneratorFn(fn)) {
+      const gen = makeRunGenerator(fn, null);
+      gen.apply(null, $args).then(resolve, function (e: Error | string) {
+        reject({key: key, error: e});
+      });
+    }
+    else if (fn.length > 1) {
+      let args = fnArgs(fn);
+      let str = fn.toString();
+      let matches = str.match(new RegExp(args[1], 'g')) || [];
+      if (matches.length < 2) {
+        // there should be at least two instances of the 'cb' string in the function,
+        // one in the parameters array, the other in the fn body.
+        let e = new Error('Suman usage error => Callback in your function was not present => ' + str);
+        return reject({key: key, error: e});
+      }
+
+      $args.push(function (e: IPseudoError | string, val: any) {
+        e ? reject({key: key, error: e}) : resolve(val)
+      });
+
+      fn.apply(null, $args);
+    }
+    else {
+      Promise.resolve(fn.apply(null, $args))
+      .then(resolve, function (e: IPseudoError | string) {
+        reject({key: key, error: e});
+      });
+    }
+
+  };
+
+
+export const implementationError = function  (err: IPseudoError, isThrow: boolean) {
+  if (err) {
+    const $err = new Error(' => Suman implementation error => Please report!'
+      + '\n' + (err.stack || err));
+    _suman.logError($err.stack);
+    _suman.writeTestError($err.stack);
+    if (isThrow) {
+      throw $err;
+    }
+  }
+};
+
+export const loadSumanConfig = function (configPath: string, opts: Object) {
+
+  const cwd = process.cwd();
+  const projectRoot = _suman.projectRoot = (_suman.projectRoot || su.findProjectRoot(cwd));
+
+  let sumanConfig, pth1, pth2;
+
+  if (!(sumanConfig = _suman.sumanConfig)) {
+
+    if (process.env.SUMAN_CONFIG) {
+      sumanConfig = JSON.parse(process.env.SUMAN_CONFIG);
+
+    }
+    else {
+      try {
+        pth1 = path.resolve(path.normalize(cwd + '/' + configPath));
+        sumanConfig = require(pth1); //TODO: allow for command line input of configPath
+      }
+      catch (err) {
+        try {
+          pth1 = null;  //force null for logging below
+          pth2 = path.resolve(path.normalize(projectRoot + '/suman.conf.js'));
+          sumanConfig = require(pth2);
+        }
+        catch (err) {
+          pth2 = null;
+          // throw new Error(' => Suman message => Warning - no configuration (suman.conf.js) ' +
+          //   'found in the root of your project.\n  ' + chalk.magenta(err.stack || err) + '\n');
+
+          sumanConfig = _suman.sumanConfig = require('../default-conf-files/suman.default.conf');
+          _suman.logError('warning => Using default configuration, ' +
+            'please use "suman --init" to create a suman.conf.js file in the root of your project.');
+        }
+      }
+
+      if (pth1 || pth2) {
+        if (_suman.sumanOpts.verbosity > 8 || su.isSumanDebug()) {
+          _suman.log('Path of suman config used: ' + (pth1 || pth2), '\n',
+            'Value of suman config => ', util.inspect(sumanConfig));
+        }
+      }
+    }
+
+  }
+
+  return _suman.sumanConfig = (_suman.sumanConfig || sumanConfig);
+};
+
+
+let resolvedSharedDirs = null as any;
+export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoot: string, sumanOpts: ISumanOpts) {
+
+  if (resolvedSharedDirs) {
+    return resolvedSharedDirs;
+  }
+
+  if (sumanOpts.init) {
+    return resolvedSharedDirs = {};
+  }
+
+  let sumanHelpersDir, shd;
+  if (shd = sumanOpts.suman_helpers_dir) {
+    sumanHelpersDir = (path.isAbsolute(shd) ? shd : path.resolve(projectRoot + '/' + shd));
+  }
+  else {
+    sumanHelpersDir = path.resolve(projectRoot + '/' + (sumanConfig.sumanHelpersDir || 'suman'));
+  }
+
+  let sumanHelpersDirLocated = false;
+
+  try {
+    fs.statSync(sumanHelpersDir);
+    sumanHelpersDirLocated = true;
+  }
+  catch (err) {
+    console.error('\n',err.stack || err,'\n');
+    console.error('\n\n', chalk.magenta('=> Suman could *not* locate your <suman-helpers-dir>; ' +
+      'perhaps you need to update your suman.conf.js file, please see: ***'), '\n',
+      chalk.cyan(' => http://sumanjs.org/conf.html'), '\n',
+      ' => We expected to find your <suman-helpers-dir> here =>', '\n',
+      chalk.bgBlack.cyan(sumanHelpersDir), '\n');
+
+    console.log(' => Exiting because we could not locate the <suman-helpers-dir>, ' +
+      'given your configuration and command line options.');
+    return process.exit(constants.EXIT_CODES.COULD_NOT_LOCATE_SUMAN_HELPERS_DIR);
+  }
+
+  const logDir = path.resolve(sumanHelpersDir + '/logs');
+  const integPrePath = path.resolve(sumanHelpersDir + '/suman.once.pre.js');
+  const integPostPath = path.resolve(sumanHelpersDir + '/suman.once.post.js');
+
+  //TODO possibly reconcile these with cmd line options
+  const testSrcDirDefined = !!sumanConfig.testSrcDir; //TODO: check for valid string
+  const testDir = process.env.TEST_DIR = _suman.testDir = path.resolve(projectRoot + '/' + (sumanConfig.testDir || 'test'));
+  const testSrcDir = process.env.TEST_SRC_DIR = _suman.testSrcDir = path.resolve(projectRoot + '/' + (sumanConfig.testSrcDir || 'test'));
+  const debugStreamPath = path.resolve(sumanHelpersDir + '/logs/test-debug.log');
+
+  return resolvedSharedDirs = Object.freeze({
+    sumanHelpersDir: _suman.sumanHelperDirRoot = process.env.SUMAN_HELPERS_DIR_ROOT = sumanHelpersDir,
+    sumanLogDir: _suman.sumanLogDir = logDir,
+    integPrePath: _suman.integPrePath = integPrePath,
+    integPostPath: _suman.integPostPath = integPostPath,
+    sumanHelpersDirLocated: sumanHelpersDirLocated,
+    testDebugLogPath: _suman.testDebugLogPath = debugStreamPath
+  });
+
+};
+
+let loadedSharedObjects = null as any;
+export const loadSharedObjects = function (pathObj: Object, projectRoot: string, sumanOpts: ISumanOpts) {
+
+  if (loadedSharedObjects) {
+    return loadedSharedObjects;
+  }
+
+  if (sumanOpts.init) {
+    return loadedSharedObjects = {};
+  }
+
+  //TODO: use this value instead of global value
+  const sumanHelpersDir = _suman.sumanHelperDirRoot;
+  const logDir = pathObj.sumanLogDir;
+  const sumanHelpersDirLocated = pathObj.sumanHelpersDirLocated;
+
+  try {
+    fs.statSync(logDir);
+  }
+  catch (err) {
+    if (sumanHelpersDirLocated) {
+      console.error('\n', chalk.blue('=> Suman could successfully locate your "<suman-helpers-dir>", but...\n')
+        + chalk.yellow.bold(' ...Suman could not find the <suman-helpers-dir>/logs directory...you may have accidentally deleted it, ' +
+          'Suman will re-create one for you.'));
+    }
+
+    try {
+      fs.mkdirSync(logDir);
+    }
+    catch (err) {
+      console.error('\n\n', chalk.red(' => Suman fatal problem => ' +
+        'Could not create logs directory in your sumanHelpersDir,\n' +
+        'please report this issue. Original error => \n' + (err.stack || err), '\n\n'));
+      process.exit(constants.EXIT_CODES.COULD_NOT_CREATE_LOG_DIR);
+    }
+
+  }
+
+  let integrantPreFn, p: string;
+
+  try {
+    p = path.resolve(_suman.sumanHelperDirRoot + '/suman.once.pre.js');
+    integrantPreFn = require(p);
+  }
+  catch (err) {
+    _suman.logError(`Could not load your integrant pre module at path <${p}>.`);
+    _suman.logError(err.stack || err);
+    integrantPreFn = function () {
+      return {dependencies:{}}
+    };
+
+    if (sumanOpts.verbosity > 2) {
+      _suman.logError(chalk.magenta('usage warning: no <suman.once.pre.js> file found.'));
+    }
+
+    if (sumanOpts.verbosity > 3) {
+      console.error(chalk.magenta(err.stack ? err.stack.split('\n')[0] : err), '\n');
+    }
+    else{
+      console.log('\n');
+    }
+
+    if (sumanOpts.strict) {
+      process.exit(constants.EXIT_CODES.SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT);
+    }
+  }
+
+  let iocFn;
+
+  try {
+    p = path.resolve(_suman.sumanHelperDirRoot + '/suman.ioc.js');
+    iocFn = require(p);
+  }
+  catch (err) {
+    _suman.logError(`could not load suman.ioc.js file at path <${p}>`);
+    _suman.logError(err.stack || err);
+    try {
+      p = path.resolve(projectRoot + '/suman/suman.ioc.js');
+      iocFn = require(p);
+    }
+    catch (err) {
+      _suman.logError(`could not load suman.ioc.js file at path <${p}>`);
+      _suman.logError(err.stack || err);
+      iocFn = function(){
+        return {dependencies: {}}
+      }
+    }
+  }
+
+  try {
+    assert(integrantPreFn === undefined || typeof integrantPreFn === 'function',
+      'Your suman.once.pre.js file needs to export a function.');
+    assert(iocFn === undefined || typeof iocFn === 'function',
+      ' => Your suman.ioc.js file does not export a function. Please fix this situation.');
+  }
+  catch (err) {
+    console.error('\n\n', chalk.magenta(err.stack || err), '\n\n');
+    process.exit(constants.EXIT_CODES.SUMAN_HELPER_FILE_DOES_NOT_EXPORT_EXPECTED_FUNCTION);
+  }
+
+  return loadedSharedObjects = {
+    iocFn: _suman.sumanIoc = iocFn,
+    integrantPreFn: _suman.integrantPreFn = integrantPreFn
+  }
+
+};
+
+let loaded = false;
+export const vetPaths = function (paths: Array<string>): void {
+
+  if (loaded) {
+    return;
+  }
+
+  loaded = true;
+  const projectRoot = _suman.projectRoot;
+
+  paths.forEach(function (p) {
+
+    p = path.isAbsolute(p) ? p : path.resolve(projectRoot + '/' + p);
+    const shared = su.findSharedPath(p, projectRoot);
+
+    if (String(shared) !== String(projectRoot)) {
+      if (!_suman.sumanOpts.fforce) {
+        console.error('Looks like you issued the Suman command from the wrong directory, ' +
+          'please cd to the relevant project.\n' +
+          ' => It appears that you wanted to execute Suman on this path => "' + chalk.magenta(p) + '"\n' +
+          ' But your current working directory is => "' + chalk.cyan(process.cwd()) + '"\n' +
+          ' If you think this message is totally wrong and you\'d like to ignore it, use the --fforce option.\n' +
+          ' However, most likely you will end up using the <suman-helpers-dir> from the wrong project\n' +
+          ' and end up writing to log files in the wrong project.');
+      }
+    }
+  });
+};
+
+let fatalRequestReplyCallable = true;
 export const fatalRequestReply = function (obj: Object, $cb: Function) {
 
   // console.error('obj in fatal request reply => ', obj);
@@ -84,7 +456,6 @@ export const fatalRequestReply = function (obj: Object, $cb: Function) {
 
 };
 
-
 export const findSumanServer = function (serverName?: string): ISumanServerInfo {
 
   const sumanConfig = _suman.sumanConfig;
@@ -122,7 +493,6 @@ export const findSumanServer = function (serverName?: string): ISumanServerInfo 
 
 };
 
-
 export const makeOnSumanCompleted = function (suman: ISuman) {
 
   return function onSumanCompleted(code: number, msg: string) {
@@ -151,7 +521,6 @@ export const makeOnSumanCompleted = function (suman: ISuman) {
   };
 };
 
-
 export const cloneError: ICloneErrorFn = function (err, newMessage, stripAllButTestFilePathMatch) {
 
   const obj = {} as IPseudoError;
@@ -160,7 +529,7 @@ export const cloneError: ICloneErrorFn = function (err, newMessage, stripAllButT
   if (stripAllButTestFilePathMatch !== false) {
     temp = su.createCleanStack(String(err.stack || err));
   }
-  else{
+  else {
     temp = String(err.stack || err).split('\n');
   }
   temp[0] = newMessage;
@@ -171,7 +540,7 @@ export const cloneError: ICloneErrorFn = function (err, newMessage, stripAllButT
 
 };
 
-export const parseArgs =  function (args: Array<any>, fnIsRequired?: boolean) {
+export const parseArgs = function (args: Array<any>, fnIsRequired?: boolean) {
 
   let [desc, opts, arr, fn] = args;
 
@@ -188,7 +557,7 @@ export const parseArgs =  function (args: Array<any>, fnIsRequired?: boolean) {
       fn = arr[arr.length - 1];
       arrayDeps = arr.slice(0, -1);
     }
-    else{
+    else {
       arrayDeps = arr.slice(0);
     }
   }
@@ -211,10 +580,10 @@ export const parseArgs =  function (args: Array<any>, fnIsRequired?: boolean) {
   }
 };
 
-export const evalOptions = function (arrayDeps: Array<IAllOpts>, opts: IAllOpts){
+export const evalOptions = function (arrayDeps: Array<IAllOpts>, opts: IAllOpts) {
 
   const preVal = arrayDeps.filter(function (a: IAllOpts) {
-    if(typeof a === 'string'){
+    if (typeof a === 'string') {
       if (/.*:.*/.test(a)) {
         return a;
       }
@@ -222,10 +591,10 @@ export const evalOptions = function (arrayDeps: Array<IAllOpts>, opts: IAllOpts)
         _suman.logWarning('Looks like you have a bad value in your options as strings =>', util.inspect(arrayDeps))
       }
     }
-    else if(su.isObject(a)) {
+    else if (su.isObject(a)) {
       Object.assign(opts, a);
     }
-    else{
+    else {
       _suman.logWarning('You included an unexpected value in the array =>', util.inspect(arrayDeps))
     }
   });

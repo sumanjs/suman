@@ -97,10 +97,8 @@ const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
-const {execSuite} = require('./exec-suite');
-import {loadSumanConfig} from './helpers/load-suman-config';
-import {resolveSharedDirs} from './helpers/resolve-shared-dirs';
-import {loadSharedObjects} from './helpers/load-shared-objects'
+import {execSuite} from './exec-suite';
+import {loadSumanConfig, resolveSharedDirs,loadSharedObjects} from './helpers/general';
 import {acquireIocStaticDeps} from './acquire-dependencies/acquire-ioc-static-deps';
 
 ///////////////////////////////////////////////////////////////////////////////////////////

@@ -18,7 +18,6 @@ import {IDescribeFn} from "suman-types/dts/describe";
 import {IBeforeEachFn} from "suman-types/dts/before-each";
 import {IAfterEachFn} from "suman-types/dts/after-each";
 import {IAfterFn} from "suman-types/dts/after";
-import {TestBlockBase} from "./test-block-base";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

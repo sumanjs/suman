@@ -1,2 +1,3 @@
 import { ITestSuite } from "suman-types/dts/test-suite";
-export declare const acquireIocDeps: (suman: any, deps: string[], suite: ITestSuite, cb: Function) => any;
+import { Suman } from "../suman";
+export declare const acquireIocDeps: (suman: Suman, deps: string[], suite: ITestSuite, cb: Function) => any;

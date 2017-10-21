@@ -14,7 +14,7 @@ import async = require('async');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const implementationError = require('../helpers/implementation-error');
+import {implementationError} from '../helpers/general';
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
