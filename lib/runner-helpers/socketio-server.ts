@@ -1,18 +1,22 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from "suman-types/dts/global";
+
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import util = require('util');
-import * as http from 'http';
+import http = require('http');
 
 //npm
 import * as SocketServer from 'socket.io';
 
+
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 /////////////////////////////////////////////////////
 
@@ -50,8 +54,6 @@ export const initializeSocketServer = function (cb: Function): void {
 };
 
 export const getSocketServer = function (): SocketIO.Server {
-  if (!io.server) {
-    throw new Error('Suman implementation error - socket.io server was not initialized yet.');
-  }
+  if (!io.server) throw new Error('Suman implementation error - socket.io server was not initialized yet.');
   return io.server;
 };

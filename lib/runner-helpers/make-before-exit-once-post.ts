@@ -22,7 +22,7 @@ const {events} = require('suman-events');
 import * as fnArgs from 'function-arguments';
 import su from 'suman-utils';
 import {IRunnerObj} from "suman-types/dts/runner";
-import {IIntegrantHash, IOncePost, TOncePostKeys} from "../runner";
+import {IIntegrantHash, IOncePost, TOncePostKeys} from "./runner";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

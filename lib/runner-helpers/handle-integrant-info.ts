@@ -2,7 +2,7 @@
 
 //dts
 import {IRunnerObj, ISumanChildProcess} from "suman-types/dts/runner";
-import {IIntegrantHash, TOncePostKeys} from "../runner";
+import {IIntegrantHash, TOncePostKeys} from "./runner";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

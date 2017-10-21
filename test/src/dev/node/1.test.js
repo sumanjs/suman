@@ -18,7 +18,6 @@ const opts = {
 Test.create(opts, [function (assert, describe, before, beforeEach, after, afterEach, it) {
 
   it('sync test', t => {
-
     assert(true);
   });
 
