@@ -1,7 +1,10 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
 import {ITestDataObj} from "suman-types/dts/it";
 import {IHookObj} from "suman-types/dts/test-suite";
+import {Observable} from 'rxjs';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -35,7 +38,7 @@ export const handleReturnVal = function (done: Function, str: string, testOrHook
 
     if (su.isObservable(val)) {
 
-      val.subscribe(
+      (val as Observable<any>).subscribe(
         function onNext(val: any) {
           console.log(' => Suman Observable subscription onNext => ', util.inspect(val));
         },
@@ -122,7 +125,9 @@ export const handleReturnVal = function (done: Function, str: string, testOrHook
       // so that we register subscribe() and on() calls in the same tick.
       Promise.resolve(val).then(function () {
         done(null);
-      }, done);
+      }, function (err) {
+        done(err || new Error('Suman unkwnown error'));
+      });
     }
 
   }

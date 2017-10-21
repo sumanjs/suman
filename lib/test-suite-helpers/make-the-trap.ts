@@ -18,15 +18,149 @@ import EE = require('events');
 //npm
 import * as async from 'async';
 import {events} from 'suman-events';
+import * as _ from 'lodash';
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {makeHandleTestResults} = require('./handle-test-result');
-const {makeHandleTest} = require('./make-handle-test');
-const {getAllAfterEaches, getAllBeforesEaches} = require('./get-all-eaches');
+import {makeHandleTest} from './make-handle-test';
 import {makeHandleBeforeOrAfterEach} from './make-handle-each';
 const implementationError = require('../helpers/implementation-error');
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const testErrors = _suman.testErrors = _suman.testErrors || [];
+const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
+
+////////////////////////////////////////////////////////////////////////////////
+
+const getAllBeforesEaches = function (zuite: ITestSuite) {
+
+  const beforeEaches: Array<Array<IBeforeEachObj>> = [];
+  beforeEaches.unshift(zuite.getBeforeEaches());
+
+  if (!zuite.alreadyHandledAfterAllParentHooks) {
+    zuite.alreadyHandledAfterAllParentHooks = true;
+    beforeEaches.unshift(zuite.getAfterAllParentHooks());
+  }
+
+  const getParentBefores = function (parent: ITestSuite) {
+    beforeEaches.unshift(parent.getBeforeEaches());
+    if (parent.parent) {
+      getParentBefores(parent.parent);
+    }
+  };
+
+  if (zuite.parent) {
+    getParentBefores(zuite.parent);
+  }
+
+  return _.flatten(beforeEaches);
+};
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+const getAllAfterEaches = function (zuite: ITestSuite) {
+
+  const afterEaches: Array<Array<IAFterEachObj>> = [];
+  afterEaches.push(zuite.getAfterEaches());
+
+  const getParentAfters = function (parent: ITestSuite) {
+    afterEaches.push(parent.getAfterEaches());
+    if (parent.parent) {
+      getParentAfters(parent.parent);
+    }
+  };
+
+  if (zuite.parent) {
+    getParentAfters(zuite.parent);
+  }
+
+  return _.flatten(afterEaches);
+};
+
+
+//////////////////////////////////////////////////////////
+
+const stckMapFn = function (item: string, index: number) {
+
+  const fst = _suman.sumanOpts && _suman.sumanOpts.full_stack_traces;
+
+  if(!item){
+    return '';
+  }
+
+  if (index === 0) {
+    return '\t' + item;
+  }
+
+  if (fst) {
+    return su.padWithXSpaces(4) + item;
+  }
+
+  if ((String(item).match(/\//) || String(item).match('______________')) && !String(item).match(/\/node_modules\//) &&
+    !String(item).match(/internal\/process\/next_tick.js/)) {
+    return su.padWithXSpaces(4) + item;
+  }
+
+};
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+ const makeHandleTestResults = function (suman: ISuman) {
+
+  return function handleTestError(err: IPseudoError, test: ITestDataObj) {
+
+    if (_suman.sumanUncaughtExceptionTriggered) {
+      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+      return;
+    }
+
+    test.error = null;
+
+    if (err) {
+
+      const sumanFatal = err.sumanFatal;
+
+      if (err instanceof Error) {
+
+        test.error = err;
+        test.errorDisplay = String(err.stack).split('\n')
+        .concat(`\t${su.repeatCharXTimes('_',70)}`)
+        .map(stckMapFn)
+        .filter(item => item)
+        .join('\n')
+        .concat('\n');
+
+      }
+      else if (typeof err.stack === 'string') {
+
+        test.error = err;
+        test.errorDisplay = String(err.stack).split('\n')
+        .concat(`\t${su.repeatCharXTimes('_',70)}`)
+        .map(stckMapFn)
+        .filter(item => item)
+        .join('\n')
+        .concat('\n');
+      }
+      else {
+        throw new Error('Suman internal implementation error => invalid error format, please report this.');
+      }
+
+      if (su.isSumanDebug()) {
+        _suman.writeTestError('\n\nTest error: ' + test.desc + '\n\t' + 'stack: ' + test.error.stack + '\n\n');
+      }
+
+      testErrors.push(test.error);
+    }
+
+    if (test.error) {
+      test.error.isFromTest = true;
+    }
+
+    suman.logResult(test);
+    return test.error;
+  }
+};
+
 
 ////////////////////////////////////////////////////////////////////////////////
 

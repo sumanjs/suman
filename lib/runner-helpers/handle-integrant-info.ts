@@ -20,13 +20,12 @@ import EE = require('events');
 import {events} from 'suman-events'
 import * as chalk from 'chalk';
 import * as _ from 'lodash';
-import su from 'suman-utils';
+import su = require('suman-utils');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const weAreDebugging = require('../helpers/we-are-debugging');
+const weAreDebugging = su.weAreDebugging;
 import {constants} from '../../config/suman-constants';
-
 const {acquirePreDeps} = require('../acquire-dependencies/acquire-pre-deps');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

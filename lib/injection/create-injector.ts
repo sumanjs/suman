@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
@@ -11,7 +13,7 @@ import util = require('util');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {getCoreAndDeps} from './$core-n-$deps';
+import {getProjectModule, lastDitchRequire, getCoreAndDeps} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 

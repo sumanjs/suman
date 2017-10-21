@@ -10,8 +10,19 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
-//and all the rest
-const {run: logExit} = require('./lib/helpers/log-exit');
+
+/////////////////////////////////////////////////////////////////
+
+let callable = true;
+
+const logExit =  function(code: number){
+  if(callable){
+    callable = false;
+    console.log('\n');
+    console.log(' => Suman cli exiting with code: ', code);
+    console.log('\n');
+  }
+};
 
 process.once('exit', function (code: number) {
   if (!global.__suman || !global.__suman.isActualExitHandlerRegistered) {
@@ -30,12 +41,6 @@ else {
   delete process.env['SUMAN_EXTRANEOUS_EXECUTABLE'];
 }
 
-const weAreDebugging = require('./lib/helpers/we-are-debugging');
-
-if (weAreDebugging) {
-  console.log(' => Suman is in debug mode (we are debugging).');
-  console.log(' => Process PID => ', process.pid);
-}
 
 /////////////////////////////////////////////////////////////////
 
@@ -123,6 +128,13 @@ require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
 import {loadReporters} from './lib/helpers/load-reporters';
 import {constants} from './config/suman-constants';
+
+const weAreDebugging = su.weAreDebugging;
+
+if (weAreDebugging) {
+  console.log(' => Suman is in debug mode (we are debugging).');
+  console.log(' => Process PID => ', process.pid);
+}
 
 //////////////////////////////////////////////////////////////////////////
 

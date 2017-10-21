@@ -2,6 +2,7 @@
 
 //dts
 import {IGlobalSumanObj, ISumanOpts} from "suman-types/dts/global";
+import {AsyncResultArrayCallback} from 'async';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -35,7 +36,6 @@ const sumanHome = path.resolve(process.env.HOME + '/.suman');
 const noFilesFoundError = require('./helpers/no-files-found-error');
 const ascii = require('./helpers/ascii');
 const {constants} = require('../config/suman-constants');
-import {findSumanServer} from './helpers/find-suman-server';
 const {findFilesToRun} = require('./runner-helpers/get-file-paths');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const dbPth = path.resolve(sumanHome + '/database/exec_db');
@@ -100,7 +100,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
   async.autoInject({
 
-    removeCoverageDir: function (cb: ISumanErrorFirstCB) {
+    removeCoverageDir: function (cb: Function) {
       if (sumanOpts.coverage) {
         const covDir = path.resolve(_suman.projectRoot + '/coverage');
         rimraf(covDir, function () {

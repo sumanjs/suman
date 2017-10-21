@@ -4,7 +4,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 debugger;
 var process = require('suman-browser-polyfills/modules/process');
 var global = require('suman-browser-polyfills/modules/global');
-var logExit = require('./lib/helpers/log-exit').run;
+var callable = true;
+var logExit = function (code) {
+    if (callable) {
+        callable = false;
+        console.log('\n');
+        console.log(' => Suman cli exiting with code: ', code);
+        console.log('\n');
+    }
+};
 process.once('exit', function (code) {
     if (!global.__suman || !global.__suman.isActualExitHandlerRegistered) {
         logExit(code);
@@ -17,11 +25,6 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
 }
 else {
     delete process.env['SUMAN_EXTRANEOUS_EXECUTABLE'];
-}
-var weAreDebugging = require('./lib/helpers/we-are-debugging');
-if (weAreDebugging) {
-    console.log(' => Suman is in debug mode (we are debugging).');
-    console.log(' => Process PID => ', process.pid);
 }
 function handleExceptionsAndRejections() {
     if (_suman && _suman.sumanOpts && (_suman.sumanOpts.ignore_uncaught_exceptions || _suman.sumanOpts.ignore_unhandled_rejections)) {
@@ -83,6 +86,11 @@ require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
 var load_reporters_1 = require("./lib/helpers/load-reporters");
 var suman_constants_1 = require("./config/suman-constants");
+var weAreDebugging = su.weAreDebugging;
+if (weAreDebugging) {
+    console.log(' => Suman is in debug mode (we are debugging).');
+    console.log(' => Process PID => ', process.pid);
+}
 debug([' => Suman started with the following command:', process.argv]);
 debug([' => $NODE_PATH is as follows:', process.env['NODE_PATH']]);
 _suman.log('Resolved path of Suman executable =>', '"' + __filename + '"');

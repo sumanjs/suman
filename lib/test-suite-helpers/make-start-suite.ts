@@ -23,8 +23,8 @@ import chalk = require('chalk');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const implementationError = require('../helpers/implementation-error');
-const {constants} = require('../../config/suman-constants');
-const {makeTheTrap} = require('./make-the-trap');
+import {constants} from '../../config/suman-constants';
+import {makeTheTrap} from './make-the-trap';
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +39,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
     if (sumanOpts.series) {
       console.log('\n', su.padWithXSpaces(_suman.currentPaddingCount.val),
-        chalk.underline.gray.bold.italic(`▶ ${self.desc} ▷ `));
+        chalk.underline.gray.bold.italic(`▶ ${self.desc} ▶▷ `));
     }
 
     //TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
@@ -61,14 +61,15 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
           // NOTE: we always run before hooks, because child suites might have tests
           async.eachSeries(self.getBefores(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
-            handleBeforesAndAfters(self, aBeforeOrAfter, cb);
-          }, function complete(err: IPseudoError) {
-            implementationError(err);
-            process.nextTick(function () {
-              earlyCallback && finished();
-              cb();
+              handleBeforesAndAfters(self, aBeforeOrAfter, cb);
+            },
+            function complete(err: IPseudoError) {
+              implementationError(err);
+              process.nextTick(function () {
+                earlyCallback && finished();
+                cb();
+              });
             });
-          });
 
         },
 

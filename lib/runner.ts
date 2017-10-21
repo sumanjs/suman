@@ -8,15 +8,6 @@ import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
-/////////////////////////////////////////////////////
-
-const slicedArgs = process.argv.slice(2);
-const execArgs = process.execArgv.slice(0);
-
-//////////////////////////////////////////////////////////
-
-const weAreDebugging = require('./helpers/we-are-debugging');
-
 ///////////////////////////////////////////////////
 
 if (false) {
@@ -65,7 +56,7 @@ import {handleFatalMessage} from './runner-helpers/handle-fatal-message';
 import {logTestResult} from './runner-helpers/log-test-result';
 const {onExit} = require('./runner-helpers/on-exit');
 import {makeExit} from './runner-helpers/make-exit';
-const {makeHandleIntegrantInfo} = require('./runner-helpers/handle-integrant-info');
+import {makeHandleIntegrantInfo}  from './runner-helpers/handle-integrant-info';
 import {makeBeforeExit} from './runner-helpers/make-before-exit-once-post';
 const makeSingleProcess = require('./runner-helpers/handle-single-process');
 const {makeContainerize} = require('./runner-helpers/handle-containerize');

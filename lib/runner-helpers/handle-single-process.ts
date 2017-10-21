@@ -14,7 +14,6 @@ const EE = require('events');
 
 //npm
 import * as semver from 'semver';
-
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 const {events} = require('suman-events');
@@ -24,9 +23,9 @@ import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const weAreDebugging = require('../helpers/we-are-debugging');
+const weAreDebugging = su.weAreDebugging;
 const {getTapParser} = require('./handle-tap');
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 //////////////////////////////////////////////////////////
 

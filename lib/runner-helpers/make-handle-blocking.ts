@@ -13,7 +13,7 @@ import util = require('util');
 
 //npm
 import * as chalk from 'chalk';
-
+import su = require('suman-utils');
 const sortBy = require('lodash.sortby');
 const includes = require('lodash.includes');
 const flattenDeep = require('lodash.flattendeep');
@@ -21,11 +21,6 @@ const intersection = require('lodash.intersection');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const weAreDebugging = require('../helpers/we-are-debugging');
-import su = require('suman-utils');
-
-////////////////////////////////////////////////////////////////////////////////////////
-
 const started: Array<IRunnerRunFn> = [];
 const ended: Array<IRunnerRunFn> = [];
 

@@ -27,7 +27,7 @@ const {constants} = require('../../config/suman-constants');
 import su = require('suman-utils');
 import {makeCallback} from './handle-callback-helper';
 const helpers = require('./handle-promise-generator');
-import {cloneError} from '../misc/clone-error';
+import {cloneError} from '../helpers/general';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());

@@ -23,7 +23,7 @@ const fnArgs = require('function-arguments');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
 const {constants} = require('../../config/suman-constants');
-import {cloneError} from '../misc/clone-error';
+import {cloneError} from '../helpers/general';
 import {makeHookObj} from './t-proto-hook';
 import {makeCallback} from './handle-callback-helper';
 const helpers = require('./handle-promise-generator');

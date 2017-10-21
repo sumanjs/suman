@@ -21,7 +21,7 @@ import chalk = require('chalk');
 import {makeCallback} from './handle-callback-helper';
 const helpers = require('./handle-promise-generator');
 const {constants} = require('../../config/suman-constants');
-import {cloneError} from '../misc/clone-error';
+import {cloneError} from '../helpers/general';
 import {makeHookObj} from './t-proto-hook';
 import {freezeExistingProps} from 'freeze-existing-props';
 

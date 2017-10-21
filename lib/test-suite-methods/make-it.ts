@@ -24,10 +24,9 @@ import su from 'suman-utils';
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-import {incr} from '../misc/incrementer';
 const {handleSetupComplete} = require('../handle-setup-complete');
-import {parseArgs} from '../helpers/parse-pragmatik-args';
-import {evalOptions} from '../helpers/eval-options';
+import {parseArgs} from '../helpers/general';
+import {evalOptions} from '../helpers/general';
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -66,6 +65,15 @@ const handleBadOptions = function (opts: IItOpts) {
     return;
   }
 
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+let id = 1;
+
+const incr = function (){
+  // test suite incrementer
+  return id++;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

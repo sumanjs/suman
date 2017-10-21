@@ -92,7 +92,7 @@ require('./index-helpers/exit-handling');
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
-const {fatalRequestReply} = require('./helpers/fatal-request-reply');
+import {fatalRequestReply} from './helpers/general';
 const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import rules = require('./helpers/handle-varargs');

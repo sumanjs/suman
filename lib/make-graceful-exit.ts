@@ -21,7 +21,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {runAfterAlways} = require('./helpers/run-after-always');
 const {constants} = require('../config/suman-constants');
 const singleProc = process.env.SUMAN_SINGLE_PROCESS === 'yes';
-const {fatalRequestReply} = require('./helpers/fatal-request-reply');
+import {fatalRequestReply} from './helpers/general';
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const debug = require('suman-debug')('s:graceful-exit');
 
