@@ -26,12 +26,15 @@ Test.create(opts, [function (assert, describe, before, beforeEach, after, afterE
     h.assert.equal(++count, 1);
   }]);
 
-  describe('nested1', {}, () => {
+  describe('nested1', {}, b => {
+
+    b.set('a', true);
 
     // console.log('before => ', before);
     assert.equal(count, 0);
 
     before(h => {
+      h.assert(h.get('a'));
       h.assert.equal(++count, 2);
     });
 
@@ -43,7 +46,9 @@ Test.create(opts, [function (assert, describe, before, beforeEach, after, afterE
       h.assert.equal(++count, 5);
     });
 
-    describe('nested2', {},() => {
+    describe('nested2', {}, b => {
+
+      assert(b.get('a'));
 
       assert.equal(count, 0);
 

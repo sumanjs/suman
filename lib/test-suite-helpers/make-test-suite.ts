@@ -172,6 +172,14 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
 
     }
 
+    set(k: any,  v: any){
+      return this.shared.set(k,v);
+    }
+
+    get(k: any){
+      return this.shared.get(k);
+    }
+
     getAfterAllParentHooks() {
       return this[TestBlockSymbols.getAfterAllParentHooks];
     }
