@@ -56,9 +56,7 @@ export const createRunner = function (obj: Object) {
     }
   }
 
-  runOnce = runOnce || function () {
-      return {};
-    };
+  runOnce = runOnce || function () {return {};};
 
   ////////////// validate suman.order.js ///////////////////////////////////////////////////////////
   const orderPath = path.resolve(_suman.sumanHelperDirRoot + '/suman.order.js');
@@ -93,7 +91,7 @@ export const createRunner = function (obj: Object) {
     assert(Number.isInteger(port), 'port must be an integer');
     _suman.socketServerPort = port;
     //NOTE: do not require('runner') until after initializing the socketio server
-    require('../runner').findTestsAndRunThem(runObj, runOnce, order);
+    require('./runner').findTestsAndRunThem(runObj, runOnce, order);
   });
 
 

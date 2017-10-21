@@ -19,9 +19,7 @@ import su from 'suman-utils';
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-const {handleSetupComplete} = require('../handle-setup-complete');
-import {evalOptions} from '../helpers/general';
-import {parseArgs} from '../helpers/general';
+import {handleSetupComplete, evalOptions, parseArgs} from '../helpers/general';
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +45,10 @@ export const makeAfterAllParentHooks = function (suman: ISuman): IAfterFn {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
-    try {delete $opts.__preParsed} catch(err){}
+    try {
+      delete $opts.__preParsed
+    } catch (err) {
+    }
     // this transpiles much more nicely, rather than inlining it above
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;

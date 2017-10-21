@@ -6,6 +6,7 @@ import { ISumanServerInfo } from "suman-types/dts/suman";
 export interface ICloneErrorFn {
     (err: Error, newMessage: string, stripAllButTestFilePathMatch?: boolean): IPseudoError;
 }
+export declare const handleSetupComplete: (test: any, type: any) => void;
 export declare const extractVals: (val: any) => {
     timeout: number;
     subDeps: string[];

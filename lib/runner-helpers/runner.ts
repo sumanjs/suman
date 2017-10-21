@@ -47,23 +47,22 @@ import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import integrantInjector from './injection/integrant-injector';
-import {constants} from '../config/suman-constants';
-const ascii = require('./helpers/ascii');
-import makeHandleBlocking from './runner-helpers/make-handle-blocking';
+import integrantInjector from '../injection/integrant-injector';
+import {constants} from '../../config/suman-constants';
+import ascii = require('../helpers/ascii');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-import {handleFatalMessage} from './runner-helpers/handle-fatal-message';
-import {logTestResult} from './runner-helpers/log-test-result';
-const {onExit} = require('./runner-helpers/on-exit');
-import {makeExit} from './runner-helpers/make-exit';
-import {makeHandleIntegrantInfo}  from './runner-helpers/handle-integrant-info';
-import {makeBeforeExit} from './runner-helpers/make-before-exit-once-post';
-const makeSingleProcess = require('./runner-helpers/handle-single-process');
-const {makeContainerize} = require('./runner-helpers/handle-containerize');
-import {makeHandleMultipleProcesses} from './runner-helpers/handle-multiple-processes';
+import {handleFatalMessage} from './handle-fatal-message';
+import {logTestResult} from './log-test-result';
+const {onExit} = require('./on-exit');
+import {makeExit} from './make-exit';
+import {makeHandleIntegrantInfo}  from './handle-integrant-info';
+import {makeBeforeExit} from './make-before-exit-once-post';
+const makeSingleProcess = require('./handle-single-process');
+const {makeContainerize} = require('./handle-containerize');
+import {makeHandleMultipleProcesses} from './handle-multiple-processes';
 const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
-import {getSocketServer, initializeSocketServer} from './runner-helpers/socketio-server';
-import {cpHash, socketHash} from './runner-helpers/socket-cp-hash';
+import {getSocketServer, initializeSocketServer} from './socketio-server';
+import {cpHash, socketHash} from './socket-cp-hash';
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -227,7 +226,5 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
 
 };
 
-const $exports = module.exports;
-export default $exports;
 
 

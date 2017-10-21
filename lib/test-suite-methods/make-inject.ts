@@ -30,7 +30,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {evalOptions} from '../helpers/general';
 import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-const {handleSetupComplete} = require('../handle-setup-complete');
+import {handleSetupComplete} from '../helpers/general';
 
 ///////////////////////////////////////////////////////////////////////////////////////
 

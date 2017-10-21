@@ -23,7 +23,6 @@ import * as async from 'async';
 const shuffle = require('lodash.shuffle');
 import * as chalk from 'chalk';
 import * as su from 'suman-utils';
-import {IGetFilePathObj} from "./runner-helpers/get-file-paths";
 const rimraf = require('rimraf');
 const {events} = require('suman-events');
 const debug = require('suman-debug')('s:cli');
