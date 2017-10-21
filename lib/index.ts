@@ -95,7 +95,7 @@ const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors
 const {fatalRequestReply} = require('./helpers/fatal-request-reply');
 const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
-const rules = require('./helpers/handle-varargs');
+import rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
 const {execSuite} = require('./exec-suite');
 import {loadSumanConfig} from './helpers/load-suman-config';

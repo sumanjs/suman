@@ -30,7 +30,7 @@ import {VamootProxy} from 'vamoot';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const rules = require('../helpers/handle-varargs');
+import rules = require('../helpers/handle-varargs');
 import {constants} from '../../config/suman-constants';
 import {acquireIocDeps} from '../acquire-dependencies/acquire-ioc-deps';
 import {IInjectionDeps} from "suman-types/dts/injection";

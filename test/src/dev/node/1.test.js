@@ -2,7 +2,9 @@
 'use strict';
 
 const suman = require('suman');
-const Test = suman.init(module);
+const Test = suman.init(module, {}, {
+  series: true
+});
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -24,7 +26,7 @@ Test.create(opts, [function (assert, describe, before, beforeEach, after, afterE
     h.assert.equal(++count, 1);
   }]);
 
-  describe('nested1', opts, () => {
+  describe('nested1', {}, () => {
 
     // console.log('before => ', before);
     assert.equal(count, 0);

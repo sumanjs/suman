@@ -17,7 +17,7 @@ const pragmatik = require('pragmatik');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const rules = require('../helpers/handle-varargs');
+import rules = require('../helpers/handle-varargs');
 import symbols from '../helpers/symbols';
 
 /*///////////////////// what it do //////////////////////////////////////

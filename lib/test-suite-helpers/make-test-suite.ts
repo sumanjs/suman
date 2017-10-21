@@ -38,7 +38,7 @@ import {freezeExistingProps} from 'freeze-existing-props';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const rules = require('../helpers/handle-varargs');
+import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 const {makeStartSuite} = require('./make-start-suite');
 import symbols from '../helpers/symbols';

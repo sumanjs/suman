@@ -34,7 +34,7 @@ const pragmatik = require('pragmatik');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const rules = require('../helpers/handle-varargs');
+import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import {makeProxy} from './make-proxy';
 import {makeBlockInjector} from '../injection/make-block-injector';
