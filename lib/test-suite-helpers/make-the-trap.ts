@@ -26,13 +26,12 @@ const {makeHandleTest} = require('./make-handle-test');
 const {getAllAfterEaches, getAllBeforesEaches} = require('./get-all-eaches');
 import {makeHandleBeforeOrAfterEach} from './make-handle-each';
 const implementationError = require('../helpers/implementation-error');
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 ////////////////////////////////////////////////////////////////////////////////
 
 export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
 
-  const allDescribeBlocks = suman.allDescribeBlocks;
   const handleTest = makeHandleTest(suman, gracefulExit);
   const handleTestResult = makeHandleTestResults(suman);
   const handleBeforeOrAfterEach = makeHandleBeforeOrAfterEach(suman, gracefulExit);
@@ -48,14 +47,14 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
     let delaySum = 0; //TODO: is this correct?
 
     if (test.stubbed) {
-      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
-      resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
+      rb.emit(String(events.TEST_CASE_END), test);
+      rb.emit(String(events.TEST_CASE_STUBBED), test);
       return process.nextTick(cb, null);
     }
 
     if (test.skipped) {
-      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
-      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
+      rb.emit(String(events.TEST_CASE_END), test);
+      rb.emit(String(events.TEST_CASE_SKIPPED), test);
       return process.nextTick(cb, null);
     }
 
