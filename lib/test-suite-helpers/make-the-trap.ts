@@ -44,7 +44,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
       return;
     }
 
-    const {sumanOpts} = _suman, sumanConfig = suman.config;
+    const sumanOpts = suman.opts, sumanConfig = suman.config;
     let delaySum = 0; //TODO: is this correct?
 
     if (test.stubbed) {

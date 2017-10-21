@@ -68,6 +68,7 @@ export const execSuite = function (suman: ISuman): Function {
 
   return function runRootSuite(): void {
 
+    const sumanOpts = suman.opts;
     const args = pragmatik.parse(arguments, rules.createSignature);
     const vetted = parseArgs(args);
     const [$desc, opts, cb] = vetted.args;
@@ -224,7 +225,7 @@ export const execSuite = function (suman: ISuman): Function {
               process.exit(constants.EXIT_CODES.DELAY_FUNCTION_TIMED_OUT);
             }, _suman.weAreDebugging ? 5000000 : 11000);
 
-            if (_suman.sumanOpts.verbosity > 8) {
+            if (sumanOpts.verbosity > 8) {
               console.log(' => Waiting for delay() function to be called...');
             }
 
@@ -295,7 +296,7 @@ export const execSuite = function (suman: ISuman): Function {
 
       _suman.suiteResultEmitter.emit('suman-test-registered', function () {
 
-        const sumanOpts = _suman.sumanOpts;
+        const sumanOpts = suman.opts;
 
         const currentPaddingCount = _suman.currentPaddingCount
           = (_suman.currentPaddingCount || ({} as ICurrentPaddingCount));
