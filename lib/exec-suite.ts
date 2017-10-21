@@ -54,6 +54,7 @@ export const execSuite = function (suman: ISuman): Function {
 
   // we set this so that after.always hooks can run
   _suman.whichSuman = suman;
+  const sumanConfig = suman.config;
   suman.dateSuiteStarted = Date.now();
   const onSumanCompleted = makeOnSumanCompleted(suman);
   const gracefulExit = makeGracefulExit(suman);
@@ -74,6 +75,7 @@ export const execSuite = function (suman: ISuman): Function {
 
     assert(opts.__preParsed, 'Suman implementation error. ' +
       'Options should be pre-parsed at this point in the program. Please report.');
+    delete opts.__preParsed;
 
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);
@@ -83,7 +85,6 @@ export const execSuite = function (suman: ISuman): Function {
     // suman description is the same as the description of the top level test block
     suman.desc = desc;
 
-    const allowArrowFn = _suman.sumanConfig.allowArrowFunctionsForTestBlocks;
     const isGenerator = su.isGeneratorFn(cb);
     const isAsync = su.isAsyncFn(cb);
 
@@ -300,7 +301,7 @@ export const execSuite = function (suman: ISuman): Function {
           = (_suman.currentPaddingCount || ({} as ICurrentPaddingCount));
         currentPaddingCount.val = 1; // always reset
 
-        function runSuite(suite: ITestSuite, cb: Function) {
+        const runSuite = function (suite: ITestSuite, cb: Function) {
 
           if (_suman.sumanUncaughtExceptionTriggered) {
             _suman.logError(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
@@ -313,7 +314,7 @@ export const execSuite = function (suman: ISuman): Function {
               limit = Math.min(suite.limit, 300);
             }
             else {
-              limit = _suman.sumanConfig.DEFAULT_PARALLEL_BLOCK_LIMIT || constants.DEFAULT_PARALLEL_BLOCK_LIMIT;
+              limit = sumanConfig.DEFAULT_PARALLEL_BLOCK_LIMIT || constants.DEFAULT_PARALLEL_BLOCK_LIMIT;
             }
           }
 
@@ -348,7 +349,7 @@ export const execSuite = function (suman: ISuman): Function {
             });
 
           });
-        }
+        };
 
         runSuite(allDescribeBlocks[0], function complete() {
 

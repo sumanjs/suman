@@ -6,6 +6,10 @@ three SO profiles:
 
 ///
 
+ attach sumanConfig to suman instead of _suman, so that users can override sumanConfig
+
+///
+
 global_npm_modules_path="$(npm root -g)";
 this npm command is slow, and I am looking to speed up this script. One thing I could do is "cache" the result of the npm command, something like this:
 
@@ -1310,7 +1314,7 @@ if (false) {
 
 regexes get converted to objects...
 
-  SUMAN_CONFIG: '{"matchAny":[{},{},{},{},{},{},{}],"matchNone":[{},{},{},{}],"matchAll":[],"testDir":"test","testSrcDir":"test/src","testTargetDir":"test/target","sumanHelpersDir":"test/_suman","uniqueAppName":"<your-app-name-here>","browser":"Firefox","installSumanExtraDeps":true,"installSumanGlobalsInProject":".suman","isLogChildStderr":true,"isLogChildStdout":true,"useBabelRegister":false,"useUtilityPatches":true,"coverage":false,"useTAPOutput":false,"errorsOnly":false,"replayErrorsAtRunnerEnd":true,"allowArrowFunctionsForTestBlocks":true,"alwaysUseRunner":false,"enforceGlobalInstallationOnly":false,"enforceLocalInstallationOnly":false,"sourceTopLevelDepsInPackageDotJSON":false,"enforceTestCaseNames":true,"enforceBlockNames":true,"enforceHookNames":false,"bail":true,"bailRunner":true,"transpile":false,"executeRunnerCWDAtTestFile":true,"sendStderrToSumanErrLogOnly":true,"useSuiteNameInTestCaseOutput":false,"ultraSafe":false,"verbose":true,"checkMemoryUsage":false,"fullStackTraces":false,"disableAutoOpen":false,"suppressRunnerOutput":true,"allowCollectUsageStats":true,"verbosity":5,"maxParallelProcesses":8,"resultsCapCount":100,"resultsCapSize":7000,"defaultHookTimeout":5000,"defaultTestCaseTimeout":5000,"timeoutToSearchForAvailServer":2000,"defaultDelayFunctionTimeout":8000,"defaultChildProcessTimeout":8000000,"defaultTestSuiteTimeout":15000,"expireResultsAfter":10000000,"watch":{"all-tests":"./node_modules/.bin/suman","unit-tests":"./node_modules/.bin/suman test/unit/**/*.js","//tests":{"default":{"include":[],"exclude":["^test.*"]}},"//project":{"script":"./node_modules/.bin/suman","include":[],"exclude":["^test.*"],"default":{"script":"./node_modules/.bin/suman","include":[],"exclude":["^test.*"]}}},"reporters":{"tap":"node_modules/suman/lib/reporters/tap-reporter"},"babelRegisterOpts":{"ignore":{},"extensions":[".es6",".es",".jsx",".js"]}}',
+  SUMAN_CONFIG: '{"matchAny":[{},{},{},{},{},{},{}],"matchNone":[{},{},{},{}],"matchAll":[],"testDir":...}
   SUMAN_OPTS: '{"runner":true,"inherit_stdio":true,"verbosity":5,"errors_only":false,"max_depth":70,"_order":[{"key":"runner","value":true,"from":"argv"},{"key":"inherit_stdio","value":true,"from":"argv"}],"_args":[],"transpile":false}',
 
 ///

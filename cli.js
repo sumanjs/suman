@@ -303,8 +303,7 @@ var preOptCheck = {
     tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
     create: create, useServer: useServer, useBabel: useBabel,
     useIstanbul: useIstanbul, init: init, uninstall: uninstall,
-    convert: convert, groups: groups, s: s, tailTest: tailTest,
-    tailRunner: tailRunner, interactive: interactive, uninstallBabel: uninstallBabel,
+    convert: convert, groups: groups, s: s, interactive: interactive, uninstallBabel: uninstallBabel,
     diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
     repair: repair, sumanShell: sumanShell, script: script
 };
@@ -318,8 +317,8 @@ var optCheck = Object.keys(preOptCheck).filter(function (key, index) {
     return obj;
 });
 if (optCheck.length > 1) {
-    console.error('\t => Too many options, pick one from  { --convert, --init, --server, --use-babel, --uninstall --tail-test, --tail-runner }');
-    console.error('\t => Current options used were => ', util.inspect(optCheck));
+    console.error('\t => Too many options, pick one from:\n', util.inspect(Object.keys(preOptCheck)));
+    console.error('\t => Current options used were:\n', util.inspect(optCheck));
     console.error('\t => Use --help for more information.\n');
     console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
     process.exit(suman_constants_1.constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
@@ -387,9 +386,6 @@ else if (uninstallBabel) {
 }
 else if (useIstanbul) {
     require('./lib/use-istanbul/use-istanbul')();
-}
-else if (tail) {
-    require('./lib/make-tail/tail-any')(paths);
 }
 else if (create) {
     require('./lib/cli-commands/create-opt').run(create);

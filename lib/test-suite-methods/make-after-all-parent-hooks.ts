@@ -47,6 +47,7 @@ export const makeAfterAllParentHooks = function (suman: ISuman): IAfterFn {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
+    try {delete $opts.__preParsed} catch(err){}
     // this transpiles much more nicely, rather than inlining it above
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;

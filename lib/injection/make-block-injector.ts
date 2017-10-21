@@ -42,7 +42,7 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
   return function (suite: ITestSuite, parent: ITestSuite, depsObj: IInjectionDeps): Array<any> {
 
-    const {sumanOpts} = _suman;
+    const sumanOpts = suman.opts;
 
     return Object.keys(depsObj).map(key => {
 

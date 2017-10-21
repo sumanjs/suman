@@ -2,10 +2,11 @@
 
 //dts
 import {ITestSuite} from "suman-types/dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "suman-types/dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanConfig, ISumanOpts} from "suman-types/dts/global";
 import {ITableData} from "suman-types/dts/table-data";
 import {ISumanInputs} from "suman-types/dts/suman";
 import {ITableDataCallbackObj, ISumanServerInfo} from "suman-types/dts/suman";
+import {IInitOpts} from "suman-types/dts/index-init";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -36,11 +37,7 @@ import {ITestDataObj} from "suman-types/dts/it";
 import {constants} from '../config/suman-constants';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from './index-helpers/socketio-child-client';
-let envTotal: number, envConfig: number;
 
-if (process.env.DEFAULT_PARALLEL_TOTAL_LIMIT && (envTotal = Number(process.env.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
-  assert(Number.isInteger(envTotal), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
-}
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -55,13 +52,14 @@ let sumanId = 0;
 export class Suman {
 
   ctx?: ITestSuite;
-  interface: string;
   $inject: Object;
   private __inject: Object;
   testBlockMethodCache: Map<Function, ITestBlockMethodCache>;
   iocData: Object;
   force: boolean;
   fileName: string;
+  opts: ISumanOpts;
+  config: ISumanConfig;
   slicedFileName: string;
   timestamp: number;
   sumanId: number;
@@ -89,7 +87,8 @@ export class Suman {
     const projectRoot = _suman.projectRoot;
 
     // via options
-    this.interface = obj.interface;
+    const sumanConfig = this.config = obj.config;
+    const sumanOpts = this.opts = obj.opts;
     this.fileName = obj.fileName;
     this.slicedFileName = obj.fileName.slice(projectRoot.length);
     this.timestamp = obj.timestamp;
@@ -99,6 +98,7 @@ export class Suman {
     let v = this.__inject = {};
     this.$inject = McProxy.create(v);
     this.allDescribeBlocks = [];
+    this.itOnlyIsTriggered = false;
     this.describeOnlyIsTriggered = false;
     this.deps = null;
     this.numHooksSkipped = 0;
@@ -107,17 +107,22 @@ export class Suman {
     this.force = obj.force || false;
     this.testBlockMethodCache = new Map();
 
-    let queue: any;
+    let q: any;
 
     this.getQueue = function () {
 
-      if (!queue) {
+      if (!q) {
 
-        const {sumanConfig, sumanOpts} = _suman;
+        let envTotal: number, envConfig: number;
+
+        if (process.env.DEFAULT_PARALLEL_TOTAL_LIMIT && (envTotal = Number(process.env.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
+          assert(Number.isInteger(envTotal), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
+        }
+
         // note: we have to create the queue after loading this file, so that _suman.sumanConfig is defined.
 
         if (sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT &&
-          (envConfig = Number(_suman.sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
+          (envConfig = Number(sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
           assert(Number.isInteger(envConfig), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
         }
 
@@ -130,13 +135,13 @@ export class Suman {
         assert(Number.isInteger(c) && c > 0 && c < 301,
           'DEFAULT_PARALLEL_TOTAL_LIMIT must be an integer between 1 and 300 inclusive.');
 
-        queue = async.queue(function (task: Function, cb: Function) {
+        q = async.queue(function (task: Function, cb: Function) {
           task(cb);
         }, c);
 
       }
 
-      return queue;
+      return q;
 
     };
 
@@ -336,7 +341,9 @@ export class Suman {
 
   logResult(test: ITestDataObj): void {
 
-    if (false && _suman.sumanOpts.errors_only && test.dateComplete) {
+    const sumanOpts = this.opts;
+
+    if (false && sumanOpts.errors_only && test.dateComplete) {
       // since errors only and this test has completed, we ignore and don't write out result
       return;
     }
@@ -387,7 +394,8 @@ export type ISuman = Suman;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeSuman = function ($module: NodeModule, _interface: string, opts: Objects) {
+export const makeSuman
+  = function ($module: NodeModule, opts: IInitOpts, sumanOpts: Partial<ISumanOpts>, sumanConfig: Partial<ISumanConfig>) {
 
   let liveSumanServer = false;
 
@@ -402,15 +410,15 @@ export const makeSuman = function ($module: NodeModule, _interface: string, opts
   let timestamp: number;
 
   if (_suman.usingRunner) {  //using runner, obviously, so runner provides timestamp value
-    timestamp = _suman.timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
+    timestamp = _suman.timestamp = Number(process.env.SUMAN_RUNNER_TIMESTAMP);
     if (!timestamp) {
-      console.error(new Error(' => Suman implementation error => no timestamp provided by Suman test runner').stack);
+      console.error(new Error('Suman implementation error => no timestamp provided by Suman test runner'));
       process.exit(constants.EXIT_CODES.NO_TIMESTAMP_AVAILABLE_IN_TEST);
       return;
     }
   }
   else if (_suman.timestamp) {  //using suman executable, but not runner
-    timestamp = _suman.timestamp;
+    timestamp = Number(_suman.timestamp);
   }
   else {
     //test file executed with plain node executable
@@ -430,9 +438,10 @@ export const makeSuman = function ($module: NodeModule, _interface: string, opts
     fileName: path.resolve($module.filename),
     usingLiveSumanServer: liveSumanServer,
     server,
+    opts: sumanOpts,
     force: opts.force,
     timestamp,
-    interface: _interface
+    config: sumanConfig
   });
 
 };

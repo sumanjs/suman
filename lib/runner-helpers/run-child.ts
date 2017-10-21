@@ -56,10 +56,7 @@ if (childArgs.length) {
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
   }
 
-  console.error('before  opts => ', opts);
-  console.error('before suman opts => ', sumanOpts);
   sumanOpts = _suman.sumanOpts = Object.assign(sumanOpts, opts);
-  console.error('after suman opts => ', sumanOpts);
 }
 
 const usingRunner = _suman.usingRunner = true;

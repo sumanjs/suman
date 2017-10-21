@@ -73,14 +73,14 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
   return function ($$desc: string, $opts: IDescribeOpts) {
 
-    const {sumanOpts} = _suman;
-    const zuite = suman.ctx;
+    const sumanOpts = suman.opts, zuite = suman.ctx;
     handleSetupComplete(zuite, 'describe');
 
     const args = pragmatik.parse(arguments, rules.blockSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
+    try {delete $opts.__preParsed} catch(err){}
     const vetted = parseArgs(args);
     const [desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;

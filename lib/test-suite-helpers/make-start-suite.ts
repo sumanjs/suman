@@ -35,7 +35,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
 
     const self = this;
     const runTheTrap = makeTheTrap(suman, gracefulExit);
-    const {sumanOpts, sumanConfig} = _suman;
+    const {sumanOpts} = _suman, sumanConfig = suman.config;
 
     if (sumanOpts.series) {
       console.log('\n', su.padWithXSpaces(_suman.currentPaddingCount.val),

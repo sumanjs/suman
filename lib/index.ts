@@ -3,7 +3,7 @@
 //dts
 import {IGlobalSumanObj, ISumanConfig, SumanErrorRace} from "suman-types/dts/global";
 import EventEmitter = NodeJS.EventEmitter;
-import {IStartCreate, IIoCData, IInit, IInitOpts} from "suman-types/dts/index-init"
+import {IStartCreate, IIoCData, IInitFn, IInitOpts} from "suman-types/dts/index-init"
 import {Stream, Transform, Writable} from "stream";
 import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
 import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook} from "suman-types/dts/index-init";
@@ -184,9 +184,11 @@ _suman.writeTestError = function (data: string, ignore: boolean) {
 
 const initMap = new Map() as Map<Object, Object>;
 
-export const init: IInit = function ($module, $opts, confOverride): IStartCreate {
+export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOverride) {
 
+  ////////////////////////////////////////////////////////////////////////////
   debugger;  // leave this here forever for debugging child processes, etc
+  ////////////////////////////////////////////////////////////////////////////
 
   if (this instanceof init) {
     throw new Error('no need to use "new" keyword with the suman.init() function as it is not a constructor');
@@ -233,25 +235,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     _suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
   }
 
-  if(!projectRoot){
-     projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
-     main = require.main.filename;
-     usingRunner = _suman.usingRunner = _suman.usingRunner || process.env.SUMAN_RUNNER === 'yes';
-    //could potentially pass dynamic path to suman config here, but for now is static
-     sumanConfig = loadSumanConfig(null, null);
-    if (!_suman.usingRunner && !_suman.viaSuman) {
-      require('./helpers/print-version-info'); // just want to run this once
-    }
-     sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
-     sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
-     integrantPreFn = sumanObj.integrantPreFn;
-     testDebugLogPath = sumanPaths.testDebugLogPath;
-    fs.writeFileSync(testDebugLogPath, '\n');
-    fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
-    _suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);
-    _suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
-  }
-
   require('./handle-exit'); // handle exit here
   require('./helpers/load-reporters-last-ditch').run();
 
@@ -260,9 +243,16 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       'Please pass the test file module instance as the first argument to suman.init()');
   }
 
+  let _sumanConfig = _suman.sumanConfig, _sumanOpts = _suman.sumanOpts;
+
+  if(sumanOptsOverride){
+    assert(su.isObject(sumanOptsOverride), 'Suman opts override value must be a plain object.');
+    _sumanOpts = Object.assign({},_suman.sumanOpts, sumanOptsOverride);
+  }
+
   if (confOverride) {
-    assert(su.isObject(confOverride), 'Suman conf override value must be defined, and an object like so => {}.');
-    Object.assign(_suman.sumanConfig, confOverride);
+    assert(su.isObject(confOverride), 'Suman conf override value must be a plain object.');
+    _sumanConfig = Object.assign({},_suman.sumanConfig, confOverride);
   }
 
   _suman.sumanInitStartDate = (_suman.sumanInitStartDate || Date.now());
@@ -329,7 +319,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   allOncePostKeys.push($oncePost);
   allOncePreKeys.push(integrants);
 
-  const _interface = String(opts.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
   const iocData: IIoCData = opts.iocData || opts.ioc || {};
 
   if (iocData) {
@@ -347,25 +336,24 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   //////////////////////////////////////////////////////////////////
 
   const integrantsFn = handleIntegrants(integrants, $oncePost, integrantPreFn, $module);
-  init.tooLate = false;
 
   const start: IStartCreate = function (/*likely args: desc, opts, arr, cb */) {
 
     const args = pragmatik.parse(arguments, rules.createSignature);
     args[1].__preParsed = true;
 
-    if (init.tooLate === true && !SUMAN_SINGLE_PROCESS) {
+    if (start.tooLate === true) {
       console.error(' => Suman usage fatal error => You must call Test.create() synchronously => \n\t' +
         'in other words, all Test.create() calls should be registered in the same tick of the event loop.');
       return process.exit(constants.EXIT_CODES.ASYNCHRONOUS_CALL_OF_TEST_DOT_DESCRIBE);
     }
 
     process.nextTick(function () {
-      init.tooLate = true;
+      start.tooLate = true;
     });
 
     const to = setTimeout(function () {
-      console.error(' => Suman usage error => Integrant acquisition timeout.');
+      console.error('Suman usage error => Integrant acquisition timeout.');
       process.exit(constants.EXIT_CODES.INTEGRANT_ACQUISITION_TIMEOUT);
     }, _suman.weAreDebugging ? 50000000 : 50000);
 
@@ -375,8 +363,8 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       _suman['$pre'] = JSON.parse(su.customStringify(vals));
       _suman.userData = JSON.parse(su.customStringify(iocData));
 
-      // suman instance is the main object that flows through entire program
-      let suman = makeSuman($module, _interface, opts);
+      // suman instances are the main object that flows through entire program
+      let suman = makeSuman($module, opts, _sumanOpts, _sumanConfig);
       suman.iocData = JSON.parse(su.customStringify(iocData));
       const run = execSuite(suman);
 
@@ -422,7 +410,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   };
 
   const ret = {
-    parent: $module.parent, //parent is who required the original $module
+    parent: $module.parent ? $module.parent.filename: null, //parent is who required the original $module
     file: $module.filename,
     create: start
   };

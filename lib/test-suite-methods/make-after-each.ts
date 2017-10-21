@@ -70,6 +70,7 @@ export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
+    try {delete $opts.__preParsed} catch(err){}
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;

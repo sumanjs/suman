@@ -13,16 +13,16 @@ const opts = {
   fixed: true
 };
 
-Test.create(opts, function (assert, describe, before, beforeEach, after, afterEach, it) {
+Test.create(opts, [function (assert, describe, before, beforeEach, after, afterEach, it) {
 
   it('sync test', t => {
 
     assert(true);
   });
 
-  before(h => {
+  before('hi', [h => {
     h.assert.equal(++count, 1);
-  });
+  }]);
 
   describe('nested1', opts, () => {
 
@@ -41,7 +41,7 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
       h.assert.equal(++count, 5);
     });
 
-    describe('nested2', () => {
+    describe('nested2', {},() => {
 
       assert.equal(count, 0);
 
@@ -83,4 +83,4 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
     h.assert.equal(++count, 7);
   });
 
-});
+}]);

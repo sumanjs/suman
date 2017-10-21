@@ -74,14 +74,14 @@ export const makeIt = function (suman: ISuman): ItFn {
 
   return function ($desc: string, $opts: IItOpts): ITestSuite {
 
-    const {sumanOpts} = _suman;
-    const zuite = suman.ctx;
+    const sumanOpts = suman.opts, zuite = suman.ctx;
     handleSetupComplete(zuite, 'it');
 
     const args = pragmatik.parse(arguments, rules.testCaseSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
+    try {delete $opts.__preParsed} catch(err){}
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;

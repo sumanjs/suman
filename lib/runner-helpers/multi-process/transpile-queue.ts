@@ -3,6 +3,7 @@
 //dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {IGanttData} from "../socket-cp-hash";
+import {AsyncQueue} from 'async';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -17,13 +18,13 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 //////////////////////////////////////////////////////////////////////////
 
-let q  = null;
+let q : AsyncQueue<Function> = null;
 
 export const getTranspileQueue = function(){
   return q;
 };
 
-export const makeTranspileQueue = function (failedTransformObjects, runFile, queuedTestFns) {
+export const makeTranspileQueue = function (failedTransformObjects, runFile: Function, queuedTestFns) {
 
   const {sumanOpts, sumanConfig, projectRoot} = _suman;
   const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;

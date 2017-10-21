@@ -434,8 +434,7 @@ const preOptCheck = <IPreOptCheck> {
   tscMultiWatch, watch, watchPer,
   create, useServer, useBabel,
   useIstanbul, init, uninstall,
-  convert, groups, s, tailTest,
-  tailRunner, interactive, uninstallBabel,
+  convert, groups, s, interactive, uninstallBabel,
   diagnostics, installGlobals, postinstall,
   repair, sumanShell, script
 };
@@ -452,8 +451,8 @@ const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
 });
 
 if (optCheck.length > 1) {
-  console.error('\t => Too many options, pick one from  { --convert, --init, --server, --use-babel, --uninstall --tail-test, --tail-runner }');
-  console.error('\t => Current options used were => ', util.inspect(optCheck));
+  console.error('\t => Too many options, pick one from:\n', util.inspect(Object.keys(preOptCheck)));
+  console.error('\t => Current options used were:\n', util.inspect(optCheck));
   console.error('\t => Use --help for more information.\n');
   console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
   process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
@@ -511,7 +510,6 @@ if (!process.stdout.isTTY && !useTAPOutput) {
   _suman.logError(chalk.red('you may need to turn on TAP output for test results to be captured in destination process.'));
 }
 
-
 ////////////////////// dynamically call files to minimize load, etc //////////////////////////////
 
 if (diagnostics) {
@@ -543,9 +541,6 @@ else if (uninstallBabel) {
 }
 else if (useIstanbul) {
   require('./lib/use-istanbul/use-istanbul')();
-}
-else if (tail) {
-  require('./lib/make-tail/tail-any')(paths);
 }
 else if (create) {
   require('./lib/cli-commands/create-opt').run(create);

@@ -78,6 +78,7 @@ export const makeInject = function (suman: ISuman): IInjectFn {
       preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
     });
 
+    try {delete $opts.__preParsed} catch(err){}
     // this style produces cleaner transpile code
     let [desc, opts, arr, fn] = args;
     handleBadOptions(opts);

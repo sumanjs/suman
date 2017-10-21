@@ -1,5 +1,12 @@
 'use strict';
 
+//dts
+import {IGlobalSumanObj} from "suman-types/dts/global";
+
+//polyfills
+const process = require('suman-browser-polyfills/modules/process');
+const global = require('suman-browser-polyfills/modules/global');
+
 //core
 import cp = require('child_process');
 import path = require('path');
@@ -7,7 +14,7 @@ import path = require('path');
 //npm
 import su from 'suman-utils';
 import * as chalk from 'chalk';
-import {IGlobalSumanObj} from "suman-types/dts/global";
+
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

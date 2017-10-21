@@ -128,7 +128,7 @@ module.exports = [
     help: 'Use this option to cd to the project root.'
   },
   {
-    names: ['allow-skip'],
+    names: ['allow-skip','allow-skipped'],
     type: 'bool',
     env: 'SUMAN_ALLOW_SKIP',
     help: 'Allow tests to be skipped.'
@@ -582,11 +582,6 @@ module.exports = [
     names: ['user-args', 'child-args'],
     type: 'string',
     help: 'Pass user arguments through command line.'
-  },
-  {
-    names: ['to-json'],
-    type: 'string',
-    help: 'Use this option to write a JSON string to stdout from x, given --to-json="x".'
   },
   {
     names: ['groups'],

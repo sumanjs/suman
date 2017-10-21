@@ -61,7 +61,6 @@ const makeRunChild = function (val: any) {
 export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
                                        handleBeforesAndAfters: Function, notifyParent: Function): any {
 
-  const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
   const startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
 
   return class TestBlock extends TestBlockBase {

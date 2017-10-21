@@ -43,7 +43,7 @@ export const evalOptions = function (arrayDeps: Array<IAllOpts>, opts: IAllOpts)
     }
   });
 
-  const toEval = `(function self(){return {${preVal.join(',')}}})()`;
+  const toEval = `(function(){return {${preVal.join(',')}}})()`;
 
   try {
     const obj = eval(toEval);

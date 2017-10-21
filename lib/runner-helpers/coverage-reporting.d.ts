@@ -1,1 +1,1 @@
-export declare const handleTestCoverageReporting: (cb: Function) => void;
+export declare const handleTestCoverageReporting: (cb: Function) => any;
