@@ -16,11 +16,14 @@ import fs = require('fs');
 //npm
 import {events} from 'suman-events';
 import su = require('suman-utils');
+import async = require('async');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {handleRequestResponseWithRunner} from '../index-helpers/handle-runner-request-response';
 import {oncePostFn} from './handle-suman-once-post';
+import {makeHandleAsyncReporters} from './general';
+const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 const suiteResultEmitter = _suman.suiteResultEmitter = _suman.suiteResultEmitter || new EE();
 const resultBroadcaster = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
 const results: Array<ITableDataCallbackObj> = _suman.tableResults = _suman.tableResults || [];
@@ -92,7 +95,10 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
       }
     };
 
-    waitForStdioToDrain(function () {
+    async.parallel([
+      waitForStdioToDrain,
+      makeHandleAsyncReporters(reporterRets),
+    ], function () {
       process.exit(highestExitCode)
     });
 

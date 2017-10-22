@@ -66,11 +66,11 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
   }
 
   const iocPromiseContainer: IIocPromiseContainer = {};
-  const sumanPaths = resolveSharedDirs(_suman.sumanConfig, _suman.projectRoot, _suman.sumanOpts);
-  const {iocFn} = loadSharedObjects(sumanPaths, _suman.projectRoot, _suman.sumanOpts);
   let dependencies: IDependenciesObject = null;
 
   try {
+    const sumanPaths = resolveSharedDirs(_suman.sumanConfig, _suman.projectRoot, _suman.sumanOpts);
+    const {iocFn} = loadSharedObjects(sumanPaths, _suman.projectRoot, _suman.sumanOpts);
     let iocFnArgs = fnArgs(iocFn);
     let getiocFnDeps = makeIocInjector(suman.iocData, null, null);
     let iocFnDeps = getiocFnDeps(iocFnArgs);
@@ -84,6 +84,7 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
     _suman.logError('despite the error, suman will continue optimistically.');
     dependencies = {};
   }
+
 
   const obj: IInjectionDeps = {};
 
@@ -119,6 +120,7 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
     }
 
   });
+
 
   const promises = Object.keys(obj).map(function (key) {
 
@@ -171,13 +173,23 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
         obj[key] = deps[index];
       });
       //want to exit out of current tick for purposes of domains
-      process.domain && process.domain.exit();
-      process.nextTick(cb, null, obj);
+      try {
+        process.domain && process.domain.exit();
+      }
+      finally {
+        process.nextTick(cb, null, obj);
+      }
+
     },
     function (err) {
       _suman.logError('Error acquiring ioc dependency:', err.stack || err);
       //want to exit out of current tick for purposes of domains
-      process.domain && process.domain.exit();
-      process.nextTick(cb, err, {});
+      try {
+        process.domain && process.domain.exit();
+      }
+      finally {
+        process.nextTick(cb, err, {});
+      }
+
     });
 };

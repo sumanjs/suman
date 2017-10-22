@@ -21,7 +21,6 @@ import EE = require('events');
 
 //npm
 const flattenDeep = require('lodash.flattendeep');
-const readline = require('readline');
 import * as chalk from 'chalk';
 const AsciiTable = require('ascii-table');
 import async = require('async');

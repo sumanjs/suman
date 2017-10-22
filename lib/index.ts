@@ -46,15 +46,16 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
-import {getClient} from './index-helpers/socketio-child-client';
+require('./index-helpers/socketio-child-client'); // just for pre-loading
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
 const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
-// here we allow --force option to work with plain node executable
 if (process.argv.indexOf('-f') > 0) {
+  // here we allow --force option to work with plain node executable
   sumanOpts.force = true;
 }
 else if (process.argv.indexOf('--force') > 0) {
+  // here we allow --force option to work with plain node executable
   sumanOpts.force = true;
 }
 
@@ -64,10 +65,21 @@ process.on('error', function (e: Error) {
 });
 
 try {
-  if (!window.module) {
-    window.module = {filename: '/', exports: {}};
-    module.parent = module;
+  if (window) {
+    sumanOpts.series = true;
+    fs = require('suman-browser-polyfills/modules/fs');
   }
+}
+catch (err) {
+
+}
+
+try {
+  window.onerror = function (e) {
+    console.error('window onerror event', e);
+  };
+  window.suman = module.exports;
+  console.log(' => "suman" is now available as a global variable in the browser.');
   inBrowser = _suman.inBrowser = true;
 }
 catch (err) {
@@ -98,12 +110,8 @@ import {handleIntegrants} from './index-helpers/handle-integrants';
 import rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
 import {execSuite} from './exec-suite';
-import {loadSumanConfig, resolveSharedDirs,loadSharedObjects} from './helpers/general';
+import {loadSumanConfig, resolveSharedDirs, loadSharedObjects} from './helpers/general';
 import {acquireIocStaticDeps} from './acquire-dependencies/acquire-ioc-static-deps';
-
-///////////////////////////////////////////////////////////////////////////////////////////
-
-//integrants
 const allOncePreKeys: Array<Array<string>> = _suman.oncePreKeys = [];
 const allOncePostKeys: Array<Array<string>> = _suman.oncePostKeys = [];
 const suiteResultEmitter = _suman.suiteResultEmitter = _suman.suiteResultEmitter || new EE();
@@ -116,13 +124,19 @@ if (!SUMAN_SINGLE_PROCESS) {
 
 require('./index-helpers/verify-local-global-version');
 
-let projectRoot: string, sumanConfig, main: string,
-  usingRunner: boolean, testDebugLogPath: string, sumanPaths: Array<string>,
-  sumanObj: Object, integrantPreFn: Function;
+let projectRoot: string,
+  loaded = false,
+  sumanConfig: ISumanConfig,
+  main: string,
+  usingRunner: boolean,
+  testDebugLogPath: string,
+  sumanPaths: Array<string>,
+  sumanObj: Object,
+  integrantPreFn: Function;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-let loaded = false;
+
 const testSuiteQueueCallbacks: Array<Function> = [];
 const testRuns: Array<Function> = [];
 const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
@@ -179,7 +193,6 @@ _suman.writeTestError = function (data: string, ignore: boolean) {
   }
 };
 
-
 const initMap = new Map() as Map<Object, Object>;
 
 export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOverride) {
@@ -188,8 +201,10 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   debugger;  // leave this here forever for debugging child processes, etc
   ////////////////////////////////////////////////////////////////////////////
 
+  require('./handle-exit');
+
   if (this instanceof init) {
-    throw new Error('no need to use "new" keyword with the suman.init() function as it is not a constructor');
+    throw new Error('no need to use "new" keyword with the suman.init() function as it is not a constructor.');
   }
 
   if (initMap.size > 0 && !SUMAN_SINGLE_PROCESS) {
@@ -214,7 +229,8 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     $module.exports = {};
   }
 
-  if (!projectRoot) {
+  if (!loaded) {
+    require('./helpers/load-reporters-last-ditch').run();
     projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
     main = require.main.filename;
     usingRunner = _suman.usingRunner = _suman.usingRunner || process.env.SUMAN_RUNNER === 'yes';
@@ -231,10 +247,8 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
     _suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);
     _suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
-  }
 
-  require('./handle-exit'); // handle exit here
-  require('./helpers/load-reporters-last-ditch').run();
+  }
 
   if (!inBrowser) {
     assert(($module.constructor && $module.constructor.name === 'Module'),
@@ -243,14 +257,14 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
 
   let _sumanConfig = _suman.sumanConfig, _sumanOpts = _suman.sumanOpts;
 
-  if(sumanOptsOverride){
+  if (sumanOptsOverride) {
     assert(su.isObject(sumanOptsOverride), 'Suman opts override value must be a plain object.');
-    _sumanOpts = Object.assign({},_suman.sumanOpts, sumanOptsOverride);
+    _sumanOpts = Object.assign({}, _suman.sumanOpts, sumanOptsOverride);
   }
 
   if (confOverride) {
     assert(su.isObject(confOverride), 'Suman conf override value must be a plain object.');
-    _sumanConfig = Object.assign({},_suman.sumanConfig, confOverride);
+    _sumanConfig = Object.assign({}, _suman.sumanConfig, confOverride);
   }
 
   _suman.sumanInitStartDate = (_suman.sumanInitStartDate || Date.now());
@@ -408,7 +422,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   };
 
   const ret = {
-    parent: $module.parent ? $module.parent.filename: null, //parent is who required the original $module
+    parent: $module.parent ? $module.parent.filename : null, //parent is who required the original $module
     file: $module.filename,
     create: start
   };
@@ -456,14 +470,9 @@ export const once = function (fn: Function) {
   }
 };
 
-try {
-  window.suman = module.exports;
-  console.log(' => "suman" is now available as a global variable in the browser.');
-}
-catch (err) {
-}
-
-///////////////////////////////////////////////////////////////////////////////////
+///////////////// keep this for user convenience ////////////////////////////////////////////////
 
 const $exports = module.exports;
 export default $exports;
+
+///////////////// keep this for user convenience ////////////////////////////////////////////////

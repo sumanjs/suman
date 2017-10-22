@@ -25,7 +25,7 @@ import chalk  = require('chalk');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
-const debug = require('suman-debug')('s:runner');
+import {makeHandleAsyncReporters} from '../helpers/general';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 import {createGanttChart} from './create-gantt-chart';
@@ -221,33 +221,7 @@ export const makeExit = function (runnerObj, tableRows) {
 
       },
 
-      handleAsyncReporters: function (cb: Function) {
-        async.eachLimit(reporterRets, 5, function (item: Object, cb: Function) {
-
-          if (item && item.count > 0) {
-
-            let timedout = false;
-            let timeoutFn = function () {
-              timedout = true;
-              console.error(`async reporter ${util.inspect(item.reporterName || item)}, appears to have timed out.`);
-              cb(null);
-            };
-
-            setTimeout(timeoutFn, 5000);
-
-            item.cb = function (err: Error) {
-              err && _suman.logError(err.stack || err);
-              process.nextTick(cb);
-            };
-          }
-          else {
-            // if nothing is returned from the reporter module, we can't do anything
-            // and we assume it was all sync
-            // likewise if count is less than 1 then we are ready to go
-            process.nextTick(cb);
-          }
-        }, cb);
-      },
+      handleAsyncReporters: makeHandleAsyncReporters(reporterRets),
 
       makeGanttChart: function (cb: Function) {
         // keep it simple

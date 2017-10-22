@@ -43,7 +43,7 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
     const sumanOpts = suman.opts;
 
-    return Object.keys(depsObj).map(key => {
+    return Object.keys(depsObj || {}).map(key => {
 
       // console.log('depsObj => ',util.inspect(depsObj));
 

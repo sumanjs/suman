@@ -35,7 +35,6 @@ import {constants} from '../../config/suman-constants';
 import {acquireIocDeps} from '../acquire-dependencies/acquire-ioc-deps';
 import {IInjectionDeps} from "suman-types/dts/injection";
 import {handleSetupComplete} from '../helpers/general';
-import {makeBlockInjector} from '../injection/make-block-injector';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
 import {parseArgs} from '../helpers/general';
 import {evalOptions} from '../helpers/general';

@@ -176,8 +176,12 @@ export const execSuite = function (suman: ISuman): Function {
 
           let $deps: Array<any> = blockInjector(suite, null, depz);
 
-          d.exit();
-          process.nextTick(startWholeShebang, $deps);
+          try {
+            d.exit();
+          }
+          finally {
+            process.nextTick(startWholeShebang, $deps);
+          }
 
         });
 

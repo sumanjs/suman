@@ -43,15 +43,23 @@ export const run = function () {
   if (sumanReporters.length < 1) {
     let fn: Function;
 
-    if (_suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput || _suman.usingRunner) {
-      _suman.log('last-ditch effort to load a reporter: loading tap-json reporter');
-      fn = require('suman-reporters/modules/tap-json-reporter');
-      fn = fn.default || fn;
+    try {
+      if (window) {
+        fn = require('suman-reporters/modules/karma-reporter');
+        fn = fn.default || fn;
+      }
     }
-    else {
-      _suman.log('last-ditch effort to load a reporter: loading std reporter');
-      fn = require('suman-reporters/modules/std-reporter');
-      fn = fn.default || fn;
+    catch (err) {
+      if (_suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput || _suman.usingRunner) {
+        _suman.log('last-ditch effort to load a reporter: loading tap-json reporter');
+        fn = require('suman-reporters/modules/tap-json-reporter');
+        fn = fn.default || fn;
+      }
+      else {
+        _suman.log('last-ditch effort to load a reporter: loading std reporter');
+        fn = require('suman-reporters/modules/std-reporter');
+        fn = fn.default || fn;
+      }
     }
 
     console.log('\n');

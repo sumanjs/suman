@@ -19,9 +19,19 @@ import os = require('os');
 import path = require('path');
 import fs = require('fs');
 
+try {
+  if (window) {
+    fs = require('suman-browser-polyfills/modules/fs');
+  }
+}
+catch (err) {
+
+}
+
 //npm
 import su = require('suman-utils');
 import chalk  = require('chalk');
+import async = require('async');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -42,8 +52,7 @@ export interface ICloneErrorFn {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-export const handleSetupComplete = function (test, type) {
+export const handleSetupComplete = function (test: ITestSuite, type: string) {
 
   if (test.isSetupComplete) {
     _suman.logError('Illegal registry of block method type => "' + type + '()".');
@@ -117,7 +126,43 @@ export const extractVals = function (val: any) {
   }
 };
 
-export const makeRunGenerator =  function (fn: Function, ctx: any) {
+export const makeHandleAsyncReporters = function(reporterRets: Array<any>){
+
+  return function(cb: Function) {
+
+    async.eachLimit(reporterRets, 5, function (item: Object, cb: Function) {
+
+      if (item && item.completionHook) {
+        item.completionHook();
+      }
+
+      if (item && item.count > 0) {
+
+        let timedout = false;
+        let timeoutFn = function () {
+          timedout = true;
+          console.error(`async reporter ${util.inspect(item.reporterName || item)}, appears to have timed out.`);
+          cb(null);
+        };
+
+        setTimeout(timeoutFn, 5000);
+
+        item.cb = function (err: Error) {
+          err && _suman.logError(err.stack || err);
+          process.nextTick(cb);
+        };
+      }
+      else {
+        // if nothing is returned from the reporter module, we can't do anything
+        // and we assume it was all sync
+        // likewise if count is less than 1 then we are ready to go
+        process.nextTick(cb);
+      }
+    }, cb);
+  }
+};
+
+export const makeRunGenerator = function (fn: Function, ctx: any) {
 
   return function (): Promise<any> {
 
@@ -190,8 +235,7 @@ export const asyncHelper =
 
   };
 
-
-export const implementationError = function  (err: IPseudoError, isThrow: boolean) {
+export const implementationError = function (err: IPseudoError, isThrow: boolean) {
   if (err) {
     const $err = new Error(' => Suman implementation error => Please report!'
       + '\n' + (err.stack || err));
@@ -251,7 +295,6 @@ export const loadSumanConfig = function (configPath: string, opts: Object) {
   return _suman.sumanConfig = (_suman.sumanConfig || sumanConfig);
 };
 
-
 let resolvedSharedDirs = null as any;
 export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoot: string, sumanOpts: ISumanOpts) {
 
@@ -278,7 +321,7 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
     sumanHelpersDirLocated = true;
   }
   catch (err) {
-    console.error('\n',err.stack || err,'\n');
+    console.error('\n', err.stack || err, '\n');
     console.error('\n\n', chalk.magenta('=> Suman could *not* locate your <suman-helpers-dir>; ' +
       'perhaps you need to update your suman.conf.js file, please see: ***'), '\n',
       chalk.cyan(' => http://sumanjs.org/conf.html'), '\n',
@@ -313,6 +356,15 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
 
 let loadedSharedObjects = null as any;
 export const loadSharedObjects = function (pathObj: Object, projectRoot: string, sumanOpts: ISumanOpts) {
+
+  try{
+    if (window) {
+      // if we are in the browser
+      return loadedSharedObjects = {};
+    }
+  }
+  catch(err){}
+
 
   if (loadedSharedObjects) {
     return loadedSharedObjects;
@@ -359,7 +411,7 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
     _suman.logError(`Could not load your integrant pre module at path <${p}>.`);
     _suman.logError(err.stack || err);
     integrantPreFn = function () {
-      return {dependencies:{}}
+      return {dependencies: {}}
     };
 
     if (sumanOpts.verbosity > 2) {
@@ -369,7 +421,7 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
     if (sumanOpts.verbosity > 3) {
       console.error(chalk.magenta(err.stack ? err.stack.split('\n')[0] : err), '\n');
     }
-    else{
+    else {
       console.log('\n');
     }
 
@@ -394,7 +446,7 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
     catch (err) {
       _suman.logError(`could not load suman.ioc.js file at path <${p}>`);
       _suman.logError(err.stack || err);
-      iocFn = function(){
+      iocFn = function () {
         return {dependencies: {}}
       }
     }

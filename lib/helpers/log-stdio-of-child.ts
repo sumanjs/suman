@@ -68,7 +68,7 @@ export const run = function (filePath: string) {
       // _suman.logError('endLogStream finished.');
       // rstrm.unpipe();
       writeToFileStream = false;
-      strm.end('this is the end\n');
+      strm.end('this is the end of the Suman test stream.\n');
     };
 
     strm.on('drain', function () {

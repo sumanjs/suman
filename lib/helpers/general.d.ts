@@ -6,13 +6,14 @@ import { ISumanServerInfo } from "suman-types/dts/suman";
 export interface ICloneErrorFn {
     (err: Error, newMessage: string, stripAllButTestFilePathMatch?: boolean): IPseudoError;
 }
-export declare const handleSetupComplete: (test: any, type: any) => void;
+export declare const handleSetupComplete: (test: any, type: string) => void;
 export declare const extractVals: (val: any) => {
     timeout: number;
     subDeps: string[];
     fn: Function;
     props: string[];
 };
+export declare const makeHandleAsyncReporters: (reporterRets: any[]) => (cb: Function) => void;
 export declare const makeRunGenerator: (fn: Function, ctx: any) => () => Promise<any>;
 export declare const asyncHelper: (key: string, resolve: Function, reject: Function, $args: any[], ln: number, fn: Function) => any;
 export declare const implementationError: (err: IPseudoError, isThrow: boolean) => void;
