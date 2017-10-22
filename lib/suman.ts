@@ -352,23 +352,6 @@ export class Suman {
     test.desc = (test.desc || test.name);
     test.filePath = test.filePath || this.fileName;
 
-    let str = su.customStringify({
-      childId: process.env.SUMAN_CHILD_ID,
-      test,
-      type: 'LOG_RESULT',
-    });
-
-    // str = str.replace(/(\r\n|\n|\r)/gm, ''); ///This javascript code removes all 3 types of line breaks
-    // process.send(JSON.parse(str));
-
-    const LOG_RESULT = constants.runner_message_type.LOG_RESULT;
-
-    if (global.usingBrowserEtcEtc) {
-      const client = getClient();
-      // TODO: note for the web browser, we need to use this
-      client.emit(LOG_RESULT, JSON.parse(str));
-    }
-
     // broadcast results
     resultBroadcaster.emit(String(events.TEST_CASE_END), test);
 

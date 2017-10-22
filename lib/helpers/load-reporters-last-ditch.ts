@@ -20,6 +20,7 @@ import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+import {getClient} from '../index-helpers/socketio-child-client';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const sumanReporters = _suman.sumanReporters = (_suman.sumanReporters || []);
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
@@ -41,13 +42,21 @@ export const run = function () {
   // we do not want the user to modify sumanOpts at runtime! so we copy it
   const optsCopy = Object.assign({}, _suman.sumanOpts);
 
+  let fn: Function, client: SocketIOClient.Socket;
+
   if (sumanReporters.length < 1) {
-    let fn: Function;
 
     try {
       if (window) {
-        fn = require('suman-reporters/modules/karma-reporter');
-        fn = fn.default || fn;
+        if(window.__karma___){
+          fn = require('suman-reporters/modules/karma-reporter');
+          fn = fn.default || fn;
+        }
+        else{
+          fn = require('suman-reporters/modules/websocket-reporter');
+          fn = fn.default || fn;
+          client = getClient();
+        }
       }
     }
     catch (err) {
@@ -65,10 +74,9 @@ export const run = function () {
 
     console.log('\n');
     console.error('\n');
-    console.log('fn fn fn', util.inspect(fn));
     assert(typeof fn === 'function', 'Suman implementation error - reporter fail - reporter does not export a function. Please report this problem on Github.');
     _suman.sumanReporters.push(fn);
-    reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}));
+    reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}, client));
   }
 
 };

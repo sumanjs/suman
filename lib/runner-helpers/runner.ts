@@ -163,10 +163,11 @@ server.on('connection', function (socket: SocketIOClient.Socket) {
     handleTableData(n, msg.data, socket);
   });
 
-  socket.on(LOG_RESULT, function (msg: Object) {
+  socket.on(LOG_RESULT, function (msg: Object, cb: Function) {
     let id = msg.childId;
     let n = cpHash[id];
     logTestResult(msg, n, socket);
+    cb(null);
   });
 
 });

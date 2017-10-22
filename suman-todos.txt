@@ -10,6 +10,12 @@ three SO profiles:
 
 ///
 
+ suman --browser --watch
+
+ using watch will re-run tests on changes
+
+///
+
  --reporters=x should be --reporter (singular) instead
 
 ///
