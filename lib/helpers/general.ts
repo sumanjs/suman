@@ -126,39 +126,50 @@ export const extractVals = function (val: any) {
   }
 };
 
-export const makeHandleAsyncReporters = function(reporterRets: Array<any>){
+export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
 
-  return function(cb: Function) {
+  return function (cb: Function) {
+
+    if(reporterRets.length < 1){
+      try {
+        window.__karma__.complete();
+      }
+      finally{}
+      return process.nextTick(cb);
+    }
 
     async.eachLimit(reporterRets, 5, function (item: Object, cb: Function) {
 
-      if (item && item.completionHook) {
-        item.completionHook();
-      }
+        if (item && item.completionHook) {
+          item.completionHook();
+        }
 
-      if (item && item.count > 0) {
+        if (item && item.count > 0) {
 
-        let timedout = false;
-        let timeoutFn = function () {
-          timedout = true;
-          console.error(`async reporter ${util.inspect(item.reporterName || item)}, appears to have timed out.`);
-          cb(null);
-        };
+          let timedout = false;
+          let timeoutFn = function () {
+            timedout = true;
+            console.error(`async reporter ${util.inspect(item.reporterName || item)}, appears to have timed out.`);
+            cb(null);
+          };
 
-        setTimeout(timeoutFn, 5000);
+          setTimeout(timeoutFn, 5000);
 
-        item.cb = function (err: Error) {
-          err && _suman.logError(err.stack || err);
+          item.cb = function (err: Error) {
+            err && _suman.logError(err.stack || err);
+            process.nextTick(cb);
+          };
+        }
+        else {
+          // if nothing is returned from the reporter module, we can't do anything
+          // and we assume it was all sync
+          // likewise if count is less than 1 then we are ready to go
           process.nextTick(cb);
-        };
-      }
-      else {
-        // if nothing is returned from the reporter module, we can't do anything
-        // and we assume it was all sync
-        // likewise if count is less than 1 then we are ready to go
+        }
+      },
+      function () {
         process.nextTick(cb);
-      }
-    }, cb);
+      });
   }
 };
 
@@ -357,14 +368,14 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
 let loadedSharedObjects = null as any;
 export const loadSharedObjects = function (pathObj: Object, projectRoot: string, sumanOpts: ISumanOpts) {
 
-  try{
+  try {
     if (window) {
       // if we are in the browser
       return loadedSharedObjects = {};
     }
   }
-  catch(err){}
-
+  catch (err) {
+  }
 
   if (loadedSharedObjects) {
     return loadedSharedObjects;

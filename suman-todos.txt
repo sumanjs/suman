@@ -10,6 +10,10 @@ three SO profiles:
 
 ///
 
+ --reporters=x should be --reporter (singular) instead
+
+///
+
 global_npm_modules_path="$(npm root -g)";
 this npm command is slow, and I am looking to speed up this script. One thing I could do is "cache" the result of the npm command, something like this:
 

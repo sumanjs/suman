@@ -112,14 +112,16 @@ import {makeSuman} from './suman';
 import {execSuite} from './exec-suite';
 import {loadSumanConfig, resolveSharedDirs, loadSharedObjects} from './helpers/general';
 import {acquireIocStaticDeps} from './acquire-dependencies/acquire-ioc-static-deps';
+import {shutdownProcess, handleSingleFileShutdown} from "./helpers/handle-suman-shutdown";
 const allOncePreKeys: Array<Array<string>> = _suman.oncePreKeys = [];
 const allOncePostKeys: Array<Array<string>> = _suman.oncePostKeys = [];
 const suiteResultEmitter = _suman.suiteResultEmitter = _suman.suiteResultEmitter || new EE();
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-if (!SUMAN_SINGLE_PROCESS) {
-  require('./helpers/handle-suman-counts');
+if (!SUMAN_SINGLE_PROCESS && !inBrowser) {
+  // if not a single process, then we shutdown after the first test file completes
+  handleSingleFileShutdown();
 }
 
 require('./index-helpers/verify-local-global-version');
@@ -166,6 +168,12 @@ testSuiteRegistrationQueue.drain = function () {
 
 testSuiteQueue.drain = function () {
   suiteResultEmitter.emit('suman-test-file-complete');
+  console.log('drain - we are in browser?', inBrowser);
+  console.log('testSuiteRegistrationQueue is idle?', testSuiteRegistrationQueue.idle());
+  if(inBrowser && testSuiteRegistrationQueue.idle()){
+    console.log('drain drain drain.');
+    shutdownProcess();
+  }
 };
 
 suiteResultEmitter.on('suman-test-registered', function (fn: Function) {
@@ -387,7 +395,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
         global.setImmediate(function () {
           // IMPORTANT: setImmediate guarantees registry of multiple test suites referenced in the same file
           testSuiteRegistrationQueue.push(function () {
-            //args are most likely (desc,opts,cb)
+            //args are most likely (desc, opts, cb)
             run.apply(null, args);
           });
         });

@@ -475,7 +475,7 @@ module.exports = [
     help: 'Specify single path as dest directory for conversion to Suman from Mocha.'
   },
   {
-    names: ['reporters'],
+    names: ['reporters', 'reporter'],
     type: 'arrayOfString',
     help: 'Specify name of reporters to be used deemed by your config file.'
   },

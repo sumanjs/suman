@@ -25,12 +25,21 @@ import {oncePostFn} from './handle-suman-once-post';
 import {makeHandleAsyncReporters} from './general';
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 const suiteResultEmitter = _suman.suiteResultEmitter = _suman.suiteResultEmitter || new EE();
-const resultBroadcaster = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
+const rb = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
 const results: Array<ITableDataCallbackObj> = _suman.tableResults = _suman.tableResults || [];
 
 ///////////////////////////////////////////////////////////////////
 
-suiteResultEmitter.once('suman-test-file-complete', function () {
+let isShutdown = false;
+export const shutdownProcess = function () {
+
+  if (isShutdown) {
+    _suman.logWarning('implementation error, process shutdown has already commenced.');
+    return;
+  }
+  else {
+    isShutdown = true;
+  }
 
   let fn, resultz;
 
@@ -39,12 +48,18 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
     _suman.logError('handling request/response with runner.');
     fn = handleRequestResponseWithRunner(resultz);
   }
-  else {
+  else if (_suman.inBrowser) {
 
+    fn = function (cb: Function) {
+      console.log('we are in browser callback...');
+      process.nextTick(cb);
+    }
+  }
+  else {
     // i may not be defined if testsuite (rootsuite) was skipped
     resultz = results.map(i => i ? i : null).filter(i => i);
     resultz.forEach(function (r) {
-      resultBroadcaster.emit(String(events.STANDARD_TABLE), r.tableData, r.exitCode);
+      rb.emit(String(events.STANDARD_TABLE), r.tableData, r.exitCode);
     });
 
     fn = oncePostFn;
@@ -61,10 +76,15 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
 
     err && _suman.logError(err.stack || err);
     // this is for testing expected test result counts
-    resultBroadcaster.emit(String(events.META_TEST_ENDED));
+    rb.emit(String(events.META_TEST_ENDED));
     _suman.endLogStream && _suman.endLogStream();
 
     let waitForStdioToDrain = function (cb: Function) {
+
+      if(_suman.inBrowser){
+        _suman.log('we are in browser no drain needed.');
+        return process.nextTick(cb);
+      }
 
       if (_suman.isStrmDrained) {
         _suman.log('Log stream is already drained.');
@@ -88,7 +108,9 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
           fs.appendFileSync(logpath, 'Drain callback was indeed called.');
         }
         finally {
+          console.log('we are in finally...');
           if (!timedout) {
+            console.log('finally has not timedout...');
             process.nextTick(cb);
           }
         }
@@ -104,4 +126,10 @@ suiteResultEmitter.once('suman-test-file-complete', function () {
 
   });
 
-});
+};
+
+export const handleSingleFileShutdown = function () {
+  suiteResultEmitter.once('suman-test-file-complete', shutdownProcess);
+};
+
+

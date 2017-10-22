@@ -13,7 +13,7 @@ export declare const extractVals: (val: any) => {
     fn: Function;
     props: string[];
 };
-export declare const makeHandleAsyncReporters: (reporterRets: any[]) => (cb: Function) => void;
+export declare const makeHandleAsyncReporters: (reporterRets: any[]) => (cb: Function) => any;
 export declare const makeRunGenerator: (fn: Function, ctx: any) => () => Promise<any>;
 export declare const asyncHelper: (key: string, resolve: Function, reject: Function, $args: any[], ln: number, fn: Function) => any;
 export declare const implementationError: (err: IPseudoError, isThrow: boolean) => void;

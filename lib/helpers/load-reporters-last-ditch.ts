@@ -22,6 +22,7 @@ import su = require('suman-utils');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const sumanReporters = _suman.sumanReporters = (_suman.sumanReporters || []);
+const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 
 /////////////////////////////////////////////////////////
 
@@ -64,9 +65,10 @@ export const run = function () {
 
     console.log('\n');
     console.error('\n');
-    assert(typeof fn === 'function', 'Suman implementation error - reporter fail. Please report this problem on Github.');
+    console.log('fn fn fn', util.inspect(fn));
+    assert(typeof fn === 'function', 'Suman implementation error - reporter fail - reporter does not export a function. Please report this problem on Github.');
     _suman.sumanReporters.push(fn);
-    fn.call(null, resultBroadcaster, optsCopy, {}, su);
+    reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}));
   }
 
 };
