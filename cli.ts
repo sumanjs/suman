@@ -266,6 +266,7 @@ const sumanShell = sumanOpts.suman_shell;
 const watchPer = sumanOpts.watch_per;
 const singleProcess = sumanOpts.single_process;
 const script = sumanOpts.script;
+const browser = sumanOpts.browser;
 
 if (singleProcess) {
   process.env.SUMAN_SINGLE_PROCESS = 'yes';
@@ -580,7 +581,7 @@ else if (convert) {
 else if (s) {
   require('./lib/cli-commands/start-suman-server')(sumanServerInstalled, sumanConfig, serverName);
 }
-else if (watch || watchPer) {
+else if (!browser && (watch || watchPer)) {
   require('./lib/cli-commands/watching').run(projectRoot, paths, sumanOpts, sumanConfig);
 }
 else if (groups) {

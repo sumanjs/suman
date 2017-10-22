@@ -528,7 +528,7 @@ module.exports = [
     '@run.sh, @transform.sh, @target, @src, have the correct permissions.'
   },
   {
-    names: ['browser'],
+    names: ['browser', 'b'],
     type: 'bool',
     help: 'Tell Suman to run browser tests.'
   },

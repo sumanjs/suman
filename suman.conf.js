@@ -104,6 +104,14 @@ module.exports = Object.freeze({
 
   },
 
+  browser: {
+    entries: [
+      {
+        html
+      }
+    ]
+  },
+
   ////////////////////////////////////////////////////
 
   scripts: {
