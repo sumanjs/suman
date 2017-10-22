@@ -138,7 +138,6 @@ let projectRoot: string,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-
 const testSuiteQueueCallbacks: Array<Function> = [];
 const testRuns: Array<Function> = [];
 const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
@@ -149,11 +148,20 @@ const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
   process.nextTick(task);
 }, c);
 
-const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Function) {
+const testSuiteRegistrationQueue = _suman.tsrq = async.queue(function (task: Function, cb: Function) {
   // important! => Test.creates need to be registered only one at a time
   testSuiteRegistrationQueueCallbacks.unshift(cb);
   process.nextTick(task);
 }, c);
+
+try{
+  if(window.__karma__){
+    testSuiteRegistrationQueue.pause();
+  }
+}
+catch(err){
+
+}
 
 testSuiteRegistrationQueue.drain = function () {
   if (su.vgt(5)) {
@@ -168,10 +176,7 @@ testSuiteRegistrationQueue.drain = function () {
 
 testSuiteQueue.drain = function () {
   suiteResultEmitter.emit('suman-test-file-complete');
-  console.log('drain - we are in browser?', inBrowser);
-  console.log('testSuiteRegistrationQueue is idle?', testSuiteRegistrationQueue.idle());
-  if(inBrowser && testSuiteRegistrationQueue.idle()){
-    console.log('drain drain drain.');
+  if (inBrowser && testSuiteRegistrationQueue.idle()) {
     shutdownProcess();
   }
 };
