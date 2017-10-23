@@ -50,7 +50,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import integrantInjector from '../injection/integrant-injector';
 import {constants} from '../../config/suman-constants';
 import ascii = require('../helpers/ascii');
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {handleFatalMessage} from './handle-fatal-message';
 import {logTestResult} from './log-test-result';
 const {onExit} = require('./on-exit');
@@ -149,8 +149,9 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
 
   const {sumanOpts} = _suman;
   if (sumanOpts.errors_only) {
-    resultBroadcaster.emit(String(events.ERRORS_ONLY_OPTION));
+    rb.emit(String(events.ERRORS_ONLY_OPTION));
   }
+
 
   const server = getSocketServer();
   server.on('connection', function (socket: SocketIOClient.Socket) {
@@ -184,7 +185,21 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
     socket.on(BROWSER_FINISHED, function (msg: Object, cb: Function) {
       let id = String(msg.childId).trim();
       let n = cpHash[id];
-      n.kill('SIGINT');
+
+
+        n.kill('SIGTERM');
+        setTimeout(function () {
+          if(!n.hasExited){
+            n.kill('SIGINT');
+            setTimeout(function () {
+              if(!n.hasExited){
+                n.kill('SIGKILL');
+              }
+            }, 1000);
+          }
+        }, 1000);
+
+
       cb(null);
     });
 
@@ -211,7 +226,7 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
         'here is the returned contents =>\n', util.inspect(ret));
     }
 
-    resultBroadcaster.emit(String(events.RUNNER_ASCII_LOGO), ascii.suman_runner);
+    rb.emit(String(events.RUNNER_ASCII_LOGO), ascii.suman_runner);
 
     let fn;
 

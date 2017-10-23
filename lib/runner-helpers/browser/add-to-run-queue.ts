@@ -95,13 +95,13 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       cl.launch({
         startingUrl: `http://localhost:${port}/suman_testing?data=${testData}`,
         chromeFlags: []
+        // chromeFlags: ['--headless'],
         // chromeFlags: ['--headless', '--disable-gpu']
       })
       .then(c => {
 
         const n = c.instance.chrome;
-
-        console.log(`Chrome debugging port running on ${n.port}`);
+        _suman.log(`Chrome debugging port running on ${c.port}.\n`);
 
         cpHash[String($childId)] = n;
 

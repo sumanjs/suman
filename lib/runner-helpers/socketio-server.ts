@@ -18,6 +18,7 @@ import path = require('path');
 //npm
 import * as SocketServer from 'socket.io';
 import replaceStream = require('replacestream');
+import su  = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -31,10 +32,19 @@ const io = {
 /////////////////////////////////////////////////////
 
 const getEmbeddedScript = function(port: number, id: number){
+
+  const sumanOptsStr = su.customStringify(_suman.sumanOpts);
+  const sumanConfigStr = su.customStringify(_suman.sumanConfig);
+  const timestamp = Date.now();
+
    return  [
      '<script>',
      `window.__suman.SUMAN_SOCKETIO_SERVER_PORT=${port};`,
      `window.__suman.SUMAN_CHILD_ID=${id};`,
+     `window.__suman.usingRunner=true;`,
+     `window.__suman.timestamp=${timestamp};`,
+     `window.__suman.sumanConfig=${sumanConfigStr};`,
+     `window.__suman.sumanOpts=${sumanOptsStr};`,
      '</script>'
    ].join('');
 };

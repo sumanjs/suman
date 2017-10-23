@@ -232,6 +232,15 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     return initMap.get($module) as any;
   }
 
+  if(typeof _suman.sumanConfig === 'string'){
+    _suman.sumanConfig = JSON.parse(_suman.sumanConfig);
+  }
+
+  if(typeof _suman.sumanOpts === 'string'){
+    _suman.sumanOpts = JSON.parse(_suman.sumanOpts);
+    _suman.sumanOpts.series = true;
+  }
+
   if (!$module.filename) {
     _suman.logWarning(`warning: module instance did not have a 'filename' property.`);
     $module.filename = '/';

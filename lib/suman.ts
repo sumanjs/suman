@@ -391,8 +391,15 @@ export const makeSuman
 
   let timestamp: number;
 
+  try{
+    if(window){
+      timestamp = Number(_suman.timestamp);
+    }
+  }
+  catch(err){}
+
   if (_suman.usingRunner) {  //using runner, obviously, so runner provides timestamp value
-    timestamp = _suman.timestamp = Number(process.env.SUMAN_RUNNER_TIMESTAMP);
+    timestamp = _suman.timestamp = timestamp || Number(process.env.SUMAN_RUNNER_TIMESTAMP);
     if (!timestamp) {
       console.error(new Error('Suman implementation error => no timestamp provided by Suman test runner'));
       process.exit(constants.EXIT_CODES.NO_TIMESTAMP_AVAILABLE_IN_TEST);

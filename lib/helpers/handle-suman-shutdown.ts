@@ -50,11 +50,9 @@ export const shutdownProcess = function () {
     fn = handleRequestResponseWithRunner(resultz);
   }
   else if (_suman.inBrowser) {
-
-    fn = function (cb: Function) {
-      console.log('we are in browser callback...');
-      process.nextTick(cb);
-    }
+    console.log('stable dogs here...');
+    resultz = results.map(i => i.tableData);
+    fn = handleRequestResponseWithRunner(resultz);
   }
   else {
     // i may not be defined if testsuite (rootsuite) was skipped

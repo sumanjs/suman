@@ -32,9 +32,6 @@ export const handleRequestResponseWithRunner = function (data: Array<any>) {
   };
 
   data.forEach(function (d) {
-
-    // accumulatedData.ROOT_SUITE_NAME += d.ROOT_SUITE_NAME + ',';
-    // accumulatedData.ROOT_SUITE_NAME++;
     accumulatedData.SUITE_COUNT += d.SUITE_COUNT;
     accumulatedData.SUITE_SKIPPED_COUNT += d.SUITE_SKIPPED_COUNT;
     accumulatedData.TEST_CASES_TOTAL += d.TEST_CASES_TOTAL;
@@ -42,15 +39,9 @@ export const handleRequestResponseWithRunner = function (data: Array<any>) {
     accumulatedData.TEST_CASES_PASSED += d.TEST_CASES_PASSED;
     accumulatedData.TEST_CASES_SKIPPED += d.TEST_CASES_SKIPPED;
     accumulatedData.TEST_CASES_STUBBED += d.TEST_CASES_STUBBED;
-
   });
 
   return function (cb: Function) {
-
-    // if(_suman.$forceInheritStdio){
-    //   _suman.logError('cannot send parent/grandparent an IPC message.');
-    //   return process.nextTick(cb);
-    // }
 
     const client = getClient();
     const TABLE_DATA = constants.runner_message_type.TABLE_DATA;
@@ -69,10 +60,18 @@ export const handleRequestResponseWithRunner = function (data: Array<any>) {
       }
     });
 
+    let childId;
+    try {
+      if (window) {
+        childId = window.__suman.SUMAN_CHILD_ID;
+      }
+    }
+    catch (err) {}
+
     client.emit(TABLE_DATA, {
       type: constants.runner_message_type.TABLE_DATA,
       data: accumulatedData,
-      childId: process.env.SUMAN_CHILD_ID
+      childId: childId || process.env.SUMAN_CHILD_ID
     });
 
   };

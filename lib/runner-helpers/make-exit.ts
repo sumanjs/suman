@@ -55,8 +55,10 @@ export const makeExit = function (runnerObj, tableRows) {
       const code = msg.code;
       const signal = msg.signal;
 
+      console.log('exit message => ', msg);
+
       if (!Number.isInteger(code)) {
-        _suman.logError(chalk.red.bold('Suman implementation error => exit code is non-integer => '), code);
+        _suman.logError(chalk.red.bold('Suman implementation warning => exit code is non-integer => '), code);
       }
 
       if (code > 0) {

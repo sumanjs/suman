@@ -54,6 +54,7 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
 
     return function (code: number, signal: number) {
 
+      n.hasExitted = n.exited = true;
       cb(null);  // fire run queue callback
 
       n.dateEndedMillis = gd.endDate = Date.now();
