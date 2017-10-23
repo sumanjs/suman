@@ -39,6 +39,7 @@ const getEmbeddedScript = function(port: number, id: number){
 
    return  [
      '<script>',
+     `window.__suman = window.__suman || {};`,
      `window.__suman.SUMAN_SOCKETIO_SERVER_PORT=${port};`,
      `window.__suman.SUMAN_CHILD_ID=${id};`,
      `window.__suman.usingRunner=true;`,
@@ -61,6 +62,8 @@ export const initializeSocketServer = function (cb: Function): void {
     // pass -1 as port number
     return process.nextTick(cb, null, -1);
   }
+
+  const regex = /<suman-test-content>.*<\/suman-test-content>/;
 
   // this code could be simplified, but
   // let's leave it as explicit
@@ -91,7 +94,7 @@ export const initializeSocketServer = function (cb: Function): void {
 
       const port  = httpServer.address().port;
       fs.createReadStream(data.path)
-      .pipe(replaceStream('<suman-test-content>', getEmbeddedScript(port, data.childId)))
+      .pipe(replaceStream(regex, getEmbeddedScript(port, data.childId)))
       .pipe(res);
     }
     else {
