@@ -165,7 +165,7 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
     }
     else {
       if (su.vgt(6)) {
-        _suman.logWarning('Stdio object not available for child process.');
+        _suman.logWarning('stdio object not available for child process.');
       }
     }
 

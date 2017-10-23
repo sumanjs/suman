@@ -151,6 +151,7 @@ export const constants = Object.freeze({
   },
 
   runner_message_type: {
+    BROWSER_FINISHED: 'BROWSER_FINISHED',
     FATAL: 'FATAL',
     FATAL_MESSAGE_RECEIVED: 'FATAL_MESSAGE_RECEIVED',
     TABLE_DATA: 'TABLE_DATA',

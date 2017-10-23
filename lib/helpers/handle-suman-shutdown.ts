@@ -23,6 +23,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {handleRequestResponseWithRunner} from '../index-helpers/handle-runner-request-response';
 import {oncePostFn} from './handle-suman-once-post';
 import {makeHandleAsyncReporters} from './general';
+import {getClient} from "../index-helpers/socketio-child-client";
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 const suiteResultEmitter = _suman.suiteResultEmitter = _suman.suiteResultEmitter || new EE();
 const rb = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
@@ -121,7 +122,23 @@ export const shutdownProcess = function () {
       waitForStdioToDrain,
       makeHandleAsyncReporters(reporterRets),
     ], function () {
-      process.exit(highestExitCode)
+
+      try{
+        if(window){
+          const childId = window.__suman.SUMAN_CHILD_ID;
+          const client = getClient();
+          client.emit('BROWSER_FINISHED', {
+            childId:childId,
+            type: 'BROWSER_FINISHED',
+          }, function(){
+             console.log('BROWSER_FINISHED message received.');
+          });
+        }
+      }
+      catch(err){
+        process.exit(highestExitCode)
+      }
+
     });
 
   });

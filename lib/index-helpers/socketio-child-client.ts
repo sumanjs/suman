@@ -21,11 +21,22 @@ export const getClient = function () {
 
   if (!client) {
 
-    const port = process.env.SUMAN_SOCKETIO_SERVER_PORT;
+    let port = process.env.SUMAN_SOCKETIO_SERVER_PORT;
+
+    try {
+      if(window && !port){
+        port = Number(window.__suman.SUMAN_SOCKETIO_SERVER_PORT);
+      }
+    }
+    catch(err){}
 
     if (!port) {
       throw new Error('Suman implementation error, no port specified by "SUMAN_SOCKETIO_SERVER_PORT" env var.');
     }
+
+    // if (!Number.isInteger(port)) {
+    //   throw new Error('Suman implementation error, no port specified by "SUMAN_SOCKETIO_SERVER_PORT" env var.');
+    // }
 
     client = Client(`http://localhost:${port}`);
 

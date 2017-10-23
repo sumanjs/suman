@@ -312,7 +312,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       }
       else {
         if (su.vgt(2)) {
-          _suman.logWarning('Stdio object not available for child process.');
+          _suman.logWarning('stdio object not available for child process.');
         }
       }
 

@@ -1,1 +1,2 @@
-export declare const run: (sumanOpts: any, sumanConfig: any, paths: string[]) => any;
+import { ISumanOpts, ISumanConfig } from "suman-types/dts/global";
+export declare const run: (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, paths: string[]) => any;

@@ -23,18 +23,16 @@ import * as su from 'suman-utils';
 import * as async from 'async';
 const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
-import cp = require('child_process');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {cpHash, socketHash, ganttHash, IGanttHash, IGanttData} from './socket-cp-hash';
 const {constants} = require('../../config/suman-constants');
-import {makeTranspileQueue} from './browser/transpile-queue';
 import {makeAddToTranspileQueue} from './browser/add-to-transpile-queue';
 import {makeOnExitFn} from './multiple-process-each-on-exit';
 import {makeAddToRunQueue} from "./browser/add-to-run-queue";
-import {makeRunQueue} from "./browser/run-queue";
+import {makeRunQueue, makeTranspileQueue} from "./shared/queues";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -46,9 +44,9 @@ export interface ISumanCPMessages {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeHandleBrowserProcesses = function (runnerObj: IRunnerObj, tableRows: ITableRows,
-                                                     messages: Array<ISumanCPMessages>,
-                                                     forkedCPs: Array<ISumanChildProcess>,
-                                                     beforeExitRunOncePost: Function, makeExit: Function): Function {
+                                                    messages: Array<ISumanCPMessages>,
+                                                    forkedCPs: Array<ISumanChildProcess>,
+                                                    beforeExitRunOncePost: Function, makeExit: Function): Function {
 
   return function (runObj: IRunObj) {
 
@@ -57,18 +55,16 @@ export const makeHandleBrowserProcesses = function (runnerObj: IRunnerObj, table
     process.stderr.setMaxListeners(runObj.files.length + 11);
     process.stdout.setMaxListeners(runObj.files.length + 11);
 
-    try{
+    try {
       require('chrome-launcher');
     }
-    catch(err){
+    catch (err) {
       cp.execSync('npm install -S chrome-launcher');
     }
-
 
     const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
     const sumanCPLogs = path.resolve(logsDir + '/runs/');
     const f = path.resolve(sumanCPLogs + '/' + _suman.timestamp + '-' + _suman.runId);
-
     const args: Array<string> = ['--user-args', sumanOpts.user_args];
     const runQueue = makeRunQueue();
     const onExitFn = makeOnExitFn(runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit, runQueue);
@@ -81,7 +77,6 @@ export const makeHandleBrowserProcesses = function (runnerObj: IRunnerObj, table
 
     let queuedTestFns: Array<Function> = [];
     let failedTransformObjects: Array<Object> = [];
-
     const transpileQueue = makeTranspileQueue(failedTransformObjects, runFile, queuedTestFns);
 
     if (waitForAllTranformsToFinish) {

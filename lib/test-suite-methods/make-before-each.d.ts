@@ -1,2 +1,3 @@
 import { Suman } from "../suman";
-export declare const makeBeforeEach: (suman: Suman) => any;
+import { IBeforeEachFn } from "suman-types/dts/before-each";
+export declare const makeBeforeEach: (suman: Suman) => IBeforeEachFn;

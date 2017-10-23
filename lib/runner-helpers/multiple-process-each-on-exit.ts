@@ -31,10 +31,10 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
 import {handleTestCoverageReporting} from './coverage-reporting';
 const {constants} = require('../../config/suman-constants');
-import {getTranspileQueue} from './multi-process/transpile-queue';
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+import {getTranspileQueue, getRunQueue} from './shared/queues';
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRows,
                                       messages: Array<ISumanCPMessages>, forkedCPs: Array<ISumanChildProcess>,
@@ -49,7 +49,7 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
     };
 
     let allDone = function (q: Object) {
-      return q.length() < 1 && q.running() < 1;
+      return q && q.length() < 1 && q.running() < 1;
     };
 
     return function (code: number, signal: number) {
@@ -63,7 +63,7 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
       const sumanOpts = _suman.sumanOpts;
       const transpileQueue = getTranspileQueue();
 
-      resultBroadcaster.emit(String(events.TEST_FILE_CHILD_PROCESS_EXITED), {
+      rb.emit(String(events.TEST_FILE_CHILD_PROCESS_EXITED), {
         testPath: n.testPath,
         exitCode: code
       });

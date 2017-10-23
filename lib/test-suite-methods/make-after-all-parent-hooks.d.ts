@@ -1,2 +1,3 @@
 import { Suman } from "../suman";
-export declare const makeAfterAllParentHooks: (suman: Suman) => any;
+import { IAfterFn } from "suman-types/dts/after";
+export declare const makeAfterAllParentHooks: (suman: Suman) => IAfterFn;

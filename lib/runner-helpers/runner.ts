@@ -135,6 +135,7 @@ const TABLE_DATA = constants.runner_message_type.TABLE_DATA;
 const LOG_RESULT = constants.runner_message_type.LOG_RESULT;
 const FATAL = constants.runner_message_type.FATAL;
 const FATAL_MESSAGE_RECEIVED = constants.runner_message_type.FATAL_MESSAGE_RECEIVED;
+const BROWSER_FINISHED = constants.runner_message_type.BROWSER_FINISHED;
 
 const handleTableData = function (n: ISumanChildProcess, data: any, s: SocketIOClient.Socket) {
   runnerObj.tableCount++;
@@ -177,6 +178,13 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
       let id = msg.childId;
       let n = cpHash[id];
       logTestResult(msg, n, socket);
+      cb(null);
+    });
+
+    socket.on(BROWSER_FINISHED, function (msg: Object, cb: Function) {
+      let id = String(msg.childId).trim();
+      let n = cpHash[id];
+      n.kill('SIGINT');
       cb(null);
     });
 

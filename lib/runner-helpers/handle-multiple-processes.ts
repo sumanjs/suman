@@ -29,11 +29,10 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {cpHash, socketHash, ganttHash, IGanttHash, IGanttData} from './socket-cp-hash';
 const {constants} = require('../../config/suman-constants');
-import {makeTranspileQueue} from './multi-process/transpile-queue';
 import {makeAddToTranspileQueue} from './multi-process/add-to-transpile-queue';
 import {makeOnExitFn} from './multiple-process-each-on-exit';
 import {makeAddToRunQueue} from "./multi-process/add-to-run-queue";
-import {makeRunQueue} from "./multi-process/run-queue";
+import {makeRunQueue, makeTranspileQueue} from "./shared/queues";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 

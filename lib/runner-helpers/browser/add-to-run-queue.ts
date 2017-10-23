@@ -88,9 +88,9 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       }
 
       const testData = JSON.stringify({
-         path: file
+        path: file,
+        childId: $childId
       });
-
 
       cl.launch({
         startingUrl: `http://localhost:${port}/suman_testing?data=${testData}`,
@@ -103,7 +103,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
 
         console.log(`Chrome debugging port running on ${n.port}`);
 
-        cpHash[$childId] = n;
+        cpHash[String($childId)] = n;
 
         if (!_suman.weAreDebugging) {
           n.to = setTimeout(function () {
@@ -179,7 +179,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         }
         else {
           if (su.vgt(2)) {
-            _suman.logWarning('Stdio object not available for child process.');
+            _suman.logWarning('stdio object not available for child process.');
           }
         }
 

@@ -16,12 +16,24 @@ import chalk = require('chalk');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
-//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 
-let q : AsyncQueue<Function> = null;
+let runQueue : AsyncQueue<Function> = null;
+
+export const getRunQueue = function(){
+  return runQueue;
+};
+
+export const makeRunQueue = function () {
+  const {maxProcs} = _suman;
+  return runQueue = async.queue((task,cb) => task(cb), maxProcs);
+};
+
+
+let transpileQueue : AsyncQueue<Function> = null;
 
 export const getTranspileQueue = function(){
-  return q;
+  return transpileQueue;
 };
 
 export const makeTranspileQueue = function (failedTransformObjects, runFile: Function, queuedTestFns) {
@@ -29,7 +41,7 @@ export const makeTranspileQueue = function (failedTransformObjects, runFile: Fun
   const {sumanOpts, sumanConfig, projectRoot} = _suman;
   const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
 
-  return q = async.queue(function (task: Function, cb: Function) {
+  return transpileQueue = async.queue(function (task: Function, cb: Function) {
 
     task(function (err: Error, file: string, shortFile: string, stdout: string, stderr: string, gd: IGanttData) {
 

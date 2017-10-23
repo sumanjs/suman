@@ -17,6 +17,7 @@ import path = require('path');
 
 //npm
 import * as SocketServer from 'socket.io';
+import replaceStream = require('replacestream');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -28,6 +29,16 @@ const io = {
 };
 
 /////////////////////////////////////////////////////
+
+const getEmbeddedScript = function(port: number, id: number){
+   return  [
+     '<script>',
+     `window.__suman.SUMAN_SOCKETIO_SERVER_PORT=${port};`,
+     `window.__suman.SUMAN_CHILD_ID=${id};`,
+     '</script>'
+   ].join('');
+};
+
 
 export const initializeSocketServer = function (cb: Function): void {
 
@@ -64,15 +75,18 @@ export const initializeSocketServer = function (cb: Function): void {
 
       strm.once('error', onError);
       return strm.pipe(res).once('error', onError);
-
     }
 
-    if (data.path) {
-      fs.createReadStream(data.path).pipe(res);
+    if (data.path && data.childId) {
+
+      const port  = httpServer.address().port;
+      fs.createReadStream(data.path)
+      .pipe(replaceStream('<suman-test-content>', getEmbeddedScript(port, data.childId)))
+      .pipe(res);
     }
     else {
       res.statusCode = 500;
-      res.end(JSON.stringify({error: 'no path or bundle.'}))
+      res.end(JSON.stringify({error: 'missing path or childId.'}))
     }
 
   });

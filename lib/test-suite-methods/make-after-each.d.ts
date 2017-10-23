@@ -1,2 +1,3 @@
 import { Suman } from "../suman";
-export declare const makeAfterEach: (suman: Suman) => any;
+import { IAfterEachFn } from "suman-types/dts/after-each";
+export declare const makeAfterEach: (suman: Suman) => IAfterEachFn;

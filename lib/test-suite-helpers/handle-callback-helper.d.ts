@@ -1,1 +1,4 @@
-export declare const makeCallback: (d: any, assertCount: any, test: any, hook: any, timerObj: any, gracefulExit: Function, cb: Function) => (err: any, isTimeout?: boolean) => void;
+import { IAssertObj, IHookObj, ITimerObj } from "suman-types/dts/test-suite";
+import { IPseudoError, ISumanDomain } from "suman-types/dts/global";
+import { ITestDataObj } from "suman-types/dts/it";
+export declare const makeCallback: (d: ISumanDomain, assertCount: IAssertObj, test: ITestDataObj, hook: IHookObj, timerObj: ITimerObj, gracefulExit: Function, cb: Function) => (err: IPseudoError, isTimeout?: boolean) => void;
