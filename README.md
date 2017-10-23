@@ -17,27 +17,27 @@
 Designed to run tests written in any language - because Suman runs tests as child processes - just write TAP to stdout
 via the runtime of choice (Golang, Java, Python, Node.js, Bash, whatever). 
 
-<br>
+<p>
 Suman is intended for unit testing in the browser, for backend and system testing,
 for end-to-end testing with Selenium, etc.
 
-<br>
+<p>
 Originally designed for TypeScript and Babel transpilation, Suman was generified to support
 compiling from source to target for <i>any</i> language. Suman is written in TypeScript, and has strong support for TS.
 All in all, Suman is a batteries-included test runner which encourages testing best practices through its design. 
 Starting with Suman is very easy, but you will find it has extremely powerful features, as your demands increase.
 
-<br>
+<p>
 <b>Perhaps most importantly, Suman makes testing significantly faster for both CPU bound and I/O bound test suites.</b>
 <b>The speed benefits are generally most useful during test development</b>
 
-<br>
+<p>
 As final points, Suman is designed to be universal and not just another JS framework - it's designed for the long-haul. 
-<br>
+<p>
 Elegance and utility of reporting output is paramount to the Suman philosophy.
 Reporters are the best place to contribute for people interested in creating beautiful test output.
 As they say (visual) design is what really separates contenders in a world of surplus.
-<br>
+<p>
 
 
 # Purpose of project
@@ -65,7 +65,7 @@ Suman was written so that it would suffer from none of the problems that existin
 > Browser will be supported, but not until ~Summer 2018.
 >
 
----
+----------------------------------------------------------------------------------------
 
 # Expected official release date
 
@@ -75,9 +75,9 @@ Until then, expect bugs, missing docs, etc. Proceed at your own risk :D
 
 # &#9658; Documentation 
 
->  The Suman docs => [sumanjs.org](http://sumanjs.org "Suman Docs")  
+ The Suman docs [sumanjs.org](http://sumanjs.org "Suman Docs")  
 
-----
+-----------------------------------------------------------------------------------------
 
 
 ## Suman is made up of two independent pieces:
@@ -95,7 +95,7 @@ They are completely independent, while obviously being designed to work great to
 
 <p>
 
----
+--------------------------------------------------------------------------------------------
 
 ## What makes Suman better and different
 
@@ -116,7 +116,7 @@ ___
 
 1. Run tests in any language or executable, not just Node.js/JavaScript.
 
-2. You can run Mocha tests and AVA tests using the Suman CLI, but not the other way around!
+2. => You can run Mocha tests and AVA tests using the Suman CLI, but not the other way around!
 
 3. Easily containerize any test process in development, using `suman --ctrz x.js`
 
@@ -156,7 +156,7 @@ $ suman>
 ## Suman test harness features
 
 ```javascript
-import suman from 'suman';
+import * as suman from 'suman';
 ```
 
 These are the features for creating tests in JavaScript/TypeScript.
