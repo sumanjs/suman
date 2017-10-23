@@ -74,7 +74,8 @@ export const run = function () {
 
     console.log('\n');
     console.error('\n');
-    assert(typeof fn === 'function', 'Suman implementation error - reporter fail - reporter does not export a function. Please report this problem on Github.');
+    assert(typeof fn === 'function', 'Suman implementation error - reporter fail - ' +
+      'reporter does not export a function. Please report this problem on Github.');
     _suman.sumanReporters.push(fn);
     reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}, client));
   }

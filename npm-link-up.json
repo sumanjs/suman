@@ -7,6 +7,10 @@
     "/node_modules/",
     "/.git/"
   ],
+
+  "comments": [
+    "had to remove 'suman-r' because it was not working"
+  ],
   "list": [
     "vamoot",
     "proxy-mcproxy",
@@ -16,7 +20,6 @@
     "poolio",
     "freeze-existing-props",
 
-    "suman-r",
     "suman-types",
     "suman-watch",
     "suman-shell",

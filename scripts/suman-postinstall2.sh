@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
+set -e;
 
 export SUMAN_DEBUG_LOG_PATH="$HOME/.suman/logs/suman-postinstall-debug.log"
-SUMAN_POSTINSTALL_IS_DAEMON=${SUMAN_POSTINSTALL_IS_DAEMON:-no}
 
 mkdir -p "$HOME/.suman" && echo "created suman dir" || { echo " could not create suman dir"; exit 1; }
 mkdir -p "$HOME/.suman/logs" && echo "create logs dir" || { echo " could not create logs dir"; exit 1; }
@@ -36,18 +36,27 @@ fi
 
 ./scripts/create-suman-dir.js
 
-DOT_SUMAN_DIR=$(cd ~/.suman && pwd)
-SUMAN_INSTALL_NODE_MODULES="no";
+DOT_SUMAN_DIR="$(cd "$HOME/.suman" && pwd)"
 
-if [[ ! -d "$DOT_SUMAN_DIR" ]]; then
+if [[ -d "$DOT_SUMAN_DIR" ]]; then
+
+(
+   cd "$HOME/.suman/global" && echo "installing deps in suman home...";
+   [[ -d "node_modules/chrome-launcher" ]] && npm install -S chrome-launcher
+   [[ -d "node_modules/istanbul" ]] && npm install -S istanbul
+)
+
+else
     echo " => Warning => Suman failed to create ~/.suman directory." | tee -a  ${SUMAN_DEBUG_LOG_PATH}
-    SUMAN_INSTALL_NODE_MODULES="yes";
 fi
 
 
 SUMAN_END_TIME=$(node -e 'console.log(Date.now())')
 SUMAN_TOTAL_TIME=$(expr ${SUMAN_END_TIME} - ${SUMAN_START_TIME})
-echo " => Suman => all done with postinstall routine after ${SUMAN_TOTAL_TIME}ms. " | tee -a  ${SUMAN_DEBUG_LOG_PATH}
+SUMAN_TOTAL_TIME=${SUMAN_TOTAL_TIME} ./scripts/on-install-success.js &&
+echo " => Suman => all done with postinstall routine. " | tee -a  ${SUMAN_DEBUG_LOG_PATH}
 
 # explicit for your pleasure
 exit 0;
+
+

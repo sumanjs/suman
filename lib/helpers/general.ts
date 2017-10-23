@@ -130,11 +130,12 @@ export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
 
   return function (cb: Function) {
 
-    if(reporterRets.length < 1){
+    if (reporterRets.length < 1) {
       try {
         window.__karma__.complete();
       }
-      finally{}
+      finally {
+      }
       return process.nextTick(cb);
     }
 
@@ -332,7 +333,7 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
     sumanHelpersDirLocated = true;
   }
   catch (err) {
-    console.error('\n', err.stack || err, '\n');
+    _suman.logError(err.stack || err);
     console.error('\n\n', chalk.magenta('=> Suman could *not* locate your <suman-helpers-dir>; ' +
       'perhaps you need to update your suman.conf.js file, please see: ***'), '\n',
       chalk.cyan(' => http://sumanjs.org/conf.html'), '\n',

@@ -191,6 +191,7 @@ var sumanShell = sumanOpts.suman_shell;
 var watchPer = sumanOpts.watch_per;
 var singleProcess = sumanOpts.single_process;
 var script = sumanOpts.script;
+var browser = sumanOpts.browser;
 if (singleProcess) {
     process.env.SUMAN_SINGLE_PROCESS = 'yes';
 }
@@ -251,8 +252,9 @@ try {
     }
 }
 catch (err) {
+    _suman.logError(err.stack || err);
     if (!init) {
-        _suman.logWarning(chalk.bgBlack.yellow('warning => Could not find path to your config file ' +
+        _suman.logWarning(chalk.bgBlack.yellow('warning => Could not load your config file ' +
             'in your current working directory or given by --cfg at the command line...'));
         _suman.logWarning(chalk.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ' +
             '...now looking for a config file at the root of your project...'));
@@ -421,7 +423,7 @@ else if (convert) {
 else if (s) {
     require('./lib/cli-commands/start-suman-server')(sumanServerInstalled, sumanConfig, serverName);
 }
-else if (watch || watchPer) {
+else if (!browser && (watch || watchPer)) {
     require('./lib/cli-commands/watching').run(projectRoot, paths, sumanOpts, sumanConfig);
 }
 else if (groups) {
@@ -432,5 +434,5 @@ else {
         _suman.log('The following "--user-args" will be passed to child processes as process.argv:');
         _suman.log(userArgs);
     }
-    require('./lib/run').run(sumanOpts, paths, sumanServerInstalled, sumanVersion);
+    require('./lib/run').run(sumanOpts, sumanConfig, paths, sumanServerInstalled, sumanVersion);
 }

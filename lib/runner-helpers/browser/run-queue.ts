@@ -18,7 +18,6 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 export const makeRunQueue = function () {
 
   const {sumanConfig, maxProcs} = _suman;
-
   return async.queue(function (task, cb) {
 
     task(cb);

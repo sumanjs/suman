@@ -1,7 +1,7 @@
+/// <reference types="node" />
 import { ITestSuite } from "suman-types/dts/test-suite";
 import { ISumanConfig, ISumanOpts } from "suman-types/dts/global";
 import { ISumanInputs } from "suman-types/dts/suman";
-import { IInitOpts } from "suman-types/dts/index-init";
 import { ITestDataObj } from "suman-types/dts/it";
 export interface ITestBlockMethodCache {
     [key: string]: Object;
@@ -41,4 +41,4 @@ export declare class Suman {
     logResult(test: ITestDataObj): void;
 }
 export declare type ISuman = Suman;
-export declare const makeSuman: ($module: NodeModule, opts: IInitOpts, sumanOpts: Partial<ISumanOpts>, sumanConfig: Partial<ISumanConfig>) => any;
+export declare const makeSuman: ($module: NodeModule, opts: any, sumanOpts: any, sumanConfig: any) => Suman;

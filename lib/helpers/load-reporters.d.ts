@@ -1,2 +1,1 @@
-import { ISumanConfig, ISumanOpts } from "suman-types/dts/global";
-export declare const loadReporters: (sumanOpts: ISumanOpts, projectRoot: string, sumanConfig: ISumanConfig) => void;
+export declare const loadReporters: (sumanOpts: any, projectRoot: string, sumanConfig: any) => void;

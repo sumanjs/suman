@@ -1,3 +1,2 @@
 import { Suman } from "../suman";
-import { ITestSuite } from "suman-types/dts/test-suite";
-export declare const makeNotifyParent: (suman: Suman, gracefulExit: Function, handleBeforesAndAfters: Function) => (child: ITestSuite, cb: Function) => any;
+export declare const makeNotifyParent: (suman: Suman, gracefulExit: Function, handleBeforesAndAfters: Function) => (child: any, cb: Function) => any;

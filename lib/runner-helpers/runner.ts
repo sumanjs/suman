@@ -55,10 +55,11 @@ import {handleFatalMessage} from './handle-fatal-message';
 import {logTestResult} from './log-test-result';
 const {onExit} = require('./on-exit');
 import {makeExit} from './make-exit';
-import {makeHandleIntegrantInfo}  from './handle-integrant-info';
+import {makeHandleIntegrantInfo} from './handle-integrant-info';
 import {makeBeforeExit} from './make-before-exit-once-post';
 const makeSingleProcess = require('./handle-single-process');
 const {makeContainerize} = require('./handle-containerize');
+const {makeHandleBrowserProcesses} = require('./handle-browser');
 import {makeHandleMultipleProcesses} from './handle-multiple-processes';
 const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 import {getSocketServer, initializeSocketServer} from './socketio-server';
@@ -129,7 +130,6 @@ process.on('message', function (data: any) {
     chalk.magenta(typeof data === 'string' ? data : util.inspect(data)));
 });
 
-const server = getSocketServer();
 const INTEGRANT_INFO = constants.runner_message_type.INTEGRANT_INFO;
 const TABLE_DATA = constants.runner_message_type.TABLE_DATA;
 const LOG_RESULT = constants.runner_message_type.LOG_RESULT;
@@ -142,42 +142,6 @@ const handleTableData = function (n: ISumanChildProcess, data: any, s: SocketIOC
   s.emit(TABLE_DATA, {info: 'table-data-received'});
 };
 
-server.on('connection', function (socket: SocketIOClient.Socket) {
-
-  socket.on(INTEGRANT_INFO, function (data: Object) {
-    let id = data.childId;
-    let n = cpHash[id];
-    handleIntegrantInfo(data, n, socket)
-  });
-
-  socket.on(FATAL, function (msg: Object) {
-    let id = msg.childId;
-    let n = cpHash[id];
-    socket.emit(FATAL_MESSAGE_RECEIVED, true);
-    handleFatalMessage(msg.data, n, socket);
-  });
-
-  socket.on(TABLE_DATA, function (msg: Object) {
-    let id = msg.childId;
-    let n = cpHash[id];
-    handleTableData(n, msg.data, socket);
-  });
-
-  socket.on(LOG_RESULT, function (msg: Object, cb: Function) {
-    let id = msg.childId;
-    let n = cpHash[id];
-    logTestResult(msg, n, socket);
-    cb(null);
-  });
-
-});
-
-const runSingleOrMultipleDirs = makeHandleMultipleProcesses(runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, exit);
-const runAllTestsInSingleProcess = makeSingleProcess(runnerObj, messages, beforeExitRunOncePost, exit);
-const runAllTestsInContainer = makeContainerize(runnerObj, messages, beforeExitRunOncePost, exit);
-
-///////////////
-
 export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, $order: Object) {
 
   debugger; // leave it here
@@ -186,6 +150,37 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
   if (sumanOpts.errors_only) {
     resultBroadcaster.emit(String(events.ERRORS_ONLY_OPTION));
   }
+
+  const server = getSocketServer();
+  server.on('connection', function (socket: SocketIOClient.Socket) {
+
+    socket.on(INTEGRANT_INFO, function (data: Object) {
+      let id = data.childId;
+      let n = cpHash[id];
+      handleIntegrantInfo(data, n, socket)
+    });
+
+    socket.on(FATAL, function (msg: Object) {
+      let id = msg.childId;
+      let n = cpHash[id];
+      socket.emit(FATAL_MESSAGE_RECEIVED, true);
+      handleFatalMessage(msg.data, n, socket);
+    });
+
+    socket.on(TABLE_DATA, function (msg: Object) {
+      let id = msg.childId;
+      let n = cpHash[id];
+      handleTableData(n, msg.data, socket);
+    });
+
+    socket.on(LOG_RESULT, function (msg: Object, cb: Function) {
+      let id = msg.childId;
+      let n = cpHash[id];
+      logTestResult(msg, n, socket);
+      cb(null);
+    });
+
+  });
 
   //need to get rid of this property so child processes cannot require Suman index file
   delete process.env.SUMAN_EXTRANEOUS_EXECUTABLE;
@@ -210,18 +205,25 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
 
     resultBroadcaster.emit(String(events.RUNNER_ASCII_LOGO), ascii.suman_runner);
 
+    let fn;
+
     if (IS_SUMAN_SINGLE_PROCESS) {
-      runAllTestsInSingleProcess(runObj);
+      fn = makeSingleProcess(runnerObj, messages, beforeExitRunOncePost, exit);
     }
     else if (sumanOpts.containerize) {
-      runAllTestsInContainer(runObj);
+      fn = makeContainerize(runnerObj, messages, beforeExitRunOncePost, exit);
+    }
+    else if (sumanOpts.browser) {
+      fn = makeHandleBrowserProcesses(runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, exit);
     }
     else if (runObj) {
-      runSingleOrMultipleDirs(runObj);
+      fn = makeHandleMultipleProcesses(runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, exit);
     }
     else {
       throw new Error('Suman implementation error => Switch fallthrough, please report.');
     }
+
+    fn(runObj);
 
   });
 

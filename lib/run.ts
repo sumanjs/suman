@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj, ISumanOpts} from "suman-types/dts/global";
+import {IGlobalSumanObj, ISumanOpts, ISumanConfig} from "suman-types/dts/global";
 import {AsyncResultArrayCallback} from 'async';
 
 //polyfills
@@ -36,14 +36,14 @@ const noFilesFoundError = require('./helpers/no-files-found-error');
 const ascii = require('./helpers/ascii');
 const {constants} = require('../config/suman-constants');
 const {findFilesToRun} = require('./runner-helpers/get-file-paths');
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const dbPth = path.resolve(sumanHome + '/database/exec_db');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
+export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, paths: Array<string>) {
 
-  const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
+  const logsDir = sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
   const sumanCPLogs = path.resolve(logsDir + '/runs');
 
   debugger;  //leave here forever so users can easily debug
@@ -179,7 +179,27 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
     },
 
     getFilesToRun: function (cb: Function) {
-      findFilesToRun(paths, cb);
+
+      if (sumanOpts.browser) {
+
+        try {
+          const browser = sumanConfig['browser']  as any;
+          assert(su.isObject(browser), '"browser" property on suman.conf.js needs to be an object.');
+          const entryPoints = browser['entryPoints'];
+          assert(Array.isArray(entryPoints), '"entryPoints" property needs to be an Array instance.');
+          const files = entryPoints.map(item => item.html);
+          process.nextTick(cb, null, {files});
+          return;
+        }
+        catch (err) {
+          process.nextTick(cb, err);
+          return;
+        }
+      }
+      else {
+        findFilesToRun(paths, cb);
+      }
+
     },
 
     findSumanMarkers: function (getFilesToRun: Object, cb: Function) {
@@ -198,7 +218,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
         });
     },
 
-    conductStaticAnalysisOfFilesForSafety: function (cb: ISumanErrorFirstCB) {
+    conductStaticAnalysisOfFilesForSafety: function (cb: Function) {
       if (false && sumanOpts.safe) {
         cb(new Error('safe option not yet implemented'));
       }
@@ -207,7 +227,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
       }
     },
 
-    getRunId: function (cb: ISumanErrorFirstCB) {
+    getRunId: function (cb: Function) {
 
       const first = su.once(this, cb);
 
@@ -271,14 +291,14 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
       _suman.log('"$ npm list -g" results: ', results.npmList);
     }
 
-    function changeCWDToRootOrTestDir(p: string) {
+    const changeCWDToRootOrTestDir = function (p: string) {
       if (sumanOpts.cwd_is_root || true) {
         process.chdir(projectRoot);
       }
       else {
         process.chdir(path.dirname(p));  //force CWD to test file path!
       }
-    }
+    };
 
     const obj = results.getFilesToRun;
 
@@ -297,7 +317,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
       process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
     });
 
-    resultBroadcaster.emit(String(events.RUNNER_TEST_PATHS_CONFIRMATION), files);
+    rb.emit(String(events.RUNNER_TEST_PATHS_CONFIRMATION), files);
 
     if (su.vgt(6) || sumanOpts.dry_run) {
       console.log(' ', chalk.bgCyan.magenta(' => Suman verbose message => ' +
@@ -312,7 +332,9 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
     // note: if only one file is used with the runner, then there is no possible blocking,
     // so we can ignore the suman.order.js file, and pretend it does not exist.
 
-    if (IS_SUMAN_SINGLE_PROCESS && !sumanOpts.runner && !sumanOpts.coverage && !sumanOpts.containerize) {
+    const forceRunner = sumanOpts.browser || sumanOpts.runner || sumanOpts.coverage || sumanOpts.containerize;
+
+    if (IS_SUMAN_SINGLE_PROCESS && !forceRunner) {
 
       console.log(ascii.suman_slant, '\n');
 
@@ -326,8 +348,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
         require('./run-child-not-runner').run(su.removeSharedRootPath(files));
       });
     }
-    else if (!sumanOpts.runner && !sumanOpts.containerize
-      && !sumanOpts.coverage && files.length === 1 && su.checkStatsIsFile(files[0]) && !nonJSFile) {
+    else if (!forceRunner && files.length === 1 && su.checkStatsIsFile(files[0]) && !nonJSFile) {
 
       console.log(ascii.suman_slant, '\n');
       d.run(function () {

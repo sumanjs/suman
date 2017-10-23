@@ -354,9 +354,11 @@ try {
 }
 catch (err) {
 
+  _suman.logError(err.stack || err);
+
   if (!init) {
     // if init option is flagged to true, we don't expect user to have a suman.conf.js file, duh
-    _suman.logWarning(chalk.bgBlack.yellow('warning => Could not find path to your config file ' +
+    _suman.logWarning(chalk.bgBlack.yellow('warning => Could not load your config file ' +
       'in your current working directory or given by --cfg at the command line...'));
     _suman.logWarning(chalk.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ' +
       '...now looking for a config file at the root of your project...'));
@@ -595,7 +597,7 @@ else {
     _suman.log(userArgs);
   }
 
-  require('./lib/run').run(sumanOpts, paths, sumanServerInstalled, sumanVersion);
+  require('./lib/run').run(sumanOpts, sumanConfig, paths, sumanServerInstalled, sumanVersion);
 }
 
 

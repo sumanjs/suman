@@ -26,7 +26,7 @@ import su = require('suman-utils');
 
 const {constants} = require('../../config/suman-constants');
 const {events} = require('suman-events');
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -49,8 +49,6 @@ export interface IGetFilePathCB {
 ///////////////////////////////////////////////////////////////////////////////
 
 export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
-
-  console.log('\n'); // now is about a good time to create a newline in the logs
 
   const {projectRoot, sumanOpts} = _suman;
   const isForce = sumanOpts.force;
@@ -144,7 +142,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
       const _doesMatchNone = doesMatchNone(dir);
 
       if (!_doesMatchNone) {
-        resultBroadcaster.emit(String(events.FILENAME_DOES_NOT_MATCH_NONE), dir);
+        rb.emit(String(events.FILENAME_DOES_NOT_MATCH_NONE), dir);
         return process.nextTick(cb);
       }
 
@@ -184,17 +182,17 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
           const _doesMatchAll = doesMatchAll(dir);
 
           if (!_doesMatchAny) {
-            resultBroadcaster.emit(String(events.FILENAME_DOES_NOT_MATCH_ANY), dir);
+            rb.emit(String(events.FILENAME_DOES_NOT_MATCH_ANY), dir);
             return process.nextTick(cb);
           }
 
           if (!_doesMatchNone) {
-            resultBroadcaster.emit(String(events.FILENAME_DOES_NOT_MATCH_NONE), dir);
+            rb.emit(String(events.FILENAME_DOES_NOT_MATCH_NONE), dir);
             return process.nextTick(cb);
           }
 
           if (!_doesMatchAll) {
-            resultBroadcaster.emit(String(events.FILENAME_DOES_NOT_MATCH_ALL), dir);
+            rb.emit(String(events.FILENAME_DOES_NOT_MATCH_ALL), dir);
             return process.nextTick(cb);
           }
 
@@ -202,7 +200,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
           if (path.extname(baseName) !== '.js') {
             nonJSFile = true;
-            resultBroadcaster.emit(String(events.FILE_IS_NOT_DOT_JS), dir);
+            rb.emit(String(events.FILE_IS_NOT_DOT_JS), dir);
           }
 
           const file = path.resolve(dir);
@@ -230,7 +228,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
             'recommend a naming convention to use with Suman tests, see: sumanjs.org\n\n'
           ].filter(i => i).join('\n');
 
-          resultBroadcaster.emit(String(events.RUNNER_HIT_DIRECTORY_BUT_NOT_RECURSIVE), msg);
+          rb.emit(String(events.RUNNER_HIT_DIRECTORY_BUT_NOT_RECURSIVE), msg);
           process.nextTick(cb);
         }
 
