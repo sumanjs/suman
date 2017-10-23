@@ -107,6 +107,10 @@ module.exports = Object.freeze({
     entryPoints: [
       {
         html: path.resolve(__dirname + '/test/src/dev/browser/test-file.html'),
+        files: [],
+        compile: function (str) {
+          
+        }
       }
     ]
   },

@@ -58,7 +58,7 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
       cb(null);  // fire run queue callback
 
       n.dateEndedMillis = gd.endDate = Date.now();
-      n.sumanExitCode = gd.sumanExitCode = code = (n.sumanExitCode || code);
+      n.sumanExitCode = gd.sumanExitCode = code = (n.sumanBrowserExitCode || code);
       n.removeAllListeners();
 
       const sumanOpts = _suman.sumanOpts;

@@ -380,7 +380,12 @@ module.exports = [
   {
     names: ['use-tap-output', 'use-tap', 'tap'],
     type: 'bool',
-    help: 'Use this option to tell Suman runner to interpret TAP output from child process(es) stdout.'
+    help: 'Use this option to tell the Suman process to output test results as TAP.'
+  },
+  {
+    names: ['use-tap-json-output', 'use-tap-json', 'tap-json'],
+    type: 'bool',
+    help: 'Use this option to tell the Suman process to output test results as TAP-JSON.'
   },
   {
     names: ['suman-shell'],
@@ -396,7 +401,7 @@ module.exports = [
   {
     names: ['dry-run'],
     type: 'bool',
-    help: 'Use this option to tell Suman runner to *not* interpret TAP output from child process(es) stdout.'
+    help: 'Use this option to tell Suman to log what it will do, without actually doing it.'
   },
   {
     names: ['inspect-child', 'inspect-children'],

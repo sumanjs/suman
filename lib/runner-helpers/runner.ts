@@ -187,7 +187,7 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
 
       let n = cpHash[id];
 
-      n.sumanExitCode = exitCode;
+      n.sumanBrowserExitCode = exitCode;
 
       // try killing the child process 3 times.
       n.kill('SIGTERM');
