@@ -12,31 +12,37 @@ here is the go
 
 <suman-test-content>
 
-<script>
+  <script>
 
- const {Test} = suman.init({});
- Test.create(function(it){
-   it('hi1', t =>{
+    const {Test} = suman.init({});
 
-   });
+    Test.create(function (it) {
 
-   it('hi2', t =>{
+      it('hi1', t => {
+        t.assert(true,'democracy now');
+      });
 
-   });
- });
+      it('hi2', t => {
+        t.assert(true);
+      });
+    });
 
- Test.create(function(it){
-   it('hi3', t =>{
+    Test.create(function (it) {
 
-   });
+      it('hi3', t => {
+        t.assert(true, 'budapest spring');
+      });
 
-   it('hi4', t =>{
+      it('hi4', t => {
 
-   });
- });
+        t.assert(true);
+
+      });
+
+    });
 
 
-</script>
+  </script>
 
 </body>
 </html>

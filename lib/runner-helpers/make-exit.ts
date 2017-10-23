@@ -1,6 +1,7 @@
 'use strict';
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {ISumanCPMessages} from "./handle-multiple-processes";
+import {IRunnerObj, ITableRows} from "suman-types/dts/runner";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -42,7 +43,7 @@ const mapCopy = function (copy: Object) {
 
 //////////////////////////////////////////////////////////
 
-export const makeExit = function (runnerObj, tableRows) {
+export const makeExit = function (runnerObj: IRunnerObj, tableRows: ITableRows) {
 
   return function (messages: Array<ISumanCPMessages>, timeDiff: number) {
 
@@ -54,8 +55,6 @@ export const makeExit = function (runnerObj, tableRows) {
 
       const code = msg.code;
       const signal = msg.signal;
-
-      console.log('exit message => ', msg);
 
       if (!Number.isInteger(code)) {
         _suman.logError(chalk.red.bold('Suman implementation warning => exit code is non-integer => '), code);
@@ -207,7 +206,7 @@ export const makeExit = function (runnerObj, tableRows) {
             soundFilePath = path.resolve(process.env.HOME + '/fail-trombone-02.mp3');
           }
 
-          if(!soundFilePath){
+          if (!soundFilePath) {
             return process.nextTick(cb);
           }
 

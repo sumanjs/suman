@@ -152,7 +152,6 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
     rb.emit(String(events.ERRORS_ONLY_OPTION));
   }
 
-
   const server = getSocketServer();
   server.on('connection', function (socket: SocketIOClient.Socket) {
 
@@ -184,21 +183,24 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
 
     socket.on(BROWSER_FINISHED, function (msg: Object, cb: Function) {
       let id = String(msg.childId).trim();
+      let exitCode = Number(String(msg.exitCode).trim());
+
       let n = cpHash[id];
 
+      n.sumanExitCode = exitCode;
 
-        n.kill('SIGTERM');
-        setTimeout(function () {
-          if(!n.hasExited){
-            n.kill('SIGINT');
-            setTimeout(function () {
-              if(!n.hasExited){
-                n.kill('SIGKILL');
-              }
-            }, 1000);
-          }
-        }, 1000);
-
+      // try killing the child process 3 times.
+      n.kill('SIGTERM');
+      setTimeout(function () {
+        if (!n.hasExited) {
+          n.kill('SIGINT');
+          setTimeout(function () {
+            if (!n.hasExited) {
+              n.kill('SIGKILL');
+            }
+          }, 1000);
+        }
+      }, 1000);
 
       cb(null);
     });

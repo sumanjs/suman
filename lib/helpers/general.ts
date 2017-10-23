@@ -139,10 +139,18 @@ export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
       return process.nextTick(cb);
     }
 
+    let exitCode = 0;
+
     async.eachLimit(reporterRets, 5, function (item: Object, cb: Function) {
 
         if (item && item.completionHook) {
           item.completionHook();
+        }
+
+        if(item && item.results){
+          if(Number.isInteger(item.results.failures) && item.results.failures > 0){
+            exitCode = 56;
+          }
         }
 
         if (item && item.count > 0) {
@@ -169,7 +177,9 @@ export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
         }
       },
       function () {
-        process.nextTick(cb);
+        process.nextTick(cb, null, {
+          exitCode
+        });
       });
   }
 };

@@ -116,10 +116,12 @@ export const shutdownProcess = function () {
       }
     };
 
-    async.parallel([
-      waitForStdioToDrain,
-      makeHandleAsyncReporters(reporterRets),
-    ], function () {
+    async.parallel({
+      wait: waitForStdioToDrain,
+      reporters: makeHandleAsyncReporters(reporterRets),
+    }, function (err, results) {
+
+      const exitCode = String(results.reporters ? results.reporters.exitCode : '0');
 
       try{
         if(window){
@@ -127,6 +129,7 @@ export const shutdownProcess = function () {
           const client = getClient();
           client.emit('BROWSER_FINISHED', {
             childId:childId,
+            exitCode:exitCode,
             type: 'BROWSER_FINISHED',
           }, function(){
              console.log('BROWSER_FINISHED message received.');
