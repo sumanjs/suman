@@ -10,16 +10,18 @@ here is the go
 
 <script src="dist/suman.js"></script>
 
-<suman-test-content>
+<suman-test-content></suman-test-content>
 
   <script>
+
+    /* globals suman */
 
     const {Test} = suman.init({});
 
     Test.create(function (it) {
 
       it('hi1', t => {
-        t.assert(true,'democracy now');
+        t.assert(true, 'democracy now');
       });
 
       it('hi2', t => {
