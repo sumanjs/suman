@@ -67,7 +67,7 @@ export const acquireIocStaticDeps = function () {
     else {
       _suman.logError(err.stack || err);
     }
-    console.error(''); // simply log a new line
+    console.error(/*simply log a new line*/);
     _suman.logError('despite the error, suman will continue optimistically.');
     return Promise.resolve(_suman.$staticIoc = {});
   }

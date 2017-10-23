@@ -290,7 +290,6 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   }
 
   _suman.sumanInitStartDate = (_suman.sumanInitStartDate || Date.now());
-  _suman._currentModule = $module.filename;
 
   // TODO: could potention figure out what original test module is via suman.init call, instead of
   // requiring that user pass it explicitly

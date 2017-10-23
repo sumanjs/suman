@@ -25,6 +25,9 @@ else {
   process.env.SUMAN_INCEPTION_LEVEL = silVal;
 }
 
+
+_suman.log = {};
+
 if (_suman.inceptionLevel < 1) {
 
   // _suman.log = _suman.logInfo = console.log.bind(console, chalk.gray.bold(' [suman] '));

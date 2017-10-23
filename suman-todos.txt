@@ -10,6 +10,11 @@ three SO profiles:
 
 ///
 
+ _suman.logError => _suman.log.error()
+ // at the least, less top level objects on _suman
+
+///
+
  suman --browser --watch
 
  using watch will re-run tests on changes
