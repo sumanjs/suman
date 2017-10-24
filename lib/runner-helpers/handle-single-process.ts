@@ -59,7 +59,7 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
     toPrint.push('');
     toPrint.push('');  // add some vertical padding
 
-    _suman.log('Files running in single process =>\n', toPrint.join('\n\t'));
+    _suman.log.info('Files running in single process =>\n', toPrint.join('\n\t'));
     runnerObj.startTime = Date.now();
 
     const sumanEnv = Object.assign({}, process.env, {
@@ -165,7 +165,7 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
     }
     else {
       if (su.vgt(6)) {
-        _suman.logWarning('stdio object not available for child process.');
+        _suman.log.warning('stdio object not available for child process.');
       }
     }
 
@@ -173,7 +173,7 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
 
       if (SUMAN_DEBUG) {
         console.log('\n');
-        _suman.log(chalk.black.bgYellow('process given by => ' + n.shortTestPath + ' exited with code: ' + code + ' '));
+        _suman.log.info(chalk.black.bgYellow('process given by => ' + n.shortTestPath + ' exited with code: ' + code + ' '));
         console.log('\n');
       }
 

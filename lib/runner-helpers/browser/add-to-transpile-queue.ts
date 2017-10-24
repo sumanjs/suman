@@ -79,7 +79,7 @@ export const makeAddToTranspileQueue = function (f: string, transpileQueue: Asyn
 
     if (tr) {
 
-      _suman.log(chalk.bgWhite.underline('Suman has found a @transform.sh file => '), chalk.bold(tr));
+      _suman.log.info(chalk.bgWhite.underline('Suman has found a @transform.sh file => '), chalk.bold(tr));
 
       transpileQueue.push(function (cb: Function) {
 
@@ -108,7 +108,7 @@ export const makeAddToTranspileQueue = function (f: string, transpileQueue: Asyn
           if (false) {
 
             let onError = function (e: Error) {
-              _suman.logError('\n', su.getCleanErrorString(e), '\n');
+              _suman.log.error('\n', su.getCleanErrorString(e), '\n');
             };
 
             const temp = su.removePath(file, _suman.projectRoot);
@@ -122,7 +122,7 @@ export const makeAddToTranspileQueue = function (f: string, transpileQueue: Asyn
           if (inheritTransformStdio) {
 
             let onError = function (e: Error) {
-              _suman.logError('\n', su.getCleanErrorString(e), '\n');
+              _suman.log.error('\n', su.getCleanErrorString(e), '\n');
             };
 
             let stderrPrepend = ` [${chalk.red('transform process stderr:')} ${chalk.red.bold(String(file.slice(ln)))}] `;

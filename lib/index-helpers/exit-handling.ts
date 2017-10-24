@@ -48,7 +48,7 @@ const shutdownSuman = function (msg: string) {
             oncePostFn(cb);
           }
           else {
-            _suman.logError('Suman internal warning, "oncePostFn" not yet defined.');
+            _suman.log.error('Suman internal warning, "oncePostFn" not yet defined.');
             process.nextTick(cb);
           }
         },
@@ -98,7 +98,7 @@ process.on('SIGINT', function () {
 
   sigintCount++;
   console.log('\n');
-  _suman.logError(chalk.red('SIGINT signal caught by suman process.'));
+  _suman.log.error(chalk.red('SIGINT signal caught by suman process.'));
   console.log('\n');
 
   if (sigintCount === 2) {
@@ -117,7 +117,7 @@ process.on('SIGTERM', function () {
 
   sigtermCount++;
   console.log('\n');
-  _suman.logError(chalk.red('SIGTERM signal caught by suman process.'));
+  _suman.log.error(chalk.red('SIGTERM signal caught by suman process.'));
   console.log('\n');
 
   if (sigtermCount === 2) {
@@ -238,7 +238,7 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       debugger; // leave debugger statement here
 
       if (avoidShutdown) {
-        _suman.logWarning('suman avoided a shutdown, by catching the domain.');
+        _suman.log.warning('suman avoided a shutdown, by catching the domain.');
         return;
       }
 
@@ -249,10 +249,10 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       }
 
       console.error('\n');
-      _suman.logError(chalk.magenta.bold(' => Suman uncaught exception => \n', chalk.magenta(msg)), '\n');
-      _suman.logError('Given the event of an uncaught exception, Suman will now run "suman.once.post.js" shutdown hooks...');
+      _suman.log.error(chalk.magenta.bold(' => Suman uncaught exception => \n', chalk.magenta(msg)), '\n');
+      _suman.log.error('Given the event of an uncaught exception, Suman will now run "suman.once.post.js" shutdown hooks...');
       console.error('\n');
-      _suman.logError(' ( => TO IGNORE UNCAUGHT EXCEPTIONS AND CONTINUE WITH YOUR TEST(S), use ' +
+      _suman.log.error(' ( => TO IGNORE UNCAUGHT EXCEPTIONS AND CONTINUE WITH YOUR TEST(S), use ' +
         'the "--ignore-uncaught-exceptions" option.)');
 
       shutdownSuman(msg);
@@ -296,9 +296,9 @@ process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
   }
 
   console.error('\n');
-  _suman.logError(chalk.magenta.bold('Unhandled Rejection at Promise:'), chalk.magenta(util.inspect(p)));
+  _suman.log.error(chalk.magenta.bold('Unhandled Rejection at Promise:'), chalk.magenta(util.inspect(p)));
   console.error('\n');
-  _suman.logError(chalk.magenta.bold('Rejection reason'), chalk.magenta(reason));
+  _suman.log.error(chalk.magenta.bold('Rejection reason'), chalk.magenta(reason));
   console.error('\n');
 
   _suman.sumanUncaughtExceptionTriggered = reason;

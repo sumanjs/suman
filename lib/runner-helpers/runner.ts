@@ -113,20 +113,20 @@ const beforeExitRunOncePost = makeBeforeExit(runnerObj, oncePosts, allOncePostKe
 }
 
 process.on('error', function (e: IPseudoError) {
-  _suman.logError(`${chalk.magenta('Whoops! "error" event in runner process:')} \n ${chalk.bold(su.getCleanErrorString(e))}`);
+  _suman.log.error(`${chalk.magenta('Whoops! "error" event in runner process:')} \n ${chalk.bold(su.getCleanErrorString(e))}`);
 });
 
 process.once('uncaughtException', function (e: IPseudoError) {
 
   debugger; // leave debugger statement here please
-  _suman.logError(`${chalk.magenta('Suman runner "uncaughtException" event:')} \n ${chalk.bold(su.getCleanErrorString(e))}`);
+  _suman.log.error(`${chalk.magenta('Suman runner "uncaughtException" event:')} \n ${chalk.bold(su.getCleanErrorString(e))}`);
   process.exit(1);
 });
 
 process.on('message', function (data: any) {
 
   debugger; // leave debugger statement here please
-  _suman.logError('Weird! => Suman runner received an IPC message:\n',
+  _suman.log.error('Weird! => Suman runner received an IPC message:\n',
     chalk.magenta(typeof data === 'string' ? data : util.inspect(data)));
 });
 
@@ -224,7 +224,7 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
       }
     }
     else {
-      _suman.logError('warning, no dependencies object exported from suman.once.pre.js file => \n' +
+      _suman.log.error('warning, no dependencies object exported from suman.once.pre.js file => \n' +
         'here is the returned contents =>\n', util.inspect(ret));
     }
 

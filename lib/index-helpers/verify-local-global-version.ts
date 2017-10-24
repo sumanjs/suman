@@ -29,9 +29,9 @@ if (gv = process.env.SUMAN_GLOBAL_VERSION) {
 
   if (gv !== lv) {
     console.error('\n');
-    _suman.logError(chalk.red('warning => You local version of Suman differs from the cli version of Suman.'));
-    _suman.logError(chalk.cyan('Global version => '), gv);
-    _suman.logError(chalk.cyan('Local version => '), lv);
+    _suman.log.error(chalk.red('warning => You local version of Suman differs from the cli version of Suman.'));
+    _suman.log.error(chalk.cyan('Global version => '), gv);
+    _suman.log.error(chalk.cyan('Local version => '), lv);
     console.error('\n');
   }
 }

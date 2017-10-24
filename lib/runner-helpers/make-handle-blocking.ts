@@ -39,8 +39,8 @@ export default function (order: Object): IHandleBlocking {
     setInterval(function () {
       setTimeout(function () {
 
-        _suman.log('number of processes already started', started.length);
-        _suman.log('number of processes already ended', ended.length);
+        _suman.log.info('number of processes already started', started.length);
+        _suman.log.info('number of processes already ended', ended.length);
 
         const startedButNotEnded = started.filter(function ($item) {
           return ended.every(function (item) {
@@ -53,7 +53,7 @@ export default function (order: Object): IHandleBlocking {
 
         if (startedButNotEnded.length > 0) {
           console.log('\n');
-          _suman.log(chalk.bgCyan.yellow(' The following test processes have started but not ended yet: '));
+          _suman.log.info(chalk.bgCyan.yellow(' The following test processes have started but not ended yet: '));
           console.log(chalk.cyan.bold(String(startedButNotEnded)));
           console.log('\n');
         }
@@ -105,7 +105,7 @@ export default function (order: Object): IHandleBlocking {
 
       if (cpFn) {
         started.push(cpFn);
-        _suman.log(chalk.cyan.bold('Test path was blocked, but is now running => '),
+        _suman.log.info(chalk.cyan.bold('Test path was blocked, but is now running => '),
           chalk.gray(`'${cpFn.testPath}'.`));
         cpFn.call(null);
       }

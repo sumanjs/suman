@@ -58,7 +58,7 @@ const handleBadOptions = function (opts: IInjectOpts) {
   });
 
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
-    _suman.logError(new Error('Suman usage error => "plan" option is not an integer.').stack);
+    _suman.log.error(new Error('Suman usage error => "plan" option is not an integer.').stack);
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
     return;
   }

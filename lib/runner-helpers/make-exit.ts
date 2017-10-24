@@ -57,7 +57,7 @@ export const makeExit = function (runnerObj: IRunnerObj, tableRows: ITableRows) 
       const signal = msg.signal;
 
       if (!Number.isInteger(code)) {
-        _suman.logError(chalk.red.bold('Suman implementation warning => exit code is non-integer => '), code);
+        _suman.log.error(chalk.red.bold('Suman implementation warning => exit code is non-integer => '), code);
       }
 
       if (code > 0) {
@@ -187,7 +187,7 @@ export const makeExit = function (runnerObj: IRunnerObj, tableRows: ITableRows) 
     let timedOut = false;
     const to = setTimeout(function () {
       timedOut = true;
-      _suman.logError(`runner exit routine timed out after ${timeOutMillis}ms.`);
+      _suman.log.error(`runner exit routine timed out after ${timeOutMillis}ms.`);
       process.exit(1);
     }, timeOutMillis);
 
@@ -211,7 +211,7 @@ export const makeExit = function (runnerObj: IRunnerObj, tableRows: ITableRows) 
           }
 
           player.play(soundFilePath, {timeout: 5000}, function (err: Error) {
-            err && _suman.logError(err);
+            err && _suman.log.error(err);
             cb(null);
           });
 
@@ -230,7 +230,7 @@ export const makeExit = function (runnerObj: IRunnerObj, tableRows: ITableRows) 
       }
 
     }, function (err: Error) {
-      err && _suman.logError(err.stack || err);
+      err && _suman.log.error(err.stack || err);
       if (timedOut) {
         return;
       }

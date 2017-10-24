@@ -154,7 +154,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
         if (err) {
           // this is probably a symlink, we will just ignore the error and log it
-          _suman.logError('SYMLINK?', su.decomposeError(err), su.newLine);
+          _suman.log.error('SYMLINK?', su.decomposeError(err), su.newLine);
           return cb();
         }
 
@@ -206,7 +206,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
           const file = path.resolve(dir);
 
           if (!sumanOpts.allow_duplicate_tests && includes(files, file)) {
-            _suman.logWarning(chalk.magenta('warning => \n => The following filepath was requested to be run more' +
+            _suman.log.warning(chalk.magenta('warning => \n => The following filepath was requested to be run more' +
               ' than once, Suman will only run files once per run! =>'), '\n', file, '\n\n ' +
               chalk.underline(' => To run files more than once in the same run, use "--allow-duplicate-tests"'), '\n');
           }
@@ -240,7 +240,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
     if (err) {
       console.error('\n');
-      _suman.logError(chalk.red.bold('Error finding runnable paths => \n' + err.stack || err));
+      _suman.log.error(chalk.red.bold('Error finding runnable paths => \n' + err.stack || err));
       process.nextTick(cb, err);
     }
     else {
@@ -253,7 +253,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
       filesThatDidNotMatch.forEach(function (val) {
         console.log('\n');
-        _suman.log(chalk.bgBlack.yellow(' A file in a relevant directory ' +
+        _suman.log.info(chalk.bgBlack.yellow(' A file in a relevant directory ' +
           'did not match your regular expressions => '), '\n', util.inspect(val));
       });
 

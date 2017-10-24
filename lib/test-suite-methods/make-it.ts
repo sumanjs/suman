@@ -107,9 +107,9 @@ export const makeIt = function (suman: ISuman): ItFn {
 
     if (opts.hasOwnProperty('parallel')) {
       if (opts.hasOwnProperty('mode')) {
-        _suman.logWarning('warning => Used both parallel and mode options => mode will take precedence.');
+        _suman.log.warning('warning => Used both parallel and mode options => mode will take precedence.');
         if (opts.mode !== 'parallel' && opts.mode !== 'series' && opts.mode !== 'serial') {
-          _suman.logWarning('warning => valid "môde" options are only values of "parallel" or "series" or "serial"' +
+          _suman.log.warning('warning => valid "môde" options are only values of "parallel" or "series" or "serial"' +
             ' => ("serial" is an alias to "series").');
         }
       }

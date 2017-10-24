@@ -59,10 +59,10 @@ export const run = function (deps: Array<string>): void {
   }, function (err: Error, results: Array<Object>) {
 
     if (err) {
-      return _suman.logError(err);
+      return _suman.log.error(err);
     }
 
-    _suman.log('Suman installation result:\n');
+    _suman.log.info('Suman installation result:\n');
 
     let allGood = results.every(function (r) {
       console.log(r);

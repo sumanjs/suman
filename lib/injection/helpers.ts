@@ -69,7 +69,7 @@ export const getProjectModule = function (): any {
     return require(_suman.projectRoot);
   }
   catch (err) {
-    _suman.logError('\n', err.stack || err, '\n');
+    _suman.log.error('\n', err.stack || err, '\n');
     return null;
   }
 
@@ -88,8 +88,8 @@ export const lastDitchRequire = function (dep: string, requestorName: string): a
       return require(String(dep).replace(/_/g, '-'));
     }
     catch (err) {
-      _suman.logError(`'${requestorName}' warning => cannot require dependency with name => '${dep}'.`);
-      _suman.logError('despite the missing dependency, Suman will continue optimistically.');
+      _suman.log.error(`'${requestorName}' warning => cannot require dependency with name => '${dep}'.`);
+      _suman.log.error('despite the missing dependency, Suman will continue optimistically.');
       console.error('\n');
       return null;
     }

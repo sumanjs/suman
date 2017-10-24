@@ -35,7 +35,7 @@ let isShutdown = false;
 export const shutdownProcess = function () {
 
   if (isShutdown) {
-    _suman.logWarning('implementation error, process shutdown has already commenced.');
+    _suman.log.warning('implementation error, process shutdown has already commenced.');
     return;
   }
   else {
@@ -46,7 +46,7 @@ export const shutdownProcess = function () {
 
   if (_suman.usingRunner) {
     resultz = results.map(i => i.tableData);
-    _suman.logError('handling request/response with runner.');
+    _suman.log.error('handling request/response with runner.');
     fn = handleRequestResponseWithRunner(resultz);
   }
   else if (_suman.inBrowser) {
@@ -66,14 +66,14 @@ export const shutdownProcess = function () {
 
   const codes = results.map(i => i.exitCode);
   if (su.vgt(6)) {
-    _suman.log(' => All "exit" codes from test suites => ', util.inspect(codes));
+    _suman.log.info(' => All "exit" codes from test suites => ', util.inspect(codes));
   }
 
   const highestExitCode = Math.max.apply(null, codes);
 
   fn(function (err: IPseudoError) {
 
-    err && _suman.logError(err.stack || err);
+    err && _suman.log.error(err.stack || err);
     // this is for testing expected test result counts
     rb.emit(String(events.META_TEST_ENDED));
     _suman.endLogStream && _suman.endLogStream();
@@ -81,12 +81,12 @@ export const shutdownProcess = function () {
     let waitForStdioToDrain = function (cb: Function) {
 
       if(_suman.inBrowser){
-        _suman.log('we are in browser no drain needed.');
+        _suman.log.info('we are in browser no drain needed.');
         return process.nextTick(cb);
       }
 
       if (_suman.isStrmDrained) {
-        _suman.log('Log stream is already drained.');
+        _suman.log.info('Log stream is already drained.');
         return process.nextTick(cb);
       }
 
@@ -102,7 +102,7 @@ export const shutdownProcess = function () {
 
       _suman.drainCallback = function (logpath: string) {
         clearTimeout(to);
-        _suman.logWarning('Drain callback was actually called.');
+        _suman.log.warning('Drain callback was actually called.');
         try {
           fs.appendFileSync(logpath, 'Drain callback was indeed called.');
         }

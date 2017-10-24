@@ -69,7 +69,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       if (runnerObj.bailed) {
         // should not fork any more child processes if we have bailed
         if (sumanOpts.verbosity > 4)
-          _suman.log('"--bailed" option was passed and was tripped, no more child processes will be forked.');
+          _suman.log.info('"--bailed" option was passed and was tripped, no more child processes will be forked.');
         return;
       }
 
@@ -84,7 +84,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       const inherit = _suman.$forceInheritStdio ? 'inherit' : '';
 
       if (inherit) {
-        _suman.log('we are inheriting stdio of child, because of sumanception.');
+        _suman.log.info('we are inheriting stdio of child, because of sumanception.');
       }
 
       const testData = JSON.stringify({
@@ -101,13 +101,13 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       .then(c => {
 
         const n = c.instance.chrome;
-        _suman.log(`Chrome debugging port running on ${c.port}.\n`);
+        _suman.log.info(`Chrome debugging port running on ${c.port}.\n`);
 
         cpHash[String($childId)] = n;
 
         if (!_suman.weAreDebugging) {
           n.to = setTimeout(function () {
-            _suman.logError(`Suman killed a child process because it timed out: '${n.fileName || n.filename}'.`);
+            _suman.log.error(`Suman killed a child process because it timed out: '${n.fileName || n.filename}'.`);
             n.kill('SIGINT');
             setTimeout(function () {
               // note that we wait 8 seconds for the child process to clean up before sending it a SIGKILL signal
@@ -121,11 +121,11 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         forkedCPs.push(n);
 
         n.on('message', function (msg) {
-          _suman.logError('Warning - Suman browser runner does not handle standard Node.js IPC messages.');
+          _suman.log.error('Warning - Suman browser runner does not handle standard Node.js IPC messages.');
         });
 
         n.on('error', function (err) {
-          _suman.logError('error spawning child process => ', err.stack || err);
+          _suman.log.error('error spawning child process => ', err.stack || err);
           if (hashbang) {
             console.error('\n');
             console.error(' => The supposed test script file with the following path may not have a hashbang => ');
@@ -139,7 +139,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         if (n.stdio && n.stdout && n.stderr) {
 
           if (inherit) {
-            _suman.logError('n.stdio is defined even though we are in sumanception territory.');
+            _suman.log.error('n.stdio is defined even though we are in sumanception territory.');
           }
 
           n.stdout.setEncoding('utf8');
@@ -148,7 +148,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
           if (inheritRunStdio) {
 
             let onError = function (e: Error) {
-              _suman.logError('\n', su.getCleanErrorString(e), '\n');
+              _suman.log.error('\n', su.getCleanErrorString(e), '\n');
             };
 
             n.stdout.pipe(pt(chalk.cyan(' [suman child stdout] ')))
@@ -179,11 +179,11 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         }
         else {
           if (su.vgt(2)) {
-            _suman.logWarning('stdio object not available for child process.');
+            _suman.log.warning('stdio object not available for child process.');
           }
         }
 
-        _suman.log(chalk.black('File has just started running =>'), chalk.grey.bold(`'${file}'.`));
+        _suman.log.info(chalk.black('File has just started running =>'), chalk.grey.bold(`'${file}'.`));
         n.dateStartedMillis = gd.startDate = Date.now();
         n.once('exit', onExitFn(n, gd, cb));
 

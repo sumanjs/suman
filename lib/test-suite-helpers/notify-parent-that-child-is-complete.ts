@@ -45,7 +45,7 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
 
     if (parent.childCompletionCount > parent.getChildren().length) {
       parent.allChildBlocksCompleted = true;
-      _suman.logWarning('Suman implementation warning => parent.childCompletionCount should never be greater than ' +
+      _suman.log.warning('Suman implementation warning => parent.childCompletionCount should never be greater than ' +
         'parent.getChildren().length');
     }
 

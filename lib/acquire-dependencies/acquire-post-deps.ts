@@ -57,7 +57,7 @@ export const acquirePostDeps = function ($depList: Array<string>, depContainerOb
 
     if (verbosity > 3) {
       // only want to log this once, that's why we check cachedPromises for the key
-      _suman.log(chalk.cyan(`(suman.once.post.js) => Beginning to source dep with key => '${key}'`));
+      _suman.log.info(chalk.cyan(`(suman.once.post.js) => Beginning to source dep with key => '${key}'`));
     }
 
     const val = depContainerObj[key];
@@ -69,7 +69,7 @@ export const acquirePostDeps = function ($depList: Array<string>, depContainerOb
     }
 
     if (verbosity > 6) {
-      _suman.log(`Maximum time allocated to source dependency with key => '${key}' is => `, timeout);
+      _suman.log.info(`Maximum time allocated to source dependency with key => '${key}' is => `, timeout);
     }
 
     $deps.forEach(function (d) {
@@ -107,7 +107,7 @@ export const acquirePostDeps = function ($depList: Array<string>, depContainerOb
       // we just want to store the actual val for key = x, for each key x
 
       if (verbosity > 5 && subDeps.length > 0) {
-        _suman.log(chalk.blue(`suman.once.post.js => `
+        _suman.log.info(chalk.blue(`suman.once.post.js => `
           + `Finished sourcing the dependencies ${util.inspect(subDeps)} of key => '${key}'`));
       }
 
@@ -120,7 +120,7 @@ export const acquirePostDeps = function ($depList: Array<string>, depContainerOb
         }, _suman.weAreDebugging ? 5000000 : timeout);
 
         if (verbosity > 5 || su.isSumanDebug()) {
-          _suman.log('suman.once.post.js => Executing dep with key = "' + key + '"');
+          _suman.log.info('suman.once.post.js => Executing dep with key = "' + key + '"');
         }
 
         asyncHelper(key, resolve, reject, [acc], 1, fn);
@@ -131,7 +131,7 @@ export const acquirePostDeps = function ($depList: Array<string>, depContainerOb
         clearTimeout(to);
 
         if (verbosity > 3 || su.isSumanDebug()) {
-          _suman.log(chalk.green.bold('suman.once.post.js => Finished sourcing dep with key = "' + key + '"'));
+          _suman.log.info(chalk.green.bold('suman.once.post.js => Finished sourcing dep with key = "' + key + '"'));
         }
 
         // we store $pre values in this container
@@ -163,7 +163,7 @@ export const acquirePostDeps = function ($depList: Array<string>, depContainerOb
     // }, {});
 
     if (!_suman.processIsRunner) {
-      _suman.log(chalk.green.underline.bold('Finished with suman.once.post.js dependencies.'));
+      _suman.log.info(chalk.green.underline.bold('Finished with suman.once.post.js dependencies.'));
       console.log('\n');
     }
 
@@ -171,8 +171,8 @@ export const acquirePostDeps = function ($depList: Array<string>, depContainerOb
 
   }, function (err) {
 
-    _suman.logError(chalk.magenta('There was an error sourcing your dependencies in suman.once.post.js.'));
-    _suman.logError(err.stack || err);
+    _suman.log.error(chalk.magenta('There was an error sourcing your dependencies in suman.once.post.js.'));
+    _suman.log.error(err.stack || err);
     return {};
 
   });

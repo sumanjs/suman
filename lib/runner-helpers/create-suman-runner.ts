@@ -74,7 +74,7 @@ export const createRunner = function (obj: Object) {
       throw new Error(' => Your suman.order.js file needs to export a function.');
     }
     else if (!_suman.usingDefaultConfig || su.isSumanDebug()) {
-      _suman.logWarning(chalk.magenta('warning => Your suman.order.js file could not be located,' +
+      _suman.log.warning(chalk.magenta('warning => Your suman.order.js file could not be located,' +
           ' given the following path to your "<suman-helpers-dir>" => ') +
         '\n' + chalk.bgBlack.cyan(_suman.sumanHelperDirRoot));
     }

@@ -36,7 +36,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
   return function handleBeforeOrAfterEach(self: ITestSuite, test: ITestDataObj, aBeforeOrAfterEach: IEachHookObj, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      _suman.logError('runtime error => uncaughtException experienced => halting program.');
+      _suman.log.error('runtime error => uncaughtException experienced => halting program.');
       return;
     }
 
@@ -111,7 +111,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       _suman.activeDomain = d;
 
       if (sumanOpts.debug_hooks) {
-        _suman.log(`now running each hook with name '${chalk.yellow.bold(aBeforeOrAfterEach.desc)}', ` +
+        _suman.log.info(`now running each hook with name '${chalk.yellow.bold(aBeforeOrAfterEach.desc)}', ` +
           `for test case with name '${chalk.magenta(test.desc)}'.`);
       }
 

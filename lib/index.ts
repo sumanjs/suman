@@ -61,7 +61,7 @@ else if (process.argv.indexOf('--force') > 0) {
 
 process.on('error', function (e: Error) {
   debugger; // please leave it here, thx
-  _suman.logError(su.getCleanErrorString(e));
+  _suman.log.error(su.getCleanErrorString(e));
 });
 
 try {
@@ -87,11 +87,11 @@ catch (err) {
 }
 
 if (!_suman.sumanOpts) {
-  _suman.logWarning('implementation warning: sumanOpts is not yet defined in runtime.');
+  _suman.log.warning('implementation warning: sumanOpts is not yet defined in runtime.');
 }
 
 if (_suman.sumanOpts && _suman.sumanOpts.verbosity > 8) {
-  _suman.log(' => Are we in browser? => ', inBrowser ? 'yes!' : 'no.');
+  _suman.log.info(' => Are we in browser? => ', inBrowser ? 'yes!' : 'no.');
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -166,7 +166,7 @@ catch(err){
 testSuiteRegistrationQueue.drain = function () {
   if (su.vgt(5)) {
     const suites = testRuns.length === 1 ? 'suite' : 'suites';
-    _suman.log(`Pushing ${testRuns.length} test ${suites} onto queue with concurrency ${c}.\n\n`);
+    _suman.log.info(`Pushing ${testRuns.length} test ${suites} onto queue with concurrency ${c}.\n\n`);
   }
 
   while (testRuns.length > 0) {  //explicit for your pleasure
@@ -228,7 +228,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   }
 
   if (initMap.size > 0 && !SUMAN_SINGLE_PROCESS) {
-    _suman.logError(chalk.red('Suman usage warning => suman.init() only needs to be called once per test script.'));
+    _suman.log.error(chalk.red('Suman usage warning => suman.init() only needs to be called once per test script.'));
   }
 
   if (!$module) {
@@ -249,12 +249,12 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   }
 
   if (!$module.filename) {
-    _suman.logWarning(`warning: module instance did not have a 'filename' property.`);
+    _suman.log.warning(`warning: module instance did not have a 'filename' property.`);
     $module.filename = '/';
   }
 
   if (!$module.exports) {
-    _suman.logWarning(`warning: module instance did not have an 'exports' property.`);
+    _suman.log.warning(`warning: module instance did not have an 'exports' property.`);
     $module.exports = {};
   }
 
@@ -368,7 +368,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
           'to point to an object'));
     }
     catch (err) {
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       process.exit(constants.EXIT_CODES.IOC_PASSED_TO_SUMAN_INIT_BAD_FORM);
     }
   }
@@ -426,7 +426,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     acquireIocStaticDeps()
     .catch(function (err) {
       clearTimeout(to);
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       _suman.writeTestError(err.stack || err);
       process.exit(constants.EXIT_CODES.IOC_STATIC_ACQUISITION_ERROR);
     })
@@ -435,14 +435,14 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     })
     .catch(function (err: Error) {
       clearTimeout(to);
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       _suman.writeTestError(err.stack || err);
       process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_ERROR);
     })
     .then(onPreVals)
     .catch(function (err: Error) {
       clearTimeout(to);
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       _suman.writeTestError(err.stack || err);
       process.exit(constants.EXIT_CODES.PRE_VALS_ERROR);
     });

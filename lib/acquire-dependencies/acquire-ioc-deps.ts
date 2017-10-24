@@ -80,8 +80,8 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
     dependencies = iocRet.dependencies;
   }
   catch (err) {
-    _suman.logError(err.stack || err);
-    _suman.logError('despite the error, suman will continue optimistically.');
+    _suman.log.error(err.stack || err);
+    _suman.log.error('despite the error, suman will continue optimistically.');
     dependencies = {};
   }
 
@@ -182,7 +182,7 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
 
     },
     function (err) {
-      _suman.logError('Error acquiring ioc dependency:', err.stack || err);
+      _suman.log.error('Error acquiring ioc dependency:', err.stack || err);
       //want to exit out of current tick for purposes of domains
       try {
         process.domain && process.domain.exit();

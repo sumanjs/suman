@@ -41,15 +41,15 @@ export const getClient = function () {
     client = Client(`http://localhost:${port}`);
 
     client.on('connect', function () {
-      _suman.logWarning('client connected.');
+      _suman.log.warning('client connected.');
     });
 
     client.on('event', function (data: string) {
-      _suman.log('event data => ', data);
+      _suman.log.info('event data => ', data);
     });
 
     client.on('disconnect', function () {
-      _suman.logError('client disconnected.');
+      _suman.log.error('client disconnected.');
     });
 
   }

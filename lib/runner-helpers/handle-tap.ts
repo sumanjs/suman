@@ -25,7 +25,7 @@ let first = true;
 
 export const getTapParser = function () {
 
-  first && _suman.log(chalk.black.bold('we are handling TAP.'));
+  first && _suman.log.info(chalk.black.bold('we are handling TAP.'));
   first = false;
 
   const p = parser();
@@ -39,7 +39,7 @@ export const getTapParser = function () {
     if (first) {
       first = false;
       console.log('\n');
-      _suman.log(chalk.yellow.bold('suman we have received at least one test result via TAP.'));
+      _suman.log.info(chalk.yellow.bold('suman we have received at least one test result via TAP.'));
       console.log('\n');
     }
 

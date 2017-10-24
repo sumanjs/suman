@@ -186,7 +186,7 @@ export class Suman {
       }).length;
 
       if (suitesSkipped > 0) {
-        _suman.logError('Suman implementation warning => suites skipped was non-zero ' +
+        _suman.log.error('Suman implementation warning => suites skipped was non-zero ' +
           'outside of suman.numBlocksSkipped value.');
       }
 
@@ -420,7 +420,7 @@ export const makeSuman
     server = findSumanServer(null);
   }
   catch (err) {
-    _suman.logError(err.stack || err);
+    _suman.log.error(err.stack || err);
   }
 
   return new Suman({

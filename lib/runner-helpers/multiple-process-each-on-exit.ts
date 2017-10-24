@@ -70,7 +70,7 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
       });
 
       if (su.isSumanDebug() || su.vgt(5)) {
-        _suman.log(chalk.black.bgYellow(`process given by => '${n.shortTestPath}' exited with code: ${code} `));
+        _suman.log.info(chalk.black.bgYellow(`process given by => '${n.shortTestPath}' exited with code: ${code} `));
       }
 
       if (su.isSumanDebug()) {
@@ -101,10 +101,10 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
           transpileQueue.kill();
 
           console.log('\n');
-          _suman.logError(chalk.magenta('We have ' + chalk.red.bold('bailed') +
+          _suman.log.error(chalk.magenta('We have ' + chalk.red.bold('bailed') +
             ' the test runner because a child process experienced an error and exitted with a non-zero code.'));
 
-          _suman.logError(chalk.magenta('Since we have bailed, Suman will send a SIGTERM signal ' +
+          _suman.log.error(chalk.magenta('Since we have bailed, Suman will send a SIGTERM signal ' +
             'to any outstanding child processes.'));
 
           forkedCPs.forEach(function (n: ISumanChildProcess) {
@@ -119,7 +119,7 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
 
           if (sumanOpts.verbosity > 4) {
             console.log('\n');
-            _suman.log(chalk.gray.bold.underline(' All scheduled child processes have exited.'));
+            _suman.log.info(chalk.gray.bold.underline(' All scheduled child processes have exited.'));
             console.log('\n');
           }
         }
@@ -135,7 +135,7 @@ export const makeOnExitFn = function (runnerObj: IRunnerObj, tableRows: ITableRo
           ] as any;
 
           async.parallel(tasks, function (err: IPseudoError) {
-            err && _suman.logError(err.stack || err);
+            err && _suman.log.error(err.stack || err);
             makeExit(messages, {
               total: runnerObj.endTime - _suman.startTime,
               runner: runnerObj.endTime - runnerObj.startTime

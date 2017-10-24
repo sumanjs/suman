@@ -42,9 +42,9 @@ export const makeGetLatestSumanVersion = function (pkgDotJSON: Object, projectRo
             });
           }
 
-          _suman.log(chalk.cyan('Newest Suman version in the NPM registry:'), String(stdout).replace('\n', ''));
+          _suman.log.info(chalk.cyan('Newest Suman version in the NPM registry:'), String(stdout).replace('\n', ''));
           if (pkgDotJSON) {
-            _suman.log(chalk.cyan('Locally installed Suman version:'), pkgDotJSON.version);
+            _suman.log.info(chalk.cyan('Locally installed Suman version:'), pkgDotJSON.version);
           }
 
           cb(null);

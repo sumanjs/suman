@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
 
@@ -8,6 +9,12 @@ module.exports = {
     path: path.resolve(__dirname + '/dist'),
     filename: 'suman.js'
   },
+
+  plugins: [
+    new webpack.WatchIgnorePlugin([
+      /\.js$/
+    ])
+  ],
 
   module: {
 

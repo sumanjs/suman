@@ -49,7 +49,7 @@ export const handleRequestResponseWithRunner = function (data: Array<any>) {
     let timedout = false;
     const to = setTimeout(function () {
       timedout = true;
-      _suman.logError('Action to receive table data response from runner timed out.');
+      _suman.log.error('Action to receive table data response from runner timed out.');
       cb(null);
     }, 1000);
 

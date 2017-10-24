@@ -66,7 +66,7 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
 
     const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
     if (waitForAllTranformsToFinish) {
-      _suman.log('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
+      _suman.log.info('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
     }
 
     let queuedTestFns: Array<Function> = [];
@@ -77,7 +77,7 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
     if (waitForAllTranformsToFinish) {
       transpileQueue.drain = function () {
         // => execute all queued tests
-        _suman.log('all transforms complete, beginning to run first set of tests.');
+        _suman.log.info('all transforms complete, beginning to run first set of tests.');
         queuedTestFns.forEach(function (fn) {
           fn();
         });
@@ -86,7 +86,7 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
 
     if (sumanOpts.$useTAPOutput) {
       if (sumanOpts.verbosity > 4) {
-        _suman.log(chalk.gray.bold('Suman runner is expecting TAP output from Node.js child processes ' +
+        _suman.log.info(chalk.gray.bold('Suman runner is expecting TAP output from Node.js child processes ' +
           'and will not be listening for websocket messages.'));
       }
     }

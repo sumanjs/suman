@@ -62,7 +62,7 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
 
       if (!(k in dependencies)) {
         console.error('\n');
-        _suman.logError(chalk.red('Suman usage error => your suman.once.post.js file ' +
+        _suman.log.error(chalk.red('Suman usage error => your suman.once.post.js file ' +
           'is missing desired key ="' + k + '"'));
         return;
       }
@@ -72,7 +72,7 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
       if (!su.isArrayOrFunction(dependencies[k])) {
 
         console.error('\n');
-        _suman.logError(chalk.red('Suman usage error => your suman.once.post.js file ' +
+        _suman.log.error(chalk.red('Suman usage error => your suman.once.post.js file ' +
           'has keys whose values are not functions,\n\nthis applies to key ="' + k + '"'));
       }
     });
@@ -85,17 +85,17 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
 
     if (keys.length) {
       console.log('\n');
-      _suman.log(chalk.gray.bold('Suman is now running the desired hooks in suman.once.post.js, which include =>') +
+      _suman.log.info(chalk.gray.bold('Suman is now running the desired hooks in suman.once.post.js, which include =>') +
         '\n\t', chalk.cyan(util.inspect(keys)));
     }
 
     acquirePostDeps(keys, dependencies).then(function () {
       console.log('\n');
-      _suman.log('all suman.once.post.js hooks completed successfully.\n\n');
+      _suman.log.info('all suman.once.post.js hooks completed successfully.\n\n');
       process.nextTick(cb);
 
     }, function (err) {
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       process.nextTick(cb, err);
     });
 

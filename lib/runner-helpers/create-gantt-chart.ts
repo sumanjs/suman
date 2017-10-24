@@ -29,7 +29,7 @@ export const createGanttChart = function (cb: Function) {
     Handlebars = require('handlebars');
   }
   catch (err) {
-    _suman.logError(err.message || err);
+    _suman.log.error(err.message || err);
     return process.nextTick(cb);
   }
 
@@ -38,7 +38,7 @@ export const createGanttChart = function (cb: Function) {
   fs.readFile(p, function (err, data) {
 
     if (err) {
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       return cb();
     }
 
@@ -78,7 +78,7 @@ export const createGanttChart2 = function (cb: Function) {
     Handlebars = require('handlebars');
   }
   catch (err) {
-    _suman.logError(err.message || err);
+    _suman.log.error(err.message || err);
     return process.nextTick(cb);
   }
 
@@ -87,7 +87,7 @@ export const createGanttChart2 = function (cb: Function) {
   fs.readFile(p, function (err, data) {
 
     if (err) {
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       return cb();
     }
 

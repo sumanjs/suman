@@ -55,8 +55,8 @@ export interface ICloneErrorFn {
 export const handleSetupComplete = function (test: ITestSuite, type: string) {
 
   if (test.isSetupComplete) {
-    _suman.logError('Illegal registry of block method type => "' + type + '()".');
-    _suman.logError(chalk.red.bold('Suman usage error => fatal => Asynchronous registry of test suite methods. Fatal AF.'), '\n\n');
+    _suman.log.error('Illegal registry of block method type => "' + type + '()".');
+    _suman.log.error(chalk.red.bold('Suman usage error => fatal => Asynchronous registry of test suite methods. Fatal AF.'), '\n\n');
     const e = new Error('Suman usage error => Fatal error => You have attempted to register calls to a\n' +
       'test suite block that has already finished registering hooks, test cases and child blocks.\n' +
       'To be more exact, one of two things happened: Either (1) ' +
@@ -79,7 +79,7 @@ export const handleSetupComplete = function (test: ITestSuite, type: string) {
     .join('\n');
 
     if (test) {
-      _suman.logError('Regarding the following test suite with name =>', util.inspect(test.title || test.desc));
+      _suman.log.error('Regarding the following test suite with name =>', util.inspect(test.title || test.desc));
     }
     throw e;
   }
@@ -165,7 +165,7 @@ export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
           setTimeout(timeoutFn, 5000);
 
           item.cb = function (err: Error) {
-            err && _suman.logError(err.stack || err);
+            err && _suman.log.error(err.stack || err);
             process.nextTick(cb);
           };
         }
@@ -261,7 +261,7 @@ export const implementationError = function (err: IPseudoError, isThrow: boolean
   if (err) {
     const $err = new Error(' => Suman implementation error => Please report!'
       + '\n' + (err.stack || err));
-    _suman.logError($err.stack);
+    _suman.log.error($err.stack);
     _suman.writeTestError($err.stack);
     if (isThrow) {
       throw $err;
@@ -299,14 +299,14 @@ export const loadSumanConfig = function (configPath: string, opts: Object) {
           //   'found in the root of your project.\n  ' + chalk.magenta(err.stack || err) + '\n');
 
           sumanConfig = _suman.sumanConfig = require('../default-conf-files/suman.default.conf');
-          _suman.logError('warning => Using default configuration, ' +
+          _suman.log.error('warning => Using default configuration, ' +
             'please use "suman --init" to create a suman.conf.js file in the root of your project.');
         }
       }
 
       if (pth1 || pth2) {
         if (_suman.sumanOpts.verbosity > 8 || su.isSumanDebug()) {
-          _suman.log('Path of suman config used: ' + (pth1 || pth2), '\n',
+          _suman.log.info('Path of suman config used: ' + (pth1 || pth2), '\n',
             'Value of suman config => ', util.inspect(sumanConfig));
         }
       }
@@ -343,7 +343,7 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
     sumanHelpersDirLocated = true;
   }
   catch (err) {
-    _suman.logError(err.stack || err);
+    _suman.log.error(err.stack || err);
     console.error('\n\n', chalk.magenta('=> Suman could *not* locate your <suman-helpers-dir>; ' +
       'perhaps you need to update your suman.conf.js file, please see: ***'), '\n',
       chalk.cyan(' => http://sumanjs.org/conf.html'), '\n',
@@ -430,14 +430,14 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
     integrantPreFn = require(p);
   }
   catch (err) {
-    _suman.logError(`Could not load your integrant pre module at path <${p}>.`);
-    _suman.logError(err.stack || err);
+    _suman.log.error(`Could not load your integrant pre module at path <${p}>.`);
+    _suman.log.error(err.stack || err);
     integrantPreFn = function () {
       return {dependencies: {}}
     };
 
     if (sumanOpts.verbosity > 2) {
-      _suman.logError(chalk.magenta('usage warning: no <suman.once.pre.js> file found.'));
+      _suman.log.error(chalk.magenta('usage warning: no <suman.once.pre.js> file found.'));
     }
 
     if (sumanOpts.verbosity > 3) {
@@ -459,15 +459,15 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
     iocFn = require(p);
   }
   catch (err) {
-    _suman.logError(`could not load suman.ioc.js file at path <${p}>`);
-    _suman.logError(err.stack || err);
+    _suman.log.error(`could not load suman.ioc.js file at path <${p}>`);
+    _suman.log.error(err.stack || err);
     try {
       p = path.resolve(projectRoot + '/suman/suman.ioc.js');
       iocFn = require(p);
     }
     catch (err) {
-      _suman.logError(`could not load suman.ioc.js file at path <${p}>`);
-      _suman.logError(err.stack || err);
+      _suman.log.error(`could not load suman.ioc.js file at path <${p}>`);
+      _suman.log.error(err.stack || err);
       iocFn = function () {
         return {dependencies: {}}
       }
@@ -615,7 +615,7 @@ export const makeOnSumanCompleted = function (suman: ISuman) {
         //TODO: val is not "any"
 
         if (_suman.sumanOpts.check_memory_usage) {
-          _suman.logError('Maximum memory usage during run => ' + util.inspect({
+          _suman.log.error('Maximum memory usage during run => ' + util.inspect({
             heapTotal: _suman.maxMem.heapTotal / 1000000,
             heapUsed: _suman.maxMem.heapUsed / 1000000
           }));
@@ -697,14 +697,14 @@ export const evalOptions = function (arrayDeps: Array<IAllOpts>, opts: IAllOpts)
         return a;
       }
       if (/:/.test(a)) {
-        _suman.logWarning('Looks like you have a bad value in your options as strings =>', util.inspect(arrayDeps))
+        _suman.log.warning('Looks like you have a bad value in your options as strings =>', util.inspect(arrayDeps))
       }
     }
     else if (su.isObject(a)) {
       Object.assign(opts, a);
     }
     else {
-      _suman.logWarning('You included an unexpected value in the array =>', util.inspect(arrayDeps))
+      _suman.log.warning('You included an unexpected value in the array =>', util.inspect(arrayDeps))
     }
   });
 
@@ -717,9 +717,9 @@ export const evalOptions = function (arrayDeps: Array<IAllOpts>, opts: IAllOpts)
   }
   catch (err) {
     console.error('\n');
-    _suman.logError('Could not evaluate the options passed via strings => ', util.inspect(preVal));
-    _suman.logError('Suman will continue optimistically.');
-    _suman.logError(err.stack || err);
+    _suman.log.error('Could not evaluate the options passed via strings => ', util.inspect(preVal));
+    _suman.log.error('Suman will continue optimistically.');
+    _suman.log.error(err.stack || err);
     console.error('\n');
   }
 

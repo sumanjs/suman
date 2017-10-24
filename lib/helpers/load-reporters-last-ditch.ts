@@ -49,12 +49,12 @@ export const run = function () {
     try {
       if (window) {
         if(window.__karma___){
-          _suman.log('Attempting to load karma reporter.');
+          _suman.log.info('Attempting to load karma reporter.');
           fn = require('suman-reporters/modules/karma-reporter');
           fn = fn.default || fn;
         }
         else{
-          _suman.log('Attempting to load websocket reporter.');
+          _suman.log.info('Attempting to load websocket reporter.');
           fn = require('suman-reporters/modules/websocket-reporter');
           fn = fn.default || fn;
           client = getClient();
@@ -62,14 +62,14 @@ export const run = function () {
       }
     }
     catch (err) {
-      _suman.logError(err.message);
+      _suman.log.error(err.message);
       if (_suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput || _suman.usingRunner) {
-        _suman.log('last-ditch effort to load a reporter: loading tap-json reporter');
+        _suman.log.info('last-ditch effort to load a reporter: loading tap-json reporter');
         fn = require('suman-reporters/modules/tap-json-reporter');
         fn = fn.default || fn;
       }
       else {
-        _suman.log('last-ditch effort to load a reporter: loading std reporter');
+        _suman.log.info('last-ditch effort to load a reporter: loading std reporter');
         fn = require('suman-reporters/modules/std-reporter');
         fn = fn.default || fn;
       }

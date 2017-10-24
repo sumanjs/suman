@@ -171,8 +171,8 @@ try {
   require(path.resolve(sumanHelperDirRoot + '/suman.globals.js'));
 }
 catch (err) {
-  _suman.logError(chalk.yellow.bold('Suman usage warning => Could not load your suman.globals.js file.'));
-  _suman.logError(su.getCleanErrorString(err));
+  _suman.log.error(chalk.yellow.bold('Suman usage warning => Could not load your suman.globals.js file.'));
+  _suman.log.error(su.getCleanErrorString(err));
 }
 
 if (singleProc) {

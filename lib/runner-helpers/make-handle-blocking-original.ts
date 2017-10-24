@@ -295,7 +295,7 @@ export default function (order: Object): IHandleBlocking {
       const cpFns = findQueuedCPsToStart(obstructed, queuedCPsObj);
 
       cpFns.forEach(function (fn) {
-        _suman.log('Test path started and is now running => ', fn.testPath);
+        _suman.log.info('Test path started and is now running => ', fn.testPath);
         fn.call(null);
       });
 

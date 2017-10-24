@@ -15,6 +15,10 @@ three SO profiles:
 
 ///
 
+ retries => suman should allow for retries
+
+///
+
  suman --browser --watch
 
  using watch will re-run tests on changes

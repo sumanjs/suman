@@ -39,7 +39,7 @@ module.exports = function ($iocData: Object) {
         return require(n);
       }
       catch (err) {
-        _suman.logError(' => Cannot require dependency with name => ' + n,
+        _suman.log.error(' => Cannot require dependency with name => ' + n,
           '...suman will continue optimistically.');
         console.error('\n');
         return null;

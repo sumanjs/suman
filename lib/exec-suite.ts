@@ -97,7 +97,7 @@ export const execSuite = function (suman: ISuman): Function {
       }, function () {
         console.error(msg + '\n\n');
         let err = new Error('Suman usage error => invalid arrow/generator function usage.').stack;
-        _suman.logError(err);
+        _suman.log.error(err);
         _suman.writeTestError(err);
         process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
       });
@@ -137,7 +137,7 @@ export const execSuite = function (suman: ISuman): Function {
       globalHooks.call(null, suite);
     }
     catch (err) {
-      _suman.logError(chalk.magenta('warning => Could not find the "suman.hooks.js" ' +
+      _suman.log.error(chalk.magenta('warning => Could not find the "suman.hooks.js" ' +
         'file in your <suman-helpers-dir>.\n Create the file to remove the warning.'), '\n\n');
     }
 
@@ -159,7 +159,7 @@ export const execSuite = function (suman: ISuman): Function {
           err = new Error('Suman usage error => Error acquiring IOC deps => \n' + (err.stack || err));
           err.sumanFatal = true;
           err.sumanExitCode = constants.EXIT_CODES.IOC_DEPS_ACQUISITION_ERROR;
-          _suman.logError(err.stack || err);
+          _suman.log.error(err.stack || err);
           gracefulExit(err, null);
         });
 
@@ -170,7 +170,7 @@ export const execSuite = function (suman: ISuman): Function {
         acquireIocDeps(suman, deps, suite, function (err: IPseudoError, depz: IInjectionDeps) {
 
           if (err) {
-            _suman.logError('error acquiring IoC deps:', err.stack || err);
+            _suman.log.error('error acquiring IoC deps:', err.stack || err);
             return process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
 
@@ -244,7 +244,7 @@ export const execSuite = function (suman: ISuman): Function {
                 });
               }
               else {
-                _suman.logError('Suman usage warning => suite.resume() was called more than once.');
+                _suman.log.error('Suman usage warning => suite.resume() was called more than once.');
               }
             };
 
@@ -265,7 +265,7 @@ export const execSuite = function (suman: ISuman): Function {
           else {
 
             suite.__resume = function () {
-              _suman.logWarning('usage warning => suite.resume() has become a noop since delay option is falsy.');
+              _suman.log.warning('usage warning => suite.resume() has become a noop since delay option is falsy.');
             };
 
             cb.apply(null, deps);
@@ -274,7 +274,7 @@ export const execSuite = function (suman: ISuman): Function {
             handleInjections(suite, function (err: IPseudoError) {
 
               if (err) {
-                _suman.logError(err.stack || err);
+                _suman.log.error(err.stack || err);
                 gracefulExit(err, null);
               }
               else {
@@ -305,7 +305,7 @@ export const execSuite = function (suman: ISuman): Function {
         const runSuite = function (suite: ITestSuite, cb: Function) {
 
           if (_suman.sumanUncaughtExceptionTriggered) {
-            _suman.logError(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+            _suman.log.error(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
             return;
           }
 
@@ -323,8 +323,8 @@ export const execSuite = function (suman: ISuman): Function {
 
           suite.startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
-            results && _suman.logError('Suman extraneous results:', results);
-            err && _suman.logError('Suman extraneous test error:', suite);
+            results && _suman.log.error('Suman extraneous results:', results);
+            err && _suman.log.error('Suman extraneous test error:', suite);
 
             const children = suite.getChildren().filter(function (child: ITestSuite) {
               return !child.skipped;
@@ -344,7 +344,7 @@ export const execSuite = function (suman: ISuman): Function {
             }, function (err: IPseudoError) {
 
               sumanOpts.series && (currentPaddingCount.val -= 3);
-              err && _suman.logError('Suman implementation error:', err.stack || err);
+              err && _suman.log.error('Suman implementation error:', err.stack || err);
               process.nextTick(cb);
 
             });
@@ -357,7 +357,7 @@ export const execSuite = function (suman: ISuman): Function {
           suman.dateSuiteFinished = Date.now();
 
           if (_suman.sumanUncaughtExceptionTriggered) {
-            _suman.logError(`"UncaughtException" event => halting program.\n[${__filename}]`);
+            _suman.log.error(`"UncaughtException" event => halting program.\n[${__filename}]`);
             return;
           }
 

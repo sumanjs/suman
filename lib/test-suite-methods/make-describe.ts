@@ -103,9 +103,9 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
     if (zuite.parallel && opts.parallel === false) {
       console.error('\n');
-      _suman.logWarning('warning => parent block ("' + zuite.desc + '") is parallel, ' +
+      _suman.log.warning('warning => parent block ("' + zuite.desc + '") is parallel, ' +
         'so child block ("' + desc + '") will be run in parallel with other sibling blocks.');
-      _suman.logWarning('\nTo see more info on this, visit: sumanjs.org.\n');
+      _suman.log.warning('\nTo see more info on this, visit: sumanjs.org.\n');
     }
 
     if (zuite.skipped) {
@@ -167,7 +167,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
         if (!err || typeof err !== 'object') {
           err = new Error(err ? (typeof err === 'string' ? err : util.inspect(err)) : 'unknown error passed to handler');
         }
-        _suman.logError('Error registering test block =>', err.stack || err);
+        _suman.log.error('Error registering test block =>', err.stack || err);
         err.sumanExitCode = constants.EXIT_CODES.ERROR_IN_CHILD_SUITE;
         gracefulExit(err);
       });
@@ -191,7 +191,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
         acquireIocDeps(suman, deps, suite, function (err: Error, depz: IInjectionDeps) {
 
           if (err) {
-            _suman.logError(err.stack || err);
+            _suman.log.error(err.stack || err);
             process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
             return;
           }
@@ -209,7 +209,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
             suite.fatal = function (err: IPseudoError) {
               err = err || new Error(' => suite.fatal() was called by the developer => fatal unspecified error.');
-              _suman.logError(err.stack || err);
+              _suman.log.error(err.stack || err);
               err.sumanExitCode = constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION;
               gracefulExit(err);
             };
@@ -219,7 +219,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
             if (!delayOptionElected) {
 
               suite.__resume = function () {
-                _suman.logWarning('usage warning => suite.resume() has become a no-op since delay option is falsy.');
+                _suman.log.warning('usage warning => suite.resume() has become a no-op since delay option is falsy.');
               };
 
               // Object.freeze(suite);
