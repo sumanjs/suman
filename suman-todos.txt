@@ -10,6 +10,26 @@ three SO profiles:
 
 ///
 
+https://github.com/avajs/karma-ava
+https://developers.soundcloud.com/blog/writing-your-own-karma-adapter
+
+///
+
+we can use $inject and put props on that
+
+BaseReporter.decoratorFactory.$inject = [
+  'formatError',
+  'config.reportSlowerThan',
+  'config.colors',
+  'config.browserConsoleLogOptions'
+]
+
+///
+
+https://code.google.com/archive/p/js-test-driver/
+
+///
+
  _suman.logError => _suman.log.error()
  // at the least, less top level objects on _suman
 

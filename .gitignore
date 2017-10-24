@@ -4,6 +4,10 @@ node_modules/
 .nyc_output/
 coverage/
 dist/
+suman-shell/
+suman-reporters/
+suman-utils/
+suman-watch/
 
 ### matching files
 *.log

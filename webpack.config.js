@@ -12,14 +12,15 @@ module.exports = {
 
   plugins: [
     new webpack.WatchIgnorePlugin([
-      /\.js$/
+      /\.js$/,
+      /\.d\.ts$/
     ])
   ],
 
   module: {
 
     rules: [
-      // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
+      // all files with a `.ts` extension will be handled by `ts-loader`
       {
         test: /\.ts$/,
         loader: 'ts-loader'
