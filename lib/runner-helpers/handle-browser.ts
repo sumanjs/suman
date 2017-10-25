@@ -59,7 +59,7 @@ export const makeHandleBrowserProcesses = function (runnerObj: IRunnerObj, table
       require('chrome-launcher');
     }
     catch (err) {
-      cp.execSync('npm install -S chrome-launcher');
+      cp.execSync('npm install chrome-launcher');
     }
 
     const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';

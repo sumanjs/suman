@@ -1,55 +1,54 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
 
-  entry: ['babel-polyfill', './lib/index.js'],
+  entry: ['babel-polyfill', './lib/index.ts'],
 
   output: {
     path: path.resolve(__dirname + '/dist'),
     filename: 'suman.js'
   },
 
+  plugins: [
+    new webpack.WatchIgnorePlugin([
+      /\.js$/,
+      /\.d\.ts$/
+    ])
+  ],
+
   module: {
-    loaders: [
+
+    rules: [
+      // all files with a `.ts` extension will be handled by `ts-loader`
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader'
+      },
+      {
+        test: /^\.d.ts$/,
+        loader: 'ignore-loader'
+      },
       // {
-      //   test: /\.js$/,
-      //   loader: 'babel-loader',
-      //   exclude: /node_modules/,
-      //   options: {
-      //     presets: ['latest'],
-      //     plugins: ['transform-runtime']
-      //   }
+      //   test: new RegExp('^' + path.resolve(__dirname + '/lib/cli-commands/') + '.*'),
+      //   loader: 'ignore-loader'
       // },
       {
-        test: /(\/lib\/init\/|cli.js$)/,
+        test: new RegExp('^' + path.resolve(__dirname + '/suman.conf.js')),
         loader: 'ignore-loader'
       }
-    ]
+    ],
+
   },
 
   resolve: {
     alias: {
       fs: require.resolve('suman-browser-polyfills/modules/fs'),
-      // assert: require.resolve('suman-browser-polyfills/modules/assert'),
       process: require.resolve('suman-browser-polyfills/modules/process'),
     },
-    extensions: ['.js']
+    // extensions: ['.ts']
+    extensions: ['.ts', '.js']
   },
-
-  // packages: {
-  //   'suman-browser-polyfills': {
-  //     main: require.resolve('suman-browser-polyfills'),
-  //   },
-  //   'suman-utils': {
-  //     main: require.resolve('suman-utils'),
-  //   },
-  //   'suman-events': {
-  //     main: require.resolve('suman-events'),
-  //   },
-  //   'suman-debug': {
-  //     main: require.resolve('suman-debug'),
-  //   }
-  // },
 
   node: {
     assert: true,

@@ -19,16 +19,9 @@
 // trans.write('cat');
 // trans.end();
 
-const x = null;
+const x = function({a,b}){
 
-x.tree  = 4;
+};
 
-const map = {};
 
-Object.keys(process.env).sort().forEach(k => {
-  map[k] = process.env[k];
-});
-
-const util = require('util');
-console.log(util.inspect(map));
-
+console.log(String(x));

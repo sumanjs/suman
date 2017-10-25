@@ -12,39 +12,61 @@ here is the go
 <script src="dist/suman.js"></script>
 <suman-test-content></suman-test-content>
 
-  <script>
+<script>
 
-    /* globals suman */
+  /* globals suman */
 
-    const {Test} = suman.init({});
+  const {Test} = suman.init({});
 
-    Test.create(function (it) {
+  Test.create(function (it) {
 
-      it('hi1', t => {
-        t.assert(true, 'democracy now');
-      });
-
-      it('hi2', t => {
-        t.assert(true);
-      });
+    it('hi1', t => {
+      t.assert(true, 'democracy now');
     });
 
-    Test.create(function (it) {
+    it('hi2', t => {
+      t.assert(true);
+    });
 
-      it('hi3', t => {
-        t.assert(true, 'budapest spring');
-      });
+    it('hi1', t => {
+      t.assert(true, 'democracy now');
+    });
 
-      it('hi4', t => {
+    it('hi2', t => {
+      t.assert(true);
+    });
+  });
 
-        t.assert(true);
+  Test.create(function (it) {
 
-      });
+    it('hi3', t => {
+      t.assert(true, 'budapest spring');
+    });
+
+    it('hi4', t => {
+
+      t.assert(true);
 
     });
 
+  });
 
-  </script>
+  Test.create(function (it) {
+
+    it('hi3', t => {
+      t.assert(true, 'budapest spring');
+    });
+
+    it('hi4', t => {
+
+      t.assert(true);
+
+    });
+
+  });
+
+
+</script>
 
 </body>
 </html>

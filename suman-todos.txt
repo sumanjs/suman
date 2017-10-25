@@ -4,14 +4,43 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
-///
-
- attach sumanConfig to suman instead of _suman, so that users can override sumanConfig
 
 ///
 
-https://github.com/avajs/karma-ava
-https://developers.soundcloud.com/blog/writing-your-own-karma-adapter
+ call suman.run() could put suman in "export mode"
+ otherwise, if you are not in "export mode", when you require a file,
+ it will just run from start to finish
+
+///
+
+@AlexanderMills you can also enable inspector by calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 mins ago
+
+///
+
+ use $inject like so:
+
+ const {Test} = suman.init(module, {
+   $inject: ['a', 'b', 'c']
+ });
+
+ Test.create(function($inject){
+    const {a,b,c} = $inject;
+ });
+
+
+///
+
+    attach sumanConfig to suman instead of _suman, so that users can override sumanConfig
+
+///
+
+    https://github.com/avajs/karma-ava
+    https://developers.soundcloud.com/blog/writing-your-own-karma-adapter
+
+///
+
+ need to create a programmatic API
+ suman.run(file);
 
 ///
 
@@ -30,17 +59,11 @@ https://code.google.com/archive/p/js-test-driver/
 
 ///
 
- _suman.logError => _suman.log.error()
- // at the least, less top level objects on _suman
-
-///
-
  retries => suman should allow for retries
 
 ///
 
  suman --browser --watch
-
  using watch will re-run tests on changes
 
 ///
@@ -96,7 +119,6 @@ suman --watch --per instead of suman --watch-per
 ///
 
 create ctrl-c or ctrl-f icons
-
 <kbd>Ctrl</kbd>-<kbd>C</kbd>
 
 ///
@@ -110,7 +132,6 @@ suman --watch --per instead of suman --watch-per
 ///
 
 create ctrl-c or ctrl-f icons
-
 <kbd>Ctrl</kbd>-<kbd>C</kbd>
 
 ///
@@ -138,10 +159,6 @@ Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest,
 If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` to enable the
 --inspect behavior after the fact.
 
-
-///
-
- => use async.queue not just for transpiling tests, but also for running them?
 
 ///
 
@@ -198,14 +215,6 @@ cd $(dirname "$0")
     "babel-loader": "^6.4.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.24.0",
-
-///
-
- => wrapErrorFirst should also trap errors with try/catch just like wrap?
-
-///
-
-    options should have "successEvents", "errorEvents"
 
 ///
 

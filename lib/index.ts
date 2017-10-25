@@ -208,7 +208,7 @@ _suman.writeTestError = function (data: string, ignore: boolean) {
 
 // throw new Error('sam');
 // throw new Error('sam');
-// throw new Error('sam');
+throw new Error('sam');
 // throw new Error('sam');
 // throw new Error('sam');
 // throw new Error('sam');
