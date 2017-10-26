@@ -13,6 +13,15 @@ three SO profiles:
 
 ///
 
+ in the browser we can use
+
+  suman.browser.ioc.static.ts
+  suman.browser.ioc.ts
+
+  these file paths
+
+///
+
 @AlexanderMills you can also enable inspector by calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 mins ago
 
 ///

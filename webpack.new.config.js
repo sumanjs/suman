@@ -29,10 +29,10 @@ module.exports = {
         test: /^\.d.ts$/,
         loader: 'ignore-loader'
       },
-      // {
-      //   test: new RegExp('^' + path.resolve(__dirname + '/lib/cli-commands/') + '.*'),
-      //   loader: 'ignore-loader'
-      // },
+      {
+        test: new RegExp('^' + path.resolve(__dirname + '/lib/cli-commands/') + '.*'),
+        loader: 'ignore-loader'
+      },
       {
         test: new RegExp('^' + path.resolve(__dirname + '/suman.conf.js')),
         loader: 'ignore-loader'

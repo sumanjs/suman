@@ -7,6 +7,9 @@ import {IGlobalSumanObj} from 'suman-types/dts/global';
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
+//core
+import util = require('util');
+
 //npm
 import * as Client from 'socket.io-client';
 import su = require('suman-utils');
@@ -25,6 +28,7 @@ export const getClient = function () {
 
     try {
       if(window && !port){
+        console.log('window.__suman',util.inspect(window.__suman));
         port = Number(window.__suman.SUMAN_SOCKETIO_SERVER_PORT);
       }
     }

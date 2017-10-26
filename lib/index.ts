@@ -46,7 +46,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
-require('./index-helpers/socketio-child-client'); // just for pre-loading
+import {getClient} from './index-helpers/socketio-child-client'; // just for pre-loading
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
 const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
@@ -143,7 +143,7 @@ const testRuns: Array<Function> = [];
 const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
 const c = (sumanOpts && sumanOpts.series) ? 1 : 3;
 
-const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
+const testSuiteQueue = _suman.tsq = async.queue(function (task: Function, cb: Function) {
   testSuiteQueueCallbacks.unshift(cb);
   process.nextTick(task);
 }, c);
@@ -153,15 +153,6 @@ const testSuiteRegistrationQueue = _suman.tsrq = async.queue(function (task: Fun
   testSuiteRegistrationQueueCallbacks.unshift(cb);
   process.nextTick(task);
 }, c);
-
-try{
-  if(window.__karma__){
-    testSuiteRegistrationQueue.pause();
-  }
-}
-catch(err){
-
-}
 
 testSuiteRegistrationQueue.drain = function () {
   if (su.vgt(5)) {
@@ -206,9 +197,17 @@ _suman.writeTestError = function (data: string, ignore: boolean) {
   }
 };
 
+if (inBrowser) {
+  const client = getClient();
+  testSuiteRegistrationQueue.pause();
+  setImmediate(function () {
+    require('./handle-browser').run(testSuiteRegistrationQueue, testSuiteQueue, client);
+  });
+}
+
 // throw new Error('sam');
 // throw new Error('sam');
-throw new Error('sam');
+// throw new Error('sam');
 // throw new Error('sam');
 // throw new Error('sam');
 // throw new Error('sam');
@@ -239,11 +238,11 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     return initMap.get($module) as any;
   }
 
-  if(typeof _suman.sumanConfig === 'string'){
+  if (typeof _suman.sumanConfig === 'string') {
     _suman.sumanConfig = JSON.parse(_suman.sumanConfig);
   }
 
-  if(typeof _suman.sumanOpts === 'string'){
+  if (typeof _suman.sumanOpts === 'string') {
     _suman.sumanOpts = JSON.parse(_suman.sumanOpts);
     _suman.sumanOpts.series = true;
   }

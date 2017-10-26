@@ -8,9 +8,9 @@
 
 here is the go
 
-
-<script src="dist/suman.js"></script>
 <suman-test-content></suman-test-content>
+<script src="dist/suman.js"></script>
+
 
 <script>
 
@@ -18,7 +18,11 @@ here is the go
 
   const {Test} = suman.init({});
 
+  debugger;
+
   Test.create(function (it) {
+
+    debugger;
 
     it('hi1', t => {
       t.assert(true, 'democracy now');
@@ -38,6 +42,8 @@ here is the go
   });
 
   Test.create(function (it) {
+
+    debugger;
 
     it('hi3', t => {
       t.assert(true, 'budapest spring');

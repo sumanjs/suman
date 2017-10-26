@@ -38,10 +38,8 @@ export const shutdownProcess = function () {
     _suman.log.warning('implementation error, process shutdown has already commenced.');
     return;
   }
-  else {
-    isShutdown = true;
-  }
 
+  isShutdown = true;
   let fn, resultz;
 
   if (_suman.usingRunner) {
@@ -80,7 +78,7 @@ export const shutdownProcess = function () {
 
     let waitForStdioToDrain = function (cb: Function) {
 
-      if(_suman.inBrowser){
+      if (_suman.inBrowser) {
         _suman.log.info('we are in browser no drain needed.');
         return process.nextTick(cb);
       }
@@ -117,30 +115,33 @@ export const shutdownProcess = function () {
     };
 
     async.parallel({
-      wait: waitForStdioToDrain,
-      reporters: makeHandleAsyncReporters(reporterRets),
-    }, function (err, results) {
+        wait: waitForStdioToDrain,
+        reporters: makeHandleAsyncReporters(reporterRets),
+      },
+      function (err, results) {
 
-      const exitCode = String(results.reporters ? results.reporters.exitCode : '0');
+        const exitCode = String(results.reporters ? results.reporters.exitCode : '0');
 
-      try{
-        if(window){
-          const childId = window.__suman.SUMAN_CHILD_ID;
-          const client = getClient();
-          client.emit('BROWSER_FINISHED', {
-            childId:childId,
-            exitCode:exitCode,
-            type: 'BROWSER_FINISHED',
-          }, function(){
-             console.log('BROWSER_FINISHED message received.');
-          });
+        try {
+          if (window) {
+            const childId = window.__suman.SUMAN_CHILD_ID;
+            const client = getClient();
+            client.emit('BROWSER_FINISHED', {
+                childId: childId,
+                exitCode: exitCode,
+                type: 'BROWSER_FINISHED',
+              },
+              function () {
+                console.error('"BROWSER_FINISHED" message received by Suman runner.');
+                console.error('If you can see this message, it is likely that the Suman runner was not able to close the browser process.');
+              });
+          }
         }
-      }
-      catch(err){
-        process.exit(highestExitCode)
-      }
+        catch (err) {
+          process.exit(highestExitCode)
+        }
 
-    });
+      });
 
   });
 

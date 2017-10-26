@@ -36,12 +36,12 @@ const getEmbeddedScript = function(port: number, id: number){
   const sumanOptsStr = su.customStringify(_suman.sumanOpts);
   const sumanConfigStr = su.customStringify(_suman.sumanConfig);
   const timestamp = Date.now();
-  console.log('here is a here.');
+  console.log('here is a here, port => ', port);
 
    return  [
      '<script>',
      `window.__suman = window.__suman || {};`,
-     `window.Debugger.enable();`,
+     // `window.Debugger.enable();`,
      `window.__suman.SUMAN_SOCKETIO_SERVER_PORT=${port};`,
      `window.__suman.SUMAN_CHILD_ID=${id};`,
      `window.__suman.usingRunner=true;`,
