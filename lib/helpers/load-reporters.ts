@@ -87,7 +87,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
   }
 
   _.flattenDeep([sumanOpts.reporters || []]).filter(v => {
-    if (!v)  _suman.log.warning('a reporter path was undefined.');
+    if (!v) _suman.log.warning('a reporter path was undefined.');
     return v;
   })
   .forEach(function (item: string) {
@@ -176,14 +176,12 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     }
   }
 
-  if (true || process.env.SUMAN_INCEPTION_LEVEL < 1) {
-    sr.forEach(function (reporter) {
-      let fn = reporter.default || reporter;
-      let reporterPath = fn.pathToReporter;
-      reporterRets.push(fn.call(null, rb, optsCopy, {}));
-      reporterPath && _suman.log.info(`loaded reporter with path: "${reporterPath}"`);
-    });
-  }
+  sr.forEach(function (reporter) {
+    let fn = reporter.default || reporter;
+    let reporterPath = fn.pathToReporter;
+    reporterRets.push(fn.call(null, rb, optsCopy, {}));
+    reporterPath && _suman.log.info(`loaded reporter with path: "${reporterPath}"`);
+  });
 
 };
 
