@@ -31,38 +31,46 @@ const io = {
 
 /////////////////////////////////////////////////////
 
-const getEmbeddedScript = function(port: number, id: number){
+const getEmbeddedScript = function (port: number, id: number) {
 
   const sumanOptsStr = su.customStringify(_suman.sumanOpts);
   const sumanConfigStr = su.customStringify(_suman.sumanConfig);
   const timestamp = Date.now();
-  console.log('here is a here, port => ', port);
 
-   return  [
-     '<script>',
-     `window.__suman = window.__suman || {};`,
-     // `window.Debugger.enable();`,
-     `window.__suman.SUMAN_SOCKETIO_SERVER_PORT=${port};`,
-     `window.__suman.SUMAN_CHILD_ID=${id};`,
-     `window.__suman.usingRunner=true;`,
-     `window.__suman.timestamp=${timestamp};`,
-     `window.__suman.sumanConfig=${sumanConfigStr};`,
-     `window.__suman.sumanOpts=${sumanOptsStr};`,
-     '</script>'
-   ].join('');
+  return [
+    '<script>',
+    `window.__suman = window.__suman || {};\n`,
+    // `window.Debugger.enable();`,
+    `window.__suman.SUMAN_SOCKETIO_SERVER_PORT=${port};\n`,
+    `window.__suman.SUMAN_CHILD_ID=${id};\n`,
+    `window.__suman.usingRunner=true;\n`,
+    `window.__suman.timestamp=${timestamp};\n`,
+    `window.__suman.sumanConfig=${sumanConfigStr};\n`,
+    `window.__suman.sumanOpts=${sumanOptsStr};\n`,
+    '</script>'
+  ].join('');
 };
-
 
 export const initializeSocketServer = function (cb: Function): void {
 
   if (_suman.inceptionLevel > 0) {
     io.server = {
       on: function () {
-        console.log('sumanception inacted.'); ///
+        _suman.log.warning('sumanception inacted.'); ///
       }
     };
     // pass -1 as port number
     return process.nextTick(cb, null, -1);
+  }
+
+  let sb: any, getBrowserStream: Function;
+
+  try{
+    sb = require('suman-browser');
+    getBrowserStream = sb.makeGetBrowserStream(_suman.sumanHelperDirRoot, _suman.sumanConfig, _suman.sumanOpts);
+  }
+  catch(err){
+    _suman.log.error(err.stack);
   }
 
   const regex = /<suman-test-content>.*<\/suman-test-content>/;
@@ -92,12 +100,29 @@ export const initializeSocketServer = function (cb: Function): void {
       return strm.pipe(res).once('error', onError);
     }
 
-    if (data.path && data.childId) {
 
-      const port  = httpServer.address().port;
+    if (data.path && data.childId) {
+      const port = httpServer.address().port;
       fs.createReadStream(data.path)
       .pipe(replaceStream(regex, getEmbeddedScript(port, data.childId)))
       .pipe(res);
+    }
+    else if (data.childId) {
+      let port = httpServer.address().port;
+      let id = data.childId;
+
+      getBrowserStream(port, id, function(err: Error, results: Array<string>){
+         if(err){
+           return res.end(JSON.stringify({error: err.stack || err}));
+         }
+
+         results.forEach(function(data){
+           res.write(data);
+         });
+
+         res.end();
+      });
+
     }
     else {
       res.statusCode = 500;
@@ -112,7 +137,6 @@ export const initializeSocketServer = function (cb: Function): void {
 
   // listen on an ephemeral port
   httpServer.listen(0);
-
   io.server = SocketServer(httpServer);
 
 };

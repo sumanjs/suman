@@ -143,7 +143,7 @@ const handleTableData = function (n: ISumanChildProcess, data: any, s: SocketIOC
   s.emit(TABLE_DATA, {info: 'table-data-received'});
 };
 
-export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, $order: Object) {
+export const run = function (runObj: Object, runOnce: Function, $order: Object) {
 
   debugger; // leave it here
 
@@ -195,9 +195,7 @@ export const findTestsAndRunThem = function (runObj: Object, runOnce: Function, 
         if (!n.hasExited) {
           n.kill('SIGINT');
           setTimeout(function () {
-            if (!n.hasExited) {
-              n.kill('SIGKILL');
-            }
+            !n.hasExited && n.kill('SIGKILL');
           }, 1000);
         }
       }, 1000);

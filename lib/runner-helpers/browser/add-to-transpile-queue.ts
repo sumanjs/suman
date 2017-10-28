@@ -12,6 +12,7 @@ const global = require('suman-browser-polyfills/modules/global');
 //core
 import path = require('path');
 import cp = require('child_process');
+import fs = require('fs');
 
 //npm
 import async = require('async');

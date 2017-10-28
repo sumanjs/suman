@@ -74,9 +74,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       }
 
       const argz = JSON.parse(JSON.stringify(args));
-
       let n: ISumanChildProcess, hashbang = false;
-
       const extname = path.extname(shortFile);
 
       let $childId = childId++;
@@ -88,7 +86,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       }
 
       const testData = JSON.stringify({
-        path: file,
+        // path: file, // TODO: we used to have path
         childId: $childId
       });
 

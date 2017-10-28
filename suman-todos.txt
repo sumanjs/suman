@@ -4,12 +4,47 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+///
+
+node core will backport NODE_OPTIONS =>
+https://github.com/nodejs/help/issues/925
+https://github.com/nodejs/node/pull/16263
+
+///
+
+ context('is good', b => {
+
+    b.$inject => should be what we get from $inject block stuff
+    b.set('good', true);
+    it('is good');
+
+  });
+
+///
+
+chrome.debugger.attach({
+  tabId: tabId
+}, '1.1', () => {
+  if (chrome.runtime.lastError) {
+    // oh no!
+  }
+  // we are good
+});
+
+///
+
+ need to implement suman --browser --watch
 
 ///
 
  call suman.run() could put suman in "export mode"
  otherwise, if you are not in "export mode", when you require a file,
  it will just run from start to finish
+
+///
+
+ need to get rid of sqlite because
+ to get unique id we need to use uuid instead of db id
 
 ///
 

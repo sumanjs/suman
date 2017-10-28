@@ -465,7 +465,7 @@ module.exports = [
     help: 'Allows certain Suman processes to run as a daemon.'
   },
   {
-    names: ['single-process', 'sp'],
+    names: ['single-process', 'single', 'sp'],
     type: 'bool',
     help: 'Run multiple test scripts in the same node.js process.'
   },

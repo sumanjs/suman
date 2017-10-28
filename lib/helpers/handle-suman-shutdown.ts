@@ -44,17 +44,15 @@ export const shutdownProcess = function () {
 
   if (_suman.usingRunner) {
     resultz = results.map(i => i.tableData);
-    _suman.log.error('handling request/response with runner.');
     fn = handleRequestResponseWithRunner(resultz);
   }
   else if (_suman.inBrowser) {
-    console.log('stable dogs here...');
     resultz = results.map(i => i.tableData);
     fn = handleRequestResponseWithRunner(resultz);
   }
   else {
     // i may not be defined if testsuite (rootsuite) was skipped
-    resultz = results.map(i => i ? i : null).filter(i => i);
+    resultz = results.filter(r => r);
     resultz.forEach(function (r) {
       rb.emit(String(events.STANDARD_TABLE), r.tableData, r.exitCode);
     });
@@ -123,7 +121,7 @@ export const shutdownProcess = function () {
         const exitCode = String(results.reporters ? results.reporters.exitCode : '0');
 
         try {
-          if (window) {
+          if (window && !window.__karma__) {
             const childId = window.__suman.SUMAN_CHILD_ID;
             const client = getClient();
             client.emit('BROWSER_FINISHED', {

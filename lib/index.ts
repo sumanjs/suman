@@ -26,6 +26,10 @@ export {IAfterEachFn} from 'suman-types/dts/after-each';
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
+if(process.env.IS_SUMAN_BROWSER_TEST === 'yes'){
+  throw new Error('This file should not be loaded if the process.env.IS_SUMAN_BROWSER_TEST var is set to "yes".');
+}
+
 //core
 import util = require('util');
 import assert = require('assert');
@@ -41,7 +45,7 @@ import async = require('async');
 const pragmatik = require('pragmatik');
 
 //project
-let inBrowser = false;
+let inBrowser = false, usingKarma = false;
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
@@ -81,6 +85,9 @@ try {
   window.suman = module.exports;
   console.log(' => "suman" is now available as a global variable in the browser.');
   inBrowser = _suman.inBrowser = true;
+  if(window.__karma__){
+    usingKarma = _suman.usingKarma = true;
+  }
 }
 catch (err) {
   inBrowser = _suman.inBrowser = false;
@@ -116,6 +123,7 @@ import {shutdownProcess, handleSingleFileShutdown} from "./helpers/handle-suman-
 const allOncePreKeys: Array<Array<string>> = _suman.oncePreKeys = [];
 const allOncePostKeys: Array<Array<string>> = _suman.oncePostKeys = [];
 const suiteResultEmitter = _suman.suiteResultEmitter = _suman.suiteResultEmitter || new EE();
+const initMap = new Map() as Map<Object, Object>;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -198,21 +206,15 @@ _suman.writeTestError = function (data: string, ignore: boolean) {
 };
 
 if (inBrowser) {
-  const client = getClient();
-  testSuiteRegistrationQueue.pause();
-  setImmediate(function () {
-    require('./handle-browser').run(testSuiteRegistrationQueue, testSuiteQueue, client);
-  });
+  if(!window.__karma__){
+    const client = getClient();
+    testSuiteRegistrationQueue.pause();
+    setImmediate(function () {
+      require('./handle-browser').run(testSuiteRegistrationQueue, testSuiteQueue, client);
+    });
+  }
 }
 
-// throw new Error('sam');
-// throw new Error('sam');
-// throw new Error('sam');
-// throw new Error('sam');
-// throw new Error('sam');
-// throw new Error('sam');
-
-const initMap = new Map() as Map<Object, Object>;
 
 export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOverride) {
 
@@ -243,6 +245,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   }
 
   if (typeof _suman.sumanOpts === 'string') {
+    _suman.log.info('Parsing global suman-options.');
     _suman.sumanOpts = JSON.parse(_suman.sumanOpts);
     _suman.sumanOpts.series = true;
   }
@@ -258,6 +261,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   }
 
   if (!loaded) {
+    _suman.sumanInitCalled = true;
     require('./helpers/load-reporters-last-ditch').run();
     projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
     main = require.main.filename;

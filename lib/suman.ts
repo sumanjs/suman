@@ -35,8 +35,6 @@ import {findSumanServer} from './helpers/general';
 import {ITestDataObj} from "suman-types/dts/it";
 import {constants} from '../config/suman-constants';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-import {getClient} from './index-helpers/socketio-child-client';
-
 
 //////////////////////////////////////////////////////////////////////////////
 

@@ -28,7 +28,7 @@ export const getClient = function () {
 
     try {
       if(window && !port){
-        console.log('window.__suman',util.inspect(window.__suman));
+        // console.log('window.__suman',util.inspect(window.__suman));
         port = Number(window.__suman.SUMAN_SOCKETIO_SERVER_PORT);
       }
     }
@@ -37,10 +37,6 @@ export const getClient = function () {
     if (!port) {
       throw new Error('Suman implementation error, no port specified by "SUMAN_SOCKETIO_SERVER_PORT" env var.');
     }
-
-    // if (!Number.isInteger(port)) {
-    //   throw new Error('Suman implementation error, no port specified by "SUMAN_SOCKETIO_SERVER_PORT" env var.');
-    // }
 
     client = Client(`http://localhost:${port}`);
 

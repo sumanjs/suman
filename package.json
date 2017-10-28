@@ -41,6 +41,7 @@
     "du": "^0.1.0",
     "freeze-existing-props": "latest",
     "function-arguments": "^1.0.4",
+    "glob": "^7.1.2",
     "handlebars": "^4.0.10",
     "lockfile": "^1.0.3",
     "lodash.flatten": "^4.4.0",

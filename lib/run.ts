@@ -183,13 +183,26 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
       if (sumanOpts.browser) {
 
         try {
+          require('suman-browser');
+        }
+        catch (err) {
+          delete require.cache['suman-browser'];
+          if (process.env.SUMAN_ENV === 'local') {
+            cp.execSync('npm link suman-browser');
+          }
+          else {
+            throw new Error('You need to install "suman-browser", using `npm install -D suman-browser`.');
+          }
+        }
+
+        try {
+
           const browser = sumanConfig['browser']  as any;
           assert(su.isObject(browser), '"browser" property on suman.conf.js needs to be an object.');
           const entryPoints = browser['entryPoints'];
           assert(Array.isArray(entryPoints), '"entryPoints" property needs to be an Array instance.');
           const files = entryPoints.map(item => item.html);
-          process.nextTick(cb, null, {files});
-          return;
+          return process.nextTick(cb, null, {files});
         }
         catch (err) {
           process.nextTick(cb, err);
@@ -359,9 +372,8 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
     }
     else {
       _suman.processIsRunner = true;
-      const {createRunner} = require('./runner-helpers/create-suman-runner');
       d.run(function () {
-        createRunner({runObj: obj});
+        require('./runner-helpers/create-suman-runner').run({runObj: obj});
       });
     }
   });

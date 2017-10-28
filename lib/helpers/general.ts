@@ -3,7 +3,7 @@
 //dts
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 import {ISumanConfig, ISumanOpts} from "suman-types/dts/global";
-import {IAllOpts} from "suman-types/dts/test-suite";
+import {IAllOpts,ITestSuite} from "suman-types/dts/test-suite";
 import {ISuman, Suman} from "../suman";
 import {ISumanServerInfo} from "suman-types/dts/suman";
 
@@ -524,19 +524,27 @@ export const vetPaths = function (paths: Array<string>): void {
 let fatalRequestReplyCallable = true;
 export const fatalRequestReply = function (obj: Object, $cb: Function) {
 
-  // console.error('obj in fatal request reply => ', obj);
-  // console.error(new Error('msg').stack);
+   _suman.log.error('Fatal request reply message => ', obj);
 
-  const cb = su.once(null, $cb);
-  _suman.sumanUncaughtExceptionTriggered = obj;
+   try{
+     if(window.__karma__){
+       return process.nextTick($cb);
+     }
+   }
+   catch(err){
+
+   }
 
   if (fatalRequestReplyCallable) {
     fatalRequestReplyCallable = false;
   }
   else {
     // if callable is false (we already called this function) then fire callback immediately
-    return process.nextTick(cb);
+    return process.nextTick($cb);
   }
+
+  const cb = su.once(null, $cb);
+  _suman.sumanUncaughtExceptionTriggered = obj;
 
   if (_suman.$forceInheritStdio) {
     // we need to use TAP to write test output, instead of sending via process.send

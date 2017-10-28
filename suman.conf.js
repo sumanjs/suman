@@ -105,11 +105,18 @@ module.exports = Object.freeze({
 
   browser: {
     entryPoints: [
+      // {
+      //   html: path.resolve(__dirname + '/test/src/dev/browser/test-file.html'),
+      //   files: [],
+      //   compile: function (str) {
+      //
+      //   }
+      // },
       {
-        html: path.resolve(__dirname + '/test/src/dev/browser/test-file.html'),
+        html: path.resolve(__dirname + '/test/src/dev/browser/webpack-test.html'),
         files: [],
         compile: function (str) {
-          
+
         }
       }
     ]

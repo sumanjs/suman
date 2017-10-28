@@ -21,7 +21,7 @@ import su = require('suman-utils');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getClient} from '../index-helpers/socketio-child-client';
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const sumanReporters = _suman.sumanReporters = (_suman.sumanReporters || []);
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 
@@ -48,7 +48,7 @@ export const run = function () {
 
     try {
       if (window) {
-        if(window.__karma___){
+        if(window.__karma__){
           _suman.log.info('Attempting to load karma reporter.');
           fn = require('suman-reporters/modules/karma-reporter');
           fn = fn.default || fn;
@@ -80,7 +80,7 @@ export const run = function () {
     assert(typeof fn === 'function', 'Suman implementation error - reporter fail - ' +
       'reporter does not export a function. Please report this problem on Github.');
     _suman.sumanReporters.push(fn);
-    reporterRets.push(fn.call(null, resultBroadcaster, optsCopy, {}, client));
+    reporterRets.push(fn.call(null, rb, optsCopy, {}, client));
   }
 
 };

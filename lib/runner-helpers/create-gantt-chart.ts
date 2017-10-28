@@ -23,6 +23,11 @@ import {cpHash, socketHash, ganttHash} from './socket-cp-hash';
 
 export const createGanttChart = function (cb: Function) {
 
+  if (_suman.sumanConfig && !_suman.sumanConfig.viewGantt) {
+    // user does not want to render Gantt chart visualization
+    return process.nextTick(cb);
+  }
+
   let Handlebars: any;
 
   try {
@@ -70,66 +75,6 @@ export const createGanttChart = function (cb: Function) {
 
 };
 
-export const createGanttChart2 = function (cb: Function) {
-
-  let Handlebars: any;
-
-  try {
-    Handlebars = require('handlebars');
-  }
-  catch (err) {
-    _suman.log.error(err.message || err);
-    return process.nextTick(cb);
-  }
-
-  const p = path.resolve(_suman.sumanHelperDirRoot + '/gantt-2.hbs');
-
-  fs.readFile(p, function (err, data) {
-
-    if (err) {
-      _suman.log.error(err.stack || err);
-      return cb();
-    }
-
-    let template = Handlebars.compile(String(data));
-
-    const millisPerDay = 86400000;
-
-    const getAdjustedDate = function (millis: number) {
-      return _suman.startDateMillis + (millis - _suman.startDateMillis) * millisPerDay;
-    };
-
-    const map = Object.keys(cpHash).map(function (k) {
-
-      const n = cpHash[k];
-      const diff = (n.dateEndedMillis - n.dateStartedMillis) * millisPerDay;
-
-      const startDate = getAdjustedDate(n.dateStartedMillis);
-      const endDate = getAdjustedDate(n.dateEndedMillis);
-      // endDate.setSeconds(startDate.getSeconds() + 1000*diff);
-
-      return [
-        String(k),
-        n.shortTestPath,
-        n.sumanExitCode > 0 ? 'fail-group' : 'success-group',
-        startDate,
-        endDate,
-        null,
-        100,
-        null
-      ]
-    });
-
-    const result = template({
-      arrayOfArrays: JSON.stringify(map)
-    });
-
-    const p = path.resolve(_suman.sumanHelperDirRoot + '/gantt-3.html');
-    fs.writeFile(p, result, cb);
-
-  });
-
-};
 
 
 

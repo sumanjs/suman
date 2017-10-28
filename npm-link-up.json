@@ -15,6 +15,7 @@
     "vamoot",
     "proxy-mcproxy",
     "prepend-transform",
+    "log-prepend",
     "pragmatik",
     "residence",
     "poolio",

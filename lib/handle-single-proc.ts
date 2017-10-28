@@ -27,10 +27,55 @@ import su = require('suman-utils');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
 const {constants} = require('../config/suman-constants');
+import {shutdownProcess, handleSingleFileShutdown} from "./helpers/handle-suman-shutdown";
 
 //////////////////////////////////////////////////////////////////////////
 
 export const run = function (files: Array<string>) {
+
+  let fileCount = chalk.bold.underline(String(files.length));
+  let boldTitle = chalk.bold('single process mode');
+  _suman.log.info(chalk.magenta(`Suman will run the following ${fileCount} files in ${boldTitle}:`));
+
+  files.forEach(function (f, index) {
+    // run this independently of the other for loop
+    // since this is just for logging the path of the file
+    _suman.log.info(`[${index+1}]`,chalk.gray(f[0]));
+  });
+
+  console.log(); //add a new line here
+
+  files.forEach(function (f) {
+    //load all the files, this helps users catch errors early
+    // since we don't run any files until later, this makes it easier to catch early erros and debug
+    require(f[0]);
+  });
+
+
+  const {tsq, tsrq, sumanOpts} = _suman;
+
+  if(sumanOpts.dry_run){
+    _suman.log.warning('Suman is using the "--dry-run" argument, and is shutting down without actually running the tests.');
+    return shutdownProcess();
+  }
+
+  if (!_suman.sumanInitCalled) {
+    throw new Error('Looks like none of your files contains a Suman test.');
+  }
+
+  tsq.drain = function () {
+    if (tsrq.idle()) {
+      _suman.log.verygood('We are done running all tests in single process mode.');
+      shutdownProcess();
+    }
+  };
+
+  _suman.log.good('Resuming test registration for Suman single process mode.');
+  tsrq.resume();
+
+};
+
+export const run2 = function (files: Array<string>) {
 
   _suman.log.info(chalk.magenta('suman will run the following files in single process mode:'));
   _suman.log.info(util.inspect(files.map(v => v[0])));

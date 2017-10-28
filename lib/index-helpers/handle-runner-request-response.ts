@@ -43,6 +43,13 @@ export const handleRequestResponseWithRunner = function (data: Array<any>) {
 
   return function (cb: Function) {
 
+    try{
+      if(window.__karma__){
+        return process.nextTick(cb);
+      }
+    }
+    catch(err){}
+
     const client = getClient();
     const TABLE_DATA = constants.runner_message_type.TABLE_DATA;
 

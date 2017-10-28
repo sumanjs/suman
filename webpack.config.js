@@ -2,8 +2,8 @@ const path = require('path');
 
 module.exports = {
 
-  entry: ['babel-polyfill', './lib/index.js'],
-
+  // entry: ['babel-polyfill', './lib/index.js'],
+  entry: ['./lib/index.js'],
   output: {
     path: path.resolve(__dirname + '/dist'),
     filename: 'suman.js'

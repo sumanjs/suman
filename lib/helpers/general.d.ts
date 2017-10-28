@@ -1,12 +1,12 @@
 import { IPseudoError } from "suman-types/dts/global";
 import { ISumanConfig, ISumanOpts } from "suman-types/dts/global";
-import { IAllOpts } from "suman-types/dts/test-suite";
+import { IAllOpts, ITestSuite } from "suman-types/dts/test-suite";
 import { Suman } from "../suman";
 import { ISumanServerInfo } from "suman-types/dts/suman";
 export interface ICloneErrorFn {
     (err: Error, newMessage: string, stripAllButTestFilePathMatch?: boolean): IPseudoError;
 }
-export declare const handleSetupComplete: (test: any, type: string) => void;
+export declare const handleSetupComplete: (test: ITestSuite, type: string) => void;
 export declare const extractVals: (val: any) => {
     timeout: number;
     subDeps: string[];
