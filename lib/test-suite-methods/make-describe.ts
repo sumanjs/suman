@@ -95,7 +95,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
     if (isGenerator || isAsync) { //TODO: need to check for generators or async/await as well
       const msg = constants.ERROR_MESSAGES.INVALID_FUNCTION_TYPE_USAGE;
-      console.log('\n\n' + msg + '\n\n');
+      console.log('\n' + msg + '\n');
       console.error(new Error(' => Suman usage error => invalid arrow/generator function usage.').stack);
       process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
       return;
@@ -116,13 +116,16 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       console.log('\n');
     }
 
-    if (opts.skip && !sumanOpts.force && !sumanOpts.allow_skip) {
-      throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
+    if(!sumanOpts.force && !_suman.inBrowser){
+      if (opts.skip  && !sumanOpts.allow_skip) {
+        throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
+      }
+
+      if (opts.only && !sumanOpts.allow_only) {
+        throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
+      }
     }
 
-    if (opts.only && !sumanOpts.force && !sumanOpts.allow_only) {
-      throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
-    }
 
     if (opts.skip || zuite.skipped || (!opts.only && suman.describeOnlyIsTriggered)) {
       suman.numBlocksSkipped++;

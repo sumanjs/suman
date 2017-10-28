@@ -81,6 +81,10 @@ Test.create(function (it, context) {
         b.set('good', true);
         it('is good');
     });
+    context('is good', function (b) {
+        b.set('good', true);
+        it.skip('is good');
+    });
 });
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))

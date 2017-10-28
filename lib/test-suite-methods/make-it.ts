@@ -71,7 +71,7 @@ const handleBadOptions = function (opts: IItOpts) {
 
 let id = 1;
 
-const incr = function (){
+const incr = function () {
   // test suite incrementer
   return id++;
 };
@@ -89,7 +89,10 @@ export const makeIt = function (suman: ISuman): ItFn {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
-    try {delete $opts.__preParsed} catch(err){}
+    try {
+      delete $opts.__preParsed
+    } catch (err) {
+    }
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
@@ -117,12 +120,14 @@ export const makeIt = function (suman: ISuman): ItFn {
 
     const inc = incr();
 
-    if (opts.skip && !sumanOpts.force && !sumanOpts.allow_skip) {
-      throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
-    }
+    if (!_suman.inBrowser && !sumanOpts.force) {
+      if (opts.skip && !sumanOpts.allow_skip) {
+        throw new Error('Test case was declared as "skipped" but "--allow-skip" option not specified.');
+      }
 
-    if (opts.only && !sumanOpts.force && !sumanOpts.allow_only) {
-      throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
+      if (opts.only && !sumanOpts.allow_only) {
+        throw new Error('Test case was declared as "only" but "--allow-only" option not specified.');
+      }
     }
 
     if (opts.skip || opts.skipped) {

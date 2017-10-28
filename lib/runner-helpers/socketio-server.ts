@@ -102,12 +102,14 @@ export const initializeSocketServer = function (cb: Function): void {
 
 
     if (data.path && data.childId) {
-      const port = httpServer.address().port;
+
+      let port = httpServer.address().port;
       fs.createReadStream(data.path)
       .pipe(replaceStream(regex, getEmbeddedScript(port, data.childId)))
       .pipe(res);
     }
     else if (data.childId) {
+
       let port = httpServer.address().port;
       let id = data.childId;
 
@@ -116,10 +118,7 @@ export const initializeSocketServer = function (cb: Function): void {
            return res.end(JSON.stringify({error: err.stack || err}));
          }
 
-         results.forEach(function(data){
-           res.write(data);
-         });
-
+         results.forEach(res.write.bind(res));
          res.end();
       });
 

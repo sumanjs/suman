@@ -87,6 +87,7 @@ try {
   inBrowser = _suman.inBrowser = true;
   if(window.__karma__){
     usingKarma = _suman.usingKarma = true;
+    _suman.sumanOpts && _suman.sumanOpts.force = true;
   }
 }
 catch (err) {
@@ -248,6 +249,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     _suman.log.info('Parsing global suman-options.');
     _suman.sumanOpts = JSON.parse(_suman.sumanOpts);
     _suman.sumanOpts.series = true;
+    _suman.sumanOpts.force = true;
   }
 
   if (!$module.filename) {

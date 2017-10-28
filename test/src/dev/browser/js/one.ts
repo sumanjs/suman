@@ -19,4 +19,13 @@ Test.create(function (it: ItFn, context: IDescribeFn) {
 
   });
 
+
+  context('is good', b => {
+
+
+    b.set('good', true);
+    it.skip('is good');
+
+  });
+
 });
