@@ -12,6 +12,10 @@ https://github.com/nodejs/node/pull/16263
 
 ///
 
+Suman watch - if watchPer has an item with --watch in it, then you have to throw err
+
+///
+
  context('is good', b => {
 
     b.$inject => should be what we get from $inject block stuff

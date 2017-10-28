@@ -30,6 +30,7 @@
     "suman-daemon",
     "suman-debug",
     "suman-browser-polyfills",
+    "suman-watch-plugins",
     "suman-run-plugins",
     "suman-transform-plugins",
     "suman-reporters",

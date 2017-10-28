@@ -195,6 +195,11 @@ var browser = sumanOpts.browser;
 if (singleProcess) {
     process.env.SUMAN_SINGLE_PROCESS = 'yes';
 }
+if (watch || watchPer) {
+    if (process.env.SUMAN_WATCH_TEST_RUN === 'yes') {
+        throw new Error('Suman watch process has launched a process which in turn will watch, this is not allowed.');
+    }
+}
 if (sumanOpts.user_args) {
     _suman.log.info(chalk.magenta('raw user_args is'), sumanOpts.user_args);
 }

@@ -5,11 +5,12 @@
 const os = require('os');
 const path = require('path');
 const numOfCPUs = os.cpus().length || 1;
-// const pckgDotJson = require(path.resolve(__dirname, 'package.json'));
+const pckgDotJson = require('./package.json');
+const tscPlugin = require('suman-watch-plugins/modules/tsc');
+
+
 
 module.exports = Object.freeze({
-
-  //☺,♫  //
 
   //regex
   matchAny: [/\.js$/, /.sh$/, /\.jar$/, /\.java$/, /\.go$/, /\.ts$/],
@@ -91,13 +92,19 @@ module.exports = Object.freeze({
         exec: 'FORCE_COLOR=0 suman test/src/dev/node --verbosity=4',
         includes: [__dirname],
         excludes: ['/test/', /\.ts$/],
-        confOverride: {}
+        confOverride: {},
+        env: {
+          FORCE_COLOR: '0'
+        }
       },
       'browser-dev': {
         exec: 'suman test/src/dev/browser',
         includes: [__dirname],
         excludes: ['/test/', /\.ts$/],
         confOverride: {}
+      },
+      'browser-tsc': {
+        plugin: tscPlugin.value
       }
     },
 
