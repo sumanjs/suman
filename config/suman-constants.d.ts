@@ -33,6 +33,7 @@ export declare const constants: Readonly<{
         SUCCESSFUL_RUN: number;
         WHOLE_TEST_SUITE_SKIPPED: number;
         GREP_SUITE_DID_NOT_MATCH: number;
+        COULD_NOT_LOAD_A_REPORTER: number;
         FILE_OR_DIRECTORY_DOES_NOT_EXIST: number;
         SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT: number;
         SUMAN_HELPER_FILE_DOES_NOT_EXPORT_EXPECTED_FUNCTION: number;

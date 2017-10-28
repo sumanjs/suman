@@ -130,7 +130,10 @@ module.exports = Object.freeze({
   },
 
   reporters: {
-    'tap': 'suman-reporters/modules/tap-reporter'
+    map: {
+      'tap': 'suman-reporters/modules/tap-reporter'
+    }
+
   },
 
   // servers: {                           // list of servers to output test result data to, with the os.hostname() as the key

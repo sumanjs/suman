@@ -19,9 +19,7 @@
 // trans.write('cat');
 // trans.end();
 
-const x = function({a,b}){
-
-};
-
-
-console.log(String(x));
+const path = require('path');
+const item = '//turkey//';
+const p = path.resolve('/suman-reporters/modules/' + item);
+console.log(p);
