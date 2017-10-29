@@ -174,7 +174,6 @@ testSuiteRegistrationQueue.drain = function () {
   }
 };
 
-console.log('new gravy train. yes. no.')
 
 testSuiteQueue.drain = function () {
   suiteResultEmitter.emit('suman-test-file-complete');

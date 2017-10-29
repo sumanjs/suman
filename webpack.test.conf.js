@@ -10,6 +10,7 @@ if(!entries.length){
   throw new Error('no test files could be found given your webpack configuration.');
 }
 
+
 module.exports = {
 
   entry: entries,

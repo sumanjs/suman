@@ -1,25 +1,36 @@
 
 
-// const {Transform} = require('stream');
-//
-// const trans = new Transform({
-//    transform: function (chunk, form, cb) {
-//      cb(null, 'dooo ' + chunk);
-//    }
-// });
+const x = {
+  watch: {
 
-// const {pt} = require('prepend-transform');
-//
-// const trans = pt(' [dog] ');
-//
-// trans.pipe(process.stdout);
-//
-//
-// trans.write('cat');
-// trans.write('cat');
-// trans.end();
 
-const path = require('path');
-const item = '//turkey//';
-const p = path.resolve('/suman-reporters/modules/' + item);
-console.log(p);
+    per: {
+
+      foo: {
+        exec: 'suman test/*.js',
+        include: [],
+        exclude: [],
+        confOverride: {},
+        env: {}
+      },
+
+      bar: {
+        exec: 'suman --browser test/front-end/*.js',
+        include: [],
+        exclude: [],
+        confOverride: {}
+      },
+
+      baz: {
+        exec: 'exec "${SUMAN_CHANGED_TEST_FILE}"',
+        include: [],
+        exclude: [],
+        confOverride: {
+
+        }
+      }
+
+    }
+
+  }
+};

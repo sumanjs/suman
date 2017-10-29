@@ -35,14 +35,12 @@ export const run = function (projectRoot: string, paths: Array<string>, sumanOpt
 
   runWatch(projectRoot, paths, sumanConfig, sumanOpts, function (err: Error) {
     if (err) {
-      console.log('\n');
-      console.error(err.stack || err);
-      console.log('\n');
+      _suman.log.error(err.stack || err);
       process.exit(1);
     }
     else {
       console.log('\n');
-      _suman.logInfo(chalk.underline('Suman watch successfully initialized.'));
+      _suman.log.info(chalk.underline('Suman watch successfully initialized.'));
     }
   })
 

@@ -10,13 +10,12 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
-
 /////////////////////////////////////////////////////////////////
 
 let callable = true;
 
-const logExit =  function(code: number){
-  if(callable){
+const logExit = function (code: number) {
+  if (callable) {
     callable = false;
     console.log('\n');
     console.log(' => Suman cli exiting with code: ', code);
@@ -40,7 +39,6 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
 else {
   delete process.env['SUMAN_EXTRANEOUS_EXECUTABLE'];
 }
-
 
 /////////////////////////////////////////////////////////////////
 
@@ -73,7 +71,7 @@ process.on('uncaughtException', function (err: Error) {
   setTimeout(function () {
     if (err && !err._alreadyHandledBySuman) {
       err._alreadyHandledBySuman = true;
-      console.error('\n\n => Suman "uncaughtException" event occurred =>\n', err.stack, '\n\n');
+      console.error('\n => Suman "uncaughtException" event occurred =>\n', chalk.magenta(err.stack), '\n\n');
       handleExceptionsAndRejections();
     }
   }, 500);
@@ -272,8 +270,8 @@ if (singleProcess) {
   process.env.SUMAN_SINGLE_PROCESS = 'yes';
 }
 
-if(watch || watchPer){
-  if(process.env.SUMAN_WATCH_TEST_RUN === 'yes'){
+if (watch || watchPer) {
+  if (process.env.SUMAN_WATCH_TEST_RUN === 'yes') {
     throw new Error('Suman watch process has launched a process which in turn will watch, this is not allowed.');
   }
 }
@@ -360,7 +358,10 @@ try {
 }
 catch (err) {
 
-  _suman.log.error(err.stack || err);
+  _suman.log.error(err.stack);
+  if (!/Cannot find module/i.test(err.stack)) {
+    throw err;
+  }
 
   if (!init) {
     // if init option is flagged to true, we don't expect user to have a suman.conf.js file, duh
@@ -529,7 +530,7 @@ if (sumanOpts.force_inherit_stdio) {
 let isTTY = process.stdout.isTTY;
 
 if (!process.stdout.isTTY && !useTAPOutput) {
-  _suman.log.error(chalk.red('you may need to turn on TAP output for test results to be captured in destination process.'));
+  _suman.log.error(chalk.yellow.bold('you may need to turn on TAP output for test results to be captured in destination process.'));
 }
 
 ////////////////////// dynamically call files to minimize load, etc //////////////////////////////

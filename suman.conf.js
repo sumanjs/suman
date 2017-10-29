@@ -103,8 +103,14 @@ module.exports = Object.freeze({
         excludes: ['/test/', /\.ts$/],
         confOverride: {}
       },
-      'browser-tsc': {
-        plugin: tscPlugin.value
+      'browser-tsc': {  // suman
+        exec: 'suman --runner test/*.js',
+        env: {
+          FORCE_COLOR: '1'
+        },
+        plugin: tscPlugin.getCustomValue({
+          cwd: path.resolve(__dirname + '/test'),
+        })
       }
     },
 

@@ -50,7 +50,7 @@ process.on('uncaughtException', function (err) {
     setTimeout(function () {
         if (err && !err._alreadyHandledBySuman) {
             err._alreadyHandledBySuman = true;
-            console.error('\n\n => Suman "uncaughtException" event occurred =>\n', err.stack, '\n\n');
+            console.error('\n => Suman "uncaughtException" event occurred =>\n', chalk.magenta(err.stack), '\n\n');
             handleExceptionsAndRejections();
         }
     }, 500);
@@ -257,7 +257,10 @@ try {
     }
 }
 catch (err) {
-    _suman.log.error(err.stack || err);
+    _suman.log.error(err.stack);
+    if (!/Cannot find module/i.test(err.stack)) {
+        throw err;
+    }
     if (!init) {
         _suman.log.warning(chalk.bgBlack.yellow('warning => Could not load your config file ' +
             'in your current working directory or given by --cfg at the command line...'));
@@ -371,7 +374,7 @@ if (sumanOpts.force_inherit_stdio) {
 }
 var isTTY = process.stdout.isTTY;
 if (!process.stdout.isTTY && !useTAPOutput) {
-    _suman.log.error(chalk.red('you may need to turn on TAP output for test results to be captured in destination process.'));
+    _suman.log.error(chalk.yellow.bold('you may need to turn on TAP output for test results to be captured in destination process.'));
 }
 if (diagnostics) {
     require('./lib/cli-commands/run-diagnostics').run(sumanOpts);

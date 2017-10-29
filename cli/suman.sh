@@ -7,8 +7,14 @@ fi
 #. shared-functions.sh # source this shared file
 
 if test "$#" -eq "0"; then
-    exec "$(dirname "$0")/suman-shell"
-    exit;
+    if [[ "${SUMAN_WATCH_TEST_RUN}" == "yes" ]]; then
+        echo "Cannot run suman-shell from a watch process.";
+        echo "Cannot run suman-shell from a watch process." >&2 ;
+        exit 1;
+    else
+        exec "$(dirname "$0")/suman-shell"
+        exit;
+    fi
 fi
 
 echo " [suman] Original path of Suman executable => \"$0\""
