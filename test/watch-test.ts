@@ -3,12 +3,23 @@
 const suman = require('suman');
 const {Test} = suman.init(module);
 
-console.log('zoomeeage');
+console.log('zoomee');
 
 // how many roads, ny s
-Test.create('yolo', function(it){
+Test.create('yolo', function (it) {
 
-  it('maxxes out', t => {
+  it('maxxes out1', t => {
 
   });
+
+  it('maxxes out2', t => {
+
+  });
+
+  it.cb('mokkoout2', t => {
+    setTimeout(function () {
+      t.done();
+    }, 3);
+  });
+
 });
