@@ -440,6 +440,11 @@ module.exports = [
     'and begins watching the files desired.'
   },
   {
+    names: ['per'],
+    type: 'string',
+    help: 'watch-per string must match a key in {suman.conf.js}.watch.per'
+  },
+  {
     names: ['watch-per', 'wp'],
     type: 'string',
     help: 'watch-per string must match a key in {suman.conf.js}.watch.per.'

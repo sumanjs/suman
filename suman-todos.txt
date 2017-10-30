@@ -12,6 +12,10 @@ https://github.com/nodejs/node/pull/16263
 
 ///
 
+ create suman-watch functionality that watches primary code-base and all symlinked directories in node_modules!
+
+///
+
  if no test cases found, suman should exit with 1 not 0!!
  probably operator error if no test cases found
 
