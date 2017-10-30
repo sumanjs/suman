@@ -3,7 +3,7 @@
 const suman = require('suman');
 const {Test} = suman.init(module);
 
-console.log('zoomee');
+console.log('zoee');
 
 // how many roads, ny s
 Test.create('yolo', function (it) {

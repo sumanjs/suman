@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var suman = require('suman');
 var Test = suman.init(module).Test;
-console.log('zoomee');
+console.log('zoee');
 Test.create('yolo', function (it) {
     it('maxxes out1', function (t) {
     });

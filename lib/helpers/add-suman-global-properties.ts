@@ -27,7 +27,7 @@ else {
 
 _suman.log = {} as any;
 
-if (_suman.inceptionLevel < 1) {
+if (_suman.inceptionLevel < 1 && String(process.env.SUMAN_USE_STDIO_PREFIX).trim() !== 'no') {
 
   // _suman.log = _suman.logInfo = console.log.bind(console, chalk.gray.bold(' [suman] '));
   // _suman.logWarning = console.error.bind(console, chalk.yellow(' [suman] '));

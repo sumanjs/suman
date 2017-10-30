@@ -7,8 +7,8 @@ const path = require('path');
 const numOfCPUs = os.cpus().length || 1;
 const pckgDotJson = require('./package.json');
 const tscPlugin = require('suman-watch-plugins/modules/tsc');
-
-
+const webpackPlugin = require('suman-watch-plugins/modules/webpack');
+const babelPlugin = require('suman-watch-plugins/modules/babel');
 
 module.exports = Object.freeze({
 
@@ -74,7 +74,6 @@ module.exports = Object.freeze({
   defaultTestSuiteTimeout: 15000,
   expireResultsAfter: 10000000,     // test results will be deleted after this amount of time
 
-
   ////////
   //
 
@@ -104,12 +103,33 @@ module.exports = Object.freeze({
         confOverride: {}
       },
       'browser-tsc': {  // suman
-        exec: 'suman --runner test/*.js',
+        exec: 'suman --runner --nt test/*.js',
         env: {
           FORCE_COLOR: '1'
         },
-        plugin: tscPlugin.getCustomValue({
-          cwd: path.resolve(__dirname + '/test'),
+        plugin: tscPlugin.getValue({
+          pluginCwd: path.resolve(__dirname + '/test'),
+        })
+      },
+      'backend-babel': {
+        exec: '',
+        env: {
+          BABEL_ENV: 'test'
+        },
+        plugin: babelPlugin.getValue({
+          pluginEnv: {
+            BABEL_ENV: 'test'
+          }
+        })
+      },
+      'browser-webpack': {  // suman rduolph agage
+        exec: 'suman -b test/.suman/browser/builds/*.js',
+        cwd: __dirname,
+        env: {
+          FORCE_COLOR: '1'
+        },
+        plugin: webpackPlugin.getValue({
+          pluginCwd: path.resolve(__dirname + '/test'),
         })
       }
     },

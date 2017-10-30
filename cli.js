@@ -196,7 +196,7 @@ if (singleProcess) {
     process.env.SUMAN_SINGLE_PROCESS = 'yes';
 }
 if (watch || watchPer) {
-    if (process.env.SUMAN_WATCH_TEST_RUN === 'yes') {
+    if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() === 'yes') {
         throw new Error('Suman watch process has launched a process which in turn will watch, this is not allowed.');
     }
 }
@@ -373,8 +373,10 @@ if (sumanOpts.force_inherit_stdio) {
     _suman.$forceInheritStdio = true;
 }
 var isTTY = process.stdout.isTTY;
-if (!process.stdout.isTTY && !useTAPOutput) {
-    _suman.log.error(chalk.yellow.bold('you may need to turn on TAP output for test results to be captured in destination process.'));
+if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
+    if (!process.stdout.isTTY && !useTAPOutput) {
+        _suman.log.error(chalk.yellow.bold('you may need to turn on TAP output for test results to be captured in destination process.'));
+    }
 }
 if (diagnostics) {
     require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
