@@ -7,7 +7,7 @@ fi
 
 #set -e;
 
-echo "checking if existing process is listening on port"
+echo " [suman-daemon] checking if existing process is listening on port"
 # which_false=$(which false); # /bin/false or /usr/bin/false depending on system
 
 

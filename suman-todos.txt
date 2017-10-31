@@ -374,20 +374,11 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
- in handle-multiple-processes - if a transpile action takes too long, it won't be put on the run queue, and the whole thing
- will exit because all child processes have exitted.
-
-///
-
     before hooks can be stubbed? => before('merry');
 
 ///
 
     improve tables -> they should work on Jenkins, etc.
-
-///
-
-    enforceUniqueTestCaseNames:true
 
 ///
 
@@ -570,9 +561,9 @@ https://github.com/Microsoft/TypeScript/issues/16779
 
 ////
 
-    brew install phantomjs
-    https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
-    brew install sumanjs ???
+brew install phantomjs
+https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
+brew install sumanjs ???
 
 ////
 
@@ -593,8 +584,8 @@ https://github.com/Microsoft/TypeScript/issues/16779
 
 ////
 
-https://github.com/substack/tape/issues/378
-Getting a list of failing/passing tests after test suite execution
+    https://github.com/substack/tape/issues/378
+    Getting a list of failing/passing tests after test suite execution
 
 ////
 
@@ -667,7 +658,7 @@ Getting a list of failing/passing tests after test suite execution
 
 ////
 
- include $index file, inject that into Test.create
+    include $index file, inject that into Test.create
 
 ////
 

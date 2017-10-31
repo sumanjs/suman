@@ -95,12 +95,14 @@ async.parallel({
         }));
     },
     updateSumanCompletion: function (cb) {
-        fs.readFile(require.resolve('./suman-completion.sh'), wrapErr(cb, function (data) {
+        var p = path.resolve(__dirname + '/suman-completion.sh');
+        fs.readFile(p, wrapErr(cb, function (data) {
             fs.writeFile(sumanCompletion, data, { flag: 'w', mode: 511 }, cb);
         }));
     },
     updateFindSumanExec: function (cb) {
-        fs.readFile(require.resolve('./find-local-suman-executable.js'), wrapErr(cb, function (data) {
+        var p = path.resolve(__dirname + '/find-local-suman-executable.js');
+        fs.readFile(p, wrapErr(cb, function (data) {
             fs.writeFile(findSumanExec, data, { flag: 'w', mode: 511 }, cb);
         }));
     },
@@ -108,7 +110,8 @@ async.parallel({
         fs.appendFile(queue, '', cb);
     },
     updateFindProjectRoot: function (cb) {
-        fs.readFile(require.resolve('./find-project-root.js'), wrapErr(cb, function (data) {
+        var p = path.resolve(__dirname + '/find-project-root.js');
+        fs.readFile(p, wrapErr(cb, function (data) {
             fs.writeFile(findProjectRootDest, data, { flag: 'w', mode: 511 }, cb);
         }));
     }

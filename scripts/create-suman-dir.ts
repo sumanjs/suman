@@ -113,7 +113,6 @@ async.parallel({
       fs.readFile(p, wrapErr(cb, function (data: string) {
         fs.writeFile(sumanClis, data, {flag: 'w', mode: 0o777}, cb);
       }));
-
     },
 
     createGlobalConfigFile: function (cb: Function) {
@@ -127,19 +126,20 @@ async.parallel({
           cb(null);
         });
       }));
-
     },
 
     updateSumanCompletion: function (cb: Function) {
       //always want to update this file to the latest version, so always overwrite
-      fs.readFile(require.resolve('./suman-completion.sh'), wrapErr(cb, function (data: string) {
+      let p = path.resolve(__dirname + '/suman-completion.sh');
+      fs.readFile(p, wrapErr(cb, function (data: string) {
         fs.writeFile(sumanCompletion, data, {flag: 'w', mode: 0o777}, cb);
       }));
     },
 
     updateFindSumanExec: function (cb: Function) {
       //always want to update this file to the latest version, so always overwrite
-      fs.readFile(require.resolve('./find-local-suman-executable.js'), wrapErr(cb, function (data: string) {
+      let p = path.resolve(__dirname + '/find-local-suman-executable.js');
+      fs.readFile(p, wrapErr(cb, function (data: string) {
         fs.writeFile(findSumanExec, data, {flag: 'w', mode: 0o777}, cb);
       }));
     },
@@ -151,7 +151,8 @@ async.parallel({
     },
 
     updateFindProjectRoot: function (cb: Function) {
-      fs.readFile(require.resolve('./find-project-root.js'), wrapErr(cb, function (data: string) {
+      let p = path.resolve(__dirname + '/find-project-root.js');
+      fs.readFile(p, wrapErr(cb, function (data: string) {
         fs.writeFile(findProjectRootDest, data, {flag: 'w', mode: 0o777}, cb);
       }));
     }
