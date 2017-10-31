@@ -1,6 +1,7 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ISumanErrorFirstCB} from "./index";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -35,7 +36,7 @@ export interface IOncePostModuleRet {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISumanErrorFirstCB) {
+export const run = function ($oncePostKeys: Array<string>, userDataObj: Object, cb: Function) {
 
   try {
     assert(Array.isArray($oncePostKeys), ' => (1) Perhaps we exited before <oncePostKeys> was captured.');
@@ -60,7 +61,7 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
   }
 
   let postInjector = makePostInjector(userDataObj, null, null);
-  const first: ISumanErrorFirstCB = su.onceAsync(this, cb);
+  const first: Function = su.onceAsync(this, cb);
 
   let oncePostModule: Function,
     oncePostModuleRet: IOncePostModuleRet,
@@ -165,7 +166,8 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
     process.nextTick(cb, err);
   });
 
-};
+}
 
-const $exports = module.exports;
-export default $exports;
+
+
+

@@ -4,6 +4,4 @@ export interface IOncePostModuleRetDependencies {
 export interface IOncePostModuleRet {
     dependencies: IOncePostModuleRetDependencies;
 }
-export declare const run: ($oncePostKeys: string[], userDataObj: any, cb: any) => any;
-declare const $exports: any;
-export default $exports;
+export declare const run: ($oncePostKeys: string[], userDataObj: Object, cb: Function) => any;

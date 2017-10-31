@@ -127,12 +127,11 @@ require('./lib/patches/all');
 import {loadReporters} from './lib/helpers/load-reporters';
 import {constants} from './config/suman-constants';
 import {resolveSharedDirs, loadSharedObjects} from "./lib/helpers/general";
-
 const weAreDebugging = su.weAreDebugging;
 
 if (weAreDebugging) {
-  console.log(' => Suman is in debug mode (we are debugging).');
-  console.log(' => Process PID => ', process.pid);
+  _suman.log.info(' => Suman is in debug mode (we are debugging).');
+  _suman.log.info(' => Process PID => ', process.pid);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -143,14 +142,13 @@ debug([' => $NODE_PATH is as follows:', process.env['NODE_PATH']]);
 //////////////////////////////////////////////////////////////////////////
 
 _suman.log.info('Resolved path of Suman executable =>', '"' + __filename + '"');
-
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
 
 if (semver.lt(nodeVersion, oldestSupported)) {
   _suman.log.error(chalk.red('warning => Suman is not well-tested against Node versions prior to ' +
     oldestSupported + '; your Node version: ' + chalk.bold(nodeVersion)));
-  throw 'Please upgrade to a Node.js version newer than v4.0.0. Suman recommends usage of NVM.';
+  throw 'Please upgrade to a Node.js version newer than v6.0.0. Suman recommends usage of NVM.';
 }
 
 _suman.log.info('Node.js version:', chalk.bold(nodeVersion));

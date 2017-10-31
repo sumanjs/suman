@@ -2,6 +2,8 @@
 // => For more info, see =>  oresoftware.github.io/suman/conf.html
 // => If transpile is true, Suman will put your babel deps in ~/.suman/global/node_modules
 
+
+
 const os = require('os');
 const path = require('path');
 const numOfCPUs = os.cpus().length || 1;

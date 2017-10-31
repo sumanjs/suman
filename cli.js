@@ -89,8 +89,8 @@ var suman_constants_1 = require("./config/suman-constants");
 var general_1 = require("./lib/helpers/general");
 var weAreDebugging = su.weAreDebugging;
 if (weAreDebugging) {
-    console.log(' => Suman is in debug mode (we are debugging).');
-    console.log(' => Process PID => ', process.pid);
+    _suman.log.info(' => Suman is in debug mode (we are debugging).');
+    _suman.log.info(' => Process PID => ', process.pid);
 }
 debug([' => Suman started with the following command:', process.argv]);
 debug([' => $NODE_PATH is as follows:', process.env['NODE_PATH']]);
@@ -100,7 +100,7 @@ var oldestSupported = suman_constants_1.constants.OLDEST_SUPPORTED_NODE_VERSION;
 if (semver.lt(nodeVersion, oldestSupported)) {
     _suman.log.error(chalk.red('warning => Suman is not well-tested against Node versions prior to ' +
         oldestSupported + '; your Node version: ' + chalk.bold(nodeVersion)));
-    throw 'Please upgrade to a Node.js version newer than v4.0.0. Suman recommends usage of NVM.';
+    throw 'Please upgrade to a Node.js version newer than v6.0.0. Suman recommends usage of NVM.';
 }
 _suman.log.info('Node.js version:', chalk.bold(nodeVersion));
 var sumanLibRoot = _suman.sumanLibRoot = String(__dirname);

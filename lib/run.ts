@@ -49,32 +49,6 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
   debugger;  //leave here forever so users can easily debug
 
   let sql: any;
-
-  try {
-    sql = require('sqlite3').verbose();
-  }
-  catch (err) {
-    console.error('\n', err.stack, '\n');
-    console.error(chalk.yellow.bold(' => Looks like Suman could not find "sqlite3" NPM dependency.'));
-    console.error(' => Suman uses NODE_PATH to source heavier dependencies from a shared location.');
-    console.error(' => If you use the suman command, NODE_PATH will be set correctly.');
-
-    if (process.env.NODE_PATH) {
-      _suman.log.error('$NODE_PATH currently has this value => ', process.env.NODE_PATH);
-    }
-    else {
-      _suman.log.error('$NODE_PATH is currently ' + chalk.yellow('*not*') + ' defined.');
-    }
-
-    _suman.log.error('If for whatever reason you ran node against the suman cli.js file, ' +
-      'then NODE_PATH may not be set correctly.');
-    _suman.log.error('Try "$ NODE_PATH=$NODE_PATH:~/.suman/global/node_modules node <your-file.js>"');
-    _suman.log.error('You may attempt to use the --force flag to overcome this obstacle. But better to resolve the underlying issue.');
-    if (!sumanOpts.force) {
-      return process.exit(1);
-    }
-  }
-
   let runId: number = _suman.runId = process.env.SUMAN_RUN_ID = null;
   const projectRoot = _suman.projectRoot;
   const timestamp = _suman.timestamp = process.env.SUMAN_RUNNER_TIMESTAMP = Date.now();
@@ -152,12 +126,6 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
 
             });
 
-          },
-
-          createNew: function (cb: Function) {
-            // let p = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
-            // fs.mkdir(p, 0o777, cb);
-            return process.nextTick(cb);
           }
 
         }, cb);
@@ -242,54 +210,11 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
 
     getRunId: function (cb: Function) {
 
-      const first = su.once(this, cb);
+      runId = _suman.runId = process.env.SUMAN_RUN_ID = uuid();
+      let p = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
+      mkdirp(p, 0o777, cb);
 
-      function createDir(runId: number) {
-        let p = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
-        mkdirp(p, 0o777, first);
-      }
-
-      if (!sql) {
-        runId = _suman.runId = process.env.SUMAN_RUN_ID = uuid();
-        return createDir(runId);
-      }
-
-      const db = new sql.Database(dbPth, function (err: Error) {
-        if (err) {
-          _suman.log.error(err.stack || err);
-          runId = _suman.runId = process.env.SUMAN_RUN_ID = uuid();
-          return createDir(runId);
-        }
-
-        db.configure('busyTimeout', 4000);
-        db.once('error', first);
-
-        db.serialize(function () {
-          db.run('BEGIN EXCLUSIVE TRANSACTION;');
-          db.all('SELECT run_id from suman_run_id', function (err: Error, rows: Array<Object>) {
-            if (err) {
-              return first(err);
-            }
-
-            db.serialize(function () {
-
-              if (rows.length > 1) {
-                _suman.log.error('Suman internal warning => "suman_run_id" rows length is greater than 1.');
-              }
-
-              const val = rows[0] ? rows[0].run_id : 1;
-              runId = _suman.runId = process.env.SUMAN_RUN_ID = val;
-              const updatedValue = val + 1;
-              db.run('UPDATE suman_run_id SET run_id = ' + updatedValue);
-              db.run('COMMIT TRANSACTION;', function (err: Error) {
-                db.close();
-                err ? first(err) : createDir(runId);
-              });
-            });
-
-          });
-        });
-      });
+      // if we want to use sqlite3, then we import the sqlite code from lib/sqlite3
     }
 
   }, function complete(err: Error, results: Object) {

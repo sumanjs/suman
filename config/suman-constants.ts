@@ -14,7 +14,7 @@ export const constants = Object.freeze({
 
   DEFAULT_CHILD_PROCESS_TIMEOUT: 6000000,
 
-  OLDEST_SUPPORTED_NODE_VERSION: 'v4.0.0',
+  OLDEST_SUPPORTED_NODE_VERSION: 'v6.0.0',
 
   DEBUGGING_ENV: {
     name: 'SUMAN_DEBUG',
@@ -22,10 +22,6 @@ export const constants = Object.freeze({
   },
 
   SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
-
-  GIT_IGNORE: [
-    '**suman/logs/**'
-  ],
 
   UNKNOWN_INJECT_HOOK_NAME: '(unknown inject-hook name)',
 
@@ -37,6 +33,7 @@ export const constants = Object.freeze({
 
   SUMAN_HARD_LIST: Object.keys({
 
+    // all lowercase
     describe: true,
     before: true,
     after: true,
@@ -211,70 +208,6 @@ export const constants = Object.freeze({
     TEST_SUITE_EXIT_CODE: {
       name: 'exit-code',
       default: '-'
-    }
-  },
-
-  SUMAN_GLOBAL_DEPS: {
-
-    // gantt: {
-    //   'virtual-dom-stringify': 'latest',
-    //   'gantt-chart': 'latest'
-    // },
-
-    gantt: {
-      'handlebars': 'latest'
-    },
-
-    sqlite3: {
-      'sqlite3': 'latest'
-    },
-    sumanSqliteReporter: {
-      'suman-sqlite-reporter': 'latest',
-    },
-    slack: {
-      'slack': 'latest'
-    },
-    babel: {
-      'webpack': 'latest',
-      'babel-cli': 'latest',
-      'babel-core': 'latest',
-      'babel-loader': 'latest',
-      'babel-polyfill': 'latest',
-      'babel-runtime': 'latest',
-      'babel-register': 'latest',
-      'babel-plugin-transform-runtime': 'latest',
-      'babel-preset-es2015': 'latest',
-      'babel-preset-es2016': 'latest',
-      'babel-preset-react': 'latest',
-      'babel-preset-stage-0': 'latest',
-      'babel-preset-stage-1': 'latest',
-      'babel-preset-stage-2': 'latest',
-      'babel-preset-stage-3': 'latest',
-      'babel-preset-latest': 'latest'
-    },
-
-    sumanD: {
-      'suman-d': 'latest'
-    },
-    sumanW: {
-      'suman-watch': 'latest'
-    },
-    sumanServer: {
-      'frontail': 'latest',
-      'suman-server': 'latest'
-    },
-    sumanInteractive: {
-      'suman-inquirer': 'latest',
-      'suman-inquirer-directory': 'latest',
-    },
-    istanbul: {
-      'istanbul': 'latest',
-    },
-    nyc: {
-      'nyc': 'latest'
-    },
-    typescript: {
-      'typescript': 'latest'
     }
   }
 

@@ -12,6 +12,15 @@ https://github.com/nodejs/node/pull/16263
 
 ///
 
+ give user option to bundle with selenium webdriver
+
+//
+   debugging with chrome + chrome-launcher
+    https://bugs.chromium.org/p/chromium/issues/detail?id=778781#c3
+
+///
+
+
  create suman-watch functionality that watches primary code-base and all symlinked directories in node_modules!
 
 ///
@@ -56,10 +65,6 @@ chrome.debugger.attach({
 
 ///
 
- need to get rid of sqlite because
- to get unique id we need to use uuid instead of db id
-
-///
 
  in the browser we can use
 
@@ -70,7 +75,8 @@ chrome.debugger.attach({
 
 ///
 
-@AlexanderMills you can also enable inspector by calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 mins ago
+@AlexanderMills you can also enable inspector by
+calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 mins ago
 
 ///
 
@@ -84,10 +90,6 @@ chrome.debugger.attach({
     const {a,b,c} = $inject;
  });
 
-
-///
-
-    attach sumanConfig to suman instead of _suman, so that users can override sumanConfig
 
 ///
 
@@ -125,12 +127,9 @@ https://code.google.com/archive/p/js-test-driver/
 
 ///
 
- --reporters=x should be --reporter (singular) instead
-
-///
-
 global_npm_modules_path="$(npm root -g)";
-this npm command is slow, and I am looking to speed up this script. One thing I could do is "cache" the result of the npm command, something like this:
+this npm command is slow, and I am looking to speed up this script.
+One thing I could do is "cache" the result of the npm command, something like this:
 
 export global_npm_modules_path=${global_npm_modules_path:-"$(npm root -g)"}
 but my question is - how can I set global_npm_modules_path so that it's held in store by the parent shell / parent process?
@@ -140,7 +139,8 @@ but my question is - how can I set global_npm_modules_path so that it's held in 
 @CharlesDuffy thanks what does that eval command accomplish though? How is it different than just running ssh-agent directly? – Alexander Mills 1 min ago   edit
 1	upvote
 
-@AlexanderMills, the eval command tells the shell to run the output from ssh-agent as a series of shell commands. Thus, it enables ssh-agent to modify the environment of the shell that calls it. – Charles Duffy 18 secs ago
+@AlexanderMills, the eval command tells the shell to run the output from ssh-agent as a series of shell commands.
+Thus, it enables ssh-agent to modify the environment of the shell that calls it. – Charles Duffy 18 secs ago
 
 ///
 
@@ -159,9 +159,6 @@ describe('nested1', opts, () => {});  ---> this makes an error (see 1.test.js)
 
 ///
 
- give user option to bundle with selenium webdriver
-
-///
 
 https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
 
@@ -184,15 +181,6 @@ FORCE_COLOR=0 suman -- => will use colors for watch, etc.
 
 ///
 
-suman --watch --per instead of suman --watch-per
-
-///
-
-create ctrl-c or ctrl-f icons
-<kbd>Ctrl</kbd>-<kbd>C</kbd>
-
-///
-
 FORCE_COLOR=0 suman -- => will use colors for watch, etc.
 
 ///
@@ -205,10 +193,6 @@ FORCE_COLOR=0 suman -- => will use colors for watch, etc.
 Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest, describe) {
   console.log(this); // this call causes problems with the proxy
   console.log(this.describe); // same thing as above
-
-///
-
- the runner hangs every few runs, there must be a race condition
 
 ///
 
