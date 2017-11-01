@@ -133,6 +133,7 @@ if (!SUMAN_SINGLE_PROCESS && !inBrowser) {
   handleSingleFileShutdown();
 }
 
+debugger;
 require('./index-helpers/verify-local-global-version');
 
 let projectRoot: string,

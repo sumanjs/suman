@@ -156,6 +156,7 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
         catch (err) {
           delete require.cache['suman-browser'];
           if (process.env.SUMAN_ENV === 'local') {
+            _suman.log.warning('since we are in development, we are linking suman-browser with "npm link suman-browser".');
             cp.execSync('npm link suman-browser');
           }
           else {
@@ -187,15 +188,11 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
       su.findSumanMarkers(['@run.sh', '@transform.sh', '@config.json'], testDir, getFilesToRun.files,
         function (err: Error, map: IMapValue) {
           if (err) {
-            cb(err);
+            return cb(err);
           }
-          else {
-            _suman.markersMap = map;
-            cb(null);
-            // fs.writeFile(_suman.sumanHelperDirRoot + '/suman-map.json', JSON.stringify(map), function () {
-            //   cb(err, obj);
-            // });
-          }
+
+          _suman.markersMap = map;
+          cb(null);
         });
     },
 

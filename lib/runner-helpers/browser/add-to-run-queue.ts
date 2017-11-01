@@ -92,7 +92,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
 
       cl.launch({
         startingUrl: `http://localhost:${port}/suman_testing?data=${testData}`,
-        chromeFlags: []
+        chromeFlags: ['--auto-open-devtools-for-tabs', '--debug-devtools']
         // chromeFlags: ['--headless'],
         // chromeFlags: ['--headless', '--disable-gpu']
       })

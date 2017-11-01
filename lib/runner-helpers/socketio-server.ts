@@ -65,12 +65,18 @@ export const initializeSocketServer = function (cb: Function): void {
 
   let sb: any, getBrowserStream: Function;
 
-  try{
+  try {
     sb = require('suman-browser');
     getBrowserStream = sb.makeGetBrowserStream(_suman.sumanHelperDirRoot, _suman.sumanConfig, _suman.sumanOpts);
   }
-  catch(err){
-    _suman.log.error(err.stack);
+  catch (err) {
+
+    if (_suman.sumanOpts.browser) {
+      throw new Error('Please install "suman-browser" using "npm install -D suman-browser".');
+    }
+    else {
+      _suman.log.warning('warning: cannot find browser dependency => ', err.message);
+    }
   }
 
   const regex = /<suman-test-content>.*<\/suman-test-content>/;
@@ -100,7 +106,6 @@ export const initializeSocketServer = function (cb: Function): void {
       return strm.pipe(res).once('error', onError);
     }
 
-
     if (data.path && data.childId) {
 
       let port = httpServer.address().port;
@@ -113,13 +118,13 @@ export const initializeSocketServer = function (cb: Function): void {
       let port = httpServer.address().port;
       let id = data.childId;
 
-      getBrowserStream(port, id, function(err: Error, results: Array<string>){
-         if(err){
-           return res.end(JSON.stringify({error: err.stack || err}));
-         }
+      getBrowserStream(port, id, function (err: Error, results: Array<string>) {
+        if (err) {
+          return res.end(JSON.stringify({error: err.stack || err}));
+        }
 
-         results.forEach(res.write.bind(res));
-         res.end();
+        results.forEach(res.write.bind(res));
+        res.end();
       });
 
     }
