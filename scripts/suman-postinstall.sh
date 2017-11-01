@@ -47,6 +47,7 @@ fi
 
 if [[ "${SUMAN_INSTALL_NODE_MODULES}" == "yes" ]]; then
 
+
 (
 
   set -e;
