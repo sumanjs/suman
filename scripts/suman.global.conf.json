@@ -1,3 +1,4 @@
 {
-  "shell":"bash"
+  "shell":"bash",
+  "useSumanShell": true //hi
 }

@@ -12,11 +12,17 @@ https://github.com/nodejs/node/pull/16263
 
 ///
 
+ better npm publish routine
+ https://github.com/sindresorhus/np
+
+///
+
  give user option to bundle with selenium webdriver
 
 //
+
    debugging with chrome + chrome-launcher
-    https://bugs.chromium.org/p/chromium/issues/detail?id=778781#c3
+   https://bugs.chromium.org/p/chromium/issues/detail?id=778781#c3
 
 ///
 
@@ -164,11 +170,11 @@ https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
 
 ///
 
- suman --default  => should run default tests given by config
+    suman --default  => should run default tests given by config
 
 ///
 
-suman --watch --per instead of suman --watch-per
+    suman --watch --per instead of suman --watch-per
 
 ///
 
@@ -270,6 +276,20 @@ cd $(dirname "$0")
 ///
 
     => chai 4.0.2 works.
+
+///
+
+ [suman]
+ [suman]    ⚑  Suman fatal error  => making a graceful exit =>
+ [suman]        => Fatal error in hook => (to continue even in the event of an error in a hook use option {fatal:false}) =>
+ [suman]        RangeError: Invalid array length
+ [suman]            at Object.exports.padWithXSpaces (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-utils/lib/index.js:185:12)
+ [suman]            at EventEmitter.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-reporters/modules/std-reporter/index.js:70:30)
+ [suman]            at TestBlock.startSuite (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-start-suite.js:20:16)
+ [suman]            at TestBlock.startSuite (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:140:31)
+ [suman]            at runSuite (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/exec-suite.js:233:27)
+ [suman]            at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/exec-suite.js:244:29
+
 
 ///
 
