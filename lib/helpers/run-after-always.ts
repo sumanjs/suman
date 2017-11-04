@@ -20,7 +20,7 @@ import async = require('async');
 import su from 'suman-utils';
 
 const helpers = require('../test-suite-helpers/handle-promise-generator');
-import {cloneError} from '../helpers/general';
+import {cloneError} from './general';
 import {makeHookObj} from '../test-suite-helpers/t-proto-hook';
 import {freezeExistingProps} from 'freeze-existing-props'
 import {constants} from '../../config/suman-constants';

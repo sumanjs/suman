@@ -79,7 +79,10 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
-    try {delete $opts.__preParsed} catch(err){}
+    try {
+      delete $opts.__preParsed
+    } catch (err) {
+    }
     const vetted = parseArgs(args);
     const [desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
@@ -116,8 +119,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       console.log('\n');
     }
 
-    if(!sumanOpts.force && !_suman.inBrowser){
-      if (opts.skip  && !sumanOpts.allow_skip) {
+    if (!sumanOpts.force && !_suman.inBrowser) {
+      if (opts.skip && !sumanOpts.allow_skip) {
         throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
       }
 
@@ -125,7 +128,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
         throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
       }
     }
-
 
     if (opts.skip || zuite.skipped || (!opts.only && suman.describeOnlyIsTriggered)) {
       suman.numBlocksSkipped++;
@@ -135,7 +137,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     // note: zuite is the parent of suite; aka, suite is the child of zuite
     const suite = new TestBlock({desc, title: desc, opts});
 
-    if(zuite.fixed){
+    if (zuite.fixed) {
       suite.fixed = true;
     }
 
@@ -153,8 +155,14 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     Object.defineProperty(suite, 'parent', {value: zuite, writable: false});
     zuite.getChildren().push(suite);
     allDescribeBlocks.push(suite);
-    const deps = fnArgs(cb);
 
+    if (typeof cb !== 'function') {
+      throw new Error(
+        'Usage error: The following value was expected to be a function but is not => ' + util.inspect(cb)
+      );
+    }
+
+    const deps = fnArgs(cb);
 
     suite._run = function (val: any, callback: Function) {
 
@@ -198,6 +206,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
             process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
             return;
           }
+
+          debugger;
 
           process.nextTick(function () {
 
@@ -291,7 +301,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                 }
 
               };
-              
+
               cb.apply(null, $deps);
             }
 

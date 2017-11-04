@@ -6,6 +6,18 @@ three SO profiles:
 
 ///
 
+if function parameter name is in $ioc, but is listed explicity, then we should throw to let the user know.
+
+e.g.   describe('x', function(runMyQuestionsPage){});
+
+ when runMyQuestionsPage is on $ioc, instead of available.
+
+//
+
+  perhaps only --force should allow us to do optimistic ignoring of missing injectable deps.
+
+//
+
 node core will backport NODE_OPTIONS =>
 https://github.com/nodejs/help/issues/925
 https://github.com/nodejs/node/pull/16263

@@ -53,6 +53,8 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
       //   }
       // }
 
+      debugger;
+
       const lowerCaseKey = String(key).toLowerCase();
 
 

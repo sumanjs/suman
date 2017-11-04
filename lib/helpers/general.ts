@@ -524,7 +524,7 @@ export const vetPaths = function (paths: Array<string>): void {
 let fatalRequestReplyCallable = true;
 export const fatalRequestReply = function (obj: Object, $cb: Function) {
 
-   _suman.log.error('Fatal request reply message => ', obj);
+   _suman.log.error('Fatal request reply message => ', util.inspect(obj));
 
    try{
      if(window.__karma__){
