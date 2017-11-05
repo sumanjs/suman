@@ -170,10 +170,10 @@ export const execSuite = function (suman: ISuman): Function {
 
       d.run(function acquireIocDepsDomainRun() {
 
-        acquireIocDeps(suman, iocDeps, suite, function (err: IPseudoError, iocDeps: IInjectionDeps) {
+        acquireIocDeps(suman, iocDeps, suite, {}, function (err: IPseudoError, iocDeps: IInjectionDeps) {
 
           if (err) {
-            _suman.log.error('error acquiring IoC deps:', err.stack || err);
+            _suman.log.error('Error acquiring IoC deps:', err.stack || err);
             return process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
 

@@ -103,6 +103,7 @@ export class Suman {
     this.numBlocksSkipped = 0;
     this.force = obj.force || false;
     this.testBlockMethodCache = new Map();
+    this.iocPromiseContainer = {};
 
     let q: any;
 

@@ -87,12 +87,12 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     const [desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
     handleBadOptions(opts);
-    let iocDepNames : Array<string>;
+    let iocDepNames: Array<string>;
 
     if (arrayDeps.length > 0) {
       iocDepNames = evalOptions(arrayDeps, opts);
     }
-    else{
+    else {
       iocDepNames = [];
     }
 
@@ -203,7 +203,11 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
           writable: false
         });
 
-        acquireIocDeps(suman, iocDepNames, suite, function (err: Error, iocDeps: IInjectionDeps) {
+        const iocDepsParent = Object.create(zuite.ioc);
+
+        debugger;
+
+        acquireIocDeps(suman, iocDepNames, suite, iocDepsParent, function (err: Error, iocDeps: IInjectionDeps) {
 
           if (err) {
             _suman.log.error(err.stack || err);

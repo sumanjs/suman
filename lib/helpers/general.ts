@@ -259,12 +259,11 @@ export const asyncHelper =
 
 export const implementationError = function (err: IPseudoError, isThrow: boolean) {
   if (err) {
-    const $err = new Error(' => Suman implementation error => Please report!'
-      + '\n' + (err.stack || err));
-    _suman.log.error($err.stack);
-    _suman.writeTestError($err.stack);
+    err = new Error(' => Suman implementation error => Please report!' + '\n' + (err.stack || err));
+    _suman.log.error(err.stack);
+    _suman.writeTestError(err.stack);
     if (isThrow) {
-      throw $err;
+      throw err;
     }
   }
 };
@@ -314,7 +313,7 @@ export const loadSumanConfig = function (configPath: string, opts: Object) {
 
   }
 
-  return _suman.sumanConfig = (_suman.sumanConfig || sumanConfig);
+  return _suman.sumanConfig = _suman.sumanConfig || sumanConfig;
 };
 
 let resolvedSharedDirs = null as any;
@@ -710,7 +709,7 @@ export const parseArgs = function (args: Array<any>, fnIsRequired?: boolean) {
 
 export const evalOptions = function (arrayDeps: Array<IAllOpts>, opts: IAllOpts) {
 
-  const iocDeps : Array<string> = [];
+  const iocDeps: Array<string> = [];
   const preVal = arrayDeps.filter(function (a: IAllOpts) {
     if (typeof a === 'string') {
       if (/.*:.*/.test(a)) {

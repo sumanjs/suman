@@ -42,149 +42,128 @@ interface IDependenciesObject {
   [key: string]: Function;
 }
 
-/////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const thisVal =
-  {'message': 'A message to you, Suman User! dont use "this" here, instead => http://sumanjs.org/patterns.'};
+const noKeyExistsPlaceholder = '[suman reserved - no ioc match]';
+const thisVal = {'message': `Suman users: don't use "this" here, instead => http://sumanjs.org/patterns.`};
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const acquireIocDeps = function (suman: ISuman, iocDepNames: Array<string>, suite: ITestSuite, cb: Function) {
+export const acquireIocDeps =
+  function (suman: ISuman, iocDepNames: Array<string>, suite: ITestSuite, obj: IInjectionDeps, cb: Function) {
 
-  // if (suite.parent) {
-  //   // only the root suite can receive IoC injected deps
-  //   // non-root suites can get injected deps via inject
-  //   assert(!suite.isRootSuite, 'Suman implementation error => we expect a non-root suite here. Please report.');
-  //
-  //   let ret = deps.reduce(function (a, b) {
-  //     a[b] = undefined;
-  //     return a;
-  //   }, {});
-  //
-  //   return process.nextTick(cb, null, ret);
-  // }
+    const iocPromiseContainer = suman.iocPromiseContainer;
+    let dependencies: IDependenciesObject = null;
 
-  const iocPromiseContainer: IIocPromiseContainer = {};
-  let dependencies: IDependenciesObject = null;
-
-  try {
-    let sumanPaths = resolveSharedDirs(_suman.sumanConfig, _suman.projectRoot, _suman.sumanOpts);
-    let {iocFn} = loadSharedObjects(sumanPaths, _suman.projectRoot, _suman.sumanOpts);
-    let iocFnArgs = fnArgs(iocFn);
-    let getiocFnDeps = makeIocInjector(suman.iocData, null, null);
-    let iocFnDeps = getiocFnDeps(iocFnArgs);
-    let iocRet = iocFn.apply(null, iocFnDeps);
-    assert(su.isObject(iocRet.dependencies),
-      ' => suman.ioc.js must export a function which returns an object with a dependencies property.');
-    dependencies = iocRet.dependencies;
-  }
-  catch (err) {
-    _suman.log.error(err.stack || err);
-    _suman.log.error('despite the error, suman will continue optimistically.');
-    dependencies = {};
-  }
-
-
-  const obj: IInjectionDeps = {};
-
-  iocDepNames.forEach(dep => {
-
-    if (includes(constants.SUMAN_HARD_LIST, dep && String(dep)) && String(dep) in dependencies) {
-      throw new Error('Warning: you added a IoC dependency for "' + dep +
-        '" but this is a reserved internal Suman dependency injection value.');
+    try {
+      let sumanPaths = resolveSharedDirs(_suman.sumanConfig, _suman.projectRoot, _suman.sumanOpts);
+      let {iocFn} = loadSharedObjects(sumanPaths, _suman.projectRoot, _suman.sumanOpts);
+      let iocFnArgs = fnArgs(iocFn);
+      let getiocFnDeps = makeIocInjector(suman.iocData, null, null);
+      let iocFnDeps = getiocFnDeps(iocFnArgs);
+      let iocRet = iocFn.apply(null, iocFnDeps);
+      assert(su.isObject(iocRet.dependencies),
+        ' => suman.ioc.js must export a function which returns an object with a dependencies property.');
+      dependencies = iocRet.dependencies;
+    }
+    catch (err) {
+      _suman.log.error(err.stack || err);
+      _suman.log.error('despite the error, suman will continue optimistically.');
+      dependencies = {};
     }
 
-    if (dep in dependencies) {
-      obj[dep] = dependencies[dep]; //copy subset of iocConfig to test suite
+    iocDepNames.forEach(dep => {
 
-      if (!obj[dep] && !includes(constants.CORE_MODULE_LIST, String(dep)) &&
-        !includes(constants.SUMAN_HARD_LIST, String(dep))) {
+      if (dep in dependencies) {
+        let d = obj[dep] = dependencies[dep]; //copy subset of iocConfig to test suite
 
-        let deps = Object.keys(dependencies || {}).map(function (item) {
-          return ' "' + item + '" ';
-        });
+        if (!d) {
 
-        _suman.writeTestError(new Error('The following desired dependency is not in your suman.ioc.js file: "' + dep + '"\n' +
-          ' => ...your available dependencies are: [' + deps + ']').stack);
-      }
-    }
-    else {
+          let deps = Object.keys(dependencies || {}).map(function (item) {
+            return ' "' + item + '" ';
+          });
 
-      // this dep name is not in the iocConfiguration
-      obj[dep] = '[suman reserved - no ioc match]';
-    }
-
-  });
-
-
-  const promises = Object.keys(obj).map(function (key) {
-
-    if (iocPromiseContainer[key]) {
-      return iocPromiseContainer[key];
-    }
-
-    return iocPromiseContainer[key] = new Promise(function (resolve, reject) {
-
-      const fn = obj[key];
-
-      if (fn === '[suman reserved - no ioc match]') {
-        // most likely a core dep (assert, http, etc)
-        // obj[key] = undefined;
-        resolve();
-      }
-      else if (typeof fn !== 'function') {
-        reject(new Error('Value in IOC object was not a function for corresponding key => ' +
-          '"' + key + '", value => "' + util.inspect(fn) + '"'));
-      }
-      else if (fn.length > 1) {
-        reject(new Error(chalk.red(' => Suman usage error => suman.ioc.js functions take 0 or 1 arguments, ' +
-          'with the single argument being a callback function.')));
-      }
-      else if (fn.length > 0) {
-        let args = fnArgs(fn);
-        let str = fn.toString();
-        let matches = str.match(new RegExp(args[1], 'g')) || [];
-        if (matches.length < 2) {
-          //there should be at least two instances of the 'cb' string in the function,
-          // one in the parameters array, the other in the fn body.
-          throw new Error('Callback in your function was not present => ' + str);
+          _suman.writeTestError(`Warning: the following desired dependency is not in your suman.ioc.js file => '${dep}'`);
+          _suman.writeTestError(' => ...your available dependencies are: [' + deps + ']');
+          obj[dep] = noKeyExistsPlaceholder;
         }
-
-        fn.call(thisVal, function (err: IPseudoError, val: any) {
-          err ? reject(err) : resolve(val);
-        });
       }
       else {
-        Promise.resolve(fn.call(thisVal)).then(resolve, reject);
+
+        _suman.log.warning(`warning: the following dep is not in your suman.ico.js configuration '${dep}'`);
+        obj[dep] = noKeyExistsPlaceholder;
       }
 
     });
 
-  });
+    const promises = Object.keys(obj).map(function (key) {
 
-  Promise.all(promises).then(function (deps) {
+      if (iocPromiseContainer[key]) {
+        return iocPromiseContainer[key];
+      }
 
-      Object.keys(obj).forEach(function (key, index) {
-        obj[key] = deps[index];
+      return iocPromiseContainer[key] = new Promise(function (resolve, reject) {
+
+        const fn = obj[key];
+
+        if (fn === '[suman reserved - no ioc match]') {
+          // this means that no key existed in suman.ioc.js
+          resolve();
+        }
+        else if (typeof fn !== 'function') {
+          reject(new Error('Value in IOC object was not a function for corresponding key => ' +
+            '"' + key + '", value => "' + util.inspect(fn) + '"'));
+        }
+        else if (fn.length > 1) {
+          reject(new Error(chalk.red(' => Suman usage error => suman.ioc.js functions take 0 or 1 arguments, ' +
+            'with the single argument being a callback function.')));
+        }
+        else if (fn.length > 0) {
+          let args = fnArgs(fn);
+          let str = fn.toString();
+          let matches = str.match(new RegExp(args[1], 'g')) || [];
+          if (matches.length < 2) {
+            //there should be at least two instances of the 'cb' string in the function,
+            // one in the parameters array, the other in the fn body.
+            throw new Error('Callback in your function was not present => ' + str);
+          }
+
+          fn.call(thisVal, function (err: IPseudoError, val: any) {
+            err ? reject(err) : resolve(val);
+          });
+        }
+        else {
+          Promise.resolve(fn.call(thisVal)).then(resolve, reject);
+        }
+
       });
-      //want to exit out of current tick for purposes of domains
-      try {
-        process.domain && process.domain.exit();
-      }
-      finally {
-        process.nextTick(cb, null, obj);
-      }
-
-    },
-    function (err) {
-      _suman.log.error('Error acquiring ioc dependency:', err.stack || err);
-      //want to exit out of current tick for purposes of domains
-      try {
-        process.domain && process.domain.exit();
-      }
-      finally {
-        process.nextTick(cb, err, {});
-      }
 
     });
-};
+
+    Promise.all(promises).then(function (deps) {
+
+        Object.keys(obj).forEach(function (key, index) {
+          obj[key] = deps[index];
+        });
+
+        try {
+          process.domain && process.domain.exit();
+        }
+        finally {
+          //want to exit out of current tick for purposes of domains
+          process.nextTick(cb, null, obj);
+        }
+
+      },
+      function (err) {
+        _suman.log.error('Error acquiring ioc dependency:', err.stack || err);
+        try {
+          process.domain && process.domain.exit();
+        }
+        finally {
+          //want to exit out of current tick for purposes of domains
+          process.nextTick(cb, err, {});
+        }
+
+      });
+  };

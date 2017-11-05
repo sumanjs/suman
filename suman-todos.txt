@@ -6,8 +6,16 @@ three SO profiles:
 
 ///
 
+ skip and only do not work creates - Test.create(['bat', 'suit', {only: true},
+
+///
+
  suman-shell => give it a "find" option, it can find all the runnable tests, and then the user just
  scrolls to the test they want to run! huge option for suman-shell!!!
+
+///
+
+ if beforeEach hook fails -> we do not exit, but we should mark the test as failed.
 
 ///
 

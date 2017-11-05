@@ -2,6 +2,12 @@
 module.exports = function ($data, $core, $deps, $ioc) {
     return {
         dependencies: {
+            'bat': function () {
+                return 'BAT';
+            },
+            'suit': function () {
+                return 'SUIT';
+            },
             'aaa': function () {
                 return '3a';
             },
