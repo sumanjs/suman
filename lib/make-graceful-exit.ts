@@ -50,7 +50,7 @@ export const makeGracefulExit = function (suman: ISuman) {
       _suman.log.error('"uncaughtException" event occurred => halting program.');
       if (errs.length) {
         errs.filter(e => e).forEach(function (e) {
-          console.error('Most likely unrelated error => Graceful exit error => ' + su.getCleanErrorString(e));
+          _suman.log.error(chalk.red('Most likely unrelated error => Graceful exit error => \n') + su.getCleanErrorString(e));
         });
       }
       // do not continue, return here?

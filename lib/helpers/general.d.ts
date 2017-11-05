@@ -29,4 +29,4 @@ export declare const parseArgs: (args: any[], fnIsRequired?: boolean) => {
     arrayDeps: IAllOpts[];
     args: any[];
 };
-export declare const evalOptions: (arrayDeps: IAllOpts[], opts: IAllOpts) => void;
+export declare const evalOptions: (arrayDeps: IAllOpts[], opts: IAllOpts) => string[];

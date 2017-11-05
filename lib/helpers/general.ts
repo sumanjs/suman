@@ -3,7 +3,7 @@
 //dts
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 import {ISumanConfig, ISumanOpts} from "suman-types/dts/global";
-import {IAllOpts,ITestSuite} from "suman-types/dts/test-suite";
+import {IAllOpts, ITestSuite} from "suman-types/dts/test-suite";
 import {ISuman, Suman} from "../suman";
 import {ISumanServerInfo} from "suman-types/dts/suman";
 
@@ -147,8 +147,8 @@ export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
           item.completionHook();
         }
 
-        if(item && item.results){
-          if(Number.isInteger(item.results.failures) && item.results.failures > 0){
+        if (item && item.results) {
+          if (Number.isInteger(item.results.failures) && item.results.failures > 0) {
             exitCode = 56;
           }
         }
@@ -524,16 +524,27 @@ export const vetPaths = function (paths: Array<string>): void {
 let fatalRequestReplyCallable = true;
 export const fatalRequestReply = function (obj: Object, $cb: Function) {
 
-   _suman.log.error('Fatal request reply message => ', util.inspect(obj));
+  try {
+    if (obj && obj.data && obj.data.msg) {
+      _suman.log.error('Fatal request reply message => ', obj.data.msg);
+    }
+    else {
+      _suman.log.error('Fatal request reply message => ', obj && util.inspect(obj.data || obj));
+    }
 
-   try{
-     if(window.__karma__){
-       return process.nextTick($cb);
-     }
-   }
-   catch(err){
+  }
+  catch (err) {
+    _suman.log.error(err.message);
+  }
 
-   }
+  try {
+    if (window.__karma__) {
+      return process.nextTick($cb);
+    }
+  }
+  catch (err) {
+
+  }
 
   if (fatalRequestReplyCallable) {
     fatalRequestReplyCallable = false;
@@ -699,14 +710,18 @@ export const parseArgs = function (args: Array<any>, fnIsRequired?: boolean) {
 
 export const evalOptions = function (arrayDeps: Array<IAllOpts>, opts: IAllOpts) {
 
+  const iocDeps : Array<string> = [];
   const preVal = arrayDeps.filter(function (a: IAllOpts) {
     if (typeof a === 'string') {
       if (/.*:.*/.test(a)) {
         return a;
       }
       if (/:/.test(a)) {
-        _suman.log.warning('Looks like you have a bad value in your options as strings =>', util.inspect(arrayDeps))
+        _suman.log.warning('Looks like you have a bad value in your options as strings =>', util.inspect(arrayDeps));
+        return;
       }
+      // this is the list of iocValues we should inject
+      iocDeps.push(a);
     }
     else if (su.isObject(a)) {
       Object.assign(opts, a);
@@ -730,6 +745,8 @@ export const evalOptions = function (arrayDeps: Array<IAllOpts>, opts: IAllOpts)
     _suman.log.error(err.stack || err);
     console.error('\n');
   }
+
+  return iocDeps;
 
 };
 

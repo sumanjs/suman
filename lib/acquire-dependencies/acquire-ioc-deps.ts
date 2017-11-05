@@ -20,7 +20,6 @@ import cp = require('child_process');
 //npm
 import chalk = require('chalk');
 import su from 'suman-utils';
-
 const includes = require('lodash.includes');
 const fnArgs = require('function-arguments');
 
@@ -50,27 +49,27 @@ const thisVal =
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suite: ITestSuite, cb: Function) {
+export const acquireIocDeps = function (suman: ISuman, iocDepNames: Array<string>, suite: ITestSuite, cb: Function) {
 
-  if (suite.parent) {
-    // only the root suite can receive IoC injected deps
-    // non-root suites can get injected deps via inject
-    assert(!suite.isRootSuite, 'Suman implementation error => we expect a non-root suite here. Please report.');
-
-    let ret = deps.reduce(function (a, b) {
-      a[b] = undefined;
-      return a;
-    }, {});
-
-    return process.nextTick(cb, null, ret);
-  }
+  // if (suite.parent) {
+  //   // only the root suite can receive IoC injected deps
+  //   // non-root suites can get injected deps via inject
+  //   assert(!suite.isRootSuite, 'Suman implementation error => we expect a non-root suite here. Please report.');
+  //
+  //   let ret = deps.reduce(function (a, b) {
+  //     a[b] = undefined;
+  //     return a;
+  //   }, {});
+  //
+  //   return process.nextTick(cb, null, ret);
+  // }
 
   const iocPromiseContainer: IIocPromiseContainer = {};
   let dependencies: IDependenciesObject = null;
 
   try {
-    const sumanPaths = resolveSharedDirs(_suman.sumanConfig, _suman.projectRoot, _suman.sumanOpts);
-    const {iocFn} = loadSharedObjects(sumanPaths, _suman.projectRoot, _suman.sumanOpts);
+    let sumanPaths = resolveSharedDirs(_suman.sumanConfig, _suman.projectRoot, _suman.sumanOpts);
+    let {iocFn} = loadSharedObjects(sumanPaths, _suman.projectRoot, _suman.sumanOpts);
     let iocFnArgs = fnArgs(iocFn);
     let getiocFnDeps = makeIocInjector(suman.iocData, null, null);
     let iocFnDeps = getiocFnDeps(iocFnArgs);
@@ -88,15 +87,11 @@ export const acquireIocDeps = function (suman: ISuman, deps: Array<string>, suit
 
   const obj: IInjectionDeps = {};
 
-  deps.forEach(dep => {
+  iocDepNames.forEach(dep => {
 
     if (includes(constants.SUMAN_HARD_LIST, dep && String(dep)) && String(dep) in dependencies) {
       throw new Error('Warning: you added a IoC dependency for "' + dep +
         '" but this is a reserved internal Suman dependency injection value.');
-    }
-
-    if (suite.parent) {
-      throw new Error('Suman implementation error, the root suite should not reach this point.')
     }
 
     if (dep in dependencies) {

@@ -57,7 +57,7 @@ export const execSuite = function (suman: ISuman): Function {
   const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
   const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
   const TestBlock = makeTestSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
-  const blockInjector = makeSumanMethods(suman, TestBlock, gracefulExit, notifyParent);
+  const createInjector = makeSumanMethods(suman, TestBlock, gracefulExit, notifyParent);
   const allDescribeBlocks = suman.allDescribeBlocks;
 
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -69,13 +69,17 @@ export const execSuite = function (suman: ISuman): Function {
     const vetted = parseArgs(args);
     const [$desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
+    let iocDeps: Array<string>;
 
     assert(opts.__preParsed, 'Suman implementation error. ' +
       'Options should be pre-parsed at this point in the program. Please report.');
     delete opts.__preParsed;
 
-    if (arrayDeps.length > 0) {
-      evalOptions(arrayDeps, opts);
+    if (arrayDeps && arrayDeps.length > 0) {
+      iocDeps = evalOptions(arrayDeps, opts);
+    }
+    else{
+      iocDeps = [];
     }
 
     const desc = ($desc === '[suman-placeholder]') ? suman.slicedFileName : $desc;
@@ -103,6 +107,7 @@ export const execSuite = function (suman: ISuman): Function {
       });
 
     }
+
 
     const deps = suman.deps = fnArgs(cb);
     const delayOptionElected = opts.delay;
@@ -142,9 +147,7 @@ export const execSuite = function (suman: ISuman): Function {
     }
 
     if (deps.length < 1) {
-      process.nextTick(function () {
-        startWholeShebang([]);
-      });
+      process.nextTick(startWholeShebang, null, []);
     }
     else {
 
@@ -167,20 +170,22 @@ export const execSuite = function (suman: ISuman): Function {
 
       d.run(function acquireIocDepsDomainRun() {
 
-        acquireIocDeps(suman, deps, suite, function (err: IPseudoError, depz: IInjectionDeps) {
+        acquireIocDeps(suman, iocDeps, suite, function (err: IPseudoError, iocDeps: IInjectionDeps) {
 
           if (err) {
             _suman.log.error('error acquiring IoC deps:', err.stack || err);
             return process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
 
-          let $deps: Array<any> = blockInjector(suite, null, depz);
+          suite.ioc = iocDeps;
+
+          let mappedDeps: Array<any> = createInjector(suite, deps);
 
           try {
             d.exit();
           }
           finally {
-            process.nextTick(startWholeShebang, $deps);
+            process.nextTick(startWholeShebang, mappedDeps);
           }
 
         });

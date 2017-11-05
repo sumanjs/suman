@@ -35,7 +35,8 @@ const pragmatik = require('pragmatik');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-import {makeBlockInjector} from '../injection/make-block-injector';
+import {makeBlockInjector} from '../injection/block-injector';
+import {makeCreateInjector} from '../injection/create-injector';
 
 /////////////////////////////////////////////////////////////////////
 
@@ -169,7 +170,10 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBas
 
   const m = {} as any;
 
+  suman.containerProxy = m;
+
   const blockInjector = makeBlockInjector(suman, m);
+  const createInjector = makeCreateInjector(suman, m);
   const inject: IInjectFn = makeInject(suman);
   const before: IBeforeFn = makeBefore(suman);
   const after: IAfterFn = makeAfter(suman);
@@ -191,6 +195,6 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBas
   m.aftereach = m.teardowntest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
   m.afterallparenthooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
 
-  return blockInjector;
+  return createInjector
 
 };

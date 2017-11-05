@@ -87,9 +87,13 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     const [desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
     handleBadOptions(opts);
+    let iocDepNames : Array<string>;
 
     if (arrayDeps.length > 0) {
-      evalOptions(arrayDeps, opts);
+      iocDepNames = evalOptions(arrayDeps, opts);
+    }
+    else{
+      iocDepNames = [];
     }
 
     const allDescribeBlocks = suman.allDescribeBlocks;
@@ -121,11 +125,11 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
     if (!sumanOpts.force && !_suman.inBrowser) {
       if (opts.skip && !sumanOpts.allow_skip) {
-        throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
+        throw new Error('Test block was declared as "skipped" but "--allow-skip" / "--force" option not specified.');
       }
 
       if (opts.only && !sumanOpts.allow_only) {
-        throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
+        throw new Error('Test block was declared as "only" but "--allow-only" / "--force" option not specified.');
       }
     }
 
@@ -199,7 +203,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
           writable: false
         });
 
-        acquireIocDeps(suman, deps, suite, function (err: Error, depz: IInjectionDeps) {
+        acquireIocDeps(suman, iocDepNames, suite, function (err: Error, iocDeps: IInjectionDeps) {
 
           if (err) {
             _suman.log.error(err.stack || err);
@@ -207,14 +211,14 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
             return;
           }
 
-          debugger;
+          suite.ioc = iocDeps;
 
           process.nextTick(function () {
 
             let $deps;
 
             try {
-              $deps = blockInjector(suite, zuite, depz);
+              $deps = blockInjector(suite, zuite, deps);
             }
             catch (err) {
               return gracefulExit(err);

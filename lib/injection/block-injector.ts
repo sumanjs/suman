@@ -28,7 +28,6 @@ const includes = require('lodash.includes');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getProjectModule, lastDitchRequire, getCoreAndDeps} from './helpers';
 
-
 /*///////////// => what it do ///////////////////////////////////////////////////////////////////
 
  this module is responsible for +++synchronously+++ injecting values;
@@ -39,29 +38,13 @@ import {getProjectModule, lastDitchRequire, getCoreAndDeps} from './helpers';
 
 export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
-  return function (suite: ITestSuite, parent: ITestSuite, depsObj: IInjectionDeps): Array<any> {
+  return function blockInjector(suite: ITestSuite, parent: ITestSuite, names: Array<string>): Array<any> {
 
     const sumanOpts = suman.opts;
 
-    return Object.keys(depsObj || {}).map(key => {
-
-      // console.log('depsObj => ',util.inspect(depsObj));
-
-      // if (key in depsObj) {
-      //   if (depsObj[key] !== '[suman reserved - no ioc match]') {
-      //     return depsObj[key];
-      //   }
-      // }
-
-      debugger;
+    return names.map(key => {
 
       const lowerCaseKey = String(key).toLowerCase();
-
-
-      if (depsObj[key] && depsObj[key] !== '[suman reserved - no ioc match]') {
-        return depsObj[key];
-      }
-
       switch (lowerCaseKey) {
 
         case '$args':
@@ -115,12 +98,10 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
           return _suman.userData;
       }
 
-      if (parent) {
-        let val;
-        if (val = parent.getInjectedValue(key)) {
-          // note! if the injected value is falsy, it will get passed over
-          return val;
-        }
+      let val;
+      if (val = parent.getInjectedValue(key)) {
+        // note! if the injected value is falsy, it will get passed over
+        return val;
       }
 
       return lastDitchRequire(key, '<block-injector>');

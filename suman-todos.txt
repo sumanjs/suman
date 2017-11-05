@@ -6,6 +6,11 @@ three SO profiles:
 
 ///
 
+ suman-shell => give it a "find" option, it can find all the runnable tests, and then the user just
+ scrolls to the test they want to run! huge option for suman-shell!!!
+
+///
+
 if function parameter name is in $ioc, but is listed explicity, then we should throw to let the user know.
 
 e.g.   describe('x', function(runMyQuestionsPage){});
@@ -17,6 +22,18 @@ e.g.   describe('x', function(runMyQuestionsPage){});
   perhaps only --force should allow us to do optimistic ignoring of missing injectable deps.
 
 //
+
+ use $ioc like this:
+
+  describe('hiya', ['age', b => {
+
+     console.log(b.ioc.age); // 3;
+
+   }]);
+
+
+
+///
 
 node core will backport NODE_OPTIONS =>
 https://github.com/nodejs/help/issues/925

@@ -97,7 +97,7 @@ export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
         events: opts.events,
         throws: opts.throws,
         planCountExpected: opts.plan,
-        fatal: !(opts.fatal === false),
+        fatal: opts.fatal === true, // default is that fatal is false for beforeEach/afterEach hooks
         fn: fn,
         type: 'afterEach/teardownTest',
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')

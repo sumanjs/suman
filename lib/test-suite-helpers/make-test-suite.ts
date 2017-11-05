@@ -35,11 +35,9 @@ import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import {makeStartSuite} from './make-start-suite';
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 type ITestSuiteConstructor = (obj: ITestSuiteMakerOpts) => void;
-
 
 class TestBlockBase {
   // public
@@ -86,19 +84,17 @@ class TestBlockBase {
   protected getAftersLast: Function;
 }
 
-
 const makeRunChild = function (val: any) {
   return function runChild(child: ITestSuite, cb: Function) {
     child._run(val, cb);
   }
 };
 
-
 export interface ISumanSymbols {
   [key: string]: symbol
 }
 
-export const TestBlockSymbols : ISumanSymbols = {
+export const TestBlockSymbols: ISumanSymbols = {
 
   bindExtras: Symbol('bindExtras'),
   getInjections: Symbol('bindExtras'),
@@ -119,7 +115,7 @@ export const TestBlockSymbols : ISumanSymbols = {
 
 let id = 1;
 
-const incr = function (){
+const incr = function () {
   // test suite incrementer
   return id++;
 };
@@ -136,16 +132,21 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
     constructor(obj: ITestSuiteMakerOpts) {
 
       super();
-
       const sumanOpts = _suman.sumanOpts;
 
       this.opts = obj.opts;
       this.testId = incr();
       this.isSetupComplete = false;
+
+
+      // user can access container methods if they need to => b.m.describe()
+      this.m = suman.containerProxy;
+
       let parallel = obj.opts.parallel;
       let mode = obj.opts.mode;
       let fixed = this.fixed = (this.opts.fixed || false);
       this.parallel = (sumanOpts.parallel && !fixed) || (!sumanOpts.series && (parallel === true || mode === 'parallel'));
+
       this.skipped = this.opts.skip || false;
       this.only = this.opts.only || false;
       this.filename = suman.filename;
@@ -172,11 +173,11 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
 
     }
 
-    set(k: any,  v: any){
-      return this.shared.set(k,v);
+    set(k: any, v: any) {
+      return this.shared.set(k, v);
     }
 
-    get(k: any){
+    get(k: any) {
       return this.shared.get(k);
     }
 
