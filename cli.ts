@@ -127,17 +127,17 @@ require('./lib/patches/all');
 import {loadReporters} from './lib/helpers/load-reporters';
 import {constants} from './config/suman-constants';
 import {resolveSharedDirs, loadSharedObjects} from "./lib/helpers/general";
-const weAreDebugging = su.weAreDebugging;
 
-if (weAreDebugging) {
+
+if (su.weAreDebugging) {
   _suman.log.info(' => Suman is in debug mode (we are debugging).');
   _suman.log.info(' => Process PID => ', process.pid);
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-debug([' => Suman started with the following command:', process.argv]);
-debug([' => $NODE_PATH is as follows:', process.env['NODE_PATH']]);
+_suman.log.info(chalk.magenta(' => Suman started with the following command:'), chalk.bold(util.inspect(process.argv));
+_suman.log.info(' => $NODE_PATH is as follows:', process.env['NODE_PATH']);
 
 //////////////////////////////////////////////////////////////////////////
 

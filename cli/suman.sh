@@ -7,14 +7,8 @@ fi
 #. shared-functions.sh # source this shared file
 
 if test "$#" -eq "0"; then
-    if [[ "${SUMAN_WATCH_TEST_RUN}" == "yes" ]]; then
-        echo "Cannot run suman-shell from a watch process.";
-        echo "Cannot run suman-shell from a watch process." >&2 ;
-        exit 1;
-    else
-        exec "$(dirname "$0")/suman-shell"
-        exit;
-    fi
+    exec "$(dirname "$0")/suman-shell"
+    exit;
 fi
 
 echo " [suman] Original path of Suman executable => \"$0\""
@@ -28,7 +22,7 @@ NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin"
 
 if [[ "${LOCAL_SUMAN_ALREADY_FOUND}" == "yes" ]]; then
     # we know that this directory contains the local version of suman we want to use
-    echo "local suman version already found.";
+    echo " [suman] local suman version already found.";
     NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE="yes" node "${X}/cli.js" "$@"
 else
     # we are probably in the global install space, so let's find the local installation given pwd/cwd
@@ -36,8 +30,8 @@ else
 
     if [[ -z "$LOCAL_SUMAN" ]]; then
         # no local version found, so we fallback on the version in this directory, global or not
-        echo " => No local Suman executable could be found, given the current directory => $PWD"
-        echo " => Attempting to run installed version of Suman here => '${X}/cli.js'"
+        echo " [suman] => No local Suman executable could be found, given the current directory => $PWD"
+        echo " [suman] => Attempting to run installed version of Suman here => '${X}/cli.js'"
         GLOBAL_MODULES="${suman_global_npm_modules_path:-"$(npm root -g)"}"
         NODE_PATH="${NEW_NODE_PATH}":"${GLOBAL_MODULES}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE="yes" node "${X}/cli.js" "$@"
 
