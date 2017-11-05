@@ -118,7 +118,6 @@ export class Suman {
         }
 
         // note: we have to create the queue after loading this file, so that _suman.sumanConfig is defined.
-
         if (sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT &&
           (envConfig = Number(sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
           assert(Number.isInteger(envConfig), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');

@@ -6,6 +6,10 @@ three SO profiles:
 
 ///
 
+suman-shell closes terminal window
+
+///
+
  skip and only do not work creates - Test.create(['bat', 'suit', {only: true},
 
 ///
