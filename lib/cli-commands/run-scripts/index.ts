@@ -40,8 +40,8 @@ export const run = function (sumanConfig: ISumanConfig, opts: ISumanOpts) {
   }
   catch (err) {
     if(sumanConfig['scripts']){
-      _suman.log('Here are the available scripts in your suman.conf.js file:');
-      _suman.log(util.inspect(sumanConfig['scripts']));
+      _suman.log.info('Here are the available scripts in your suman.conf.js file:');
+      _suman.log.info(util.inspect(sumanConfig['scripts']));
     }
     throw err;
   }
@@ -51,7 +51,7 @@ export const run = function (sumanConfig: ISumanConfig, opts: ISumanOpts) {
   k.stderr.setEncoding('utf8');
 
   console.log('\n');
-  _suman.log(`Your script with key '${chalk.magenta(scriptKey)}' is now running, and its output follows:\n`);
+  _suman.log.info(`Your script with key '${chalk.magenta(scriptKey)}' is now running, and its output follows:\n`);
 
   k.stdout.pipe(pt(chalk.blue(' [suman script stdout]: '))).pipe(process.stdout);
   k.stderr.pipe(pt(chalk.red(' [suman script stderr]: '))).pipe(process.stderr);
@@ -66,10 +66,10 @@ export const run = function (sumanConfig: ISumanConfig, opts: ISumanOpts) {
     console.error('\n');
 
     if (code > 0) {
-      _suman.logError(`script with key '${scriptKey}' exited with code ${code}`);
+      _suman.log.error(`script with key '${scriptKey}' exited with code ${code}`);
     }
     else {
-      _suman.log(`script with key '${scriptKey}' exited with code ${code}`);
+      _suman.log.info(`script with key '${scriptKey}' exited with code ${code}`);
     }
 
     process.exit(code);

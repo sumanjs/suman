@@ -30,15 +30,14 @@ import {VamootProxy} from 'vamoot';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const rules = require('../helpers/handle-varargs');
+import rules = require('../helpers/handle-varargs');
 import {constants} from '../../config/suman-constants';
 import {acquireIocDeps} from '../acquire-dependencies/acquire-ioc-deps';
 import {IInjectionDeps} from "suman-types/dts/injection";
-const {handleSetupComplete} = require('../handle-setup-complete');
-import {makeBlockInjector} from '../injection/make-block-injector';
+import {handleSetupComplete} from '../helpers/general';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
-import {parseArgs} from '../helpers/parse-pragmatik-args';
-import {evalOptions} from '../helpers/eval-options';
+import {parseArgs} from '../helpers/general';
+import {evalOptions} from '../helpers/general';
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -73,21 +72,28 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
   return function ($$desc: string, $opts: IDescribeOpts) {
 
-    const {sumanOpts} = _suman;
-    const zuite = suman.ctx;
+    const sumanOpts = suman.opts, zuite = suman.ctx;
     handleSetupComplete(zuite, 'describe');
 
     const args = pragmatik.parse(arguments, rules.blockSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
+    try {
+      delete $opts.__preParsed
+    } catch (err) {
+    }
     const vetted = parseArgs(args);
     const [desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
     handleBadOptions(opts);
+    let iocDepNames: Array<string>;
 
     if (arrayDeps.length > 0) {
-      evalOptions(arrayDeps, opts);
+      iocDepNames = evalOptions(arrayDeps, opts);
+    }
+    else {
+      iocDepNames = [];
     }
 
     const allDescribeBlocks = suman.allDescribeBlocks;
@@ -96,7 +102,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
     if (isGenerator || isAsync) { //TODO: need to check for generators or async/await as well
       const msg = constants.ERROR_MESSAGES.INVALID_FUNCTION_TYPE_USAGE;
-      console.log('\n\n' + msg + '\n\n');
+      console.log('\n' + msg + '\n');
       console.error(new Error(' => Suman usage error => invalid arrow/generator function usage.').stack);
       process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
       return;
@@ -104,9 +110,9 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
     if (zuite.parallel && opts.parallel === false) {
       console.error('\n');
-      _suman.logWarning('warning => parent block ("' + zuite.desc + '") is parallel, ' +
+      _suman.log.warning('warning => parent block ("' + zuite.desc + '") is parallel, ' +
         'so child block ("' + desc + '") will be run in parallel with other sibling blocks.');
-      _suman.logWarning('\nTo see more info on this, visit: sumanjs.org.\n');
+      _suman.log.warning('\nTo see more info on this, visit: sumanjs.org.\n');
     }
 
     if (zuite.skipped) {
@@ -117,12 +123,14 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       console.log('\n');
     }
 
-    if (opts.skip && !sumanOpts.force && !sumanOpts.allow_skip) {
-      throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
-    }
+    if (!sumanOpts.force && !_suman.inBrowser) {
+      if (opts.skip && !sumanOpts.allow_skip) {
+        throw new Error('Test block was declared as "skipped" but "--allow-skip" / "--force" option not specified.');
+      }
 
-    if (opts.only && !sumanOpts.force && !sumanOpts.allow_only) {
-      throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
+      if (opts.only && !sumanOpts.allow_only) {
+        throw new Error('Test block was declared as "only" but "--allow-only" / "--force" option not specified.');
+      }
     }
 
     if (opts.skip || zuite.skipped || (!opts.only && suman.describeOnlyIsTriggered)) {
@@ -133,7 +141,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     // note: zuite is the parent of suite; aka, suite is the child of zuite
     const suite = new TestBlock({desc, title: desc, opts});
 
-    if(zuite.fixed){
+    if (zuite.fixed) {
       suite.fixed = true;
     }
 
@@ -151,8 +159,14 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     Object.defineProperty(suite, 'parent', {value: zuite, writable: false});
     zuite.getChildren().push(suite);
     allDescribeBlocks.push(suite);
-    const deps = fnArgs(cb);
 
+    if (typeof cb !== 'function') {
+      throw new Error(
+        'Usage error: The following value was expected to be a function but is not => ' + util.inspect(cb)
+      );
+    }
+
+    const deps = fnArgs(cb);
 
     suite._run = function (val: any, callback: Function) {
 
@@ -168,7 +182,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
         if (!err || typeof err !== 'object') {
           err = new Error(err ? (typeof err === 'string' ? err : util.inspect(err)) : 'unknown error passed to handler');
         }
-        _suman.logError('Error registering test block =>', err.stack || err);
+        _suman.log.error('Error registering test block =>', err.stack || err);
         err.sumanExitCode = constants.EXIT_CODES.ERROR_IN_CHILD_SUITE;
         gracefulExit(err);
       });
@@ -189,20 +203,26 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
           writable: false
         });
 
-        acquireIocDeps(suman, deps, suite, function (err: Error, depz: IInjectionDeps) {
+        const iocDepsParent = Object.create(zuite.ioc);
+
+        debugger;
+
+        acquireIocDeps(suman, iocDepNames, suite, iocDepsParent, function (err: Error, iocDeps: IInjectionDeps) {
 
           if (err) {
-            _suman.logError(err.stack || err);
+            _suman.log.error(err.stack || err);
             process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
             return;
           }
+
+          suite.ioc = iocDeps;
 
           process.nextTick(function () {
 
             let $deps;
 
             try {
-              $deps = blockInjector(suite, zuite, depz);
+              $deps = blockInjector(suite, zuite, deps);
             }
             catch (err) {
               return gracefulExit(err);
@@ -210,7 +230,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
             suite.fatal = function (err: IPseudoError) {
               err = err || new Error(' => suite.fatal() was called by the developer => fatal unspecified error.');
-              _suman.logError(err.stack || err);
+              _suman.log.error(err.stack || err);
               err.sumanExitCode = constants.EXIT_CODES.ERROR_PASSED_AS_FIRST_ARG_TO_DELAY_FUNCTION;
               gracefulExit(err);
             };
@@ -220,7 +240,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
             if (!delayOptionElected) {
 
               suite.__resume = function () {
-                _suman.logWarning('usage warning => suite.resume() has become a no-op since delay option is falsy.');
+                _suman.log.warning('usage warning => suite.resume() has become a no-op since delay option is falsy.');
               };
 
               // Object.freeze(suite);
@@ -289,7 +309,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                 }
 
               };
-              
+
               cb.apply(null, $deps);
             }
 

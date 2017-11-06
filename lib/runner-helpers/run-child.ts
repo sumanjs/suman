@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
@@ -22,7 +24,7 @@ import su = require('suman-utils');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 require('../helpers/add-suman-global-properties');
 const {constants} = require('../../config/suman-constants');
-const {fatalRequestReply} = require('../helpers/fatal-request-reply');
+const {fatalRequestReply} = require('../helpers/general');
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -56,10 +58,7 @@ if (childArgs.length) {
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
   }
 
-  console.error('before  opts => ', opts);
-  console.error('before suman opts => ', sumanOpts);
   sumanOpts = _suman.sumanOpts = Object.assign(sumanOpts, opts);
-  console.error('after suman opts => ', sumanOpts);
 }
 
 const usingRunner = _suman.usingRunner = true;
@@ -172,8 +171,8 @@ try {
   require(path.resolve(sumanHelperDirRoot + '/suman.globals.js'));
 }
 catch (err) {
-  _suman.logError(chalk.yellow.bold('Suman usage warning => Could not load your suman.globals.js file.'));
-  _suman.logError(su.getCleanErrorString(err));
+  _suman.log.error(chalk.yellow.bold('Suman usage warning => Could not load your suman.globals.js file.'));
+  _suman.log.error(su.getCleanErrorString(err));
 }
 
 if (singleProc) {

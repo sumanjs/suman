@@ -2,7 +2,9 @@
 'use strict';
 
 const suman = require('suman');
-const Test = suman.init(module);
+const Test = suman.init(module, {}, {
+  series: true
+});
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -13,23 +15,25 @@ const opts = {
   fixed: true
 };
 
-Test.create(opts, function (assert, describe, before, beforeEach, after, afterEach, it) {
+Test.create(opts, [function (assert, describe, before, beforeEach, after, afterEach, it) {
 
   it('sync test', t => {
-
     assert(true);
   });
 
-  before(h => {
+  before('hi', [h => {
     h.assert.equal(++count, 1);
-  });
+  }]);
 
-  describe('nested1', opts, () => {
+  describe('nested1', {}, b => {
+
+    b.set('a', true);
 
     // console.log('before => ', before);
     assert.equal(count, 0);
 
     before(h => {
+      h.assert(h.get('a'));
       h.assert.equal(++count, 2);
     });
 
@@ -41,7 +45,9 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
       h.assert.equal(++count, 5);
     });
 
-    describe('nested2', () => {
+    describe('nested2', {}, b => {
+
+      assert(b.get('a'));
 
       assert.equal(count, 0);
 
@@ -83,4 +89,4 @@ Test.create(opts, function (assert, describe, before, beforeEach, after, afterEa
     h.assert.equal(++count, 7);
   });
 
-});
+}]);

@@ -7,6 +7,9 @@ import {IGlobalSumanObj} from 'suman-types/dts/global';
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
+//core
+import util = require('util');
+
 //npm
 import * as Client from 'socket.io-client';
 import su = require('suman-utils');
@@ -21,7 +24,15 @@ export const getClient = function () {
 
   if (!client) {
 
-    const port = process.env.SUMAN_SOCKETIO_SERVER_PORT;
+    let port = process.env.SUMAN_SOCKETIO_SERVER_PORT;
+
+    try {
+      if(window && !port){
+        // console.log('window.__suman',util.inspect(window.__suman));
+        port = Number(window.__suman.SUMAN_SOCKETIO_SERVER_PORT);
+      }
+    }
+    catch(err){}
 
     if (!port) {
       throw new Error('Suman implementation error, no port specified by "SUMAN_SOCKETIO_SERVER_PORT" env var.');
@@ -30,15 +41,15 @@ export const getClient = function () {
     client = Client(`http://localhost:${port}`);
 
     client.on('connect', function () {
-      _suman.logWarning('client connected.');
+      _suman.log.warning('client connected.');
     });
 
     client.on('event', function (data: string) {
-      _suman.log('event data => ', data);
+      _suman.log.info('event data => ', data);
     });
 
     client.on('disconnect', function () {
-      _suman.logError('client disconnected.');
+      _suman.log.error('client disconnected.');
     });
 
   }

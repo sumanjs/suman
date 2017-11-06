@@ -21,8 +21,7 @@ import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {asyncHelper} from '../helpers/async-helper';
-import {extractVals} from './helpers/extract-vals';
+import {asyncHelper, extractVals} from '../helpers/general';
 
 ////////////////////////////////////////////////////////////////////
 
@@ -59,7 +58,7 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
 
     if (verbosity > 3) {
       // only want to log this once, that's why we check cachedPromises for the key
-      _suman.log(chalk.cyan(`(suman.once.pre.js) => Beginning to source dep with key => '${key}'`));
+      _suman.log.info(chalk.cyan(`(suman.once.pre.js) => Beginning to source dep with key => '${key}'`));
     }
 
     const val = depContainerObj[key];
@@ -71,7 +70,7 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
     }
 
     if (verbosity > 6) {
-      _suman.log(`Maximum time allocated to source dependency with key => '${key}' is => `, timeout);
+      _suman.log.info(`Maximum time allocated to source dependency with key => '${key}' is => `, timeout);
     }
 
     $deps.forEach(function (d) {
@@ -109,7 +108,7 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
       // we just want to store the actual val for key = x, for each key x
 
       if (verbosity > 5 && subDeps.length > 0) {
-        _suman.log(chalk.blue(`suman.once.pre.js => `
+        _suman.log.info(chalk.blue(`suman.once.pre.js => `
           + `Finished sourcing the dependencies ${util.inspect(subDeps)} of key => '${key}'`));
       }
 
@@ -122,7 +121,7 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
         }, _suman.weAreDebugging ? 5000000 : timeout);
 
         if (verbosity > 5 || su.isSumanDebug()) {
-          _suman.log('suman.once.pre.js => Executing dep with key = "' + key + '"');
+          _suman.log.info('suman.once.pre.js => Executing dep with key = "' + key + '"');
         }
 
         asyncHelper(key, resolve, reject, [acc], 1, fn);
@@ -132,7 +131,7 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
         clearTimeout(to);
 
         if (verbosity > 3 || su.isSumanDebug()) {
-          _suman.log(chalk.green.bold('suman.once.pre.js => Finished sourcing dep with key = "' + key + '"'));
+          _suman.log.info(chalk.green.bold('suman.once.pre.js => Finished sourcing dep with key = "' + key + '"'));
         }
 
         // we store $pre values in this container
@@ -159,15 +158,15 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
     const obj = deps.reduce(Object.assign, {});
 
     if (!_suman.processIsRunner) {
-      _suman.log(chalk.green.underline.bold('Finished with suman.once.pre.js dependencies.'), '\n');
+      _suman.log.info(chalk.green.underline.bold('Finished with suman.once.pre.js dependencies.'), '\n');
     }
 
     return obj;
 
   }, function (err) {
 
-    _suman.logError(chalk.magenta('There was an error sourcing your dependencies in suman.once.pre.js.'));
-    _suman.logError(util.inspect(err.stack || err));
+    _suman.log.error(chalk.magenta('There was an error sourcing your dependencies in suman.once.pre.js.'));
+    _suman.log.error(util.inspect(err.stack || err));
     return Promise.reject(err);
 
   });

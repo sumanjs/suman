@@ -101,6 +101,10 @@ if (opts.fforce) {
   opts.force = true;
 }
 
+if(opts.per){
+  opts.watch_per = opts.per;
+}
+
 if (opts.debug_child && opts.inspect_child) {
   throw 'Please choose either "--debug-child" or "--inspect-child" option, they are exclusive.';
 }

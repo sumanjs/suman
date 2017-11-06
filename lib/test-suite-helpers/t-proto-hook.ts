@@ -45,6 +45,8 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
     }
   };
 
+  v.__handle = handleError;
+
   v.assert = new Proxy(assrt, {
     get: function (target, prop) {
 

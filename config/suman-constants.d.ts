@@ -12,7 +12,6 @@ export declare const constants: Readonly<{
         value: string;
     };
     SUMAN_SERVER_MESSAGE: string;
-    GIT_IGNORE: string[];
     UNKNOWN_INJECT_HOOK_NAME: string;
     SUMAN_HOOK_FATAL_WARNING_MESSAGE: string;
     SUMAN_HOOK_FATAL_MESSAGE: string;
@@ -33,6 +32,7 @@ export declare const constants: Readonly<{
         SUCCESSFUL_RUN: number;
         WHOLE_TEST_SUITE_SKIPPED: number;
         GREP_SUITE_DID_NOT_MATCH: number;
+        COULD_NOT_LOAD_A_REPORTER: number;
         FILE_OR_DIRECTORY_DOES_NOT_EXIST: number;
         SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT: number;
         SUMAN_HELPER_FILE_DOES_NOT_EXPORT_EXPECTED_FUNCTION: number;
@@ -88,6 +88,7 @@ export declare const constants: Readonly<{
         INVALID_FUNCTION_TYPE_USAGE: string;
     };
     runner_message_type: {
+        BROWSER_FINISHED: string;
         FATAL: string;
         FATAL_MESSAGE_RECEIVED: string;
         TABLE_DATA: string;
@@ -141,61 +142,6 @@ export declare const constants: Readonly<{
         TEST_SUITE_EXIT_CODE: {
             name: string;
             default: string;
-        };
-    };
-    SUMAN_GLOBAL_DEPS: {
-        gantt: {
-            'handlebars': string;
-        };
-        sqlite3: {
-            'sqlite3': string;
-        };
-        sumanSqliteReporter: {
-            'suman-sqlite-reporter': string;
-        };
-        slack: {
-            'slack': string;
-        };
-        babel: {
-            'webpack': string;
-            'babel-cli': string;
-            'babel-core': string;
-            'babel-loader': string;
-            'babel-polyfill': string;
-            'babel-runtime': string;
-            'babel-register': string;
-            'babel-plugin-transform-runtime': string;
-            'babel-preset-es2015': string;
-            'babel-preset-es2016': string;
-            'babel-preset-react': string;
-            'babel-preset-stage-0': string;
-            'babel-preset-stage-1': string;
-            'babel-preset-stage-2': string;
-            'babel-preset-stage-3': string;
-            'babel-preset-latest': string;
-        };
-        sumanD: {
-            'suman-d': string;
-        };
-        sumanW: {
-            'suman-watch': string;
-        };
-        sumanServer: {
-            'frontail': string;
-            'suman-server': string;
-        };
-        sumanInteractive: {
-            'suman-inquirer': string;
-            'suman-inquirer-directory': string;
-        };
-        istanbul: {
-            'istanbul': string;
-        };
-        nyc: {
-            'nyc': string;
-        };
-        typescript: {
-            'typescript': string;
         };
     };
 }>;

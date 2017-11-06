@@ -23,13 +23,14 @@ const userHomeDir = path.resolve(process.env.HOME);
 const sumanHome = path.resolve(userHomeDir + '/.suman');
 const findSumanExec = path.resolve(sumanHome + '/find-local-suman-executable.js');
 const sumanClis = path.resolve(sumanHome + '/suman-clis.sh');
+const sumanGlobalConfig = path.resolve(sumanHome + '/suman.global.conf.json');
 const sumanCompletion = path.resolve(sumanHome + '/suman-completion.sh');
 const findProjectRootDest = path.resolve(sumanHome + '/find-project-root.js');
 const sumanDebugLog = path.resolve(sumanHome + '/logs/suman-postinstall-debug.log');
 const dbPath = path.resolve(sumanHome + '/database/exec_db');
 const createTables = path.resolve(__dirname + '/create-tables.sh');
 
-//////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
 
@@ -51,9 +52,9 @@ logInfo(' => Suman home dir path => ', sumanHome);
 logInfo(' => Suman post-install script run on ' + new Date() + ', from directory (cwd) =>');
 logInfo(cwd);
 
+const runDatabaseInstalls = function (err: Error) {
 
-function runDatabaseInstalls(err: Error) {
-
+  // this is no longer used, but currently here for reference only
   let logerr = false;
 
   if (err) {
@@ -95,68 +96,85 @@ function runDatabaseInstalls(err: Error) {
 
   });
 
-}
+};
 
-async.parallel([
+let wrapErr = function (cb: Function, fn: Function) {
+  return function (err: Error) {
+    if (err) return cb(err);
+    return fn.apply(this, Array.from(arguments).slice(1));
+  };
+};
 
-  function (cb: Function) {
-    //always want to update this file to the latest version, so always overwrite
-    fs.readFile(require.resolve('./suman-clis.sh'), function (err, data) {
-      if (err) {
-        cb(err);
-      }
-      else {
-        fs.writeFile(sumanClis, data, {mode: 0o777}, cb);
-      }
-    });
+async.parallel({
+
+    updateSumanClis: function (cb: Function) {
+      //always want to update this file to the latest version, so always overwrite
+      let p = path.resolve(__dirname + '/suman-clis.sh');
+      fs.readFile(p, wrapErr(cb, function (data: string) {
+        fs.writeFile(sumanClis, data, {flag: 'w', mode: 0o777}, cb);
+      }));
+    },
+
+    createGlobalConfigFile: function (cb: Function) {
+      //always want to update this file to the latest version, so always overwrite
+      let p = path.resolve(__dirname + '/suman.global.conf.json');
+      fs.readFile(p, wrapErr(cb, function (data: string) {
+        fs.writeFile(sumanGlobalConfig, data, {flag: 'wx', mode: 0o777}, function (err) {
+          if (err && !/EEXIST/i.test(String(err.message))) {
+            return cb(err);
+          }
+          cb(null);
+        });
+      }));
+    },
+
+    updateSumanCompletion: function (cb: Function) {
+      //always want to update this file to the latest version, so always overwrite
+      let p = path.resolve(__dirname + '/suman-completion.sh');
+      fs.readFile(p, wrapErr(cb, function (data: string) {
+        fs.writeFile(sumanCompletion, data, {flag: 'w', mode: 0o777}, cb);
+      }));
+    },
+
+    updateFindSumanExec: function (cb: Function) {
+      //always want to update this file to the latest version, so always overwrite
+      let p = path.resolve(__dirname + '/find-local-suman-executable.js');
+      fs.readFile(p, wrapErr(cb, function (data: string) {
+        fs.writeFile(findSumanExec, data, {flag: 'w', mode: 0o777}, cb);
+      }));
+    },
+
+    appendToQueue: function (cb: Function) {
+      // we want to create the file if it doesn't exist, and just write empty string either way
+      // default flag is 'a'
+      fs.appendFile(queue, '', cb);
+    },
+
+    updateFindProjectRoot: function (cb: Function) {
+      let p = path.resolve(__dirname + '/find-project-root.js');
+      fs.readFile(p, wrapErr(cb, function (data: string) {
+        fs.writeFile(findProjectRootDest, data, {flag: 'w', mode: 0o777}, cb);
+      }));
+    }
 
   },
-  function (cb: Function) {
-    //always want to update this file to the latest version, so always overwrite
-    fs.readFile(require.resolve('./suman-completion.sh'), function (err, data) {
-      if (err) {
-        cb(err);
-      }
-      else {
-        fs.writeFile(sumanCompletion, data, {mode: 0o777}, cb);
-      }
-    });
 
-  },
-  function (cb: Function) {
-    //always want to update this file to the latest version, so always overwrite
-    fs.readFile(require.resolve('./find-local-suman-executable.js'), function (err, data) {
-      if (err) {
-        cb(err);
-      }
-      else {
-        // default flag is 'w'
-        fs.writeFile(findSumanExec, data, {mode: 0o777}, cb);
-      }
-    });
+  function (err: Error) {
 
-  },
-  function (cb: Function) {
-    // we want to create the file if it doesn't exist, and just write empty string either way
-    // default flag is 'a'
-    fs.appendFile(queue, '', cb);
-  },
-  function (cb: Function) {
-    fs.readFile(require.resolve('./find-project-root.js'), function (err, data) {
-      if (err) {
-        cb(err);
+    err && console.error(err.stack || err);
+
+    try {
+      if (!fs.existsSync(sumanHome)) {
+        console.error(' => Warning => ~/.suman dir does not exist!');
       }
-      else {
-        // default flag is 'w'
-        fs.writeFile(findProjectRootDest, data, {mode: 0o777}, cb);
-      }
-    });
-  }
+    }
+    catch (err) {
+      console.error(err.stack || err);
+    }
+    finally {
+      process.exit(0);
+    }
 
-], function (err: Error) {
-
-  runDatabaseInstalls(err);
-
-});
+  });
 
 

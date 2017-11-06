@@ -1,7 +1,8 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj, ISumanOpts} from "suman-types/dts/global";
+import {IGlobalSumanObj, ISumanOpts, ISumanConfig} from "suman-types/dts/global";
+import {AsyncResultArrayCallback} from 'async';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -22,7 +23,6 @@ import * as async from 'async';
 const shuffle = require('lodash.shuffle');
 import * as chalk from 'chalk';
 import * as su from 'suman-utils';
-import {IGetFilePathObj} from "./runner-helpers/get-file-paths";
 const rimraf = require('rimraf');
 const {events} = require('suman-events');
 const debug = require('suman-debug')('s:cli');
@@ -35,47 +35,20 @@ const sumanHome = path.resolve(process.env.HOME + '/.suman');
 const noFilesFoundError = require('./helpers/no-files-found-error');
 const ascii = require('./helpers/ascii');
 const {constants} = require('../config/suman-constants');
-import {findSumanServer} from './helpers/find-suman-server';
 const {findFilesToRun} = require('./runner-helpers/get-file-paths');
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const dbPth = path.resolve(sumanHome + '/database/exec_db');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
+export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, paths: Array<string>) {
 
-  const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
+  const logsDir = sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
   const sumanCPLogs = path.resolve(logsDir + '/runs');
 
   debugger;  //leave here forever so users can easily debug
 
   let sql: any;
-
-  try {
-    sql = require('sqlite3').verbose();
-  }
-  catch (err) {
-    console.error('\n', err.stack, '\n');
-    console.error(chalk.yellow.bold(' => Looks like Suman could not find "sqlite3" NPM dependency.'));
-    console.error(' => Suman uses NODE_PATH to source heavier dependencies from a shared location.');
-    console.error(' => If you use the suman command, NODE_PATH will be set correctly.');
-
-    if (process.env.NODE_PATH) {
-      _suman.logError('$NODE_PATH currently has this value => ', process.env.NODE_PATH);
-    }
-    else {
-      _suman.logError('$NODE_PATH is currently ' + chalk.yellow('*not*') + ' defined.');
-    }
-
-    _suman.logError('If for whatever reason you ran node against the suman cli.js file, ' +
-      'then NODE_PATH may not be set correctly.');
-    _suman.logError('Try "$ NODE_PATH=$NODE_PATH:~/.suman/global/node_modules node <your-file.js>"');
-    _suman.logError('You may attempt to use the --force flag to overcome this obstacle. But better to resolve the underlying issue.');
-    if (!sumanOpts.force) {
-      return process.exit(1);
-    }
-  }
-
   let runId: number = _suman.runId = process.env.SUMAN_RUN_ID = null;
   const projectRoot = _suman.projectRoot;
   const timestamp = _suman.timestamp = process.env.SUMAN_RUNNER_TIMESTAMP = Date.now();
@@ -87,7 +60,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
   const IS_SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
   // this should get refactored into runner get-file-paths.js
-  require('./helpers/vet-paths').run(paths);
+  require('./helpers/general').vetPaths(paths);
 
   if (paths.length < 1) {
     if (testSrcDir) {
@@ -100,7 +73,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
   async.autoInject({
 
-    removeCoverageDir: function (cb: ISumanErrorFirstCB) {
+    removeCoverageDir: function (cb: Function) {
       if (sumanOpts.coverage) {
         const covDir = path.resolve(_suman.projectRoot + '/coverage');
         rimraf(covDir, function () {
@@ -153,12 +126,6 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
 
             });
 
-          },
-
-          createNew: function (cb: Function) {
-            // let p = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
-            // fs.mkdir(p, 0o777, cb);
-            return process.nextTick(cb);
           }
 
         }, cb);
@@ -180,26 +147,56 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
     },
 
     getFilesToRun: function (cb: Function) {
-      findFilesToRun(paths, cb);
+
+      if (sumanOpts.browser) {
+
+        try {
+          require('suman-browser');
+        }
+        catch (err) {
+          delete require.cache['suman-browser'];
+          if (process.env.SUMAN_ENV === 'local') {
+            _suman.log.warning('since we are in development, we are linking suman-browser with "npm link suman-browser".');
+            cp.execSync('npm link suman-browser');
+          }
+          else {
+            throw new Error('You need to install "suman-browser", using `npm install -D suman-browser`.');
+          }
+        }
+
+        try {
+
+          const browser = sumanConfig['browser']  as any;
+          assert(su.isObject(browser), '"browser" property on suman.conf.js needs to be an object.');
+          const entryPoints = browser['entryPoints'];
+          assert(Array.isArray(entryPoints), '"entryPoints" property needs to be an Array instance.');
+          const files = entryPoints.map(item => item.html);
+          return process.nextTick(cb, null, {files});
+        }
+        catch (err) {
+          process.nextTick(cb, err);
+          return;
+        }
+      }
+      else {
+        findFilesToRun(paths, cb);
+      }
+
     },
 
     findSumanMarkers: function (getFilesToRun: Object, cb: Function) {
       su.findSumanMarkers(['@run.sh', '@transform.sh', '@config.json'], testDir, getFilesToRun.files,
         function (err: Error, map: IMapValue) {
           if (err) {
-            cb(err);
+            return cb(err);
           }
-          else {
-            _suman.markersMap = map;
-            cb(null);
-            // fs.writeFile(_suman.sumanHelperDirRoot + '/suman-map.json', JSON.stringify(map), function () {
-            //   cb(err, obj);
-            // });
-          }
+
+          _suman.markersMap = map;
+          cb(null);
         });
     },
 
-    conductStaticAnalysisOfFilesForSafety: function (cb: ISumanErrorFirstCB) {
+    conductStaticAnalysisOfFilesForSafety: function (cb: Function) {
       if (false && sumanOpts.safe) {
         cb(new Error('safe option not yet implemented'));
       }
@@ -208,78 +205,35 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
       }
     },
 
-    getRunId: function (cb: ISumanErrorFirstCB) {
+    getRunId: function (cb: Function) {
 
-      const first = su.once(this, cb);
+      runId = _suman.runId = process.env.SUMAN_RUN_ID = uuid();
+      let p = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
+      mkdirp(p, 0o777, cb);
 
-      function createDir(runId: number) {
-        let p = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
-        mkdirp(p, 0o777, first);
-      }
-
-      if (!sql) {
-        runId = _suman.runId = process.env.SUMAN_RUN_ID = uuid();
-        return createDir(runId);
-      }
-
-      const db = new sql.Database(dbPth, function (err: Error) {
-        if (err) {
-          _suman.logError(err.stack || err);
-          runId = _suman.runId = process.env.SUMAN_RUN_ID = uuid();
-          return createDir(runId);
-        }
-
-        db.configure('busyTimeout', 4000);
-        db.once('error', first);
-
-        db.serialize(function () {
-          db.run('BEGIN EXCLUSIVE TRANSACTION;');
-          db.all('SELECT run_id from suman_run_id', function (err: Error, rows: Array<Object>) {
-            if (err) {
-              return first(err);
-            }
-
-            db.serialize(function () {
-
-              if (rows.length > 1) {
-                _suman.logError('Suman internal warning => "suman_run_id" rows length is greater than 1.');
-              }
-
-              const val = rows[0] ? rows[0].run_id : 1;
-              runId = _suman.runId = process.env.SUMAN_RUN_ID = val;
-              const updatedValue = val + 1;
-              db.run('UPDATE suman_run_id SET run_id = ' + updatedValue);
-              db.run('COMMIT TRANSACTION;', function (err: Error) {
-                db.close();
-                err ? first(err) : createDir(runId);
-              });
-            });
-
-          });
-        });
-      });
+      // if we want to use sqlite3, then we import the sqlite code from lib/sqlite3
     }
 
   }, function complete(err: Error, results: Object) {
 
     if (err) {
-      _suman.logError('fatal problem => ' + (err.stack || err), '\n');
+      _suman.log.error('fatal problem => ' + (err.stack || err), '\n');
       return process.exit(1);
     }
 
     if (su.vgt(9)) {
       //TODO: this is not ready yet
-      _suman.log('"$ npm list -g" results: ', results.npmList);
+      _suman.log.info('"$ npm list -g" results: ', results.npmList);
     }
 
-    function changeCWDToRootOrTestDir(p: string) {
+    const changeCWDToRootOrTestDir = function (p: string) {
       if (sumanOpts.cwd_is_root || true) {
         process.chdir(projectRoot);
       }
       else {
         process.chdir(path.dirname(p));  //force CWD to test file path!
       }
-    }
+    };
 
     const obj = results.getFilesToRun;
 
@@ -290,15 +244,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
       return noFilesFoundError(paths);
     }
 
-    const d = domain.create();
-
-    d.once('error', function (err: Error) {
-      console.error('\n');
-      _suman.logError(chalk.magenta('fatal error => ' + (err.stack || err) + '\n'));
-      process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
-    });
-
-    resultBroadcaster.emit(String(events.RUNNER_TEST_PATHS_CONFIRMATION), files);
+    rb.emit(String(events.RUNNER_TEST_PATHS_CONFIRMATION), files);
 
     if (su.vgt(6) || sumanOpts.dry_run) {
       console.log(' ', chalk.bgCyan.magenta(' => Suman verbose message => ' +
@@ -306,14 +252,29 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
     }
 
     if (sumanOpts.dry_run || sumanOpts.$dryRun) {
-      _suman.log('exiting here, because "--dry-run" option was used.');
+      _suman.log.info('exiting here, because "--dry-run" option was used.');
       return process.exit(0);
     }
+
+    if (sumanOpts.find_only || sumanOpts.$findOnly) {
+      _suman.log.info('exiting here, because "--find-only" option was used.');
+      return process.exit(0);
+    }
+
+    const d = domain.create();
+
+    d.once('error', function (err: Error) {
+      console.error('\n');
+      _suman.log.error(chalk.magenta('fatal error => ' + (err.stack || err) + '\n'));
+      process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+    });
 
     // note: if only one file is used with the runner, then there is no possible blocking,
     // so we can ignore the suman.order.js file, and pretend it does not exist.
 
-    if (IS_SUMAN_SINGLE_PROCESS && !sumanOpts.runner && !sumanOpts.coverage && !sumanOpts.containerize) {
+    const forceRunner = sumanOpts.browser || sumanOpts.runner || sumanOpts.coverage || sumanOpts.containerize;
+
+    if (IS_SUMAN_SINGLE_PROCESS && !forceRunner) {
 
       console.log(ascii.suman_slant, '\n');
 
@@ -327,8 +288,7 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
         require('./run-child-not-runner').run(su.removeSharedRootPath(files));
       });
     }
-    else if (!sumanOpts.runner && !sumanOpts.containerize
-      && !sumanOpts.coverage && files.length === 1 && su.checkStatsIsFile(files[0]) && !nonJSFile) {
+    else if (!forceRunner && files.length === 1 && su.checkStatsIsFile(files[0]) && !nonJSFile) {
 
       console.log(ascii.suman_slant, '\n');
       d.run(function () {
@@ -339,9 +299,8 @@ export const run = function (sumanOpts: ISumanOpts, paths: Array<string>) {
     }
     else {
       _suman.processIsRunner = true;
-      const {createRunner} = require('./runner-helpers/create-suman-runner');
       d.run(function () {
-        createRunner({runObj: obj});
+        require('./runner-helpers/create-suman-runner').run({runObj: obj});
       });
     }
   });

@@ -35,7 +35,7 @@ export const run = function (filePath: string) {
   if (process.env.MAKE_SUMAN_LOG !== 'no') {
 
     if (su.vgt(6)) {
-      _suman.log('we are logging child stdout/stderr to files.', '\n');
+      _suman.log.info('we are logging child stdout/stderr to files.', '\n');
     }
 
     const timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
@@ -45,9 +45,9 @@ export const run = function (filePath: string) {
     const f = path.resolve(sumanCPLogs + '/' + timestamp + '-' + runId);
 
     if (SUMAN_SINGLE_PROCESS) {
-      _suman.logError('\n');
-      _suman.logError('in SUMAN_SINGLE_PROCESS mode, and we are not currently configured to log stdio to log file.');
-      _suman.logError('\n');
+      _suman.log.error('\n');
+      _suman.log.error('in SUMAN_SINGLE_PROCESS mode, and we are not currently configured to log stdio to log file.');
+      _suman.log.error('\n');
       return;
     }
 
@@ -61,14 +61,14 @@ export const run = function (filePath: string) {
     const strm = rstrm.pipe(fs.createWriteStream(logfile));
 
     strm.on('error', function (e: Error) {
-      _suman.logError(e.stack || e);
+      _suman.log.error(e.stack || e);
     });
 
     _suman.endLogStream = function () {
-      // _suman.logError('endLogStream finished.');
+      // _suman.log.error('endLogStream finished.');
       // rstrm.unpipe();
       writeToFileStream = false;
-      strm.end('this is the end\n');
+      strm.end('this is the end of the Suman test stream.\n');
     };
 
     strm.on('drain', function () {
@@ -86,7 +86,7 @@ export const run = function (filePath: string) {
         //     strm.write.apply(strm, arguments);
         //   }
         //   catch (e) {
-        //     _suman.logError(e.stack || e);
+        //     _suman.log.error(e.stack || e);
         //   }
         // }
 
@@ -120,7 +120,7 @@ export const run = function (filePath: string) {
           fs.unlinkSync(logfile);
         }
         catch (err) {
-          _suman.logError(' => Could not unlink extraneous log file at path => ', logfile);
+          _suman.log.error(' => Could not unlink extraneous log file at path => ', logfile);
         }
       }
       else {

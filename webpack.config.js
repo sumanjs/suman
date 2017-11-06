@@ -2,24 +2,40 @@ const path = require('path');
 
 module.exports = {
 
-  entry: ['babel-polyfill', './lib/index.js'],
-
+  // entry: ['babel-polyfill', './lib/index.js'],
+  entry: ['./lib/index.js'],
   output: {
     path: path.resolve(__dirname + '/dist'),
     filename: 'suman.js'
   },
 
   module: {
-    loaders: [
+
+    rules: [
+      // all files with a `.ts` extension will be handled by `ts-loader`
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        options: {
-          presets: ['latest'],
-          plugins: ['transform-runtime']
-        }
+        test: /^\.d.ts$/,
+        loader: 'ignore-loader'
       },
+      {
+        test: new RegExp('^' + path.resolve(__dirname + '/lib/cli-commands/') + '.*'),
+        loader: 'ignore-loader'
+      },
+      {
+        test: new RegExp('^' + path.resolve(__dirname + '/suman.conf.js')),
+        loader: 'ignore-loader'
+      }
+    ],
+    loaders: [
+      // {
+      //   test: /\.js$/,
+      //   loader: 'babel-loader',
+      //   exclude: /node_modules/,
+      //   options: {
+      //     presets: ['latest'],
+      //     plugins: ['transform-runtime']
+      //   }
+      // },
       {
         test: /(\/lib\/init\/|cli.js$)/,
         loader: 'ignore-loader'

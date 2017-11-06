@@ -1,6 +1,7 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ISumanErrorFirstCB} from "./index";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -35,13 +36,13 @@ export interface IOncePostModuleRet {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISumanErrorFirstCB) {
+export const run = function ($oncePostKeys: Array<string>, userDataObj: Object, cb: Function) {
 
   try {
     assert(Array.isArray($oncePostKeys), ' => (1) Perhaps we exited before <oncePostKeys> was captured.');
   }
   catch (err) {
-    _suman.logError('\n', su.decomposeError(err), '\n\n');
+    _suman.log.error('\n', su.decomposeError(err), '\n\n');
     return process.nextTick(cb);
   }
 
@@ -55,12 +56,12 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
   }
   catch (err) {
     console.error('\n');
-    _suman.logError(su.decomposeError(err), '\n\n');
+    _suman.log.error(su.decomposeError(err), '\n\n');
     userDataObj = {};
   }
 
   let postInjector = makePostInjector(userDataObj, null, null);
-  const first: ISumanErrorFirstCB = su.onceAsync(this, cb);
+  const first: Function = su.onceAsync(this, cb);
 
   let oncePostModule: Function,
     oncePostModuleRet: IOncePostModuleRet,
@@ -101,14 +102,14 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
   }
 
   if (!su.isObject(oncePostModuleRet)) {
-    _suman.logError('Your suman.once.post.js file must export a function that returns an object.');
+    _suman.log.error('Your suman.once.post.js file must export a function that returns an object.');
     return first(null, []);
   }
 
   dependencies = oncePostModuleRet.dependencies;
 
   if (!su.isObject(dependencies)) {
-    _suman.logError('Your suman.once.post.js file must export a function that returns an object, ' +
+    _suman.log.error('Your suman.once.post.js file must export a function that returns an object, ' +
       'with a property named "dependencies".');
     return first(null, []);
   }
@@ -122,7 +123,7 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
     if (!(k in dependencies)) {
       missingKeys.push(k);
       console.error('\n');
-      _suman.logError(chalk.red('Suman usage error => your suman.once.post.js file ' +
+      _suman.log.error(chalk.red('Suman usage error => your suman.once.post.js file ' +
         `is missing desired key = "${k}"`));
       return;
     }
@@ -139,25 +140,25 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
   });
 
   if (oncePostKeys.length > 0) {
-    _suman.log('Suman is now running the desired hooks ' +
+    _suman.log.info('Suman is now running the desired hooks ' +
       'in suman.once.post.js, listed as follows =>');
     oncePostKeys.forEach(function (k, index) {
-      _suman.log(`(${index + 1})`, `"${chalk.cyan(k)}"`);
+      _suman.log.info(`(${index + 1})`, `"${chalk.cyan(k)}"`);
     });
     console.log('\n');
   }
 
   if (missingKeys.length > 0) {
-    _suman.logError(`Your suman.once.post.js file is missing some keys present in your test file(s).`);
-    _suman.logError(`The missing keys are as follows: ${chalk.magenta(util.inspect(missingKeys))}`);
+    _suman.log.error(`Your suman.once.post.js file is missing some keys present in your test file(s).`);
+    _suman.log.error(`The missing keys are as follows: ${chalk.magenta(util.inspect(missingKeys))}`);
     console.log('\n');
   }
 
   acquirePostDeps(oncePostKeys, dependencies).then(function (val) {
     console.log('\n');
-    _suman.log('all suman.once.post.js hooks completed successfully.\n');
-    _suman.log('suman.once.post.js results => ');
-    _suman.log(util.inspect(val));
+    _suman.log.info('all suman.once.post.js hooks completed successfully.\n');
+    _suman.log.info('suman.once.post.js results => ');
+    _suman.log.info(util.inspect(val));
     process.nextTick(cb);
 
   }, function (err) {
@@ -165,7 +166,8 @@ export const run = function ($oncePostKeys: Array<string>, userDataObj, cb: ISum
     process.nextTick(cb, err);
   });
 
-};
+}
 
-const $exports = module.exports;
-export default $exports;
+
+
+

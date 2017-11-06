@@ -6,8 +6,186 @@ three SO profiles:
 
 ///
 
+suman-types
+https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-342028894
+
+///
+
+ suman --init should not install suman
+ at the end of the --init, suman should check to see if suman is in package.json or node_modules
+ it should recommend something like:
+ using the global suman version is totally acceptable
+ otherwise to install locally, use `npm install -D suman`
+
+///
+
+ skip and only do not work creates - Test.create(['bat', 'suit', {only: true},
+
+///
+
+ suman-shell => give it a "find" option, it can find all the runnable tests, and then the user just
+ scrolls to the test they want to run! huge option for suman-shell!!!
+
+///
+
+ if beforeEach hook fails -> we do not exit, but we should mark the test as failed.
+
+///
+
+if function parameter name is in $ioc, but is listed explicity, then we should throw to let the user know.
+
+e.g.   describe('x', function(runMyQuestionsPage){});
+
+ when runMyQuestionsPage is on $ioc, instead of available.
+
+//
+
+  perhaps only --force should allow us to do optimistic ignoring of missing injectable deps.
+
+//
+
+ use $ioc like this:
+
+  describe('hiya', ['age', b => {
+
+     console.log(b.ioc.age); // 3;
+
+   }]);
+
+
+
+///
+
+node core will backport NODE_OPTIONS =>
+https://github.com/nodejs/help/issues/925
+https://github.com/nodejs/node/pull/16263
+
+///
+
+ better npm publish routine
+ https://github.com/sindresorhus/np
+
+///
+
+ give user option to bundle with selenium webdriver
+
+//
+
+   debugging with chrome + chrome-launcher
+   https://bugs.chromium.org/p/chromium/issues/detail?id=778781#c3
+
+///
+
+
+ create suman-watch functionality that watches primary code-base and all symlinked directories in node_modules!
+
+///
+
+ if no test cases found, suman should exit with 1 not 0!!
+ probably operator error if no test cases found
+
+///
+
+Suman watch - if watchPer has an item with --watch in it, then you have to throw err
+
+///
+
+ context('is good', b => {
+
+    b.$inject => should be what we get from $inject block stuff
+    b.set('good', true);
+    it('is good');
+
+  });
+
+///
+
+chrome.debugger.attach({
+  tabId: tabId
+}, '1.1', () => {
+  if (chrome.runtime.lastError) {
+    // oh no!
+  }
+  // we are good
+});
+
+///
+
+ need to implement suman --browser --watch
+
+///
+
+ call suman.run() could put suman in "export mode"
+ otherwise, if you are not in "export mode", when you require a file,
+ it will just run from start to finish
+
+///
+
+
+ in the browser we can use
+
+  suman.browser.ioc.static.ts
+  suman.browser.ioc.ts
+
+  these file paths
+
+///
+
+@AlexanderMills you can also enable inspector by
+calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 mins ago
+
+///
+
+ use $inject like so:
+
+ const {Test} = suman.init(module, {
+   $inject: ['a', 'b', 'c']
+ });
+
+ Test.create(function($inject){
+    const {a,b,c} = $inject;
+ });
+
+
+///
+
+    https://github.com/avajs/karma-ava
+    https://developers.soundcloud.com/blog/writing-your-own-karma-adapter
+
+///
+
+ need to create a programmatic API
+ suman.run(file);
+
+///
+
+we can use $inject and put props on that
+
+BaseReporter.decoratorFactory.$inject = [
+  'formatError',
+  'config.reportSlowerThan',
+  'config.colors',
+  'config.browserConsoleLogOptions'
+]
+
+///
+
+https://code.google.com/archive/p/js-test-driver/
+
+///
+
+ retries => suman should allow for retries
+
+///
+
+ suman --browser --watch
+ using watch will re-run tests on changes
+
+///
+
 global_npm_modules_path="$(npm root -g)";
-this npm command is slow, and I am looking to speed up this script. One thing I could do is "cache" the result of the npm command, something like this:
+this npm command is slow, and I am looking to speed up this script.
+One thing I could do is "cache" the result of the npm command, something like this:
 
 export global_npm_modules_path=${global_npm_modules_path:-"$(npm root -g)"}
 but my question is - how can I set global_npm_modules_path so that it's held in store by the parent shell / parent process?
@@ -17,7 +195,8 @@ but my question is - how can I set global_npm_modules_path so that it's held in 
 @CharlesDuffy thanks what does that eval command accomplish though? How is it different than just running ssh-agent directly? – Alexander Mills 1 min ago   edit
 1	upvote
 
-@AlexanderMills, the eval command tells the shell to run the output from ssh-agent as a series of shell commands. Thus, it enables ssh-agent to modify the environment of the shell that calls it. – Charles Duffy 18 secs ago
+@AlexanderMills, the eval command tells the shell to run the output from ssh-agent as a series of shell commands.
+Thus, it enables ssh-agent to modify the environment of the shell that calls it. – Charles Duffy 18 secs ago
 
 ///
 
@@ -36,39 +215,25 @@ describe('nested1', opts, () => {});  ---> this makes an error (see 1.test.js)
 
 ///
 
- give user option to bundle with selenium webdriver
-
-///
 
 https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
 
 ///
 
- suman --default  => should run default tests given by config
+    suman --default  => should run default tests given by config
 
 ///
 
-suman --watch --per instead of suman --watch-per
+    suman --watch --per instead of suman --watch-per
 
 ///
 
 create ctrl-c or ctrl-f icons
-
 <kbd>Ctrl</kbd>-<kbd>C</kbd>
 
 ///
 
 FORCE_COLOR=0 suman -- => will use colors for watch, etc.
-
-///
-
-suman --watch --per instead of suman --watch-per
-
-///
-
-create ctrl-c or ctrl-f icons
-
-<kbd>Ctrl</kbd>-<kbd>C</kbd>
 
 ///
 
@@ -87,18 +252,10 @@ Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest,
 
 ///
 
- the runner hangs every few runs, there must be a race condition
-
-///
-
 @ORESoftware It depends on the version of node the running process uses.
 If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` to enable the
 --inspect behavior after the fact.
 
-
-///
-
- => use async.queue not just for transpiling tests, but also for running them?
 
 ///
 
@@ -158,14 +315,6 @@ cd $(dirname "$0")
 
 ///
 
- => wrapErrorFirst should also trap errors with try/catch just like wrap?
-
-///
-
-    options should have "successEvents", "errorEvents"
-
-///
-
     before / beforeEach hooks should attach a value to suman.$inject if a value is returned
     if before hook has the {injectId: 'foo'} option, then it will attach to that?
 
@@ -177,6 +326,20 @@ cd $(dirname "$0")
 ///
 
     => chai 4.0.2 works.
+
+///
+
+ [suman]
+ [suman]    ⚑  Suman fatal error  => making a graceful exit =>
+ [suman]        => Fatal error in hook => (to continue even in the event of an error in a hook use option {fatal:false}) =>
+ [suman]        RangeError: Invalid array length
+ [suman]            at Object.exports.padWithXSpaces (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-utils/lib/index.js:185:12)
+ [suman]            at EventEmitter.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman-reporters/modules/std-reporter/index.js:70:30)
+ [suman]            at TestBlock.startSuite (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-start-suite.js:20:16)
+ [suman]            at TestBlock.startSuite (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:140:31)
+ [suman]            at runSuite (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/exec-suite.js:233:27)
+ [suman]            at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/exec-suite.js:244:29
+
 
 ///
 
@@ -281,20 +444,11 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
- in handle-multiple-processes - if a transpile action takes too long, it won't be put on the run queue, and the whole thing
- will exit because all child processes have exitted.
-
-///
-
     before hooks can be stubbed? => before('merry');
 
 ///
 
     improve tables -> they should work on Jenkins, etc.
-
-///
-
-    enforceUniqueTestCaseNames:true
 
 ///
 
@@ -477,9 +631,9 @@ https://github.com/Microsoft/TypeScript/issues/16779
 
 ////
 
-    brew install phantomjs
-    https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
-    brew install sumanjs ???
+brew install phantomjs
+https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
+brew install sumanjs ???
 
 ////
 
@@ -500,8 +654,8 @@ https://github.com/Microsoft/TypeScript/issues/16779
 
 ////
 
-https://github.com/substack/tape/issues/378
-Getting a list of failing/passing tests after test suite execution
+    https://github.com/substack/tape/issues/378
+    Getting a list of failing/passing tests after test suite execution
 
 ////
 
@@ -574,7 +728,7 @@ Getting a list of failing/passing tests after test suite execution
 
 ////
 
- include $index file, inject that into Test.create
+    include $index file, inject that into Test.create
 
 ////
 
@@ -1310,7 +1464,7 @@ if (false) {
 
 regexes get converted to objects...
 
-  SUMAN_CONFIG: '{"matchAny":[{},{},{},{},{},{},{}],"matchNone":[{},{},{},{}],"matchAll":[],"testDir":"test","testSrcDir":"test/src","testTargetDir":"test/target","sumanHelpersDir":"test/_suman","uniqueAppName":"<your-app-name-here>","browser":"Firefox","installSumanExtraDeps":true,"installSumanGlobalsInProject":".suman","isLogChildStderr":true,"isLogChildStdout":true,"useBabelRegister":false,"useUtilityPatches":true,"coverage":false,"useTAPOutput":false,"errorsOnly":false,"replayErrorsAtRunnerEnd":true,"allowArrowFunctionsForTestBlocks":true,"alwaysUseRunner":false,"enforceGlobalInstallationOnly":false,"enforceLocalInstallationOnly":false,"sourceTopLevelDepsInPackageDotJSON":false,"enforceTestCaseNames":true,"enforceBlockNames":true,"enforceHookNames":false,"bail":true,"bailRunner":true,"transpile":false,"executeRunnerCWDAtTestFile":true,"sendStderrToSumanErrLogOnly":true,"useSuiteNameInTestCaseOutput":false,"ultraSafe":false,"verbose":true,"checkMemoryUsage":false,"fullStackTraces":false,"disableAutoOpen":false,"suppressRunnerOutput":true,"allowCollectUsageStats":true,"verbosity":5,"maxParallelProcesses":8,"resultsCapCount":100,"resultsCapSize":7000,"defaultHookTimeout":5000,"defaultTestCaseTimeout":5000,"timeoutToSearchForAvailServer":2000,"defaultDelayFunctionTimeout":8000,"defaultChildProcessTimeout":8000000,"defaultTestSuiteTimeout":15000,"expireResultsAfter":10000000,"watch":{"all-tests":"./node_modules/.bin/suman","unit-tests":"./node_modules/.bin/suman test/unit/**/*.js","//tests":{"default":{"include":[],"exclude":["^test.*"]}},"//project":{"script":"./node_modules/.bin/suman","include":[],"exclude":["^test.*"],"default":{"script":"./node_modules/.bin/suman","include":[],"exclude":["^test.*"]}}},"reporters":{"tap":"node_modules/suman/lib/reporters/tap-reporter"},"babelRegisterOpts":{"ignore":{},"extensions":[".es6",".es",".jsx",".js"]}}',
+  SUMAN_CONFIG: '{"matchAny":[{},{},{},{},{},{},{}],"matchNone":[{},{},{},{}],"matchAll":[],"testDir":...}
   SUMAN_OPTS: '{"runner":true,"inherit_stdio":true,"verbosity":5,"errors_only":false,"max_depth":70,"_order":[{"key":"runner","value":true,"from":"argv"},{"key":"inherit_stdio","value":true,"from":"argv"}],"_args":[],"transpile":false}',
 
 ///

@@ -2,10 +2,11 @@
 
 //dts
 import {ITestSuite} from "suman-types/dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanConfig} from "suman-types/dts/global";
+import {IGlobalSumanObj, IPseudoError, ISumanConfig, ISumanOpts} from "suman-types/dts/global";
 import {ITableData} from "suman-types/dts/table-data";
 import {ISumanInputs} from "suman-types/dts/suman";
 import {ITableDataCallbackObj, ISumanServerInfo} from "suman-types/dts/suman";
+import {IInitOpts} from "suman-types/dts/index-init";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -20,7 +21,6 @@ import EE = require('events');
 
 //npm
 const flattenDeep = require('lodash.flattendeep');
-const readline = require('readline');
 import * as chalk from 'chalk';
 const AsciiTable = require('ascii-table');
 import async = require('async');
@@ -31,16 +31,10 @@ const McProxy = require('proxy-mcproxy');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {findSumanServer} from './helpers/find-suman-server';
+import {findSumanServer} from './helpers/general';
 import {ITestDataObj} from "suman-types/dts/it";
 import {constants} from '../config/suman-constants';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-import {getClient} from './index-helpers/socketio-child-client';
-let envTotal: number, envConfig: number;
-
-if (process.env.DEFAULT_PARALLEL_TOTAL_LIMIT && (envTotal = Number(process.env.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
-  assert(Number.isInteger(envTotal), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
-}
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -55,13 +49,14 @@ let sumanId = 0;
 export class Suman {
 
   ctx?: ITestSuite;
-  interface: string;
   $inject: Object;
   private __inject: Object;
   testBlockMethodCache: Map<Function, ITestBlockMethodCache>;
   iocData: Object;
   force: boolean;
   fileName: string;
+  opts: ISumanOpts;
+  config: ISumanConfig;
   slicedFileName: string;
   timestamp: number;
   sumanId: number;
@@ -89,7 +84,8 @@ export class Suman {
     const projectRoot = _suman.projectRoot;
 
     // via options
-    this.interface = obj.interface;
+    const sumanConfig = this.config = obj.config;
+    const sumanOpts = this.opts = obj.opts;
     this.fileName = obj.fileName;
     this.slicedFileName = obj.fileName.slice(projectRoot.length);
     this.timestamp = obj.timestamp;
@@ -99,6 +95,7 @@ export class Suman {
     let v = this.__inject = {};
     this.$inject = McProxy.create(v);
     this.allDescribeBlocks = [];
+    this.itOnlyIsTriggered = false;
     this.describeOnlyIsTriggered = false;
     this.deps = null;
     this.numHooksSkipped = 0;
@@ -106,18 +103,23 @@ export class Suman {
     this.numBlocksSkipped = 0;
     this.force = obj.force || false;
     this.testBlockMethodCache = new Map();
+    this.iocPromiseContainer = {};
 
-    let queue: any;
+    let q: any;
 
     this.getQueue = function () {
 
-      if (!queue) {
+      if (!q) {
 
-        const {sumanConfig, sumanOpts} = _suman;
+        let envTotal: number, envConfig: number;
+
+        if (process.env.DEFAULT_PARALLEL_TOTAL_LIMIT && (envTotal = Number(process.env.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
+          assert(Number.isInteger(envTotal), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
+        }
+
         // note: we have to create the queue after loading this file, so that _suman.sumanConfig is defined.
-
         if (sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT &&
-          (envConfig = Number(_suman.sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
+          (envConfig = Number(sumanConfig.DEFAULT_PARALLEL_TOTAL_LIMIT))) {
           assert(Number.isInteger(envConfig), 'process.env.DEFAULT_PARALLEL_TOTAL_LIMIT cannot be cast to an integer.');
         }
 
@@ -130,13 +132,13 @@ export class Suman {
         assert(Number.isInteger(c) && c > 0 && c < 301,
           'DEFAULT_PARALLEL_TOTAL_LIMIT must be an integer between 1 and 300 inclusive.');
 
-        queue = async.queue(function (task: Function, cb: Function) {
+        q = async.queue(function (task: Function, cb: Function) {
           task(cb);
         }, c);
 
       }
 
-      return queue;
+      return q;
 
     };
 
@@ -182,7 +184,7 @@ export class Suman {
       }).length;
 
       if (suitesSkipped > 0) {
-        _suman.logError('Suman implementation warning => suites skipped was non-zero ' +
+        _suman.log.error('Suman implementation warning => suites skipped was non-zero ' +
           'outside of suman.numBlocksSkipped value.');
       }
 
@@ -336,7 +338,9 @@ export class Suman {
 
   logResult(test: ITestDataObj): void {
 
-    if (false && _suman.sumanOpts.errors_only && test.dateComplete) {
+    const sumanOpts = this.opts;
+
+    if (false && sumanOpts.errors_only && test.dateComplete) {
       // since errors only and this test has completed, we ignore and don't write out result
       return;
     }
@@ -345,23 +349,6 @@ export class Suman {
     test.name = (test.desc || test.name);
     test.desc = (test.desc || test.name);
     test.filePath = test.filePath || this.fileName;
-
-    let str = su.customStringify({
-      childId: process.env.SUMAN_CHILD_ID,
-      test,
-      type: 'LOG_RESULT',
-    });
-
-    // str = str.replace(/(\r\n|\n|\r)/gm, ''); ///This javascript code removes all 3 types of line breaks
-    // process.send(JSON.parse(str));
-
-    const LOG_RESULT = constants.runner_message_type.LOG_RESULT;
-
-    if (global.usingBrowserEtcEtc) {
-      const client = getClient();
-      // TODO: note for the web browser, we need to use this
-      client.emit(LOG_RESULT, JSON.parse(str));
-    }
 
     // broadcast results
     resultBroadcaster.emit(String(events.TEST_CASE_END), test);
@@ -387,7 +374,8 @@ export type ISuman = Suman;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeSuman = function ($module: NodeModule, _interface: string, opts: Objects) {
+export const makeSuman
+  = function ($module: NodeModule, opts: IInitOpts, sumanOpts: Partial<ISumanOpts>, sumanConfig: Partial<ISumanConfig>) {
 
   let liveSumanServer = false;
 
@@ -401,16 +389,23 @@ export const makeSuman = function ($module: NodeModule, _interface: string, opts
 
   let timestamp: number;
 
+  try{
+    if(window){
+      timestamp = Number(_suman.timestamp);
+    }
+  }
+  catch(err){}
+
   if (_suman.usingRunner) {  //using runner, obviously, so runner provides timestamp value
-    timestamp = _suman.timestamp = process.env.SUMAN_RUNNER_TIMESTAMP;
+    timestamp = _suman.timestamp = timestamp || Number(process.env.SUMAN_RUNNER_TIMESTAMP);
     if (!timestamp) {
-      console.error(new Error(' => Suman implementation error => no timestamp provided by Suman test runner').stack);
+      console.error(new Error('Suman implementation error => no timestamp provided by Suman test runner'));
       process.exit(constants.EXIT_CODES.NO_TIMESTAMP_AVAILABLE_IN_TEST);
       return;
     }
   }
   else if (_suman.timestamp) {  //using suman executable, but not runner
-    timestamp = _suman.timestamp;
+    timestamp = Number(_suman.timestamp);
   }
   else {
     //test file executed with plain node executable
@@ -423,16 +418,17 @@ export const makeSuman = function ($module: NodeModule, _interface: string, opts
     server = findSumanServer(null);
   }
   catch (err) {
-    _suman.logError(err.stack || err);
+    _suman.log.error(err.stack || err);
   }
 
   return new Suman({
     fileName: path.resolve($module.filename),
     usingLiveSumanServer: liveSumanServer,
     server,
+    opts: sumanOpts,
     force: opts.force,
     timestamp,
-    interface: _interface
+    config: sumanConfig
   });
 
 };

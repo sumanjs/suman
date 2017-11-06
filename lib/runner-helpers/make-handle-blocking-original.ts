@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IHandleBlocking, IRunnerObj, IRunnerRunFn, ISumanChildProcess} from "suman-types/dts/runner";
 
 //polyfills
@@ -15,11 +17,12 @@ const sortBy = require('lodash.sortby');
 const includes = require('lodash.includes');
 const flattenDeep = require('lodash.flattendeep');
 const intersection = require('lodash.intersection');
+import su = require('suman-utils');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const weAreDebugging = require('../helpers/we-are-debugging');
-import su = require('suman-utils');
+const weAreDebugging = su.weAreDebugging;
+
 
 ////////////////////////////////////////////////
 
@@ -292,7 +295,7 @@ export default function (order: Object): IHandleBlocking {
       const cpFns = findQueuedCPsToStart(obstructed, queuedCPsObj);
 
       cpFns.forEach(function (fn) {
-        _suman.log('Test path started and is now running => ', fn.testPath);
+        _suman.log.info('Test path started and is now running => ', fn.testPath);
         fn.call(null);
       });
 

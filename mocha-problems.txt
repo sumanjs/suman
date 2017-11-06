@@ -1,4 +1,0 @@
-
-
-1. global vs. local npm package mismatch
-2.

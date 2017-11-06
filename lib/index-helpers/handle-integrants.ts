@@ -137,12 +137,12 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
         const d = domain.create();
 
         d.once('error', function (err: Error) {
-          _suman.logError(chalk.magenta('Your test was looking to source the following integrant dependencies:\n',
+          _suman.log.error(chalk.magenta('Your test was looking to source the following integrant dependencies:\n',
             chalk.cyan(util.inspect(integrants)), '\n', 'But there was a problem.'));
 
           err = new Error('Suman fatal error => there was a problem verifying the ' +
             'integrants listed in test file "' + $module.filename + '"\n' + (err.stack || err));
-          _suman.logError(err.stack || err);
+          _suman.log.error(err.stack || err);
           _suman.writeTestError(err.stack || err);
           process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_FAILURE);
         });

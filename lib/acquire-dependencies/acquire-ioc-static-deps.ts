@@ -62,13 +62,13 @@ export const acquireIocStaticDeps = function () {
   }
   catch (err) {
     if (/Cannot find module/.test(String(err.message))) {
-      _suman.logError(err.message);
+      _suman.log.error(err.message);
     }
     else {
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
     }
-    console.error(''); // simply log a new line
-    _suman.logError('despite the error, suman will continue optimistically.');
+    console.error(/*simply log a new line*/);
+    _suman.log.error('despite the error, suman will continue optimistically.');
     return Promise.resolve(_suman.$staticIoc = {});
   }
 
@@ -131,8 +131,8 @@ export const acquireIocStaticDeps = function () {
 
     },
     function (err) {
-      _suman.logError(err.stack || err);
-      _suman.logError('despite the error, suman will continue optimistically.');
+      _suman.log.error(err.stack || err);
+      _suman.log.error('despite the error, suman will continue optimistically.');
       return _suman.$staticIoc = {};
     });
 

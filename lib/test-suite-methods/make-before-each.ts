@@ -22,11 +22,11 @@ import su from 'suman-utils';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const rules = require('../helpers/handle-varargs');
+import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-const {handleSetupComplete} = require('../handle-setup-complete');
-import {parseArgs} from '../helpers/parse-pragmatik-args';
-import {evalOptions} from '../helpers/eval-options';
+import {handleSetupComplete} from '../helpers/general';
+import {parseArgs} from '../helpers/general';
+import {evalOptions} from '../helpers/general';
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -73,6 +73,7 @@ export const makeBeforeEach = function (suman: ISuman): IBeforeEachFn {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
+    try {delete $opts.__preParsed} catch(err){}
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
@@ -100,7 +101,7 @@ export const makeBeforeEach = function (suman: ISuman): IBeforeEachFn {
         events: opts.events,
         throws: opts.throws,
         planCountExpected: opts.plan,
-        fatal: !(opts.fatal === false),
+        fatal: opts.fatal === true, // default is that fatal is false for beforeEach/afterEach hooks
         cb: opts.cb || false,
         type: 'beforeEach/setupTest',
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')

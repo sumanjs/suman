@@ -29,13 +29,13 @@ export const run = function (opts: ISumanOpts) {
   fs.writeFile(sumanMultiLock, {flag: 'wx'}, function (err: Error) {
 
     if (err && !opts.force) {
-      _suman.logError('Could not acquire lock. Perhaps another similar process is already running. Use --force to override.');
+      _suman.log.error('Could not acquire lock. Perhaps another similar process is already running. Use --force to override.');
       return;
     }
 
     process.once('exit', function () {
 
-      _suman.log('cleaning up sumanMultiLock.');
+      _suman.log.info('cleaning up sumanMultiLock.');
       try {
         fs.unlinkSync(sumanMultiLock);
       }
@@ -55,16 +55,16 @@ export const run = function (opts: ISumanOpts) {
       fs.writeFile(sumanMultiReadyLock, {flag: 'wx'}, function (err: Error) {
 
         if(err){
-          _suman.logError(err.stack || err);
+          _suman.log.error(err.stack || err);
         }
         else{
-          _suman.log('successful started multi watch process.');
+          _suman.log.info('successful started multi watch process.');
         }
 
         let cleanUp = function () {
 
           console.log('\n');
-          _suman.log('cleaning up sumanMultiReadyLock.');
+          _suman.log.info('cleaning up sumanMultiReadyLock.');
 
           try {
             fs.unlinkSync(sumanMultiReadyLock);

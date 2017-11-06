@@ -27,10 +27,10 @@ import su from 'suman-utils';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {evalOptions} from '../helpers/eval-options';
-const rules = require('../helpers/handle-varargs');
+import {evalOptions} from '../helpers/general';
+import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-const {handleSetupComplete} = require('../handle-setup-complete');
+import {handleSetupComplete} from '../helpers/general';
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,7 +58,7 @@ const handleBadOptions = function (opts: IInjectOpts) {
   });
 
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
-    _suman.logError(new Error('Suman usage error => "plan" option is not an integer.').stack);
+    _suman.log.error(new Error('Suman usage error => "plan" option is not an integer.').stack);
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
     return;
   }
@@ -78,6 +78,7 @@ export const makeInject = function (suman: ISuman): IInjectFn {
       preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
     });
 
+    try {delete $opts.__preParsed} catch(err){}
     // this style produces cleaner transpile code
     let [desc, opts, arr, fn] = args;
     handleBadOptions(opts);

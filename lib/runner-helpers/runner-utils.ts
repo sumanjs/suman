@@ -52,7 +52,7 @@ export const findPathOfRunDotSh: IFindShFunctions = function (p) {
         }
       }
       catch(err){
-        _suman.logError(err.message || err);
+        _suman.log.error(err.message || err);
       }
     }
 
@@ -100,7 +100,7 @@ export const findPathOfTransformDotSh: IFindShFunctions = function (p) {
         }
       }
       catch(err){
-        _suman.logError(err.message || err);
+        _suman.log.error(err.message || err);
       }
     }
 

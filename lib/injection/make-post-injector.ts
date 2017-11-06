@@ -17,8 +17,7 @@ import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {getCoreAndDeps} from './$core-n-$deps';
-import {getProjectModule, lastDitchRequire} from './helpers';
+import {getCoreAndDeps, getProjectModule, lastDitchRequire} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 
