@@ -1,6 +1,7 @@
 'use strict';
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {ISumanCPMessages} from "./handle-multiple-processes";
+import {IRunnerObj, ITableRows} from "suman-types/dts/runner";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -25,7 +26,7 @@ import chalk  = require('chalk');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
-const debug = require('suman-debug')('s:runner');
+import {makeHandleAsyncReporters} from '../helpers/general';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 import {createGanttChart} from './create-gantt-chart';
@@ -42,7 +43,7 @@ const mapCopy = function (copy: Object) {
 
 //////////////////////////////////////////////////////////
 
-export const makeExit = function (runnerObj, tableRows) {
+export const makeExit = function (runnerObj: IRunnerObj, tableRows: ITableRows) {
 
   return function (messages: Array<ISumanCPMessages>, timeDiff: number) {
 
@@ -56,7 +57,7 @@ export const makeExit = function (runnerObj, tableRows) {
       const signal = msg.signal;
 
       if (!Number.isInteger(code)) {
-        _suman.logError(chalk.red.bold('Suman implementation error => exit code is non-integer => '), code);
+        _suman.log.error(chalk.red.bold('Suman implementation warning => exit code is non-integer => '), code);
       }
 
       if (code > 0) {
@@ -172,7 +173,7 @@ export const makeExit = function (runnerObj, tableRows) {
 
     totals.filesInfo = [filesPassed, filesFailed, filesTotal].join(' / ');
 
-    overallResultsTable.setHeading('Bailed?', 'Files ➣', '(Passed/Failed/Total)', 'Test cases ➣', 'Passed',
+    overallResultsTable.setHeading('Bailed?', 'Files ➣', '(Passed/Failed/Total)', 'totals:', 'Passed',
       'Failed', 'Skipped', 'Stubbed', 'All Tests', 'Total Time');
     overallResultsTable.addRow(Object.keys(totals).map(key => totals[key]));
 
@@ -186,7 +187,7 @@ export const makeExit = function (runnerObj, tableRows) {
     let timedOut = false;
     const to = setTimeout(function () {
       timedOut = true;
-      _suman.logError(`runner exit routine timed out after ${timeOutMillis}ms.`);
+      _suman.log.error(`runner exit routine timed out after ${timeOutMillis}ms.`);
       process.exit(1);
     }, timeOutMillis);
 
@@ -205,12 +206,12 @@ export const makeExit = function (runnerObj, tableRows) {
             soundFilePath = path.resolve(process.env.HOME + '/fail-trombone-02.mp3');
           }
 
-          if(!soundFilePath){
+          if (!soundFilePath) {
             return process.nextTick(cb);
           }
 
           player.play(soundFilePath, {timeout: 5000}, function (err: Error) {
-            err && _suman.logError(err);
+            err && _suman.log.error(err);
             cb(null);
           });
 
@@ -221,33 +222,7 @@ export const makeExit = function (runnerObj, tableRows) {
 
       },
 
-      handleAsyncReporters: function (cb: Function) {
-        async.eachLimit(reporterRets, 5, function (item: Object, cb: Function) {
-
-          if (item && item.count > 0) {
-
-            let timedout = false;
-            let timeoutFn = function () {
-              timedout = true;
-              console.error(`async reporter ${util.inspect(item.reporterName || item)}, appears to have timed out.`);
-              cb(null);
-            };
-
-            setTimeout(timeoutFn, 5000);
-
-            item.cb = function (err: Error) {
-              err && _suman.logError(err.stack || err);
-              process.nextTick(cb);
-            };
-          }
-          else {
-            // if nothing is returned from the reporter module, we can't do anything
-            // and we assume it was all sync
-            // likewise if count is less than 1 then we are ready to go
-            process.nextTick(cb);
-          }
-        }, cb);
-      },
+      handleAsyncReporters: makeHandleAsyncReporters(reporterRets),
 
       makeGanttChart: function (cb: Function) {
         // keep it simple
@@ -255,7 +230,7 @@ export const makeExit = function (runnerObj, tableRows) {
       }
 
     }, function (err: Error) {
-      err && _suman.logError(err.stack || err);
+      err && _suman.log.error(err.stack || err);
       if (timedOut) {
         return;
       }

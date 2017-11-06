@@ -128,7 +128,7 @@ module.exports = [
     help: 'Use this option to cd to the project root.'
   },
   {
-    names: ['allow-skip'],
+    names: ['allow-skip','allow-skipped'],
     type: 'bool',
     env: 'SUMAN_ALLOW_SKIP',
     help: 'Allow tests to be skipped.'
@@ -232,7 +232,7 @@ module.exports = [
     help: 'Use this to filter input to match the given JS regex',
   },
   {
-    names: ['match-none', 'match-not', 'not-match'],
+    names: ['match-none', 'match-not', 'not-match', 'no-match'],
     type: 'arrayOfString',
     help: 'Use this to filter input to ignore matches of the given JS regex',
   },
@@ -380,7 +380,12 @@ module.exports = [
   {
     names: ['use-tap-output', 'use-tap', 'tap'],
     type: 'bool',
-    help: 'Use this option to tell Suman runner to interpret TAP output from child process(es) stdout.'
+    help: 'Use this option to tell the Suman process to output test results as TAP.'
+  },
+  {
+    names: ['use-tap-json-output', 'use-tap-json', 'tap-json'],
+    type: 'bool',
+    help: 'Use this option to tell the Suman process to output test results as TAP-JSON.'
   },
   {
     names: ['suman-shell'],
@@ -396,7 +401,12 @@ module.exports = [
   {
     names: ['dry-run'],
     type: 'bool',
-    help: 'Use this option to tell Suman runner to *not* interpret TAP output from child process(es) stdout.'
+    help: 'Use this option to tell Suman to log what it will do, without actually doing it.'
+  },
+  {
+    names: ['find-only'],
+    type: 'bool',
+    help: 'Will use the json-2-stdout library to log runnable file paths to stdout and then exit.'
   },
   {
     names: ['inspect-child', 'inspect-children'],
@@ -435,6 +445,11 @@ module.exports = [
     'and begins watching the files desired.'
   },
   {
+    names: ['per'],
+    type: 'string',
+    help: 'watch-per string must match a key in {suman.conf.js}.watch.per'
+  },
+  {
     names: ['watch-per', 'wp'],
     type: 'string',
     help: 'watch-per string must match a key in {suman.conf.js}.watch.per.'
@@ -460,7 +475,7 @@ module.exports = [
     help: 'Allows certain Suman processes to run as a daemon.'
   },
   {
-    names: ['single-process', 'sp'],
+    names: ['single-process', 'single', 'sp'],
     type: 'bool',
     help: 'Run multiple test scripts in the same node.js process.'
   },
@@ -475,7 +490,7 @@ module.exports = [
     help: 'Specify single path as dest directory for conversion to Suman from Mocha.'
   },
   {
-    names: ['reporters'],
+    names: ['reporters', 'reporter'],
     type: 'arrayOfString',
     help: 'Specify name of reporters to be used deemed by your config file.'
   },
@@ -500,9 +515,9 @@ module.exports = [
     help: 'Test paths as JSON array.'
   },
   {
-    names: ['reporter-paths'],
+    names: ['reporter-paths','reporter-path'],
     type: 'arrayOfString',
-    help: 'Specify reporters by specifying path(s) to reporter module(s).'
+    help: 'Specify reporters, by specifying path(s) to reporter module(s) relative to root of project.'
   },
   {
     names: ['postinstall'],
@@ -528,7 +543,7 @@ module.exports = [
     '@run.sh, @transform.sh, @target, @src, have the correct permissions.'
   },
   {
-    names: ['browser'],
+    names: ['browser', 'b'],
     type: 'bool',
     help: 'Tell Suman to run browser tests.'
   },
@@ -582,11 +597,6 @@ module.exports = [
     names: ['user-args', 'child-args'],
     type: 'string',
     help: 'Pass user arguments through command line.'
-  },
-  {
-    names: ['to-json'],
-    type: 'string',
-    help: 'Use this option to write a JSON string to stdout from x, given --to-json="x".'
   },
   {
     names: ['groups'],

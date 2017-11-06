@@ -14,7 +14,6 @@ const EE = require('events');
 
 //npm
 import * as semver from 'semver';
-
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 const {events} = require('suman-events');
@@ -24,9 +23,9 @@ import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const weAreDebugging = require('../helpers/we-are-debugging');
+const weAreDebugging = su.weAreDebugging;
 const {getTapParser} = require('./handle-tap');
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 //////////////////////////////////////////////////////////
 
@@ -60,7 +59,7 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
     toPrint.push('');
     toPrint.push('');  // add some vertical padding
 
-    _suman.log('Files running in single process =>\n', toPrint.join('\n\t'));
+    _suman.log.info('Files running in single process =>\n', toPrint.join('\n\t'));
     runnerObj.startTime = Date.now();
 
     const sumanEnv = Object.assign({}, process.env, {
@@ -166,7 +165,7 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
     }
     else {
       if (su.vgt(6)) {
-        _suman.logWarning('Stdio object not available for child process.');
+        _suman.log.warning('stdio object not available for child process.');
       }
     }
 
@@ -174,7 +173,7 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
 
       if (SUMAN_DEBUG) {
         console.log('\n');
-        _suman.log(chalk.black.bgYellow('process given by => ' + n.shortTestPath + ' exited with code: ' + code + ' '));
+        _suman.log.info(chalk.black.bgYellow('process given by => ' + n.shortTestPath + ' exited with code: ' + code + ' '));
         console.log('\n');
       }
 

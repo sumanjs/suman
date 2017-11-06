@@ -21,7 +21,7 @@ import chalk = require('chalk');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
-import {cloneError} from '../misc/clone-error';
+import {cloneError} from '../helpers/general';
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -144,11 +144,11 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
       if (sumanOpts.debug_hooks) {
         if (hook) {
           if (d.testDescription) {
-            _suman.log(`each hook with name '${chalk.yellow.bold(hook.desc)}' has completed, ` +
+            _suman.log.info(`each hook with name '${chalk.yellow.bold(hook.desc)}' has completed, ` +
               `for test case with name '${chalk.magenta(d.testDescription)}'.`);
           }
           else {
-            _suman.log(`hook with name '${chalk.yellow(hook.desc)}' has completed.`);
+            _suman.log.info(`hook with name '${chalk.yellow(hook.desc)}' has completed.`);
           }
         }
       }
@@ -170,14 +170,14 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
       }
 
       if (d !== process.domain) {
-        _suman.logWarning('Suman implementation warning: diverging domains in handle callback helper.');
+        _suman.log.warning('Suman implementation warning: diverging domains in handle callback helper.');
       }
 
       try {
         d.exit(); //TODO: this removed to allow for errors thrown *after* tests/hooks are called-back
       }
       catch (err) {
-        err && _suman.logError(err.stack || err);
+        err && _suman.log.error(err.stack || err);
       }
 
       clearTimeout(timerObj.timer);

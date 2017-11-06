@@ -1,1 +1,1 @@
-export declare const createRunner: (obj: Object) => void;
+export declare const run: (obj: Object) => void;

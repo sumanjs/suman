@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 
 //polyfills
@@ -13,7 +15,7 @@ const flattenDeep = require('lodash.flattendeep');
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
-import oncePost from '../once-post';
+import * as oncePost from '../once-post';
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -26,15 +28,15 @@ export const oncePostFn = function (cb: Function) {
 
     oncePost.run(_suman.oncePostKeys, _suman.userData, function (err: IPseudoError, results: Array<any>) {
       if (err) {
-        console.error(err.stack || err);
+        _suman.log.error(err.stack || err);
       }
       if (Array.isArray(results)) {  // once-post was actually run this time versus (see below)
         results.filter(r => r).forEach(function (r) {
-          console.error(r.stack || r);
+          _suman.log.error(r.stack || r);
         });
       }
       else if (results) {
-        console.log('Results is not an array... =>', results);
+        _suman.log.error('Suman implemenation warning: results is not an array...', util.inspect(results));
       }
       process.nextTick(cb);
     });

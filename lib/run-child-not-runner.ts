@@ -89,21 +89,21 @@ export const run = function (files: Array<string>) {
 
   process.prependOnceListener('exit', function (code: number) {
     if (!_suman.isActualExitHandlerRegistered) {
-      _suman.logError(chalk.magenta('Warning - you may have failed to point Suman to an actual Suman test file.');
-      _suman.logError(chalk.magenta('Or there was an immediate error, which prevented any other exit handlers from being registered.'));
+      _suman.log.error(chalk.magenta('Warning - you may have failed to point Suman to an actual Suman test file.');
+      _suman.log.error(chalk.magenta('Or there was an immediate error, which prevented any other exit handlers from being registered.'));
     }
   });
 
   if (SUMAN_SINGLE_PROCESS) {
     if (su.vgt(5)) {
-      _suman.log('We are in "SUMAN_SINGLE_PROCESS" mode: all JavaScript-based tests will be run in a single process.');
+      _suman.log.info('We are in "SUMAN_SINGLE_PROCESS" mode: all JavaScript-based tests will be run in a single process.');
     }
 
     require('./handle-single-proc').run(files);
   }
   else {
     if (su.vgt(5)) {
-      _suman.log(`running this single test file => "${chalk.bold(files[0])}"`);
+      _suman.log.info(`running this single test file => "${chalk.bold(files[0])}"`);
     }
 
     require('./helpers/log-stdio-of-child').run(files[0]);

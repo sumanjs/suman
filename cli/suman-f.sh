@@ -3,8 +3,8 @@
 
 if [[ "${SUMAN_ENV}" != "local" ]]; then
  echo " => \$SUMAN_ENV is not set to 'local' so we will run suman instead of suman-f.";
- $(cd $(dirname "$0") && pwd)/suman $@;
- exit $?;
+ "$(cd $(dirname "$0") && pwd)/suman" "$@";
+  exit $?;
 fi
 
 mkdir -p "${HOME}/.suman/global"
@@ -13,10 +13,8 @@ mkdir -p "${HOME}/.suman/logs"
 trap 'echo ""; echo " (note that your test ran with suman-f, not suman)   "; echo "";' INT
 
 BASH_PID="$$"
-
 ARGS=""; for i; do ARGS=$(printf '%s"%s"' "$ARGS", "$i"); done;
 ARGS=${ARGS#,}
-
 
 exec 3<>/dev/tcp/localhost/9091  # persistent file descriptor
 

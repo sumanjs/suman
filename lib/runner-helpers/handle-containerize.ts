@@ -70,7 +70,7 @@ export const makeContainerize =
           setImmediate(cb);
 
           if (err) {
-            _suman.logError('tranpile error => ', su.getCleanErrorString(err));
+            _suman.log.error('tranpile error => ', su.getCleanErrorString(err));
             failedTestObjects.push({err, file, shortFile, stdout, pathFromProjecRoot});
           }
           else {
@@ -82,7 +82,7 @@ export const makeContainerize =
 
       transpileQueue.drain = function () {
         // => execute all queued tests
-        _suman.log('all transforms complete, beginning to run first set of tests.');
+        _suman.log.info('all transforms complete, beginning to run first set of tests.');
 
         const p = path.resolve(__dirname + '/../dockerize/make-dockerized-tests.sh');
         // const files = queuedTestObjects.map(v => "'" + v.file + "'").join(' ');
@@ -111,7 +111,7 @@ export const makeContainerize =
 
       if (sumanOpts.$useTAPOutput) {
         if (sumanOpts.verbosity > 7) {
-          _suman.log(chalk.gray.bold('Suman runner is expecting TAP output from Node.js child processes ' +
+          _suman.log.info(chalk.gray.bold('Suman runner is expecting TAP output from Node.js child processes ' +
             'and will not be listening for IPC messages.'));
         }
       }

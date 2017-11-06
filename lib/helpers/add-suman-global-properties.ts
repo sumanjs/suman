@@ -25,15 +25,24 @@ else {
   process.env.SUMAN_INCEPTION_LEVEL = silVal;
 }
 
-if (_suman.inceptionLevel < 1) {
+_suman.log = {} as any;
+
+if (_suman.inceptionLevel < 1 && String(process.env.SUMAN_USE_STDIO_PREFIX).trim() !== 'no') {
 
   // _suman.log = _suman.logInfo = console.log.bind(console, chalk.gray.bold(' [suman] '));
   // _suman.logWarning = console.error.bind(console, chalk.yellow(' [suman] '));
   // _suman.logError = console.error.bind(console, chalk.red(' [suman] '));
 
-  _suman.log = _suman.logInfo = lp(chalk.gray.bold(' [suman] '), process.stdout);
-  _suman.logWarning = lp(chalk.yellow(' [suman] '), process.stderr);
-  _suman.logError = lp(chalk.red(' [suman] '), process.stderr);
+  const resetterFn = function () {
+    // this is used for adding whitespace in the right place in the console logs
+    _suman.isTestMostRecentLog = false;
+  };
+
+  _suman.log.info = lp(chalk.gray.bold(' [suman] '), process.stdout, null, resetterFn);
+  _suman.log.good = lp(chalk.cyan.bold(' [suman] '), process.stdout, null, resetterFn);
+  _suman.log.verygood = lp(chalk.green.bold(' [suman] '), process.stdout, null, resetterFn);
+  _suman.log.warning = lp(chalk.yellow(' [suman] '), process.stderr, null, resetterFn);
+  _suman.log.error = lp(chalk.red(' [suman] '), process.stderr, null, resetterFn);
 
   // _suman.log = _suman.logInfo = console.log.bind(console, chalk.gray.bold(' => [suman] => '));
   // _suman.logWarning = console.error.bind(console, chalk.yellow(' => [suman] => '));
@@ -41,8 +50,10 @@ if (_suman.inceptionLevel < 1) {
 }
 else {
   _suman.$forceInheritStdio = true;
-  _suman.log = _suman.logInfo = console.log.bind(console);
-  _suman.logWarning = console.error.bind(console);
-  _suman.logError = console.error.bind(console);
+  _suman.log.info = console.log.bind(console);
+  _suman.log.warning = console.error.bind(console);
+  _suman.log.error = console.error.bind(console);
+  _suman.log.verygood = console.log.bind(console);
+  _suman.log.good = console.log.bind(console);
 }
 

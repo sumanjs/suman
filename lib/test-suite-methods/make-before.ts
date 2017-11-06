@@ -26,11 +26,11 @@ import su from 'suman-utils';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const rules = require('../helpers/handle-varargs');
+import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-const {handleSetupComplete} = require('../handle-setup-complete');
-import {evalOptions} from '../helpers/eval-options';
-import {parseArgs} from '../helpers/parse-pragmatik-args';
+import {handleSetupComplete} from '../helpers/general';
+import {evalOptions} from '../helpers/general';
+import {parseArgs} from '../helpers/general';
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -58,7 +58,7 @@ const handleBadOptions = function (opts: IBeforeOpts) {
   });
 
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
-    _suman.logError(new Error('Suman usage error => "plan" option is not an integer.').stack);
+    _suman.log.error(new Error('Suman usage error => "plan" option is not an integer.').stack);
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
   }
 };
@@ -76,6 +76,7 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
+    try {delete $opts.__preParsed} catch(err){}
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;

@@ -7,19 +7,12 @@ import {IBeforeFn} from 'suman-types/dts/before';
 import {ITestSuite, TestSuiteMethodType} from 'suman-types/dts/test-suite';
 import {ITestSuiteMakerOpts, TTestSuiteMaker} from 'suman-types/dts/test-suite-maker';
 import {ISuman, Suman} from '../suman';
-import {ItFn} from 'suman-types/dts/it';
-import {IDescribeFn} from 'suman-types/dts/describe';
-import {IBeforeEachFn} from 'suman-types/dts/before-each';
-import {IAfterEachFn} from 'suman-types/dts/after-each';
-import {IAfterFn} from 'suman-types/dts/after';
-import {incr} from '../misc/incrementer';
 import {ITestDataObj} from 'suman-types/dts/it';
 import {IBeforeObj} from 'suman-types/dts/before';
 import {IBeforeEachObj} from 'suman-types/dts/before-each';
 import {IAfterObj} from 'suman-types/dts/after';
 import {IAFterEachObj} from 'suman-types/dts/after-each';
 import {IInjectionObj} from 'suman-types/dts/test-suite';
-import {TestBlockBase} from './test-block-base';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -38,17 +31,58 @@ import {freezeExistingProps} from 'freeze-existing-props';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const rules = require('../helpers/handle-varargs');
+import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-const {makeStartSuite} = require('./make-start-suite');
-import symbols from '../helpers/symbols';
-import {TestBlockSymbols} from '../symbols/test-suite';
+import {makeStartSuite} from './make-start-suite';
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 type ITestSuiteConstructor = (obj: ITestSuiteMakerOpts) => void;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+class TestBlockBase {
+  // public
+  opts: Object;
+  testId: number;
+  childCompletionCount: number;
+  allChildBlocksCompleted: boolean;
+  isSetupComplete: boolean;
+  parallel: boolean;
+  skipped: boolean;
+  fixed: boolean;
+  only: boolean;
+  filename: string;
+  getAfterAllParentHooks: Function;
+  completedChildrenMap: Map<ITestSuite, boolean>;
+  parent?: ITestSuite;
+
+  describe: Function;
+  context: Function;
+  suite: Function;
+  before: Function;
+  beforeAll: Function;
+  beforeEach: Function;
+  after: Function;
+  afterAll: Function;
+  afterEach: Function;
+  it: Function;
+  test: Function;
+
+  testBlockMethodCache: Object;
+
+  // protected
+  protected mergeAfters: Function;
+  protected getAfters: Function;
+  protected getAfterEaches: Function;
+  protected getBefores: Function;
+  protected getBeforeEaches: Function;
+  protected injectedValues: Object;
+  protected getInjectedValue: Function;
+  protected getInjections: Function;
+  protected getChildren: Function;
+  protected getTests: Function;
+  protected getParallelTests: Function;
+  protected getAftersLast: Function;
+}
 
 const makeRunChild = function (val: any) {
   return function runChild(child: ITestSuite, cb: Function) {
@@ -56,12 +90,41 @@ const makeRunChild = function (val: any) {
   }
 };
 
+export interface ISumanSymbols {
+  [key: string]: symbol
+}
+
+export const TestBlockSymbols: ISumanSymbols = {
+
+  bindExtras: Symbol('bindExtras'),
+  getInjections: Symbol('bindExtras'),
+  children: Symbol('children'),
+  tests: Symbol('tests'),
+  parallelTests: Symbol('parallelTests'),
+  befores: Symbol('befores'),
+  beforeEaches: Symbol('beforeEaches'),
+  afters: Symbol('afters'),
+  aftersLast: Symbol('aftersLast'),
+  afterEaches: Symbol('afterEaches'),
+  injections: Symbol('injections'),
+  getAfterAllParentHooks: Symbol('getAfterAllParentHooks'),
+
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+let id = 1;
+
+const incr = function () {
+  // test suite incrementer
+  return id++;
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
                                        handleBeforesAndAfters: Function, notifyParent: Function): any {
 
-  const _interface = String(suman.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
   const startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
 
   return class TestBlock extends TestBlockBase {
@@ -69,16 +132,21 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
     constructor(obj: ITestSuiteMakerOpts) {
 
       super();
-
       const sumanOpts = _suman.sumanOpts;
 
       this.opts = obj.opts;
       this.testId = incr();
       this.isSetupComplete = false;
+
+
+      // user can access container methods if they need to => b.m.describe()
+      this.m = suman.containerProxy;
+
       let parallel = obj.opts.parallel;
       let mode = obj.opts.mode;
       let fixed = this.fixed = (this.opts.fixed || false);
       this.parallel = (sumanOpts.parallel && !fixed) || (!sumanOpts.series && (parallel === true || mode === 'parallel'));
+
       this.skipped = this.opts.skip || false;
       this.only = this.opts.only || false;
       this.filename = suman.filename;
@@ -103,6 +171,14 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
 
       // freezeExistingProps(this);
 
+    }
+
+    set(k: any, v: any) {
+      return this.shared.set(k, v);
+    }
+
+    get(k: any) {
+      return this.shared.get(k);
     }
 
     getAfterAllParentHooks() {

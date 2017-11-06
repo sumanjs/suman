@@ -14,7 +14,7 @@ import async = require('async');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const implementationError = require('../helpers/implementation-error');
+import {implementationError} from '../helpers/general';
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +45,7 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
 
     if (parent.childCompletionCount > parent.getChildren().length) {
       parent.allChildBlocksCompleted = true;
-      _suman.logWarning('Suman implementation warning => parent.childCompletionCount should never be greater than ' +
+      _suman.log.warning('Suman implementation warning => parent.childCompletionCount should never be greater than ' +
         'parent.getChildren().length');
     }
 

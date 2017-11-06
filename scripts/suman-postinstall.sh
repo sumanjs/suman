@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e;
 
 export SUMAN_DEBUG_LOG_PATH="$HOME/.suman/logs/suman-postinstall-debug.log"
 SUMAN_POSTINSTALL_IS_DAEMON=${SUMAN_POSTINSTALL_IS_DAEMON:-no}
@@ -37,20 +38,62 @@ fi
 ./scripts/create-suman-dir.js
 
 DOT_SUMAN_DIR=$(cd ~/.suman && pwd)
-SUMAN_INSTALL_NODE_MODULES="no";
+SUMAN_INSTALL_NODE_MODULES="yes";
 
 if [[ ! -d "$DOT_SUMAN_DIR" ]]; then
     echo " => Warning => Suman failed to create ~/.suman directory." | tee -a  ${SUMAN_DEBUG_LOG_PATH}
-    SUMAN_INSTALL_NODE_MODULES="yes";
+    SUMAN_INSTALL_NODE_MODULES="no";
 fi
 
+if [[ "${SUMAN_INSTALL_NODE_MODULES}" == "yes" ]]; then
+
+
+(
+
+  set -e;
+
+  cd "$HOME/.suman/global";
+
+  npm init -f >> ${SUMAN_DEBUG_LOG_PATH} 2>&1
+
+  if [[ ! -d "node_modules/handlebars" ]]; then
+    npm install -S handlebars
+  fi
+
+  if [[ ! -d "node_modules/istanbul" ]]; then
+    npm install -S istanbul
+  fi
+
+  if [[ ! -d "node_modules/typescript" ]]; then
+    npm install -S typescript
+  fi
+
+  if [[ ! -d "node_modules/istanbul" ]]; then
+    npm install -S istanbul
+  fi
+
+  if [[ ! -d "node_modules/suman-inquirer" ]]; then
+    npm install -S suman-inquirer
+  fi
+
+  if [[ ! -d "node_modules/suman-inquirer-directory" ]]; then
+    npm install -S suman-inquirer-directory
+  fi
+
+  if [[ ! -d "node_modules/suman-daemon" ]]; then
+    npm install -S suman-daemon
+  fi
+
+  if [[ ! -d "node_modules/suman-shell" ]]; then
+    npm install -S suman-shell
+  fi
+)
+
+fi
 
 SUMAN_END_TIME=$(node -e 'console.log(Date.now())')
 SUMAN_TOTAL_TIME=$(expr ${SUMAN_END_TIME} - ${SUMAN_START_TIME})
-SUMAN_TOTAL_TIME=${SUMAN_TOTAL_TIME} ./scripts/on-install-success.js &&
-echo " => Suman => all done with postinstall routine. " | tee -a  ${SUMAN_DEBUG_LOG_PATH}
+echo " => Suman => all done with postinstall routine after ${SUMAN_TOTAL_TIME}ms. " | tee -a  ${SUMAN_DEBUG_LOG_PATH}
 
 # explicit for your pleasure
 exit 0;
-
-

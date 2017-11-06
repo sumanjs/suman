@@ -94,23 +94,7 @@ export const writeSumanFiles = function (newSumanHelperDirAbsPath: string, prepe
           }, cb);
         },
 
-        appendToGitignore: function (cb: Function) {
 
-          const gitignore = path.resolve(projectRoot + '/.gitignore');
-          fs.readFile(gitignore, function (err: Error, data: Buffer) {
-            if (err && !String(err.stack || err).match(/ENOENT/i)) {
-              return cb(err);
-            }
-
-            const filtered = constants.GIT_IGNORE.filter(function (item: string) {
-              return String(data).indexOf(item) < 0;
-            });
-
-            const appendable = filtered.join('\n') + '\n';
-            fs.appendFile(gitignore, '\n' + String(appendable), cb);
-          });
-
-        },
         createLogsDir: function (createSumanDir: any, cb: Function) {
           fs.mkdir(path.resolve(newSumanHelperDirAbsPath + '/logs'), 0o777, function (err: Error) {
             if (err) {

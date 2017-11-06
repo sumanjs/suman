@@ -3,7 +3,7 @@
 //dts
 import {IGlobalSumanObj, ISumanConfig, SumanErrorRace} from "suman-types/dts/global";
 import EventEmitter = NodeJS.EventEmitter;
-import {IStartCreate, IIoCData, IInit, IInitOpts} from "suman-types/dts/index-init"
+import {IStartCreate, IIoCData, IInitFn, IInitOpts} from "suman-types/dts/index-init"
 import {Stream, Transform, Writable} from "stream";
 import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
 import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook} from "suman-types/dts/index-init";
@@ -26,6 +26,10 @@ export {IAfterEachFn} from 'suman-types/dts/after-each';
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
+if(process.env.IS_SUMAN_BROWSER_TEST === 'yes'){
+  throw new Error('This file should not be loaded if the process.env.IS_SUMAN_BROWSER_TEST var is set to "yes".');
+}
+
 //core
 import util = require('util');
 import assert = require('assert');
@@ -41,45 +45,61 @@ import async = require('async');
 const pragmatik = require('pragmatik');
 
 //project
-let inBrowser = false;
+let inBrowser = false, usingKarma = false;
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
-import {getClient} from './index-helpers/socketio-child-client';
+import {getClient} from './index-helpers/socketio-child-client'; // just for pre-loading
 const sumanOptsFromRunner = _suman.sumanOpts || (process.env.SUMAN_OPTS ? JSON.parse(process.env.SUMAN_OPTS) : {});
 const sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || sumanOptsFromRunner);
 
-// here we allow --force option to work with plain node executable
 if (process.argv.indexOf('-f') > 0) {
+  // here we allow --force option to work with plain node executable
   sumanOpts.force = true;
 }
 else if (process.argv.indexOf('--force') > 0) {
+  // here we allow --force option to work with plain node executable
   sumanOpts.force = true;
 }
 
 process.on('error', function (e: Error) {
   debugger; // please leave it here, thx
-  _suman.logError(su.getCleanErrorString(e));
+  _suman.log.error(su.getCleanErrorString(e));
 });
 
 try {
-  if (!window.module) {
-    window.module = {filename: '/', exports: {}};
-    module.parent = module;
+  if (window) {
+    sumanOpts.series = true;
+    fs = require('suman-browser-polyfills/modules/fs');
   }
+}
+catch (err) {
+
+}
+
+try {
+  window.onerror = function (e) {
+    console.error('window onerror event', e);
+  };
+  window.suman = module.exports;
+  console.log(' => "suman" is now available as a global variable in the browser.');
   inBrowser = _suman.inBrowser = true;
+  if(window.__karma__){
+    usingKarma = _suman.usingKarma = true;
+    _suman.sumanOpts && _suman.sumanOpts.force = true;
+  }
 }
 catch (err) {
   inBrowser = _suman.inBrowser = false;
 }
 
 if (!_suman.sumanOpts) {
-  _suman.logWarning('implementation warning: sumanOpts is not yet defined in runtime.');
+  _suman.log.warning('implementation warning: sumanOpts is not yet defined in runtime.');
 }
 
 if (_suman.sumanOpts && _suman.sumanOpts.verbosity > 8) {
-  _suman.log(' => Are we in browser? => ', inBrowser ? 'yes!' : 'no.');
+  _suman.log.info(' => Are we in browser? => ', inBrowser ? 'yes!' : 'no.');
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -92,50 +112,52 @@ require('./index-helpers/exit-handling');
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
-const {fatalRequestReply} = require('./helpers/fatal-request-reply');
+import {fatalRequestReply} from './helpers/general';
 const {constants} = require('../config/suman-constants');
 import {handleIntegrants} from './index-helpers/handle-integrants';
-const rules = require('./helpers/handle-varargs');
+import rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';
-const {execSuite} = require('./exec-suite');
-import {loadSumanConfig} from './helpers/load-suman-config';
-import {resolveSharedDirs} from './helpers/resolve-shared-dirs';
-import {loadSharedObjects} from './helpers/load-shared-objects'
+import {execSuite} from './exec-suite';
+import {loadSumanConfig, resolveSharedDirs, loadSharedObjects} from './helpers/general';
 import {acquireIocStaticDeps} from './acquire-dependencies/acquire-ioc-static-deps';
-
-///////////////////////////////////////////////////////////////////////////////////////////
-
-//integrants
+import {shutdownProcess, handleSingleFileShutdown} from "./helpers/handle-suman-shutdown";
 const allOncePreKeys: Array<Array<string>> = _suman.oncePreKeys = [];
 const allOncePostKeys: Array<Array<string>> = _suman.oncePostKeys = [];
 const suiteResultEmitter = _suman.suiteResultEmitter = _suman.suiteResultEmitter || new EE();
+const initMap = new Map() as Map<Object, Object>;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-if (!SUMAN_SINGLE_PROCESS) {
-  require('./helpers/handle-suman-counts');
+if (!SUMAN_SINGLE_PROCESS && !inBrowser) {
+  // if not a single process, then we shutdown after the first test file completes
+  handleSingleFileShutdown();
 }
 
 require('./index-helpers/verify-local-global-version');
 
-let projectRoot: string, sumanConfig, main: string,
-  usingRunner: boolean, testDebugLogPath: string, sumanPaths: Array<string>,
-  sumanObj: Object, integrantPreFn: Function;
+let projectRoot: string,
+  loaded = false,
+  sumanConfig: ISumanConfig,
+  main: string,
+  usingRunner: boolean,
+  testDebugLogPath: string,
+  sumanPaths: Array<string>,
+  sumanObj: Object,
+  integrantPreFn: Function;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-let loaded = false;
 const testSuiteQueueCallbacks: Array<Function> = [];
 const testRuns: Array<Function> = [];
 const testSuiteRegistrationQueueCallbacks: Array<Function> = [];
 const c = (sumanOpts && sumanOpts.series) ? 1 : 3;
 
-const testSuiteQueue = async.queue(function (task: Function, cb: Function) {
+const testSuiteQueue = _suman.tsq = async.queue(function (task: Function, cb: Function) {
   testSuiteQueueCallbacks.unshift(cb);
   process.nextTick(task);
 }, c);
 
-const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Function) {
+const testSuiteRegistrationQueue = _suman.tsrq = async.queue(function (task: Function, cb: Function) {
   // important! => Test.creates need to be registered only one at a time
   testSuiteRegistrationQueueCallbacks.unshift(cb);
   process.nextTick(task);
@@ -144,7 +166,7 @@ const testSuiteRegistrationQueue = async.queue(function (task: Function, cb: Fun
 testSuiteRegistrationQueue.drain = function () {
   if (su.vgt(5)) {
     const suites = testRuns.length === 1 ? 'suite' : 'suites';
-    _suman.log(`Pushing ${testRuns.length} test ${suites} onto queue with concurrency ${c}.\n\n`);
+    _suman.log.info(`Pushing ${testRuns.length} test ${suites} onto queue with concurrency ${c}.\n\n`);
   }
 
   while (testRuns.length > 0) {  //explicit for your pleasure
@@ -152,8 +174,12 @@ testSuiteRegistrationQueue.drain = function () {
   }
 };
 
+
 testSuiteQueue.drain = function () {
   suiteResultEmitter.emit('suman-test-file-complete');
+  if (inBrowser && testSuiteRegistrationQueue.idle()) {
+    shutdownProcess();
+  }
 };
 
 suiteResultEmitter.on('suman-test-registered', function (fn: Function) {
@@ -181,19 +207,31 @@ _suman.writeTestError = function (data: string, ignore: boolean) {
   }
 };
 
+if (inBrowser) {
+  if(!window.__karma__){
+    const client = getClient();
+    testSuiteRegistrationQueue.pause();
+    setImmediate(function () {
+      require('./handle-browser').run(testSuiteRegistrationQueue, testSuiteQueue, client);
+    });
+  }
+}
 
-const initMap = new Map() as Map<Object, Object>;
 
-export const init: IInit = function ($module, $opts, confOverride): IStartCreate {
+export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOverride) {
 
+  ////////////////////////////////////////////////////////////////////////////
   debugger;  // leave this here forever for debugging child processes, etc
+  ////////////////////////////////////////////////////////////////////////////
+
+  require('./handle-exit');
 
   if (this instanceof init) {
-    throw new Error('no need to use "new" keyword with the suman.init() function as it is not a constructor');
+    throw new Error('no need to use "new" keyword with the suman.init() function as it is not a constructor.');
   }
 
   if (initMap.size > 0 && !SUMAN_SINGLE_PROCESS) {
-    _suman.logError(chalk.red('Suman usage warning => suman.init() only needs to be called once per test script.'));
+    _suman.log.error(chalk.red('Suman usage warning => suman.init() only needs to be called once per test script.'));
   }
 
   if (!$module) {
@@ -204,17 +242,30 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     return initMap.get($module) as any;
   }
 
+  if (typeof _suman.sumanConfig === 'string') {
+    _suman.sumanConfig = JSON.parse(_suman.sumanConfig);
+  }
+
+  if (typeof _suman.sumanOpts === 'string') {
+    _suman.log.info('Parsing global suman-options.');
+    _suman.sumanOpts = JSON.parse(_suman.sumanOpts);
+    _suman.sumanOpts.series = true;
+    _suman.sumanOpts.force = true;
+  }
+
   if (!$module.filename) {
-    _suman.logWarning(`warning: module instance did not have a 'filename' property.`);
+    _suman.log.warning(`warning: module instance did not have a 'filename' property.`);
     $module.filename = '/';
   }
 
   if (!$module.exports) {
-    _suman.logWarning(`warning: module instance did not have an 'exports' property.`);
+    _suman.log.warning(`warning: module instance did not have an 'exports' property.`);
     $module.exports = {};
   }
 
-  if (!projectRoot) {
+  if (!loaded) {
+    _suman.sumanInitCalled = true;
+    require('./helpers/load-reporters-last-ditch').run();
     projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
     main = require.main.filename;
     usingRunner = _suman.usingRunner = _suman.usingRunner || process.env.SUMAN_RUNNER === 'yes';
@@ -231,42 +282,27 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
     _suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);
     _suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
-  }
 
-  if(!projectRoot){
-     projectRoot = _suman.projectRoot = _suman.projectRoot || su.findProjectRoot(process.cwd()) || '/';
-     main = require.main.filename;
-     usingRunner = _suman.usingRunner = _suman.usingRunner || process.env.SUMAN_RUNNER === 'yes';
-    //could potentially pass dynamic path to suman config here, but for now is static
-     sumanConfig = loadSumanConfig(null, null);
-    if (!_suman.usingRunner && !_suman.viaSuman) {
-      require('./helpers/print-version-info'); // just want to run this once
-    }
-     sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
-     sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
-     integrantPreFn = sumanObj.integrantPreFn;
-     testDebugLogPath = sumanPaths.testDebugLogPath;
-    fs.writeFileSync(testDebugLogPath, '\n');
-    fs.appendFileSync(testDebugLogPath, '\n\n', {encoding: 'utf8'});
-    _suman.writeTestError('\n ### Suman start run @' + new Date() + ' ###\n', true);
-    _suman.writeTestError('\nCommand => ' + util.inspect(process.argv), true);
   }
-
-  require('./handle-exit'); // handle exit here
-  require('./helpers/load-reporters-last-ditch').run();
 
   if (!inBrowser) {
     assert(($module.constructor && $module.constructor.name === 'Module'),
       'Please pass the test file module instance as the first argument to suman.init()');
   }
 
+  let _sumanConfig = _suman.sumanConfig, _sumanOpts = _suman.sumanOpts;
+
+  if (sumanOptsOverride) {
+    assert(su.isObject(sumanOptsOverride), 'Suman opts override value must be a plain object.');
+    _sumanOpts = Object.assign({}, _suman.sumanOpts, sumanOptsOverride);
+  }
+
   if (confOverride) {
-    assert(su.isObject(confOverride), 'Suman conf override value must be defined, and an object like so => {}.');
-    Object.assign(_suman.sumanConfig, confOverride);
+    assert(su.isObject(confOverride), 'Suman conf override value must be a plain object.');
+    _sumanConfig = Object.assign({}, _suman.sumanConfig, confOverride);
   }
 
   _suman.sumanInitStartDate = (_suman.sumanInitStartDate || Date.now());
-  _suman._currentModule = $module.filename;
 
   // TODO: could potention figure out what original test module is via suman.init call, instead of
   // requiring that user pass it explicitly
@@ -329,7 +365,6 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   allOncePostKeys.push($oncePost);
   allOncePreKeys.push(integrants);
 
-  const _interface = String(opts.interface).toUpperCase() === 'TDD' ? 'TDD' : 'BDD';
   const iocData: IIoCData = opts.iocData || opts.ioc || {};
 
   if (iocData) {
@@ -339,7 +374,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
           'to point to an object'));
     }
     catch (err) {
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       process.exit(constants.EXIT_CODES.IOC_PASSED_TO_SUMAN_INIT_BAD_FORM);
     }
   }
@@ -347,25 +382,24 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   //////////////////////////////////////////////////////////////////
 
   const integrantsFn = handleIntegrants(integrants, $oncePost, integrantPreFn, $module);
-  init.tooLate = false;
 
   const start: IStartCreate = function (/*likely args: desc, opts, arr, cb */) {
 
     const args = pragmatik.parse(arguments, rules.createSignature);
     args[1].__preParsed = true;
 
-    if (init.tooLate === true && !SUMAN_SINGLE_PROCESS) {
+    if (start.tooLate === true) {
       console.error(' => Suman usage fatal error => You must call Test.create() synchronously => \n\t' +
         'in other words, all Test.create() calls should be registered in the same tick of the event loop.');
       return process.exit(constants.EXIT_CODES.ASYNCHRONOUS_CALL_OF_TEST_DOT_DESCRIBE);
     }
 
     process.nextTick(function () {
-      init.tooLate = true;
+      start.tooLate = true;
     });
 
     const to = setTimeout(function () {
-      console.error(' => Suman usage error => Integrant acquisition timeout.');
+      console.error('Suman usage error => Integrant acquisition timeout.');
       process.exit(constants.EXIT_CODES.INTEGRANT_ACQUISITION_TIMEOUT);
     }, _suman.weAreDebugging ? 50000000 : 50000);
 
@@ -375,8 +409,8 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
       _suman['$pre'] = JSON.parse(su.customStringify(vals));
       _suman.userData = JSON.parse(su.customStringify(iocData));
 
-      // suman instance is the main object that flows through entire program
-      let suman = makeSuman($module, _interface, opts);
+      // suman instances are the main object that flows through entire program
+      let suman = makeSuman($module, opts, _sumanOpts, _sumanConfig);
       suman.iocData = JSON.parse(su.customStringify(iocData));
       const run = execSuite(suman);
 
@@ -387,7 +421,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
         global.setImmediate(function () {
           // IMPORTANT: setImmediate guarantees registry of multiple test suites referenced in the same file
           testSuiteRegistrationQueue.push(function () {
-            //args are most likely (desc,opts,cb)
+            //args are most likely (desc, opts, cb)
             run.apply(null, args);
           });
         });
@@ -398,7 +432,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     acquireIocStaticDeps()
     .catch(function (err) {
       clearTimeout(to);
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       _suman.writeTestError(err.stack || err);
       process.exit(constants.EXIT_CODES.IOC_STATIC_ACQUISITION_ERROR);
     })
@@ -407,14 +441,14 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
     })
     .catch(function (err: Error) {
       clearTimeout(to);
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       _suman.writeTestError(err.stack || err);
       process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_ERROR);
     })
     .then(onPreVals)
     .catch(function (err: Error) {
       clearTimeout(to);
-      _suman.logError(err.stack || err);
+      _suman.log.error(err.stack || err);
       _suman.writeTestError(err.stack || err);
       process.exit(constants.EXIT_CODES.PRE_VALS_ERROR);
     });
@@ -422,7 +456,7 @@ export const init: IInit = function ($module, $opts, confOverride): IStartCreate
   };
 
   const ret = {
-    parent: $module.parent, //parent is who required the original $module
+    parent: $module.parent ? $module.parent.filename : null, //parent is who required the original $module
     file: $module.filename,
     create: start
   };
@@ -470,14 +504,9 @@ export const once = function (fn: Function) {
   }
 };
 
-try {
-  window.suman = module.exports;
-  console.log(' => "suman" is now available as a global variable in the browser.');
-}
-catch (err) {
-}
-
-///////////////////////////////////////////////////////////////////////////////////
+///////////////// keep this for user convenience ////////////////////////////////////////////////
 
 const $exports = module.exports;
 export default $exports;
+
+///////////////// keep this for user convenience ////////////////////////////////////////////////

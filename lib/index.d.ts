@@ -1,4 +1,4 @@
-import { IInit } from "suman-types/dts/index-init";
+import { IInitFn } from "suman-types/dts/index-init";
 import { IHookOrTestCaseParam } from "suman-types/dts/test-suite";
 export { ISumanOpts, IGlobalSumanObj } from 'suman-types/dts/global';
 export { ITestCaseParam } from 'suman-types/dts/test-suite';
@@ -9,7 +9,7 @@ export { IBeforeFn } from 'suman-types/dts/before';
 export { IBeforeEachFn } from 'suman-types/dts/before-each';
 export { IAfterFn } from 'suman-types/dts/after';
 export { IAfterEachFn } from 'suman-types/dts/after-each';
-export declare const init: IInit;
+export declare const init: IInitFn;
 export declare const autoPass: (t: IHookOrTestCaseParam) => void;
 export declare const autoFail: (t: IHookOrTestCaseParam) => Promise<never>;
 export declare const once: (fn: Function) => (cb: Function) => void;

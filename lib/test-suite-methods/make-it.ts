@@ -22,12 +22,11 @@ import su from 'suman-utils';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const rules = require('../helpers/handle-varargs');
+import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
-import {incr} from '../misc/incrementer';
-const {handleSetupComplete} = require('../handle-setup-complete');
-import {parseArgs} from '../helpers/parse-pragmatik-args';
-import {evalOptions} from '../helpers/eval-options';
+import {handleSetupComplete} from '../helpers/general';
+import {parseArgs} from '../helpers/general';
+import {evalOptions} from '../helpers/general';
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -70,18 +69,30 @@ const handleBadOptions = function (opts: IItOpts) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
+let id = 1;
+
+const incr = function () {
+  // test suite incrementer
+  return id++;
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
 export const makeIt = function (suman: ISuman): ItFn {
 
   return function ($desc: string, $opts: IItOpts): ITestSuite {
 
-    const {sumanOpts} = _suman;
-    const zuite = suman.ctx;
+    const sumanOpts = suman.opts, zuite = suman.ctx;
     handleSetupComplete(zuite, 'it');
 
     const args = pragmatik.parse(arguments, rules.testCaseSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
+    try {
+      delete $opts.__preParsed
+    } catch (err) {
+    }
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
@@ -99,9 +110,9 @@ export const makeIt = function (suman: ISuman): ItFn {
 
     if (opts.hasOwnProperty('parallel')) {
       if (opts.hasOwnProperty('mode')) {
-        _suman.logWarning('warning => Used both parallel and mode options => mode will take precedence.');
+        _suman.log.warning('warning => Used both parallel and mode options => mode will take precedence.');
         if (opts.mode !== 'parallel' && opts.mode !== 'series' && opts.mode !== 'serial') {
-          _suman.logWarning('warning => valid "môde" options are only values of "parallel" or "series" or "serial"' +
+          _suman.log.warning('warning => valid "môde" options are only values of "parallel" or "series" or "serial"' +
             ' => ("serial" is an alias to "series").');
         }
       }
@@ -109,12 +120,14 @@ export const makeIt = function (suman: ISuman): ItFn {
 
     const inc = incr();
 
-    if (opts.skip && !sumanOpts.force && !sumanOpts.allow_skip) {
-      throw new Error('Test block was declared as "skipped" but "--allow-skip" option not specified.');
-    }
+    if (!_suman.inBrowser && !sumanOpts.force) {
+      if (opts.skip && !sumanOpts.allow_skip) {
+        throw new Error('Test case was declared as "skipped" but "--allow-skip" option not specified.');
+      }
 
-    if (opts.only && !sumanOpts.force && !sumanOpts.allow_only) {
-      throw new Error('Test block was declared as "only" but "--allow-only" option not specified.');
+      if (opts.only && !sumanOpts.allow_only) {
+        throw new Error('Test case was declared as "only" but "--allow-only" option not specified.');
+      }
     }
 
     if (opts.skip || opts.skipped) {

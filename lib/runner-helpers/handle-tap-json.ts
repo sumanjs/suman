@@ -33,7 +33,7 @@ export const getTapJSONParser = function () {
     if (first) {
       first = false;
       console.log('\n');
-      _suman.log(chalk.yellow.bold('suman runner has received first test result via TAP.'));
+      _suman.log.info(chalk.yellow.bold('suman runner has received first test result via TAP.'));
       console.log('\n');
     }
 

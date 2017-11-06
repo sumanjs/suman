@@ -10,8 +10,18 @@ debugger;  //leave here forever so users can easily debug with "node --inspect" 
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
-//and all the rest
-const {run: logExit} = require('./lib/helpers/log-exit');
+/////////////////////////////////////////////////////////////////
+
+let callable = true;
+
+const logExit = function (code: number) {
+  if (callable) {
+    callable = false;
+    console.log('\n');
+    console.log(' => Suman cli exiting with code: ', code);
+    console.log('\n');
+  }
+};
 
 process.once('exit', function (code: number) {
   if (!global.__suman || !global.__suman.isActualExitHandlerRegistered) {
@@ -28,13 +38,6 @@ if (require.main !== module && process.env.SUMAN_EXTRANEOUS_EXECUTABLE !== 'yes'
 }
 else {
   delete process.env['SUMAN_EXTRANEOUS_EXECUTABLE'];
-}
-
-const weAreDebugging = require('./lib/helpers/we-are-debugging');
-
-if (weAreDebugging) {
-  console.log(' => Suman is in debug mode (we are debugging).');
-  console.log(' => Process PID => ', process.pid);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -68,7 +71,7 @@ process.on('uncaughtException', function (err: Error) {
   setTimeout(function () {
     if (err && !err._alreadyHandledBySuman) {
       err._alreadyHandledBySuman = true;
-      console.error('\n\n => Suman "uncaughtException" event occurred =>\n', err.stack, '\n\n');
+      console.error('\n => Suman "uncaughtException" event occurred =>\n', chalk.magenta(err.stack), '\n\n');
       handleExceptionsAndRejections();
     }
   }, 500);
@@ -115,7 +118,6 @@ import su = require('suman-utils');
 import _ = require('lodash');
 const uniqBy = require('lodash.uniqby');
 const {events} = require('suman-events');
-const debug = require('suman-debug')('s:cli');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -123,34 +125,40 @@ require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
 import {loadReporters} from './lib/helpers/load-reporters';
 import {constants} from './config/suman-constants';
+import {resolveSharedDirs, loadSharedObjects} from "./lib/helpers/general";
+
+
+if (su.weAreDebugging) {
+  _suman.log.info(' => Suman is in debug mode (we are debugging).');
+  _suman.log.info(' => Process PID => ', process.pid);
+}
 
 //////////////////////////////////////////////////////////////////////////
 
-debug([' => Suman started with the following command:', process.argv]);
-debug([' => $NODE_PATH is as follows:', process.env['NODE_PATH']]);
+_suman.log.info(chalk.magenta(' => Suman started with the following command:'), chalk.bold(util.inspect(process.argv));
+_suman.log.info(' => $NODE_PATH is as follows:', process.env['NODE_PATH']);
 
 //////////////////////////////////////////////////////////////////////////
 
-_suman.log('Resolved path of Suman executable =>', '"' + __filename + '"');
-
+_suman.log.info('Resolved path of Suman executable =>', '"' + __filename + '"');
 const nodeVersion = process.version;
 const oldestSupported = constants.OLDEST_SUPPORTED_NODE_VERSION;
 
 if (semver.lt(nodeVersion, oldestSupported)) {
-  _suman.logError(chalk.red('warning => Suman is not well-tested against Node versions prior to ' +
+  _suman.log.error(chalk.red('warning => Suman is not well-tested against Node versions prior to ' +
     oldestSupported + '; your Node version: ' + chalk.bold(nodeVersion)));
-  throw 'Please upgrade to a Node.js version newer than v4.0.0. Suman recommends usage of NVM.';
+  throw 'Please upgrade to a Node.js version newer than v6.0.0. Suman recommends usage of NVM.';
 }
 
-_suman.log('Node.js version:', chalk.bold(nodeVersion));
+_suman.log.info('Node.js version:', chalk.bold(nodeVersion));
 
 ////////////////////////////////////////////////////////////////////
 
 const sumanLibRoot = _suman.sumanLibRoot = String(__dirname);
 const pkgJSON = require('./package.json');
 const sumanVersion = process.env.SUMAN_GLOBAL_VERSION = pkgJSON.version;
-_suman.log(chalk.italic('Suman ' + chalk.bold('v' + sumanVersion) + ' running...'));
-_suman.log('[process.pid] => ', process.pid);
+_suman.log.info(chalk.italic('Suman ' + chalk.bold('v' + sumanVersion) + ' running...'));
+_suman.log.info('[process.pid] => ', process.pid);
 
 ////////////////////////////////////////////////////////////////////
 
@@ -184,26 +192,26 @@ const sumanOpts = _suman.sumanOpts = require('./lib/parse-cmd-line-opts/parse-op
 _suman.sumanArgs = sumanOpts._args;
 
 if (su.vgt(7)) {
-  _suman.log('Project root:', projectRoot);
+  _suman.log.info('Project root:', projectRoot);
 }
 
 ////////////////////////////////////////////////////////////////////
 
 if (cwd !== projectRoot) {
   if (su.vgt(1)) {
-    _suman.log('Note that your current working directory is not equal to the project root:');
-    _suman.log('cwd:', chalk.magenta(cwd));
-    _suman.log('Project root:', chalk.magenta(projectRoot));
+    _suman.log.info('Note that your current working directory is not equal to the project root:');
+    _suman.log.info('cwd:', chalk.magenta(cwd));
+    _suman.log.info('Project root:', chalk.magenta(projectRoot));
   }
 }
 else {
   if (su.vgt(2)) {
     if (cwd === projectRoot) {
-      _suman.log(chalk.gray('cwd:', cwd));
+      _suman.log.info(chalk.gray('cwd:', cwd));
     }
   }
   if (cwd !== projectRoot) {
-    _suman.log(chalk.magenta('cwd:', cwd));
+    _suman.log.info(chalk.magenta('cwd:', cwd));
   }
 }
 
@@ -253,19 +261,26 @@ const sumanShell = sumanOpts.suman_shell;
 const watchPer = sumanOpts.watch_per;
 const singleProcess = sumanOpts.single_process;
 const script = sumanOpts.script;
+const browser = sumanOpts.browser;
 
 if (singleProcess) {
   process.env.SUMAN_SINGLE_PROCESS = 'yes';
 }
 
+if (watch || watchPer) {
+  if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() === 'yes') {
+    throw new Error('Suman watch process has launched a process which in turn will watch, this is not allowed.');
+  }
+}
+
 if (sumanOpts.user_args) {
-  _suman.log(chalk.magenta('raw user_args is'), sumanOpts.user_args);
+  _suman.log.info(chalk.magenta('raw user_args is'), sumanOpts.user_args);
 }
 
 const userArgs = sumanOpts.user_args = _.flatten([sumanOpts.user_args]).join(' ');
 
 if (coverage) {
-  _suman.log(chalk.magenta.bold('Coverage reports will be written out due to presence of --coverage flag.'));
+  _suman.log.info(chalk.magenta.bold('Coverage reports will be written out due to presence of --coverage flag.'));
 }
 
 //re-assignable
@@ -283,9 +298,9 @@ let sumanServerInstalled = null;
 
 if (sumanOpts.version) {
   console.log('\n');
-  _suman.log('Node.js version:', nodeVersion);
-  _suman.log('Suman version:', sumanVersion);
-  _suman.log('...And we\'re done here.', '\n');
+  _suman.log.info('Node.js version:', nodeVersion);
+  _suman.log.info('Suman version:', sumanVersion);
+  _suman.log.info('...And we\'re done here.', '\n');
   process.exit(0);
 }
 
@@ -334,17 +349,22 @@ try {
   pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
   sumanConfig = _suman.sumanConfig = require(pth);
   if (sumanOpts.verbosity > 8) {  //default to true
-    _suman.log(' => Suman verbose message => Suman config used: ' + pth);
+    _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
   }
 
 }
 catch (err) {
 
+  _suman.log.error(err.stack);
+  if (!/Cannot find module/i.test(err.stack)) {
+    throw err;
+  }
+
   if (!init) {
     // if init option is flagged to true, we don't expect user to have a suman.conf.js file, duh
-    _suman.logWarning(chalk.bgBlack.yellow('warning => Could not find path to your config file ' +
+    _suman.log.warning(chalk.bgBlack.yellow('warning => Could not load your config file ' +
       'in your current working directory or given by --cfg at the command line...'));
-    _suman.logWarning(chalk.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ' +
+    _suman.log.warning(chalk.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ' +
       '...now looking for a config file at the root of your project...'));
   }
 
@@ -358,7 +378,7 @@ catch (err) {
   catch (err) {
 
     _suman.usingDefaultConfig = true;
-    _suman.logWarning('warning => Using default configuration file, please create your suman.conf.js ' +
+    _suman.log.warning('warning => Using default configuration file, please create your suman.conf.js ' +
       'file using "suman --init".');
     sumanConfig = _suman.sumanConfig = require('./lib/default-conf-files/suman.default.conf.js');
   }
@@ -379,8 +399,8 @@ else {
   sumanInstalledLocally = installObj.sumanInstalledLocally;
 }
 
-const sumanPaths = require('./lib/helpers/resolve-shared-dirs').resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
-const sumanObj = require('./lib/helpers/load-shared-objects').loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
+const sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+const sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 
 ///////////////////// Here we reconcile and merge command line args with config  ///////////////////////////
 //////////////////// as usual, command line args take precedence over static configuration (suman.conf.js)
@@ -397,7 +417,7 @@ if ('concurrency' in sumanOpts) {
 
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
 sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
-sumanOpts.$useTAPOutput && _suman.log('using TAP output => ', sumanOpts.$useTAPOutput);
+sumanOpts.$useTAPOutput && _suman.log.info('using TAP output => ', sumanOpts.$useTAPOutput);
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 
 /////////////////////////////////// matching ///////////////////////////////////////
@@ -410,7 +430,7 @@ const sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendM
 
 if (sumanMatchesAny.length < 1) {
   // if the user does not provide anything, we default to this
-  _suman.logWarning('no runnable file regexes available; using the default => /\.js$/');
+  _suman.log.warning('no runnable file regexes available; using the default => /\.js$/');
   sumanMatchesAny.push(/\.js$/);
 }
 
@@ -434,8 +454,7 @@ const preOptCheck = <IPreOptCheck> {
   tscMultiWatch, watch, watchPer,
   create, useServer, useBabel,
   useIstanbul, init, uninstall,
-  convert, groups, s, tailTest,
-  tailRunner, interactive, uninstallBabel,
+  convert, groups, s, interactive, uninstallBabel,
   diagnostics, installGlobals, postinstall,
   repair, sumanShell, script
 };
@@ -452,8 +471,8 @@ const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
 });
 
 if (optCheck.length > 1) {
-  console.error('\t => Too many options, pick one from  { --convert, --init, --server, --use-babel, --uninstall --tail-test, --tail-runner }');
-  console.error('\t => Current options used were => ', util.inspect(optCheck));
+  console.error('\t => Too many options, pick one from:\n', util.inspect(Object.keys(preOptCheck)));
+  console.error('\t => Current options used were:\n', util.inspect(optCheck));
   console.error('\t => Use --help for more information.\n');
   console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
   process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
@@ -507,10 +526,13 @@ if (sumanOpts.force_inherit_stdio) {
 
 let isTTY = process.stdout.isTTY;
 
-if (!process.stdout.isTTY && !useTAPOutput) {
-  _suman.logError(chalk.red('you may need to turn on TAP output for test results to be captured in destination process.'));
+if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
+  if (!process.stdout.isTTY && !useTAPOutput) {
+    _suman.log.error(chalk.yellow.bold(
+      'you may need to turn on TAP output for test results to be captured in destination process.'
+    ));
+  }
 }
-
 
 ////////////////////// dynamically call files to minimize load, etc //////////////////////////////
 
@@ -544,9 +566,6 @@ else if (uninstallBabel) {
 else if (useIstanbul) {
   require('./lib/use-istanbul/use-istanbul')();
 }
-else if (tail) {
-  require('./lib/make-tail/tail-any')(paths);
-}
 else if (create) {
   require('./lib/cli-commands/create-opt').run(create);
 }
@@ -572,7 +591,7 @@ else if (convert) {
 else if (s) {
   require('./lib/cli-commands/start-suman-server')(sumanServerInstalled, sumanConfig, serverName);
 }
-else if (watch || watchPer) {
+else if (!browser && (watch || watchPer)) {
   require('./lib/cli-commands/watching').run(projectRoot, paths, sumanOpts, sumanConfig);
 }
 else if (groups) {
@@ -582,11 +601,11 @@ else if (groups) {
 else {
   //this path runs all tests
   if (userArgs.length > 0 && sumanOpts.verbosity > 4) {
-    _suman.log('The following "--user-args" will be passed to child processes as process.argv:');
-    _suman.log(userArgs);
+    _suman.log.info('The following "--user-args" will be passed to child processes as process.argv:');
+    _suman.log.info(userArgs);
   }
 
-  require('./lib/run').run(sumanOpts, paths, sumanServerInstalled, sumanVersion);
+  require('./lib/run').run(sumanOpts, sumanConfig, paths, sumanServerInstalled, sumanVersion);
 }
 
 

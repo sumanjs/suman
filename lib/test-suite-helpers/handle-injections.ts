@@ -13,12 +13,13 @@ import path = require('path');
 //npm
 import async = require('async');
 import {freezeExistingProps as freeze} from 'freeze-existing-props';
+import su = require('suman-utils');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
 import {tProto} from './t-proto';
 import {constants} from "../../config/suman-constants";
-const weAreDebugging = require('../helpers/we-are-debugging');
+const weAreDebugging = su.weAreDebugging;
 
 ///////////////////////////////////////////////////////////////////
 

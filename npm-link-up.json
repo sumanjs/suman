@@ -7,14 +7,20 @@
     "/node_modules/",
     "/.git/"
   ],
+
+  "comments": [
+    "put any comment you want here"
+  ],
   "list": [
     "vamoot",
     "proxy-mcproxy",
     "prepend-transform",
+    "log-prepend",
     "pragmatik",
     "residence",
     "poolio",
     "freeze-existing-props",
+    "json-2-stdout",
 
     "suman-r",
     "suman-types",
@@ -25,6 +31,7 @@
     "suman-daemon",
     "suman-debug",
     "suman-browser-polyfills",
+    "suman-watch-plugins",
     "suman-run-plugins",
     "suman-transform-plugins",
     "suman-reporters",

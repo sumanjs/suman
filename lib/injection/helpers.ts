@@ -9,8 +9,59 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+const {constants} = require('../../config/suman-constants');
 
 ///////////////////////////////////////////////////////////////////////
+
+export interface ICoreAndDeps {
+  $core: Object,
+  $deps: Object,
+  mappedPkgJSONDeps: Array<string>
+}
+
+let values: ICoreAndDeps = null;
+
+///////////////////////////////////////////////////////////////////
+
+export const getCoreAndDeps = function () {
+
+  if (!values) {
+
+    const p = new Proxy({}, {
+      get: function (target, prop) {
+
+        const trimmed = String(prop).trim();
+
+        try {
+          return require(trimmed);
+        }
+        catch (err) { /* ignore */}
+
+        const replaceLodashWithDash = trimmed.replace(/_/g, '-');
+        if (replaceLodashWithDash !== trimmed) {
+          try {
+            return require(replaceLodashWithDash);
+          }
+          catch (err) { /* ignore */}
+
+          throw new Error(`could not require dependencies with names '${trimmed}' or '${replaceLodashWithDash}'.`)
+        }
+
+        throw new Error(`could not require dependency with name '${trimmed}'`);
+      }
+    });
+
+    values = {
+      $core: p,
+      $deps: p,
+      $require: p
+    }
+
+  }
+
+  return values;
+
+};
 
 export const getProjectModule = function (): any {
 
@@ -18,7 +69,7 @@ export const getProjectModule = function (): any {
     return require(_suman.projectRoot);
   }
   catch (err) {
-    _suman.logError('\n', err.stack || err, '\n');
+    _suman.log.error('\n', err.stack || err, '\n');
     return null;
   }
 
@@ -37,8 +88,8 @@ export const lastDitchRequire = function (dep: string, requestorName: string): a
       return require(String(dep).replace(/_/g, '-'));
     }
     catch (err) {
-      _suman.logError(`'${requestorName}' warning => cannot require dependency with name => '${dep}'.`);
-      _suman.logError('despite the missing dependency, Suman will continue optimistically.');
+      _suman.log.error(`'${requestorName}' warning => cannot require dependency with name => '${dep}'.`);
+      _suman.log.error('despite the missing dependency, Suman will continue optimistically.');
       console.error('\n');
       return null;
     }

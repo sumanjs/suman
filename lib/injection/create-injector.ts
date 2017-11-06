@@ -1,5 +1,10 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ISuman, Suman} from "../suman";
+import {IInjectionDeps} from "suman-types/dts/injection";
+import {ITestSuite} from "suman-types/dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -11,37 +16,75 @@ import util = require('util');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {getCoreAndDeps} from './$core-n-$deps';
+import {getProjectModule, lastDitchRequire, getCoreAndDeps} from './helpers';
 
-/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
-module.exports = function ($iocData: Object) {
+export const makeCreateInjector = function (suman: ISuman, container: Object) {
 
-  return function (names: Array<string>) {
+  return function createInjector(suite: ITestSuite, names: Array<string>): Array<any> {
 
-    return names.map(function (n) {
+    const sumanOpts = suman.opts;
 
-      if (n === '$core') {
-        return getCoreAndDeps().$core;
+    return names.map(key => {
+
+      const lowerCaseKey = String(key).toLowerCase();
+
+      switch (lowerCaseKey) {
+
+        case '$args':
+          return String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
+        case '$argsraw':
+          return sumanOpts.user_args || '';
+        case '$iocStatic':
+          return _suman.$staticIoc;
+        case 'b':
+          return suite;
+        case '$pre':
+          return _suman['$pre'];
+        case '$deps':
+          return getCoreAndDeps().$deps;
+        case '$core':
+          return getCoreAndDeps().$core;
+        case '$root':
+        case '$projectroot':
+          return _suman.projectRoot;
+        case '$index':
+        case '$project':
+        case '$proj':
+          return getProjectModule();
+
+        case 'resume':
+        case 'getresumevalue':
+        case 'getresumeval':
+        case 'writable':
+          return suite[key];
+
+        case 'describe':
+        case 'context':
+        case 'suite':
+        case 'afterallparenthooks':
+        case 'before':
+        case 'after':
+        case 'inject':
+        case 'beforeall':
+        case 'afterall':
+        case 'beforeeach':
+        case 'aftereach':
+        case 'it':
+        case 'test':
+        case 'setup':
+        case 'teardown':
+        case 'setuptest':
+        case 'teardowntest':
+          return container[lowerCaseKey];
+
+        case 'userdata':
+          return _suman.userData;
       }
 
-      if (n === '$deps') {
-        return getCoreAndDeps().$deps;
-      }
 
-      if (n === '$iocData') {
-        return $iocData || {'suman': 'bogus data - please report this error.'}
-      }
-
-      try {
-        return require(n);
-      }
-      catch (err) {
-        _suman.logError(' => Cannot require dependency with name => ' + n,
-          '...suman will continue optimistically.');
-        console.error('\n');
-        return null;
-      }
+      return lastDitchRequire(key, '<block-injector>');
 
     });
 

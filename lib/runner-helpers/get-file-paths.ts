@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
@@ -14,11 +16,9 @@ import EE = require('events');
 
 //npm
 import * as chalk from 'chalk';
-
 const includes = require('lodash.includes');
 import * as async from 'async';
-
-const debug = require('suman-debug')('s:files');
+import JSON2Stdout = require('json-2-stdout');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -26,7 +26,7 @@ import su = require('suman-utils');
 
 const {constants} = require('../../config/suman-constants');
 const {events} = require('suman-events');
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -50,8 +50,6 @@ export interface IGetFilePathCB {
 
 export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
-  console.log('\n'); // now is about a good time to create a newline in the logs
-
   const {projectRoot, sumanOpts} = _suman;
   const isForce = sumanOpts.force;
   const isForceMatch = sumanOpts.force_match;
@@ -68,6 +66,8 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
   // which are located with sumanHelpersDir.
   matchesNone.push(new RegExp(_suman.sumanHelperDirRoot));
 
+
+  const isFindOnly = Boolean(sumanOpts.find_only);
   let files: Array<string> = [];
   const filesThatDidNotMatch: Array<ISumanFilesDoNotMatch> = [];
   // as soon as we are told to run a non-JS file, we have to flip the following boolean
@@ -144,7 +144,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
       const _doesMatchNone = doesMatchNone(dir);
 
       if (!_doesMatchNone) {
-        resultBroadcaster.emit(String(events.FILENAME_DOES_NOT_MATCH_NONE), dir);
+        rb.emit(String(events.FILENAME_DOES_NOT_MATCH_NONE), dir);
         return process.nextTick(cb);
       }
 
@@ -156,7 +156,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
         if (err) {
           // this is probably a symlink, we will just ignore the error and log it
-          _suman.logError('SYMLINK?', su.decomposeError(err), su.newLine);
+          _suman.log.error('SYMLINK?', su.decomposeError(err), su.newLine);
           return cb();
         }
 
@@ -184,17 +184,17 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
           const _doesMatchAll = doesMatchAll(dir);
 
           if (!_doesMatchAny) {
-            resultBroadcaster.emit(String(events.FILENAME_DOES_NOT_MATCH_ANY), dir);
+            rb.emit(String(events.FILENAME_DOES_NOT_MATCH_ANY), dir);
             return process.nextTick(cb);
           }
 
           if (!_doesMatchNone) {
-            resultBroadcaster.emit(String(events.FILENAME_DOES_NOT_MATCH_NONE), dir);
+            rb.emit(String(events.FILENAME_DOES_NOT_MATCH_NONE), dir);
             return process.nextTick(cb);
           }
 
           if (!_doesMatchAll) {
-            resultBroadcaster.emit(String(events.FILENAME_DOES_NOT_MATCH_ALL), dir);
+            rb.emit(String(events.FILENAME_DOES_NOT_MATCH_ALL), dir);
             return process.nextTick(cb);
           }
 
@@ -202,17 +202,18 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
           if (path.extname(baseName) !== '.js') {
             nonJSFile = true;
-            resultBroadcaster.emit(String(events.FILE_IS_NOT_DOT_JS), dir);
+            rb.emit(String(events.FILE_IS_NOT_DOT_JS), dir);
           }
 
           const file = path.resolve(dir);
 
           if (!sumanOpts.allow_duplicate_tests && includes(files, file)) {
-            _suman.logWarning(chalk.magenta('warning => \n => The following filepath was requested to be run more' +
+            _suman.log.warning(chalk.magenta('warning => \n => The following filepath was requested to be run more' +
               ' than once, Suman will only run files once per run! =>'), '\n', file, '\n\n ' +
               chalk.underline(' => To run files more than once in the same run, use "--allow-duplicate-tests"'), '\n');
           }
           else {
+            isFindOnly && JSON2Stdout.logToStdout({file});
             files.push(file);
           }
 
@@ -230,7 +231,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
             'recommend a naming convention to use with Suman tests, see: sumanjs.org\n\n'
           ].filter(i => i).join('\n');
 
-          resultBroadcaster.emit(String(events.RUNNER_HIT_DIRECTORY_BUT_NOT_RECURSIVE), msg);
+          rb.emit(String(events.RUNNER_HIT_DIRECTORY_BUT_NOT_RECURSIVE), msg);
           process.nextTick(cb);
         }
 
@@ -242,7 +243,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
     if (err) {
       console.error('\n');
-      _suman.logError(chalk.red.bold('Error finding runnable paths => \n' + err.stack || err));
+      _suman.log.error(chalk.red.bold('Error finding runnable paths => \n' + err.stack || util.inspect(err)));
       process.nextTick(cb, err);
     }
     else {
@@ -255,14 +256,14 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
       filesThatDidNotMatch.forEach(function (val) {
         console.log('\n');
-        _suman.log(chalk.bgBlack.yellow(' A file in a relevant directory ' +
+        _suman.log.info(chalk.bgBlack.yellow(' A file in a relevant directory ' +
           'did not match your regular expressions => '), '\n', util.inspect(val));
       });
 
       console.log('\n');
       console.error('\n');
 
-      process.nextTick(cb, undefined, {
+      process.nextTick(cb, null, {
         files,
         nonJSFile,
         filesThatDidNotMatch

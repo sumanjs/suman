@@ -21,7 +21,7 @@ import chalk = require('chalk');
 import {makeCallback} from './handle-callback-helper';
 const helpers = require('./handle-promise-generator');
 const {constants} = require('../../config/suman-constants');
-import {cloneError} from '../misc/clone-error';
+import {cloneError} from '../helpers/general';
 import {makeHookObj} from './t-proto-hook';
 import {freezeExistingProps} from 'freeze-existing-props';
 
@@ -32,7 +32,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
   return function handleBeforesAndAfters(self: ITestSuite, aBeforeOrAfter: IOnceHookObj, cb: Function) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program in file:\n[${__filename}]`);
+      _suman.log.error(`runtime error => "UncaughtException:Triggered" => halting program in file:\n[${__filename}]`);
       return;
     }
 
@@ -108,7 +108,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
       const {sumanOpts} = _suman;
 
       if (sumanOpts.debug_hooks) {
-        _suman.log(`now running all hook with name '${chalk.yellow(aBeforeOrAfter.desc)}'.`);
+        _suman.log.info(`now running all hook with name '${chalk.yellow(aBeforeOrAfter.desc)}'.`);
       }
 
       // need to d.run instead process.next so that errors thrown in same-tick get trapped by "Node.js domains in browser"
