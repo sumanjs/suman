@@ -46,12 +46,12 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
 
   if (sumanInstalledLocally) {
     if (opts.verbosity > 7) {  //only if user asks for verbose option
-      _suman.log(chalk.blue('Suman appears to be installed locally.'));
+      _suman.log.info(chalk.blue('Suman appears to be installed locally.'));
     }
   }
   else {
     if (opts.verbosity > 2) {
-      _suman.log(chalk.yellow('note that Suman is not installed locally, you may wish to run "$ suman --init"'));
+      _suman.log.info(chalk.yellow('note that Suman is not installed locally, you may wish to run "$ suman --init"'));
     }
   }
 
@@ -80,7 +80,7 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
   catch (err) {
     sumanServerInstalled = false;
     if (opts.verbosity > 2) {
-      _suman.log(chalk.yellow('note that "suman-server" package is not yet installed.'));
+      _suman.log.info(chalk.yellow('note that "suman-server" package is not yet installed.'));
     }
   }
 

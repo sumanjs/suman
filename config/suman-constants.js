@@ -9,15 +9,12 @@ exports.constants = Object.freeze({
     DEFAULT_PARALLEL_TEST_LIMIT: 10,
     DEFAULT_PARALLEL_BLOCK_LIMIT: 10,
     DEFAULT_CHILD_PROCESS_TIMEOUT: 6000000,
-    OLDEST_SUPPORTED_NODE_VERSION: 'v4.0.0',
+    OLDEST_SUPPORTED_NODE_VERSION: 'v6.0.0',
     DEBUGGING_ENV: {
         name: 'SUMAN_DEBUG',
         value: 'yes'
     },
     SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
-    GIT_IGNORE: [
-        '**suman/logs/**'
-    ],
     UNKNOWN_INJECT_HOOK_NAME: '(unknown inject-hook name)',
     SUMAN_HOOK_FATAL_WARNING_MESSAGE: 'Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false =>\n',
     SUMAN_HOOK_FATAL_MESSAGE: ' => fatal error in hook => (to continue even in the event of an error in a hook, use option {fatal:false}) =>\n',
@@ -64,6 +61,7 @@ exports.constants = Object.freeze({
         SUCCESSFUL_RUN: 0,
         WHOLE_TEST_SUITE_SKIPPED: 0,
         GREP_SUITE_DID_NOT_MATCH: 0,
+        COULD_NOT_LOAD_A_REPORTER: 48,
         FILE_OR_DIRECTORY_DOES_NOT_EXIST: 49,
         SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT: 50,
         SUMAN_HELPER_FILE_DOES_NOT_EXPORT_EXPECTED_FUNCTION: 51,
@@ -127,6 +125,7 @@ exports.constants = Object.freeze({
             'Please see: xxx.'
     },
     runner_message_type: {
+        BROWSER_FINISHED: 'BROWSER_FINISHED',
         FATAL: 'FATAL',
         FATAL_MESSAGE_RECEIVED: 'FATAL_MESSAGE_RECEIVED',
         TABLE_DATA: 'TABLE_DATA',
@@ -182,61 +181,6 @@ exports.constants = Object.freeze({
         TEST_SUITE_EXIT_CODE: {
             name: 'exit-code',
             default: '-'
-        }
-    },
-    SUMAN_GLOBAL_DEPS: {
-        gantt: {
-            'handlebars': 'latest'
-        },
-        sqlite3: {
-            'sqlite3': 'latest'
-        },
-        sumanSqliteReporter: {
-            'suman-sqlite-reporter': 'latest',
-        },
-        slack: {
-            'slack': 'latest'
-        },
-        babel: {
-            'webpack': 'latest',
-            'babel-cli': 'latest',
-            'babel-core': 'latest',
-            'babel-loader': 'latest',
-            'babel-polyfill': 'latest',
-            'babel-runtime': 'latest',
-            'babel-register': 'latest',
-            'babel-plugin-transform-runtime': 'latest',
-            'babel-preset-es2015': 'latest',
-            'babel-preset-es2016': 'latest',
-            'babel-preset-react': 'latest',
-            'babel-preset-stage-0': 'latest',
-            'babel-preset-stage-1': 'latest',
-            'babel-preset-stage-2': 'latest',
-            'babel-preset-stage-3': 'latest',
-            'babel-preset-latest': 'latest'
-        },
-        sumanD: {
-            'suman-d': 'latest'
-        },
-        sumanW: {
-            'suman-watch': 'latest'
-        },
-        sumanServer: {
-            'frontail': 'latest',
-            'suman-server': 'latest'
-        },
-        sumanInteractive: {
-            'suman-inquirer': 'latest',
-            'suman-inquirer-directory': 'latest',
-        },
-        istanbul: {
-            'istanbul': 'latest',
-        },
-        nyc: {
-            'nyc': 'latest'
-        },
-        typescript: {
-            'typescript': 'latest'
         }
     }
 });

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reddit API test</title>
+</head>
+<body>
+
+<script>
+
+//  let access_token_uri =
+//    `https://www.reddit.com/api/v1/access_token?grant_type=authorization_code&code=${code}&redirect_uri=http://127.0.0.1:3000/authorize_callback`;
+
+let access_token_uri =
+  `https://www.reddit.com/api/v1/access_token`;
+
+
+   fetch(access_token_uri, {
+    method: 'POST',
+    headers: {
+//      'Content-Type': 'application/json',
+      'Authorization': `Basic ${btoa('KZ8Nj91o7-KK0Q')}`,
+//      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Allow-Headers': 'x-requested-with, x-requested-by',
+//      'Access-Control-Allow-Origin': '*',
+//      'Access-Control-Allow-Methods': '*',
+//      'credentials': 'include'
+    }
+  })
+
+</script>
+
+</body>
+</html>

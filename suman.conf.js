@@ -2,14 +2,17 @@
 // => For more info, see =>  oresoftware.github.io/suman/conf.html
 // => If transpile is true, Suman will put your babel deps in ~/.suman/global/node_modules
 
+
+
 const os = require('os');
 const path = require('path');
 const numOfCPUs = os.cpus().length || 1;
-// const pckgDotJson = require(path.resolve(__dirname, 'package.json'));
+const pckgDotJson = require('./package.json');
+const tscPlugin = require('suman-watch-plugins/modules/tsc');
+const webpackPlugin = require('suman-watch-plugins/modules/webpack');
+const babelPlugin = require('suman-watch-plugins/modules/babel');
 
 module.exports = Object.freeze({
-
-  //☺,♫  //
 
   //regex
   matchAny: [/\.js$/, /.sh$/, /\.jar$/, /\.java$/, /\.go$/, /\.ts$/],
@@ -21,7 +24,6 @@ module.exports = Object.freeze({
   testSrcDir: 'test/src/dev/node',
   sumanHelpersDir: 'test/.suman',
   uniqueAppName: '<your-app-name-here>',
-  browser: 'Firefox',                 // browser to open test results with
   logsDir: process.env['SUMAN_LOGS_DIR'],
 
   //boolean
@@ -74,7 +76,6 @@ module.exports = Object.freeze({
   defaultTestSuiteTimeout: 15000,
   expireResultsAfter: 10000000,     // test results will be deleted after this amount of time
 
-
   ////////
   //
 
@@ -92,16 +93,68 @@ module.exports = Object.freeze({
         exec: 'FORCE_COLOR=0 suman test/src/dev/node --verbosity=4',
         includes: [__dirname],
         excludes: ['/test/', /\.ts$/],
-        confOverride: {}
+        confOverride: {},
+        env: {
+          FORCE_COLOR: '0'
+        }
       },
       'browser-dev': {
         exec: 'suman test/src/dev/browser',
         includes: [__dirname],
         excludes: ['/test/', /\.ts$/],
         confOverride: {}
+      },
+      'browser-tsc': {  // suman
+        exec: 'suman --runner --nt test/*.js',
+        env: {
+          FORCE_COLOR: '1'
+        },
+        plugin: tscPlugin.getValue({
+          pluginCwd: path.resolve(__dirname + '/test'),
+        })
+      },
+      'backend-babel': {
+        exec: '',
+        env: {
+          BABEL_ENV: 'test'
+        },
+        plugin: babelPlugin.getValue({
+          pluginEnv: {
+            BABEL_ENV: 'test'
+          }
+        })
+      },
+      'browser-webpack': {  // suman rduolph agage
+        exec: 'suman -b test/.suman/browser/builds/*.js',
+        cwd: __dirname,
+        env: {
+          FORCE_COLOR: '1'
+        },
+        plugin: webpackPlugin.getValue({
+          pluginCwd: path.resolve(__dirname + '/test'),
+        })
       }
     },
 
+  },
+
+  browser: {
+    entryPoints: [
+      // {
+      //   html: path.resolve(__dirname + '/test/src/dev/browser/test-file.html'),
+      //   files: [],
+      //   compile: function (str) {
+      //
+      //   }
+      // },
+      {
+        html: path.resolve(__dirname + '/test/src/dev/browser/webpack-test.html'),
+        files: [],
+        compile: function (str) {
+
+        }
+      }
+    ]
   },
 
   ////////////////////////////////////////////////////
@@ -112,7 +165,10 @@ module.exports = Object.freeze({
   },
 
   reporters: {
-    'tap': 'suman-reporters/modules/tap-reporter'
+    map: {
+      'tap': 'suman-reporters/modules/tap-reporter'
+    }
+
   },
 
   // servers: {                           // list of servers to output test result data to, with the os.hostname() as the key

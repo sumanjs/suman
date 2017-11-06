@@ -7,7 +7,7 @@ fi
 
 #set -e;
 
-echo "checking if existing process is listening on port"
+echo " [suman-daemon] checking if existing process is listening on port"
 # which_false=$(which false); # /bin/false or /usr/bin/false depending on system
 
 
@@ -48,7 +48,7 @@ if [[ -z ${WHICH_FOREVER} ]]; then
 fi
 
 if [[ -L "${NPM_ROOT_GLOBAL}/suman" || -d "${NPM_ROOT_GLOBAL}/suman" ]]; then
-    echo " [suman-daemon] suman is already installed globally, that is great.";
+    echo " [suman-daemon] suman is already installed globally, that's great.";
 else
     # we need to install suman globally so that suman-daemon always pre-loads the same version of suman
     echo " [suman-daemon] suman is not installed globally, we will install suman globally now.";

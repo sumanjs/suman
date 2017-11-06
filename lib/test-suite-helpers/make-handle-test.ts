@@ -27,7 +27,7 @@ const {constants} = require('../../config/suman-constants');
 import su = require('suman-utils');
 import {makeCallback} from './handle-callback-helper';
 const helpers = require('./handle-promise-generator');
-import {cloneError} from '../misc/clone-error';
+import {cloneError} from '../helpers/general';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
@@ -42,7 +42,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     test.alreadyInitiated = true;
 
     if (_suman.sumanUncaughtExceptionTriggered) {
-      _suman.logError(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+      _suman.log.error(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
 
@@ -119,7 +119,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
 
       if (sumanOpts.debug_hooks) {
-        _suman.log(`now starting to run test with name '${chalk.magenta(test.desc)}'.`);
+        _suman.log.info(`now starting to run test with name '${chalk.magenta(test.desc)}'.`);
       }
 
       d.run(function runHandleTest() {

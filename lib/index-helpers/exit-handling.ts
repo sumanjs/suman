@@ -2,7 +2,8 @@
 
 //dts
 import {IGlobalSumanObj, IPromiseWithDomain, ISumanDomain, SumanErrorRace} from "suman-types/dts/global";
-import {Dictionary} from "async";
+import {Dictionary, AsyncResultArrayCallback} from "async";
+type AsyncFuncType = AsyncResultArrayCallback<Dictionary<any>, Error>;
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -15,21 +16,18 @@ import Domain = require('domain');
 //npm
 import * as async from 'async';
 import * as chalk from 'chalk';
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {fatalRequestReply} = require('../helpers/fatal-request-reply');
+import {fatalRequestReply} from '../helpers/general';
 import {constants} from '../../config/suman-constants';
 import {oncePostFn} from '../helpers/handle-suman-once-post';
 import {runAfterAlways} from '../helpers/run-after-always';
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
-const weAreDebugging = require('../helpers/we-are-debugging');
+const weAreDebugging = su.weAreDebugging;
 
-///////////////////////////////////////////////////////////////////////////////////////
-
-type AsyncFuncType = AsyncResultArrayCallback<Dictionary<any>, Error>;
-
-//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const shutdownSuman = function (msg: string) {
 
@@ -50,7 +48,7 @@ const shutdownSuman = function (msg: string) {
             oncePostFn(cb);
           }
           else {
-            _suman.logError('Suman internal warning, "oncePostFn" not yet defined.');
+            _suman.log.error('Suman internal warning, "oncePostFn" not yet defined.');
             process.nextTick(cb);
           }
         },
@@ -70,10 +68,7 @@ const shutdownSuman = function (msg: string) {
   ], function (err: Error, resultz: Array<any>) {
 
     const results = resultz[0];
-
-    if (err) {
-      console.error('Error in exit handler => \n', err.stack || err);
-    }
+    err && console.error('Error in exit handler => \n', err.stack || err);
 
     if (Array.isArray(results)) {  // once-post was actually run this time versus (see below)
       results.filter(r => r).forEach(function (r) {
@@ -103,7 +98,7 @@ process.on('SIGINT', function () {
 
   sigintCount++;
   console.log('\n');
-  _suman.logError(chalk.red('SIGINT signal caught by suman process.'));
+  _suman.log.error(chalk.red('SIGINT signal caught by suman process.'));
   console.log('\n');
 
   if (sigintCount === 2) {
@@ -112,7 +107,6 @@ process.on('SIGINT', function () {
   else if (sigintCount === 1) {
     shutdownSuman('SIGINT received');
   }
-
 });
 
 let sigtermCount = 0;
@@ -123,7 +117,7 @@ process.on('SIGTERM', function () {
 
   sigtermCount++;
   console.log('\n');
-  _suman.logError(chalk.red('SIGTERM signal caught by suman process.'));
+  _suman.log.error(chalk.red('SIGTERM signal caught by suman process.'));
   console.log('\n');
 
   if (sigtermCount === 2) {
@@ -152,6 +146,8 @@ process.removeAllListeners('uncaughtException');
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
   debugger; // leave debugger statement here
+
+  const sumanOpts = _suman.sumanOpts;
 
   if (!err) {
     err = new Error('falsy value passed to uncaught exception handler.');
@@ -192,7 +188,7 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
     }
   }
 
-  if (_suman.sumanOpts && _suman.sumanOpts.series) {
+  if (sumanOpts && sumanOpts.series) {
     if (d = _suman.activeDomain) {
       d.emit('error', err);
       return;
@@ -204,11 +200,16 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
     return;
   }
 
-  process.domain && process.domain.exit();
+  try {
+    process.domain && process.domain.exit();
+  }
+  catch (err) {
+  }
 
   process.nextTick(function () {
 
     let d;
+
     if (d = process.domain) {
       if (d.sumanTestCase || d.sumanEachHook || d.sumanAllHook) {
         avoidShutdown = true;
@@ -217,7 +218,6 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
         return;
       }
     }
-
 
     if (d = Domain._stack && Domain._stack.pop()) {
       if (d.sumanTestCase || d.sumanEachHook || d.sumanAllHook) {
@@ -229,8 +229,7 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
     }
   });
 
-
-  if (!_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
+  if (!sumanOpts || sumanOpts.ignoreUncaughtExceptions !== false) {
 
     _suman.sumanUncaughtExceptionTriggered = err;
 
@@ -239,7 +238,7 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       debugger; // leave debugger statement here
 
       if (avoidShutdown) {
-        _suman.logWarning('suman avoided a shutdown, by catching the domain.');
+        _suman.log.warning('suman avoided a shutdown, by catching the domain.');
         return;
       }
 
@@ -250,15 +249,15 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
       }
 
       console.error('\n');
-      _suman.logError(chalk.magenta.bold(' => Suman uncaught exception => \n', chalk.magenta(msg)), '\n');
-      _suman.logError('Given the event of an uncaught exception, Suman will now run "suman.once.post.js" shutdown hooks...');
+      _suman.log.error(chalk.magenta.bold(' => Suman uncaught exception => \n', chalk.magenta(msg)), '\n');
+      _suman.log.error('Given the event of an uncaught exception, Suman will now run "suman.once.post.js" shutdown hooks...');
       console.error('\n');
-      _suman.logError(' ( => TO IGNORE UNCAUGHT EXCEPTIONS AND CONTINUE WITH YOUR TEST(S), use ' +
+      _suman.log.error(' ( => TO IGNORE UNCAUGHT EXCEPTIONS AND CONTINUE WITH YOUR TEST(S), use ' +
         'the "--ignore-uncaught-exceptions" option.)');
 
       shutdownSuman(msg);
 
-    }, 500);
+    }, 200);
 
   }
 
@@ -266,11 +265,11 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 
 // remove all pre-existing listeners
 process.removeAllListeners('unhandledRejection');
-
 process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
 
   debugger;
 
+  const sumanOpts = _suman.sumanOpts;
   const reason = $reason ? ($reason.stack || $reason) : new Error('no reason passed to "unhandledRejection" handler.');
 
   if (p && p.domain) {
@@ -289,7 +288,7 @@ process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
     }
   }
 
-  if (_suman.sumanOpts && _suman.sumanOpts.series) {
+  if (sumanOpts && sumanOpts.series) {
     if (_suman.activeDomain) {
       _suman.activeDomain.emit('error', reason);
       return;
@@ -297,9 +296,9 @@ process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
   }
 
   console.error('\n');
-  _suman.logError(chalk.magenta.bold('Unhandled Rejection at Promise:'), chalk.magenta(util.inspect(p)));
+  _suman.log.error(chalk.magenta.bold('Unhandled Rejection at Promise:'), chalk.magenta(util.inspect(p)));
   console.error('\n');
-  _suman.logError(chalk.magenta.bold('Rejection reason'), chalk.magenta(reason));
+  _suman.log.error(chalk.magenta.bold('Rejection reason'), chalk.magenta(reason));
   console.error('\n');
 
   _suman.sumanUncaughtExceptionTriggered = reason;
@@ -309,9 +308,9 @@ process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
     return;
   }
 
-  if (_suman.sumanOpts || _suman.sumanOpts.ignoreUncaughtExceptions !== false) {
+  if (!sumanOpts || sumanOpts.ignoreUncaughtExceptions !== false) {
     setTimeout(function () {
       shutdownSuman(reason);
-    }, 400);
+    }, 200);
   }
 });

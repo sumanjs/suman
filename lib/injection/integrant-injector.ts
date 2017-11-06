@@ -10,8 +10,7 @@ import path = require('path');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {getCoreAndDeps} from './$core-n-$deps';
-import {getProjectModule, lastDitchRequire} from './helpers';
+import {getProjectModule, lastDitchRequire, getCoreAndDeps} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 

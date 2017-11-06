@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home Page</title>
+</head>
+<body>
+
+here is the go
+
+<suman-test-content></suman-test-content>
+<script src="dist/suman.js"></script>
+
+
+<script>
+
+  /* globals suman */
+
+  const {Test} = suman.init({});
+
+  debugger;
+
+  Test.create(function (it) {
+
+    debugger;
+
+    it('hi1', t => {
+      t.assert(true, 'democracy now');
+    });
+
+    it('hi2', t => {
+      t.assert(true);
+    });
+
+    it('hi1', t => {
+      t.assert(true, 'democracy now');
+    });
+
+    it('hi2', t => {
+      t.assert(true);
+    });
+  });
+
+  Test.create(function (it) {
+
+    debugger;
+
+    it('hi3', t => {
+      t.assert(true, 'budapest spring');
+    });
+
+    it('hi4', t => {
+
+      t.assert(true);
+
+    });
+
+  });
+
+  Test.create(function (it) {
+
+    it('hi3', t => {
+      t.assert(true, 'budapest spring');
+    });
+
+    it('hi4', t => {
+
+      t.assert(true);
+
+    });
+
+  });
+
+
+</script>
+
+</body>
+</html>

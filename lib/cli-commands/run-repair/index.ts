@@ -45,7 +45,7 @@ export const run = function (opts: ISumanOpts) {
           let keys = Object.keys(map[k]);
           async.each(keys, function (key: string, cb: ISumanErrorFirstCB) {
             let fileOrFolder = path.join(k, key);
-            _suman.log('Running 777 against this file/folder:', fileOrFolder);
+            _suman.log.info('Running 777 against this file/folder:', fileOrFolder);
             fs.chmod(fileOrFolder, '511', cb);
           }, cb);
         }, cb);
@@ -64,7 +64,7 @@ export const run = function (opts: ISumanOpts) {
       throw err;
     }
 
-    _suman.log('Results => ', results);
+    _suman.log.info('Results => ', results);
 
   });
 

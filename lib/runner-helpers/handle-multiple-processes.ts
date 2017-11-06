@@ -29,11 +29,10 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {cpHash, socketHash, ganttHash, IGanttHash, IGanttData} from './socket-cp-hash';
 const {constants} = require('../../config/suman-constants');
-import {makeTranspileQueue} from './multi-process/transpile-queue';
 import {makeAddToTranspileQueue} from './multi-process/add-to-transpile-queue';
 import {makeOnExitFn} from './multiple-process-each-on-exit';
 import {makeAddToRunQueue} from "./multi-process/add-to-run-queue";
-import {makeRunQueue} from "./multi-process/run-queue";
+import {makeRunQueue, makeTranspileQueue} from "./shared/queues";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,7 +66,7 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
 
     const waitForAllTranformsToFinish = sumanOpts.wait_for_all_transforms;
     if (waitForAllTranformsToFinish) {
-      _suman.log('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
+      _suman.log.info('waitForAllTranformsToFinish => ', chalk.magenta(waitForAllTranformsToFinish));
     }
 
     let queuedTestFns: Array<Function> = [];
@@ -78,7 +77,7 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
     if (waitForAllTranformsToFinish) {
       transpileQueue.drain = function () {
         // => execute all queued tests
-        _suman.log('all transforms complete, beginning to run first set of tests.');
+        _suman.log.info('all transforms complete, beginning to run first set of tests.');
         queuedTestFns.forEach(function (fn) {
           fn();
         });
@@ -87,7 +86,7 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
 
     if (sumanOpts.$useTAPOutput) {
       if (sumanOpts.verbosity > 4) {
-        _suman.log(chalk.gray.bold('Suman runner is expecting TAP output from Node.js child processes ' +
+        _suman.log.info(chalk.gray.bold('Suman runner is expecting TAP output from Node.js child processes ' +
           'and will not be listening for websocket messages.'));
       }
     }

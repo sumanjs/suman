@@ -4,7 +4,7 @@ if ! [[ -z "${LOCAL_SUMAN_ALREADY_FOUND+x}" ]]; then
     echo " => \$LOCAL_SUMAN_ALREADY_FOUND ? => $LOCAL_SUMAN_ALREADY_FOUND"
 fi
 
-echo " => Original path of Suman executable => \"$0\""
+echo " [suman] => Original path of Suman executable => \"$0\""
 DIRN="$(dirname "$0")"
 RL="$(readlink "$0")";
 EXECDIR="$(dirname $(dirname "${RL}"))";

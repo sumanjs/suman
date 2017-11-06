@@ -34,56 +34,58 @@ import {constants} from '../config/suman-constants';
 import su from 'suman-utils';
 import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
-import {makeInjectionContainer} from './injection/injection-container';
 import {makeTestSuite} from './test-suite-helpers/make-test-suite';
-const {fatalRequestReply} = require('./helpers/fatal-request-reply');
+import {fatalRequestReply} from './helpers/general';
 import {handleInjections} from './test-suite-helpers/handle-injections';
-import {makeOnSumanCompleted} from './helpers/on-suman-completed';
-import {evalOptions} from './helpers/eval-options';
-import {parseArgs} from './helpers/parse-pragmatik-args';
+import {makeOnSumanCompleted} from './helpers/general';
+import {evalOptions} from './helpers/general';
+import {parseArgs} from './helpers/general';
 import {makeSumanMethods} from "./test-suite-helpers/suman-methods";
 import {makeHandleBeforesAndAfters} from './test-suite-helpers/make-handle-befores-afters';
 import {makeNotifyParent} from './test-suite-helpers/notify-parent-that-child-is-complete';
 
-/*////////////// what it do ///////////////////////////////////////////////
-
-
- */////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const execSuite = function (suman: ISuman): Function {
 
   // we set this so that after.always hooks can run
   _suman.whichSuman = suman;
+  const sumanConfig = suman.config;
   suman.dateSuiteStarted = Date.now();
   const onSumanCompleted = makeOnSumanCompleted(suman);
   const gracefulExit = makeGracefulExit(suman);
   const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
   const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
   const TestBlock = makeTestSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
-  const blockInjector = makeSumanMethods(suman, TestBlock, gracefulExit, notifyParent);
+  const createInjector = makeSumanMethods(suman, TestBlock, gracefulExit, notifyParent);
   const allDescribeBlocks = suman.allDescribeBlocks;
 
   ////////////////////////////////////////////////////////////////////////////////////////
 
   return function runRootSuite(): void {
 
+    const sumanOpts = suman.opts;
     const args = pragmatik.parse(arguments, rules.createSignature);
     const vetted = parseArgs(args);
     const [$desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
+    let iocDeps: Array<string>;
 
     assert(opts.__preParsed, 'Suman implementation error. ' +
       'Options should be pre-parsed at this point in the program. Please report.');
+    delete opts.__preParsed;
 
-    if (arrayDeps.length > 0) {
-      evalOptions(arrayDeps, opts);
+    if (arrayDeps && arrayDeps.length > 0) {
+      iocDeps = evalOptions(arrayDeps, opts);
+    }
+    else{
+      iocDeps = [];
     }
 
     const desc = ($desc === '[suman-placeholder]') ? suman.slicedFileName : $desc;
     // suman description is the same as the description of the top level test block
     suman.desc = desc;
 
-    const allowArrowFn = _suman.sumanConfig.allowArrowFunctionsForTestBlocks;
     const isGenerator = su.isGeneratorFn(cb);
     const isAsync = su.isAsyncFn(cb);
 
@@ -99,12 +101,13 @@ export const execSuite = function (suman: ISuman): Function {
       }, function () {
         console.error(msg + '\n\n');
         let err = new Error('Suman usage error => invalid arrow/generator function usage.').stack;
-        _suman.logError(err);
+        _suman.log.error(err);
         _suman.writeTestError(err);
         process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
       });
 
     }
+
 
     const deps = suman.deps = fnArgs(cb);
     const delayOptionElected = opts.delay;
@@ -139,14 +142,12 @@ export const execSuite = function (suman: ISuman): Function {
       globalHooks.call(null, suite);
     }
     catch (err) {
-      _suman.logError(chalk.magenta('warning => Could not find the "suman.hooks.js" ' +
+      _suman.log.error(chalk.magenta('warning => Could not find the "suman.hooks.js" ' +
         'file in your <suman-helpers-dir>.\n Create the file to remove the warning.'), '\n\n');
     }
 
     if (deps.length < 1) {
-      process.nextTick(function () {
-        startWholeShebang([]);
-      });
+      process.nextTick(startWholeShebang, null, []);
     }
     else {
 
@@ -161,7 +162,7 @@ export const execSuite = function (suman: ISuman): Function {
           err = new Error('Suman usage error => Error acquiring IOC deps => \n' + (err.stack || err));
           err.sumanFatal = true;
           err.sumanExitCode = constants.EXIT_CODES.IOC_DEPS_ACQUISITION_ERROR;
-          _suman.logError(err.stack || err);
+          _suman.log.error(err.stack || err);
           gracefulExit(err, null);
         });
 
@@ -169,17 +170,23 @@ export const execSuite = function (suman: ISuman): Function {
 
       d.run(function acquireIocDepsDomainRun() {
 
-        acquireIocDeps(suman, deps, suite, function (err: IPseudoError, depz: IInjectionDeps) {
+        acquireIocDeps(suman, iocDeps, suite, {}, function (err: IPseudoError, iocDeps: IInjectionDeps) {
 
           if (err) {
-            _suman.logError('error acquiring IoC deps:', err.stack || err);
+            _suman.log.error('Error acquiring IoC deps:', err.stack || err);
             return process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
 
-          let $deps: Array<any> = blockInjector(suite, null, depz);
+          suite.ioc = iocDeps;
 
-          d.exit();
-          process.nextTick(startWholeShebang, $deps);
+          let mappedDeps: Array<any> = createInjector(suite, deps);
+
+          try {
+            d.exit();
+          }
+          finally {
+            process.nextTick(startWholeShebang, mappedDeps);
+          }
 
         });
 
@@ -223,7 +230,7 @@ export const execSuite = function (suman: ISuman): Function {
               process.exit(constants.EXIT_CODES.DELAY_FUNCTION_TIMED_OUT);
             }, _suman.weAreDebugging ? 5000000 : 11000);
 
-            if (_suman.sumanOpts.verbosity > 8) {
+            if (sumanOpts.verbosity > 8) {
               console.log(' => Waiting for delay() function to be called...');
             }
 
@@ -242,7 +249,7 @@ export const execSuite = function (suman: ISuman): Function {
                 });
               }
               else {
-                _suman.logError('Suman usage warning => suite.resume() was called more than once.');
+                _suman.log.error('Suman usage warning => suite.resume() was called more than once.');
               }
             };
 
@@ -263,7 +270,7 @@ export const execSuite = function (suman: ISuman): Function {
           else {
 
             suite.__resume = function () {
-              _suman.logWarning('usage warning => suite.resume() has become a noop since delay option is falsy.');
+              _suman.log.warning('usage warning => suite.resume() has become a noop since delay option is falsy.');
             };
 
             cb.apply(null, deps);
@@ -272,7 +279,7 @@ export const execSuite = function (suman: ISuman): Function {
             handleInjections(suite, function (err: IPseudoError) {
 
               if (err) {
-                _suman.logError(err.stack || err);
+                _suman.log.error(err.stack || err);
                 gracefulExit(err, null);
               }
               else {
@@ -294,16 +301,16 @@ export const execSuite = function (suman: ISuman): Function {
 
       _suman.suiteResultEmitter.emit('suman-test-registered', function () {
 
-        const sumanOpts = _suman.sumanOpts;
+        const sumanOpts = suman.opts;
 
         const currentPaddingCount = _suman.currentPaddingCount
           = (_suman.currentPaddingCount || ({} as ICurrentPaddingCount));
         currentPaddingCount.val = 1; // always reset
 
-        function runSuite(suite: ITestSuite, cb: Function) {
+        const runSuite = function (suite: ITestSuite, cb: Function) {
 
           if (_suman.sumanUncaughtExceptionTriggered) {
-            _suman.logError(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+            _suman.log.error(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
             return;
           }
 
@@ -313,7 +320,7 @@ export const execSuite = function (suman: ISuman): Function {
               limit = Math.min(suite.limit, 300);
             }
             else {
-              limit = _suman.sumanConfig.DEFAULT_PARALLEL_BLOCK_LIMIT || constants.DEFAULT_PARALLEL_BLOCK_LIMIT;
+              limit = sumanConfig.DEFAULT_PARALLEL_BLOCK_LIMIT || constants.DEFAULT_PARALLEL_BLOCK_LIMIT;
             }
           }
 
@@ -321,8 +328,8 @@ export const execSuite = function (suman: ISuman): Function {
 
           suite.startSuite(function (err: IPseudoError, results: Object) {  // results are object from async.series
 
-            results && _suman.logError('Suman extraneous results:', results);
-            err && _suman.logError('Suman extraneous test error:', suite);
+            results && _suman.log.error('Suman extraneous results:', results);
+            err && _suman.log.error('Suman extraneous test error:', suite);
 
             const children = suite.getChildren().filter(function (child: ITestSuite) {
               return !child.skipped;
@@ -342,20 +349,20 @@ export const execSuite = function (suman: ISuman): Function {
             }, function (err: IPseudoError) {
 
               sumanOpts.series && (currentPaddingCount.val -= 3);
-              err && _suman.logError('Suman implementation error:', err.stack || err);
+              err && _suman.log.error('Suman implementation error:', err.stack || err);
               process.nextTick(cb);
 
             });
 
           });
-        }
+        };
 
         runSuite(allDescribeBlocks[0], function complete() {
 
           suman.dateSuiteFinished = Date.now();
 
           if (_suman.sumanUncaughtExceptionTriggered) {
-            _suman.logError(`"UncaughtException" event => halting program.\n[${__filename}]`);
+            _suman.log.error(`"UncaughtException" event => halting program.\n[${__filename}]`);
             return;
           }
 
