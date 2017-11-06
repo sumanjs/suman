@@ -6,7 +6,16 @@ three SO profiles:
 
 ///
 
-suman-shell closes terminal window
+suman-types
+https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-342028894
+
+///
+
+ suman --init should not install suman
+ at the end of the --init, suman should check to see if suman is in package.json or node_modules
+ it should recommend something like:
+ using the global suman version is totally acceptable
+ otherwise to install locally, use `npm install -D suman`
 
 ///
 

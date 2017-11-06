@@ -404,6 +404,11 @@ module.exports = [
     help: 'Use this option to tell Suman to log what it will do, without actually doing it.'
   },
   {
+    names: ['find-only'],
+    type: 'bool',
+    help: 'Will use the json-2-stdout library to log runnable file paths to stdout and then exit.'
+  },
+  {
     names: ['inspect-child', 'inspect-children'],
     type: 'bool',
     help: 'Use this option to aid in the debugging of child_processes.'

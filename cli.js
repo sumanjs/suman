@@ -80,7 +80,6 @@ var su = require("suman-utils");
 var _ = require("lodash");
 var uniqBy = require('lodash.uniqby');
 var events = require('suman-events').events;
-var debug = require('suman-debug')('s:cli');
 var _suman = global.__suman = (global.__suman || {});
 require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');

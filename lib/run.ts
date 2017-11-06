@@ -244,14 +244,6 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
       return noFilesFoundError(paths);
     }
 
-    const d = domain.create();
-
-    d.once('error', function (err: Error) {
-      console.error('\n');
-      _suman.log.error(chalk.magenta('fatal error => ' + (err.stack || err) + '\n'));
-      process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
-    });
-
     rb.emit(String(events.RUNNER_TEST_PATHS_CONFIRMATION), files);
 
     if (su.vgt(6) || sumanOpts.dry_run) {
@@ -263,6 +255,19 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
       _suman.log.info('exiting here, because "--dry-run" option was used.');
       return process.exit(0);
     }
+
+    if (sumanOpts.find_only || sumanOpts.$findOnly) {
+      _suman.log.info('exiting here, because "--find-only" option was used.');
+      return process.exit(0);
+    }
+
+    const d = domain.create();
+
+    d.once('error', function (err: Error) {
+      console.error('\n');
+      _suman.log.error(chalk.magenta('fatal error => ' + (err.stack || err) + '\n'));
+      process.exit(constants.RUNNER_EXIT_CODES.UNEXPECTED_FATAL_ERROR);
+    });
 
     // note: if only one file is used with the runner, then there is no possible blocking,
     // so we can ignore the suman.order.js file, and pretend it does not exist.

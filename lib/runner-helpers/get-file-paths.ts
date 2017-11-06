@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
@@ -14,11 +16,9 @@ import EE = require('events');
 
 //npm
 import * as chalk from 'chalk';
-
 const includes = require('lodash.includes');
 import * as async from 'async';
-
-const debug = require('suman-debug')('s:files');
+import JSON2Stdout = require('json-2-stdout');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -66,6 +66,8 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
   // which are located with sumanHelpersDir.
   matchesNone.push(new RegExp(_suman.sumanHelperDirRoot));
 
+
+  const isFindOnly = Boolean(sumanOpts.find_only);
   let files: Array<string> = [];
   const filesThatDidNotMatch: Array<ISumanFilesDoNotMatch> = [];
   // as soon as we are told to run a non-JS file, we have to flip the following boolean
@@ -211,6 +213,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
               chalk.underline(' => To run files more than once in the same run, use "--allow-duplicate-tests"'), '\n');
           }
           else {
+            isFindOnly && JSON2Stdout.logToStdout({file});
             files.push(file);
           }
 
@@ -240,7 +243,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
     if (err) {
       console.error('\n');
-      _suman.log.error(chalk.red.bold('Error finding runnable paths => \n' + err.stack || err));
+      _suman.log.error(chalk.red.bold('Error finding runnable paths => \n' + err.stack || util.inspect(err)));
       process.nextTick(cb, err);
     }
     else {
@@ -260,7 +263,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
       console.log('\n');
       console.error('\n');
 
-      process.nextTick(cb, undefined, {
+      process.nextTick(cb, null, {
         files,
         nonJSFile,
         filesThatDidNotMatch

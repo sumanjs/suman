@@ -118,7 +118,6 @@ import su = require('suman-utils');
 import _ = require('lodash');
 const uniqBy = require('lodash.uniqby');
 const {events} = require('suman-events');
-const debug = require('suman-debug')('s:cli');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
