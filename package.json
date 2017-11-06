@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.51229",
+  "version": "1.1.51230",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -41,7 +41,9 @@
     "du": "^0.1.0",
     "freeze-existing-props": "latest",
     "function-arguments": "^1.0.4",
+    "glob": "^7.1.2",
     "handlebars": "^4.0.10",
+    "json-2-stdout":"latest",
     "lockfile": "^1.0.3",
     "lodash.flatten": "^4.4.0",
     "lodash.flattendeep": "^4.4.0",
@@ -58,18 +60,14 @@
     "mkdirp": "^0.5.1",
     "pragmatik": "latest",
     "prepend-transform": "latest",
-    "progress": "^2.0.0",
     "proxy-mcproxy": "latest",
     "replacestream": "^4.0.2",
-    "request": "^2.79.0",
-    "require-from-string": "^1.1.0",
     "residence": "latest",
     "rimraf": "^2.5.4",
     "semver": "^5.3.0",
     "siamese": "latest",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
-    "sqlite3": "^3.1.13",
     "suman-browser-polyfills": "latest",
     "suman-debug": "latest",
     "suman-events": "latest",
@@ -102,6 +100,7 @@
     "node-libs-browser": "^2.0.0",
     "rxjs": "^5.0.3",
     "should": "^11.2.0",
+    "suman-watch-plugins": "latest",
     "webpack": "^2.4.0"
   },
   "optionalDependencies": {

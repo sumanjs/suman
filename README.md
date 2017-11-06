@@ -12,42 +12,60 @@
 [![Coverage Status](https://coveralls.io/repos/github/sumanjs/suman/badge.svg?branch=master)](https://coveralls.io/github/sumanjs/suman?branch=master)
 
 
-# Suman: universal test runner - a CLI tool to run tests in the language of your choice.
+# Suman: universal test runner - run tests in the language of your choice.
 
 Designed to run tests written in any language - because Suman runs tests as child processes - just write TAP to stdout
-via the runtime of choice (Golang, Java, Python, Node.js, Bash, whatever). Intended to work with Selenium, in the browser, 
-and to do large-scale backend system, integration testing and unit testing.  Suman has support for generic transpilation and 
-compilation for any language. Originally designed for TypeScript and Babel transpilation, Suman was written to support
-compiling from source to target for any language. Suman has strong support for TypeScript, and Suman is written in TypeScript,
-for maintainability). Suman is a batteries-included test runner which encourages testing best practices through its design. 
+via the runtime of choice (Golang, Java, Python, Node.js, Bash, whatever). 
+
+<p>
+Suman is intended for unit testing in the browser, for backend and system testing,
+for end-to-end testing with Selenium, etc.
+
+<p>
+Originally designed for TypeScript and Babel transpilation, Suman was generified to support
+compiling from source to target for <i>any</i> language. Suman is written in TypeScript, and has strong support for TS.
+All in all, Suman is a batteries-included test runner which encourages testing best practices through its design. 
 Starting with Suman is very easy, but you will find it has extremely powerful features, as your demands increase.
 
+<p>
+<b>Perhaps most importantly, Suman makes testing significantly faster for both CPU bound and I/O bound test suites.</b>
+<b>The speed benefits are generally most useful during test development</b>
+
+<p>
+As final points, Suman is designed to be universal and not just another JS framework - it's designed for the long-haul. 
+<p>
+Elegance and utility of reporting output is paramount to the Suman philosophy.
+Reporters are the best place to contribute for people interested in creating beautiful test output.
+As they say (visual) design is what really separates contenders in a world of surplus.
+<p>
+
+
 # Purpose of project
->  I wrote Suman because I found test runners and harnesses in the Node.js ecosystem to be lacking.
->  I consider Mocha to be woeful, and AVA to be slow, under-powered and too tightly coupled with Babel.
+>  I wrote Suman because I found test runners and test harnesses in the Node.js ecosystem to be lacking.
+>  I consider Mocha to be woeful, and AVA to be slow, under-featured and too tightly coupled with Babel.
 >  If your team is interested in speeding up your testing cycles, Suman is the absolute right place to look for answers.
 >  Suman is designed to be 'better all-around' than AVA, TapJS and Mocha, etc. Reading the issue tracker for Mocha
->  made it very apparent that Mocha was never going to be vastly improved.
+>  made it very apparent that Mocha was never going to be vastly improved. If you look at the Karma codebase, you
+>  also find that it's not designed with Webpack, TypeScript or Babel in mind, etc.
 >
 
 # The Suman Challenge
 
-If you can find a problem that Mocha has, or AVA has, that Suman does not solve, at the very least <br>
-I will add you on a list of contributors to this project, just for making that contribution alone. <br>
-Suman was written so that it would suffer from none of the problems that existing test runners have, <br>
-as well as adding the missing features necessary to make testing better.
+If you can find a problem that Mocha or AVA has, which Suman does not solve, I will find some reward for you. 
+<br>
+Suman was written so that it would suffer from none of the problems that existing test runners have.
 
 
 ### &#9658; Disclaimers: 
 >
-> Suman supports Node versions >= 6.0.0, since it makes heavy use of the Proxy class and Symbol's.
+> Suman supports Node versions >= 6.0.0, since it makes heavy use of the Proxy class and Symbol primitives.
 >
 > Windows support is on the roadmap, but will not be ready anytime soon. Currently, MacOS and *nix support only.
 >
 > Browser will be supported, but not until ~Summer 2018.
 >
 
----
+----------------------------------------------------------------------------------------
 
 # Expected official release date
 
@@ -57,12 +75,12 @@ Until then, expect bugs, missing docs, etc. Proceed at your own risk :D
 
 # &#9658; Documentation 
 
->  The Suman docs => [sumanjs.org](http://sumanjs.org "Suman Docs")  
+ The Suman docs [sumanjs.org](http://sumanjs.org "Suman Docs")  
 
-----
+-----------------------------------------------------------------------------------------
 
 
-### Suman is made up of two independent pieces:
+## Suman is made up of two independent pieces:
 
 1. A CLI that can run a test in any language, and is designed to handle transpilation/compilation for any language as well.
 2. A super powerful test harness that can be used with JavaScript/Node.js tests. This test harness is highly recommended
@@ -77,7 +95,7 @@ They are completely independent, while obviously being designed to work great to
 
 <p>
 
----
+--------------------------------------------------------------------------------------------
 
 ## What makes Suman better and different
 
@@ -98,7 +116,7 @@ ___
 
 1. Run tests in any language or executable, not just Node.js/JavaScript.
 
-2. You can run Mocha tests and AVA tests using the Suman CLI, but not the other way around!
+2. => You can run Mocha tests and AVA tests using the Suman CLI, but not the other way around!
 
 3. Easily containerize any test process in development, using `suman --ctrz x.js`
 
@@ -138,7 +156,7 @@ $ suman>
 ## Suman test harness features
 
 ```javascript
-import suman from 'suman';
+import * as suman from 'suman';
 ```
 
 These are the features for creating tests in JavaScript/TypeScript.

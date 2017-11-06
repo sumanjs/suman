@@ -1,1 +1,1 @@
-export declare const handleRequestResponseWithRunner: (data: any[]) => (cb: Function) => void;
+export declare const handleRequestResponseWithRunner: (data: any[]) => (cb: Function) => any;

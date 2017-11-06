@@ -8,7 +8,6 @@ fi
 grep -r \
 --exclude-dir="node_modules"              \
 --exclude-dir=".git"                      \
---exclude-dir="public-coverage"           \
---exclude-dir="public/dist"               \
+--exclude-dir="dist"                      \
 --exclude-dir=".idea"                     \
  "$1" .

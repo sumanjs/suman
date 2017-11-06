@@ -27,22 +27,20 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 export const run = function (projectRoot: string, paths: Array<string>, sumanOpts: ISumanOpts, sumanConfig: ISumanConfig) {
 
-  _suman.log('"--watch" option selected => Suman will watch files in your project, and run your tests on changes.');
+  _suman.log.info('"--watch" option selected => Suman will watch files in your project, and run your tests on changes.');
   if (sumanOpts.verbosity > 2) {
-    _suman.log('"--watch" option selected => Using the "watch" property object in your suman.conf.js file,' +
+    _suman.log.info('"--watch" option selected => Using the "watch" property object in your suman.conf.js file,' +
       'you can also configure Suman to do whatever you want based off a file change.');
   }
 
   runWatch(projectRoot, paths, sumanConfig, sumanOpts, function (err: Error) {
     if (err) {
-      console.log('\n');
-      console.error(err.stack || err);
-      console.log('\n');
+      _suman.log.error(err.stack || err);
       process.exit(1);
     }
     else {
       console.log('\n');
-      _suman.logInfo(chalk.underline('Suman watch successfully initialized.'));
+      _suman.log.info(chalk.underline('Suman watch successfully initialized.'));
     }
   })
 

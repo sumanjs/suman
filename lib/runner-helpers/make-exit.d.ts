@@ -1,2 +1,3 @@
 import { ISumanCPMessages } from "./handle-multiple-processes";
-export declare const makeExit: (runnerObj: any, tableRows: any) => (messages: ISumanCPMessages[], timeDiff: number) => void;
+import { IRunnerObj, ITableRows } from "suman-types/dts/runner";
+export declare const makeExit: (runnerObj: IRunnerObj, tableRows: ITableRows) => (messages: ISumanCPMessages[], timeDiff: number) => void;

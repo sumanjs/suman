@@ -20,7 +20,7 @@ import async = require('async');
 import su from 'suman-utils';
 
 const helpers = require('../test-suite-helpers/handle-promise-generator');
-import {cloneError} from '../misc/clone-error';
+import {cloneError} from './general';
 import {makeHookObj} from '../test-suite-helpers/t-proto-hook';
 import {freezeExistingProps} from 'freeze-existing-props'
 import {constants} from '../../config/suman-constants';
@@ -41,7 +41,7 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
 
     debugger;  // leave debugger statement here
 
-    _suman.logError('There was an uncaught exception, however, we are currently processing after.always blocks, ' +
+    _suman.log.error('There was an uncaught exception, however, we are currently processing after.always blocks, ' +
       'so this exception will be ignored. => \n', chalk.magenta(su.getCleanErrStr(e)));
   });
 
@@ -49,14 +49,14 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
 
     debugger; // leave debugger statement here
 
-    _suman.logError('There was an unhandled rejection, however, we are currently processing after.always blocks, ' +
+    _suman.log.error('There was an unhandled rejection, however, we are currently processing after.always blocks, ' +
       'so this exception will be ignored. => \n', chalk.magenta(su.getCleanErrStr(e)));
   });
 
   if (_suman.afterAlwaysHasBeenRegistered) {
-    _suman.logError(chalk.cyan('At least one after.always hook has been registered for test with name:'), '\n\t\t',
+    _suman.log.error(chalk.cyan('At least one after.always hook has been registered for test with name:'), '\n\t\t',
       chalk.magenta.bold('"' + suman.desc + '"'));
-    _suman.logError(chalk.yellow('We are currently running after.always hooks. Any uncaught errors ' +
+    _suman.log.error(chalk.yellow('We are currently running after.always hooks. Any uncaught errors ' +
       'will be ignored as best as possible.'));
   }
 

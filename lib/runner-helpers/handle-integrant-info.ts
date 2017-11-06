@@ -2,7 +2,7 @@
 
 //dts
 import {IRunnerObj, ISumanChildProcess} from "suman-types/dts/runner";
-import {IIntegrantHash, TOncePostKeys} from "../runner";
+import {IIntegrantHash, TOncePostKeys} from "./runner";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -20,13 +20,12 @@ import EE = require('events');
 import {events} from 'suman-events'
 import * as chalk from 'chalk';
 import * as _ from 'lodash';
-import su from 'suman-utils';
+import su = require('suman-utils');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const weAreDebugging = require('../helpers/we-are-debugging');
+const weAreDebugging = su.weAreDebugging;
 import {constants} from '../../config/suman-constants';
-
 const {acquirePreDeps} = require('../acquire-dependencies/acquire-pre-deps');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +86,7 @@ export const makeHandleIntegrantInfo =
           runnerObj.hasOncePostFile = true;
         }
         catch (err) {
-          _suman.logError(chalk.red('Suman usage warning => you have suman.once.post data defined, ' +
+          _suman.log.error(chalk.red('Suman usage warning => you have suman.once.post data defined, ' +
             'but no suman.once.post.js file.') + '\n' + su.getCleanErrorString(err));
         }
 
@@ -109,7 +108,7 @@ export const makeHandleIntegrantInfo =
           stringified = su.customStringify(val)
         }
         catch (err) {
-          _suman.logError(su.getCleanErrorString(err));
+          _suman.log.error(su.getCleanErrorString(err));
         }
 
         s.emit(INTEGRANT_INFO, {info: 'all-integrants-ready', val: stringified});
@@ -117,7 +116,7 @@ export const makeHandleIntegrantInfo =
       }, function (err: Error) {
 
         let strErr = su.getCleanErrorString(err);
-        _suman.logError(strErr);
+        _suman.log.error(strErr);
         s.emit(INTEGRANT_INFO, {info: 'integrant-error', data: strErr});
 
       });

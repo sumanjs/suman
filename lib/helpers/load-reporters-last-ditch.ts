@@ -20,8 +20,10 @@ import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+import {getClient} from '../index-helpers/socketio-child-client';
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const sumanReporters = _suman.sumanReporters = (_suman.sumanReporters || []);
+const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
 
 /////////////////////////////////////////////////////////
 
@@ -40,25 +42,45 @@ export const run = function () {
   // we do not want the user to modify sumanOpts at runtime! so we copy it
   const optsCopy = Object.assign({}, _suman.sumanOpts);
 
-  if (sumanReporters.length < 1) {
-    let fn: Function;
+  let fn: Function, client: SocketIOClient.Socket;
 
-    if (_suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput || _suman.usingRunner) {
-      _suman.log('last-ditch effort to load a reporter: loading tap-json reporter');
-      fn = require('suman-reporters/modules/tap-json-reporter');
-      fn = fn.default || fn;
+  if (sumanReporters.length < 1) {
+
+    try {
+      if (window) {
+        if(window.__karma__){
+          _suman.log.info('Attempting to load karma reporter.');
+          fn = require('suman-reporters/modules/karma-reporter');
+          fn = fn.default || fn;
+        }
+        else{
+          _suman.log.info('Attempting to load websocket reporter.');
+          fn = require('suman-reporters/modules/websocket-reporter');
+          fn = fn.default || fn;
+          client = getClient();
+        }
+      }
     }
-    else {
-      _suman.log('last-ditch effort to load a reporter: loading std reporter');
-      fn = require('suman-reporters/modules/std-reporter');
-      fn = fn.default || fn;
+    catch (err) {
+      _suman.log.error(err.message);
+      if (_suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput || _suman.usingRunner) {
+        _suman.log.info('last-ditch effort to load a reporter: loading tap-json reporter');
+        fn = require('suman-reporters/modules/tap-json-reporter');
+        fn = fn.default || fn;
+      }
+      else {
+        _suman.log.info('last-ditch effort to load a reporter: loading std reporter');
+        fn = require('suman-reporters/modules/std-reporter');
+        fn = fn.default || fn;
+      }
     }
 
     console.log('\n');
     console.error('\n');
-    assert(typeof fn === 'function', 'Suman implementation error - reporter fail. Please report this problem on Github.');
+    assert(typeof fn === 'function', 'Suman implementation error - reporter fail - ' +
+      'reporter does not export a function. Please report this problem on Github.');
     _suman.sumanReporters.push(fn);
-    fn.call(null, resultBroadcaster, optsCopy, {}, su);
+    reporterRets.push(fn.call(null, rb, optsCopy, {}, client));
   }
 
 };

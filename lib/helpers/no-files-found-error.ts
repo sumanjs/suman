@@ -20,7 +20,7 @@ const {constants} = require('../../config/suman-constants');
 export = function (dirs: Array<string>) {
 
   console.log('\n');
-  _suman.log(chalk.magenta.bold('No test files were found in the directories provided, ' +
+  _suman.log.info(chalk.magenta.bold('No test files were found in the directories provided, ' +
       'given the following regular expressions => '), '\n\n',
     chalk.magenta([
       {

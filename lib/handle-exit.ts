@@ -77,14 +77,14 @@ process.prependOnceListener('exit', function (code: number) {
     if (code !== _suman.expectedExitCode) {
       let msg = `Expected exit code not met. Expected => ${_suman.expectedExitCode}, actual => ${code}`;
       _suman.writeTestError(msg);
-      _suman.logError(msg);
+      _suman.log.error(msg);
       code = constants.EXIT_CODES.EXPECTED_EXIT_CODE_NOT_MET;
     }
     else {
       console.log('\n');
-      _suman.log(chalk.bgBlack.green(' Expected exit code was met. '));
-      _suman.log(chalk.bgBlack.green(` Expected exit code was =>  '${code}'.`));
-      _suman.log(chalk.bgBlack.green(' Because the expected exit code was met, we will exit with code 0. '));
+      _suman.log.info(chalk.bgBlack.green(' Expected exit code was met. '));
+      _suman.log.info(chalk.bgBlack.green(` Expected exit code was =>  '${code}'.`));
+      _suman.log.info(chalk.bgBlack.green(' Because the expected exit code was met, we will exit with code 0. '));
       code = 0;
     }
   }
@@ -98,21 +98,21 @@ process.prependOnceListener('exit', function (code: number) {
 
     let start;
     if (start = process.env['SUMAN_START_TIME']) {
-      _suman.log('Absolute total time => ', (Date.now() - start));
+      _suman.log.info('Absolute total time => ', (Date.now() - start));
     }
 
     if(code > 0){
-      _suman.log(`Suman test is exiting with code ${code}  ${extra}`);
+      _suman.log.info(`Suman test is exiting with code ${code}  ${extra}`);
     }
     else{
-      _suman.log(chalk.bold(`Suman test is exiting with code ${code}  ${extra}`));
+      _suman.log.info(chalk.bold(`Suman test is exiting with code ${code}  ${extra}`));
     }
 
     console.log('\n');
   }
 
   // if (typeof _suman.absoluteLastHook === 'function') {
-  //   _suman.logError('killing daemon process, using absolute last hook.');
+  //   _suman.log.error('killing daemon process, using absolute last hook.');
   //   _suman.absoluteLastHook(code);
   // }
 
