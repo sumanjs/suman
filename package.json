@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.51231",
+  "version": "1.1.51232",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -43,7 +43,7 @@
     "function-arguments": "^1.0.4",
     "glob": "^7.1.2",
     "handlebars": "^4.0.10",
-    "json-2-stdout":"latest",
+    "json-2-stdout": "latest",
     "lockfile": "^1.0.3",
     "lodash.flatten": "^4.4.0",
     "lodash.flattendeep": "^4.4.0",
