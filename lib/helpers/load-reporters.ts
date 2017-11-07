@@ -16,7 +16,7 @@ import assert = require('assert');
 import EE = require('events');
 
 //npm
-import su from 'suman-utils';
+import su = require('suman-utils');
 import * as chalk from 'chalk';
 import {events} from 'suman-events';
 import * as _ from 'lodash';
@@ -180,7 +180,9 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     let fn = reporter.default || reporter;
     let reporterPath = fn.pathToReporter;
     reporterRets.push(fn.call(null, rb, optsCopy, {}));
-    reporterPath && _suman.log.info(`loaded reporter with path: "${reporterPath}"`);
+    if(su.vgt(5)){
+      reporterPath && _suman.log.info(`loaded reporter with path: "${reporterPath}"`);
+    }
   });
 
 };

@@ -393,7 +393,7 @@ module.exports = [
     help: 'Use this option to tell the Suman process to output test results as TAP-JSON.'
   },
   {
-    names: ['suman-shell'],
+    names: ['suman-shell', 'shell'],
     type: 'bool',
     internal: true,  //only visible to lib authors?
     help: 'Run suman-shell.'
