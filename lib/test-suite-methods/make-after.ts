@@ -108,7 +108,7 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
         events: opts.events,
         last: opts.last,
         planCountExpected: opts.plan,
-        fatal: !(opts.fatal === false),
+        fatal: opts.fatal === true, // default is false for after hooks
         fn: fn,
         type: 'after/teardown',
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')

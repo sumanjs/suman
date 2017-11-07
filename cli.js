@@ -113,19 +113,16 @@ var projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = su.findP
 var cwdAsRoot = process.argv.indexOf('--cwd-is-root') > -1;
 if (!projectRoot) {
     if (!cwdAsRoot) {
-        console.log(' => Warning => A NPM/Node.js project root could not be found given your current working directory.');
-        console.log(chalk.red.bold(' => cwd:', cwd, ' '));
-        console.log('\n', chalk.red.bold('=> Please execute the suman command from within the root of your project. '), '\n');
-        console.log('\n', chalk.blue.bold('=> (Perhaps you need to run "npm init" before running "suman --init", ' +
+        _suman.log.error('warning: A NPM project root could not be found given your current working directory.');
+        _suman.log.error(chalk.red.bold(' => cwd:', cwd, ' '));
+        _suman.log.error(chalk.red.bold('=> Please execute the suman command from within the root of your project. '));
+        _suman.log.error(chalk.yellow.bold('=> (Perhaps you need to run "npm init" before running "suman --init", ' +
             'which will create a package.json file for you at the root of your project.) ') + '\n');
-        process.exit(1);
+        return process.exit(1);
     }
-    else {
-        projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = cwd;
-    }
+    projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = cwd;
 }
 var sumanOpts = _suman.sumanOpts = require('./lib/parse-cmd-line-opts/parse-opts');
-_suman.sumanArgs = sumanOpts._args;
 if (su.vgt(7)) {
     _suman.log.info('Project root:', projectRoot);
 }
