@@ -5,9 +5,9 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const cp = require('child_process');
-const os = require('os');
-const path = require('path');
+import cp = require('child_process');
+import os = require('os');
+import path = require('path');
 
 //npm
 import * as chalk from 'chalk';
@@ -16,7 +16,6 @@ import Timer = NodeJS.Timer;
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const debug = require('suman-debug')('s:init');
 
 /////////////////////////////////////////////////////////////////////////////
 

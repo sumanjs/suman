@@ -287,7 +287,7 @@ module.exports = [
     help: 'Run Suman tests with coverage but do not output a report.'
   },
   {
-    names: ['force-cwd-to-be-project-root', 'cwd-is-root', 'force-cwd-root'],
+    names: ['force-cwd-to-be-project-root', 'cwd-is-root', 'force-cwd-root', 'force-root'],
     type: 'bool',
     help: 'Run Suman tests and force cwd to be the project root.'
   },
@@ -392,6 +392,11 @@ module.exports = [
     type: 'bool',
     internal: true,  //only visible to lib authors?
     help: 'Run suman-shell.'
+  },
+  {
+    names: ['ignore-run-config'],
+    type: 'bool',
+    help: 'Use this option to tell Suman runner to ignore @run.sh files.'
   },
   {
     names: ['no-tap'],

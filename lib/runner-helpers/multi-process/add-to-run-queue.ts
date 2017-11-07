@@ -14,6 +14,7 @@ const global = require('suman-browser-polyfills/modules/global');
 import util = require('util');
 import path = require('path');
 import cp = require('child_process');
+import fs = require('fs');
 
 //npm
 import async = require('async');
@@ -144,7 +145,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       };
 
       // we run the file directly, hopefully it has a hashbang
-      let sh = findPathOfRunDotSh(file);
+      let sh = !sumanOpts.ignore_run_config && findPathOfRunDotSh(file);
 
       if (sh) {
 
@@ -188,6 +189,14 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
           // .sh .bash .py, perl, ruby, etc
           _suman.log.info(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
           hashbang = true;
+
+          try {
+            fs.chmodSync(file, 0o777);
+          }
+          catch (err) {
+
+          }
+
           n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
         }
       }
