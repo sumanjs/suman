@@ -23,6 +23,35 @@ https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-34202
 
 ///
 
+t.log needs to exist, logs the test name
+[test:   ,parent:] data
+
+///
+
+ implement --debug-tests-and-hooks along with --debug-hooks
+
+///
+
+t.final =>
+
+  k.once('exit', function (code) {
+      t.assert(code > 0, 'exit code is not greater than 0, but it should be');
+      t.assert(regex.test(stderr), 'stderr should match regex: ' + regex);
+      t.done();
+    });
+
+
+  INSTEAD
+
+    k.once('exit', function (code) {
+        t.final(function(){
+        t.assert(code > 0, 'exit code is not greater than 0, but it should be');
+        t.assert(regex.test(stderr), 'stderr should match regex: ' + regex);
+        });
+    });
+
+////
+
  suman --init should not install suman
  at the end of the --init, suman should check to see if suman is in package.json or node_modules
  it should recommend something like:

@@ -25,7 +25,6 @@ import * as chalk from 'chalk';
 import * as su from 'suman-utils';
 const rimraf = require('rimraf');
 const {events} = require('suman-events');
-const debug = require('suman-debug')('s:cli');
 const uuid = require('uuid/v4');
 const mkdirp = require('mkdirp');
 

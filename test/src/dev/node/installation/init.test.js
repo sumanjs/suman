@@ -16,8 +16,8 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
 
   before.cb('log suman installation path', h => {
     cp.exec('which suman', h.wrapErrorFirst(function (stdout, stderr) {
-      stdout && console.log(String(stdout).trim());
-      stderr && console.log(String(stderr).trim());
+      stdout && h.log('which suman stdout', String(stdout).trim());
+      stderr && h.log('which suman stderr', String(stderr).trim());
       h.done(String(stderr).trim());
     }));
   });
@@ -33,7 +33,10 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
   it.cb('tests install (expected failure)', t => {
 
     const k = cp.spawn('bash', [], {
-      cwd: p
+      cwd: p,
+      env: Object.assign({}, process.env, {
+        SUMAN_FORCE_GLOBAL: 'yes'
+      })
     });
 
     let stderr = '';
@@ -41,13 +44,23 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
       stderr += String(d);
     });
 
-    k.stdin.end(`\n suman --init;  \n`);
+    k.stdin.end(`\n unset -f suman && suman --init;  \n`);
 
-    let regex = /Perhaps*.npm init/;
+    let regex = /Perhaps.*npm init/ig;
 
     k.once('exit', function (code) {
-      t.assert(code > 0, 'exit code is not greater than 0, but it should be');
-      t.assert(regex.test(stderr), 'stderr should match regex: ' + regex);
+
+      try {
+        assert(regex.test(stderr), 'stderr should match regex: ' + regex);
+        assert(code > 0, 'exit code is not greater than 0, but it should be');
+      }
+      catch (err) {
+        console.log('mucho error => ', stderr);
+        t.log('stderr', stderr);
+        return t.done(err);
+      }
+
+      t.done();
     });
 
   });
@@ -55,7 +68,10 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
   it.cb('tests install (expected success)', t => {
 
     const k = cp.spawn('bash', [], {
-      cwd: p
+      cwd: p,
+      env: Object.assign({}, process.env, {
+        SUMAN_FORCE_GLOBAL: 'yes'
+      })
     });
 
     let stderr = '';
@@ -63,15 +79,13 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
       stderr += String(d);
     });
 
-    k.stderr.pipe(pt(' [suman init process stderr] ')).pipe(process.stderr);
-    k.stdout.pipe(pt(' [suman init process stdout] ')).pipe(process.stdout);
-
-    k.stdin.end(`\n npm init -f && suman --init;  \n`);
+    k.stdin.end(`\n unset -f suman && npm init -f && suman --init;  \n`);
 
     let regex = /Perhaps*.npm init/;
 
     k.once('exit', function (code) {
       t.assert(code === 0, 'exit code should be zero');
+      t.done();
     });
 
   });

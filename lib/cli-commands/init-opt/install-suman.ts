@@ -25,12 +25,14 @@ export const makeNPMInstall = function (resolvedLocal: boolean, pkgDotJSON: Obje
 
     const sumanOpts = _suman.sumanOpts;
 
+    console.log('sumanOpts => ', sumanOpts);
+
     if (!sumanOpts.install || sumanOpts.no_install || resolvedLocal) {
       if (resolvedLocal) {
-        _suman.log.info('\n\n');
-        _suman.log.info(chalk.magenta('Suman is already installed locally ( v' + pkgDotJSON.version + '),' +
-          ' to install to the latest version on your own, use =>', '\n',
-          ' "$ npm install -D suman@latest"'));
+        console.log('\n');
+        _suman.log.info(chalk.magenta.bold(`Suman is already installed locally ( v${pkgDotJSON.version} ).\n` +
+          `To install to the latest version on your own, use => '$ npm install -D suman@latest'`);
+        console.log('\n');
       }
 
       return process.nextTick(cb);

@@ -8,14 +8,13 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 // load the suman package.json file
 const pkgDotJSON = require('../../package.json');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const debug = require('suman-debug')('s:index');
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -24,8 +23,8 @@ let gv: string;
 if (gv = process.env.SUMAN_GLOBAL_VERSION) {
   const lv = String(pkgDotJSON.version);
 
-  debug(' => Global version => ', gv);
-  debug(' => Local version => ', lv);
+  console.log(' [suman] => Global version => ', gv);
+  console.log(' [suman] => Local version => ', lv);
 
   if (gv !== lv) {
     console.error('\n');

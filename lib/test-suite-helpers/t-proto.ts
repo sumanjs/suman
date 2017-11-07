@@ -60,8 +60,8 @@ proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
   }
 };
 
-proto.log = function () {
-  _suman.writeLog.apply(null, arguments);
+proto.log = function (...args: Array<string>) {
+  console.log(` [ '${this.desc || 'unknown'}' ] `, ...args);
 };
 
 proto.slow = function () {

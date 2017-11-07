@@ -54,6 +54,11 @@ module.exports = [
     help: 'Tells Suman to write a log when hooks begin and end for debugging purposes.'
   },
   {
+    names: ['debug-tests-and-hooks'],
+    type: 'bool',
+    help: 'Tells Suman to write a log when hooks and tests begin and end for debugging purposes.'
+  },
+  {
     names: ['version', 'vn'],
     type: 'bool',
     help: 'Print tool version and exit.'
