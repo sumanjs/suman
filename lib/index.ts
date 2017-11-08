@@ -469,6 +469,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
 
 export const autoPass = function (t: IHookOrTestCaseParam) {
   // add t.skip() type functionality // t.ignore().
+  _suman.log.warning(`test with description ${t.desc} has automatically passed.`);
   if (t.callbackMode) {
     t.done();
   }

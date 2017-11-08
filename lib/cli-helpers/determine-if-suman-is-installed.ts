@@ -64,12 +64,12 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
 
   if (sumanInstalledAtAll) {
     if (opts.verbosity > 7) {  //only if user asks for verbose option
-      console.log(' ' + chalk.blue('=> Suman message => Suman appears to be installed locally.'));
+      _suman.log.info(chalk.blue(' Suman appears to be installed locally.'));
     }
   }
   else {
     if (!sumanIsSymlinkedLocally && opts.verbosity > 2) {
-      console.log(' ' + chalk.yellow('=> Suman message => note that Suman is not installed at all, you may wish to run "$ suman --init"'));
+      _suman.log.warning(chalk.yellow('note that Suman is not installed at all, you may wish to run "$ suman --init"'));
     }
   }
 

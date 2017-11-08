@@ -9,6 +9,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //npm
 import chalk from 'chalk';
+import su = require('suman-utils');
 
 // load the suman package.json file
 const pkgDotJSON = require('../../package.json');
@@ -23,8 +24,10 @@ let gv: string;
 if (gv = process.env.SUMAN_GLOBAL_VERSION) {
   const lv = String(pkgDotJSON.version);
 
-  console.log(' [suman] => Global version => ', gv);
-  console.log(' [suman] => Local version => ', lv);
+  if (su.vgt(6)) {
+    console.log(chalk.gray.bold(' [suman] '), ' => Global version => ', gv);
+    console.log(chalk.gray.bold(' [suman] '), ' => Local version => ', lv);
+  }
 
   if (gv !== lv) {
     console.error('\n');

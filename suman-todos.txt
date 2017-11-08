@@ -9,6 +9,19 @@ three SO profiles:
 use puppeteer to launch chrome instead of chrome-launcher
 https://developers.google.com/web/updates/2017/04/headless-chrome
 
+//
+   default _suman.sumanOpts values? we might need some for suman-reporters/lib/utils.ts
+//
+
+this should only work for tests, not for hooks?
+
+export const autoPass = function (t: IHookOrTestCaseParam) {
+  // add t.skip() type functionality // t.ignore().
+  _suman.log.warning(`test with description ${t.desc} has automatically passed.`);
+  if (t.callbackMode) {
+    t.done();
+  }
+};
 
 //
 
