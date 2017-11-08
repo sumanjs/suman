@@ -97,6 +97,10 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       //   }
       // }
 
+      if(aBeforeOrAfterEach.dynamicallySkipped === true){
+        return fini(null);
+      }
+
       if (fini.retryFn) {
         if (!retryData) {
           return fini.retryFn({retryFn: fini.retryFn, retryCount: 1, maxRetries: retries});
@@ -233,15 +237,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
             }
           };
 
-          t.done = function (err: IPseudoError) {
-            if (!t.callbackMode) {
-              handleNonCallbackMode(err);
-            }
-            else {
-              err && (err.sumanFatal = Boolean(sumanOpts.bail));
-              handlePossibleError(err);
-            }
-          };
+          t.done = dne;
 
           t.ctn = t.pass = function () {
             // t.pass doesn't make sense since this is not a test case, but for user friendliness

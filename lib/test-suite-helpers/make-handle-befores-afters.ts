@@ -29,7 +29,7 @@ import {freezeExistingProps} from 'freeze-existing-props';
 
 export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit: Function) {
 
-  return function handleBeforesAndAfters(self: ITestSuite, aBeforeOrAfter: IOnceHookObj, cb: Function) {
+  return function handleBeforesAndAfters(self: ITestSuite, aBeforeOrAfter: IOnceHookObj, cb: Function, retryData?: any) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
       _suman.log.error(`runtime error => "UncaughtException:Triggered" => halting program in file:\n[${__filename}]`);
@@ -60,12 +60,31 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfter, timerObj, gracefulExit, cb);
     const fnStr = aBeforeOrAfter.fn.toString();
 
+    if (suman.config.retriesEnabled === true && Number.isInteger(aBeforeOrAfter.retries)) {
+      fini.retryFn = retryData ? retryData.retryFn : handleBeforesAndAfters.bind(null, ...Array.from(arguments));
+    }
 
 
-    //TODO: need to add more info to logging statement below and also handle if fatal:false
     let dError = false;
 
     const handleError: IHandleError = function (err: IPseudoError) {
+
+      if(aBeforeOrAfter.dynamicallySkipped === true){
+        return fini(null);
+      }
+
+      if (fini.retryFn) {
+        if (!retryData) {
+          return fini.retryFn({retryFn: fini.retryFn, retryCount: 1, maxRetries: aBeforeOrAfter.retries});
+        }
+        else if (retryData.retryCount < aBeforeOrAfter.retries) {
+          retryData.retryCount++;
+          return fini.retryFn(retryData);
+        }
+        else {
+          _suman.log.error('maximum retries attempted.');
+        }
+      }
 
       err = err || new Error('unknown hook error.');
 
@@ -99,6 +118,10 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         // error handler called more than once, after first call, all we do is simply log the error
         _suman.writeTestError(' => Suman error => Error in hook => \n' + formatedStk);
       }
+    };
+
+    const handlePossibleError = function (err: Error | IPseudoError) {
+      err ? handleError(err) : fini(null)
     };
 
     d.on('error', handleError);
@@ -150,7 +173,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         let arg;
 
         if (isGeneratorFn) {
-          const handle = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfter);
+          const handle = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfter);
           arg = [freezeExistingProps(t)];
           handle(helpers.handleGenerator(aBeforeOrAfter.fn, arg));
         }
@@ -168,18 +191,11 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
               handleNonCallbackMode(err);
             }
             else {
-              fini(err);
+              handlePossibleError(err);
             }
           };
 
-          t.done = function done(err: IPseudoError) {
-            if (!t.callbackMode) {
-              handleNonCallbackMode(err);
-            }
-            else {
-              fini(err);
-            }
-          };
+          t.done = dne;
 
           t.ctn = t.pass = function ctn(err: IPseudoError) {
             if (!t.callbackMode) {
@@ -198,7 +214,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
 
         }
         else {
-          const handle = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfter);
+          const handle = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfter);
           arg = freezeExistingProps(t);
           handle(aBeforeOrAfter.fn.call(null, arg), warn);
         }

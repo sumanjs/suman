@@ -11,8 +11,19 @@ const {Test} = suman.init(module, {});
 Test.create(function (b, test, setup, setupTest, setuptest, teardown, teardownTest, describe) {
 
 
-  test('here we go', {retries: 1}, t => {
-       return Promise.reject('foo');
+  test('here we go1', {retries: 5}, t => {
+    t.skip();
+       return Promise.reject('foo').then(function(){
+         t.skip();
+       });
+  });
+
+  test('here we go2', {retries: 9}, t => {
+    return Promise.reject('foo');
+  });
+
+  test('here we go3', {retries: 4}, t => {
+    return Promise.reject('foo');
   });
 
 

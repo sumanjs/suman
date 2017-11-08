@@ -23,7 +23,8 @@ const fproto = Object.create(Function.prototype);
 const proto = Object.create(Object.assign(fproto, EE.prototype));
 
 proto.skip = function () {
-  throw new Error('Dynamic skip functionality is not supported by Suman, yet.');
+  (this.__hook || this.__test).skipped = true;
+  (this.__hook || this.__test).dynamicallySkipped = true;
 };
 
 proto.set = function (k: string, v: any) {

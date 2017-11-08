@@ -50,6 +50,7 @@ export const makeTestCase =
     v.testId = test.testId;
     v.desc = v.title = test.desc;
     v.data = test.data;
+    v.__test = test;
     v.__handle = v.__handleError = handleError;
 
     const assrt = <Partial<AssertStatic>> function () {

@@ -94,6 +94,10 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
        otherwise it can be called by another location
        */
 
+      if(test.dynamicallySkipped === true){
+        return fini(null);
+      }
+
       if (fini.retryFn) {
         if (!retryData) {
           _suman.log.warning('retrying for the first time.');
@@ -180,14 +184,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         t.shared = self.shared;
         t.$inject = Object.assign({}, suman.__inject);
 
-        // t.skip = function () {
-        // TODO: we probably should not attempt to support this as it may cause unexpected problems
-        // TODO: aka it might eventually "be considered harmful" to use
-        //   test.skipped = true;
-        //   resultBroadcaster.emit(String(events.TEST_CASE_END), test);
-        //   resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
-        //   fini(null);
-        // };
 
         ////////////// note: unfortunately these fns cannot be moved to prototype /////////////////
 

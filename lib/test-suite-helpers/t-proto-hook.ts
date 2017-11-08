@@ -36,6 +36,7 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
   let planCalled = false;
   const v = Object.create(tProto);
 
+  v.__hook = hook;
   v.__handle = v.__handleErr = handleError;
 
   const assrt = <Partial<AssertStatic>>  function () {
