@@ -10,6 +10,11 @@ use puppeteer to launch chrome instead of chrome-launcher
 https://developers.google.com/web/updates/2017/04/headless-chrome
 
 //
+
+ enable retries
+ retriesEnabled: false, in suman.conf.js
+
+//
    default _suman.sumanOpts values? we might need some for suman-reporters/lib/utils.ts
 //
 

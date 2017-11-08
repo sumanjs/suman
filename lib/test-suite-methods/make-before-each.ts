@@ -35,6 +35,7 @@ const acceptableOptions = <IAcceptableOptions> {
   timeout: true,
   throws: true,
   cb: true,
+  retries: true,
   plan: true,
   fatal: true,
   skip: true,
@@ -99,6 +100,7 @@ export const makeBeforeEach = function (suman: ISuman): IBeforeEachFn {
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,
         events: opts.events,
+        retries: opts.retries,
         throws: opts.throws,
         planCountExpected: opts.plan,
         fatal: opts.fatal === true, // default is that fatal is false for beforeEach/afterEach hooks

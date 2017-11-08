@@ -33,7 +33,7 @@ import {freezeExistingProps} from 'freeze-existing-props'
 
 export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit: Function) {
 
-  return function handleBeforeOrAfterEach(self: ITestSuite, test: ITestDataObj, aBeforeOrAfterEach: IEachHookObj, cb: Function) {
+  return function handleBeforeOrAfterEach(self: ITestSuite, test: ITestDataObj, aBeforeOrAfterEach: IEachHookObj, cb: Function, retryData?: any) {
 
     if (_suman.sumanUncaughtExceptionTriggered) {
       _suman.log.error('runtime error => uncaughtException experienced => halting program.');
@@ -67,9 +67,48 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
 
     const fini = makeCallback(d, assertCount, null, aBeforeOrAfterEach, timerObj, gracefulExit, cb);
     const fnStr = aBeforeOrAfterEach.fn.toString();
-    let dError = false;
+    let dError = false, retries: number;
+
+    // if(suman.sumanConfig.retriesEnabled === true && Number.isInteger((retries = aBeforeOrAfterEach.retries))){
+    //   fini.retryFn = handleBeforeOrAfterEach.bind(null, arguments);
+    // }
+
+    if (suman.config.retriesEnabled === true && Number.isInteger((retries = test.retries))) {
+      _suman.log.warning('enabled retries.');
+      fini.retryFn = retryData ? retryData.retryFn : handleBeforeOrAfterEach.bind(null, arguments);
+    }
+
+    const handlePossibleError = function (err: Error) {
+      err ? handleError(err) : fini(null)
+    };
 
     const handleError: IHandleError = function (err: IPseudoError) {
+
+      // if(fini.retryFn){
+      //   if(!Number.isInteger(retryCount)){
+      //     return fini.retryFn(retryCount = 1);
+      //   }
+      //   else if(retryCount > retries){
+      //     retryCount++;
+      //     return fini.retryFn();
+      //   }
+      //   else{
+      //     _suman.log.error('maximum retires attempted.');
+      //   }
+      // }
+
+      if (fini.retryFn) {
+        if (!retryData) {
+          return fini.retryFn({retryFn: fini.retryFn, retryCount: 1, maxRetries: retries});
+        }
+        else if (retryData.retryCount < retries) {
+          retryData.retryCount++;
+          return fini.retryFn(retryData);
+        }
+        else {
+          _suman.log.error('maximum retries attempted.');
+        }
+      }
 
       err = err || new Error('unknown/falsy hook error.');
 
@@ -164,14 +203,14 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           else {
             err = err || new Error('Stand-in error, since user did not provide one.');
             err.sumanFatal = true;
-            fini(err);
+            handleError(err);
           }
         };
 
         let args;
 
         if (isGeneratorFn) {
-          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfterEach);
+          const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfterEach);
           args = [freezeExistingProps(t)];
           handlePotentialPromise(helpers.handleGenerator(aBeforeOrAfterEach.fn, args));
         }
@@ -190,7 +229,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
             }
             else {
               err && (err.sumanFatal = Boolean(sumanOpts.bail));
-              fini(err);
+              handlePossibleError(err);
             }
           };
 
@@ -200,7 +239,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
             }
             else {
               err && (err.sumanFatal = Boolean(sumanOpts.bail));
-              fini(err);
+              handlePossibleError(err);
             }
           };
 
@@ -224,7 +263,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         }
         else {
 
-          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr, aBeforeOrAfterEach);
+          const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfterEach);
           args = freezeExistingProps(t);
           handlePotentialPromise(aBeforeOrAfterEach.fn.call(null, args), false);
         }

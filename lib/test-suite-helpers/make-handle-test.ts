@@ -36,7 +36,7 @@ const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster |
 
 export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
-  return function handleTest(self: ITestSuite, test: ITestDataObj, cb: Function) {
+  return function handleTest(self: ITestSuite, test: ITestDataObj, cb: Function, retryData?: any) {
 
     //records whether a test was actually attempted
     test.alreadyInitiated = true;
@@ -62,7 +62,9 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
       test.timedOut = true;
       const err = cloneError(test.warningErr, constants.warnings.TEST_CASE_TIMED_OUT_ERROR);
       err.isFromTest = true;
-      fini(err, true);
+      err.isTimeout = true;
+      handleErr(err);
+      // fini(err, true);
     };
 
     const timerObj = {
@@ -79,8 +81,12 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
     const fnStr = test.fn.toString();
     const fini = makeCallback(d, assertCount, test, null, timerObj, gracefulExit, cb);
+    let derror = false, retries: number;
 
-    let derror = false;
+
+    if(suman.config.retriesEnabled === true && Number.isInteger((retries = test.retries))){
+      fini.retryFn = retryData ? retryData.retryFn : handleTest.bind(null, ...Array.from(arguments));
+    }
 
     const handleErr: IHandleError = function (err: IPseudoError) {
 
@@ -88,6 +94,21 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
        note: we need to call done in same tick instead of in nextTick
        otherwise it can be called by another location
        */
+
+      if(fini.retryFn){
+        if(!retryData){
+          _suman.log.warning('retrying for the first time.');
+          return fini.retryFn({retryFn: fini.retryFn, retryCount: 1, maxRetries: retries});
+        }
+        else if(retryData.retryCount < retries){
+          retryData.retryCount++;
+          _suman.log.warning(`retrying for the ${retryData.retryCount} time.`);
+          return fini.retryFn(retryData);
+        }
+        else{
+          _suman.log.error('maximum retires attempted.');
+        }
+      }
 
       err = err || new Error('unknown hook error.');
 
@@ -109,6 +130,10 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         // d.exit()  should take care of removing listeners
         _suman.writeTestError('Suman error => Error in test => \n' + stack);
       }
+    };
+
+    const handlePossibleError = function (err: Error) {
+      err ? handleErr(err) : fini(null)
     };
 
     d.on('error', handleErr);
@@ -196,7 +221,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         let args;
 
         if (isGeneratorFn) {
-          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr, test);
+          const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, test);
           args = [freezeExistingProps(t)];
           handlePotentialPromise(helpers.handleGenerator(test.fn, args));
         }
@@ -214,27 +239,19 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
               handleNonCallbackMode(err);
             }
             else {
-              fini(err);
+              handlePossibleError(err);
             }
           };
 
           fini.th = dne;
-
-          t.done = function done(err: Error) {
-            if (!t.callbackMode) {
-              handleNonCallbackMode(err);
-            }
-            else {
-              fini(err);
-            }
-          };
+          t.done = dne;
 
           t.pass = t.ctn = function pass() {
             if (!t.callbackMode) {
-              handleNonCallbackMode(undefined);
+              handleNonCallbackMode(null);
             }
             else {
-              fini(undefined);
+              fini(null);
             }
 
           };
@@ -244,7 +261,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
               handleNonCallbackMode(err);
             }
             else {
-              fini(err || new Error('t.fail() was called on test (note that null/undefined value ' +
+              handleErr(err || new Error('t.fail() was called on test (note that null/undefined value ' +
                 'was passed as first arg to the fail function.)'));
             }
           };
@@ -256,7 +273,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
         }
         else {
-          const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr, test);
+          const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, test);
           args = freezeExistingProps(t);
           handlePotentialPromise(test.fn.call(null, args), warn, d);
         }
