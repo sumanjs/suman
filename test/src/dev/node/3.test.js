@@ -6,7 +6,6 @@ const {Test} = suman.init(module);
 
 ///////////////////////////////////////////////////////////////////////
 
-
 Test.create({delay: true}, b => {
   b.resume();
 });
@@ -14,7 +13,6 @@ Test.create({delay: true}, b => {
 Test.create(function (assert, describe, before, beforeEach, after, afterEach, it, $core) {
 
   const {child_process, http} = $core;
-
 
   describe('here we go', function () {
 

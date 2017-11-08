@@ -11,7 +11,6 @@ const global = require('suman-browser-polyfills/modules/global');
 import EE = require('events');
 
 //npm
-import chai = require('chai');
 import {freezeExistingProps} from 'freeze-existing-props';
 
 //project
@@ -63,7 +62,7 @@ proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
   }
 };
 
-proto.handleAssertions = proto.handleAssertion = function (fn: Function) {
+proto.handleAssertions = proto.wrapAssertions = function (fn: Function) {
   try {
     fn.call(null);
   }
