@@ -90,8 +90,10 @@ if (su.weAreDebugging) {
     _suman.log.info(' => Suman is in debug mode (we are debugging).');
     _suman.log.info(' => Process PID => ', process.pid);
 }
-_suman.log.info(chalk.magenta(' => Suman started with the following command:'), chalk.bold(util.inspect(process.argv)));
-_suman.log.info("NODE_PATH env var is as follows: '" + process.env['NODE_PATH'] + "'");
+if (su.vgt(6)) {
+    _suman.log.info(chalk.magenta(' => Suman started with the following command:'), chalk.bold(util.inspect(process.argv)));
+    _suman.log.info("NODE_PATH env var is as follows: '" + process.env['NODE_PATH'] + "'");
+}
 _suman.log.info('Resolved path of Suman executable =>', '"' + __filename + '"');
 var nodeVersion = process.version;
 var oldestSupported = suman_constants_1.constants.OLDEST_SUPPORTED_NODE_VERSION;
