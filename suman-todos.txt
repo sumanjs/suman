@@ -11,6 +11,23 @@ https://developers.google.com/web/updates/2017/04/headless-chrome
 
 //
 
+    it.retries_5_('is good', t => {
+
+    });
+
+    it['retries:5']('is good', t => {
+
+    });
+
+    it('is good', t => {
+       // put options object after the function?
+    },
+    {
+    retries: 5
+    });
+
+//
+
  enable retries
  retriesEnabled: false, in suman.conf.js
 

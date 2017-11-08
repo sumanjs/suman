@@ -36,6 +36,8 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
   let planCalled = false;
   const v = Object.create(tProto);
 
+  v.__handle = v.__handleErr = handleError;
+
   const assrt = <Partial<AssertStatic>>  function () {
     try {
       return chaiAssert.apply(chaiAssert, arguments);
@@ -44,8 +46,6 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, ha
       return handleError(e);
     }
   };
-
-  v.__handle = handleError;
 
   v.assert = new Proxy(assrt, {
     get: function (target, prop) {

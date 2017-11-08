@@ -83,8 +83,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     const fini = makeCallback(d, assertCount, test, null, timerObj, gracefulExit, cb);
     let derror = false, retries: number;
 
-
-    if(suman.config.retriesEnabled === true && Number.isInteger((retries = test.retries))){
+    if (suman.config.retriesEnabled === true && Number.isInteger((retries = test.retries))) {
       fini.retryFn = retryData ? retryData.retryFn : handleTest.bind(null, ...Array.from(arguments));
     }
 
@@ -95,17 +94,17 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
        otherwise it can be called by another location
        */
 
-      if(fini.retryFn){
-        if(!retryData){
+      if (fini.retryFn) {
+        if (!retryData) {
           _suman.log.warning('retrying for the first time.');
           return fini.retryFn({retryFn: fini.retryFn, retryCount: 1, maxRetries: retries});
         }
-        else if(retryData.retryCount < retries){
+        else if (retryData.retryCount < retries) {
           retryData.retryCount++;
           _suman.log.warning(`retrying for the ${retryData.retryCount} time.`);
           return fini.retryFn(retryData);
         }
-        else{
+        else {
           _suman.log.error('maximum retires attempted.');
         }
       }
@@ -142,7 +141,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
       const {sumanOpts} = _suman;
 
-
       if (sumanOpts.debug_hooks) {
         _suman.log.info(`now starting to run test with name '${chalk.magenta(test.desc)}'.`);
       }
@@ -170,15 +168,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           handleErr(str instanceof Error ? str : new Error(str));
         };
 
-        const handle = function (fn: Function) {
-          try {
-            fn.call(self);
-          }
-          catch (e) {
-            handleErr(e);
-          }
-        };
-
         const handleNonCallbackMode = function (err: IPseudoError) {
           err = err ? ('Also, you have this error => ' + err.stack || err) : '';
           handleErr(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
@@ -186,7 +175,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
 
         const t = makeTestCase(test, assertCount, handleErr);
         fini.th = t;
-        t.handleAssertions = handle;
         t.throw = $throw;
         t.timeout = timeout;
         t.shared = self.shared;

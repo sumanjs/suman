@@ -39,7 +39,8 @@ proto.wrap = function (fn: Function) {
   return function () {
     try {
       return fn.apply(this, arguments);
-    } catch (e) {
+    }
+    catch (e) {
       return self.__handle(e, false);
     }
   }
@@ -54,9 +55,19 @@ proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
     try {
       // remove the error-first argument
       return fn.apply(this, Array.from(arguments).slice(1));
-    } catch (e) {
+    }
+    catch (e) {
       return self.__handle(e, false);
     }
+  }
+};
+
+proto.handleAssertions = proto.handleAssertion = function (fn: Function) {
+  try {
+    fn.call(null);
+  }
+  catch (e) {
+    this.__handleErr(e);
   }
 };
 

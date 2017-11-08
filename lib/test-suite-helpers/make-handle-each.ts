@@ -78,7 +78,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       fini.retryFn = retryData ? retryData.retryFn : handleBeforeOrAfterEach.bind(null, arguments);
     }
 
-    const handlePossibleError = function (err: Error) {
+    const handlePossibleError = function (err: Error | IPseudoError) {
       err ? handleError(err) : fini(null)
     };
 
