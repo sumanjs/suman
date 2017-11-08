@@ -6,16 +6,21 @@ three SO profiles:
 
 ///
 
-if `--inspect --debug-brk` equivalent to `--inspect-brk` forever?
+    suman tests should work without having to run suman --init
+    see new option: use-default-config
 
 ///
 
- what is "return" for in bash scripts? ("return" as opposed to "exit").
+    if `--inspect --debug-brk` equivalent to `--inspect-brk` forever?
 
 ///
 
-use puppeteer to launch chrome instead of chrome-launcher
-https://developers.google.com/web/updates/2017/04/headless-chrome
+    what is "return" for in bash scripts? ("return" as opposed to "exit").
+
+///
+
+    use puppeteer to launch chrome instead of chrome-launcher
+    https://developers.google.com/web/updates/2017/04/headless-chrome
 
 //
 
@@ -27,10 +32,14 @@ https://developers.google.com/web/updates/2017/04/headless-chrome
 
     });
 
+    it['retries:5, name:foobar']('is good', t => {
+
+    });
+
 //
 
-mocha context issue:
-https://github.com/mochajs/mocha/issues/2014
+    mocha context issue:
+    https://github.com/mochajs/mocha/issues/2014
 
 //
 
@@ -41,24 +50,24 @@ https://github.com/mochajs/mocha/issues/2014
    default _suman.sumanOpts values? we might need some for suman-reporters/lib/utils.ts
 //
 
-this should only work for tests, not for hooks?
+    this should only work for tests, not for hooks?
 
-export const autoPass = function (t: IHookOrTestCaseParam) {
-  // add t.skip() type functionality // t.ignore().
-  _suman.log.warning(`test with description ${t.desc} has automatically passed.`);
-  if (t.callbackMode) {
-    t.done();
-  }
-};
-
-//
-
-vorpal filesystem autocompletion
-https://github.com/vorpaljs/vorpal-autocomplete-fs
+    export const autoPass = function (t: IHookOrTestCaseParam) {
+      // add t.skip() type functionality // t.ignore().
+      _suman.log.warning(`test with description ${t.desc} has automatically passed.`);
+      if (t.callbackMode) {
+        t.done();
+      }
+    };
 
 //
 
-[suman child stdout] => [suman child stdout / the-file-path]
+    vorpal filesystem autocompletion
+    https://github.com/vorpaljs/vorpal-autocomplete-fs
+
+//
+
+    [suman child stdout] => [suman child stdout / the-file-path]
 
 //
 
@@ -103,15 +112,15 @@ t.final =>
 
 ////
 
- suman --init should not install suman
- at the end of the --init, suman should check to see if suman is in package.json or node_modules
- it should recommend something like:
- using the global suman version is totally acceptable
- otherwise to install locally, use `npm install -D suman`
+    suman --init should not install suman
+    at the end of the --init, suman should check to see if suman is in package.json or node_modules
+    it should recommend something like:
+    using the global suman version is totally acceptable
+    otherwise to install locally, use `npm install -D suman`
 
 ///
 
- skip and only do not work creates - Test.create(['bat', 'suit', {only: true},
+    skip and only do not work creates - Test.create(['bat', 'suit', {only: true},
 
 ///
 
@@ -148,18 +157,18 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
 ///
 
-node core will backport NODE_OPTIONS =>
-https://github.com/nodejs/help/issues/925
-https://github.com/nodejs/node/pull/16263
+    node core will backport NODE_OPTIONS =>
+    https://github.com/nodejs/help/issues/925
+    https://github.com/nodejs/node/pull/16263
 
 ///
 
- better npm publish routine
- https://github.com/sindresorhus/np
+    better npm publish routine
+    https://github.com/sindresorhus/np
 
 ///
 
- give user option to bundle with selenium webdriver
+    give user option to bundle with selenium webdriver
 
 //
 
@@ -173,12 +182,12 @@ https://github.com/nodejs/node/pull/16263
 
 ///
 
- if no test cases found, suman should exit with 1 not 0!!
- probably operator error if no test cases found
+    if no test cases found, suman should exit with 1 not 0!!
+    probably operator error if no test cases found
 
 ///
 
-Suman watch - if watchPer has an item with --watch in it, then you have to throw err
+    Suman watch - if watchPer has an item with --watch in it, then you have to throw err
 
 ///
 
@@ -207,36 +216,36 @@ chrome.debugger.attach({
 
 ///
 
- call suman.run() could put suman in "export mode"
- otherwise, if you are not in "export mode", when you require a file,
- it will just run from start to finish
+    call suman.run() could put suman in "export mode"
+    otherwise, if you are not in "export mode", when you require a file,
+    it will just run from start to finish
 
 ///
 
 
- in the browser we can use
+    in the browser we can use
 
-  suman.browser.ioc.static.ts
-  suman.browser.ioc.ts
+    suman.browser.ioc.static.ts
+    suman.browser.ioc.ts
 
-  these file paths
-
-///
-
-@AlexanderMills you can also enable inspector by
-calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 mins ago
+    these file paths
 
 ///
 
- use $inject like so:
+    @AlexanderMills you can also enable inspector by
+    calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 mins ago
 
- const {Test} = suman.init(module, {
-   $inject: ['a', 'b', 'c']
- });
+///
 
- Test.create(function($inject){
-    const {a,b,c} = $inject;
- });
+    use $inject like so:
+
+    const {Test} = suman.init(module, {
+      $inject: ['a', 'b', 'c']
+    });
+
+    Test.create(function($inject){
+     const {a,b,c} = $inject;
+    });
 
 
 ///
@@ -246,27 +255,23 @@ calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 
 
 ///
 
- need to create a programmatic API
- suman.run(file);
+    need to create a programmatic API
+    suman.run(file);
 
 ///
 
-we can use $inject and put props on that
+    we can use $inject and put props on that
 
-BaseReporter.decoratorFactory.$inject = [
-  'formatError',
-  'config.reportSlowerThan',
-  'config.colors',
-  'config.browserConsoleLogOptions'
-]
+    BaseReporter.decoratorFactory.$inject = [
+      'formatError',
+      'config.reportSlowerThan',
+      'config.colors',
+      'config.browserConsoleLogOptions'
+    ]
 
 ///
 
 https://code.google.com/archive/p/js-test-driver/
-
-///
-
- retries => suman should allow for retries
 
 ///
 
@@ -573,11 +578,6 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
-    when `suman --init` is run, we should create a dir called .suman not suman
-    and suman-default-config.js should be updated to reflect that
-
-///
-
     suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
     suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
 
@@ -585,11 +585,6 @@ node test/src/exp.js | grep -v [[suman]]
 
     in order for parallel-max to work properly,
     the last test suite to be put on the queue, needs to wait.
-
-//
-
-    => absolute --parallel would just mean unleashing things in exec-suite.js so that a parent does *not* need to complete
-    before a child starts.
 
 //
 
@@ -638,18 +633,9 @@ node test/src/exp.js | grep -v [[suman]]
 
 ////
 
-    create vorpal-like command line app that can do tab completion
-    should be able to recognize commands, so when command is recognized it is highlighted
-
-////
-
     when we install suman
     [object Object]
     => Suman message => Suman was successfully installed locally.
-
-////
-
-   give the user the option to run suman.once.pre.js and suman.once.post.js in child process ??
 
 ////
 

@@ -166,6 +166,7 @@ module.exports = Object.freeze({
   },
 
   reporters: {
+    default: 'std-reporter',
     map: {
       'tap': 'suman-reporters/modules/tap-reporter'
     }

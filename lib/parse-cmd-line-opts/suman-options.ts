@@ -390,7 +390,7 @@ module.exports = [
   {
     names: ['use-tap-json-output', 'use-tap-json', 'tap-json'],
     type: 'bool',
-    help: 'Use this option to tell the Suman process to output test results as TAP-JSON.'
+    help: 'Tells the Suman process to output test results as TAP-JSON.'
   },
   {
     names: ['suman-shell', 'shell'],
@@ -401,7 +401,12 @@ module.exports = [
   {
     names: ['ignore-run-config'],
     type: 'bool',
-    help: 'Use this option to tell Suman runner to ignore @run.sh files.'
+    help: 'Tells Suman runner to ignore @run.sh files.'
+  },
+  {
+    names: ['use-default-config'],
+    type: 'bool',
+    help: 'Tells Suman to use the default Suman configuration (suman.conf.js file).'
   },
   {
     names: ['no-tap'],
