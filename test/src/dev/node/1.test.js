@@ -21,6 +21,10 @@ Test.create(opts, [function (assert, describe, before, beforeEach, after, afterE
     assert(true);
   });
 
+  it.skip['retries:5, name:hi']('zoom', t => {
+
+  });
+
   before('hi', [h => {
     h.assert.equal(++count, 1);
   }]);

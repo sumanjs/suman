@@ -6,6 +6,14 @@ three SO profiles:
 
 ///
 
+if `--inspect --debug-brk` equivalent to `--inspect-brk` forever?
+
+///
+
+ what is "return" for in bash scripts? ("return" as opposed to "exit").
+
+///
+
 use puppeteer to launch chrome instead of chrome-launcher
 https://developers.google.com/web/updates/2017/04/headless-chrome
 
@@ -19,12 +27,10 @@ https://developers.google.com/web/updates/2017/04/headless-chrome
 
     });
 
-    it('is good', t => {
-       // put options object after the function?
-    },
-    {
-    retries: 5
-    });
+//
+
+mocha context issue:
+https://github.com/mochajs/mocha/issues/2014
 
 //
 

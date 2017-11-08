@@ -15,7 +15,7 @@ NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules"
 NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin"
 
 if [[ "${LOCAL_SUMAN_ALREADY_FOUND}" == "yes" ]]; then
-    NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE=yes node --inspect-brk "${X}/cli.js" "$@"
+    NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE=yes node --inspect --debug-brk "${X}/cli.js" "$@"
 else
 
     LOCAL_SUMAN="$(node ${X}/scripts/find-local-suman-executable.js)"
@@ -25,11 +25,11 @@ else
         echo " => No local Suman executable could be found, given the current directory => $PWD"
         echo " => Attempting to run installed version of Suman here => `dirname $0`"
         GLOBAL_MODULES="${suman_global_npm_modules_path:-"$(npm root -g)"}"
-        NODE_PATH="${NEW_NODE_PATH}":"${GLOBAL_MODULES}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE=yes node --inspect-brk "${X}/cli.js" "$@"
+        NODE_PATH="${NEW_NODE_PATH}":"${GLOBAL_MODULES}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE=yes node --inspect --debug-brk "${X}/cli.js" "$@"
 
     else
         # local version found, so we run it
-        NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE=yes node --inspect-brk "${LOCAL_SUMAN}" "$@"
+        NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE=yes node --inspect --debug-brk "${LOCAL_SUMAN}" "$@"
     fi
 
 fi

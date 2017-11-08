@@ -15,12 +15,14 @@ import util = require('util');
 import path = require('path');
 import cp = require('child_process');
 import fs = require('fs');
+import EE = require('events');
 
 //npm
 import async = require('async');
 import chalk = require('chalk');
 import semver = require('semver');
 import su = require('suman-utils');
+import {events} from 'suman-events';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -31,6 +33,8 @@ import uuidV4 = require('uuid/v4');
 import {findPathOfRunDotSh} from '../runner-utils'
 import {constants} from "../../../config/suman-constants";
 const runChildPath = require.resolve(__dirname + '/../run-child.js');
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+
 
 //////////////////////////////////////////////////////////////////////
 
@@ -325,7 +329,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         }
       }
 
-      _suman.log.info(chalk.black('File has just started running =>'), chalk.grey.bold(`'${file}'.`));
+      rb.emit(String(events.RUNNER_SAYS_FILE_HAS_JUST_STARTED_RUNNING), file);
       n.dateStartedMillis = gd.startDate = Date.now();
       n.once('exit', onExitFn(n, gd, cb));
 

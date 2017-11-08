@@ -419,19 +419,24 @@ module.exports = [
     help: 'Will use the json-2-stdout library to log runnable file paths to stdout and then exit.'
   },
   {
+    names: ['inspect', 'inspect-brk'],
+    type: 'bool',
+    help: 'Use this option to debug main process.'
+  },
+  {
     names: ['inspect-child', 'inspect-children'],
     type: 'bool',
-    help: 'Use this option to aid in the debugging of child_processes.'
+    help: 'Use this option debug child processes launched by the runner.'
   },
   {
     names: ['debug-child', 'debug-children'],
     type: 'bool',
-    help: 'Use this option to aid in the debugging of child_processes.'
+    help: 'Use this option to debug child processes launched by the runner.'
   },
   {
     names: ['ignore-break'],
     type: 'bool',
-    help: 'Use this option to aid in the debugging of child_processes.'
+    help: 'Use this option to debug of child processes launched by the runner.'
   },
   {
     names: ['ignore-uncaught-exceptions', 'iue'],
