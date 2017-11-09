@@ -2,6 +2,7 @@
 
 //dts
 import {ISumanConfig, ISumanOpts, IGlobalSumanObj, ICurrentPaddingCount} from "suman-types/dts/global";
+import {IRet} from "suman-types/dts/reporters";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -25,10 +26,17 @@ import {constants} from "../../config/suman-constants";
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
+const reporterRets = _suman.reporterRets = _suman.reporterRets || [] as Array<IRet>;
+const sr = _suman.sumanReporters = _suman.sumanReporters || [] as Array<string>; // should be unique set of paths loaded
 let loaded = false;
 
 /////////////////////////////////////////////////////////////////////////////
+
+let getReporterFn = function (fn: any) {
+  return fn.default || fn.loadReporter || fn;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////
 
 export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: string, sumanConfig: ISumanConfig) {
 
@@ -47,28 +55,43 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     process.exit(constants.EXIT_CODES.COULD_NOT_LOAD_A_REPORTER);
   };
 
-  const sr = _suman.sumanReporters = _.flattenDeep([sumanOpts.reporter_paths || []])
+  const sumanReporterFns = [] as Array<Function>;
+
+  let loadReporter = function (rpath: string) {
+
+    try {
+      let fullPath;
+      try {
+        fullPath = require.resolve(rpath);
+      }
+      catch (err) {
+        fullPath = require.resolve(path.resolve(projectRoot + '/' + rpath));
+      }
+
+      let fn = require(fullPath);
+      fn = getReporterFn(fn);
+      assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + rpath + '"');
+      fn.reporterPath = fullPath;
+      sumanReporterFns.push(fn);
+    }
+    catch (err) {
+      _suman.log.error(`could not load reporter at path "${rpath}".`);
+      _suman.log.error(err.stack);
+    }
+  };
+
+  _.flattenDeep([sumanOpts.reporter_paths || []])
   .filter(v => {
     !v && _suman.log.warning('warning: a supposed filesystem path to a reporter was null or undefined.');
     return v;
   })
-  .map(function (item: string) {
+  .forEach(function (item: string) {
 
     if (!path.isAbsolute(item)) {
       item = path.resolve(projectRoot + '/' + item);
     }
 
-    let fn;
-    try {
-      fn = require(item);
-      fn = fn.default || fn;
-      assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + item + '"');
-      fn.pathToReporter = item;
-    }
-    catch (err) {
-      throw new Error(chalk.red('Could not load reporter with name => "' + item + '"') + `\n =>  ${err.stack || err} \n`);
-    }
-    return fn;
+    loadReporter(item);
   });
 
   if (sumanOpts.reporters && !su.isObject(sumanConfig.reporters)) {
@@ -87,7 +110,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
   }
 
   _.flattenDeep([sumanOpts.reporters || []]).filter(v => {
-    if (!v) _suman.log.warning('a reporter path was undefined.');
+    !v && _suman.log.warning('a reporter path was undefined.');
     return v;
   })
   .forEach(function (item: string) {
@@ -96,24 +119,11 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
 
     if (item in reporterKV) {
       val = reporterKV[item];
-      if (val && typeof val === 'string') {
-        try {
-          fn = require(val);
-        }
-        catch (err) {
-          try {
-            fn = require(path.resolve(projectRoot + '/' + val));
-          }
-          catch (err) {
-            onReporterLoadFail(err, item);
-          }
-        }
-      }
-      else if (val) {
-        fn = val;
+      if(val && typeof val === 'string'){
+        loadReporter(val);
       }
       else {
-        throw new Error('no reporter with name = "' + item + '" in your suman.conf.js file.');
+        _suman.log.warning(`no value in reporters.map for key '${item}'.`)
       }
     }
     else {
@@ -180,7 +190,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     let fn = reporter.default || reporter;
     let reporterPath = fn.pathToReporter;
     reporterRets.push(fn.call(null, rb, optsCopy, {}));
-    if(su.vgt(5)){
+    if (su.vgt(5)) {
       reporterPath && _suman.log.info(`loaded reporter with path: "${reporterPath}"`);
     }
   });

@@ -6,6 +6,11 @@ three SO profiles:
 
 ///
 
+_suman.sumanReporters needs to be Array<Function> not Array<string>
+see reporters last ditch or load reporters
+
+///
+
     suman tests should work without having to run suman --init
     see new option: use-default-config
 

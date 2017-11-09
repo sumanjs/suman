@@ -12,6 +12,7 @@ const path = require('path');
 const fs = require('fs');
 
 //npm
+import su = require('suman-utils');
 import * as chalk from 'chalk';
 
 //project
@@ -24,7 +25,9 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
   let sumanInstalledLocally = false,
     sumanInstalledAtAll = false,
     sumanServerInstalled = false,
-    sumanIsSymlinkedLocally = false;
+    sumanIsSymlinkedLocally = false,
+    sumanPath1: string,
+    sumanPath2: string;
 
   const sumanNodeModulesPath = path.resolve(projectRoot + '/node_modules/suman');
 
@@ -38,36 +41,31 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
   }
 
   try {
-    require.resolve(sumanNodeModulesPath);
+    sumanPath1 = require.resolve(sumanNodeModulesPath);
+    su.vgt(6) && _suman.log.info('Suman installation resolved at this location:', chalk.bold(sumanPath1));
     sumanInstalledLocally = true;
   } catch (e) {
     sumanInstalledLocally = false;
   }
 
-  if (sumanInstalledLocally) {
-    if (opts.verbosity > 7) {  //only if user asks for verbose option
-      _suman.log.info(chalk.blue('Suman appears to be installed locally.'));
-    }
-  }
-  else {
+  if (!sumanInstalledLocally) {
     if (opts.verbosity > 2) {
       _suman.log.info(chalk.yellow('note that Suman is not installed locally, you may wish to run "$ suman --init"'));
     }
   }
 
   try {
-    require.resolve('suman');
+    sumanPath2 = require.resolve('suman');
     sumanInstalledAtAll = true;
+    if(sumanPath1 !== sumanPath2){
+      su.vgt(6) && _suman.log.info('Suman installation resolved at this location:', chalk.bold(sumanPath2));
+    }
+
   } catch (e) {
     sumanInstalledAtAll = false;
   }
 
-  if (sumanInstalledAtAll) {
-    if (opts.verbosity > 7) {  //only if user asks for verbose option
-      _suman.log.info(chalk.blue(' Suman appears to be installed locally.'));
-    }
-  }
-  else {
+  if (!sumanInstalledAtAll) {
     if (!sumanIsSymlinkedLocally && opts.verbosity > 2) {
       _suman.log.warning(chalk.yellow('note that Suman is not installed at all, you may wish to run "$ suman --init"'));
     }
