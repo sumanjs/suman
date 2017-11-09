@@ -95,7 +95,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
   };
 
   _.flattenDeep([sumanOpts.reporter_paths || []]).filter(v => {
-    !v && _suman.log.warning('warning: a supposed filesystem path to a reporter was null or undefined.');
+    !v && _suman.log.warning('warning: a supposed filesystem path to a reporter was falsy.');
     return v;
   })
   .forEach(function (item: string) {
@@ -119,7 +119,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
   }
 
   _.flattenDeep([sumanOpts.reporters || []]).filter(v => {
-    !v && _suman.log.warning('a reporter path was undefined.');
+    !v && _suman.log.warning('a reporter path was falsy, it must be ignored.');
     return v;
   })
   .forEach(function (item: string) {
@@ -167,8 +167,11 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     }
   }
 
+
+
   sumanReporterFns.forEach(function (fn) {
     const reporterPath = fn.reporterPath;
+    sr.push(reporterPath);
     reporterRets.push(fn.call(null, rb, optsCopy, {}));
     su.vgt(5) && reporterPath && _suman.log.info(`Loaded reporter with path: "${reporterPath}"`);
   });

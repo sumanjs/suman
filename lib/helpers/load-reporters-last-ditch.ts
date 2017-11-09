@@ -29,21 +29,28 @@ const reporterRets = _suman.reporterRets = _suman.reporterRets || [];
 //////////////////////////////////////////////////////////////////////////////////////////
 
 let loaded = false;
-let getReporterFn = function(fn: any){
+let getReporterFn = function (fn: any) {
   return fn.default || fn.loadReporter || fn;
 };
 
-let loadReporter = function(rpath: string) : Function {
+let loadReporter = function (rpath: string): Function {
 
-  try{
-    const fullPath = require.resolve(rpath);
+  try {
+    let fullPath;
+    try{
+     fullPath = require.resolve(rpath);
+    }
+    catch(err){
+      fullPath = require.resolve(path.resolve(_suman.projectRoot + '/' + rpath));
+    }
+
     let fn = require(fullPath);
     fn = getReporterFn(fn);
     assert(typeof fn === 'function', 'Suman implementation error - reporter module format fail.');
     fn.reporterPath = fullPath;
     return fn;
   }
-  catch(err){
+  catch (err) {
     _suman.log.error(`could not load reporter at path "${rpath}".`);
     _suman.log.error(err.stack);
   }
@@ -81,7 +88,7 @@ export const run = function () {
       }
     }
     catch (err) {
-      if(su.vgt(7)){
+      if (su.vgt(7)) {
         // window is not defined message is likely here
         _suman.log.warning(chalk.yellow.bold(err.message));
       }
@@ -96,7 +103,6 @@ export const run = function () {
       }
     }
 
-    console.log();
     assert(typeof fn === 'function', 'Suman implementation error - reporter fail - ' +
       'reporter does not export a function. Please report this problem.');
     sumanReporters.push(fn.reporterPath);
