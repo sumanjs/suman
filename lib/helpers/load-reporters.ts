@@ -57,7 +57,20 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
 
   const sumanReporterFns = [] as Array<Function>;
 
-  let loadReporter = function (rpath: string) {
+  let loadReporterFn = function (fn: Function, key: string): boolean {
+    try {
+      fn = getReporterFn(fn);
+      assert(typeof fn === 'function', ' (Supposed) reporter module does meet the API requirements => ' + util.inspect(fn));
+      sumanReporterFns.push(fn);
+      return true;
+    }
+    catch (err) {
+      key && _suman.log.warning(`Could not load reporter with key '${key}'.`);
+      _suman.log.warning(err.message);
+    }
+  };
+
+  let loadReporterViaPath = function (rpath: string): boolean {
 
     try {
       let fullPath;
@@ -73,6 +86,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
       assert(typeof fn === 'function', ' (Supposed) reporter module does not export a function, at path = "' + rpath + '"');
       fn.reporterPath = fullPath;
       sumanReporterFns.push(fn);
+      return true;
     }
     catch (err) {
       _suman.log.error(`could not load reporter at path "${rpath}".`);
@@ -80,22 +94,17 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     }
   };
 
-  _.flattenDeep([sumanOpts.reporter_paths || []])
-  .filter(v => {
+  _.flattenDeep([sumanOpts.reporter_paths || []]).filter(v => {
     !v && _suman.log.warning('warning: a supposed filesystem path to a reporter was null or undefined.');
     return v;
   })
   .forEach(function (item: string) {
-
-    if (!path.isAbsolute(item)) {
-      item = path.resolve(projectRoot + '/' + item);
-    }
-
-    loadReporter(item);
+    if (!path.isAbsolute(item)) (item = path.resolve(projectRoot + '/' + item));
+    loadReporterViaPath(item);
   });
 
   if (sumanOpts.reporters && !su.isObject(sumanConfig.reporters)) {
-    throw new Error('You provided reporter names but have no reporters object in your suman.conf.js file.');
+    throw new Error('You provided reporter names but have no "reporters" object property in your <suman.conf.js> file.');
   }
 
   let reporterKV: any;
@@ -115,84 +124,53 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
   })
   .forEach(function (item: string) {
 
-    let fn, val;
-
+    let val;
     if (item in reporterKV) {
       val = reporterKV[item];
-      if(val && typeof val === 'string'){
-        loadReporter(val);
+      if (val && typeof val === 'string') {
+        loadReporterViaPath(val);
+      }
+      else if (val && typeof val === 'function') {
+        loadReporterFn(val, item);
       }
       else {
-        _suman.log.warning(`no value in reporters.map for key '${item}'.`)
+        val = val ? ' The bad value is: ' + util.inspect(val) : '';
+        _suman.log.warning(`No acceptable value in reporters.map for key: '${item}'.${val}`)
       }
     }
     else {
-      try {
-        fn = require(item);
-      }
-      catch (err) {
-        try {
-          let p = path.resolve('/suman-reporters/modules/' + item).substr(1);  // remove first "/" char
-          fn = require(p);
-        }
-        catch (err) {
-          onReporterLoadFail(err, item);
-        }
+      if (!loadReporterViaPath(item)) {
+        // note: if the above load command fails, then we try the below
+        let p = path.resolve('/suman-reporters/modules/' + item).substr(1);  // remove first "/" char
+        loadReporterViaPath(p);
       }
     }
-
-    try {
-      fn = fn.default || fn;
-      assert(typeof fn === 'function', 'reporter module does not export a function, at path = "' + val + '"');
-      fn.pathToReporter = item;  // val might not refer to a path...
-      sr.push(fn);
-    }
-    catch (err) {
-      throw new Error(chalk.red('Could not load reporter with name => "' + item + '"') + `\n => ${err.stack || err}\n`);
-    }
-
   });
 
   if (process.env.SUMAN_INCEPTION_LEVEL > 0 || sumanOpts.$useTAPOutput) {
     _suman.log.info('TAP-JSON reporter loaded.');
-    let fn = require('suman-reporters/modules/tap-json-reporter');
-    fn = fn.default || fn;
-    assert(typeof fn === 'function', 'Suman implementation error - reporter fail.');
-    sr.push(fn);
+    loadReporterViaPath('suman-reporters/modules/tap-json-reporter');
   }
   else {
-    _suman.log.info('TAP reporter *not* loaded on the first pass-through.');
+    _suman.log.info('TAP reporter not loaded on the first pass-through.');
   }
 
-  if (sr.length < 1) {
+  if (sumanReporterFns.length < 1) {
     if (process.env.SUMAN_INCEPTION_LEVEL < 1) {
       _suman.log.info('Using native/std reporter');
       rb.emit(String(events.USING_STANDARD_REPORTER));
-      let reporterPath = 'suman-reporters/modules/std-reporter';
-      let fn = require(reporterPath);
-      fn = fn.default || fn;
-      assert(typeof fn === 'function', 'Suman implementation error - reporter module format failure.');
-      fn.pathToReporter = reporterPath;
-      sr.push(fn);
+      loadReporterViaPath('suman-reporters/modules/std-reporter');
     }
     else {
       _suman.log.info('TAP reporter loaded on second attempt.');
-      let reporterPath = 'suman-reporters/modules/tap-json-reporter';
-      let fn = require(reporterPath);
-      fn = fn.default || fn;
-      assert(typeof fn === 'function', 'Suman implementation error - reporter module format fail.');
-      fn.pathToReporter = reporterPath;
-      sr.push(fn);
+      loadReporterViaPath('suman-reporters/modules/tap-json-reporter');
     }
   }
 
-  sr.forEach(function (reporter) {
-    let fn = reporter.default || reporter;
-    let reporterPath = fn.pathToReporter;
+  sumanReporterFns.forEach(function (fn) {
+    const reporterPath = fn.reporterPath;
     reporterRets.push(fn.call(null, rb, optsCopy, {}));
-    if (su.vgt(5)) {
-      reporterPath && _suman.log.info(`loaded reporter with path: "${reporterPath}"`);
-    }
+    su.vgt(5) && reporterPath && _suman.log.info(`Loaded reporter with path: "${reporterPath}"`);
   });
 
 };
