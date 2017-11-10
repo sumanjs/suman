@@ -14,10 +14,10 @@ const fs = require('fs');
 //npm
 const replaceStrm = require('replacestream');
 import * as chalk from 'chalk';
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import su = require('suman-utils');
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -6,6 +6,10 @@ three SO profiles:
 
 ///
 
+ "suman-watch-plugins": "latest",
+
+///
+
 _suman.sumanReporters needs to be Array<Function> not Array<string>
 see reporters last ditch or load reporters
 

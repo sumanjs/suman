@@ -39,7 +39,7 @@ function handle_global_suman {
 
 function suman {
 
-    if test "$#" -eq "0"; then
+    if test ${#} -eq 0; then
         echo " [suman] using suman-shell instead of suman executable.";
         suman-shell "$@"; # note we should have no arguments so passing "$@" to suman-shell should be pointless
     else
@@ -52,7 +52,7 @@ function suman {
             fi
         done
 
-        if test "$suman_inspect" -eq "yes"; then
+        if [[ "${suman_inspect}" == "yes" ]]; then
             exec "$(dirname "$0")/suman-inspect" "$@";
             exit $?;
         fi
@@ -113,11 +113,11 @@ function suman-inspect {
         echo " [suman] => No local Suman executable could be found, given the present working directory => $PWD"
         echo " [suman] You can use '$ which suman-debug' to find a globally installed version."
         echo " [suman] => Warning...attempting to run a globally installed version of Suman..."
-        local -a node_exec_args=( --inspect-brk )
+        local -a node_exec_args=( --inspect --debug-brk )
         handle_global_suman node_exec_args "$@"
     else
         echo " [suman] running node against local suman"
-        NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" node --inspect-brk "$LOCAL_SUMAN" "$@";
+        NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" node --inspect --debug-brk "$LOCAL_SUMAN" "$@";
     fi
 }
 

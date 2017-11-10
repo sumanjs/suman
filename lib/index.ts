@@ -46,6 +46,7 @@ const pragmatik = require('pragmatik');
 
 //project
 let inBrowser = false, usingKarma = false;
+import sumanRun = require('./helpers/suman-run');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
@@ -485,6 +486,11 @@ export const autoFail = function (t: IHookOrTestCaseParam) {
   }
 };
 
+
+export const run = sumanRun.run();
+sumanRun.setupRunCb(run);
+
+
 export const once = function (fn: Function) {
   let cache: any = null;
 
@@ -505,9 +511,9 @@ export const once = function (fn: Function) {
   }
 };
 
-///////////////// keep this for user convenience ////////////////////////////////////////////////
+///////////////// keep  ////////////////////////////////////////////////
 
 const $exports = module.exports;
 export default $exports;
 
-///////////////// keep this for user convenience ////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
