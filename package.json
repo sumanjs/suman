@@ -76,7 +76,7 @@
     "suman-transform-plugins": "latest",
     "suman-utils": "latest",
     "tap-json-parser": "latest",
-    "tap-parser": "^5.4.0",
+    "tap-parser": "^7.0.0",
     "tcp-ping": "^0.1.1",
     "underscore": "^1.8.3",
     "uuid": "^3.0.1",
