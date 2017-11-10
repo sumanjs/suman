@@ -14,7 +14,24 @@ describe('Parent', function () {
     assert.equal(this.value, 42)
   });
 
-  describe('Child', function () {
+  describe('Child1', function () {
+
+    beforeEach(function () {
+      assert.equal(this.value, 42);
+      this.value = 13
+    });
+
+    it('must pass 3', function () {
+      assert.equal(this.value, 13)
+    });
+
+    it('must pass 4', function () {
+      assert.equal(this.value, 13)  /// this assertion throws
+    });
+
+  });
+
+  describe('Child2', function () {
 
     beforeEach(function () {
       assert.equal(this.value, 42);

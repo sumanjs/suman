@@ -216,9 +216,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
         //   writable: false
         // });
 
-        suite.__inject = Object.create(zuite.__inject);
-        debugger;
-        suite.$inject = McProxy.create(suite.__inject);
+        let v = suite.__inject = Object.create(zuite.__inject);
+        suite.$inject = McProxy.create(v);
 
         const iocDepsParent = Object.create(zuite.ioc);
 

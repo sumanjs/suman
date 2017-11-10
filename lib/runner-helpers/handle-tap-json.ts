@@ -1,5 +1,9 @@
 'use strict';
+
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ITAPJSONTestCase} from "suman-types/dts/reporters";
+import {Stream, Transform} from "stream";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -28,7 +32,7 @@ export const getTapJSONParser = function () {
 
   const p = parser();
 
-  p.on('testpoint', function (testpoint: Object) {
+  p.on('testpoint', function (d: ITAPJSONTestCase) {
 
     if (first) {
       first = false;
@@ -37,21 +41,27 @@ export const getTapJSONParser = function () {
       console.log('\n');
     }
 
-    resultBroadcaster.emit(String(events.TEST_CASE_END), testpoint);
+    const testpoint = d.testCase;
+
+    if (!testpoint) {
+      _suman.log.error('implementation warning: testpoint data does not exist for tap-json object => ',
+        util.inspect(d));
+      return;
+    }
+
+    resultBroadcaster.emit(String(events.TEST_CASE_END_TAP_JSON), d);
 
     if (testpoint.skip) {
-      // throw new Error('testpoint.skip');
-      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), testpoint);
+      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED_TAP_JSON), d);
     }
     else if (testpoint.todo) {
-      // throw new Error('testpoint.todo/stubbed');
-      resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), testpoint);
+      resultBroadcaster.emit(String(events.TEST_CASE_STUBBED_TAP_JSON), d);
     }
     else if (testpoint.ok) {
-      resultBroadcaster.emit(String(events.TEST_CASE_PASS), testpoint);
+      resultBroadcaster.emit(String(events.TEST_CASE_PASS_TAP_JSON), d);
     }
     else {
-      resultBroadcaster.emit(String(events.TEST_CASE_FAIL), testpoint);
+      resultBroadcaster.emit(String(events.TEST_CASE_FAIL_TAP_JSON), d);
     }
   });
 

@@ -9,13 +9,25 @@ const su = require('suman-utils');
 
 Test.create({parallel: true}, ['semver', function (b, assert, describe, before, beforeEach, after, afterEach, it, fs) {
 
+  it('is spectacular1', t => {
+
+  });
+
+  it('is spectacular2', t => {
+
+  });
+
+  it('is spectacular3', t => {
+
+  });
+
   describe.parallel('use global', b => {
 
     b.$inject.s = 5;
 
     const getStrm = function(){
       return fs.createWriteStream('/dev/null', {end: false});
-    }
+    };
 
     before(h => {
       return suman.run({
@@ -57,6 +69,14 @@ Test.create({parallel: true}, ['semver', function (b, assert, describe, before, 
 
   describe.parallel('use local', b => {
 
+    describe('inner', b => {
+
+      it('is great', t => {
+
+      });
+
+    });
+
     before(h => {
       return suman.run({
         args: ['--default'],
@@ -91,6 +111,19 @@ Test.create({parallel: true}, ['semver', function (b, assert, describe, before, 
     it.parallel.cb('wait for exit', t => {
       t.$inject.v.sumanProcess.stdout.once('finish', t.pass);
     });
+
+  });
+
+
+  it('is groovy 1', t => {
+
+  });
+
+  it('is groovy 2', t => {
+
+  });
+
+  it('is groovy 3', t => {
 
   });
 
