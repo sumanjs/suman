@@ -5,6 +5,7 @@ export interface ISumanRunOptions {
     useLocalVersion?: boolean;
     args: Array<string>;
     pauseStdio: boolean;
+    files: Array<string>;
 }
 export interface ISumanRunRet {
     sumanProcess: ChildProcess;

@@ -59,7 +59,7 @@ Test.create({parallel: true}, ['semver', function (b, assert, describe, before, 
     before(h => {
       return suman.run({
         args: ['--default'],
-        useLocalVersion: true
+        useLocalVersion: false
       })
       .then(function (v) {
         h.$inject.v = v;

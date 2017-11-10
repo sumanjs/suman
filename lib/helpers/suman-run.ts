@@ -11,8 +11,10 @@ const global = require('suman-browser-polyfills/modules/global');
 //core
 import path = require('path');
 import cp = require('child_process');
+import assert = require('assert');
 
 //npm
+import chalk = require('chalk');
 import su = require('suman-utils');
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -21,14 +23,13 @@ export interface ISumanRunOptions {
   env?: Object,
   useGlobalVersion?: boolean,
   useLocalVersion?: boolean,
-  args: Array<string>
-  pauseStdio: boolean
-
+  args: Array<string>,
+  pauseStdio: boolean,
+  files: Array<string>
 }
 
 export interface ISumanRunRet {
   sumanProcess: ChildProcess,
-
 }
 
 type FunctionErrHanlder = (reason: any, v: ISumanRunRet) => PromiseLike<never>;
@@ -52,36 +53,51 @@ export const run = function (): ISumanRunFn {
       throw new Error('Suman run routine cannot use both local and global versions -> check your options object passed to suman.run()');
     }
 
-    if (!Array.isArray(runOptions.args)) {
-      throw new Error('"args" property must be an array.');
-    }
-
-    if (runOptions.args.length < 1) {
-      throw new Error('You must pass at least one argument to the suman executable, try "--" or "--default", if nothing else.');
-    }
-
     if (runOptions.env && su.isObject(runOptions.env)) {
       throw new Error('"env" property must be a plain object.');
     }
 
+    if (runOptions.files && !Array.isArray(runOptions.files)) {
+      throw new Error('"files" must be an Array.');
+    }
+    else if (runOptions.files) {
+      runOptions.files.forEach(function (v) {
+        assert.equal(typeof v, 'string');
+      });
+    }
+
+    if (runOptions.args && !Array.isArray(runOptions.args)) {
+      throw new Error('"args" property must be an array.');
+    }
+    else if (runOptions.args) {
+      runOptions.args.forEach(function (v) {
+        assert.equal(typeof v, 'string');
+      });
+    }
+
     let executable: string,
       args = runOptions.args,
+      files: Array<string> = runOptions.files || [],
       env = runOptions.env || {},
       pauseStdio = runOptions.pauseStdio !== false;
 
+    if (args.length < 1 && files.length < 1) {
+      throw new Error('You must pass at least one argument or file to the suman executable, try "--" or "--default", if nothing else.');
+    }
+
     if (runOptions.useGlobalVersion) {
-      executable = 'suman';
+      executable = 'suan';
     }
     else if (runOptions.useLocalVersion) {
-      executable = path.resolve(_suman.projectRoot + '/node_modules/.bin/suman');
+      executable = path.resolve(_suman.projectRoot + '/node_modules/.bin/suan');
     }
     else {
-      executable = 'suman';
+      executable = 'suan';
     }
 
     return new Promise(function (resolve, reject) {
 
-      const k = cp.spawn(executable, args, {
+      const k = cp.spawn(executable, args.concat(files), {
         env: Object.assign({}, process.env, env),
       });
 
@@ -102,7 +118,27 @@ export const run = function (): ISumanRunFn {
         });
       });
 
-    });
+    })
+    .catch(function (err) {
+
+      console.log(); console.error();
+
+      if (runOptions.useLocalVersion) {
+        _suman.log.error(chalk.red('local suman version may not be installed at this path:'));
+        _suman.log.error(executable)
+      }
+      if (runOptions.useGlobalVersion) {
+        _suman.log.error(chalk.red.bold('Globally installed suman version may not be available.'));
+        try {
+          _suman.log.error(chalk.gray.bold('The `which suman` command yields the following:'));
+          _suman.log.error(chalk.bold(String(cp.execSync('which suman'))));
+        }
+        catch (err) {
+          _suman.log.error(err.message);
+        }
+      }
+      return Promise.reject(err);
+    })
 
   };
 
