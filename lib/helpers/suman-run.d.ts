@@ -4,6 +4,7 @@ export interface ISumanRunOptions {
     useGlobalVersion?: boolean;
     useLocalVersion?: boolean;
     args: Array<string>;
+    pauseStdio: boolean;
 }
 export interface ISumanRunRet {
     sumanProcess: ChildProcess;
@@ -13,4 +14,3 @@ export interface ISumanRunFn {
     cb?: (runOptions: ISumanRunOptions, cb: Function) => void;
 }
 export declare const run: () => ISumanRunFn;
-export declare const setupRunCb: (runSumanWithPromise: Function) => void;

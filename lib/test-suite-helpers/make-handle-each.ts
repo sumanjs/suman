@@ -180,7 +180,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
 
-        const t = makeHookObj(aBeforeOrAfterEach, assertCount, handleError);
+        const t = makeHookObj(aBeforeOrAfterEach, assertCount, handleError, handlePossibleError);
         fini.th = t;
         t.timeout = timeout;
         t.test = {};
@@ -198,7 +198,8 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         t.value = test.value;
         t.state = 'pending';
         t.shared = self.shared;
-        t.$inject = suman.$inject;
+        t.__inject = self.$inject;
+        t.$inject = self.$inject;
 
         t.fatal = function fatal(err: IPseudoError) {
           if (!t.callbackMode) {

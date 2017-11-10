@@ -488,7 +488,6 @@ export const autoFail = function (t: IHookOrTestCaseParam) {
 
 
 export const run = sumanRun.run();
-sumanRun.setupRunCb(run);
 
 
 export const once = function (fn: Function) {

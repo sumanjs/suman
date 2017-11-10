@@ -27,6 +27,7 @@ import async = require('async');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
 import {VamootProxy} from 'vamoot';
+import McProxy = require('proxy-mcproxy');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -38,6 +39,7 @@ import {handleSetupComplete} from '../helpers/general';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
 import {parseArgs} from '../helpers/general';
 import {evalOptions} from '../helpers/general';
+
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -203,6 +205,20 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
           value: zuite.shared.clone(),
           writable: false
         });
+
+        // Object.defineProperty(suite, '__inject', {
+        //   value: Object.create(zuite.__inject),
+        //   writable: false
+        // });
+        //
+        // Object.defineProperty(suite, '$inject', {
+        //   value: McProxy.create(suite.__inject),
+        //   writable: false
+        // });
+
+        suite.__inject = Object.create(zuite.__inject);
+        debugger;
+        suite.$inject = McProxy.create(suite.__inject);
 
         const iocDepsParent = Object.create(zuite.ioc);
 

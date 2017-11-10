@@ -84,7 +84,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     let derror = false, retries: number;
 
     if (suman.config.retriesEnabled === true && Number.isInteger((retries = test.retries))) {
-      fini.retryFn = retryData ? retryData.retryFn : handleTest.bind(null, ...Array.from(arguments));
+      fini.retryFn = retryData ? retryData.retryFn : handleTest.bind(null, ...arguments);
     }
 
     const handleErr: IHandleError = function (err: IPseudoError) {
@@ -177,12 +177,17 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           handleErr(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
 
-        const t = makeTestCase(test, assertCount, handleErr);
+        const t = makeTestCase(test, assertCount, handleErr, handlePossibleError);
         fini.th = t;
         t.throw = $throw;
         t.timeout = timeout;
         t.shared = self.shared;
-        t.$inject = Object.assign({}, suman.__inject);
+        t.__inject = self.inject;
+        t.$inject = new Proxy(self.__inject, {
+             set(target, property, value, receiver){
+                throw new Error('cannot set any properties on t.$inject (in test cases).');
+             }
+        });
 
 
         ////////////// note: unfortunately these fns cannot be moved to prototype /////////////////

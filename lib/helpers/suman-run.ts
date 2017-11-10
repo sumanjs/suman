@@ -22,6 +22,7 @@ export interface ISumanRunOptions {
   useGlobalVersion?: boolean,
   useLocalVersion?: boolean,
   args: Array<string>
+  pauseStdio: boolean
 
 }
 
@@ -39,12 +40,13 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 export interface ISumanRunFn {
   (runOptions: ISumanRunOptions): Promise<ISumanRunRet>
+
   cb?: (runOptions: ISumanRunOptions, cb: Function) => void;
 }
 
 export const run = function (): ISumanRunFn {
 
-  return function runSumanWithPromise(runOptions: ISumanRunOptions): Promise<ISumanRunRet> {
+  const runSumanWithPromise = <ISumanRunFn> function (runOptions) {
 
     if (runOptions.useGlobalVersion && runOptions.useLocalVersion) {
       throw new Error('Suman run routine cannot use both local and global versions -> check your options object passed to suman.run()');
@@ -62,7 +64,10 @@ export const run = function (): ISumanRunFn {
       throw new Error('"env" property must be a plain object.');
     }
 
-    let executable, args = runOptions.args, env = runOptions.env || {};
+    let executable: string,
+      args = runOptions.args,
+      env = runOptions.env || {},
+      pauseStdio = runOptions.pauseStdio !== false;
 
     if (runOptions.useGlobalVersion) {
       executable = 'suman';
@@ -76,12 +81,14 @@ export const run = function (): ISumanRunFn {
 
     return new Promise(function (resolve, reject) {
 
-      const k = cp.spawn('suman', args, {
+      const k = cp.spawn(executable, args, {
         env: Object.assign({}, process.env, env),
       });
 
-      k.stdout.pause();
-      k.stderr.pause();
+      if (pauseStdio) {
+        k.stdout.pause();
+        k.stderr.pause();
+      }
 
       k.once('error', function (err: Error) {
         _suman.log.error('Suman run spawn error:', err.stack || err);
@@ -89,6 +96,7 @@ export const run = function (): ISumanRunFn {
       });
 
       setImmediate(function () {
+        // we use setImmediate in case there is an error, and we should reject
         resolve({
           sumanProcess: k
         });
@@ -98,13 +106,14 @@ export const run = function (): ISumanRunFn {
 
   };
 
+  runSumanWithPromise.cb = function (runOptions: ISumanRunOptions, cb: Function) {
+    runSumanWithPromise(runOptions).then(function (val: any) {
+      cb(null, val);
+    }, cb as any);
+  };
+
+  return runSumanWithPromise;
+
 };
 
-export const setupRunCb = function (runSumanWithPromise: Function) {
-  runSumanWithPromise.cb = function runSumanWithCallback(runOptions: ISumanRunOptions, cb: Function) {
-    runSumanWithPromise(runOptions).then(function (val: ISumanRunRet) {
-      cb(null, val);
-    }, cb);
-  }
-};
 

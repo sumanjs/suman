@@ -27,7 +27,7 @@ import async = require('async');
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 import su from 'suman-utils';
-const McProxy = require('proxy-mcproxy');
+import McProxy = require('proxy-mcproxy');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

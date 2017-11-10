@@ -31,13 +31,15 @@ let badProps = <IBadProps> {
 
 /////////////////////////////////////////////////////////////////////////////////
 
-export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError): IHookParam {
+export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj,
+                                     handleError: IHandleError, fini: Function): IHookParam {
 
   let planCalled = false;
   const v = Object.create(tProto);
 
   v.__hook = hook;
   v.__handle = v.__handleErr = handleError;
+  v.__fini = fini;
 
   const assrt = <Partial<AssertStatic>>  function () {
     try {

@@ -1,10 +1,20 @@
 
 
-const x = [];
+const proto = Object.create(Function.prototype);
 
-let fn = function(){
-   return x.push('e');
+proto.addProp = function(prop, val){
+  this[prop] = val;
+  return this;
+};
+
+const fn = function(){
 
 };
 
-console.log(fn());
+Object.setPrototypeOf(fn, proto);
+
+
+fn.addProp('foo','bar');
+
+
+console.log(fn.foo); // => 'bar'

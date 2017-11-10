@@ -21,6 +21,7 @@ import util = require('util');
 
 //npm
 import {VamootProxy} from 'vamoot';
+import McProxy = require('proxy-mcproxy');
 import * as chalk from 'chalk';
 import * as async from 'async';
 const _ = require('underscore');
@@ -133,6 +134,19 @@ export const execSuite = function (suman: ISuman): Function {
     suite.isRootSuite = true;
     suite.bindExtras();
     allDescribeBlocks.push(suite);
+
+    // Object.defineProperty(suite, '__inject',{
+    //   writable: false,
+    //   value: {}
+    // });
+    //
+    // Object.defineProperty(suite, '$inject',{
+    //   writable: false,
+    //   value: McProxy.create(suite.__inject)
+    // });
+
+    suite.__inject = {};
+    suite.$inject = McProxy.create(suite.__inject);
 
     try {
       //TODO: make this path reference the resolved paths in the resolved paths module

@@ -46,6 +46,35 @@ proto.wrap = function (fn: Function) {
   }
 };
 
+proto.final = function (fn: Function) {
+  const self = this;
+  return function () {
+    try {
+      fn.apply(this, arguments);
+      self.__fini(null);
+    }
+    catch (e) {
+      self.__handle(e, false);
+    }
+  }
+};
+
+proto.finalErrFirst = proto.finalErrorFirst = function (fn: Function) {
+  const self = this;
+  return function (err: Error) {
+    if (err) {
+      return self.__handle(err, false);
+    }
+    try {
+      fn.apply(this, Array.from(arguments).slice(1));
+      self.__fini(null);
+    }
+    catch (e) {
+      self.__handle(e, false);
+    }
+  }
+};
+
 proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
   const self = this;
   return function (err: IPseudoError) {

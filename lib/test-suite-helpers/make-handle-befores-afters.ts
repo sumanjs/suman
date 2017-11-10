@@ -159,9 +159,9 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
 
-        const t = makeHookObj(aBeforeOrAfter, assertCount, handleError);
+        const t = makeHookObj(aBeforeOrAfter, assertCount, handleError, handlePossibleError);
         t.shared = self.shared;
-        t.$inject = suman.$inject;
+        t.$inject = self.$inject;
         t.desc = aBeforeOrAfter.desc;
         fini.th = t;
         t.timeout = timeout;
