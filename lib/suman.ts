@@ -92,8 +92,8 @@ export class Suman {
     this.sumanId = ++sumanId;
 
     // initialize
-    let v = this.__inject = {};
-    this.$inject = McProxy.create(v);
+    // let v = this.__inject = {};
+    // this.$inject = McProxy.create(v);
     this.allDescribeBlocks = [];
     this.itOnlyIsTriggered = false;
     this.describeOnlyIsTriggered = false;

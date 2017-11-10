@@ -86,13 +86,13 @@ export const run = function (): ISumanRunFn {
     }
 
     if (runOptions.useGlobalVersion) {
-      executable = 'suan';
+      executable = 'suman';
     }
     else if (runOptions.useLocalVersion) {
-      executable = path.resolve(_suman.projectRoot + '/node_modules/.bin/suan');
+      executable = path.resolve(_suman.projectRoot + '/node_modules/.bin/suman');
     }
     else {
-      executable = 'suan';
+      executable = 'suman';
     }
 
     return new Promise(function (resolve, reject) {
@@ -106,10 +106,7 @@ export const run = function (): ISumanRunFn {
         k.stderr.pause();
       }
 
-      k.once('error', function (err: Error) {
-        _suman.log.error('Suman run spawn error:', err.stack || err);
-        reject(err);
-      });
+      k.once('error', reject);
 
       setImmediate(function () {
         // we use setImmediate in case there is an error, and we should reject
@@ -121,10 +118,12 @@ export const run = function (): ISumanRunFn {
     })
     .catch(function (err) {
 
-      console.log(); console.error();
+      console.log();
+      _suman.log.error(err.stack);
+      console.error();
 
       if (runOptions.useLocalVersion) {
-        _suman.log.error(chalk.red('local suman version may not be installed at this path:'));
+        _suman.log.error(chalk.red.bold('Local suman version may not be installed at this path:'));
         _suman.log.error(executable)
       }
       if (runOptions.useGlobalVersion) {
@@ -134,7 +133,7 @@ export const run = function (): ISumanRunFn {
           _suman.log.error(chalk.bold(String(cp.execSync('which suman'))));
         }
         catch (err) {
-          _suman.log.error(err.message);
+          _suman.log.error(err.stack);
         }
       }
       return Promise.reject(err);

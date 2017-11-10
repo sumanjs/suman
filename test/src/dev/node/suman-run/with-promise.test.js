@@ -30,6 +30,7 @@ Test.create({parallel: true}, ['semver', function (b, assert, describe, before, 
     it('sync test', t => {
       t.assert(su.isStream(t.$inject.v.sumanProcess.stdout), 'stdout is not a stream.');
       t.assert(su.isStream(t.$inject.v.sumanProcess.stderr), 'stderr is not defined');
+      t.$inject.v.sumanProcess.x = 5;
     });
 
     it.cb.parallel('sync test', t => {
@@ -59,7 +60,7 @@ Test.create({parallel: true}, ['semver', function (b, assert, describe, before, 
     before(h => {
       return suman.run({
         args: ['--default'],
-        useLocalVersion: false
+        useLocalVersion: true
       })
       .then(function (v) {
         h.$inject.v = v;
