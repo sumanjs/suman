@@ -80,6 +80,7 @@ var su = require("suman-utils");
 var _ = require("lodash");
 var uniqBy = require('lodash.uniqby');
 var events = require('suman-events').events;
+var JSONStdio = require("json-stdio");
 var _suman = global.__suman = (global.__suman || {});
 require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
@@ -371,8 +372,15 @@ if (sumanOpts.force_inherit_stdio) {
 }
 var isTTY = process.stdout.isTTY;
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
-    if (!process.stdout.isTTY && !useTAPOutput) {
-        _suman.log.error(chalk.yellow.bold('you may need to turn on TAP output for test results to be captured in destination process.'));
+    if (!isTTY && !useTAPOutput) {
+        {
+            var messages = [
+                'You may need to turn on TAP output for test results to be captured in destination process.',
+                'Try using the "--tap" or "--tap-json" options at the suman command line.'
+            ];
+            _suman.log.error(chalk.yellow.bold(messages.join('\n')));
+            JSONStdio.logToStdout({ sumanMessage: true, kind: 'warning', messages: messages });
+        }
     }
 }
 if (diagnostics) {

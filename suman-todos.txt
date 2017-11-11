@@ -10,6 +10,18 @@ three SO profiles:
 
 ///
 
+ todo: ignore all .js files in project
+
+///
+
+command line --series, needs to take precedence over this:
+
+const Test = suman.init(module, {}, {
+  series: false
+});
+
+///
+
 _suman.sumanReporters needs to be Array<Function> not Array<string>
 see reporters last ditch or load reporters
 

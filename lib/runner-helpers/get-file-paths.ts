@@ -18,7 +18,7 @@ import EE = require('events');
 import * as chalk from 'chalk';
 const includes = require('lodash.includes');
 import * as async from 'async';
-import JSON2Stdout = require('json-2-stdout');
+import JSONStdio = require('json-stdio');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -213,7 +213,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
               chalk.underline(' => To run files more than once in the same run, use "--allow-duplicate-tests"'), '\n');
           }
           else {
-            isFindOnly && JSON2Stdout.logToStdout({file});
+            isFindOnly && JSONStdio.logToStdout({file});
             files.push(file);
           }
 

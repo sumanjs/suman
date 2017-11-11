@@ -118,6 +118,7 @@ import su = require('suman-utils');
 import _ = require('lodash');
 const uniqBy = require('lodash.uniqby');
 const {events} = require('suman-events');
+import JSONStdio = require('json-stdio');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -526,10 +527,15 @@ if (sumanOpts.force_inherit_stdio) {
 let isTTY = process.stdout.isTTY;
 
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
-  if (!process.stdout.isTTY && !useTAPOutput) {
-    _suman.log.error(chalk.yellow.bold(
-      'you may need to turn on TAP output for test results to be captured in destination process.'
-    ));
+  if (!isTTY && !useTAPOutput) {
+    {
+      let messages = [
+        'You may need to turn on TAP output for test results to be captured in destination process.',
+        'Try using the "--tap" or "--tap-json" options at the suman command line.'
+      ];
+      _suman.log.error(chalk.yellow.bold(messages.join('\n')));
+      JSONStdio.logToStdout({sumanMessage: true, kind: 'warning', messages: messages});
+    }
   }
 }
 
