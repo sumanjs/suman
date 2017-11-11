@@ -179,6 +179,7 @@ var repair = sumanOpts.repair;
 var uninstallBabel = sumanOpts.uninstall_babel;
 var groups = sumanOpts.groups;
 var useTAPOutput = sumanOpts.use_tap_output;
+var useTAPJSONOutput = sumanOpts.use_tap_json_output;
 var fullStackTraces = sumanOpts.full_stack_traces;
 var coverage = sumanOpts.coverage;
 var diagnostics = sumanOpts.diagnostics;
@@ -300,8 +301,14 @@ if ('concurrency' in sumanOpts) {
     assert(Number.isInteger(sumanOpts.concurrency) && Number(sumanOpts.concurrency) > 0, chalk.red(' => Suman usage error => "--concurrency" option value should be an integer greater than 0.'));
 }
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
-sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
-sumanOpts.$useTAPOutput && _suman.log.info('using TAP output => ', sumanOpts.$useTAPOutput);
+{
+    sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
+    sumanOpts.$useTAPOutput && _suman.log.info('Using TAP output => ', sumanOpts.$useTAPOutput);
+}
+{
+    sumanOpts.$useTAPJSONOutput = _suman.useTAPJSONOutput = sumanConfig.useTAPJSONOutput || useTAPJSONOutput;
+    sumanOpts.$useTAPJSONOutput && _suman.log.info('Using TAP-JSON output => ', sumanOpts.$useTAPJSONOutput);
+}
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 var sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
     .map(function (item) { return (item instanceof RegExp) ? item : new RegExp(item); });

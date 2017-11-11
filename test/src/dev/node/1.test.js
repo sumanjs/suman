@@ -17,8 +17,8 @@ const opts = {
 
 Test.create(opts, [function (assert, describe, before, beforeEach, after, afterEach, it) {
 
-  it('sync test', t => {
-    assert(true);
+  it('sync test hagieao agoeajgoea jo joeajgoea  aegjeag oa iag j aogeg ', t => {
+    assert(false);
   });
 
   it.skip['retries:5, name:hi']('zoom', t => {

@@ -147,12 +147,20 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     }
   });
 
-  if (process.env.SUMAN_INCEPTION_LEVEL > 0 || sumanOpts.$useTAPOutput) {
-    _suman.log.info('TAP-JSON reporter loaded.');
-    loadReporterViaPath('suman-reporters/modules/tap-json-reporter');
+  if (process.env.SUMAN_INCEPTION_LEVEL > 0 || sumanOpts.$useTAPOutput || sumanOpts.$useTAPJSONOutput) {
+
+    if (sumanOpts.$useTAPOutput) {
+      _suman.log.info('TAP reporter loaded.');
+      loadReporterViaPath('suman-reporters/modules/tap-reporter');
+    }
+    else {
+      // default is to use TAP-JSON not the TAP reporter
+      _suman.log.info('TAP-JSON reporter loaded.');
+      loadReporterViaPath('suman-reporters/modules/tap-json-reporter');
+    }
   }
   else {
-    _suman.log.info('TAP reporter not loaded on the first pass-through.');
+    _suman.log.info('TAP / TAP-JSON reporter not loaded on the first pass-through.');
   }
 
   if (sumanReporterFns.length < 1) {
@@ -166,8 +174,6 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
       loadReporterViaPath('suman-reporters/modules/tap-json-reporter');
     }
   }
-
-
 
   sumanReporterFns.forEach(function (fn) {
     const reporterPath = fn.reporterPath;

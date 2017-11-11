@@ -2,6 +2,8 @@
 
 //dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
+import {ITAPJSONTestCase} from "suman-types/dts/reporters";
+import {Stream, Transform} from "stream";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -14,50 +16,54 @@ import util = require('util');
 import su = require('suman-utils');
 import chalk = require('chalk');
 const parser = require('tap-parser');
+import TAPJSONParser from 'tap-json-parser';
 import {events} from 'suman-events';
 import EE = require('events');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 ///////////////////////////////////////////////////////////////////////////
 
-let first = true;
+let firstTAPOccurrence = true;
+let firstTAPCall = true;
 
 export const getTapParser = function () {
 
-  first && _suman.log.info(chalk.black.bold('we are handling TAP.'));
-  first = false;
+  if (firstTAPCall) {
+    firstTAPCall = false;
+    _suman.log.info(chalk.black.bold('we are handling TAP.'));
+  }
 
   const p = parser();
 
   p.on('complete', function (data: string) {
-    resultBroadcaster.emit(String(events.TAP_COMPLETE), data);
+    rb.emit(String(events.TAP_COMPLETE), data);
   });
 
   p.on('assert', function (testpoint: Object) {
 
-    if (first) {
-      first = false;
+    if (firstTAPOccurrence) {
+      firstTAPOccurrence = false;
       console.log('\n');
       _suman.log.info(chalk.yellow.bold('suman we have received at least one test result via TAP.'));
       console.log('\n');
     }
 
-    resultBroadcaster.emit(String(events.TEST_CASE_END), testpoint);
+    rb.emit(String(events.TEST_CASE_END), testpoint);
 
     if (testpoint.skip) {
-      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), testpoint);
+      rb.emit(String(events.TEST_CASE_SKIPPED), testpoint);
     }
     else if (testpoint.todo) {
-      resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), testpoint);
+      rb.emit(String(events.TEST_CASE_STUBBED), testpoint);
     }
     else if (testpoint.ok) {
-      resultBroadcaster.emit(String(events.TEST_CASE_PASS), testpoint);
+      rb.emit(String(events.TEST_CASE_PASS), testpoint);
     }
     else {
-      resultBroadcaster.emit(String(events.TEST_CASE_FAIL), testpoint);
+      rb.emit(String(events.TEST_CASE_FAIL), testpoint);
     }
   });
 
@@ -65,6 +71,53 @@ export const getTapParser = function () {
 
 };
 
+let firstTAPJSONOccurrence = true;
+let firstTAPJSONCall = true;
 
+export const getTapJSONParser = function () {
+
+  if (firstTAPJSONCall) {
+    firstTAPJSONCall = false;
+    _suman.log.info(chalk.black.bold('we are handling TAP-JSON.'));
+  }
+
+  const p = TAPJSONParser();
+
+  p.on('testpoint', function (d: ITAPJSONTestCase) {
+
+    if (firstTAPJSONOccurrence) {
+      firstTAPJSONOccurrence = false;
+      console.log('\n');
+      _suman.log.info(chalk.yellow.bold('suman runner has received first test result via TAP.'));
+      console.log('\n');
+    }
+
+    const testpoint = d.testCase;
+
+    if (!testpoint) {
+      _suman.log.error('implementation warning: testpoint data does not exist for tap-json object => ',
+        util.inspect(d));
+      return;
+    }
+
+    rb.emit(String(events.TEST_CASE_END_TAP_JSON), d);
+
+    if (testpoint.skip) {
+      rb.emit(String(events.TEST_CASE_SKIPPED_TAP_JSON), d);
+    }
+    else if (testpoint.todo) {
+      rb.emit(String(events.TEST_CASE_STUBBED_TAP_JSON), d);
+    }
+    else if (testpoint.ok) {
+      rb.emit(String(events.TEST_CASE_PASS_TAP_JSON), d);
+    }
+    else {
+      rb.emit(String(events.TEST_CASE_FAIL_TAP_JSON), d);
+    }
+  });
+
+  return p;
+
+};
 
 

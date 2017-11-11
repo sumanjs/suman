@@ -251,6 +251,7 @@ const repair = sumanOpts.repair;
 const uninstallBabel = sumanOpts.uninstall_babel;
 const groups = sumanOpts.groups;
 const useTAPOutput = sumanOpts.use_tap_output;
+const useTAPJSONOutput = sumanOpts.use_tap_json_output;
 const fullStackTraces = sumanOpts.full_stack_traces;
 const coverage = sumanOpts.coverage;
 const diagnostics = sumanOpts.diagnostics;
@@ -416,8 +417,20 @@ if ('concurrency' in sumanOpts) {
 }
 
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
-sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
-sumanOpts.$useTAPOutput && _suman.log.info('using TAP output => ', sumanOpts.$useTAPOutput);
+
+{
+  // using TAP output
+  sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
+  sumanOpts.$useTAPOutput && _suman.log.info('Using TAP output => ', sumanOpts.$useTAPOutput);
+}
+
+{
+  // using TAP-JSON output
+  sumanOpts.$useTAPJSONOutput = _suman.useTAPJSONOutput = sumanConfig.useTAPJSONOutput || useTAPJSONOutput;
+  sumanOpts.$useTAPJSONOutput && _suman.log.info('Using TAP-JSON output => ', sumanOpts.$useTAPJSONOutput);
+}
+
+
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 
 /////////////////////////////////// matching ///////////////////////////////////////
@@ -493,19 +506,19 @@ let paths = _.flatten([sumanOpts._args]).slice(0);
 
 if (sumanOpts.test_paths_json) {
   let jsonPaths = JSON.parse(String(sumanOpts.test_paths_json).trim());
-  jsonPaths.forEach(function (p) {
+  jsonPaths.forEach(function (p: string) {
     paths.push(p);
   });
 }
 
 if (sumanOpts.replace_match && sumanOpts.replace_with) {
-  paths = paths.map(function (p) {
+  paths = paths.map(function (p: string) {
     return String(p).replace(sumanOpts.replace_match, sumanOpts.replace_with);
   });
 }
 
 if (sumanOpts.replace_ext_with) {
-  paths = paths.map(function (p) {
+  paths = paths.map(function (p: string) {
     return String(p).substr(0, String(p).lastIndexOf('.')) + sumanOpts.replace_ext_with;
   });
 }

@@ -26,8 +26,7 @@ import {events} from 'suman-events';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {getTapParser} from '../handle-tap';
-import {getTapJSONParser} from '../handle-tap-json';
+import {getTapParser, getTapJSONParser} from '../handle-tap';
 import pt from 'prepend-transform';
 import uuidV4 = require('uuid/v4');
 import {findPathOfRunDotSh} from '../runner-utils'
