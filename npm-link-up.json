@@ -20,7 +20,7 @@
     "residence",
     "poolio",
     "freeze-existing-props",
-    "json-2-stdout",
+    "json-stdio",
 
     "suman-r",
     "suman-types",

@@ -254,7 +254,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
 
           let temp = su.removePath(file, _suman.projectRoot);
           let onlyFile = String(temp).replace(/\//g, '.');
-          let logfile = path.resolve(f + '/' + onlyFile + '.log');
+          let logfile = path.resolve(file + '/' + onlyFile + '.log');
           let fileStrm = fs.createWriteStream(logfile);
 
           console.log('logFile => ', logfile);
@@ -281,9 +281,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         }
 
         if (true || sumanOpts.$useTAPOutput) {
-
           n.tapOutputIsComplete = false;
-
           n.stdout.pipe(getTapParser())
           .on('error', function (e: Error) {
             _suman.log.error('error parsing TAP output =>', su.getCleanErrorString(e));
@@ -294,12 +292,14 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
               n.emit('tap-output-is-complete', true);
             });
           });
+        }
 
+        if (true || sumanOpts.$useTAPJSONOutput) {
+          n.tapOutputIsComplete = false;
           n.stdout.pipe(getTapJSONParser())
           .on('error', function (e: Error) {
-            _suman.log.error('error parsing TAP JSON output =>', su.getCleanErrorString(e));
-          })
-
+            _suman.log.error('error parsing TAP-JSON output =>', su.getCleanErrorString(e));
+          });
         }
 
         n.stdio[2].setEncoding('utf-8');

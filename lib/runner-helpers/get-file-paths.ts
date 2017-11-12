@@ -23,10 +23,10 @@ import JSONStdio = require('json-stdio');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
-
 const {constants} = require('../../config/suman-constants');
 const {events} = require('suman-events');
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const writeStdoutToSumanShell = JSONStdio.initLogToStdout(su.constants.JSON_STDIO_SUMAN_SHELL);
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -65,7 +65,6 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
   // push this because we don't ever want to run tests
   // which are located with sumanHelpersDir.
   matchesNone.push(new RegExp(_suman.sumanHelperDirRoot));
-
 
   const isFindOnly = Boolean(sumanOpts.find_only);
   let files: Array<string> = [];
@@ -213,7 +212,8 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
               chalk.underline(' => To run files more than once in the same run, use "--allow-duplicate-tests"'), '\n');
           }
           else {
-            isFindOnly && JSONStdio.logToStdout({file});
+            isFindOnly && writeStdoutToSumanShell({file});
+            // isFindOnly && JSONStdio.logToStdout({file});
             files.push(file);
           }
 
@@ -260,8 +260,8 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
           'did not match your regular expressions => '), '\n', util.inspect(val));
       });
 
-      console.log('\n');
-      console.error('\n');
+      console.log();
+      console.error();
 
       process.nextTick(cb, null, {
         files,
