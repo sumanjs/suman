@@ -43,10 +43,9 @@ const childArgs = String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
 
 if (childArgs.length) {
 
-  //we have to push these two on to the front of the array so that dashdash parsers correctly
+  //we have to push these two onto the front of the array so that dashdash parsers correctly
   childArgs.unshift('foo');  // foo is node
-  childArgs.unshift('baz'); // baz is like index.js
-  console.error('child args => ', childArgs);
+  childArgs.unshift('baz');  // baz is like index.js
 
   let opts, parser = dashdash.createParser({options: options});
 

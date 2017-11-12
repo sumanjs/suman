@@ -34,6 +34,9 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
   try {
     if (fs.lstatSync(sumanNodeModulesPath).isSymbolicLink()) {
       sumanIsSymlinkedLocally = true;
+      if (opts.verbosity > 4) {
+        _suman.log.info(chalk.yellow('Note that Suman is installed locally as a symlinked directory.'));
+      }
     }
   }
   catch (err) {
@@ -49,8 +52,8 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
   }
 
   if (!sumanInstalledLocally) {
-    if (opts.verbosity > 2) {
-      _suman.log.info(chalk.yellow('note that Suman is not installed locally, you may wish to run "$ suman --init"'));
+    if (opts.verbosity > 4) {
+      _suman.log.info(chalk.yellow('Note that Suman is not installed locally, you may wish to run "$ suman --init"'));
     }
   }
 
@@ -67,7 +70,7 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
 
   if (!sumanInstalledAtAll) {
     if (!sumanIsSymlinkedLocally && opts.verbosity > 2) {
-      _suman.log.warning(chalk.yellow('note that Suman is not installed at all, you may wish to run "$ suman --init"'));
+      _suman.log.warning(chalk.yellow('Note that Suman is not installed at all, you may wish to run "$ suman --init"'));
     }
   }
 

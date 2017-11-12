@@ -342,16 +342,37 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
     sumanHelpersDirLocated = true;
   }
   catch (err) {
-    _suman.log.error(err.stack || err);
-    console.error('\n\n', chalk.magenta('=> Suman could *not* locate your <suman-helpers-dir>; ' +
-      'perhaps you need to update your suman.conf.js file, please see: ***'), '\n',
-      chalk.cyan(' => http://sumanjs.org/conf.html'), '\n',
-      ' => We expected to find your <suman-helpers-dir> here =>', '\n',
-      chalk.bgBlack.cyan(sumanHelpersDir), '\n');
 
-    console.log(' => Exiting because we could not locate the <suman-helpers-dir>, ' +
-      'given your configuration and command line options.');
-    return process.exit(constants.EXIT_CODES.COULD_NOT_LOCATE_SUMAN_HELPERS_DIR);
+    _suman.log.warning(err.message);
+
+    if (!/no such file or directory/i.test(err.message)) {
+      _suman.log.error(err.stack);
+      return process.exit(1);
+    }
+
+    _suman.log.warning(`Suman could ${chalk.magenta('not')} locate your <suman-helpers-dir>.`);
+    _suman.log.warning('Perhaps you need to update your suman.conf.js file, please see:');
+    _suman.log.info(chalk.cyan('=> http://sumanjs.org/conf.html'));
+    _suman.log.info(`We expected to find your <suman-helpers-dir> here => , ${chalk.bgBlack.cyan(` ${sumanHelpersDir} `)}`);
+
+    if(false){
+      _suman.log.info(`Exiting because we could not locate the <suman-helpers-dir>, ` +
+        `given your configuration and command line options.`);
+      return process.exit(constants.EXIT_CODES.COULD_NOT_LOCATE_SUMAN_HELPERS_DIR);
+    }
+    else{
+      sumanHelpersDir = path.resolve(projectRoot + '/.suman');
+      try{
+        fs.mkdirSync(sumanHelpersDir)
+      }
+      catch(err){
+        if(!/EEXIST/i.test(err.message)){
+          _suman.log.error(err.stack);
+          return process.exit(constants.EXIT_CODES.COULD_NOT_LOCATE_SUMAN_HELPERS_DIR);
+        }
+      }
+
+    }
   }
 
   const logDir = path.resolve(sumanHelpersDir + '/logs');
@@ -414,12 +435,11 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
       fs.mkdirSync(logDir);
     }
     catch (err) {
-      console.error('\n\n', chalk.red(' => Suman fatal problem => ' +
-        'Could not create logs directory in your sumanHelpersDir,\n' +
-        'please report this issue. Original error => \n' + (err.stack || err), '\n\n'));
-      process.exit(constants.EXIT_CODES.COULD_NOT_CREATE_LOG_DIR);
+      _suman.log.error(chalk.red('Suman fatal problem => Could not create logs directory in your sumanHelpersDir'));
+      _suman.log.error('Please report this issue. Original error:');
+      _suman.log.error(err.stack);
+      return process.exit(constants.EXIT_CODES.COULD_NOT_CREATE_LOG_DIR);
     }
-
   }
 
   let integrantPreFn, p: string;
@@ -427,28 +447,24 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
   try {
     p = path.resolve(_suman.sumanHelperDirRoot + '/suman.once.pre.js');
     integrantPreFn = require(p);
+    integrantPreFn = integrantPreFn.default || integrantPreFn;
   }
   catch (err) {
-    _suman.log.error(`Could not load your integrant pre module at path <${p}>.`);
-    _suman.log.error(err.stack || err);
-    integrantPreFn = function () {
-      return {dependencies: {}}
-    };
-
-    if (sumanOpts.verbosity > 2) {
-      _suman.log.error(chalk.magenta('usage warning: no <suman.once.pre.js> file found.'));
-    }
-
-    if (sumanOpts.verbosity > 3) {
-      console.error(chalk.magenta(err.stack ? err.stack.split('\n')[0] : err), '\n');
-    }
-    else {
-      console.log('\n');
+    _suman.log.warning(`Could not load ${chalk.bold('<suman.once.pre.js>')} at path "${p}".`);
+    if(!/Cannot find module/i.test(err.message)){
+        _suman.log.error(err.stack);
+        return process.exit(1);
     }
 
     if (sumanOpts.strict) {
       process.exit(constants.EXIT_CODES.SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT);
     }
+
+    integrantPreFn = function () {
+      return {dependencies: {}};
+    };
+
+
   }
 
   let iocFn;
@@ -456,37 +472,64 @@ export const loadSharedObjects = function (pathObj: Object, projectRoot: string,
   try {
     p = path.resolve(_suman.sumanHelperDirRoot + '/suman.ioc.js');
     iocFn = require(p);
+    iocFn = iocFn.default || iocFn;
   }
   catch (err) {
-    _suman.log.error(`could not load suman.ioc.js file at path <${p}>`);
-    _suman.log.error(err.stack || err);
-    try {
-      p = path.resolve(projectRoot + '/suman/suman.ioc.js');
-      iocFn = require(p);
+    _suman.log.warning(`Could not load ${chalk.bold('<suman.ioc.js>')} file at path "${p}".`);
+
+    if(!/Cannot find module/i.test(err.message)){
+      _suman.log.error(err.stack);
+      return process.exit(1);
     }
-    catch (err) {
-      _suman.log.error(`could not load suman.ioc.js file at path <${p}>`);
-      _suman.log.error(err.stack || err);
-      iocFn = function () {
-        return {dependencies: {}}
-      }
+
+    if (sumanOpts.strict) {
+      process.exit(constants.EXIT_CODES.SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT);
     }
+
+    iocFn = function () {
+      return {dependencies: {}};
+    };
+  }
+
+  let integrantPostFn;
+
+  try {
+    p = path.resolve(_suman.sumanHelperDirRoot + '/suman.once.post.js');
+    integrantPostFn = require(p);
+    integrantPostFn = integrantPostFn.default || integrantPostFn;
+  }
+  catch (err) {
+    _suman.log.warning(`Could not load ${chalk.bold('<suman.once.post.js>')} file at path "${p}".`);
+
+    if(!/Cannot find module/i.test(err.message)){
+      _suman.log.error(err.stack);
+      return process.exit(1);
+    }
+
+    if (sumanOpts.strict) {
+      process.exit(constants.EXIT_CODES.SUMAN_PRE_NOT_FOUND_IN_YOUR_PROJECT);
+    }
+
+    integrantPostFn = function () {
+      return {dependencies: {}};
+    };
   }
 
   try {
-    assert(integrantPreFn === undefined || typeof integrantPreFn === 'function',
-      'Your suman.once.pre.js file needs to export a function.');
-    assert(iocFn === undefined || typeof iocFn === 'function',
+    assert(typeof integrantPreFn === 'function',
+      ' => Your suman.once.pre.js file needs to export a function.');
+    assert(typeof iocFn === 'function',
       ' => Your suman.ioc.js file does not export a function. Please fix this situation.');
   }
   catch (err) {
-    console.error('\n\n', chalk.magenta(err.stack || err), '\n\n');
+    _suman.log.error(chalk.magenta(err.stack));
     process.exit(constants.EXIT_CODES.SUMAN_HELPER_FILE_DOES_NOT_EXPORT_EXPECTED_FUNCTION);
   }
 
   return loadedSharedObjects = {
     iocFn: _suman.sumanIoc = iocFn,
-    integrantPreFn: _suman.integrantPreFn = integrantPreFn
+    integrantPreFn: _suman.integrantPreFn = integrantPreFn,
+    integrantPostFn: _suman.integrantPostFn = integrantPostFn
   }
 
 };

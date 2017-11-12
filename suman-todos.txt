@@ -22,6 +22,19 @@ const Test = suman.init(module, {}, {
 
 ///
 
+ allow for default reporter:
+
+   reporters: {
+     default: 'std-reporter',   /// <<<<<<<<<<<<<<
+     map: {
+       'tap': 'suman-reporters/modules/tap-reporter'
+     }
+
+   },
+
+
+///
+
 _suman.sumanReporters needs to be Array<Function> not Array<string>
 see reporters last ditch or load reporters
 
@@ -930,6 +943,19 @@ when two files are passed x.js and y.js, it still is looking in folders for file
   regex: 'The filename did not match any of the following regex(es) => .js$,.ts$' }
 
 //
+
+  --ignore-helpers-dir  => tells suman not to attempt to load any helpers files
+  ignoreHelpersDir: true
+
+//
+
+these should not be env variables:
+
+  const testDir = process.env.TEST_DIR;
+  const testSrcDir = process.env.TEST_SRC_DIR;
+  const testTargerDir = process.env.TEST_TARGET_DIR;
+
+///
 
 https://askubuntu.com/questions/936040/edit-compose-key-in-system-preferences-keyboard
 

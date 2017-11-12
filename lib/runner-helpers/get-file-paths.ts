@@ -72,7 +72,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
   // as soon as we are told to run a non-JS file, we have to flip the following boolean
   let nonJSFile = false;
 
-  function doesMatchAll(filename: string) {
+  const doesMatchAll = function (filename: string) {
     if (isForceMatch) {
       return true;
     }
@@ -88,9 +88,9 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
       }
       return val;
     });
-  }
+  };
 
-  function doesMatchAny(filename: string) {   // we return true if filename matches any regex
+  const doesMatchAny = function (filename: string) {   // we return true if filename matches any regex
     if (isForceMatch) {
       return true;
     }
@@ -102,31 +102,31 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
       filesThatDidNotMatch.push({
         filename: filename,
         regexType: 'matchAny',
-        regex: 'The filename did not match any of the following regex(es) => '
-        + matchesAny.map(i => i.toString().slice(1, -1))
+        message: 'The filename did not match any of the regex(es)',
+        regexes: matchesAny.map((r: RegExp) => String(r).slice(1, -1))
       });
     }
 
     return val;
-  }
+  };
 
-  function doesMatchNone(filename: string) { // we return true if filename matches any regex
+  const doesMatchNone = function (filename: string) { // we return true if filename matches any regex
     if (isForceMatch) {
       return true;
     }
-    return matchesNone.every(function (regex: RegExp) {
-      const val = !String(filename).match(regex);
+    return matchesNone.every(function (r: RegExp) {
+      const val = !String(filename).match(r);
       if (!val) {
         filesThatDidNotMatch.push({
           filename: filename,
           regexType: 'matchNone',
-          regex: 'The filename matched the following regex and was therefore excluded => ' + [regex],
-
+          message: 'The filename matched the included regex and was therefore excluded.',
+          regex: r,
         });
       }
       return val;
     });
-  }
+  };
 
   (function runDirs(dirs, count, cb) {
 
@@ -155,7 +155,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
         if (err) {
           // this is probably a symlink, we will just ignore the error and log it
-          _suman.log.error('SYMLINK?', su.decomposeError(err), su.newLine);
+          _suman.log.warning(`warning: possibly a symlink (symlinks not yet supported) => "${err.message}".`);
           return cb();
         }
 
@@ -229,7 +229,8 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
             'if you want to run *subfolders* you shoud use the recursive option -r',
             '...be sure to only run files that constitute Suman tests, to enforce this we',
             'recommend a naming convention to use with Suman tests, see: sumanjs.org\n\n'
-          ].filter(i => i).join('\n');
+          ]
+          .filter(i => i).join('\n');
 
           rb.emit(String(events.RUNNER_HIT_DIRECTORY_BUT_NOT_RECURSIVE), msg);
           process.nextTick(cb);
@@ -243,32 +244,32 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
 
     if (err) {
       console.error('\n');
-      _suman.log.error(chalk.red.bold('Error finding runnable paths => \n' + err.stack || util.inspect(err)));
-      process.nextTick(cb, err);
+      _suman.log.error(chalk.red.bold('Error finding runnable paths:'));
+      _suman.log.error(err.stack || util.inspect(err));
+      return process.nextTick(cb, err);
     }
-    else {
 
-      if (sumanOpts.transpile && !sumanOpts.useBabelRegister) {
-        files = files.map(function (item) {
-          return su.mapToTargetDir(item).targetPath;
-        });
-      }
-
-      filesThatDidNotMatch.forEach(function (val) {
-        console.log('\n');
-        _suman.log.info(chalk.bgBlack.yellow(' A file in a relevant directory ' +
-          'did not match your regular expressions => '), '\n', util.inspect(val));
-      });
-
-      console.log();
-      console.error();
-
-      process.nextTick(cb, null, {
-        files,
-        nonJSFile,
-        filesThatDidNotMatch
+    if (sumanOpts.transpile && !sumanOpts.useBabelRegister) {
+      files = files.map(function (item) {
+        return su.mapToTargetDir(item).targetPath;
       });
     }
+
+    filesThatDidNotMatch.forEach(function (val) {
+      console.log('\n');
+      _suman.log.info(chalk.bgBlack.yellow(' A file in a relevant directory ' +
+        'did not match your regular expressions => '), '\n', util.inspect(val));
+    });
+
+    console.log();
+    console.error();
+
+    process.nextTick(cb, null, {
+      files,
+      nonJSFile,
+      filesThatDidNotMatch
+    });
+
   });
 
 };
