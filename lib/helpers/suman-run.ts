@@ -76,7 +76,7 @@ export const run = function (): ISumanRunFn {
     }
 
     let executable: string,
-      args = runOptions.args,
+      args = runOptions.args || [],
       files: Array<string> = runOptions.files || [],
       env = runOptions.env || {},
       pauseStdio = runOptions.pauseStdio !== false;
