@@ -1,16 +1,7 @@
 'use strict';
 
 module.exports = [
-  {
-    names: ['all', 'a'],
-    type: 'bool',
-    help: 'Used in conjunction with the --transpile option, to transpile the whole test directory to test-target.'
-  },
-  {
-    names: ['fast'],
-    type: 'bool',
-    help: 'Used in conjunction with the --interactive option.'
-  },
+
   {
     names: ['tsc-multi-watch'],
     type: 'bool',
@@ -343,7 +334,7 @@ module.exports = [
     help: 'Use this option to force-specify the directory that houses the suman helpers files.'
   },
   {
-    names: ['recursive', 'r'],
+    names: ['recursive', 'R'],
     type: 'bool',
     help: 'Use this option to recurse through sub-directories of tests.'
   },
