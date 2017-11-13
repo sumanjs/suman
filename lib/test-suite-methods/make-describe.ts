@@ -170,6 +170,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
 
     const deps = fnArgs(cb);
+    assert(deps[0] === 'b', 'First argument name for describe/context block callbacks must be "b" (for "block").');
+
 
     suite._run = function (val: any, callback: Function) {
 

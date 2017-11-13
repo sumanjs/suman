@@ -63,7 +63,7 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
 
   if (paths.length < 1) {
     if (testSrcDir) {
-      _suman.log.warning('no paths provided, defaulting to the "testSrcDir" property value in your <suman.conf.js> file.');
+      _suman.log.warning('No test paths provided, defaulting to the "testSrcDir" property value in your <suman.conf.js> file.');
       paths = [testSrcDir];
     }
     else {

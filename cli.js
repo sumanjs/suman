@@ -158,6 +158,9 @@ var singleProcess = sumanOpts.single_process;
 var script = sumanOpts.script;
 var browser = sumanOpts.browser;
 var cwdAsRoot = sumanOpts.force_cwd_to_be_project_root;
+if (sumanOpts.force_inherit_stdio) {
+    _suman.$forceInheritStdio = true;
+}
 var projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = su.findProjectRoot(cwd);
 if (!projectRoot) {
     if (!cwdAsRoot) {
@@ -257,35 +260,38 @@ if (sumanOpts.version) {
             ' please choose one only.');
     }
 }
-var sumanConfig, pth;
-try {
-    pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
-    sumanConfig = _suman.sumanConfig = require(pth);
-}
-catch (err) {
-    _suman.log.warning(chalk.yellow(err.message));
-    if (!/Cannot find module/i.test(err.stack)) {
-        log.error(err.stack);
-        return process.exit(1);
-    }
-    if (!init) {
-        _suman.log.warning(chalk.yellow('Warning: Could not load your config file ' +
-            'in your current working directory or given by --cfg at the command line...'));
-        _suman.log.warning(chalk.yellow('...are you sure you issued the suman command in the right directory? ' +
-            '...now looking for a config file at the root of your project...'));
-    }
+var sumanConfig;
+{
+    var pth = void 0;
     try {
-        pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
+        pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
         sumanConfig = _suman.sumanConfig = require(pth);
-        if (sumanOpts.verbosity > 2) {
-            log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
-        }
     }
     catch (err) {
-        _suman.usingDefaultConfig = true;
-        _suman.log.warning("Warning: suman is using a default 'suman.conf.js' file.");
-        _suman.log.warning("Please create your own 'suman.conf.js' file using \"suman --init\".");
-        sumanConfig = _suman.sumanConfig = require('./lib/default-conf-files/suman.default.conf.js');
+        _suman.log.warning(chalk.yellow(err.message));
+        if (!/Cannot find module/i.test(err.stack)) {
+            log.error(err.stack);
+            return process.exit(1);
+        }
+        if (!init) {
+            _suman.log.warning(chalk.yellow('Warning: Could not load your config file ' +
+                'in your current working directory or given by --cfg at the command line...'));
+            _suman.log.warning(chalk.yellow('...are you sure you issued the suman command in the right directory? ' +
+                '...now looking for a config file at the root of your project...'));
+        }
+        try {
+            pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
+            sumanConfig = _suman.sumanConfig = require(pth);
+            if (sumanOpts.verbosity > 2) {
+                log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
+            }
+        }
+        catch (err) {
+            _suman.usingDefaultConfig = true;
+            _suman.log.warning("Warning: suman is using a default 'suman.conf.js' file.");
+            _suman.log.warning("Please create your own 'suman.conf.js' file using \"suman --init\".");
+            sumanConfig = _suman.sumanConfig = require('./lib/default-conf-files/suman.default.conf.js');
+        }
     }
 }
 if (sumanOpts.verbosity > 8) {
@@ -294,19 +300,21 @@ if (sumanOpts.verbosity > 8) {
 var sumanInstalledLocally = null;
 var sumanInstalledAtAll = null;
 var sumanServerInstalled = null;
-if (init) {
-    log.info(chalk.magenta(' => "suman --init" is running.'));
-    sumanConfig = _suman.sumanConfig = _suman.sumanConfig || {};
+{
+    if (init) {
+        log.info(chalk.magenta(' => "suman --init" is running.'));
+        sumanConfig = _suman.sumanConfig = _suman.sumanConfig || {};
+    }
+    else {
+        var vetLocalInstallations = require('./lib/cli-helpers/determine-if-suman-is-installed').vetLocalInstallations;
+        var installObj = vetLocalInstallations(sumanConfig, sumanOpts, projectRoot);
+        sumanInstalledAtAll = installObj.sumanInstalledAtAll;
+        sumanServerInstalled = installObj.sumanServerInstalled;
+        sumanInstalledLocally = installObj.sumanInstalledLocally;
+    }
+    var sumanPaths = general.resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+    var sumanObj = general.loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 }
-else {
-    var vetLocalInstallations = require('./lib/cli-helpers/determine-if-suman-is-installed').vetLocalInstallations;
-    var installObj = vetLocalInstallations(sumanConfig, sumanOpts, projectRoot);
-    sumanInstalledAtAll = installObj.sumanInstalledAtAll;
-    sumanServerInstalled = installObj.sumanServerInstalled;
-    sumanInstalledLocally = installObj.sumanInstalledLocally;
-}
-var sumanPaths = general.resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
-var sumanObj = general.loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 if (sumanOpts.parallel && sumanOpts.series) {
     throw chalk.red('Suman usage error => "--series" and "--parallel" options were both used, ' +
         'please choose one or neither...but not both!');
@@ -367,31 +375,26 @@ load_reporters_1.loadReporters(sumanOpts, projectRoot, sumanConfig);
 rb.emit(String(events.NODE_VERSION), nodeVersion);
 rb.emit(String(events.SUMAN_VERSION), sumanVersion);
 var paths = _.flatten([sumanOpts._args]).slice(0);
-if (sumanOpts.test_paths_json) {
-    var jsonPaths = JSON.parse(String(sumanOpts.test_paths_json).trim());
-    jsonPaths.forEach(function (p) {
-        paths.push(p);
-    });
-}
-if (sumanOpts.replace_match && sumanOpts.replace_with) {
-    paths = paths.map(function (p) {
-        return String(p).replace(sumanOpts.replace_match, sumanOpts.replace_with);
-    });
-}
-if (sumanOpts.replace_ext_with) {
-    paths = paths.map(function (p) {
-        return String(p).substr(0, String(p).lastIndexOf('.')) + sumanOpts.replace_ext_with;
-    });
-}
-if (su.vgt(7)) {
-    console.log(' => Suman verbose message => arguments assumed to be test file paths to be run:', paths);
-    if (paths.length < 1) {
-        console.log(' => Suman verbose message => Since no paths were passed at the command line, we \n' +
-            'default to running tests from the "testSrc" directory (defined in your suman.conf.js file).');
+{
+    if (sumanOpts.test_paths_json) {
+        var jsonPaths = JSON.parse(String(sumanOpts.test_paths_json).trim());
+        jsonPaths.forEach(function (p) {
+            paths.push(p);
+        });
     }
-}
-if (sumanOpts.force_inherit_stdio) {
-    _suman.$forceInheritStdio = true;
+    if (sumanOpts.replace_match && sumanOpts.replace_with) {
+        paths = paths.map(function (p) {
+            return String(p).replace(sumanOpts.replace_match, sumanOpts.replace_with);
+        });
+    }
+    if (sumanOpts.replace_ext_with) {
+        paths = paths.map(function (p) {
+            return String(p).substr(0, String(p).lastIndexOf('.')) + sumanOpts.replace_ext_with;
+        });
+    }
+    if (su.vgt(7)) {
+        _suman.log.info('arguments assumed to be test file paths to be run:', paths);
+    }
 }
 var isTTY = process.stdout.isTTY;
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {

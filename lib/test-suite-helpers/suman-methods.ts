@@ -109,7 +109,7 @@ const makeProxy = function (suman: ISuman): Function {
         let newProps = props.concat(String(prop))
         .map(v => String(v).toLowerCase()) // we map to lowercase first, so we can use indexOf afterwards
         .filter(function (v, i, a) {
-          if (v === 'skip') {  // if skip, none of the other properties matter
+          if (v === 'skip' || v === 'skipped') {  // if skip, none of the other properties matter
             hasSkip = true;
           }
           return a.indexOf(v) === i;  // we use this filter to get a unique list

@@ -10,7 +10,16 @@ three SO profiles:
 
 ///
 
- todo: ignore all .js files in project
+  we need after.first
+  and before.first / before.last
+
+///
+
+ suman --script x --tack-on="--require=ts-node/register"
+
+///
+
+ todo: ignore all .js files in project for purposes of version control
 
 ///
 
@@ -19,11 +28,17 @@ three SO profiles:
 
 ///
 
+@config.json files need to have a property that
+tells suman if all matching files are run through @transform.sh once,
+or if each file is run through @transform.sh separately.
+
+///
+
 command line --series, needs to take precedence over this:
 
-const Test = suman.init(module, {}, {
-  series: false
-});
+    const Test = suman.init(module, {}, {
+      series: false
+    });
 
 ///
 
@@ -111,12 +126,12 @@ https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-34202
 
 ///
 
-t.log needs to exist, logs the test name
-[test:   ,parent:] data
+    t.log needs to exist, logs the test name
+    [test:   ,parent:] data
 
 ///
 
- implement --debug-tests-and-hooks along with --debug-hooks
+    implement --debug-tests-and-hooks along with --debug-hooks
 
 ///
 
@@ -194,8 +209,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
 ///
 
-
- create suman-watch functionality that watches primary code-base and all symlinked directories in node_modules!
+    create suman-watch functionality that watches primary code-base and all symlinked directories in node_modules!
 
 ///
 
@@ -208,7 +222,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
 ///
 
- context('is good', b => {
+  context('is good', b => {
 
     b.$inject => should be what we get from $inject block stuff
     b.set('good', true);
@@ -218,18 +232,18 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
 ///
 
-chrome.debugger.attach({
-  tabId: tabId
-}, '1.1', () => {
-  if (chrome.runtime.lastError) {
-    // oh no!
-  }
-  // we are good
-});
+    chrome.debugger.attach({
+      tabId: tabId
+    }, '1.1', () => {
+      if (chrome.runtime.lastError) {
+        // oh no!
+      }
+      // we are good
+    });
 
 ///
 
- need to implement suman --browser --watch
+    need to implement suman --browser --watch
 
 ///
 
@@ -313,10 +327,6 @@ Thus, it enables ssh-agent to modify the environment of the shell that calls it.
 
 ///
 
- if a beforeEach hook fails, it should not be as fatal as a beforeAll hook failing.
-
-///
-
 describe('nested1', opts, () => {});  ---> this makes an error (see 1.test.js)
 
  [suman]    ⚑  Suman fatal error  => making a graceful exit =>
@@ -328,8 +338,7 @@ describe('nested1', opts, () => {});  ---> this makes an error (see 1.test.js)
 
 ///
 
-
-https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
+    https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
 
 ///
 
@@ -350,18 +359,8 @@ FORCE_COLOR=0 suman -- => will use colors for watch, etc.
 
 ///
 
-FORCE_COLOR=0 suman -- => will use colors for watch, etc.
-
-///
-
  use es6 symbols to hide properties?
  https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
-
-///
-
-Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest, describe) {
-  console.log(this); // this call causes problems with the proxy
-  console.log(this.describe); // same thing as above
 
 ///
 
@@ -399,10 +398,6 @@ cd $(dirname "$0")
 [ ! -d "node_modules/babel-preset-stage-2" ] && npm install babel-preset-stage-2
 [ ! -d "node_modules/babel-preset-stage-3" ] &&  npm install babel-preset-stage-3
 
-
-////
-
-    it.skipped() should be an alias of it.skip()
 
 ////
 
@@ -528,7 +523,8 @@ Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, desc
 
  https://stackoverflow.com/a/1221870/5020949
 
-There is an internal Bash variable called $PIPESTATUS; it’s an array that holds the exit status of each command in your last foreground pipeline of commands.
+There is an internal Bash variable called $PIPESTATUS;
+it’s an array that holds the exit status of each command in your last foreground pipeline of commands.
 
 <command> | tee out.txt ; test ${PIPESTATUS[0]} -eq 0
 Or another alternative which also works with other shells (like zsh) would be to enable pipefail:
@@ -559,17 +555,7 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
-  refactor create-injector so that it's used
-  block injector should be for the other blocks
-  all blocks should at least have one parameter b, or s
-
-///
-
     before hooks can be stubbed? => before('merry');
-
-///
-
-    improve tables -> they should work on Jenkins, etc.
 
 ///
 
@@ -613,6 +599,7 @@ node test/src/exp.js | grep -v [[suman]]
 //
 
     --use-tap prevents tables from being printed by runner, weird.
+    (probably because tap-reporter doesn't print tables, duh)
 
 ///
 
@@ -674,7 +661,6 @@ node test/src/exp.js | grep -v [[suman]]
      at runChild (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:26:15)
      at TestSuiteMaker.TestSuite.__invokeChildren (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:205:19)
 
-
 ///
 
  _suman.log and _suman.logError need to split everything by newline
@@ -723,20 +709,20 @@ node test/src/exp.js | grep -v [[suman]]
 
 ////
 
-using tsc --watch to transpile files according to rules
-https://github.com/Microsoft/TypeScript/issues/16779
-=> tsc --p <name of your tsconfig.json> --watch --outDir <your new outDir>
+    using tsc --watch to transpile files according to rules
+    https://github.com/Microsoft/TypeScript/issues/16779
+    => tsc --p <name of your tsconfig.json> --watch --outDir <your new outDir>
 
 ////
 
-brew install phantomjs
-https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
-brew install sumanjs ???
+    brew install phantomjs
+    https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
+    brew install sumanjs ???
 
 ////
 
- $args should be a whitespace delimited list of arguments
- $argsRaw should just be the string
+    $args should be a whitespace delimited list of arguments
+    $argsRaw should just be the string
 
 ////
 
@@ -765,19 +751,19 @@ brew install sumanjs ???
 
 ////
 
-  if sumanception level > 1, then we shouldn't write any TAP results
-  because stdout cannot be multiplexed, etc.
-  actually each parent can successfully parse a child, so it will work.
+    if sumanception level > 1, then we shouldn't write any TAP results
+    because stdout cannot be multiplexed, etc.
+    actually each parent can successfully parse a child, so it will work.
 
 ////
 
-   print test path run if using node x.js or suman x.js
-   sometimes I just forget what test I just ran lol
+    print test path run if using node x.js or suman x.js
+    sometimes I just forget what test I just ran lol
 
 ////
 
-  suman-single-process should use vm to run in this context?
-  https://nodejs.org/api/vm.html#vm_script_runinthiscontext_options
+    suman-single-process should use vm to run in this context?
+    https://nodejs.org/api/vm.html#vm_script_runinthiscontext_options
 
 ////
 
@@ -795,7 +781,7 @@ brew install sumanjs ???
    let foo;
     {
       let v = 2;
-     foo = v*2;
+      foo = v*2;
     }
 
 ////
@@ -1106,12 +1092,6 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 
 ///
 
-   maximum connection attempts => 5
-   if client is not connected, we use stdout/TAP to communicate
-   it should always be an either or, never send both
-
-///
-
    we can cross-check the accumulated test data in the child process to compare with the parent
    they should always align, if not we should log a warning
 
@@ -1195,10 +1175,6 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 
 ///
 
-    create suman-daemon, whereby we can pass
-
-///
-
     merge once-post with make-before-once-exit-post?
 
 ///
@@ -1208,7 +1184,7 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 
 ///
 
-    right runner without constraints, then add constraints last, after everything else is proven
+    write runner without constraints, then add constraints last, after everything else is proven
 
 ///
 
