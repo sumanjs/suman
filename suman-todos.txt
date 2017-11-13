@@ -14,6 +14,11 @@ three SO profiles:
 
 ///
 
+  load suman.globals.js after running require('suman');
+  or suman.init(module)?
+
+///
+
 command line --series, needs to take precedence over this:
 
 const Test = suman.init(module, {}, {
@@ -35,17 +40,8 @@ const Test = suman.init(module, {}, {
 
 ///
 
-_suman.sumanReporters needs to be Array<Function> not Array<string>
-see reporters last ditch or load reporters
-
-///
-
     suman tests should work without having to run suman --init
     see new option: use-default-config
-
-///
-
-    if `--inspect --debug-brk` equivalent to `--inspect-brk` forever?
 
 ///
 
@@ -81,7 +77,10 @@ see reporters last ditch or load reporters
  retriesEnabled: false, in suman.conf.js
 
 //
-   default _suman.sumanOpts values? we might need some for suman-reporters/lib/utils.ts
+
+   default _suman.sumanOpts values?
+   we might need some for suman-reporters/lib/utils.ts
+
 //
 
     this should only work for tests, not for hooks?
@@ -96,12 +95,7 @@ see reporters last ditch or load reporters
 
 //
 
-    vorpal filesystem autocompletion
-    https://github.com/vorpaljs/vorpal-autocomplete-fs
-
-//
-
-    [suman child stdout] => [suman child stdout / the-file-path]
+  [suman child stdout] => [suman child stdout / the-file-path]
 
 //
 
@@ -158,11 +152,6 @@ t.final =>
 
 ///
 
- suman-shell => give it a "find" option, it can find all the runnable tests, and then the user just
- scrolls to the test they want to run! huge option for suman-shell!!!
-
-///
-
  if beforeEach hook fails -> we do not exit, but we should mark the test as failed.
 
 ///
@@ -187,8 +176,6 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
    }]);
 
-
-
 ///
 
     node core will backport NODE_OPTIONS =>
@@ -201,10 +188,6 @@ e.g.   describe('x', function(runMyQuestionsPage){});
     https://github.com/sindresorhus/np
 
 ///
-
-    give user option to bundle with selenium webdriver
-
-//
 
    debugging with chrome + chrome-launcher
    https://bugs.chromium.org/p/chromium/issues/detail?id=778781#c3
@@ -261,7 +244,6 @@ chrome.debugger.attach({
 
     suman.browser.ioc.static.ts
     suman.browser.ioc.ts
-
     these file paths
 
 ///
@@ -438,8 +420,16 @@ cd $(dirname "$0")
 
 ///
 
+ specify node start command with env var:
+
+ SUMAN_NODE_EXEC="node --foo --bar"
+ which would become:
+ bash -e "node --foo -bar ../suman/cli.js"
+
+///
+
  babel:
- removed these from {package.json}.devDependencies:
+    removed these from {package.json}.devDependencies:
     "babel-loader": "^6.4.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.24.0",
@@ -726,10 +716,6 @@ node test/src/exp.js | grep -v [[suman]]
 ////
 
  inject only works when we do not need to use a before/beforeEach to load data beforehand
-
-////
-
-  create $iocShared and $ioc
 
 ////
 

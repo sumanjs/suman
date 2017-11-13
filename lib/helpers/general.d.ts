@@ -7,6 +7,7 @@ export interface ICloneErrorFn {
     (err: Error, newMessage: string, stripAllButTestFilePathMatch?: boolean): IPseudoError;
 }
 export declare const handleSetupComplete: (test: ITestSuite, type: string) => void;
+export declare const makeRequireFile: (projectRoot: string) => (v: string) => void;
 export declare const extractVals: (val: any) => {
     timeout: number;
     subDeps: string[];

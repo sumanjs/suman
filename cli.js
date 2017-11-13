@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 debugger;
 var process = require('suman-browser-polyfills/modules/process');
 var global = require('suman-browser-polyfills/modules/global');
-var callable = true;
+var isLogExitCallable = true;
 var logExit = function (code) {
-    if (callable) {
-        callable = false;
+    if (isLogExitCallable) {
+        isLogExitCallable = false;
         console.log('\n');
         console.log(' => Suman cli exiting with code: ', code);
         console.log('\n');
@@ -86,7 +86,7 @@ require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
 var load_reporters_1 = require("./lib/helpers/load-reporters");
 var suman_constants_1 = require("./config/suman-constants");
-var general_1 = require("./lib/helpers/general");
+var general = require("./lib/helpers/general");
 if (su.weAreDebugging) {
     _suman.log.info(' => Suman is in debug mode (we are debugging).');
     _suman.log.info(' => Process PID => ', process.pid);
@@ -217,34 +217,45 @@ if (sumanOpts.version) {
     _suman.log.info('...And we\'re done here.', '\n');
     process.exit(0);
 }
-var makeThrow = function (msg) {
-    console.log('\n');
-    console.error('\n');
-    throw msg;
-};
-if (sumanOpts.transpile && sumanOpts.no_transpile) {
-    makeThrow(' => Suman fatal problem => --transpile and --no-transpile options were both set,' +
-        ' please choose one only.');
+{
+    var requireFile_1 = general.makeRequireFile(projectRoot);
+    _.flattenDeep([sumanOpts.require]).filter(function (v) { return v; }).forEach(function (s) {
+        String(s).split(',')
+            .map(function (v) { return String(v).trim(); })
+            .filter(function (v) { return v; })
+            .forEach(requireFile_1);
+    });
 }
-if (sumanOpts.append_match_all && sumanOpts.match_all) {
-    makeThrow(' => Suman fatal problem => --match-all and --append-match-all options were both set,' +
-        ' please choose one only.');
-}
-if (sumanOpts.append_match_any && sumanOpts.match_any) {
-    makeThrow(' => Suman fatal problem => --match-any and --append-match-any options were both set,' +
-        ' please choose one only.');
-}
-if (sumanOpts.append_match_none && sumanOpts.match_none) {
-    makeThrow(' => Suman fatal problem => --match-none and --append-match-none options were both set,' +
-        ' please choose one only.');
-}
-if (sumanOpts.watch && sumanOpts.stop_watching) {
-    makeThrow('=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
-        'please choose one only.');
-}
-if (sumanOpts.babel_register && sumanOpts.no_babel_register) {
-    makeThrow('=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
-        ' please choose one only.');
+{
+    var makeThrow = function (msg) {
+        console.log('\n');
+        console.error('\n');
+        throw msg;
+    };
+    if (sumanOpts.transpile && sumanOpts.no_transpile) {
+        makeThrow(' => Suman fatal problem => --transpile and --no-transpile options were both set,' +
+            ' please choose one only.');
+    }
+    if (sumanOpts.append_match_all && sumanOpts.match_all) {
+        makeThrow(' => Suman fatal problem => --match-all and --append-match-all options were both set,' +
+            ' please choose one only.');
+    }
+    if (sumanOpts.append_match_any && sumanOpts.match_any) {
+        makeThrow(' => Suman fatal problem => --match-any and --append-match-any options were both set,' +
+            ' please choose one only.');
+    }
+    if (sumanOpts.append_match_none && sumanOpts.match_none) {
+        makeThrow(' => Suman fatal problem => --match-none and --append-match-none options were both set,' +
+            ' please choose one only.');
+    }
+    if (sumanOpts.watch && sumanOpts.stop_watching) {
+        makeThrow('=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
+            'please choose one only.');
+    }
+    if (sumanOpts.babel_register && sumanOpts.no_babel_register) {
+        makeThrow('=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
+            ' please choose one only.');
+    }
 }
 var sumanConfig, pth;
 try {
@@ -294,8 +305,8 @@ else {
     sumanServerInstalled = installObj.sumanServerInstalled;
     sumanInstalledLocally = installObj.sumanInstalledLocally;
 }
-var sumanPaths = general_1.resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
-var sumanObj = general_1.loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
+var sumanPaths = general.resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+var sumanObj = general.loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 if (sumanOpts.parallel && sumanOpts.series) {
     throw chalk.red('Suman usage error => "--series" and "--parallel" options were both used, ' +
         'please choose one or neither...but not both!');
@@ -326,29 +337,31 @@ var sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMat
 _suman.sumanMatchesAny = uniqBy(sumanMatchesAny, function (item) { return item; });
 _suman.sumanMatchesNone = uniqBy(sumanMatchesNone, function (item) { return item; });
 _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, function (item) { return item; });
-var preOptCheck = {
-    tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
-    create: create, useServer: useServer, useBabel: useBabel,
-    useIstanbul: useIstanbul, init: init, uninstall: uninstall,
-    convert: convert, groups: groups, s: s, interactive: interactive, uninstallBabel: uninstallBabel,
-    diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
-    repair: repair, sumanShell: sumanShell, script: script
-};
-var optCheck = Object.keys(preOptCheck).filter(function (key, index) {
-    return preOptCheck[key];
-})
-    .map(function (key) {
-    var value = preOptCheck[key];
-    var obj = {};
-    obj[key] = value;
-    return obj;
-});
-if (optCheck.length > 1) {
-    console.error('\t => Too many options, pick one from:\n', util.inspect(Object.keys(preOptCheck)));
-    console.error('\t => Current options used were:\n', util.inspect(optCheck));
-    console.error('\t => Use --help for more information.\n');
-    console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
-    process.exit(suman_constants_1.constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
+{
+    var preOptCheck_1 = {
+        tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
+        create: create, useServer: useServer, useBabel: useBabel,
+        useIstanbul: useIstanbul, init: init, uninstall: uninstall,
+        convert: convert, groups: groups, s: s, interactive: interactive, uninstallBabel: uninstallBabel,
+        diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
+        repair: repair, sumanShell: sumanShell, script: script
+    };
+    var optCheck = Object.keys(preOptCheck_1).filter(function (key, index) {
+        return preOptCheck_1[key];
+    })
+        .map(function (key) {
+        var value = preOptCheck_1[key];
+        var obj = {};
+        obj[key] = value;
+        return obj;
+    });
+    if (optCheck.length > 1) {
+        console.error('\t => Too many options, pick one from:\n', util.inspect(Object.keys(preOptCheck_1)));
+        console.error('\t => Current options used were:\n', util.inspect(optCheck));
+        console.error('\t => Use --help for more information.\n');
+        console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
+        process.exit(suman_constants_1.constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
+    }
 }
 load_reporters_1.loadReporters(sumanOpts, projectRoot, sumanConfig);
 rb.emit(String(events.NODE_VERSION), nodeVersion);

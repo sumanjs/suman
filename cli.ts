@@ -4,6 +4,10 @@
 //dts
 import {IGlobalSumanObj, ISumanConfig} from "suman-types/dts/global";
 
+export interface IPreOptCheck {
+  [key: string]: any,
+}
+
 debugger;  //leave here forever so users can easily debug with "node --inspect" or "node debug"
 
 //polyfills
@@ -12,11 +16,11 @@ const global = require('suman-browser-polyfills/modules/global');
 
 /////////////////////////////////////////////////////////////////
 
-let callable = true;
+let isLogExitCallable = true;
 
 const logExit = function (code: number) {
-  if (callable) {
-    callable = false;
+  if (isLogExitCallable) {
+    isLogExitCallable = false;
     console.log('\n');
     console.log(' => Suman cli exiting with code: ', code);
     console.log('\n');
@@ -126,7 +130,7 @@ require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
 import {loadReporters} from './lib/helpers/load-reporters';
 import {constants} from './config/suman-constants';
-import {resolveSharedDirs, loadSharedObjects} from "./lib/helpers/general";
+import * as general from "./lib/helpers/general";
 
 if (su.weAreDebugging) {
   _suman.log.info(' => Suman is in debug mode (we are debugging).');
@@ -168,7 +172,6 @@ _suman.log.info('[process.pid] => ', process.pid);
 _suman.startTime = Date.now();
 const cwd = process.cwd();
 const sumanExecutablePath = _suman.sumanExecutablePath = process.env.SUMAN_EXECUTABLE_PATH = __filename;
-
 
 ////////////////////////////////////////////////////////////////////
 
@@ -222,7 +225,6 @@ const script = sumanOpts.script;
 const browser = sumanOpts.browser;
 const cwdAsRoot = sumanOpts.force_cwd_to_be_project_root;
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 let projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = su.findProjectRoot(cwd);
@@ -243,7 +245,6 @@ if (!projectRoot) {
 
   projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = cwd;
 }
-
 
 if (su.vgt(7)) {
   _suman.log.info('Project root:', projectRoot);
@@ -295,7 +296,6 @@ const originalTranspileOption = sumanOpts.transpile = Boolean(sumanOpts.transpil
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-
 if (sumanOpts.version) {
   console.log('\n');
   _suman.log.info('Node.js version:', nodeVersion);
@@ -304,42 +304,60 @@ if (sumanOpts.version) {
   process.exit(0);
 }
 
-//////////////// check for cmd line contradictions /////////////////////////////////////////////
+{
 
-const makeThrow = function (msg: string) {
-  console.log('\n');
-  console.error('\n');
-  throw msg;
-};
+  // pre-load files using --require option
 
-if (sumanOpts.transpile && sumanOpts.no_transpile) {
-  makeThrow(' => Suman fatal problem => --transpile and --no-transpile options were both set,' +
-    ' please choose one only.');
+  const requireFile = general.makeRequireFile(projectRoot);
+  _.flattenDeep([sumanOpts.require]).filter(v => v).forEach(function (s) {
+    String(s).split(',')
+    .map(v => String(v).trim())
+    .filter(v => v)
+    .forEach(requireFile);
+  });
+
 }
 
-if (sumanOpts.append_match_all && sumanOpts.match_all) {
-  makeThrow(' => Suman fatal problem => --match-all and --append-match-all options were both set,' +
-    ' please choose one only.');
-}
+{
 
-if (sumanOpts.append_match_any && sumanOpts.match_any) {
-  makeThrow(' => Suman fatal problem => --match-any and --append-match-any options were both set,' +
-    ' please choose one only.');
-}
+  // check for cmd line options contradictions
 
-if (sumanOpts.append_match_none && sumanOpts.match_none) {
-  makeThrow(' => Suman fatal problem => --match-none and --append-match-none options were both set,' +
-    ' please choose one only.');
-}
+  const makeThrow = function (msg: string) {
+    console.log('\n');
+    console.error('\n');
+    throw msg;
+  };
 
-if (sumanOpts.watch && sumanOpts.stop_watching) {
-  makeThrow('=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
-    'please choose one only.');
-}
+  if (sumanOpts.transpile && sumanOpts.no_transpile) {
+    makeThrow(' => Suman fatal problem => --transpile and --no-transpile options were both set,' +
+      ' please choose one only.');
+  }
 
-if (sumanOpts.babel_register && sumanOpts.no_babel_register) {
-  makeThrow('=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
-    ' please choose one only.');
+  if (sumanOpts.append_match_all && sumanOpts.match_all) {
+    makeThrow(' => Suman fatal problem => --match-all and --append-match-all options were both set,' +
+      ' please choose one only.');
+  }
+
+  if (sumanOpts.append_match_any && sumanOpts.match_any) {
+    makeThrow(' => Suman fatal problem => --match-any and --append-match-any options were both set,' +
+      ' please choose one only.');
+  }
+
+  if (sumanOpts.append_match_none && sumanOpts.match_none) {
+    makeThrow(' => Suman fatal problem => --match-none and --append-match-none options were both set,' +
+      ' please choose one only.');
+  }
+
+  if (sumanOpts.watch && sumanOpts.stop_watching) {
+    makeThrow('=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
+      'please choose one only.');
+  }
+
+  if (sumanOpts.babel_register && sumanOpts.no_babel_register) {
+    makeThrow('=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
+      ' please choose one only.');
+  }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -406,8 +424,8 @@ else {
   sumanInstalledLocally = installObj.sumanInstalledLocally;
 }
 
-const sumanPaths = resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
-const sumanObj = loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
+const sumanPaths = general.resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+const sumanObj = general.loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 
 ////////////// Here we reconcile and merge command line args with config  ///////////////////////////////
 ///////////// as usual, command line args take precedence over static configuration (suman.conf.js) /////
@@ -435,7 +453,6 @@ _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 1
   sumanOpts.$useTAPJSONOutput = _suman.useTAPJSONOutput = sumanConfig.useTAPJSONOutput || useTAPJSONOutput;
   sumanOpts.$useTAPJSONOutput && _suman.log.info('Using TAP-JSON output => ', sumanOpts.$useTAPJSONOutput);
 }
-
 
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 
@@ -465,36 +482,38 @@ _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, (item: RegExp) => item);
 
 /////////////////////////////// abort if too many top-level options //////////////////////////////////////
 
-export interface IPreOptCheck {
-  [key: string]: any,
-}
+{
 
-const preOptCheck = <IPreOptCheck> {
-  tscMultiWatch, watch, watchPer,
-  create, useServer, useBabel,
-  useIstanbul, init, uninstall,
-  convert, groups, s, interactive, uninstallBabel,
-  diagnostics, installGlobals, postinstall,
-  repair, sumanShell, script
-};
+  // check to make sure we don't have more than one primary command line option
 
-const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
-  // we return non-falsy values
-  return preOptCheck[key];
-})
-.map(function (key) {
-  const value = preOptCheck[key];
-  const obj = <Partial<IPreOptCheck>> {};
-  obj[key] = value;
-  return obj;
-});
+  const preOptCheck = <IPreOptCheck> {
+    tscMultiWatch, watch, watchPer,
+    create, useServer, useBabel,
+    useIstanbul, init, uninstall,
+    convert, groups, s, interactive, uninstallBabel,
+    diagnostics, installGlobals, postinstall,
+    repair, sumanShell, script
+  };
 
-if (optCheck.length > 1) {
-  console.error('\t => Too many options, pick one from:\n', util.inspect(Object.keys(preOptCheck)));
-  console.error('\t => Current options used were:\n', util.inspect(optCheck));
-  console.error('\t => Use --help for more information.\n');
-  console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
-  process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
+  const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
+    // we return non-falsy values
+    return preOptCheck[key];
+  })
+  .map(function (key) {
+    const value = preOptCheck[key];
+    const obj = <Partial<IPreOptCheck>> {};
+    obj[key] = value;
+    return obj;
+  });
+
+  if (optCheck.length > 1) {
+    console.error('\t => Too many options, pick one from:\n', util.inspect(Object.keys(preOptCheck)));
+    console.error('\t => Current options used were:\n', util.inspect(optCheck));
+    console.error('\t => Use --help for more information.\n');
+    console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
+    process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
+  }
+
 }
 
 /////////////////////////////// load reporters  ////////////////////////////////
@@ -542,7 +561,6 @@ if (sumanOpts.force_inherit_stdio) {
 }
 
 /////////////////// check to make sure --tap option is used if we are piping ////////////////////
-
 
 let isTTY = process.stdout.isTTY;
 
