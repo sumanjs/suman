@@ -71,7 +71,7 @@ Test.create(opts, [function (assert, describe, before, beforeEach, after, afterE
 
   });
 
-  describe('nested3', () => {
+  describe('nested3', b => {
 
     assert.equal(count, 0);
 

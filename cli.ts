@@ -580,13 +580,14 @@ let isTTY = process.stdout.isTTY;
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
   if (!isTTY && !useTAPOutput) {
     {
-      let writeToSumanRStdout = JSONStdio.initLogToStdout(su.constants.JSON_STDIO_SUMAN_R);
+      // let writeToSumanRStdout = JSONStdio.initLogToStdout(su.constants.JSON_STDIO_SUMAN_R);
       let messages = [
         'You may need to turn on TAP output for test results to be captured in destination process.',
         'Try using the "--tap" or "--tap-json" options at the suman command line.'
       ];
       _suman.log.error(chalk.yellow.bold(messages.join('\n')));
-      writeToSumanRStdout({sumanMessage: true, kind: 'warning', messages: messages});
+      JSONStdio.logToStdout({sumanMessage: true, kind: 'warning', messages: messages});
+      // writeToSumanRStdout({sumanMessage: true, kind: 'warning', messages: messages});
     }
   }
 }

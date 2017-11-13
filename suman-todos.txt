@@ -10,6 +10,37 @@ three SO profiles:
 
 ///
 
+  inject hooks => add to $inject
+  shared => b.set() / b.get()
+  ioc => b.ioc
+  h.$inject should be h.?
+
+///
+
+  //inject hooks should be run in series, just like before hooks
+
+  let p;
+
+  inject(() => {
+    return {
+      broker: p = new Broker(conf).ensure()
+    }
+  });
+
+  inject(() => {
+    return {
+      c: p.then(v => new Client(conf).ensure())
+    }
+  });
+
+///
+
+https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -eo pipefail
+exit with command to the right that exits with non-zero
+
+///
+
   we need after.first
   and before.first / before.last
 
