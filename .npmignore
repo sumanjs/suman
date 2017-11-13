@@ -19,9 +19,10 @@ dist
 .github
 .tscmultiwatch
 dev-scripts
+.vscode
+.vs_code
 
 ### files
-exp.js
 .gitignore
 .npmignore
 webpack.config.js
