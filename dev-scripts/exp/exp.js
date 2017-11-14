@@ -1,18 +1,27 @@
 
+//
+// const v = {
+//   z: true,
+//   foo: {two: 2}
+// };
+//
+// const x = Object.setPrototypeOf({}, v);
+//
+// x.foo = 3;
+//
+// console.log(x);
+// console.log(v);
 
-const v = {
-  z: true,
-  foo: {two: 2}
-};
+function* foo(){
+  yield 1;
+  yield 2;
+  yield 3;
+}
 
-const x = Object.setPrototypeOf({}, v);
-
-x.foo = 3;
-
-console.log(x);
-console.log(v);
-
-
+for (let o of foo()) {
+  console.log(o);
+}
+// console.log(typeof [][Symbol.iterator]);
 
 
 // const x = {

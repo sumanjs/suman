@@ -165,8 +165,9 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         }
 
         if (sumanOpts.coverage) {
-          _suman.log.warning(chalk.magenta('coverage option was set to true, but we are running your tests via @run.sh.'));
-          _suman.log.warning(chalk.magenta('so in this case, you will need to run your coverage call via @run.sh.'));
+          //TODO: we can pass an env to tell suman where to put the coverage data
+          _suman.log.warning(chalk.yellow('coverage option was set to true, but we are running your tests via @run.sh.'));
+          _suman.log.warning(chalk.yellow('so in this case, you will need to run your coverage call via @run.sh.'));
         }
 
         n = cp.spawn(sh, argz, cpOptions) as ISumanChildProcess;
