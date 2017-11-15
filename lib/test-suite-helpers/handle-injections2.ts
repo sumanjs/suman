@@ -3,6 +3,7 @@
 //dts
 import {IInjectionObj, ITestSuite} from "suman-types/dts/test-suite";
 import {IPseudoError, IGlobalSumanObj} from "suman-types/dts/global";
+import {ErrCallback} from 'async';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -32,7 +33,7 @@ interface IInjectionRetObj {
 
 ///////////////////////////////////////////////////////////////////
 
-export const handleInjections = function (suite: ITestSuite, cb: Function) {
+export const handleInjections = function (suite: ITestSuite, cb: ErrCallback<any>) {
 
   const addValuesToSuiteInjections = function (k: string, val: any): void {
     if (k in suite.injectedValues) {
@@ -76,43 +77,59 @@ export const handleInjections = function (suite: ITestSuite, cb: Function) {
     const injParam = Object.create(tProto);
     const valuesMap = {} as any;
 
-    injParam.registerKey = function (k: string, val: any): Promise<any> {
-      assert(k && typeof k === 'string', 'key must be a string.');
-      if (k in valuesMap) {
-        throw new Error(`Injection key '${k}' has already been added.`);
-      }
-      if (k in suite.injectedValues) {
-        throw new Error(`Injection key '${k}' has already been added.`);
-      }
-      return Promise.resolve(valuesMap[k] = val);
-    };
+    return new Promise(function (resolve, reject) {
 
-    //TODO: ask SO what JS objects have key / values (is it iterable or no?)
-
-    injParam.registerMap = function (o: Iterable<any>): Promise<Array<any>> {
-
-      let keys : Array<string>;
-
-      try{
-        keys = Object.keys(o);
-      }
-      catch(err){
-        _suman.log.error('Could not call Object.keys(o), where o is:', util.inspect(o));
-        throw err;
-      }
-
-      return Promise.all(keys.map(function (k) {
+      injParam.registerKey = function (k: string, val: any): Promise<any> {
+        assert(k && typeof k === 'string', 'key must be a string.');
         if (k in valuesMap) {
           throw new Error(`Injection key '${k}' has already been added.`);
         }
         if (k in suite.injectedValues) {
           throw new Error(`Injection key '${k}' has already been added.`);
         }
-        return valuesMap[k] = o[k];
-      }));
-    };
+        return Promise.resolve(valuesMap[k] = val);
+      };
 
-    return new Promise(function (resolve, reject) {
+      //TODO: ask SO what JS objects have key / values (is it iterable or no?)
+
+      injParam.registerFnsMap = function (o: Iterable<any>): void {
+        async.each(o, function (err: Error, results: Object) {
+          if (err) return reject(err);
+          Object.keys(results).forEach(function (k) {
+            valuesMap[k] = results[k];
+          });
+        })
+      };
+
+      injParam.registerMap = injParam.registerPromisesMap = function (o: Iterable<any>): Promise<Array<any>> {
+
+        let keys: Array<string>;
+
+        try {
+          keys = Object.keys(o);
+        }
+        catch (err) {
+          _suman.log.error('Could not call Object.keys(o), where o is:', util.inspect(o));
+          throw err;
+        }
+
+        return Promise.all(keys.map(function (k) {
+          if (k in valuesMap) {
+            throw new Error(`Injection key '${k}' has already been added.`);
+          }
+          if (k in suite.injectedValues) {
+            throw new Error(`Injection key '${k}' has already been added.`);
+          }
+
+          try {
+            return valuesMap[k] = o.get(k)
+          }
+          catch (err) {
+            return valuesMap[k] = o[k];
+          }
+
+        }));
+      };
 
       if (inj.cb) {
 
@@ -135,12 +152,17 @@ export const handleInjections = function (suite: ITestSuite, cb: Function) {
       }
     })
     .then(function () {
-
-      return Promise.all(Object.keys(valuesMap).map(function (k) {
-         return valuesMap[k];
-      }));
-
-    });
+      const keys = Object.keys(valuesMap);
+      return Promise.all(keys.map(function (k) {
+        return valuesMap[k];
+      }))
+      .then(function(values){
+         keys.forEach(function(k, i){
+           addValuesToSuiteInjections(k,values[i]);
+         });
+      });
+    })
+    .catch(first);
 
   }, cb);
 
