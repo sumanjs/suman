@@ -41,11 +41,11 @@ export NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules":"${NPM_ROOT_G
 export PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin":"${NPM_ROOT_GLOBAL}/suman-daemon/node_modules/.bin"
 export SUMAN_LIBRARY_ROOT_PATH="${NPM_ROOT_GLOBAL}/suman";
 
-WHICH_FOREVER="$(which forever)";
-
-if [[ -z ${WHICH_FOREVER} ]]; then
- (cd "$HOME/.suman/global" && npm install forever)
-fi
+#WHICH_FOREVER="$(which forever)";
+#
+#if [[ -z ${WHICH_FOREVER} ]]; then
+# (cd "$HOME/.suman/global" && npm install forever)
+#fi
 
 if [[ -L "${NPM_ROOT_GLOBAL}/suman" || -d "${NPM_ROOT_GLOBAL}/suman" ]]; then
     echo " [suman-daemon] suman is already installed globally, that's great.";

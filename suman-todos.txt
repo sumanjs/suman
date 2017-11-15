@@ -10,6 +10,16 @@ three SO profiles:
 
 ///
 
+how to initialize a Map ->
+console.log(Object.keys(new Map({a: 'b'}))); // fails
+
+///
+
+ use ts-node/register
+ with TypeScript, just like Babel, in the run-child.js file
+
+///
+
   inject hooks => add to $inject
   shared => b.set() / b.get()
   ioc => b.ioc
@@ -115,9 +125,9 @@ exit with command to the right that exits with non-zero
 
 ///
 
-@config.json files need to have a property that
-tells suman if all matching files are run through @transform.sh once,
-or if each file is run through @transform.sh separately.
+    @config.json files need to have a property that
+    tells suman if all matching files are run through @transform.sh once,
+    or if each file is run through @transform.sh separately.
 
 ///
 
@@ -136,9 +146,7 @@ command line --series, needs to take precedence over this:
      map: {
        'tap': 'suman-reporters/modules/tap-reporter'
      }
-
    },
-
 
 ///
 
@@ -175,13 +183,13 @@ command line --series, needs to take precedence over this:
 
 //
 
- enable retries
- retriesEnabled: false, in suman.conf.js
+    enable retries
+    retriesEnabled: false, in suman.conf.js
 
 //
 
-   default _suman.sumanOpts values?
-   we might need some for suman-reporters/lib/utils.ts
+    default _suman.sumanOpts values?
+    we might need some for suman-reporters/lib/utils.ts
 
 //
 
@@ -201,15 +209,14 @@ command line --series, needs to take precedence over this:
 
 //
 
-need to implement `suman --require x`
---require ts-node/register
-
-mocha --require ts-node/register --reporter=dot test/**/*-test.ts --timeout=10000
+    need to implement `suman --require x`
+    --require ts-node/register
+    mocha --require ts-node/register --reporter=dot test/**/*-test.ts --timeout=10000
 
 //
 
-suman-types
-https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-342028894
+    suman-types
+    https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-342028894
 
 ///
 
@@ -259,23 +266,30 @@ t.final =>
 ///
 
 if function parameter name is in $ioc, but is listed explicity, then we should throw to let the user know.
-
 e.g.   describe('x', function(runMyQuestionsPage){});
-
  when runMyQuestionsPage is on $ioc, instead of available.
 
 //
 
   perhaps only --force should allow us to do optimistic ignoring of missing injectable deps.
 
-//
+///
+
+
+ const opts = {
+    $inject:{
+      ioc:[''],
+      iocStatic: ['']
+    }
+  };
+
+
+///
 
  use $ioc like this:
 
   describe('hiya', ['age', b => {
-
      console.log(b.ioc.age); // 3;
-
    }]);
 
 ///
@@ -497,16 +511,20 @@ cd $(dirname "$0")
 
 ///
 
+    use an env variable to tell suman to use suman-daemon / suman-fast
+
+///
+
  the following should be in yellow or magenta:
  (note that your test ran with suman-f, not suman)
 
 ///
 
- specify node start command with env var:
+    specify node start command with env var:
 
- SUMAN_NODE_EXEC="node --foo --bar"
- which would become:
- bash -e "node --foo -bar ../suman/cli.js"
+    SUMAN_NODE_EXEC="node --foo --bar"
+    which would become:
+    bash -e "node --foo -bar ../suman/cli.js"
 
 ///
 
@@ -585,7 +603,6 @@ Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, desc
       setTimeout(t, 100);
     });
   });
-
 });
 
 ///
@@ -696,7 +713,6 @@ node test/src/exp.js | grep -v [[suman]]
 
     when a command in run.sh fails, we need to send that stderr
     to the runner, e.g.:
-
     => [suman child stderr] => ./suman/test/src/mocha/@run.sh: line 6: mocha: command not found
 
 ////
@@ -750,11 +766,6 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
- _suman.log and _suman.logError need to split everything by newline
- so that [suman] appears on each line
-
-///
-
  suman child id should be a uuid not an integer
 
 ///
@@ -768,7 +779,7 @@ node test/src/exp.js | grep -v [[suman]]
 ///
 
   if @run.sh exists for a file x, but the command is just "suman x", then the runner won't be used and @run.sh won't
-  be used. If @run.sh is found, we must use the runner.
+  be used. To correct this, if @run.sh is found, we must use the runner.
 
 ///
 

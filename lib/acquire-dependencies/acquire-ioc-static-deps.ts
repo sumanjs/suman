@@ -46,6 +46,7 @@ export const acquireIocStaticDeps = function () {
     return iocPromise;
   }
 
+
   let ret: any,
     iocFnArgs: Array<string>,
     getiocFnDeps: Function,

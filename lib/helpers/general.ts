@@ -234,10 +234,11 @@ export const makeRunGenerator = function (fn: Function, ctx: any) {
       }
       else {
         return Promise.resolve(result.value).then(function (res) {
-          return handle(generator.next(res));
-        }, function (e) {
-          return handle(generator.throw(e));
-        });
+            return handle(generator.next(res));
+          },
+          function (e) {
+            return handle(generator.throw(e));
+          });
       }
     };
 

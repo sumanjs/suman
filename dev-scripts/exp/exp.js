@@ -1,4 +1,3 @@
-
 //
 // const v = {
 //   z: true,
@@ -12,17 +11,43 @@
 // console.log(x);
 // console.log(v);
 
-function* foo(){
-  yield 1;
-  yield 2;
-  yield 3;
-}
+// function* foo() {
+//   yield 1;
+//   yield 2;
+//   yield 3;
+// }
+//
+// for (let o of foo()) {
+//   console.log(o);
+// }
 
-for (let o of foo()) {
-  console.log(o);
-}
+
+console.log(Object.keys(new Map({a: 'b'})));
+
+
+
+// inject(j => {
+//
+//   return j.inject({
+//     a: function(cb){
+//
+//     },
+//
+//     b: function (cb) {
+//
+//     }
+//   });
+//
+//   return [j.inject('av', function (cb) {
+//
+//
+//   })];
+//
+//   // b.$injected.x = z;
+//
+// });
+
 // console.log(typeof [][Symbol.iterator]);
-
 
 // const x = {
 //   watch: {
