@@ -138,7 +138,6 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       this.testId = incr();
       this.isSetupComplete = false;
 
-
       // user can access container methods if they need to => b.m.describe()
       this.m = suman.containerProxy;
 
@@ -155,6 +154,30 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       this.injectedValues = {};
       this.interface = suman.interface;
       this.desc = this.title = obj.desc;
+
+      // this.getInjectedVal = this.getInjectedValue = function (k: string) {
+      //   let ret, parent = this;
+      //
+      //   while (true) {
+      //     if (ret = parent.injectedValues[k]) {
+      //       break;
+      //     }
+      //     else if (parent.parent) {
+      //       parent = parent.parent
+      //     }
+      //     else {
+      //       break;
+      //     }
+      //   }
+      //
+      //   try {
+      //     return Object.freeze(ret);
+      //   }
+      //   catch (err) {
+      //     return ret;
+      //   }
+      //
+      // };
 
       this[TestBlockSymbols.children] = [] as Array<ITestSuite>;
       this[TestBlockSymbols.tests] = [] as Array<ITestDataObj>;

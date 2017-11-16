@@ -15,7 +15,9 @@ const opts = {
   fixed: true
 };
 
-Test.create(opts, [function (assert, describe, before, beforeEach, after, afterEach, it) {
+Test.create(opts, ['rudolph',
+  function (assert, describe, before, beforeEach, after, afterEach, it, inject) {
+
 
   it('sync test hagieao agoeajgoea jo joeajgoea  aegjeag oa iag j aogeg ', t => {
     assert(false);

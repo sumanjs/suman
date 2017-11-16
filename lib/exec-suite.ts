@@ -37,7 +37,7 @@ import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
 import {makeTestSuite} from './test-suite-helpers/make-test-suite';
 import {fatalRequestReply} from './helpers/general';
-import {handleInjections} from './test-suite-helpers/handle-injections';
+import {handleInjections} from './test-suite-helpers/handle-injections2';
 import {makeOnSumanCompleted} from './helpers/general';
 import {evalOptions} from './helpers/general';
 import {parseArgs} from './helpers/general';

@@ -21,10 +21,29 @@
 //   console.log(o);
 // }
 
+// console.log(Object.keys(new Map({a: 'b'})));
 
-console.log(Object.keys(new Map({a: 'b'})));
+const Promise = require('bluebird');
+const async = require('async');
 
+async.series({
+    a: async function (cb) {
+      return Promise.delay(500).then(v => 'zzz');
+    },
+    b: async function (cb) {
+      // process.nextTick(cb, null, 'bbb');
+      let c= await Promise.delay(500).then(v => 'hopkins');
+      return c;
+      // cb(null, 'xxx');
+    }
 
+  },
+  function (err, results) {
+
+    if (err) throw err;
+    console.log('results => ', results);
+    process.exit(0);
+  });
 
 // inject(j => {
 //

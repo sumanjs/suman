@@ -3,7 +3,7 @@
 //dts
 import {IInjectionObj, ITestSuite} from "suman-types/dts/test-suite";
 import {IPseudoError, IGlobalSumanObj} from "suman-types/dts/global";
-import {ErrCallback} from 'async';
+import {ErrorCallback, Dictionary} from 'async';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -33,7 +33,7 @@ interface IInjectionRetObj {
 
 ///////////////////////////////////////////////////////////////////
 
-export const handleInjections = function (suite: ITestSuite, cb: ErrCallback<any>) {
+export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<any>) {
 
   const addValuesToSuiteInjections = function (k: string, val: any): void {
     if (k in suite.injectedValues) {
@@ -60,7 +60,7 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrCallback<any
     let callable = true;
 
     const to = setTimeout(function () {
-      first(new Error(` => Injection hook timeout. ${inj.desc && 'For injection with name => ' + inj.desc}`));
+      first(new Error(`Injection hook timeout. ${'For injection with name => ' + inj.desc}`));
     }, weAreDebugging ? 5000000 : inj.timeout);
 
     const first = function (err: IPseudoError) {
@@ -79,54 +79,62 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrCallback<any
 
     return new Promise(function (resolve, reject) {
 
-      injParam.registerKey = function (k: string, val: any): Promise<any> {
+      injParam.registerKey = injParam.register = function (k: string, val: any): Promise<any> {
         assert(k && typeof k === 'string', 'key must be a string.');
-        if (k in valuesMap) {
-          throw new Error(`Injection key '${k}' has already been added.`);
-        }
-        if (k in suite.injectedValues) {
-          throw new Error(`Injection key '${k}' has already been added.`);
-        }
-        return Promise.resolve(valuesMap[k] = val);
-      };
-
-      //TODO: ask SO what JS objects have key / values (is it iterable or no?)
-
-      injParam.registerFnsMap = function (o: Iterable<any>): void {
-        async.each(o, function (err: Error, results: Object) {
-          if (err) return reject(err);
-          Object.keys(results).forEach(function (k) {
-            valuesMap[k] = results[k];
-          });
-        })
-      };
-
-      injParam.registerMap = injParam.registerPromisesMap = function (o: Iterable<any>): Promise<Array<any>> {
-
-        let keys: Array<string>;
-
-        try {
-          keys = Object.keys(o);
-        }
-        catch (err) {
-          _suman.log.error('Could not call Object.keys(o), where o is:', util.inspect(o));
-          throw err;
-        }
-
-        return Promise.all(keys.map(function (k) {
+        {
           if (k in valuesMap) {
             throw new Error(`Injection key '${k}' has already been added.`);
           }
           if (k in suite.injectedValues) {
             throw new Error(`Injection key '${k}' has already been added.`);
           }
+        }
+        return Promise.resolve(valuesMap[k] = val);
+      };
 
-          try {
-            return valuesMap[k] = o.get(k)
+      //TODO: ask SO what JS objects have key / values (is it iterable or no?)
+      injParam.registerFnsMap = injParam.registerFnMap = function (o: Dictionary<any>): Promise<any> {
+        return new Promise(function (resolve, reject) {
+          async.series(o, function (err: Error, results: Dictionary<any>) {
+
+            console.log('err => ', err);
+            console.log('results => ', results);
+
+            if (err) return reject(err);
+
+            {
+              Object.keys(results).forEach(function (k) {
+                if (k in valuesMap) {
+                  return reject(new Error(`Injection key '${k}' has already been added.`));
+                }
+                if (k in suite.injectedValues) {
+                  return reject(new Error(`Injection key '${k}' has already been added.`));
+                }
+                return valuesMap[k] = results[k];
+              });
+            }
+            resolve(results);
+          });
+        })
+        .catch(reject);
+      };
+
+      injParam.registerMap = injParam.registerPromisesMap = function (o: Dictionary<any>): Promise<Array<any>> {
+
+        let keys = Object.keys(o);
+
+        return Promise.all(keys.map(function (k) {
+
+          {
+            if (k in valuesMap) {
+              throw new Error(`Injection key '${k}' has already been added.`);
+            }
+            if (k in suite.injectedValues) {
+              throw new Error(`Injection key '${k}' has already been added.`);
+            }
           }
-          catch (err) {
-            return valuesMap[k] = o[k];
-          }
+
+          return valuesMap[k] = o[k];
 
         }));
       };
@@ -156,10 +164,14 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrCallback<any
       return Promise.all(keys.map(function (k) {
         return valuesMap[k];
       }))
-      .then(function(values){
-         keys.forEach(function(k, i){
-           addValuesToSuiteInjections(k,values[i]);
-         });
+      .then(function (values) {
+
+        keys.forEach(function (k, i) {
+          addValuesToSuiteInjections(k, values[i]);
+        });
+
+        first(null);
+
       });
     })
     .catch(first);
