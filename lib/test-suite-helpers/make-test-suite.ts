@@ -274,8 +274,21 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       return this[TestBlockSymbols.befores];
     }
 
+    getBeforesFirst() {
+      return this[TestBlockSymbols.beforesFirst];
+    }
+
+    getBeforesLast() {
+      return this[TestBlockSymbols.beforesLast];
+    }
+
+
     getBeforeEaches() {
       return this[TestBlockSymbols.beforeEaches];
+    }
+
+    getAftersFirst() {
+      return this[TestBlockSymbols.aftersFirst];
     }
 
     getAftersLast() {
