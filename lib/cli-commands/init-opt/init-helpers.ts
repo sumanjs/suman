@@ -5,16 +5,16 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-const cp = require('child_process');
-const os = require('os');
+import cp = require('child_process');
+import os = require('os');
 
 //npm
 import * as chalk from 'chalk';
+import su = require('suman-utils');
+
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const {constants} = require('../../../config/suman-constants');
-import su = require('suman-utils');
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 

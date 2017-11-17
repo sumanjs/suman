@@ -22,7 +22,7 @@ import EE = require('events');
 const pragmatik = require('pragmatik');
 import async = require('async');
 import * as chalk from 'chalk';
-import su from 'suman-utils';
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -39,10 +39,13 @@ const acceptableOptions = <IAcceptableOptions> {
   plan: true,
   throws: true,
   fatal: true,
+  retries: true,
   cb: true,
   timeout: true,
   skip: true,
   events: true,
+  first: true,
+  last: true,
   successEvents: true,
   errorEvents: true,
   __preParsed: true
@@ -76,7 +79,10 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
-    try {delete $opts.__preParsed} catch(err){}
+    try {
+      delete $opts.__preParsed
+    } catch (err) {
+    }
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
@@ -84,6 +90,10 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
 
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);
+    }
+
+    if (opts.last && opts.first) {
+      throw new Error('Cannot use both "first" and "last" option for "after" hook.');
     }
 
     if (opts.skip) {
@@ -94,7 +104,7 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
     }
     else {
 
-      zuite.getBefores().push({
+      let obj = {
         ctx: zuite,
         desc: desc || fn.name || '(unknown before-hook name)',
         timeout: opts.timeout || 11000,
@@ -102,13 +112,25 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,
         events: opts.events,
+        retries: opts.retries,
         throws: opts.throws,
         planCountExpected: opts.plan,
         fatal: !(opts.fatal === false),
         fn: fn,
         type: 'before/setup',
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')
-      });
+      };
+
+      if (opts.first) {
+        zuite.getBeforesFirst().push(obj);
+      }
+      else if (opts.last) {
+        zuite.getBeforesLast().push(obj);
+      }
+      else {
+        zuite.getBefores().push(obj);
+      }
+
     }
 
     return zuite;

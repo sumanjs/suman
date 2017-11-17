@@ -1,16 +1,7 @@
 'use strict';
 
 module.exports = [
-  {
-    names: ['all', 'a'],
-    type: 'bool',
-    help: 'Used in conjunction with the --transpile option, to transpile the whole test directory to test-target.'
-  },
-  {
-    names: ['fast'],
-    type: 'bool',
-    help: 'Used in conjunction with the --interactive option.'
-  },
+
   {
     names: ['tsc-multi-watch'],
     type: 'bool',
@@ -52,6 +43,11 @@ module.exports = [
     names: ['debug-hooks'],
     type: 'bool',
     help: 'Tells Suman to write a log when hooks begin and end for debugging purposes.'
+  },
+  {
+    names: ['debug-tests-and-hooks'],
+    type: 'bool',
+    help: 'Tells Suman to write a log when hooks and tests begin and end for debugging purposes.'
   },
   {
     names: ['version', 'vn'],
@@ -287,7 +283,7 @@ module.exports = [
     help: 'Run Suman tests with coverage but do not output a report.'
   },
   {
-    names: ['force-cwd-to-be-project-root', 'cwd-is-root', 'force-cwd-root'],
+    names: ['force-cwd-to-be-project-root', 'cwd-is-project-root', 'force-cwd-as-root'],
     type: 'bool',
     help: 'Run Suman tests and force cwd to be the project root.'
   },
@@ -338,7 +334,7 @@ module.exports = [
     help: 'Use this option to force-specify the directory that houses the suman helpers files.'
   },
   {
-    names: ['recursive', 'r'],
+    names: ['recursive', 'R'],
     type: 'bool',
     help: 'Use this option to recurse through sub-directories of tests.'
   },
@@ -385,13 +381,23 @@ module.exports = [
   {
     names: ['use-tap-json-output', 'use-tap-json', 'tap-json'],
     type: 'bool',
-    help: 'Use this option to tell the Suman process to output test results as TAP-JSON.'
+    help: 'Tells the Suman process to output test results as TAP-JSON.'
   },
   {
-    names: ['suman-shell'],
+    names: ['suman-shell', 'shell'],
     type: 'bool',
     internal: true,  //only visible to lib authors?
     help: 'Run suman-shell.'
+  },
+  {
+    names: ['ignore-run-config'],
+    type: 'bool',
+    help: 'Tells Suman runner to ignore @run.sh files.'
+  },
+  {
+    names: ['use-default-config'],
+    type: 'bool',
+    help: 'Tells Suman to use the default Suman configuration (suman.conf.js file).'
   },
   {
     names: ['no-tap'],
@@ -406,22 +412,27 @@ module.exports = [
   {
     names: ['find-only'],
     type: 'bool',
-    help: 'Will use the json-2-stdout library to log runnable file paths to stdout and then exit.'
+    help: 'Will use the "json-stdio" library to log runnable file paths to stdout and then exit.'
+  },
+  {
+    names: ['inspect', 'inspect-brk'],
+    type: 'bool',
+    help: 'Use this option to debug main process.'
   },
   {
     names: ['inspect-child', 'inspect-children'],
     type: 'bool',
-    help: 'Use this option to aid in the debugging of child_processes.'
+    help: 'Use this option debug child processes launched by the runner.'
   },
   {
     names: ['debug-child', 'debug-children'],
     type: 'bool',
-    help: 'Use this option to aid in the debugging of child_processes.'
+    help: 'Use this option to debug child processes launched by the runner.'
   },
   {
     names: ['ignore-break'],
     type: 'bool',
-    help: 'Use this option to aid in the debugging of child_processes.'
+    help: 'Use this option to debug of child processes launched by the runner.'
   },
   {
     names: ['ignore-uncaught-exceptions', 'iue'],
@@ -493,6 +504,11 @@ module.exports = [
     names: ['reporters', 'reporter'],
     type: 'arrayOfString',
     help: 'Specify name of reporters to be used deemed by your config file.'
+  },
+  {
+    names: ['require'],
+    type: 'arrayOfString',
+    help: 'Specify files to pre-load with require().'
   },
   {
     names: ['test-paths-json'],

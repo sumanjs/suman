@@ -14,22 +14,26 @@ const global = require('suman-browser-polyfills/modules/global');
 import util = require('util');
 import path = require('path');
 import cp = require('child_process');
+import fs = require('fs');
+import EE = require('events');
 
 //npm
 import async = require('async');
 import chalk = require('chalk');
 import semver = require('semver');
 import su = require('suman-utils');
+import {events} from 'suman-events';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {getTapParser} from '../handle-tap';
-import {getTapJSONParser} from '../handle-tap-json';
+import {getTapParser, getTapJSONParser} from '../handle-tap';
 import pt from 'prepend-transform';
 import uuidV4 = require('uuid/v4');
 import {findPathOfRunDotSh} from '../runner-utils'
 import {constants} from "../../../config/suman-constants";
 const runChildPath = require.resolve(__dirname + '/../run-child.js');
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+
 
 //////////////////////////////////////////////////////////////////////
 
@@ -144,7 +148,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       };
 
       // we run the file directly, hopefully it has a hashbang
-      let sh = findPathOfRunDotSh(file);
+      let sh = !sumanOpts.ignore_run_config && findPathOfRunDotSh(file);
 
       if (sh) {
 
@@ -161,8 +165,9 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         }
 
         if (sumanOpts.coverage) {
-          _suman.log.warning(chalk.magenta('coverage option was set to true, but we are running your tests via @run.sh.'));
-          _suman.log.warning(chalk.magenta('so in this case, you will need to run your coverage call via @run.sh.'));
+          //TODO: we can pass an env to tell suman where to put the coverage data
+          _suman.log.warning(chalk.yellow('coverage option was set to true, but we are running your tests via @run.sh.'));
+          _suman.log.warning(chalk.yellow('so in this case, you will need to run your coverage call via @run.sh.'));
         }
 
         n = cp.spawn(sh, argz, cpOptions) as ISumanChildProcess;
@@ -188,6 +193,14 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
           // .sh .bash .py, perl, ruby, etc
           _suman.log.info(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
           hashbang = true;
+
+          try {
+            fs.chmodSync(file, 0o777);
+          }
+          catch (err) {
+
+          }
+
           n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
         }
       }
@@ -242,7 +255,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
 
           let temp = su.removePath(file, _suman.projectRoot);
           let onlyFile = String(temp).replace(/\//g, '.');
-          let logfile = path.resolve(f + '/' + onlyFile + '.log');
+          let logfile = path.resolve(file + '/' + onlyFile + '.log');
           let fileStrm = fs.createWriteStream(logfile);
 
           console.log('logFile => ', logfile);
@@ -269,9 +282,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         }
 
         if (true || sumanOpts.$useTAPOutput) {
-
           n.tapOutputIsComplete = false;
-
           n.stdout.pipe(getTapParser())
           .on('error', function (e: Error) {
             _suman.log.error('error parsing TAP output =>', su.getCleanErrorString(e));
@@ -282,12 +293,14 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
               n.emit('tap-output-is-complete', true);
             });
           });
+        }
 
+        if (true || sumanOpts.$useTAPJSONOutput) {
+          n.tapOutputIsComplete = false;
           n.stdout.pipe(getTapJSONParser())
           .on('error', function (e: Error) {
-            _suman.log.error('error parsing TAP JSON output =>', su.getCleanErrorString(e));
-          })
-
+            _suman.log.error('error parsing TAP-JSON output =>', su.getCleanErrorString(e));
+          });
         }
 
         n.stdio[2].setEncoding('utf-8');
@@ -316,7 +329,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         }
       }
 
-      _suman.log.info(chalk.black('File has just started running =>'), chalk.grey.bold(`'${file}'.`));
+      rb.emit(String(events.RUNNER_SAYS_FILE_HAS_JUST_STARTED_RUNNING), file);
       n.dateStartedMillis = gd.startDate = Date.now();
       n.once('exit', onExitFn(n, gd, cb));
 

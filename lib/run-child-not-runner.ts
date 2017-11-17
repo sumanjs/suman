@@ -59,9 +59,10 @@ try {
   require(path.resolve(sumanHelperDirRoot + '/suman.globals.js'));  //load globals
 }
 catch (err) {
-  console.error('\n', chalk.yellow.bold(' => Suman usage warning => Could not load your suman.globals.js file.'));
-  console.error(err.message || err);
-  console.error(' => Suman will continue optimistically, even though your suman.globals.js file could not be loaded.');
+  _suman.log.warning(chalk.yellow.bold('warning: Could not load your suman.globals.js file.'));
+  if (!/Cannot find module /i.test(err.message)) {
+    throw err;
+  }
 }
 
 export const run = function (files: Array<string>) {

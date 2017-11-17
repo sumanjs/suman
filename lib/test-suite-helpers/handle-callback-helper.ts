@@ -15,7 +15,7 @@ import path = require('path');
 import assert = require('assert');
 
 //npm
-import su from 'suman-utils';
+import su = require('suman-utils');
 import chalk = require('chalk');
 
 //project
@@ -106,11 +106,9 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
   if (test && hook) {
     throw new Error('Suman internal implementation error => Please report this on the Github issue tracker.');
   }
-  else if (!test && !hook) {
-    let msg = new Error('Suman implementation error, please report! ' +
-      'Neither test nor hook defined, where at least one should be.');
-    console.error(msg.stack || msg);
-    _suman.writeTestError(msg.stack || msg);
+
+  if (!test && !hook) {
+    throw new Error('Suman implementation error, please report! Neither test nor hook defined, where at least one should be.');
   }
 
   let called = 0;
@@ -121,6 +119,7 @@ export const makeCallback = function (d: ISumanDomain, assertCount: IAssertObj, 
 
     if (err) {
 
+      // _suman.log.error('Suman implemenation error => err should not appear as argument => ' + err.stack || util.inspect(err));
       if (String(err.stack || err).match(/Suman usage error/)) {
         err.sumanFatal = true;
         err.sumanExitCode = constants.EXIT_CODES.ASYCNCHRONOUS_REGISTRY_OF_TEST_BLOCK_METHODS;

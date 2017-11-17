@@ -46,6 +46,7 @@ const pragmatik = require('pragmatik');
 
 //project
 let inBrowser = false, usingKarma = false;
+import sumanRun = require('./helpers/suman-run');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
@@ -469,6 +470,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
 
 export const autoPass = function (t: IHookOrTestCaseParam) {
   // add t.skip() type functionality // t.ignore().
+  _suman.log.warning(`test with description ${t.desc} has automatically passed.`);
   if (t.callbackMode) {
     t.done();
   }
@@ -483,6 +485,10 @@ export const autoFail = function (t: IHookOrTestCaseParam) {
     return Promise.reject(err);
   }
 };
+
+
+export const run = sumanRun.run();
+
 
 export const once = function (fn: Function) {
   let cache: any = null;
@@ -504,9 +510,9 @@ export const once = function (fn: Function) {
   }
 };
 
-///////////////// keep this for user convenience ////////////////////////////////////////////////
+///////////////// keep  ////////////////////////////////////////////////
 
 const $exports = module.exports;
 export default $exports;
 
-///////////////// keep this for user convenience ////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////

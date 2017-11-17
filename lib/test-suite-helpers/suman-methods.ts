@@ -66,6 +66,7 @@ const possibleProps = <any> {
   errorevents: true,
   successevents: true,
   skip: true,
+  retries: true,
   fatal: true,
   parallel: true,
   series: true,
@@ -103,11 +104,12 @@ const makeProxy = function (suman: ISuman): Function {
         }
 
         props = props || [];
+
         let hasSkip = false;
         let newProps = props.concat(String(prop))
         .map(v => String(v).toLowerCase()) // we map to lowercase first, so we can use indexOf afterwards
         .filter(function (v, i, a) {
-          if (v === 'skip') {  // if skip, none of the other properties matter
+          if (v === 'skip' || v === 'skipped') {  // if skip, none of the other properties matter
             hasSkip = true;
           }
           return a.indexOf(v) === i;  // we use this filter to get a unique list
@@ -141,7 +143,6 @@ const makeProxy = function (suman: ISuman): Function {
           });
 
           args[1].__preParsed = true;
-          // assert.equal(suman.ctx, ctx, 'Fatal usage error - test block method was registered asynchronously.');
           return method.apply(null, args);
         };
 

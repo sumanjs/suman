@@ -21,15 +21,12 @@ const chmodr = require('chmodr');
 const semver = require('semver');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {makeGetLatestSumanVersion} = require('./get-latest-suman-version');
-const {runNPMInstallSuman: makeNPMInstall} = require('./install-suman');
-const {writeSumanFiles} = require('./install-suman-files');
-const {determineIfReadlinkAvail} = require('./determine-if-readlink-avail');
-const {makeAppendToBashProfile} = require('./append-to-bash-profile');
-const {constants} = require('../../../config/suman-constants');
-const helpers = require('./init-helpers');
-const debug = require('suman-debug')('s:init');
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+import {makeGetLatestSumanVersion} from './get-latest-suman-version';
+import {makeNPMInstall} from './install-suman';
+import {writeSumanFiles} from './install-suman-files';
+import {determineIfReadlinkAvail} from './determine-if-readlink-avail';
+import helpers = require('./init-helpers');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -44,10 +41,10 @@ export const run = (opts: ISumanOpts, projectRoot: string, cwd: string) => {
 
   if (!projectRoot) {
     _suman.log.error('\n');
-    _suman.log.info(chalk.red('Suman installation fatal error => Suman cannot find the root of your project,' +
+    _suman.log.error(chalk.red('Suman installation fatal error => Suman cannot find the root of your project,' +
       ' given your current working directory.'));
-    _suman.log.info(chalk.red('Please ensure that you are issuing the installation command from the root of your project.'));
-    _suman.log.info(chalk.red('Note: You will need to run "$ npm init", or create a package.json file, ' +
+    _suman.log.error(chalk.red('Please ensure that you are issuing the installation command from the root of your project.'));
+    _suman.log.error(chalk.red('Note: You will need to run "$ npm init", or create a package.json file, ' +
       'if your project does not have a package.json file yet.'));
     _suman.log.error('\n');
     return;
@@ -118,11 +115,11 @@ export const run = (opts: ISumanOpts, projectRoot: string, cwd: string) => {
     potentialPathToConf = path.resolve(projectRoot + '/suman.conf.js');
     conf = require(potentialPathToConf);
     sumanAlreadyInittedBecauseConfFileExists = true;
-    debug(' => During --init, we have found a pre-existing suman.conf.js file at path ' +
+    _suman.log.warning(' => During --init routine, we have found a pre-existing suman.conf.js file at path ' +
       'file at path => ', potentialPathToConf);
   }
   catch (err) {
-    debug(' => Did not find a suman.conf.js (a good thing, since we are initting) ' +
+    _suman.log.info(' => Did not find a suman.conf.js (a good thing, since we are initting) ' +
       'file at path => ', potentialPathToConf || (' => implementation error => ' + (err.stack || err)));
   }
 
@@ -171,55 +168,55 @@ export const run = (opts: ISumanOpts, projectRoot: string, cwd: string) => {
 
   async.series([
 
-    function installFiles(cb: Function) {
+      function installFiles(cb: Function) {
 
-      async.parallel([
+        async.parallel([
 
-        writeSumanFiles(newSumanHelperDirAbsPath, prependToSumanConf, newSumanHelperDir, projectRoot),
-        makeGetLatestSumanVersion(pkgDotJSON, projectRoot),
-        determineIfReadlinkAvail(pkgDotJSON, projectRoot),
-        makeAppendToBashProfile(pkgDotJSON, projectRoot)
+          writeSumanFiles(newSumanHelperDirAbsPath, prependToSumanConf, newSumanHelperDir, projectRoot),
+          makeGetLatestSumanVersion(pkgDotJSON, projectRoot),
+          determineIfReadlinkAvail(pkgDotJSON, projectRoot)
 
-      ], cb);
+        ], cb);
 
-    },
+      },
 
-    makeNPMInstall(
-      resolvedLocal,
-      pkgDotJSON,
-      projectRoot
-    )
+      makeNPMInstall(resolvedLocal, pkgDotJSON, projectRoot)
 
-  ], function (err: Error, results: Array<any>) {
+    ],
 
-    flattenDeep(results).forEach(function (item: string) {
-      item && _suman.log.info('\n' + chalk.bgYellow.black(util.inspect(item)) + '\n');
+    function (err: Error, results: Array<any>) {
+
+      flattenDeep(results).forEach(function (item: string) {
+        item && _suman.log.info('\n' + chalk.bgYellow.black(util.inspect(item)) + '\n');
+      });
+
+      if (err) {
+        _suman.log.error('\n => Suman fatal installation error => ', (err.stack || err));
+        logPermissonsAdvice();
+        return process.exit(1);
+      }
+
+       if (results.npmInstall) {
+        _suman.log.info(chalk.bgYellow.black.bold(' => Suman message => NPM error, most likely a permissions error.'));
+        logPermissonsAdvice();
+      }
+      else {
+        _suman.log.info(chalk.bgBlue.white.bold(' => Suman message => Suman was successfully installed locally.'));
+      }
+
+      _suman.log.info(['=> Notice the new directory called "suman" in the root of your project.',
+        'This directory houses log files used by Suman for debugging tests running',
+        'in child processes as well as Suman helper files. Suman recommends moving the ',
+        '"suman" directory inside your <test-dir> and renaming it "_suman" or ".suman".',
+        'If you elect this option, you should change your suman.conf.js file according to these instructions:',
+        ' => http://sumanjs.org/tutorial-01-getting-started.html'
+      ]
+      .map((l, index, a) => {
+        return (index < a.length - 1) ? chalk.bgBlack.cyan(l) : chalk.bgBlack.yellow(l);
+      })
+      .join('\n'), '\n\n');
+
+      process.exit(0);
     });
-
-    if (err) {
-      _suman.log.error('\n => Suman fatal installation error => ', (err.stack || err));
-      logPermissonsAdvice();
-      return process.exit(1);
-    }
-    else if (results.npmInstall) {
-      _suman.log.info(chalk.bgYellow.black.bold(' => Suman message => NPM error, most likely a permissions error.') + '\n\n');
-      logPermissonsAdvice();
-    }
-    else {
-      _suman.log.info('\n\n',
-        chalk.bgBlue.white.bold(' => Suman message => Suman was successfully installed locally.'), '\n\n');
-    }
-
-    _suman.log.info(['=> Notice the new directory called "suman" in the root of your project.',
-      'This directory houses log files used by Suman for debugging tests running',
-      'in child processes as well as Suman helper files. Suman recommends moving the ',
-      '"suman" directory inside your <test-dir> and renaming it "_suman" or ".suman".',
-      'If you elect this option, you should change your suman.conf.js file according to these instructions:',
-      ' => http://sumanjs.org/tutorial-01-getting-started.html'].map((l, index, a) => {
-      return (index < a.length - 1) ? chalk.bgBlack.cyan(l) : chalk.bgBlack.yellow(l);
-    }).join('\n'), '\n\n');
-
-    process.exit(0);
-  });
 
 };
