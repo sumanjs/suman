@@ -13,7 +13,7 @@ const global = require('suman-browser-polyfills/modules/global');
 //npm
 const pragmatik = require('pragmatik');
 import * as chalk from 'chalk';
-import su from 'suman-utils';
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

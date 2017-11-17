@@ -50,6 +50,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
     }
 
     // important - push all afters 'last' onto afters array
+    this.mergeBefores();
     this.mergeAfters();
 
     const q = suman.getQueue();

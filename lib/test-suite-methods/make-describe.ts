@@ -27,6 +27,7 @@ import async = require('async');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
 import {VamootProxy} from 'vamoot';
+import McProxy = require('proxy-mcproxy');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -35,9 +36,10 @@ import {constants} from '../../config/suman-constants';
 import {acquireIocDeps} from '../acquire-dependencies/acquire-ioc-deps';
 import {IInjectionDeps} from "suman-types/dts/injection";
 import {handleSetupComplete} from '../helpers/general';
-import {handleInjections} from '../test-suite-helpers/handle-injections';
+import {handleInjections} from '../test-suite-helpers/handle-injections2';
 import {parseArgs} from '../helpers/general';
 import {evalOptions} from '../helpers/general';
+
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -47,6 +49,7 @@ const acceptableOptions = <IAcceptableOptions> {
   only: true,
   delay: true,
   parallel: true,
+  retries: true,
   limit: true,
   series: true,
   mode: true,
@@ -167,6 +170,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
 
     const deps = fnArgs(cb);
+    assert(deps[0] === 'b', 'First argument name for describe/context block callbacks must be "b" (for "block").');
+
 
     suite._run = function (val: any, callback: Function) {
 
@@ -202,6 +207,19 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
           value: zuite.shared.clone(),
           writable: false
         });
+
+        // Object.defineProperty(suite, '__inject', {
+        //   value: Object.create(zuite.__inject),
+        //   writable: false
+        // });
+        //
+        // Object.defineProperty(suite, '$inject', {
+        //   value: McProxy.create(suite.__inject),
+        //   writable: false
+        // });
+
+        let v = suite.__inject = Object.create(zuite.__inject);
+        suite.$inject = McProxy.create(v);
 
         const iocDepsParent = Object.create(zuite.ioc);
 

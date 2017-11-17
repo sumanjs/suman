@@ -21,6 +21,7 @@ import util = require('util');
 
 //npm
 import {VamootProxy} from 'vamoot';
+import McProxy = require('proxy-mcproxy');
 import * as chalk from 'chalk';
 import * as async from 'async';
 const _ = require('underscore');
@@ -36,7 +37,7 @@ import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
 import {makeTestSuite} from './test-suite-helpers/make-test-suite';
 import {fatalRequestReply} from './helpers/general';
-import {handleInjections} from './test-suite-helpers/handle-injections';
+import {handleInjections} from './test-suite-helpers/handle-injections2';
 import {makeOnSumanCompleted} from './helpers/general';
 import {evalOptions} from './helpers/general';
 import {parseArgs} from './helpers/general';
@@ -78,7 +79,7 @@ export const execSuite = function (suman: ISuman): Function {
     if (arrayDeps && arrayDeps.length > 0) {
       iocDeps = evalOptions(arrayDeps, opts);
     }
-    else{
+    else {
       iocDeps = [];
     }
 
@@ -93,21 +94,21 @@ export const execSuite = function (suman: ISuman): Function {
 
       const msg = constants.ERROR_MESSAGES.INVALID_FUNCTION_TYPE_USAGE;
       return fatalRequestReply({
-        type: constants.runner_message_type.FATAL,
-        data: {
-          errors: [msg],
-          msg: msg
-        }
-      }, function () {
-        console.error(msg + '\n\n');
-        let err = new Error('Suman usage error => invalid arrow/generator function usage.').stack;
-        _suman.log.error(err);
-        _suman.writeTestError(err);
-        process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
-      });
+          type: constants.runner_message_type.FATAL,
+          data: {
+            errors: [msg],
+            msg: msg
+          }
+        },
+        function () {
+          console.error(msg + '\n\n');
+          let err = new Error('Suman usage error => invalid arrow/generator function usage.').stack;
+          _suman.log.error(err);
+          _suman.writeTestError(err);
+          process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
+        });
 
     }
-
 
     const deps = suman.deps = fnArgs(cb);
     const delayOptionElected = opts.delay;
@@ -134,16 +135,28 @@ export const execSuite = function (suman: ISuman): Function {
     suite.bindExtras();
     allDescribeBlocks.push(suite);
 
+    // Object.defineProperty(suite, '__inject',{
+    //   writable: false,
+    //   value: {}
+    // });
+    //
+    // Object.defineProperty(suite, '$inject',{
+    //   writable: false,
+    //   value: McProxy.create(suite.__inject)
+    // });
+
+    suite.__inject = {};
+    suite.$inject = McProxy.create(suite.__inject);
+
     try {
-      //TODO: make this path reference the resolved paths in the resolved paths module
-      const globalHooks = require(path.resolve(_suman.sumanHelperDirRoot + '/suman.hooks.js'));
-      assert(typeof globalHooks === 'function', 'suman.hooks.js must export a function.');
-      //TODO: DI injection should apply here as well
-      globalHooks.call(null, suite);
+      assert(typeof _suman.globalHooksFn === 'function', '<suman.hooks.js> file must export a function.');
+      _suman.globalHooksFn.call(null, suite);
     }
     catch (err) {
-      _suman.log.error(chalk.magenta('warning => Could not find the "suman.hooks.js" ' +
-        'file in your <suman-helpers-dir>.\n Create the file to remove the warning.'), '\n\n');
+      _suman.log.error(chalk.yellow('warning: Could not load your "suman.hooks.js" file'));
+      if (!/Cannot find module/i.test(err.message)) {
+        throw err;
+      }
     }
 
     if (deps.length < 1) {

@@ -15,8 +15,6 @@ import assert = require('assert');
 import EE = require('events');
 
 //npm
-import semver = require('semver');
-
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
@@ -29,14 +27,8 @@ import * as chalk from 'chalk';
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const runnerUtils = require('./runner-utils');
-import {cpHash, socketHash} from './socket-cp-hash';
-
-const {getTapParser} = require('./handle-tap');
-const {constants} = require('../../config/suman-constants');
-const debug = require('suman-debug')('s:runner');
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-import onExitFn from './multiple-process-each-on-exit';
-import pt from 'prepend-transform';
+import {pt} from 'prepend-transform';
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 

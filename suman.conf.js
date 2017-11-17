@@ -27,6 +27,7 @@ module.exports = Object.freeze({
   logsDir: process.env['SUMAN_LOGS_DIR'],
 
   //boolean
+  retriesEnabled: true,
   enforceUniqueTestCaseNames: true,
   logCompletedHooks: true,
   installSumanExtraDeps: true,
@@ -165,6 +166,7 @@ module.exports = Object.freeze({
   },
 
   reporters: {
+    default: 'std-reporter',
     map: {
       'tap': 'suman-reporters/modules/tap-reporter'
     }

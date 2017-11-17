@@ -16,18 +16,46 @@ import assert = require('assert');
 import EE = require('events');
 
 //npm
+import chalk = require('chalk');
 import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getClient} from '../index-helpers/socketio-child-client';
-const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-const sumanReporters = _suman.sumanReporters = (_suman.sumanReporters || []);
-const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
+const rb = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
+const sumanReporters = _suman.sumanReporters = _suman.sumanReporters || [] as Array<string>;
+const reporterRets = _suman.reporterRets = _suman.reporterRets || [];
 
-/////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 
 let loaded = false;
+let getReporterFn = function (fn: any) {
+  return fn.default || fn.loadReporter || fn;
+};
+
+let loadReporter = function (rpath: string): Function {
+
+  try {
+    let fullPath;
+    try{
+     fullPath = require.resolve(rpath);
+    }
+    catch(err){
+      fullPath = require.resolve(path.resolve(_suman.projectRoot + '/' + rpath));
+    }
+
+    let fn = require(fullPath);
+    fn = getReporterFn(fn);
+    assert(typeof fn === 'function', 'Suman implementation error - reporter module format fail.');
+    fn.reporterPath = fullPath;
+    return fn;
+  }
+  catch (err) {
+    _suman.log.error(`could not load reporter at path "${rpath}".`);
+    _suman.log.error(err.stack);
+  }
+
+};
 
 export const run = function () {
 
@@ -38,7 +66,7 @@ export const run = function () {
     loaded = true;
   }
 
-  _suman.currentPaddingCount = _suman.currentPaddingCount || {};
+  _suman.currentPaddingCount = _suman.currentPaddingCount || {val: 0};
   // we do not want the user to modify sumanOpts at runtime! so we copy it
   const optsCopy = Object.assign({}, _suman.sumanOpts);
 
@@ -48,38 +76,36 @@ export const run = function () {
 
     try {
       if (window) {
-        if(window.__karma__){
+        if (window.__karma__) {
           _suman.log.info('Attempting to load karma reporter.');
-          fn = require('suman-reporters/modules/karma-reporter');
-          fn = fn.default || fn;
+          fn = loadReporter('suman-reporters/modules/karma-reporter');
         }
-        else{
+        else {
           _suman.log.info('Attempting to load websocket reporter.');
-          fn = require('suman-reporters/modules/websocket-reporter');
-          fn = fn.default || fn;
+          fn = loadReporter('suman-reporters/modules/websocket-reporter');
           client = getClient();
         }
       }
     }
     catch (err) {
-      _suman.log.error(err.message);
+      if (su.vgt(7)) {
+        // window is not defined message is likely here
+        _suman.log.warning(chalk.yellow.bold(err.message));
+      }
+
       if (_suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput || _suman.usingRunner) {
-        _suman.log.info('last-ditch effort to load a reporter: loading tap-json reporter');
-        fn = require('suman-reporters/modules/tap-json-reporter');
-        fn = fn.default || fn;
+        su.vgt(6) && _suman.log.info('last-ditch effort to load a reporter: loading "tap-json-reporter"');
+        fn = loadReporter('suman-reporters/modules/tap-json-reporter');
       }
       else {
-        _suman.log.info('last-ditch effort to load a reporter: loading std reporter');
-        fn = require('suman-reporters/modules/std-reporter');
-        fn = fn.default || fn;
+        su.vgt(6) && _suman.log.info('last-ditch effort to load a reporter: loading "std-reporter"');
+        fn = loadReporter('suman-reporters/modules/std-reporter');
       }
     }
 
-    console.log('\n');
-    console.error('\n');
     assert(typeof fn === 'function', 'Suman implementation error - reporter fail - ' +
-      'reporter does not export a function. Please report this problem on Github.');
-    _suman.sumanReporters.push(fn);
+      'reporter does not export a function. Please report this problem.');
+    sumanReporters.push(fn.reporterPath);
     reporterRets.push(fn.call(null, rb, optsCopy, {}, client));
   }
 

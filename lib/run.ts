@@ -25,7 +25,6 @@ import * as chalk from 'chalk';
 import * as su from 'suman-utils';
 const rimraf = require('rimraf');
 const {events} = require('suman-events');
-const debug = require('suman-debug')('s:cli');
 const uuid = require('uuid/v4');
 const mkdirp = require('mkdirp');
 
@@ -64,11 +63,18 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
 
   if (paths.length < 1) {
     if (testSrcDir) {
+      _suman.log.warning('No test paths provided, defaulting to the "testSrcDir" property value in your <suman.conf.js> file.');
       paths = [testSrcDir];
     }
     else {
-      throw new Error('Suman usage error => No "testSrcDir" prop specified in config or by command line.');
+      _suman.log.warning('no "testSrcDir" property found in <suman.conf.js>, defaulting to "test" directory.');
+      paths = [path.resolve(projectRoot + '/test')];
     }
+  }
+
+  if (su.vgt(4)) {
+    _suman.log.info('Suman will attempt to load these test paths:');
+    _suman.log.info(paths);
   }
 
   async.autoInject({
@@ -185,12 +191,16 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
     },
 
     findSumanMarkers: function (getFilesToRun: Object, cb: Function) {
-      su.findSumanMarkers(['@run.sh', '@transform.sh', '@config.json'], testDir, getFilesToRun.files,
+      su.findSumanMarkers([
+          '@run.sh',
+          '@transform.sh',
+          '@config.json'
+        ],
+        testDir,
+        getFilesToRun.files,
         function (err: Error, map: IMapValue) {
-          if (err) {
-            return cb(err);
-          }
 
+          if (err) return cb(err);
           _suman.markersMap = map;
           cb(null);
         });
@@ -217,7 +227,9 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
   }, function complete(err: Error, results: Object) {
 
     if (err) {
-      _suman.log.error('fatal problem => ' + (err.stack || err), '\n');
+      console.error('\n');
+      _suman.log.error('Fatal problem occurred:');
+      _suman.log.error(err.stack || err);
       return process.exit(1);
     }
 

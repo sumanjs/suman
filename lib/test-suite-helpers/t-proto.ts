@@ -11,7 +11,6 @@ const global = require('suman-browser-polyfills/modules/global');
 import EE = require('events');
 
 //npm
-import chai = require('chai');
 import {freezeExistingProps} from 'freeze-existing-props';
 
 //project
@@ -23,7 +22,8 @@ const fproto = Object.create(Function.prototype);
 const proto = Object.create(Object.assign(fproto, EE.prototype));
 
 proto.skip = function () {
-  throw new Error('Dynamic skip functionality is not supported by Suman, yet.');
+  (this.__hook || this.__test).skipped = true;
+  (this.__hook || this.__test).dynamicallySkipped = true;
 };
 
 proto.set = function (k: string, v: any) {
@@ -39,8 +39,38 @@ proto.wrap = function (fn: Function) {
   return function () {
     try {
       return fn.apply(this, arguments);
-    } catch (e) {
+    }
+    catch (e) {
       return self.__handle(e, false);
+    }
+  }
+};
+
+proto.final = function (fn: Function) {
+  const self = this;
+  return function () {
+    try {
+      fn.apply(this, arguments);
+      self.__fini(null);
+    }
+    catch (e) {
+      self.__handle(e, false);
+    }
+  }
+};
+
+proto.finalErrFirst = proto.finalErrorFirst = function (fn: Function) {
+  const self = this;
+  return function (err: Error) {
+    if (err) {
+      return self.__handle(err, false);
+    }
+    try {
+      fn.apply(this, Array.from(arguments).slice(1));
+      self.__fini(null);
+    }
+    catch (e) {
+      self.__handle(e, false);
     }
   }
 };
@@ -54,14 +84,24 @@ proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
     try {
       // remove the error-first argument
       return fn.apply(this, Array.from(arguments).slice(1));
-    } catch (e) {
+    }
+    catch (e) {
       return self.__handle(e, false);
     }
   }
 };
 
-proto.log = function () {
-  _suman.writeLog.apply(null, arguments);
+proto.handleAssertions = proto.wrapAssertions = function (fn: Function) {
+  try {
+    fn.call(null);
+  }
+  catch (e) {
+    this.__handleErr(e);
+  }
+};
+
+proto.log = function (...args: Array<string>) {
+  console.log(` [ '${this.desc || 'unknown'}' ] `, ...args);
 };
 
 proto.slow = function () {

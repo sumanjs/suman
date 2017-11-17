@@ -19,9 +19,10 @@ dist
 .github
 .tscmultiwatch
 dev-scripts
+.vscode
+.vs_code
 
 ### files
-exp.js
 .gitignore
 .npmignore
 webpack.config.js
@@ -30,11 +31,11 @@ suman.conf.js
 .editorconfig
 .babelrc
 .dockerignore
-package-lock.json
 yarn.lock
 
 ### negation
 !lib/**/*.sh
 !cli/*.sh
+!scripts/*.json
 !scripts/*.sh
 !*.d.ts

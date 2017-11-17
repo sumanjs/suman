@@ -29,7 +29,6 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {constants} from '../../config/suman-constants';
 import Timer = NodeJS.Timer;
 import {makeIocStaticInjector} from '../injection/ioc-static-injector';
-
 let iocPromise: Promise<any> = null;
 const SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
@@ -47,14 +46,16 @@ export const acquireIocStaticDeps = function () {
     return iocPromise;
   }
 
-  let ret: any, iocStaticFn: any, iocFnArgs: Array<string>, getiocFnDeps: Function;
+
+  let ret: any,
+    iocFnArgs: Array<string>,
+    getiocFnDeps: Function,
+    iocStaticFn = _suman.iocStaticFn;
 
   try {
-    iocStaticFn = require(_suman.sumanHelperDirRoot + '/suman.ioc.static.js');
-    iocStaticFn = iocStaticFn.default || iocStaticFn;
+    assert.equal(typeof iocStaticFn, 'function', '<suman.ioc.static.js> must export a function.');
     iocFnArgs = fnArgs(iocStaticFn);
     getiocFnDeps = makeIocStaticInjector();
-    assert.equal(typeof iocStaticFn, 'function', '<suman.ioc.static.js> must export a function.');
     ret = iocStaticFn.apply(null, getiocFnDeps(iocFnArgs));
     ret = ret.dependencies || ret.deps;
     assert(su.isObject(ret),
@@ -65,11 +66,10 @@ export const acquireIocStaticDeps = function () {
       _suman.log.error(err.message);
     }
     else {
-      _suman.log.error(err.stack || err);
+      _suman.log.error(err.stack);
     }
     console.error(/*simply log a new line*/);
-    _suman.log.error('despite the error, suman will continue optimistically.');
-    return Promise.resolve(_suman.$staticIoc = {});
+    return iocPromise = Promise.resolve(_suman.$staticIoc = {});
   }
 
   const promises = Object.keys(ret).map(function (key) {

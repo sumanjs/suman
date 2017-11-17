@@ -6,25 +6,258 @@ three SO profiles:
 
 ///
 
-suman-types
-https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-342028894
+ "suman-watch-plugins": "latest",
 
 ///
 
- suman --init should not install suman
- at the end of the --init, suman should check to see if suman is in package.json or node_modules
- it should recommend something like:
- using the global suman version is totally acceptable
- otherwise to install locally, use `npm install -D suman`
+    how to initialize a Map ->
+    console.log(Object.keys(new Map({a: 'b'}))); // fails
 
 ///
 
- skip and only do not work creates - Test.create(['bat', 'suit', {only: true},
+    use ts-node/register
+    with TypeScript, just like Babel, in the run-child.js file
 
 ///
 
- suman-shell => give it a "find" option, it can find all the runnable tests, and then the user just
- scrolls to the test they want to run! huge option for suman-shell!!!
+    inject hooks => add to $inject
+    shared => b.set() / b.get()
+    ioc => b.ioc
+    h.$inject should be h.?
+
+///////
+
+    if (sumanOpts.coverage) {
+        //TODO: we can pass an env to tell suman where to put the coverage data
+        _suman.log.warning(chalk.yellow('coverage option was set to true, but we are running your tests via @run.sh.'));
+        _suman.log.warning(chalk.yellow('so in this case, you will need to run your coverage call via @run.sh.'));
+    }
+
+///////
+
+ istanbul coverage problem:
+
+ [suman] Suman is running the Istanbul collated report.
+ [suman] To disable automatic report generation, use "--no-coverage-report".
+/Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/node_modules/mkdirp/index.js:90
+                    throw err0;
+                    ^
+
+Error: EACCES: permission denied, mkdir '/Users/alexamil/WebstormProjects/oresoftware/live-mutex/coverage/lcov-report'
+    at Error (native)
+    at Object.fs.mkdirSync (fs.js:923:18)
+    at Function.sync (/Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/node_modules/mkdirp/index.js:71:13)
+    at FileWriter.copyFile (/Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/lib/util/file-writer.js:143:16)
+    at /Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/lib/report/html.js:552:32
+    at Array.forEach (native)
+    at copyAssets (/Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/lib/report/html.js:543:40)
+    at /Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/lib/report/html.js:562:13
+    at Array.forEach (native)
+    at HtmlReport.writeReport (/Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/lib/report/html.js:561:26)
+ [suman] Error: Test coverage process exitted with non-zero exit code => "1".
+ [suman]     at ChildProcess.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/coverage-reporting.js:24:19)
+ [suman]     at ChildProcess.g (events.js:291:16)
+ [suman]     at emitTwo (events.js:106:13)
+ [suman]     at ChildProcess.emit (events.js:191:7)
+ [suman]     at maybeClose (internal/child_process.js:886:16)
+ [suman]     at Socket.<anonymous> (internal/child_process.js:342:11)
+ [suman]     at emitOne (events.js:96:13)
+ [suman]     at Socket.emit (events.js:188:7)
+ [suman]     at Pipe._handle.close [as _onclose] (net.js:501:12)
+
+///////
+
+  //inject hooks should be run in series, just like before hooks
+
+  let p;
+
+  inject(() => {
+    return {
+      broker: p = new Broker(conf).ensure()
+    }
+  });
+
+  inject(() => {
+    return {
+      c: p.then(v => new Client(conf).ensure())
+    }
+  });
+
+  /////////////////////
+
+   inject(() => {
+      return [
+        ''
+        c: p.then(v => new Client(conf).ensure())
+      ]
+   });
+
+  inject(t => {
+     return [
+     t.val('av',age),
+
+     ];
+  });
+
+///
+
+https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -eo pipefail
+exit with command to the right that exits with non-zero
+
+///
+
+    we need after.first
+    and before.first / before.last
+
+///
+
+    suman --script x --tack-on="--require=ts-node/register"
+
+///
+
+ todo: ignore all .js files in project for purposes of version control
+
+///
+
+  load suman.globals.js after running require('suman');
+  or suman.init(module)?
+
+///
+
+    @config.json files need to have a property that
+    tells suman if all matching files are run through @transform.sh once,
+    or if each file is run through @transform.sh separately.
+
+///
+
+command line --series, needs to take precedence over this:
+
+    const Test = suman.init(module, {}, {
+      series: false
+    });
+
+///
+
+ allow for default reporter:
+
+   reporters: {
+     default: 'std-reporter',   /// <<<<<<<<<<<<<<
+     map: {
+       'tap': 'suman-reporters/modules/tap-reporter'
+     }
+   },
+
+///
+
+    suman tests should work without having to run suman --init
+    see new option: use-default-config
+
+///
+
+    what is "return" for in bash scripts? ("return" as opposed to "exit").
+
+///
+
+    use puppeteer to launch chrome instead of chrome-launcher
+    https://developers.google.com/web/updates/2017/04/headless-chrome
+
+//
+
+    it.retries_5_('is good', t => {
+
+    });
+
+    it['retries:5']('is good', t => {
+
+    });
+
+    it['retries:5, name:foobar']('is good', t => {
+
+    });
+
+//
+
+    mocha context issue:
+    https://github.com/mochajs/mocha/issues/2014
+
+//
+
+    enable retries
+    retriesEnabled: false, in suman.conf.js
+
+//
+
+    default _suman.sumanOpts values?
+    we might need some for suman-reporters/lib/utils.ts
+
+//
+
+    this should only work for tests, not for hooks?
+
+    export const autoPass = function (t: IHookOrTestCaseParam) {
+      // add t.skip() type functionality // t.ignore().
+      _suman.log.warning(`test with description ${t.desc} has automatically passed.`);
+      if (t.callbackMode) {
+        t.done();
+      }
+    };
+
+//
+
+    [suman child stdout] => [suman child stdout / the-file-path]
+
+//
+
+    need to implement `suman --require x`
+    --require ts-node/register
+    mocha --require ts-node/register --reporter=dot test/**/*-test.ts --timeout=10000
+
+//
+
+    suman-types
+    https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-342028894
+
+///
+
+    t.log needs to exist, logs the test name
+    [test:   ,parent:] data
+
+///
+
+    implement --debug-tests-and-hooks along with --debug-hooks
+
+///
+
+t.final =>
+
+  k.once('exit', function (code) {
+      t.assert(code > 0, 'exit code is not greater than 0, but it should be');
+      t.assert(regex.test(stderr), 'stderr should match regex: ' + regex);
+      t.done();
+    });
+
+
+  INSTEAD
+
+    k.once('exit', function (code) {
+        t.final(function(){
+        t.assert(code > 0, 'exit code is not greater than 0, but it should be');
+        t.assert(regex.test(stderr), 'stderr should match regex: ' + regex);
+        });
+    });
+
+////
+
+    suman --init should not install suman
+    at the end of the --init, suman should check to see if suman is in package.json or node_modules
+    it should recommend something like:
+    using the global suman version is totally acceptable
+    otherwise to install locally, use `npm install -D suman`
+
+///
+
+    skip and only do not work creates - Test.create(['bat', 'suit', {only: true},
 
 ///
 
@@ -33,64 +266,64 @@ https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-34202
 ///
 
 if function parameter name is in $ioc, but is listed explicity, then we should throw to let the user know.
-
 e.g.   describe('x', function(runMyQuestionsPage){});
-
  when runMyQuestionsPage is on $ioc, instead of available.
 
 //
 
   perhaps only --force should allow us to do optimistic ignoring of missing injectable deps.
 
-//
+///
+
+
+ const opts = {
+    $inject:{
+      ioc:[''],
+      iocStatic: ['']
+    }
+  };
+
+
+///
 
  use $ioc like this:
 
   describe('hiya', ['age', b => {
-
      console.log(b.ioc.age); // 3;
-
    }]);
 
+///
 
+    node core will backport NODE_OPTIONS =>
+    https://github.com/nodejs/help/issues/925
+    https://github.com/nodejs/node/pull/16263
 
 ///
 
-node core will backport NODE_OPTIONS =>
-https://github.com/nodejs/help/issues/925
-https://github.com/nodejs/node/pull/16263
+    better npm publish routine
+    https://github.com/sindresorhus/np
 
 ///
-
- better npm publish routine
- https://github.com/sindresorhus/np
-
-///
-
- give user option to bundle with selenium webdriver
-
-//
 
    debugging with chrome + chrome-launcher
    https://bugs.chromium.org/p/chromium/issues/detail?id=778781#c3
 
 ///
 
-
- create suman-watch functionality that watches primary code-base and all symlinked directories in node_modules!
-
-///
-
- if no test cases found, suman should exit with 1 not 0!!
- probably operator error if no test cases found
+    create suman-watch functionality that watches primary code-base and all symlinked directories in node_modules!
 
 ///
 
-Suman watch - if watchPer has an item with --watch in it, then you have to throw err
+    if no test cases found, suman should exit with 1 not 0!!
+    probably operator error if no test cases found
 
 ///
 
- context('is good', b => {
+    Suman watch - if watchPer has an item with --watch in it, then you have to throw err
+
+///
+
+  context('is good', b => {
 
     b.$inject => should be what we get from $inject block stuff
     b.set('good', true);
@@ -100,51 +333,50 @@ Suman watch - if watchPer has an item with --watch in it, then you have to throw
 
 ///
 
-chrome.debugger.attach({
-  tabId: tabId
-}, '1.1', () => {
-  if (chrome.runtime.lastError) {
-    // oh no!
-  }
-  // we are good
-});
+    chrome.debugger.attach({
+      tabId: tabId
+    }, '1.1', () => {
+      if (chrome.runtime.lastError) {
+        // oh no!
+      }
+      // we are good
+    });
 
 ///
 
- need to implement suman --browser --watch
+    need to implement suman --browser --watch
 
 ///
 
- call suman.run() could put suman in "export mode"
- otherwise, if you are not in "export mode", when you require a file,
- it will just run from start to finish
+    call suman.run() could put suman in "export mode"
+    otherwise, if you are not in "export mode", when you require a file,
+    it will just run from start to finish
 
 ///
 
 
- in the browser we can use
+    in the browser we can use
 
-  suman.browser.ioc.static.ts
-  suman.browser.ioc.ts
-
-  these file paths
-
-///
-
-@AlexanderMills you can also enable inspector by
-calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 mins ago
+    suman.browser.ioc.static.ts
+    suman.browser.ioc.ts
+    these file paths
 
 ///
 
- use $inject like so:
+    @AlexanderMills you can also enable inspector by
+    calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 mins ago
 
- const {Test} = suman.init(module, {
-   $inject: ['a', 'b', 'c']
- });
+///
 
- Test.create(function($inject){
-    const {a,b,c} = $inject;
- });
+    use $inject like so:
+
+    const {Test} = suman.init(module, {
+      $inject: ['a', 'b', 'c']
+    });
+
+    Test.create(function($inject){
+     const {a,b,c} = $inject;
+    });
 
 
 ///
@@ -154,27 +386,23 @@ calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 
 
 ///
 
- need to create a programmatic API
- suman.run(file);
+    need to create a programmatic API
+    suman.run(file);
 
 ///
 
-we can use $inject and put props on that
+    we can use $inject and put props on that
 
-BaseReporter.decoratorFactory.$inject = [
-  'formatError',
-  'config.reportSlowerThan',
-  'config.colors',
-  'config.browserConsoleLogOptions'
-]
+    BaseReporter.decoratorFactory.$inject = [
+      'formatError',
+      'config.reportSlowerThan',
+      'config.colors',
+      'config.browserConsoleLogOptions'
+    ]
 
 ///
 
 https://code.google.com/archive/p/js-test-driver/
-
-///
-
- retries => suman should allow for retries
 
 ///
 
@@ -200,10 +428,6 @@ Thus, it enables ssh-agent to modify the environment of the shell that calls it.
 
 ///
 
- if a beforeEach hook fails, it should not be as fatal as a beforeAll hook failing.
-
-///
-
 describe('nested1', opts, () => {});  ---> this makes an error (see 1.test.js)
 
  [suman]    ⚑  Suman fatal error  => making a graceful exit =>
@@ -215,8 +439,7 @@ describe('nested1', opts, () => {});  ---> this makes an error (see 1.test.js)
 
 ///
 
-
-https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
+    https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
 
 ///
 
@@ -237,18 +460,8 @@ FORCE_COLOR=0 suman -- => will use colors for watch, etc.
 
 ///
 
-FORCE_COLOR=0 suman -- => will use colors for watch, etc.
-
-///
-
  use es6 symbols to hide properties?
  https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
-
-///
-
-Test.create(function (test, setup, setupTest, setuptest, teardown, teardownTest, describe) {
-  console.log(this); // this call causes problems with the proxy
-  console.log(this.describe); // same thing as above
 
 ///
 
@@ -289,10 +502,6 @@ cd $(dirname "$0")
 
 ////
 
-    it.skipped() should be an alias of it.skip()
-
-////
-
  => give user choice as to use bash or zsh or whatever for suman watch
 
 ////
@@ -302,13 +511,25 @@ cd $(dirname "$0")
 
 ///
 
+    use an env variable to tell suman to use suman-daemon / suman-fast
+
+///
+
  the following should be in yellow or magenta:
  (note that your test ran with suman-f, not suman)
 
 ///
 
+    specify node start command with env var:
+
+    SUMAN_NODE_EXEC="node --foo --bar"
+    which would become:
+    bash -e "node --foo -bar ../suman/cli.js"
+
+///
+
  babel:
- removed these from {package.json}.devDependencies:
+    removed these from {package.json}.devDependencies:
     "babel-loader": "^6.4.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.24.0",
@@ -382,7 +603,6 @@ Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, desc
       setTimeout(t, 100);
     });
   });
-
 });
 
 ///
@@ -407,7 +627,8 @@ Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, desc
 
  https://stackoverflow.com/a/1221870/5020949
 
-There is an internal Bash variable called $PIPESTATUS; it’s an array that holds the exit status of each command in your last foreground pipeline of commands.
+There is an internal Bash variable called $PIPESTATUS;
+it’s an array that holds the exit status of each command in your last foreground pipeline of commands.
 
 <command> | tee out.txt ; test ${PIPESTATUS[0]} -eq 0
 Or another alternative which also works with other shells (like zsh) would be to enable pipefail:
@@ -438,17 +659,7 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
-  refactor create-injector so that it's used
-  block injector should be for the other blocks
-  all blocks should at least have one parameter b, or s
-
-///
-
     before hooks can be stubbed? => before('merry');
-
-///
-
-    improve tables -> they should work on Jenkins, etc.
 
 ///
 
@@ -481,11 +692,6 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
-    when `suman --init` is run, we should create a dir called .suman not suman
-    and suman-default-config.js should be updated to reflect that
-
-///
-
     suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
     suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
 
@@ -496,12 +702,8 @@ node test/src/exp.js | grep -v [[suman]]
 
 //
 
-    => absolute --parallel would just mean unleashing things in exec-suite.js so that a parent does *not* need to complete
-    before a child starts.
-
-//
-
     --use-tap prevents tables from being printed by runner, weird.
+    (probably because tap-reporter doesn't print tables, duh)
 
 ///
 
@@ -511,7 +713,6 @@ node test/src/exp.js | grep -v [[suman]]
 
     when a command in run.sh fails, we need to send that stderr
     to the runner, e.g.:
-
     => [suman child stderr] => ./suman/test/src/mocha/@run.sh: line 6: mocha: command not found
 
 ////
@@ -546,18 +747,9 @@ node test/src/exp.js | grep -v [[suman]]
 
 ////
 
-    create vorpal-like command line app that can do tab completion
-    should be able to recognize commands, so when command is recognized it is highlighted
-
-////
-
     when we install suman
     [object Object]
     => Suman message => Suman was successfully installed locally.
-
-////
-
-   give the user the option to run suman.once.pre.js and suman.once.post.js in child process ??
 
 ////
 
@@ -571,12 +763,6 @@ node test/src/exp.js | grep -v [[suman]]
      at TestSuite.run [as _run] (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-methods/make-describe.js:87:15)
      at runChild (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:26:15)
      at TestSuiteMaker.TestSuite.__invokeChildren (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:205:19)
-
-
-///
-
- _suman.log and _suman.logError need to split everything by newline
- so that [suman] appears on each line
 
 ///
 
@@ -593,7 +779,7 @@ node test/src/exp.js | grep -v [[suman]]
 ///
 
   if @run.sh exists for a file x, but the command is just "suman x", then the runner won't be used and @run.sh won't
-  be used. If @run.sh is found, we must use the runner.
+  be used. To correct this, if @run.sh is found, we must use the runner.
 
 ///
 
@@ -617,28 +803,24 @@ node test/src/exp.js | grep -v [[suman]]
 
 ////
 
-  create $iocShared and $ioc
-
-////
-
  should log NODE_ENV
 
 ////
 
-using tsc --watch to transpile files according to rules
-https://github.com/Microsoft/TypeScript/issues/16779
-=> tsc --p <name of your tsconfig.json> --watch --outDir <your new outDir>
+    using tsc --watch to transpile files according to rules
+    https://github.com/Microsoft/TypeScript/issues/16779
+    => tsc --p <name of your tsconfig.json> --watch --outDir <your new outDir>
 
 ////
 
-brew install phantomjs
-https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
-brew install sumanjs ???
+    brew install phantomjs
+    https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
+    brew install sumanjs ???
 
 ////
 
- $args should be a whitespace delimited list of arguments
- $argsRaw should just be the string
+    $args should be a whitespace delimited list of arguments
+    $argsRaw should just be the string
 
 ////
 
@@ -667,19 +849,19 @@ brew install sumanjs ???
 
 ////
 
-  if sumanception level > 1, then we shouldn't write any TAP results
-  because stdout cannot be multiplexed, etc.
-  actually each parent can successfully parse a child, so it will work.
+    if sumanception level > 1, then we shouldn't write any TAP results
+    because stdout cannot be multiplexed, etc.
+    actually each parent can successfully parse a child, so it will work.
 
 ////
 
-   print test path run if using node x.js or suman x.js
-   sometimes I just forget what test I just ran lol
+    print test path run if using node x.js or suman x.js
+    sometimes I just forget what test I just ran lol
 
 ////
 
-  suman-single-process should use vm to run in this context?
-  https://nodejs.org/api/vm.html#vm_script_runinthiscontext_options
+    suman-single-process should use vm to run in this context?
+    https://nodejs.org/api/vm.html#vm_script_runinthiscontext_options
 
 ////
 
@@ -697,7 +879,7 @@ brew install sumanjs ???
    let foo;
     {
       let v = 2;
-     foo = v*2;
+      foo = v*2;
     }
 
 ////
@@ -831,6 +1013,19 @@ when two files are passed x.js and y.js, it still is looking in folders for file
   regex: 'The filename did not match any of the following regex(es) => .js$,.ts$' }
 
 //
+
+  --ignore-helpers-dir  => tells suman not to attempt to load any helpers files
+  ignoreHelpersDir: true
+
+//
+
+these should not be env variables:
+
+  const testDir = process.env.TEST_DIR;
+  const testSrcDir = process.env.TEST_SRC_DIR;
+  const testTargerDir = process.env.TEST_TARGET_DIR;
+
+///
 
 https://askubuntu.com/questions/936040/edit-compose-key-in-system-preferences-keyboard
 
@@ -995,12 +1190,6 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 
 ///
 
-   maximum connection attempts => 5
-   if client is not connected, we use stdout/TAP to communicate
-   it should always be an either or, never send both
-
-///
-
    we can cross-check the accumulated test data in the child process to compare with the parent
    they should always align, if not we should log a warning
 
@@ -1084,10 +1273,6 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 
 ///
 
-    create suman-daemon, whereby we can pass
-
-///
-
     merge once-post with make-before-once-exit-post?
 
 ///
@@ -1097,7 +1282,7 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 
 ///
 
-    right runner without constraints, then add constraints last, after everything else is proven
+    write runner without constraints, then add constraints last, after everything else is proven
 
 ///
 

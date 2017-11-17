@@ -13,7 +13,8 @@ const global = require('suman-browser-polyfills/modules/global');
 //npm
 const pragmatik = require('pragmatik');
 import * as chalk from 'chalk';
-import su from 'suman-utils';
+import su = require('suman-utils');
+
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -31,6 +32,7 @@ const acceptableOptions = <IAcceptableOptions> {
   plan: true,
   throws: true,
   fatal: true,
+  retries: true,
   cb: true,
   timeout: true,
   skip: true,
@@ -94,6 +96,7 @@ export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
         cb: opts.cb || false,
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,
+        retries: opts.retries,
         events: opts.events,
         throws: opts.throws,
         planCountExpected: opts.plan,

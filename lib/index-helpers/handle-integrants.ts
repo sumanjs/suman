@@ -154,12 +154,13 @@ export const handleIntegrants = function (integrants: Array<string>, $oncePost: 
           }
           // with suman single process, or not, we acquire integrants the same way
           acquirePreDeps(integrants, integPreConfiguration).then(function (vals: Object) {
-            d.exit();
-            resolve(Object.freeze(vals));
-          }, function (err: Error) {
-            d.exit();
-            reject(err);
-          });
+              d.exit();
+              resolve(Object.freeze(vals));
+            },
+            function (err: Error) {
+              d.exit();
+              reject(err);
+            });
         });
       });
 

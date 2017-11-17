@@ -36,8 +36,10 @@ const acceptableOptions = <IAcceptableOptions> {
   fatal: true,
   cb: true,
   timeout: true,
+  retries: true,
   skip: true,
   always: true,
+  first: true,
   last: true,
   events: true,
   successEvents: true,
@@ -88,6 +90,10 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
       _suman.afterAlwaysHasBeenRegistered = true;
     }
 
+    if(opts.last && opts.first){
+      throw new Error('Cannot use both "first" and "last" option for "after" hook.');
+    }
+
     if (opts.skip) {
       suman.numHooksSkipped++;
     }
@@ -103,12 +109,13 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
         cb: opts.cb || false,
         throws: opts.throws,
         always: opts.always,
+        retries: opts.retries,
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,
         events: opts.events,
         last: opts.last,
         planCountExpected: opts.plan,
-        fatal: !(opts.fatal === false),
+        fatal: opts.fatal === true, // default is false for after hooks
         fn: fn,
         type: 'after/teardown',
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')
@@ -116,6 +123,9 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
 
       if (opts.last) {
         zuite.getAftersLast().push(obj);
+      }
+      else if(opts.first){
+        zuite.getAftersFirst().push(obj);
       }
       else {
         zuite.getAfters().push(obj);

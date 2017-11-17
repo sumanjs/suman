@@ -41,8 +41,8 @@ let badProps = <IBadProps> {
 
 ///////////////////////////////////////////////////////////////////////
 
-export const makeTestCase =
-  function (test: ITestDataObj, assertCount: IAssertCount, handleError: IHandleError): ITestCaseParam {
+export const makeTestCase = function (test: ITestDataObj, assertCount: IAssertCount,
+                                      handleError: IHandleError, fini: Function): ITestCaseParam {
 
     let planCalled = false;
     const v = Object.create(tProto);
@@ -50,7 +50,9 @@ export const makeTestCase =
     v.testId = test.testId;
     v.desc = v.title = test.desc;
     v.data = test.data;
-    v.__handle = handleError;
+    v.__test = test;
+    v.__handle = v.__handleError = handleError;
+    v.__fini = fini;
 
     const assrt = <Partial<AssertStatic>> function () {
       try {

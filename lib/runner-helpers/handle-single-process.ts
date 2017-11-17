@@ -24,7 +24,7 @@ import * as chalk from 'chalk';
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const weAreDebugging = su.weAreDebugging;
-const {getTapParser} = require('./handle-tap');
+const {getTapParser, getTapJSONParser} = require('./handle-tap');
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 //////////////////////////////////////////////////////////
@@ -133,7 +133,6 @@ module.exports = function (runnerObj: IRunnerObj, handleMessageForSingleProcess:
       }
 
       if (true || sumanOpts.$useTAPOutput) {
-
         n.tapOutputIsComplete = false;
         n.stdout.pipe(getTapParser())
         .once('finish', function () {
