@@ -18,13 +18,47 @@ const opts = {
 Test.create(opts, ['rudolph',
   function (assert, describe, before, beforeEach, after, afterEach, it, inject) {
 
+    before.last(h => {
+      h.log('mucho before last 1');
+    });
+
+    before.last(h => {
+      h.log('mucho before last 2');
+    });
+
+    before.last(h => {
+      h.log('mucho before last 3');
+    });
+
     before(h => {
        console.log('mucho before');
     });
 
     before.first(h => {
-      console.log('mucho before first');
+      console.log('mucho before first 1');
     });
+
+    before.first(h => {
+      console.log('mucho before first 2');
+    });
+
+    before.first(h => {
+      console.log('mucho before first 3');
+    });
+
+    after.last(h => {
+      console.log('me after last 3');
+    });
+
+
+    after(h => {
+      console.log('me after 2');
+    });
+
+    after.first(h => {
+      console.log('me first 1');
+    });
+
 
     it('sync test hagieao agoeajgoea jo joeajgoea  aegjeag oa iag j aogeg ', t => {
       assert(false);

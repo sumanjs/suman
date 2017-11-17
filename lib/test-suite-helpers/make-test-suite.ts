@@ -225,7 +225,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       // mergeAfters is for supporting after.last feature
 
       while (this[TestBlockSymbols.beforesFirst].length > 0) {
-        this[TestBlockSymbols.befores].unshift(this[TestBlockSymbols.beforesFirst].shift());
+        this[TestBlockSymbols.befores].unshift(this[TestBlockSymbols.beforesFirst].pop());
       }
 
       while (this[TestBlockSymbols.beforesLast].length > 0) {
