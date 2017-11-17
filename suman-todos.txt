@@ -2094,14 +2094,6 @@ grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./
 
 ////
 
-  before.first
-  before.last
-
-  after.first
-  after.last => new feature => put it at the end, etc.
-
-////
-
  => Ajv schema validation
 
 ////
@@ -2154,10 +2146,6 @@ https://lodash.com/custom-builds
 ///
 
  https://github.com/Microsoft/TypeScript/issues/14941#issuecomment-293023423
-
-///
-
- override suman config in each test as needed
 
 ///
 
