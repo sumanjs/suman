@@ -39,6 +39,7 @@ const acceptableOptions = <IAcceptableOptions> {
   retries: true,
   skip: true,
   always: true,
+  first: true,
   last: true,
   events: true,
   successEvents: true,
@@ -89,6 +90,10 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
       _suman.afterAlwaysHasBeenRegistered = true;
     }
 
+    if(opts.last && opts.first){
+      throw new Error('Cannot use both "first" and "last" option for "after" hook.');
+    }
+
     if (opts.skip) {
       suman.numHooksSkipped++;
     }
@@ -118,6 +123,9 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
 
       if (opts.last) {
         zuite.getAftersLast().push(obj);
+      }
+      else if(opts.first){
+        zuite.getAftersFirst().push(obj);
       }
       else {
         zuite.getAfters().push(obj);

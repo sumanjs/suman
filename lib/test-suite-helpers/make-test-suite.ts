@@ -102,9 +102,12 @@ export const TestBlockSymbols: ISumanSymbols = {
   tests: Symbol('tests'),
   parallelTests: Symbol('parallelTests'),
   befores: Symbol('befores'),
+  beforesFirst: Symbol('beforesFirst'),
+  beforesLast: Symbol('beforesLast'),
   beforeEaches: Symbol('beforeEaches'),
   afters: Symbol('afters'),
   aftersLast: Symbol('aftersLast'),
+  aftersFirst: Symbol('aftersFirst'),
   afterEaches: Symbol('afterEaches'),
   injections: Symbol('injections'),
   getAfterAllParentHooks: Symbol('getAfterAllParentHooks'),
@@ -182,18 +185,28 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       this[TestBlockSymbols.children] = [] as Array<ITestSuite>;
       this[TestBlockSymbols.tests] = [] as Array<ITestDataObj>;
       this[TestBlockSymbols.parallelTests] = [] as Array<ITestDataObj>;
+
+      //befores
       this[TestBlockSymbols.befores] = [] as Array<IBeforeObj>;
-      this[TestBlockSymbols.beforeEaches] = [] as Array<IBeforeEachObj>;
+      this[TestBlockSymbols.beforesFirst] = [] as Array<IBeforeObj>;
+      this[TestBlockSymbols.beforesLast] = [] as Array<IBeforeObj>;
+
+      // afters
       this[TestBlockSymbols.afters] = [] as Array<IAfterObj>;
+      this[TestBlockSymbols.aftersFirst] = [] as Array<IAfterObj>;
       this[TestBlockSymbols.aftersLast] = [] as Array<IAfterObj>;
+
+      //eaches
+      this[TestBlockSymbols.beforeEaches] = [] as Array<IBeforeEachObj>;
       this[TestBlockSymbols.afterEaches] = [] as Array<IAFterEachObj>;
+
+
       this[TestBlockSymbols.injections] = [] as Array<IInjectionObj>;
       this[TestBlockSymbols.getAfterAllParentHooks] = [] as Array<IAfterAllParentHooks>;
 
       //////////////////////////////////////////////////////////////////////////////////////
 
       // freezeExistingProps(this);
-
     }
 
     set(k: any, v: any) {
@@ -208,8 +221,25 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       return this[TestBlockSymbols.getAfterAllParentHooks];
     }
 
+    mergeBefores() {
+      // mergeAfters is for supporting after.last feature
+
+      while (this[TestBlockSymbols.beforesFirst].length > 0) {
+        this[TestBlockSymbols.befores].unshift(this[TestBlockSymbols.beforesFirst].shift());
+      }
+
+      while (this[TestBlockSymbols.beforesLast].length > 0) {
+        this[TestBlockSymbols.befores].push(this[TestBlockSymbols.beforesLast].shift());
+      }
+    }
+
     mergeAfters() {
       // mergeAfters is for supporting after.last feature
+
+      while (this[TestBlockSymbols.aftersFirst].length > 0) {
+        this[TestBlockSymbols.afters].unshift(this[TestBlockSymbols.aftersFirst].shift());
+      }
+
       while (this[TestBlockSymbols.aftersLast].length > 0) {
         this[TestBlockSymbols.afters].push(this[TestBlockSymbols.aftersLast].shift());
       }

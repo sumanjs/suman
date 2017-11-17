@@ -10,28 +10,28 @@ three SO profiles:
 
 ///
 
-how to initialize a Map ->
-console.log(Object.keys(new Map({a: 'b'}))); // fails
+    how to initialize a Map ->
+    console.log(Object.keys(new Map({a: 'b'}))); // fails
 
 ///
 
- use ts-node/register
- with TypeScript, just like Babel, in the run-child.js file
+    use ts-node/register
+    with TypeScript, just like Babel, in the run-child.js file
 
 ///
 
-  inject hooks => add to $inject
-  shared => b.set() / b.get()
-  ioc => b.ioc
-  h.$inject should be h.?
+    inject hooks => add to $inject
+    shared => b.set() / b.get()
+    ioc => b.ioc
+    h.$inject should be h.?
 
 ///////
 
- if (sumanOpts.coverage) {
-    //TODO: we can pass an env to tell suman where to put the coverage data
-    _suman.log.warning(chalk.yellow('coverage option was set to true, but we are running your tests via @run.sh.'));
-    _suman.log.warning(chalk.yellow('so in this case, you will need to run your coverage call via @run.sh.'));
-  }
+    if (sumanOpts.coverage) {
+        //TODO: we can pass an env to tell suman where to put the coverage data
+        _suman.log.warning(chalk.yellow('coverage option was set to true, but we are running your tests via @run.sh.'));
+        _suman.log.warning(chalk.yellow('so in this case, you will need to run your coverage call via @run.sh.'));
+    }
 
 ///////
 
@@ -107,12 +107,12 @@ exit with command to the right that exits with non-zero
 
 ///
 
-  we need after.first
-  and before.first / before.last
+    we need after.first
+    and before.first / before.last
 
 ///
 
- suman --script x --tack-on="--require=ts-node/register"
+    suman --script x --tack-on="--require=ts-node/register"
 
 ///
 
@@ -205,7 +205,7 @@ command line --series, needs to take precedence over this:
 
 //
 
-  [suman child stdout] => [suman child stdout / the-file-path]
+    [suman child stdout] => [suman child stdout / the-file-path]
 
 //
 

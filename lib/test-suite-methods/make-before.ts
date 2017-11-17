@@ -44,6 +44,8 @@ const acceptableOptions = <IAcceptableOptions> {
   timeout: true,
   skip: true,
   events: true,
+  first: true,
+  last: true,
   successEvents: true,
   errorEvents: true,
   __preParsed: true
@@ -77,7 +79,10 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
-    try {delete $opts.__preParsed} catch(err){}
+    try {
+      delete $opts.__preParsed
+    } catch (err) {
+    }
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
@@ -85,6 +90,10 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
 
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);
+    }
+
+    if (opts.last && opts.first) {
+      throw new Error('Cannot use both "first" and "last" option for "after" hook.');
     }
 
     if (opts.skip) {
@@ -95,7 +104,7 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
     }
     else {
 
-      zuite.getBefores().push({
+      let obj = {
         ctx: zuite,
         desc: desc || fn.name || '(unknown before-hook name)',
         timeout: opts.timeout || 11000,
@@ -110,7 +119,18 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
         fn: fn,
         type: 'before/setup',
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')
-      });
+      };
+
+      if (opts.first) {
+        zuite.getBeforesFirst().push(obj);
+      }
+      else if (opts.last) {
+        zuite.getBeforesLast().push(obj);
+      }
+      else {
+        zuite.getBefores().push(obj);
+      }
+
     }
 
     return zuite;
