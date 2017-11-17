@@ -22,7 +22,7 @@ import EE = require('events');
 const pragmatik = require('pragmatik');
 import async = require('async');
 import * as chalk from 'chalk';
-import su from 'suman-utils';
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

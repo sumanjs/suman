@@ -18,7 +18,7 @@ const pragmatik = require('pragmatik');
 const _ = require('underscore');
 import async = require('async');
 import * as chalk from 'chalk';
-import su from 'suman-utils';
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
