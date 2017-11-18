@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e;
+
 if ! [[ -z "${LOCAL_SUMAN_ALREADY_FOUND+x}" ]]; then
     echo " => \$LOCAL_SUMAN_ALREADY_FOUND ? => $LOCAL_SUMAN_ALREADY_FOUND"
 fi

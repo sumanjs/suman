@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e;
 
 if ! [[ -z "${LOCAL_SUMAN_ALREADY_FOUND+x}" ]]; then
     echo " [suman] => is local suman executable already found? => $LOCAL_SUMAN_ALREADY_FOUND"

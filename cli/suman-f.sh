@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e;
 
 if [[ "${SUMAN_ENV}" != "local" ]]; then
  echo " => \$SUMAN_ENV is not set to 'local' so we will run suman instead of suman-f.";

@@ -23,6 +23,15 @@
 
 // console.log(Object.keys(new Map({a: 'b'})));
 
+const x= {};
+
+x.retries(5)
+.foo()
+.run(t => {
+
+});
+
+
 const Promise = require('bluebird');
 const async = require('async');
 

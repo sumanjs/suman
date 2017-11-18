@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e;
+
 if [[ "${SUMAN_ENV}" != "local" ]]; then
    echo ""; echo "suman-daemon will only run if \$SUMAN_ENV is set to 'local'."; echo "";
    exit 1;

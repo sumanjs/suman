@@ -22,6 +22,29 @@ Test.create(opts, ['rudolph',
       h.log('mucho before last 1');
     });
 
+    before({cb: true, retries: 4},
+      h => {
+
+      });
+
+    before.define(v => {
+      v.retries(5)
+      .timeout(3000)
+      .cb(true)
+      .register(h => {
+         return h.set('a', v);
+      })
+      .run(h => {
+
+      })
+    });
+
+    test.define()
+    .retries()
+    .cb(function () {
+
+    });
+
     before.last(h => {
       h.log('mucho before last 2');
     });
@@ -31,7 +54,7 @@ Test.create(opts, ['rudolph',
     });
 
     before(h => {
-       console.log('mucho before');
+      console.log('mucho before');
     });
 
     before.first(h => {
@@ -50,7 +73,6 @@ Test.create(opts, ['rudolph',
       console.log('me after last 3');
     });
 
-
     after(h => {
       console.log('me after 2');
     });
@@ -58,7 +80,6 @@ Test.create(opts, ['rudolph',
     after.first(h => {
       console.log('me first 1');
     });
-
 
     it('sync test hagieao agoeajgoea jo joeajgoea  aegjeag oa iag j aogeg ', t => {
       assert(false);
