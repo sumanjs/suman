@@ -2,7 +2,7 @@
 'use strict';
 
 const suman = require('suman');
-const Test = suman.init(module, {}, {
+const {Test} = suman.init(module, {}, {
   // series: false
 });
 
@@ -18,7 +18,6 @@ const opts = {
 
 Test.define(v => {
 
-
   v.inject('age','age','age')
   .names('b','before','after','afterEach')
   .run((b, before, after, afterEach, it) => {
@@ -27,6 +26,14 @@ Test.define(v => {
 
 
    });
+
+  })
+  .run((b, before, after, afterEach, it) => {
+
+    it('is cool', t => {
+
+
+    });
 
   });
 
