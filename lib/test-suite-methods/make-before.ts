@@ -39,6 +39,7 @@ const acceptableOptions = <IAcceptableOptions> {
   plan: true,
   throws: true,
   fatal: true,
+  define: true,
   retries: true,
   cb: true,
   timeout: true,
@@ -82,7 +83,9 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
     try {
       delete $opts.__preParsed
     } catch (err) {
+      //ignore
     }
+
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;

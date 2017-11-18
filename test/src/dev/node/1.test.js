@@ -15,35 +15,76 @@ const opts = {
   fixed: true
 };
 
-Test.create(opts, ['rudolph',
-  function (assert, describe, before, beforeEach, after, afterEach, it, inject) {
+
+Test.define(v => {
+
+
+  v.inject('age','age','age')
+  .names('b','before','after','afterEach')
+  .run((b, before, after, afterEach, it) => {
+
+   it('is cool', t => {
+
+
+   });
+
+  });
+
+
+});
+
+
+
+Test.create(opts, ['rudolph', function (assert, describe, before, beforeEach, after, afterEach, it, inject) {
 
     before.last(h => {
       h.log('mucho before last 1');
     });
 
-    before({cb: true, retries: 4},
-      h => {
+    before({cb: true, retries: 4}, h => {
+        h.done();
+    });
 
-      });
+    // test.define(v => {
+    //
+    //   let c = Number(3);
+    //
+    //   v.timeout(400)
+    //   .retries(300)
+    //   .run(function(){
+    //
+    //   });
+    //
+    // });
+
+    // context.define(v =>{
+    //
+    //   v.parallel(true)
+    //   .run(function(){
+    //
+    //
+    //
+    //   })
+    //
+    //
+    // });
 
     before.define(v => {
-      v.retries(5)
-      .timeout(3000)
-      .cb(true)
-      .register(h => {
-         return h.set('a', v);
-      })
-      .run(h => {
 
-      })
+      v.run(h => {
+        console.log('in the run now 1.');
+      });
+
+      v.run(h => {
+        console.log('in the run now 2.');
+      });
     });
 
-    test.define()
-    .retries()
-    .cb(function () {
-
-    });
+    // test.define()
+    // .retries()
+    // .cb(function () {
+    //
+    // });
 
     before.last(h => {
       h.log('mucho before last 2');

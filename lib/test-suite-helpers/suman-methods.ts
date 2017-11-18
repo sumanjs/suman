@@ -105,6 +105,10 @@ const makeProxy = function (suman: ISuman): Function {
 
         props = props || [];
 
+        if(prop === 'define'){
+          return target.define;
+        }
+
         let hasSkip = false;
         let newProps = props.concat(String(prop))
         .map(v => String(v).toLowerCase()) // we map to lowercase first, so we can use indexOf afterwards
@@ -154,6 +158,22 @@ const makeProxy = function (suman: ISuman): Function {
 };
 
 
+const addDefine = function(fn: any){
+
+  fn.define = function(f){
+
+    const o = {};
+    o.run = fn;
+
+    debugger;
+    f(o);
+
+  };
+
+  return fn;
+
+};
+
 
 export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBase,
                                           gracefulExit: Function, notifyParent: Function): any {
@@ -176,7 +196,7 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBas
   const blockInjector = makeBlockInjector(suman, m);
   const createInjector = makeCreateInjector(suman, m);
   const inject: IInjectFn = makeInject(suman);
-  const before: IBeforeFn = makeBefore(suman);
+  const before: IBeforeFn = addDefine(makeBefore(suman));
   const after: IAfterFn = makeAfter(suman);
   const beforeEach: IBeforeEachFn = makeBeforeEach(suman);
   const afterEach: IAfterEachFn = makeAfterEach(suman);

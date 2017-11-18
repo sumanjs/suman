@@ -26,7 +26,7 @@ export {IAfterEachFn} from 'suman-types/dts/after-each';
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
-if(process.env.IS_SUMAN_BROWSER_TEST === 'yes'){
+if (process.env.IS_SUMAN_BROWSER_TEST === 'yes') {
   throw new Error('This file should not be loaded if the process.env.IS_SUMAN_BROWSER_TEST var is set to "yes".');
 }
 
@@ -86,7 +86,7 @@ try {
   window.suman = module.exports;
   console.log(' => "suman" is now available as a global variable in the browser.');
   inBrowser = _suman.inBrowser = true;
-  if(window.__karma__){
+  if (window.__karma__) {
     usingKarma = _suman.usingKarma = true;
     _suman.sumanOpts && _suman.sumanOpts.force = true;
   }
@@ -175,7 +175,6 @@ testSuiteRegistrationQueue.drain = function () {
   }
 };
 
-
 testSuiteQueue.drain = function () {
   suiteResultEmitter.emit('suman-test-file-complete');
   if (inBrowser && testSuiteRegistrationQueue.idle()) {
@@ -209,7 +208,7 @@ _suman.writeTestError = function (data: string, ignore: boolean) {
 };
 
 if (inBrowser) {
-  if(!window.__karma__){
+  if (!window.__karma__) {
     const client = getClient();
     testSuiteRegistrationQueue.pause();
     setImmediate(function () {
@@ -217,7 +216,6 @@ if (inBrowser) {
     });
   }
 }
-
 
 export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOverride) {
 
@@ -454,12 +452,29 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
       process.exit(constants.EXIT_CODES.PRE_VALS_ERROR);
     });
 
+    // if start/create is attached to options obj
+    return this;
   };
 
   const ret = {
     parent: $module.parent ? $module.parent.filename : null, //parent is who required the original $module
     file: $module.filename,
-    create: start
+    create: start,
+    define: function (fn: Function) {
+      debugger;
+      const o = {};
+      o.inject = function () {
+        return o;
+      };
+      o.create = function () {
+        return o;
+      };
+      o.names = function () {
+        return o;
+      };
+      o.run = start;
+      fn(o);
+    }
   };
 
   initMap.set($module, ret);
@@ -486,9 +501,7 @@ export const autoFail = function (t: IHookOrTestCaseParam) {
   }
 };
 
-
 export const run = sumanRun.run();
-
 
 export const once = function (fn: Function) {
   let cache: any = null;
