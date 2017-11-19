@@ -15,7 +15,6 @@ const pragmatik = require('pragmatik');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
 
-
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('../helpers/handle-varargs');
@@ -63,25 +62,31 @@ const handleBadOptions = function (opts: IAfterEachOpts, typeName: string): void
 
 //////////////////////////////////////////////////////////////////////////////
 
-
 export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
 
   return function afterEach($$desc: string, $opts: IAfterEachOpts): ITestSuite {
 
+    const typeName = afterEach.name;
     const zuite = suman.ctx;
-    handleSetupComplete(zuite, afterEach.name);
+    handleSetupComplete(zuite, typeName);
     const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: su.isObject($opts) ? $opts.__preParsed : null
+      preParsed: su.isObject($opts) && $opts.__preParsed
     });
 
-    try {delete $opts.__preParsed} catch(err){}
+    try {
+      delete $opts.__preParsed
+    }
+    catch (err) {
+      //ignore
+    }
+
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-    handleBadOptions(opts, afterEach.name);
+    handleBadOptions(opts, typeName);
 
     if (arrayDeps.length > 0) {
-      evalOptions(arrayDeps,opts);
+      evalOptions(arrayDeps, opts);
     }
 
     if (opts.skip) {
@@ -112,6 +117,5 @@ export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
     return zuite;
 
   };
-
 
 };
