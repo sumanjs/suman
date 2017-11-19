@@ -23,7 +23,7 @@
 
 // console.log(Object.keys(new Map({a: 'b'})));
 
-const x= {};
+const x = {};
 
 x.retries(5)
 .foo()
@@ -31,6 +31,13 @@ x.retries(5)
 
 });
 
+describe('danger')
+
+.run(function () {
+
+
+
+});
 
 const Promise = require('bluebird');
 const async = require('async');
@@ -41,7 +48,7 @@ async.series({
     },
     b: async function (cb) {
       // process.nextTick(cb, null, 'bbb');
-      let c= await Promise.delay(500).then(v => 'hopkins');
+      let c = await Promise.delay(500).then(v => 'hopkins');
       return c;
       // cb(null, 'xxx');
     }

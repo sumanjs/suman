@@ -124,10 +124,11 @@ export const handleReturnVal = function (done: Function, str: string, testOrHook
       // then() callback does not happen in same tick, so needs to be separate call from observables/streams
       // so that we register subscribe() and on() calls in the same tick.
       Promise.resolve(val).then(function () {
-        done(null);
-      }, function (err) {
-        done(err || new Error('Suman unkwnown error'));
-      });
+          done(null);
+        },
+        function (err) {
+          done(err || new Error('Suman unkwnown error'));
+        });
     }
 
   }

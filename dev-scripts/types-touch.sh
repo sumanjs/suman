@@ -5,11 +5,11 @@ if [[ ! -d "node_modules" ]]; then
  exit 1;
 fi
 
-files=$(find "node_modules/suman-types/dts" -name "*.d.ts")
+files="$(find "node_modules/suman-types/dts" -name "*.d.ts")"
 
-for file in "$files"; do
-    echo "touching file $file";
-    touch "$file";
+for f in ${files}; do
+    echo "touching file $f";
+    touch "$f";
 done
 
 touch "node_modules/suman-types"

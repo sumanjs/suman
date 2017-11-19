@@ -484,6 +484,8 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
       // o.run = start;
       // fn(o);
 
+      return defObj;
+
     }
   };
 
