@@ -34,7 +34,6 @@ import {parseArgs} from '../helpers/general';
 
 //////////////////////////////////////////////////////////////////////////////
 
-const typeName = 'before';
 const acceptableOptions = <IAcceptableOptions> {
   '@DefineObject': true,
   plan: true,
@@ -54,7 +53,7 @@ const acceptableOptions = <IAcceptableOptions> {
   __preParsed: true
 };
 
-const handleBadOptions = function (opts: IBeforeOpts) {
+const handleBadOptions = function (opts: IBeforeOpts, typeName: string) {
 
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
@@ -73,25 +72,26 @@ const handleBadOptions = function (opts: IBeforeOpts) {
 
 export const makeBefore = function (suman: ISuman): IBeforeFn {
 
-  return function ($$desc: string, $opts: IBeforeOpts) {
+  return function before($$desc: string, $opts: IBeforeOpts) {
 
     const zuite = suman.ctx;
-    handleSetupComplete(zuite, 'before');
+    handleSetupComplete(zuite, before.name);
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: su.isObject($opts) &&  $opts.__preParsed
+      preParsed: su.isObject($opts) && $opts.__preParsed
     });
 
     try {
       delete $opts.__preParsed
-    } catch (err) {
+    }
+    catch (err) {
       //ignore
     }
 
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-    handleBadOptions(opts);
+    handleBadOptions(opts, before.name);
 
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);
@@ -135,7 +135,6 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
       else {
         zuite.getBefores().push(obj);
       }
-
     }
 
     return zuite;

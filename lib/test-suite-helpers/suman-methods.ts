@@ -170,13 +170,59 @@ export class DefineObject {
   }
 
   inject(): DefineObject {
+    return this;
+  }
 
+  plan(v: number): DefineObject {
+    assert(Number.isInteger(v), 'Argument to plan must be an integer.');
+    this.opts.planCount = v;
     return this;
   }
 
   name(v: string): DefineObject {
-    assert.equal(typeof v, 'string', 'Timeout value must be an integer.');
+    assert.equal(typeof v, 'string', 'Value for name must be a string.');
     this.opts.name = v;
+    return this;
+  }
+
+  throws(v: string | RegExp): DefineObject {
+    if (typeof v === 'string') {
+      v = new RegExp(v);
+    }
+    else if (!(v instanceof RegExp)) {
+      throw new Error('Value for "throws" must be a String or regular expression (RegExp instance).');
+    }
+    this.opts.throws = v;
+    return this;
+  }
+
+  cb(v: boolean): DefineObject {
+    assert.equal(typeof v, 'boolean', 'Value for "cb" must be a boolean.');
+    this.opts.cb = v;
+    return this;
+  }
+
+  fatal(v: boolean): DefineObject {
+    assert.equal(typeof v, 'boolean', 'Value for "fatal" must be a boolean.');
+    this.opts.fatal = v;
+    return this;
+  }
+
+  first(v: boolean): DefineObject {
+    assert.equal(typeof v, 'boolean', 'Value for "first" must be a boolean.');
+    this.opts.first = v;
+    return this;
+  }
+
+  last(v: boolean): DefineObject {
+    assert.equal(typeof v, 'boolean', 'Value for "last" must be a boolean.');
+    this.opts.last = v;
+    return this;
+  }
+
+  always(v: boolean): DefineObject {
+    assert.equal(typeof v, 'boolean', 'Value for "always" must be a boolean.');
+    this.opts.always = v;
     return this;
   }
 
@@ -206,6 +252,7 @@ export class DefineObject {
     this.exec.call(null, name, opts, fn);
     return this;
   }
+
 }
 
 const addDefineOld = function (fn: any) {

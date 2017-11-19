@@ -30,7 +30,6 @@ import {evalOptions} from '../helpers/general';
 
 /////////////////////////////////////////////////////////////////////////////////
 
-const typeName = 'before-each';
 const acceptableOptions = <IAcceptableOptions> {
   '@DefineObject': true,
   timeout: true,
@@ -48,7 +47,7 @@ const acceptableOptions = <IAcceptableOptions> {
   __preParsed: true
 };
 
-const handleBadOptions = function (opts: IBeforeEachOpts) {
+const handleBadOptions = function (opts: IBeforeEachOpts, typeName: string) {
 
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
@@ -68,11 +67,11 @@ const handleBadOptions = function (opts: IBeforeEachOpts) {
 
 export const makeBeforeEach = function (suman: ISuman): IBeforeEachFn {
 
-  return function ($$desc: string, $opts: IBeforeEachOpts): ITestSuite {
+  return function beforeEach($$desc: string, $opts: IBeforeEachOpts): ITestSuite {
 
+    const typeName = beforeEach.name;
     const zuite = suman.ctx;
-    handleSetupComplete(zuite, 'beforeEach');
-
+    handleSetupComplete(zuite, typeName);
     const args = pragmatik.parse(arguments, rules.hookSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
@@ -81,7 +80,7 @@ export const makeBeforeEach = function (suman: ISuman): IBeforeEachFn {
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-    handleBadOptions(opts);
+    handleBadOptions(opts, typeName);
 
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);
@@ -94,7 +93,6 @@ export const makeBeforeEach = function (suman: ISuman): IBeforeEachFn {
       suman.numHooksStubbed++;
     }
     else {
-
       zuite.getBeforeEaches().push({
         ctx: zuite,
         timeout: opts.timeout || 11000,

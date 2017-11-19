@@ -40,7 +40,6 @@ import {handleInjections} from '../test-suite-helpers/handle-injections2';
 import {parseArgs} from '../helpers/general';
 import {evalOptions} from '../helpers/general';
 
-
 ///////////////////////////////////////////////////////////////////////
 
 const typeName = 'describe';
@@ -59,7 +58,7 @@ const acceptableOptions = <IAcceptableOptions> {
   __preParsed: true
 };
 
-const handleBadOptions = function (opts: IDescribeOpts) {
+const handleBadOptions = function (opts: IDescribeOpts, typeName: string) {
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
       const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
@@ -76,23 +75,25 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
   //////////////////////////////////////////////////////////////////////////////////////////////
 
-  return function ($$desc: string, $opts: IDescribeOpts) {
+  return function describe($$desc: string, $opts: IDescribeOpts) {
 
     const sumanOpts = suman.opts, zuite = suman.ctx;
-    handleSetupComplete(zuite, 'describe');
-
+    handleSetupComplete(zuite, describe.name);
     const args = pragmatik.parse(arguments, rules.blockSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
 
     try {
       delete $opts.__preParsed
-    } catch (err) {
     }
+    catch (err) {
+      //ignore
+    }
+
     const vetted = parseArgs(args);
     const [desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-    handleBadOptions(opts);
+    handleBadOptions(opts, describe.name);
     let iocDepNames: Array<string>;
 
     if (arrayDeps.length > 0) {
@@ -102,8 +103,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       iocDepNames = [];
     }
 
-    if(opts.sourced){
-      opts.sourced.forEach(function(v : string){
+    if (opts.sourced) {
+      opts.sourced.forEach(function (v: string) {
         iocDepNames.push(v);
       });
     }
@@ -180,7 +181,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
     const deps = fnArgs(cb);
     assert(deps[0] === 'b', 'First argument name for describe/context block callbacks must be "b" (for "block").');
-
 
     suite._run = function (val: any, callback: Function) {
 

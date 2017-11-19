@@ -27,7 +27,6 @@ import {parseArgs} from '../helpers/general';
 
 //////////////////////////////////////////////////////////////////////////////
 
-const typeName = 'after-each';
 const acceptableOptions = <IAcceptableOptions> {
   '@DefineObject': true,
   plan: true,
@@ -45,7 +44,7 @@ const acceptableOptions = <IAcceptableOptions> {
   __preParsed: true
 };
 
-const handleBadOptions = function (opts: IAfterEachOpts): void {
+const handleBadOptions = function (opts: IAfterEachOpts, typeName: string): void {
 
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
@@ -66,11 +65,10 @@ const handleBadOptions = function (opts: IAfterEachOpts): void {
 
 export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
 
-  return function ($$desc: string, $opts: IAfterEachOpts): ITestSuite {
+  return function afterEach($$desc: string, $opts: IAfterEachOpts): ITestSuite {
 
     const zuite = suman.ctx;
-    handleSetupComplete(zuite, typeName);
-
+    handleSetupComplete(zuite, afterEach.name);
     const args = pragmatik.parse(arguments, rules.hookSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
@@ -79,7 +77,7 @@ export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-    handleBadOptions(opts);
+    handleBadOptions(opts, afterEach.name);
 
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps,opts);
