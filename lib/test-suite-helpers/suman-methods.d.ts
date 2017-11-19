@@ -9,6 +9,11 @@ export declare class DefineObject {
     throws(v: string | RegExp): DefineObject;
     cb(v: boolean): DefineObject;
     fatal(v: boolean): DefineObject;
+    skip(v: boolean): DefineObject;
+    only(v: boolean): DefineObject;
+    parallel(v: boolean): DefineObject;
+    series(v: boolean): DefineObject;
+    mode(v: string): DefineObject;
     first(v: boolean): DefineObject;
     last(v: boolean): DefineObject;
     always(v: boolean): DefineObject;

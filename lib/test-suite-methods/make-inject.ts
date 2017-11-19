@@ -35,18 +35,19 @@ import {handleSetupComplete} from '../helpers/general';
 ///////////////////////////////////////////////////////////////////////////////////////
 
 const acceptableOptions = <IAcceptableOptions> {
-  '@DefineObject': true,
+  '@DefineObjectOpts': true,
   plan: true,
   throws: true,
   fatal: true,
   cb: true,
   timeout: true,
   sourced: true,
-  define: true,
   skip: true,
   events: true,
   successEvents: true,
   errorEvents: true,
+  successEvent: true,
+  errorEvent: true,
   __preParsed: true
 };
 

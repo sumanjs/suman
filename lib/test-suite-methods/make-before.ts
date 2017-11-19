@@ -35,12 +35,11 @@ import {parseArgs} from '../helpers/general';
 //////////////////////////////////////////////////////////////////////////////
 
 const acceptableOptions = <IAcceptableOptions> {
-  '@DefineObject': true,
+  '@DefineObjectOpts': true,
   plan: true,
   throws: true,
   fatal: true,
   sourced: true,
-  define: true,
   retries: true,
   cb: true,
   timeout: true,
@@ -48,6 +47,8 @@ const acceptableOptions = <IAcceptableOptions> {
   events: true,
   first: true,
   last: true,
+  successEvent: true,
+  errorEvent: true,
   successEvents: true,
   errorEvents: true,
   __preParsed: true

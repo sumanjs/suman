@@ -164,7 +164,7 @@ export class DefineObject {
   constructor(exec: any) {
     this.exec = exec;
     this.opts = {
-      '@DefineObject': true,
+      '@DefineObjectOpts': true,
       __preParsed: false
     };
   }
@@ -205,6 +205,36 @@ export class DefineObject {
   fatal(v: boolean): DefineObject {
     assert.equal(typeof v, 'boolean', 'Value for "fatal" must be a boolean.');
     this.opts.fatal = v;
+    return this;
+  }
+
+  skip(v: boolean): DefineObject {
+    assert.equal(typeof v, 'boolean', 'Value for "skip" must be a boolean.');
+    this.opts.skip = v;
+    return this;
+  }
+
+  only(v: boolean): DefineObject {
+    assert.equal(typeof v, 'boolean', 'Value for "only" must be a boolean.');
+    this.opts.only = v;
+    return this;
+  }
+
+  parallel(v: boolean): DefineObject {
+    assert.equal(typeof v, 'boolean', 'Value for "first" must be a boolean.');
+    this.opts.parallel = v;
+    return this;
+  }
+
+  series(v: boolean): DefineObject {
+    assert.equal(typeof v, 'boolean', 'Value for "first" must be a boolean.');
+    this.opts.series = v;
+    return this;
+  }
+
+  mode(v: string): DefineObject {
+    assert.equal(typeof v, 'string', 'Value for "mode" must be a string.');
+    this.opts.mode = v;
     return this;
   }
 

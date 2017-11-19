@@ -31,7 +31,7 @@ import {evalOptions} from '../helpers/general';
 ///////////////////////////////////////////////////////////////////////////////
 
 const acceptableOptions = <IAcceptableOptions> {
-  '@DefineObject': true,
+  '@DefineObjectOpts': true,
   plan: true,
   throws: true,
   fatal: true,
@@ -39,7 +39,6 @@ const acceptableOptions = <IAcceptableOptions> {
   cb: true,
   val: true,
   value: true,
-  define: true,
   sourced: true,
   parallel: true,
   series: true,
@@ -48,6 +47,8 @@ const acceptableOptions = <IAcceptableOptions> {
   only: true,
   skip: true,
   events: true,
+  successEvent: true,
+  errorEvent: true,
   successEvents: true,
   errorEvents: true,
   __preParsed: true

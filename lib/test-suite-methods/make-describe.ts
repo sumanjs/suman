@@ -44,10 +44,9 @@ import {evalOptions} from '../helpers/general';
 
 const typeName = 'describe';
 const acceptableOptions = <IAcceptableOptions> {
-  '@DefineObject': true,
+  '@DefineObjectOpts': true,
   skip: true,
   only: true,
-  define: true,
   sourced: true,
   delay: true,
   parallel: true,
