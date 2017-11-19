@@ -29,6 +29,7 @@ import assert = require('assert');
 import util = require('util');
 
 //npm
+import su = require('suman-utils');
 const pragmatik = require('pragmatik');
 
 //project
@@ -39,7 +40,6 @@ import {makeBlockInjector} from '../injection/block-injector';
 import {makeCreateInjector} from '../injection/create-injector';
 
 /////////////////////////////////////////////////////////////////////
-
 
 const possibleProps = <any> {
 
@@ -81,7 +81,6 @@ const possibleProps = <any> {
 
 };
 
-
 const makeProxy = function (suman: ISuman): Function {
 
   return function getProxy(method: Function, rule: Object, props?: Array<string>): Function {
@@ -105,7 +104,7 @@ const makeProxy = function (suman: ISuman): Function {
 
         props = props || [];
 
-        if(prop === 'define'){
+        if (prop === 'define') {
           return target.define;
         }
 
@@ -157,10 +156,57 @@ const makeProxy = function (suman: ISuman): Function {
 
 };
 
+export class DefineObject {
 
-const addDefine = function(fn: any){
+  private exec: any;
+  private opts: any;
 
-  fn.define = function(f){
+  constructor(exec: any) {
+    this.exec = exec;
+    this.opts = {
+      '@DefineObject': true,
+      __preParsed: false
+    };
+  }
+
+  inject(): DefineObject {
+
+    return this;
+  }
+
+  name(v: string): DefineObject {
+    assert.equal(typeof v, 'string', 'Timeout value must be an integer.');
+    this.opts.name = v;
+    return this;
+  }
+
+  timeout(v: number): DefineObject {
+    assert(Number.isInteger(v), 'Timeout value must be an integer.');
+    this.opts.timeout = v;
+    return this;
+  }
+
+  names(...args: any[]): DefineObject {
+    this.opts.names = Array.from(arguments).reduce(function (a, b) {
+      return a.concat(b);
+    }, []);
+    return this;
+  }
+
+  run(fn: Function): DefineObject {
+
+    const name = this.opts.name || '(unknown DefineObject name)';
+    const opts = JSON.parse(su.customStringify(this.opts));
+    this.exec.call(null, name, opts, fn);
+    return this;
+
+  }
+
+}
+
+const addDefineOld = function (fn: any) {
+
+  fn.define = function (f: Function) {
 
     const o = {};
     o.run = fn;
@@ -174,6 +220,19 @@ const addDefine = function(fn: any){
 
 };
 
+const addDefine = function (fn: any) {
+
+  fn.define = function (f: Function) {
+
+    const defObj = new DefineObject(fn);
+    assert(typeof f === 'function', 'You must pass a (synchronous) callback as the first argument to define.');
+    f.call(null, defObj);
+
+  };
+
+  return fn;
+
+};
 
 export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBase,
                                           gracefulExit: Function, notifyParent: Function): any {

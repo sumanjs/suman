@@ -36,11 +36,13 @@ import {handleSetupComplete} from '../helpers/general';
 
 const typeName = 'inject';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObject': true,
   plan: true,
   throws: true,
   fatal: true,
   cb: true,
   timeout: true,
+  define: true,
   skip: true,
   events: true,
   successEvents: true,

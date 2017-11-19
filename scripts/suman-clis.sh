@@ -55,7 +55,7 @@ function suman {
         done
 
         if [[ "${suman_inspect}" == "yes" ]]; then
-            exec "$(dirname "$0")/suman-inspect" "$@";
+            "$(dirname "$0")/suman-inspect" "$@";
             exit $?;
         fi
 

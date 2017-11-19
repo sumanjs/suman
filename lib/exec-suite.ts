@@ -32,7 +32,7 @@ const pragmatik = require('pragmatik');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('./helpers/handle-varargs');
 import {constants} from '../config/suman-constants';
-import su from 'suman-utils';
+import su = require('suman-utils');
 import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
 import {makeTestSuite} from './test-suite-helpers/make-test-suite';
@@ -40,7 +40,7 @@ import {fatalRequestReply} from './helpers/general';
 import {handleInjections} from './test-suite-helpers/handle-injections2';
 import {makeOnSumanCompleted} from './helpers/general';
 import {evalOptions} from './helpers/general';
-import {parseArgs} from './helpers/general';
+import general = require('./helpers/general');
 import {makeSumanMethods} from "./test-suite-helpers/suman-methods";
 import {makeHandleBeforesAndAfters} from './test-suite-helpers/make-handle-befores-afters';
 import {makeNotifyParent} from './test-suite-helpers/notify-parent-that-child-is-complete';
@@ -63,14 +63,19 @@ export const execSuite = function (suman: ISuman): Function {
 
   ////////////////////////////////////////////////////////////////////////////////////////
 
-  return function runRootSuite(): void {
+  return function runRootSuite($$desc: any, $$opts: any): void {
 
     const sumanOpts = suman.opts;
-    const args = pragmatik.parse(arguments, rules.createSignature);
-    const vetted = parseArgs(args);
+    const args = pragmatik.parse(arguments, rules.createSignature, {
+      preParsed: su.isObject($$opts) && $$opts.__preParsed
+    });
+
+    const vetted = general.parseArgs(args);
     const [$desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
     let iocDeps: Array<string>;
+
+    debugger;
 
     assert(opts.__preParsed, 'Suman implementation error. ' +
       'Options should be pre-parsed at this point in the program. Please report.');

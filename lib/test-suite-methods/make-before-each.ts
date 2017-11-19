@@ -32,9 +32,11 @@ import {evalOptions} from '../helpers/general';
 
 const typeName = 'before-each';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObject': true,
   timeout: true,
   throws: true,
   cb: true,
+  define: true,
   retries: true,
   plan: true,
   fatal: true,

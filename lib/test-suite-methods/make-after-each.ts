@@ -29,9 +29,11 @@ import {parseArgs} from '../helpers/general';
 
 const typeName = 'after-each';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObject': true,
   plan: true,
   throws: true,
   fatal: true,
+  define: true,
   retries: true,
   cb: true,
   timeout: true,

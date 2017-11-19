@@ -36,6 +36,7 @@ import {parseArgs} from '../helpers/general';
 
 const typeName = 'before';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObject': true,
   plan: true,
   throws: true,
   fatal: true,
@@ -77,7 +78,7 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
     handleSetupComplete(zuite, 'before');
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: su.isObject($opts) ? $opts.__preParsed : null
+      preParsed: su.isObject($opts) &&  $opts.__preParsed
     });
 
     try {
@@ -85,6 +86,8 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
     } catch (err) {
       //ignore
     }
+
+    debugger;
 
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
@@ -110,7 +113,7 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
       let obj = {
         ctx: zuite,
         desc: desc || fn.name || '(unknown before-hook name)',
-        timeout: opts.timeout || 11000,
+        timeout: opts.timeoutVal || opts.timeout || 11000,
         cb: opts.cb || false,
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,

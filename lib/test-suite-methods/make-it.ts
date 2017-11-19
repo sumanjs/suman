@@ -32,6 +32,7 @@ import {evalOptions} from '../helpers/general';
 
 const typeName = 'it';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObject': true,
   plan: true,
   throws: true,
   fatal: true,
@@ -39,6 +40,7 @@ const acceptableOptions = <IAcceptableOptions> {
   cb: true,
   val: true,
   value: true,
+  define: true,
   parallel: true,
   series: true,
   mode: true,

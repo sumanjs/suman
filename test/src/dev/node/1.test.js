@@ -78,6 +78,8 @@ Test.create(opts, ['rudolph', function (assert, describe, before, beforeEach, af
 
     before.define(v => {
 
+      debugger;
+
       v.run(h => {
         console.log('in the run now 1.');
       });

@@ -47,6 +47,7 @@ const pragmatik = require('pragmatik');
 //project
 let inBrowser = false, usingKarma = false;
 import sumanRun = require('./helpers/suman-run');
+import {DefineObject} from './test-suite-helpers/suman-methods';
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
@@ -382,9 +383,12 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
 
   const integrantsFn = handleIntegrants(integrants, $oncePost, integrantPreFn, $module);
 
-  const start: IStartCreate = function (/*likely args: desc, opts, arr, cb */) {
+  const start: IStartCreate = function ($$desc, $$opts, /* signature is likely args: desc, opts, arr, cb */) {
 
-    const args = pragmatik.parse(arguments, rules.createSignature);
+    const args = pragmatik.parse(arguments, rules.createSignature, {
+      preParsed: su.isObject($$opts) && $$opts.__preParsed
+    });
+
     args[1].__preParsed = true;
 
     if (start.tooLate === true) {
@@ -460,20 +464,26 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     parent: $module.parent ? $module.parent.filename : null, //parent is who required the original $module
     file: $module.filename,
     create: start,
-    define: function (fn: Function) {
-      debugger;
-      const o = {};
-      o.inject = function () {
-        return o;
-      };
-      o.create = function () {
-        return o;
-      };
-      o.names = function () {
-        return o;
-      };
-      o.run = start;
-      fn(o);
+    define: function (f: Function) {
+
+
+      const defObj = new DefineObject(start);
+      f.call(null, defObj);
+
+      // debugger;
+      // const o = {};
+      // o.inject = function () {
+      //   return o;
+      // };
+      // o.create = function () {
+      //   return o;
+      // };
+      // o.names = function () {
+      //   return o;
+      // };
+      // o.run = start;
+      // fn(o);
+
     }
   };
 

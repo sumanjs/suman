@@ -31,10 +31,12 @@ import {parseArgs} from '../helpers/general';
 
 const typeName = 'after';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObject': true,
   plan: true,
   throws: true,
   fatal: true,
   cb: true,
+  define: true,
   timeout: true,
   retries: true,
   skip: true,
