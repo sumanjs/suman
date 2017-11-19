@@ -6,7 +6,8 @@ export declare class DefineObject {
     inject(): DefineObject;
     name(v: string): DefineObject;
     timeout(v: number): DefineObject;
-    names(...args: any[]): DefineObject;
+    source(...args: string[]): DefineObject;
+    names(...args: string[]): DefineObject;
     run(fn: Function): DefineObject;
 }
 export declare const makeSumanMethods: (suman: Suman, TestBlock: any, gracefulExit: Function, notifyParent: Function) => any;

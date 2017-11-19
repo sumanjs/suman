@@ -75,8 +75,6 @@ export const execSuite = function (suman: ISuman): Function {
     const arrayDeps = vetted.arrayDeps;
     let iocDeps: Array<string>;
 
-    debugger;
-
     assert(opts.__preParsed, 'Suman implementation error. ' +
       'Options should be pre-parsed at this point in the program. Please report.');
     delete opts.__preParsed;
@@ -86,6 +84,12 @@ export const execSuite = function (suman: ISuman): Function {
     }
     else {
       iocDeps = [];
+    }
+
+    if(opts.sourced){
+      opts.sourced.forEach(function(v : string){
+        iocDeps.push(v);
+      });
     }
 
     const desc = ($desc === '[suman-placeholder]') ? suman.slicedFileName : $desc;

@@ -9,11 +9,15 @@ const {Test} = suman.init(module, {}, {
 Test.define(v => {
 
   v.inject('age', 'age', 'age')
-  .names('b', 'before', 'after', 'afterEach')
+  .source('mika')
   .run((b, before, after, afterEach, it) => {
 
+    const {mika} = b.ioc;
+
+    console.log('mika => ', mika);
+
     before.define(v =>
-      v.inject('3').timeout(300)
+      v.source('mika').timeout(300)
       .run(h => {
         debugger;
         console.log('this is before');

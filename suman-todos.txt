@@ -23,6 +23,7 @@ if not a .js file, we need to capture stdout/stderr in suman runner, and put it 
     inject hooks => add to $inject
     shared => b.set() / b.get()
     ioc => b.ioc
+    .source('a','b','c');
     h.$inject should be h.?
 
 ///////

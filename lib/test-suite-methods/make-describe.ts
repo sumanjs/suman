@@ -49,6 +49,7 @@ const acceptableOptions = <IAcceptableOptions> {
   skip: true,
   only: true,
   define: true,
+  sourced: true,
   delay: true,
   parallel: true,
   retries: true,
@@ -99,6 +100,12 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
     else {
       iocDepNames = [];
+    }
+
+    if(opts.sourced){
+      opts.sourced.forEach(function(v : string){
+        iocDepNames.push(v);
+      });
     }
 
     const allDescribeBlocks = suman.allDescribeBlocks;
@@ -222,17 +229,13 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
 
         let v = suite.__inject = Object.create(zuite.__inject);
         suite.$inject = McProxy.create(v);
-
         const iocDepsParent = Object.create(zuite.ioc);
-
-        debugger;
 
         acquireIocDeps(suman, iocDepNames, suite, iocDepsParent, function (err: Error, iocDeps: IInjectionDeps) {
 
           if (err) {
             _suman.log.error(err.stack || err);
-            process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
-            return;
+            return process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
 
           suite.ioc = iocDeps;

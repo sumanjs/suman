@@ -37,7 +37,7 @@ if (!process.prependOnceListener) {
 process.prependOnceListener('exit', function (code: number) {
 
   const testDebugLogPath = _suman.testDebugLogPath;
-  debugger;
+  debugger; // leave it here
 
   if (errors.length > 0) {
     code = code || constants.EXIT_CODES.UNEXPECTED_NON_FATAL_ERROR;

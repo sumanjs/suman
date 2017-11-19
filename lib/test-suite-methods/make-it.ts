@@ -41,6 +41,7 @@ const acceptableOptions = <IAcceptableOptions> {
   val: true,
   value: true,
   define: true,
+  sourced: true,
   parallel: true,
   series: true,
   mode: true,

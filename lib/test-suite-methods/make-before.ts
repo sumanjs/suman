@@ -40,6 +40,7 @@ const acceptableOptions = <IAcceptableOptions> {
   plan: true,
   throws: true,
   fatal: true,
+  sourced: true,
   define: true,
   retries: true,
   cb: true,
@@ -68,7 +69,7 @@ const handleBadOptions = function (opts: IBeforeOpts) {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeBefore = function (suman: ISuman): IBeforeFn {
 
@@ -86,8 +87,6 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
     } catch (err) {
       //ignore
     }
-
-    debugger;
 
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;

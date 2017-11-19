@@ -186,7 +186,14 @@ export class DefineObject {
     return this;
   }
 
-  names(...args: any[]): DefineObject {
+  source(...args: string[]): DefineObject {
+    this.opts.sourced = Array.from(arguments).reduce(function (a, b) {
+      return a.concat(b);
+    }, []);
+    return this;
+  }
+
+  names(...args: string[]): DefineObject {
     this.opts.names = Array.from(arguments).reduce(function (a, b) {
       return a.concat(b);
     }, []);
@@ -194,14 +201,11 @@ export class DefineObject {
   }
 
   run(fn: Function): DefineObject {
-
     const name = this.opts.name || '(unknown DefineObject name)';
     const opts = JSON.parse(su.customStringify(this.opts));
     this.exec.call(null, name, opts, fn);
     return this;
-
   }
-
 }
 
 const addDefineOld = function (fn: any) {

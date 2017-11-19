@@ -818,12 +818,7 @@ export const cloneError: ICloneErrorFn = function (err, newMessage, stripAllButT
 
 export const parseArgs = function (args: Array<any>, fnIsRequired?: boolean) {
 
-  let myargs = arguments;
-  debugger;
-
   let [desc, opts, arr, fn] = args;
-
-  debugger;
 
   if (arr && fn) {
     //TODO: we should reference the clone error from each hook or test case

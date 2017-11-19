@@ -34,6 +34,7 @@ const acceptableOptions = <IAcceptableOptions> {
   throws: true,
   fatal: true,
   define: true,
+  sourced: true,
   retries: true,
   cb: true,
   timeout: true,
