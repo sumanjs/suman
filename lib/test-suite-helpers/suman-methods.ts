@@ -43,7 +43,7 @@ import {makeCreateInjector} from '../injection/create-injector';
 
 const possibleProps = <any> {
 
-  // ALL LOWERCASE HERE
+  // note: ALL LOWERCASE HERE
 
   //methods
   describe: true,
@@ -255,6 +255,66 @@ export class DefineObject {
   mode(v: string): DefineObject {
     assert.equal(typeof v, 'string', 'Value for "mode" must be a string.');
     this.opts.mode = v;
+    return this;
+  }
+
+  events(): DefineObject {
+
+    const successEvents = this.opts.successEvents = this.opts.successEvents || [];
+    _.flattenDeep([Array.from(arguments)]).forEach(function(v){
+      assert(v, 'Value was going to be added to "successEvents", but value is falsy');
+      assert.equal(typeof v, 'string', 'Value for "successEvent" must be a string.');
+      successEvents.push(v);
+    });
+
+    return this;
+  }
+
+  successEvents(...args: (string | Array<string>)[]): DefineObject {
+
+    const successEvents = this.opts.successEvents = this.opts.successEvents || [];
+    _.flattenDeep([Array.from(arguments)]).forEach(function(v){
+      assert(v, 'Value was going to be added to "successEvents", but value is falsy');
+      assert.equal(typeof v, 'string', 'Value for "successEvent" must be a string.');
+      successEvents.push(v);
+    });
+
+    return this;
+  }
+
+  successEvent(...args: string[]): DefineObject {
+
+    const successEvents = this.opts.successEvents = this.opts.successEvents || [];
+    _.flattenDeep([Array.from(arguments)]).forEach(function(v){
+      assert(v, 'Value was going to be added to "successEvents", but value is falsy');
+      assert.equal(typeof v, 'string', 'Value for "successEvent" must be a string.');
+      successEvents.push(v);
+    });
+
+    return this;
+  }
+
+  errorEvents(...args: (Array<string> | string)[]): DefineObject {
+
+    const errorEvents = this.opts.errorEvents = this.opts.errorEvents || [];
+    _.flattenDeep([Array.from(arguments)]).forEach(function(v){
+      assert(v, 'Value was going to be added to "errorEvents", but value is falsy');
+      assert.equal(typeof v, 'string', 'Value for "errorEvent" must be a string.');
+      errorEvents.push(v);
+    });
+
+    return this;
+  }
+
+  errorEvent(...args: string[]): DefineObject {
+
+    const errorEvents = this.opts.errorEvents = this.opts.errorEvents || [];
+    _.flattenDeep([Array.from(arguments)]).forEach(function(v){
+      assert(v, 'Value was going to be added to "errorEvents", but value is falsy');
+      assert.equal(typeof v, 'string', 'Value for "errorEvent" must be a string.');
+      errorEvents.push(v);
+    });
+
     return this;
   }
 
