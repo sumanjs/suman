@@ -17,6 +17,11 @@ export declare class DefineObject {
     parallel(v: boolean): DefineObject;
     series(v: boolean): DefineObject;
     mode(v: string): DefineObject;
+    events(): DefineObject;
+    successEvents(...args: (string | Array<string>)[]): DefineObject;
+    successEvent(...args: string[]): DefineObject;
+    errorEvents(...args: (Array<string> | string)[]): DefineObject;
+    errorEvent(...args: string[]): DefineObject;
     first(v: boolean): DefineObject;
     last(v: boolean): DefineObject;
     always(v: boolean): DefineObject;
