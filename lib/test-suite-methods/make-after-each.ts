@@ -36,6 +36,8 @@ const acceptableOptions = <IAcceptableOptions> {
   cb: true,
   timeout: true,
   skip: true,
+  desc: true,
+  title: true,
   events: true,
   successEvent: true,
   errorEvent: true,

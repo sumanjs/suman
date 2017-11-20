@@ -105,6 +105,7 @@ const makeProxy = function (suman: ISuman): Function {
         props = props || [];
 
         if (prop === 'define') {
+          // we don't need to bind define to target, since it uses a closure
           return target.define;
         }
 
@@ -161,11 +162,12 @@ export class DefineObject {
   private exec: any;
   private opts: any;
 
-  constructor(exec: any) {
+  constructor(desc: string, exec: any) {
     this.exec = exec;
     this.opts = {
       '@DefineObjectOpts': true,
-      __preParsed: false
+      __preParsed: false,
+      desc: desc || '(unknown description/title/name)',
     };
   }
 
@@ -179,9 +181,27 @@ export class DefineObject {
     return this;
   }
 
+  desc(v: string): DefineObject {
+    assert.equal(typeof v, 'string', 'Value for "desc" must be a string.');
+    this.opts.desc = v;
+    return this;
+  }
+
+  title(v: string): DefineObject {
+    assert.equal(typeof v, 'string', 'Value for "title" must be a string.');
+    this.opts.desc = v;
+    return this;
+  }
+
   name(v: string): DefineObject {
-    assert.equal(typeof v, 'string', 'Value for name must be a string.');
-    this.opts.name = v;
+    assert.equal(typeof v, 'string', 'Value for "name" must be a string.');
+    this.opts.desc = v;
+    return this;
+  }
+
+  description(v: string): DefineObject {
+    assert.equal(typeof v, 'string', 'Value for "description" must be a string.');
+    this.opts.desc = v;
     return this;
   }
 
@@ -277,7 +297,7 @@ export class DefineObject {
   }
 
   run(fn: Function): DefineObject {
-    const name = this.opts.name || '(unknown DefineObject name)';
+    const name = this.opts.desc || '(unknown DefineObject name)';
     const opts = JSON.parse(su.customStringify(this.opts));
     this.exec.call(null, name, opts, fn);
     return this;
@@ -285,30 +305,20 @@ export class DefineObject {
 
 }
 
-const addDefineOld = function (fn: any) {
-
-  fn.define = function (f: Function) {
-
-    const o = {};
-    o.run = fn;
-
-    debugger;
-    f(o);
-
-  };
-
-  return fn;
-
-};
-
 const addDefine = function (fn: any) {
 
-  fn.define = function (f: Function) {
+  fn.define = function (desc?: string | Function, f?: Function) {
 
-    const defObj = new DefineObject(fn);
+    if (typeof desc === 'function') {
+      f = desc;
+      desc = null;
+    }
+
+    const defObj = new DefineObject(desc as string, fn);
     assert(typeof f === 'function', 'You must pass a (synchronous) callback as the first argument to define.');
     f.call(null, defObj);
 
+    return defObj;
   };
 
   return fn;
@@ -333,16 +343,16 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBas
 
   suman.containerProxy = m;
 
-  const blockInjector = makeBlockInjector(suman, m);
-  const createInjector = makeCreateInjector(suman, m);
-  const inject: IInjectFn = makeInject(suman);
+  const blockInjector = addDefine(makeBlockInjector(suman, m));
+  const createInjector = addDefine(makeCreateInjector(suman, m));
+  const inject: IInjectFn = addDefine(makeInject(suman));
   const before: IBeforeFn = addDefine(makeBefore(suman));
-  const after: IAfterFn = makeAfter(suman);
-  const beforeEach: IBeforeEachFn = makeBeforeEach(suman);
-  const afterEach: IAfterEachFn = makeAfterEach(suman);
-  const it: ItFn = makeIt(suman);
-  const afterAllParentHooks = makeAfterAllParentHooks(suman);
-  const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestBlock, notifyParent, blockInjector);
+  const after: IAfterFn = addDefine(makeAfter(suman));
+  const beforeEach: IBeforeEachFn = addDefine(makeBeforeEach(suman));
+  const afterEach: IAfterEachFn = addDefine(makeAfterEach(suman));
+  const it: ItFn = addDefine(makeIt(suman));
+  const afterAllParentHooks = addDefine(makeAfterAllParentHooks(suman));
+  const describe: IDescribeFn = addDefine(makeDescribe(suman, gracefulExit, TestBlock, notifyParent, blockInjector));
 
   /////////////////////////////////////////////////////////////////////////////////////////
 

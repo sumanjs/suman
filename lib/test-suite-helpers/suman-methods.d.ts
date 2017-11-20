@@ -2,10 +2,13 @@ import { Suman } from "../suman";
 export declare class DefineObject {
     private exec;
     private opts;
-    constructor(exec: any);
+    constructor(desc: string, exec: any);
     inject(): DefineObject;
     plan(v: number): DefineObject;
+    desc(v: string): DefineObject;
+    title(v: string): DefineObject;
     name(v: string): DefineObject;
+    description(v: string): DefineObject;
     throws(v: string | RegExp): DefineObject;
     cb(v: boolean): DefineObject;
     fatal(v: boolean): DefineObject;

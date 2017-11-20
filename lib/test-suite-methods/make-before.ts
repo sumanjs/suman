@@ -44,6 +44,8 @@ const acceptableOptions = <IAcceptableOptions> {
   cb: true,
   timeout: true,
   skip: true,
+  desc: true,
+  title: true,
   events: true,
   first: true,
   last: true,

@@ -49,6 +49,8 @@ const acceptableOptions = <IAcceptableOptions> {
   only: true,
   sourced: true,
   delay: true,
+  desc: true,
+  title: true,
   parallel: true,
   retries: true,
   limit: true,

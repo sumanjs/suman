@@ -464,25 +464,17 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     parent: $module.parent ? $module.parent.filename : null, //parent is who required the original $module
     file: $module.filename,
     create: start,
-    define: function (f: Function) {
+    define: function (desc?: string | Function, f?: Function) {
 
+      if(typeof desc === 'function'){
+        f = desc;
+        desc = null;
+      }
 
-      const defObj = new DefineObject(start);
-      f.call(null, defObj);
+      const defObj = new DefineObject(desc as string, start);
 
-      // debugger;
-      // const o = {};
-      // o.inject = function () {
-      //   return o;
-      // };
-      // o.create = function () {
-      //   return o;
-      // };
-      // o.names = function () {
-      //   return o;
-      // };
-      // o.run = start;
-      // fn(o);
+      f && f.call(null, defObj);
+
 
       return defObj;
 
