@@ -376,8 +376,10 @@ const addDefine = function (fn: any) {
     }
 
     const defObj = new DefineObject(desc as string, fn);
-    assert(typeof f === 'function', 'You must pass a (synchronous) callback as the first argument to define.');
-    f.call(null, defObj);
+    if(f){
+      assert(typeof f === 'function', 'Optional argument to define() was expected to be a function.');
+      f.call(null, defObj);
+    }
 
     return defObj;
   };
