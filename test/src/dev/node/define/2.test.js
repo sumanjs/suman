@@ -1,107 +1,41 @@
 const suman = require('suman');
 const {Test} = suman.init(module);
 
-Test.define('age').parallel(true)
-  .run((b, test, describe) => {
-    
-    b.set('3', 5);
-    
-    test.define('here we go')
-      .timeout(400)
-      .parallel(true)
-      .run(t => {
-        t.assert(false, 'bust a move');
-      });
-    
-  })
-  .run((b, test) => {
-    
-    b.set('3', 5);
-    
-    test('here', t => {
-        t.assert(true);
-    });
-  
-    test('here', t => {
-      t.assert(true);
-    });
-  
-    test('here', t => {
-      t.assert(true);
-    });
-  
-    test.define('here we go')
-      .timeout(400)
-      .parallel(true)
-      .run(t => {
-        t.assert(false, 'bust a move');
-      });
-  
-  });
 
-
-return;
-
-Test.define('here we go', v => {
-  
-  v.timeout(5)
-    .run(function (it, test) {
-      
-      test.define('here is a name', v => {
-        v.timeout(1)
-          .run(t => {
-          
-          })
-          .run(t => {
-          
-          })
-          .run(t => {
-          
-          })
-          .run(t => {
-          
-          });
-      })
-      
-    });
-  
-  Test.create(function (it, test) {
+Test.define('ballistic')
+  .parallel(true)
+  .run(function (b, test, context, after) {
     
-    test.define('here is a name', v => {
-      
-      test.define('here is a name', v => {
-        
-        v.timeout(1)
-          .run(t => {
-          
-          })
-          .run(t => {
-          
-          })
-          .run(t => {
-          
-          })
-          .run(t => {
-          
-          });
-      });
-      
-      v.timeout(1)
+    b.set('a', {foo: true});
+    
+    context('inner', b => {
+  
+      b.set('b', {bar: 4});
+  
+      test.define('rghh')
         .run(t => {
-        
+          const z = b.get('a');
+          z.foo = 5;
+          debugger;
         })
         .run(t => {
-        
-        })
-        .run(t => {
-        
-        })
-        .run(t => {
-        
+          const z = b.get('a');
+          debugger;
+          t.assert.equal(z.foo, 5);
         });
     });
     
     
+    after.define('hi')
+      .run(h => {
+        debugger;
+        const z = b.get();
+        debugger;
+      });
+    
+ 
+    
+    
   });
-  
-});
+
+

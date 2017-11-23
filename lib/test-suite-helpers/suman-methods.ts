@@ -376,6 +376,9 @@ const addDefine = function (fn: any) {
     }
 
     const defObj = new DefineObject(desc as string, fn);
+  
+    debugger;
+    
     if(f){
       assert(typeof f === 'function', 'Optional argument to define() was expected to be a function.');
       f.call(null, defObj);

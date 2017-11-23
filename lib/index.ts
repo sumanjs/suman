@@ -476,6 +476,8 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
       }
       
       const defObj = new DefineObject(desc as string, start);
+  
+      debugger;
       
       if (f) {
         assert(typeof f === 'function', 'Optional argument to define() was expected to be a function.');

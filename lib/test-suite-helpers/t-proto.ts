@@ -33,9 +33,9 @@ proto.set = function (k: string, v: any) {
   return this.shared.set(k, v);
 };
 
-proto.get = function (k: string) {
-  if (!k) {
-    throw new Error('Must pass a non-empty string to "get" method.');
+proto.get = function (k?: string) {
+  if(arguments.length < 1){
+    return this.shared.getAll();
   }
   return this.shared.get(k);
 };
