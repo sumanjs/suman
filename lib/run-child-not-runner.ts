@@ -32,7 +32,7 @@ process.on('uncaughtException', function (err: IPseudoError) {
 
   if (typeof err !== 'object') { // if null or string, etc
     const val = typeof err === 'string' ? err : util.inspect(err);
-    console.error('\n\n', chalk.red(' => Implementation warning: value passed to uncaughtException handler ' +
+    _suman.log.error('\n\n', chalk.red(' => Implementation warning: value passed to uncaughtException handler ' +
       'was not typeof "object" => '), val, '\n\n');
     err = {message: val, stack: val}
   }
@@ -42,7 +42,7 @@ process.on('uncaughtException', function (err: IPseudoError) {
     // but if they don't take care of business, then we step in here
 
     if (err && !err._alreadyHandledBySuman) {
-      console.error('\n', ' => Suman uncaught exception =>', '\n', (err.stack || err), '\n\n');
+      _suman.log.error('\n', ' => Suman uncaught exception =>', '\n', (err.stack || err), '\n\n');
     }
 
     process.exit(constants.EXIT_CODES.UNEXPECTED_FATAL_ERROR);
@@ -55,14 +55,8 @@ const sumanHelperDirRoot = _suman.sumanHelperDirRoot;
 const sumanConfig = _suman.sumanConfig;
 const useBabelRegister = _suman.useBabelRegister = sumanOpts.$useBabelRegister;
 
-try {
-  require(path.resolve(sumanHelperDirRoot + '/suman.globals.js'));  //load globals
-}
-catch (err) {
-  console.error('\n', chalk.yellow.bold(' => Suman usage warning => Could not load your suman.globals.js file.'));
-  console.error(err.message || err);
-  console.error(' => Suman will continue optimistically, even though your suman.globals.js file could not be loaded.');
-}
+
+
 
 export const run = function (files: Array<string>) {
 
@@ -77,6 +71,15 @@ export const run = function (files: Array<string>) {
       // an array of strings to be explicitly matched or a regex / glob
       // ignore: false
     });
+  }
+
+  try {
+    require(path.resolve(sumanHelperDirRoot + '/suman.globals.js'));  //load globals
+  }
+  catch (err) {
+    _suman.log.error('\n', chalk.yellow.bold(' => Suman usage warning => Could not load your suman.globals.js file.'));
+    _suman.log.error(err.message || err);
+    _suman.log.error(' => Suman will continue optimistically, even though your suman.globals.js file could not be loaded.');
   }
 
   if (!process.prependListener) {
