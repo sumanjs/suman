@@ -48,7 +48,7 @@ const shutdownSuman = function (msg: string) {
             oncePostFn(cb);
           }
           else {
-            _suman.log.error('Suman internal warning, "oncePostFn" not yet defined.');
+            _suman.log.error('Suman internal warning, "oncePostFn" routine not yet available.');
             process.nextTick(cb);
           }
         },
@@ -114,7 +114,6 @@ let sigtermCount = 0;
 process.on('SIGTERM', function () {
 
   debugger; // leave debugger statement here
-
   sigtermCount++;
   console.log('\n');
   _suman.log.error(chalk.red('SIGTERM signal caught by suman process.'));
@@ -146,7 +145,6 @@ process.removeAllListeners('uncaughtException');
 process.on('uncaughtException', function (err: SumanErrorRace) {
 
   debugger; // leave debugger statement here
-
   const sumanOpts = _suman.sumanOpts;
 
   if (!err) {

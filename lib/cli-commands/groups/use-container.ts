@@ -25,7 +25,7 @@ const debug = require('suman-debug')('s:groups');
 
 ////////////////////////////////////////////////////////////////////////////
 
-export const runUseContainer = function (strm: Writable, item, cb: Function) {
+export const runUseContainer = function (strm: Writable, item: any, cb: Function) {
 
   const {projectRoot, sumanOpts} = _suman;
 

@@ -7,9 +7,25 @@ fi
 #. shared-functions.sh # source this shared file
 
 if test "$#" -eq "0"; then
+    # if there are no arguments to `$suman` then we launch `$suman-shell` instead
     exec "$(dirname "$0")/suman-shell"
-    exit;
+    exit $?;
 fi
+
+suman_inspect="no"
+
+for item in $@; do
+    if [[ "--inspect" == "$item" || "--inspect-brk" == "$item" ]]; then
+        suman_inspect="yes"
+    fi
+done
+
+if test "$suman_inspect" == "yes"; then
+    echo "running suman inspect.";
+    exec "$(dirname "$0")/suman-inspect" "$@"
+    exit $?;
+fi
+
 
 echo " [suman] Original path of Suman executable => \"$0\""
 DIRN="$(dirname "$0")"

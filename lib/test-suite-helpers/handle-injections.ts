@@ -1,6 +1,8 @@
 'use strict';
+
+//dts
 import {IInjectionObj, ITestSuite} from "suman-types/dts/test-suite";
-import {IPseudoError} from "suman-types/dts/global";
+import {IPseudoError, IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -16,7 +18,7 @@ import {freezeExistingProps as freeze} from 'freeze-existing-props';
 import su = require('suman-utils');
 
 //project
-const _suman = global.__suman = (global.__suman || {});
+const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {tProto} from './t-proto';
 import {constants} from "../../config/suman-constants";
 const weAreDebugging = su.weAreDebugging;

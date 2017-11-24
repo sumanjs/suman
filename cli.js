@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 debugger;
 var process = require('suman-browser-polyfills/modules/process');
 var global = require('suman-browser-polyfills/modules/global');
-var callable = true;
+var isLogExitCallable = true;
 var logExit = function (code) {
-    if (callable) {
-        callable = false;
+    if (isLogExitCallable) {
+        isLogExitCallable = false;
         console.log('\n');
         console.log(' => Suman cli exiting with code: ', code);
         console.log('\n');
@@ -80,18 +80,21 @@ var su = require("suman-utils");
 var _ = require("lodash");
 var uniqBy = require('lodash.uniqby');
 var events = require('suman-events').events;
+var JSONStdio = require("json-stdio");
 var _suman = global.__suman = (global.__suman || {});
 require('./lib/helpers/add-suman-global-properties');
 require('./lib/patches/all');
 var load_reporters_1 = require("./lib/helpers/load-reporters");
 var suman_constants_1 = require("./config/suman-constants");
-var general_1 = require("./lib/helpers/general");
+var general = require("./lib/helpers/general");
 if (su.weAreDebugging) {
     _suman.log.info(' => Suman is in debug mode (we are debugging).');
     _suman.log.info(' => Process PID => ', process.pid);
 }
-_suman.log.info(chalk.magenta(' => Suman started with the following command:'), chalk.bold(util.inspect(process.argv)));
-_suman.log.info(' => $NODE_PATH is as follows:', process.env['NODE_PATH']);
+if (su.vgt(6)) {
+    _suman.log.info(chalk.magenta(' => Suman started with the following command:'), chalk.bold(util.inspect(process.argv)));
+    _suman.log.info("NODE_PATH env var is as follows: '" + process.env['NODE_PATH'] + "'");
+}
 _suman.log.info('Resolved path of Suman executable =>', '"' + __filename + '"');
 var nodeVersion = process.version;
 var oldestSupported = suman_constants_1.constants.OLDEST_SUPPORTED_NODE_VERSION;
@@ -109,46 +112,9 @@ _suman.log.info('[process.pid] => ', process.pid);
 _suman.startTime = Date.now();
 var cwd = process.cwd();
 var sumanExecutablePath = _suman.sumanExecutablePath = process.env.SUMAN_EXECUTABLE_PATH = __filename;
-var projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = su.findProjectRoot(cwd);
-var cwdAsRoot = process.argv.indexOf('--cwd-is-root') > -1;
-if (!projectRoot) {
-    if (!cwdAsRoot) {
-        console.log(' => Warning => A NPM/Node.js project root could not be found given your current working directory.');
-        console.log(chalk.red.bold(' => cwd:', cwd, ' '));
-        console.log('\n', chalk.red.bold('=> Please execute the suman command from within the root of your project. '), '\n');
-        console.log('\n', chalk.blue.bold('=> (Perhaps you need to run "npm init" before running "suman --init", ' +
-            'which will create a package.json file for you at the root of your project.) ') + '\n');
-        process.exit(1);
-    }
-    else {
-        projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = cwd;
-    }
-}
 var sumanOpts = _suman.sumanOpts = require('./lib/parse-cmd-line-opts/parse-opts');
-_suman.sumanArgs = sumanOpts._args;
-if (su.vgt(7)) {
-    _suman.log.info('Project root:', projectRoot);
-}
-if (cwd !== projectRoot) {
-    if (su.vgt(1)) {
-        _suman.log.info('Note that your current working directory is not equal to the project root:');
-        _suman.log.info('cwd:', chalk.magenta(cwd));
-        _suman.log.info('Project root:', chalk.magenta(projectRoot));
-    }
-}
-else {
-    if (su.vgt(2)) {
-        if (cwd === projectRoot) {
-            _suman.log.info(chalk.gray('cwd:', cwd));
-        }
-    }
-    if (cwd !== projectRoot) {
-        _suman.log.info(chalk.magenta('cwd:', cwd));
-    }
-}
 var viaSuman = _suman.viaSuman = true;
-var resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
-var sumanConfig, pth;
+var rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 var configPath = sumanOpts.config;
 var serverName = sumanOpts.server_name;
 var convert = sumanOpts.convert_from_mocha;
@@ -179,6 +145,7 @@ var repair = sumanOpts.repair;
 var uninstallBabel = sumanOpts.uninstall_babel;
 var groups = sumanOpts.groups;
 var useTAPOutput = sumanOpts.use_tap_output;
+var useTAPJSONOutput = sumanOpts.use_tap_json_output;
 var fullStackTraces = sumanOpts.full_stack_traces;
 var coverage = sumanOpts.coverage;
 var diagnostics = sumanOpts.diagnostics;
@@ -190,6 +157,44 @@ var watchPer = sumanOpts.watch_per;
 var singleProcess = sumanOpts.single_process;
 var script = sumanOpts.script;
 var browser = sumanOpts.browser;
+var cwdAsRoot = sumanOpts.force_cwd_to_be_project_root;
+if (sumanOpts.force_inherit_stdio) {
+    _suman.$forceInheritStdio = true;
+}
+var projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = su.findProjectRoot(cwd);
+if (!projectRoot) {
+    if (!cwdAsRoot) {
+        _suman.log.error('warning: A NPM project root could not be found given your current working directory.');
+        _suman.log.error(chalk.red.bold('=> cwd:', cwd, ' '));
+        _suman.log.error(chalk.red('=> Please execute the suman command from within the root of your project. '));
+        _suman.log.error(chalk.red.italic('=> Suman looks for the nearest package.json file to determine the project root. '));
+        _suman.log.error(chalk.red("=> Consider using the " + chalk.red.bold('"--force-cwd-to-be-project-root"') + " option."));
+        _suman.log.error(chalk.red('=> Perhaps you need to run "npm init" before running "suman --init", ' +
+            'which will create a package.json file for you at the root of your project.'));
+        return process.exit(1);
+    }
+    projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = cwd;
+}
+if (su.vgt(7)) {
+    _suman.log.info('Project root:', projectRoot);
+}
+if (cwd !== projectRoot) {
+    if (su.vgt(1)) {
+        _suman.log.info('Note that your current working directory is not equal to the project root:');
+        _suman.log.info('cwd:', chalk.magenta(cwd));
+        _suman.log.info('Project root:', chalk.magenta(projectRoot));
+    }
+}
+else {
+    if (su.vgt(2)) {
+        if (cwd === projectRoot) {
+            _suman.log.info(chalk.gray('cwd:', cwd));
+        }
+    }
+    if (cwd !== projectRoot) {
+        _suman.log.info(chalk.magenta('cwd:', cwd));
+    }
+}
 if (singleProcess) {
     process.env.SUMAN_SINGLE_PROCESS = 'yes';
 }
@@ -208,105 +213,129 @@ if (coverage) {
 var babelRegister = sumanOpts.babel_register;
 var noBabelRegister = sumanOpts.no_babel_register;
 var originalTranspileOption = sumanOpts.transpile = Boolean(sumanOpts.transpile);
-var sumanInstalledLocally = null;
-var sumanInstalledAtAll = null;
-var sumanServerInstalled = null;
 if (sumanOpts.version) {
     console.log('\n');
     _suman.log.info('Node.js version:', nodeVersion);
-    _suman.log.info('Suman version:', sumanVersion);
+    _suman.log.info('Suman version:', 'v' + sumanVersion);
     _suman.log.info('...And we\'re done here.', '\n');
     process.exit(0);
 }
-function makeThrow(msg) {
-    console.log('\n');
-    console.error('\n');
-    throw msg;
+{
+    var requireFile_1 = general.makeRequireFile(projectRoot);
+    _.flattenDeep([sumanOpts.require]).filter(function (v) { return v; }).forEach(function (s) {
+        String(s).split(',')
+            .map(function (v) { return String(v).trim(); })
+            .filter(function (v) { return v; })
+            .forEach(requireFile_1);
+    });
 }
-if (sumanOpts.transpile && sumanOpts.no_transpile) {
-    makeThrow(' => Suman fatal problem => --transpile and --no-transpile options were both set,' +
-        ' please choose one only.');
-}
-if (sumanOpts.append_match_all && sumanOpts.match_all) {
-    makeThrow(' => Suman fatal problem => --match-all and --append-match-all options were both set,' +
-        ' please choose one only.');
-}
-if (sumanOpts.append_match_any && sumanOpts.match_any) {
-    makeThrow(' => Suman fatal problem => --match-any and --append-match-any options were both set,' +
-        ' please choose one only.');
-}
-if (sumanOpts.append_match_none && sumanOpts.match_none) {
-    makeThrow(' => Suman fatal problem => --match-none and --append-match-none options were both set,' +
-        ' please choose one only.');
-}
-if (sumanOpts.watch && sumanOpts.stop_watching) {
-    makeThrow('=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
-        'please choose one only.');
-}
-if (sumanOpts.babel_register && sumanOpts.no_babel_register) {
-    makeThrow('=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
-        ' please choose one only.');
-}
-try {
-    pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
-    sumanConfig = _suman.sumanConfig = require(pth);
-    if (sumanOpts.verbosity > 8) {
-        _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
+{
+    var makeThrow = function (msg) {
+        console.log('\n');
+        console.error('\n');
+        throw msg;
+    };
+    if (sumanOpts.transpile && sumanOpts.no_transpile) {
+        makeThrow(' => Suman fatal problem => --transpile and --no-transpile options were both set,' +
+            ' please choose one only.');
+    }
+    if (sumanOpts.append_match_all && sumanOpts.match_all) {
+        makeThrow(' => Suman fatal problem => --match-all and --append-match-all options were both set,' +
+            ' please choose one only.');
+    }
+    if (sumanOpts.append_match_any && sumanOpts.match_any) {
+        makeThrow(' => Suman fatal problem => --match-any and --append-match-any options were both set,' +
+            ' please choose one only.');
+    }
+    if (sumanOpts.append_match_none && sumanOpts.match_none) {
+        makeThrow(' => Suman fatal problem => --match-none and --append-match-none options were both set,' +
+            ' please choose one only.');
+    }
+    if (sumanOpts.watch && sumanOpts.stop_watching) {
+        makeThrow('=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
+            'please choose one only.');
+    }
+    if (sumanOpts.babel_register && sumanOpts.no_babel_register) {
+        makeThrow('=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
+            ' please choose one only.');
     }
 }
-catch (err) {
-    _suman.log.error(err.stack);
-    if (!/Cannot find module/i.test(err.stack)) {
-        throw err;
-    }
-    if (!init) {
-        _suman.log.warning(chalk.bgBlack.yellow('warning => Could not load your config file ' +
-            'in your current working directory or given by --cfg at the command line...'));
-        _suman.log.warning(chalk.bgBlack.yellow(' => ...are you sure you issued the suman command in the right directory? ' +
-            '...now looking for a config file at the root of your project...'));
-    }
+var sumanConfig;
+{
+    var pth = void 0;
     try {
-        pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
+        pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
         sumanConfig = _suman.sumanConfig = require(pth);
-        if (sumanOpts.verbosity > 2) {
-            console.log(chalk.cyan(' => Suman config used: ' + pth + '\n'));
-        }
     }
     catch (err) {
-        _suman.usingDefaultConfig = true;
-        _suman.log.warning('warning => Using default configuration file, please create your suman.conf.js ' +
-            'file using "suman --init".');
-        sumanConfig = _suman.sumanConfig = require('./lib/default-conf-files/suman.default.conf.js');
+        _suman.log.warning(chalk.yellow(err.message));
+        if (!/Cannot find module/i.test(err.stack)) {
+            log.error(err.stack);
+            return process.exit(1);
+        }
+        if (!init) {
+            _suman.log.warning(chalk.yellow('Warning: Could not load your config file ' +
+                'in your current working directory or given by --cfg at the command line...'));
+            _suman.log.warning(chalk.yellow('...are you sure you issued the suman command in the right directory? ' +
+                '...now looking for a config file at the root of your project...'));
+        }
+        try {
+            pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
+            sumanConfig = _suman.sumanConfig = require(pth);
+            if (sumanOpts.verbosity > 2) {
+                log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
+            }
+        }
+        catch (err) {
+            _suman.usingDefaultConfig = true;
+            _suman.log.warning("Warning: suman is using a default 'suman.conf.js' file.");
+            _suman.log.warning("Please create your own 'suman.conf.js' file using \"suman --init\".");
+            sumanConfig = _suman.sumanConfig = require('./lib/default-conf-files/suman.default.conf.js');
+        }
     }
 }
-if (init) {
-    console.log(chalk.magenta(' => "suman --init" is running.'));
-    sumanConfig = _suman.sumanConfig = _suman.sumanConfig || {};
+if (sumanOpts.verbosity > 8) {
+    _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
 }
-else {
-    var vetLocalInstallations = require('./lib/cli-helpers/determine-if-suman-is-installed').vetLocalInstallations;
-    var installObj = vetLocalInstallations(sumanConfig, sumanOpts, projectRoot);
-    sumanInstalledAtAll = installObj.sumanInstalledAtAll;
-    sumanServerInstalled = installObj.sumanServerInstalled;
-    sumanInstalledLocally = installObj.sumanInstalledLocally;
+var sumanInstalledLocally = null;
+var sumanInstalledAtAll = null;
+var sumanServerInstalled = null;
+{
+    if (init) {
+        log.info(chalk.magenta(' => "suman --init" is running.'));
+        sumanConfig = _suman.sumanConfig = _suman.sumanConfig || {};
+    }
+    else {
+        var vetLocalInstallations = require('./lib/cli-helpers/determine-if-suman-is-installed').vetLocalInstallations;
+        var installObj = vetLocalInstallations(sumanConfig, sumanOpts, projectRoot);
+        sumanInstalledAtAll = installObj.sumanInstalledAtAll;
+        sumanServerInstalled = installObj.sumanServerInstalled;
+        sumanInstalledLocally = installObj.sumanInstalledLocally;
+    }
+    var sumanPaths = general.resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
+    var sumanObj = general.loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 }
-var sumanPaths = general_1.resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
-var sumanObj = general_1.loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 if (sumanOpts.parallel && sumanOpts.series) {
-    throw chalk.red('suman usage error => "--series" and "--parallel" options were both used, ' +
+    throw chalk.red('Suman usage error => "--series" and "--parallel" options were both used, ' +
         'please choose one or neither...but not both!');
 }
 if ('concurrency' in sumanOpts) {
-    assert(Number.isInteger(sumanOpts.concurrency) && Number(sumanOpts.concurrency) > 0, chalk.red(' => Suman usage error => "--concurrency" option value should be an integer greater than 0.'));
+    assert(Number.isInteger(sumanOpts.concurrency) && Number(sumanOpts.concurrency) > 0, chalk.red('Suman usage error => "--concurrency" option value should be an integer greater than 0.'));
 }
 _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 15;
-sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
-sumanOpts.$useTAPOutput && _suman.log.info('using TAP output => ', sumanOpts.$useTAPOutput);
+{
+    sumanOpts.$useTAPOutput = _suman.useTAPOutput = sumanConfig.useTAPOutput || useTAPOutput;
+    sumanOpts.$useTAPOutput && _suman.log.info('Using TAP output => ', sumanOpts.$useTAPOutput);
+}
+{
+    sumanOpts.$useTAPJSONOutput = _suman.useTAPJSONOutput = sumanConfig.useTAPJSONOutput || useTAPJSONOutput;
+    sumanOpts.$useTAPJSONOutput && _suman.log.info('Using TAP-JSON output => ', sumanOpts.$useTAPJSONOutput);
+}
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 var sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
     .map(function (item) { return (item instanceof RegExp) ? item : new RegExp(item); });
 if (sumanMatchesAny.length < 1) {
-    _suman.log.warning('no runnable file regexes available; using the default => /\.js$/');
+    _suman.log.warning('No runnable file regexes available; using the default => /\.js$/');
     sumanMatchesAny.push(/\.js$/);
 }
 var sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appendMatchNone || []))
@@ -316,64 +345,68 @@ var sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMat
 _suman.sumanMatchesAny = uniqBy(sumanMatchesAny, function (item) { return item; });
 _suman.sumanMatchesNone = uniqBy(sumanMatchesNone, function (item) { return item; });
 _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, function (item) { return item; });
-var preOptCheck = {
-    tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
-    create: create, useServer: useServer, useBabel: useBabel,
-    useIstanbul: useIstanbul, init: init, uninstall: uninstall,
-    convert: convert, groups: groups, s: s, interactive: interactive, uninstallBabel: uninstallBabel,
-    diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
-    repair: repair, sumanShell: sumanShell, script: script
-};
-var optCheck = Object.keys(preOptCheck).filter(function (key, index) {
-    return preOptCheck[key];
-})
-    .map(function (key) {
-    var value = preOptCheck[key];
-    var obj = {};
-    obj[key] = value;
-    return obj;
-});
-if (optCheck.length > 1) {
-    console.error('\t => Too many options, pick one from:\n', util.inspect(Object.keys(preOptCheck)));
-    console.error('\t => Current options used were:\n', util.inspect(optCheck));
-    console.error('\t => Use --help for more information.\n');
-    console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
-    process.exit(suman_constants_1.constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
-}
-load_reporters_1.loadReporters(sumanOpts, projectRoot, sumanConfig);
-resultBroadcaster.emit(String(events.NODE_VERSION), nodeVersion);
-resultBroadcaster.emit(String(events.SUMAN_VERSION), sumanVersion);
-var paths = _.flatten([sumanOpts._args]).slice(0);
-if (sumanOpts.test_paths_json) {
-    var jsonPaths = JSON.parse(String(sumanOpts.test_paths_json).trim());
-    jsonPaths.forEach(function (p) {
-        paths.push(p);
+{
+    var preOptCheck_1 = {
+        tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
+        create: create, useServer: useServer, useBabel: useBabel,
+        useIstanbul: useIstanbul, init: init, uninstall: uninstall,
+        convert: convert, groups: groups, s: s, interactive: interactive, uninstallBabel: uninstallBabel,
+        diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
+        repair: repair, sumanShell: sumanShell, script: script
+    };
+    var optCheck = Object.keys(preOptCheck_1).filter(function (key, index) {
+        return preOptCheck_1[key];
+    })
+        .map(function (key) {
+        var value = preOptCheck_1[key];
+        var obj = {};
+        obj[key] = value;
+        return obj;
     });
-}
-if (sumanOpts.replace_match && sumanOpts.replace_with) {
-    paths = paths.map(function (p) {
-        return String(p).replace(sumanOpts.replace_match, sumanOpts.replace_with);
-    });
-}
-if (sumanOpts.replace_ext_with) {
-    paths = paths.map(function (p) {
-        return String(p).substr(0, String(p).lastIndexOf('.')) + sumanOpts.replace_ext_with;
-    });
-}
-if (su.vgt(7)) {
-    console.log(' => Suman verbose message => arguments assumed to be test file paths to be run:', paths);
-    if (paths.length < 1) {
-        console.log(' => Suman verbose message => Since no paths were passed at the command line, we \n' +
-            'default to running tests from the "testSrc" directory (defined in your suman.conf.js file).');
+    if (optCheck.length > 1) {
+        console.error('\t => Too many options, pick one from:\n', util.inspect(Object.keys(preOptCheck_1)));
+        console.error('\t => Current options used were:\n', util.inspect(optCheck));
+        console.error('\t => Use --help for more information.\n');
+        console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
+        process.exit(suman_constants_1.constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
     }
 }
-if (sumanOpts.force_inherit_stdio) {
-    _suman.$forceInheritStdio = true;
+load_reporters_1.loadReporters(sumanOpts, projectRoot, sumanConfig);
+rb.emit(String(events.NODE_VERSION), nodeVersion);
+rb.emit(String(events.SUMAN_VERSION), sumanVersion);
+var paths = _.flatten([sumanOpts._args]).slice(0);
+{
+    if (sumanOpts.test_paths_json) {
+        var jsonPaths = JSON.parse(String(sumanOpts.test_paths_json).trim());
+        jsonPaths.forEach(function (p) {
+            paths.push(p);
+        });
+    }
+    if (sumanOpts.replace_match && sumanOpts.replace_with) {
+        paths = paths.map(function (p) {
+            return String(p).replace(sumanOpts.replace_match, sumanOpts.replace_with);
+        });
+    }
+    if (sumanOpts.replace_ext_with) {
+        paths = paths.map(function (p) {
+            return String(p).substr(0, String(p).lastIndexOf('.')) + sumanOpts.replace_ext_with;
+        });
+    }
+    if (su.vgt(7)) {
+        _suman.log.info('arguments assumed to be test file paths to be run:', paths);
+    }
 }
 var isTTY = process.stdout.isTTY;
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
-    if (!process.stdout.isTTY && !useTAPOutput) {
-        _suman.log.error(chalk.yellow.bold('you may need to turn on TAP output for test results to be captured in destination process.'));
+    if (!isTTY && !useTAPOutput) {
+        {
+            var messages = [
+                'You may need to turn on TAP output for test results to be captured in destination process.',
+                'Try using the "--tap" or "--tap-json" options at the suman command line.'
+            ];
+            _suman.log.error(chalk.yellow.bold(messages.join('\n')));
+            JSONStdio.logToStdout({ sumanMessage: true, kind: 'warning', messages: messages });
+        }
     }
 }
 if (diagnostics) {

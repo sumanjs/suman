@@ -57,7 +57,6 @@ const useBabelRegister = _suman.useBabelRegister = sumanOpts.$useBabelRegister;
 
 
 
-
 export const run = function (files: Array<string>) {
 
   if (useBabelRegister) {

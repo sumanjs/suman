@@ -90,7 +90,7 @@ export const acquireIocDeps =
       }
       else {
 
-        _suman.log.warning(`warning: the following dep is not in your suman.ico.js configuration '${dep}'`);
+        _suman.log.warning(`warning: the following dep is not in your suman.ioc.js configuration '${dep}'`);
         obj[dep] = noKeyExistsPlaceholder;
       }
 
