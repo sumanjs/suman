@@ -160,6 +160,8 @@ exit with command to the right that exits with non-zero
 
 //
 
+this has been superceded:
+
     it.retries_5_('is good', t => {
 
     });
@@ -371,7 +373,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
     });
 
     Test.create(function($inject){
-     const {a,b,c} = $inject;
+       const {a,b,c} = $inject;
     });
 
 

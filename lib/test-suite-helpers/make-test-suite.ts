@@ -310,7 +310,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
     resume() {
       const args = Array.from(arguments);
       process.nextTick(() => {
-        this.__resume.apply(this, args);
+        this.__resume.apply(null, args);
       });
     }
     
