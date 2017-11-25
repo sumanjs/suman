@@ -42,15 +42,14 @@ import stream = require('stream');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
 import async = require('async');
-
 const pragmatik = require('pragmatik');
 
 //project
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 let inBrowser = false, usingKarma = false;
 import sumanRun = require('./helpers/suman-run');
-import {DefineObject, DefineObjectContext} from './test-suite-helpers/suman-methods';
+import {DefineObject, DefineObjectContext} from './test-suite-helpers/define-options-classes';
 
-const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');
 require('./patches/all');
