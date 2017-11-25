@@ -20,6 +20,7 @@ import path = require('path');
 import fs = require('fs');
 
 try {
+  console.log('Attempting to load browser polyfills.');
   if (window) {
     fs = require('suman-browser-polyfills/modules/fs');
   }
@@ -168,9 +169,12 @@ export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
 
     if (reporterRets.length < 1) {
       try {
-        window.__karma__.complete();
+        if(window){
+          window.__karma__.complete();
+        }
       }
-      finally {
+      catch(err){
+        _suman.log.error(err.stack || err);
       }
       return process.nextTick(cb);
     }
