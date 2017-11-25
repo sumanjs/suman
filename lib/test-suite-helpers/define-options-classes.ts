@@ -15,7 +15,6 @@ import assert = require('assert');
 import _ = require('lodash');
 import su = require('suman-utils');
 
-
 //////////////////////////////////////////////////////////////////////////////////////////
 
 export class DefineObject {
@@ -103,7 +102,6 @@ export class DefineObject {
   }
   
 }
-
 
 export interface IDefineObject {
   new (desc: string, exec: any): DefineObject;
@@ -256,9 +254,20 @@ export class DefineObjectTestCase extends DefineObjectTestOrHook {
 export class DefineObjectContext extends DefineObject {
   
   source(...args: string[]): DefineObjectContext {
-    this.opts.sourced = Array.from(arguments).reduce(function (a, b) {
-      return a.concat(b);
-    }, []);
+    this.opts.sourced = this.opts.sourced || {};
+    Array.from(arguments).forEach(a => {
+      if (Array.isArray(a)) {
+        // break into any arrays recursively
+        return this.source(...a);
+      }
+      else if (typeof a === 'string') {
+        this.opts.sourced[a] = true;
+      }
+      else {
+        throw new Error('argument must be a string or an array of strings.');
+      }
+    });
+    
     return this;
   }
   

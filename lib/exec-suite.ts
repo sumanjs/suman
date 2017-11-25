@@ -87,7 +87,7 @@ export const execSuite = function (suman: ISuman): Function {
     }
 
     if(opts.sourced){
-      opts.sourced.forEach(function(v : string){
+      Object.keys(opts.sourced).forEach(function(v : string){
         iocDeps.push(v);
       });
     }
