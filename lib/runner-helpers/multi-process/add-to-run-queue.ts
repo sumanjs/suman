@@ -3,7 +3,7 @@
 //dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {IGanttData} from "../socket-cp-hash";
-import {IRunnerRunFn, ISumanChildProcess} from "suman-types/dts/runner";
+import {IRunnerRunFn, ISumanChildProcess, IRunnerObj} from "suman-types/dts/runner";
 import {AsyncQueue} from "async";
 
 //polyfills
@@ -37,19 +37,17 @@ const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 //////////////////////////////////////////////////////////////////////
 
-export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string>, runQueue: AsyncQueue<Function>,
+export const makeAddToRunQueue = function (runnerObj: IRunnerObj, args: Array<string>, runQueue: AsyncQueue<Function>,
                                            projectRoot: string, cpHash: Object, forkedCPs: Array<any>,
                                            onExitFn: Function) {
 
   const {sumanOpts, sumanConfig, maxProcs} = _suman;
-  const execFile = path.resolve(__dirname + '/../run-child.js');
-  const istanbulExecPath = _suman.istanbulExecPath || 'istanbul';
   const isStdoutSilent = sumanOpts.stdout_silent || sumanOpts.silent;
   const isStderrSilent = sumanOpts.stderr_silent || sumanOpts.silent;
   const debugChildren = sumanOpts.debug_child || sumanOpts.inspect_child;
   const inheritRunStdio = debugChildren || sumanOpts.inherit_stdio ||
     sumanOpts.inherit_all_stdio || process.env.SUMAN_INHERIT_STDIO === 'yes';
-  const {handleRunDotShFile} = makeHandleDifferentExecutables(projectRoot, sumanOpts);
+  const {handleRunDotShFile, handleRegularFile} = makeHandleDifferentExecutables(projectRoot, sumanOpts, runnerObj);
   let childId = 1;
 
   const sumanEnv = Object.assign({}, process.env, {
@@ -78,49 +76,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       }
 
       const argz = JSON.parse(JSON.stringify(args));
-
-      const execArgz = ['--expose-gc'];
-
-      if (sumanOpts.debug_child) {
-        execArgz.push('--debug=' + (5303 + runnerObj.processId++));
-        execArgz.push('--debug-brk');
-      }
-
-      if (sumanOpts.inspect_child) {
-        if (semver.gt(process.version, '7.8.0')) {
-          execArgz.push('--inspect-brk=' + (5303 + runnerObj.processId++));
-        }
-        else {
-          execArgz.push('--inspect=' + (5303 + runnerObj.processId++));
-          execArgz.push('--debug-brk');
-        }
-      }
-
-      let execArgs;
-
-      if (execArgs = sumanOpts.exec_arg) {
-        execArgs.forEach(function (n: string) {
-          n && execArgz.push(String(n).trim());
-        });
-
-        String(execArgs).split(/S+/).forEach(function (n) {
-          n && execArgz.push('--' + String(n).trim());
-        });
-      }
-
-      const $execArgz = execArgz.filter(function (e, i) {
-        // filter out duplicate command line args
-        if (execArgz.indexOf(e) !== i) {
-          console.error('\n', chalk.yellow(' => Warning you have duplicate items in your exec args => '),
-            '\n' + util.inspect(execArgz), '\n');
-        }
-        return true;
-      });
-
-      let n: ISumanChildProcess, hashbang = false;
-
-      const extname = path.extname(shortFile);
-
+      let  hashbang = false;
       let $childId = childId++;
       let childUuid = uuidV4();
       const inherit = _suman.$forceInheritStdio ? 'inherit' : '';
@@ -144,7 +100,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
           SUMAN_CHILD_TEST_PATH_TARGET: file,
           SUMAN_TRANSFORM_STDOUT: stdout,
           SUMAN_CHILD_ID: String($childId),
-          SUMAN_CHILD_UUID: String($childId)
+          SUMAN_CHILD_UUID: String(childUuid)
         })
       };
 
@@ -286,36 +242,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
         handleRunDotShFile(sh, argz, cpOptions, onChildProcessStarted);
       }
       else {
-
-        if ('.js' === extname) {
-
-          if (sumanOpts.coverage) {
-            let coverageDir = path.resolve(_suman.projectRoot + '/coverage/' + String(shortFile).replace(/\//g, '-'));
-            let argzz = ['cover', execFile, '--dir', coverageDir, '--'].concat(args);
-            //'--include-all-sources'
-            n = cp.spawn(istanbulExecPath, argzz, cpOptions) as ISumanChildProcess;
-          }
-          else {
-            argz.unshift(execFile);
-            let argzz = $execArgz.concat(argz); // append exec args to beginning
-            n = cp.spawn('node', argzz, cpOptions) as ISumanChildProcess;
-          }
-
-        }
-        else {
-          // .sh .bash .py, perl, ruby, etc
-          _suman.log.info(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
-          hashbang = true;
-
-          try {
-            fs.chmodSync(file, 0o777);
-          }
-          catch (err) {
-
-          }
-
-          n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
-        }
+        handleRegularFile(file, argz, cpOptions, onChildProcessStarted);
       }
 
       // if (waitForAllTranformsToFinish) {
