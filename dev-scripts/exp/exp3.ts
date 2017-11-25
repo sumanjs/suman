@@ -1,18 +1,18 @@
+class A {
+  
+  foo (): this {
+    return this;
+  }
+  
+}
+
+class B extends A {
+  
+  bar(): B {
+    return this;
+  }
+  
+}
 
 
-
-
-
-// function* foo() {
-//   yield 1;
-//   yield 2;
-//   yield 3;
-// }
-
-
-
-const iterator = [1,2,3];
-
-Array.from(iterator).forEach(function(o){
-  console.log(o);
-});
+new B().foo().bar();

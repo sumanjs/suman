@@ -31,71 +31,71 @@ export class DefineObject {
     };
   }
   
-  inject(): DefineObject {
+  inject(): this {
     return this;
   }
   
-  plan(v: number): DefineObject {
+  plan(v: number): this {
     assert(Number.isInteger(v), 'Argument to plan must be an integer.');
     this.opts.planCount = v;
     return this;
   }
   
-  desc(v: string): DefineObject {
+  desc(v: string): this {
     assert.equal(typeof v, 'string', 'Value for "desc" must be a string.');
     this.opts.desc = v;
     return this;
   }
   
-  title(v: string): DefineObject {
+  title(v: string): this {
     assert.equal(typeof v, 'string', 'Value for "title" must be a string.');
     this.opts.desc = v;
     return this;
   }
   
-  name(v: string): DefineObject {
+  name(v: string): this {
     assert.equal(typeof v, 'string', 'Value for "name" must be a string.');
     this.opts.desc = v;
     return this;
   }
   
-  description(v: string): DefineObject {
+  description(v: string): this {
     assert.equal(typeof v, 'string', 'Value for "description" must be a string.');
     this.opts.desc = v;
     return this;
   }
   
-  skip(v: boolean): DefineObject {
+  skip(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "skip" must be a boolean.');
     this.opts.skip = v;
     return this;
   }
   
-  only(v: boolean): DefineObject {
+  only(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "only" must be a boolean.');
     this.opts.only = v;
     return this;
   }
   
-  parallel(v: boolean): DefineObject {
+  parallel(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "first" must be a boolean.');
     this.opts.parallel = v;
     return this;
   }
   
-  series(v: boolean): DefineObject {
+  series(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "first" must be a boolean.');
     this.opts.series = v;
     return this;
   }
   
-  mode(v: string): DefineObject {
+  mode(v: string): this {
     assert.equal(typeof v, 'string', 'Value for "mode" must be a string.');
     this.opts.mode = v;
     return this;
   }
   
-  timeout(v: number): DefineObject {
+  timeout(v: number): this {
     assert(Number.isInteger(v), 'Timeout value must be an integer.');
     this.opts.timeout = v;
     return this;
@@ -104,12 +104,12 @@ export class DefineObject {
 }
 
 export interface IDefineObject {
-  new (desc: string, exec: any): DefineObject;
+  new (desc: string, exec: any): this;
 }
 
 export class DefineObjectTestOrHook extends DefineObject {
   
-  throws(v: string | RegExp): DefineObject {
+  throws(v: string | RegExp): this {
     if (typeof v === 'string') {
       v = new RegExp(v);
     }
@@ -120,13 +120,13 @@ export class DefineObjectTestOrHook extends DefineObject {
     return this;
   }
   
-  cb(v: boolean): DefineObject {
+  cb(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "cb" must be a boolean.');
     this.opts.cb = v;
     return this;
   }
   
-  events(): DefineObject {
+  events(): this {
     
     const successEvents = this.opts.successEvents = this.opts.successEvents || [];
     _.flattenDeep([Array.from(arguments)]).forEach(function (v) {
@@ -138,7 +138,7 @@ export class DefineObjectTestOrHook extends DefineObject {
     return this;
   }
   
-  successEvents(...args: (string | Array<string>)[]): DefineObject {
+  successEvents(...args: (string | Array<string>)[]): this {
     
     const successEvents = this.opts.successEvents = this.opts.successEvents || [];
     _.flattenDeep([Array.from(arguments)]).forEach(function (v) {
@@ -150,7 +150,7 @@ export class DefineObjectTestOrHook extends DefineObject {
     return this;
   }
   
-  successEvent(...args: string[]): DefineObject {
+  successEvent(...args: string[]): this {
     
     const successEvents = this.opts.successEvents = this.opts.successEvents || [];
     _.flattenDeep([Array.from(arguments)]).forEach(function (v) {
@@ -162,7 +162,7 @@ export class DefineObjectTestOrHook extends DefineObject {
     return this;
   }
   
-  errorEvents(...args: (Array<string> | string)[]): DefineObject {
+  errorEvents(...args: (Array<string> | string)[]): this {
     
     const errorEvents = this.opts.errorEvents = this.opts.errorEvents || [];
     _.flattenDeep([Array.from(arguments)]).forEach(function (v) {
@@ -174,7 +174,7 @@ export class DefineObjectTestOrHook extends DefineObject {
     return this;
   }
   
-  errorEvent(...args: string[]): DefineObject {
+  errorEvent(...args: string[]): this {
     
     const errorEvents = this.opts.errorEvents = this.opts.errorEvents || [];
     _.flattenDeep([Array.from(arguments)]).forEach(function (v) {
@@ -190,31 +190,31 @@ export class DefineObjectTestOrHook extends DefineObject {
 
 export class DefineObjectAllHook extends DefineObjectTestOrHook {
   
-  fatal(v: boolean): DefineObject {
+  fatal(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "fatal" must be a boolean.');
     this.opts.fatal = v;
     return this;
   }
   
-  first(v: boolean): DefineObject {
+  first(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "first" must be a boolean.');
     this.opts.first = v;
     return this;
   }
   
-  last(v: boolean): DefineObject {
+  last(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "last" must be a boolean.');
     this.opts.last = v;
     return this;
   }
   
-  always(v: boolean): DefineObject {
+  always(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "always" must be a boolean.');
     this.opts.always = v;
     return this;
   }
   
-  run(fn: TBeforeHook | TAfterHook): DefineObject {
+  run(fn: TBeforeHook | TAfterHook): this {
     const name = this.opts.desc || '(unknown DefineObject name)';
     const opts = JSON.parse(su.customStringify(this.opts));
     this.exec.call(null, name, opts, fn);
@@ -225,13 +225,13 @@ export class DefineObjectAllHook extends DefineObjectTestOrHook {
 
 export class DefineObjectEachHook extends DefineObjectTestOrHook {
   
-  fatal(v: boolean): DefineObjectTestOrHook {
+  fatal(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "fatal" must be a boolean.');
     this.opts.fatal = v;
     return this;
   }
   
-  run(fn: TBeforeEachHook | TAfterEachHook): DefineObjectTestOrHook {
+  run(fn: TBeforeEachHook | TAfterEachHook): this {
     const name = this.opts.desc || '(unknown DefineObject name)';
     const opts = JSON.parse(su.customStringify(this.opts));
     this.exec.call(null, name, opts, fn);
@@ -242,7 +242,7 @@ export class DefineObjectEachHook extends DefineObjectTestOrHook {
 
 export class DefineObjectTestCase extends DefineObjectTestOrHook {
   
-  run(fn: ItHook): DefineObjectTestCase {
+  run(fn: ItHook): this {
     const name = this.opts.desc || '(unknown DefineObject name)';
     const opts = JSON.parse(su.customStringify(this.opts));
     this.exec.call(null, name, opts, fn);
@@ -253,7 +253,7 @@ export class DefineObjectTestCase extends DefineObjectTestOrHook {
 
 export class DefineObjectContext extends DefineObject {
 
-  source(...args: string[]): DefineObjectContext {
+  source(...args: string[]): this {
     this.opts.sourced = this.opts.sourced || {};
     const self = this; // transpiles better this way
     Array.from(arguments).forEach(function(a) {
@@ -272,14 +272,14 @@ export class DefineObjectContext extends DefineObject {
     return this;
   }
   
-  names(...args: string[]): DefineObjectContext {
+  names(...args: string[]): this {
     this.opts.names = Array.from(arguments).reduce(function (a, b) {
       return a.concat(b);
     }, []);
     return this;
   }
   
-  run(fn: TDescribeHook): DefineObjectContext {
+  run(fn: TDescribeHook): this {
     const name = this.opts.desc || '(unknown DefineObject name)';
     const opts = JSON.parse(su.customStringify(this.opts));
     this.exec.call(null, name, opts, fn);

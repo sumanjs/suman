@@ -9,6 +9,7 @@ export { IBeforeFn } from 'suman-types/dts/before';
 export { IBeforeEachFn } from 'suman-types/dts/before-each';
 export { IAfterFn } from 'suman-types/dts/after';
 export { IAfterEachFn } from 'suman-types/dts/after-each';
+export { DefineObjectContext as IDefObjCtx } from "./test-suite-helpers/define-options-classes";
 import sumanRun = require('./helpers/suman-run');
 export declare const init: IInitFn;
 export declare const autoPass: (t: IHookOrTestCaseParam) => void;

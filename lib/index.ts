@@ -19,6 +19,7 @@ export {IBeforeFn} from 'suman-types/dts/before';
 export {IBeforeEachFn} from 'suman-types/dts/before-each';
 export {IAfterFn} from 'suman-types/dts/after';
 export {IAfterEachFn} from 'suman-types/dts/after-each';
+export {DefineObjectContext as IDefObjCtx} from "./test-suite-helpers/define-options-classes";
 
 //////////////////////////////////////////////////////////////////
 
@@ -486,8 +487,6 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
       }
       
       const defObj = new DefineObjectContext(desc as string, start);
-      
-      debugger;
       
       if (f) {
         assert(typeof f === 'function', 'Optional argument to define() was expected to be a function.');
