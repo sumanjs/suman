@@ -6,7 +6,11 @@ three SO profiles:
 
 ///
 
- => SUMAN_PROJECT_ROOT should be set by the user.
+ => SUMAN_PROJECT_ROOT should be able to be set by the user.
+
+///
+
+exec() / invoke() / run()
 
 ///
 

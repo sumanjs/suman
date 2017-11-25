@@ -34,14 +34,12 @@ import util = require('util');
 
 //npm
 import su = require('suman-utils');
-
 const pragmatik = require('pragmatik');
 import _ = require('lodash');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('../helpers/handle-varargs');
-
 const {constants} = require('../../config/suman-constants');
 import {makeBlockInjector} from '../injection/block-injector';
 import {makeCreateInjector} from '../injection/create-injector';

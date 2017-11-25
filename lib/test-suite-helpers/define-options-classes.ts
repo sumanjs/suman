@@ -252,16 +252,17 @@ export class DefineObjectTestCase extends DefineObjectTestOrHook {
 }
 
 export class DefineObjectContext extends DefineObject {
-  
+
   source(...args: string[]): DefineObjectContext {
     this.opts.sourced = this.opts.sourced || {};
-    Array.from(arguments).forEach(a => {
+    const self = this; // transpiles better this way
+    Array.from(arguments).forEach(function(a) {
       if (Array.isArray(a)) {
-        // break into any arrays recursively
-        return this.source(...a);
+        // break into any arrays, recursively
+        self.source(...a);
       }
       else if (typeof a === 'string') {
-        this.opts.sourced[a] = true;
+        self.opts.sourced[a] = true;
       }
       else {
         throw new Error('argument must be a string or an array of strings.');

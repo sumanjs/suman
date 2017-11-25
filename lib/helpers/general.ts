@@ -19,20 +19,21 @@ import os = require('os');
 import path = require('path');
 import fs = require('fs');
 
+//npm
+import su = require('suman-utils');
+import chalk  = require('chalk');
+import async = require('async');
+
 try {
-  console.log('Attempting to load browser polyfills.');
+  su.vgt(6) && console.log(' [suman] Attempting to load browser polyfills.');
   if (window) {
     fs = require('suman-browser-polyfills/modules/fs');
+    su.vgt(6) && console.log(' [suman] Loaded browser polyfill for "fs".');
   }
 }
 catch (err) {
 
 }
-
-//npm
-import su = require('suman-utils');
-import chalk  = require('chalk');
-import async = require('async');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
