@@ -48,7 +48,7 @@ const pragmatik = require('pragmatik');
 //project
 let inBrowser = false, usingKarma = false;
 import sumanRun = require('./helpers/suman-run');
-import {DefineObject} from './test-suite-helpers/suman-methods';
+import {DefineObject, DefineObjectContext} from './test-suite-helpers/suman-methods';
 
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 _suman.dateEverythingStarted = Date.now();
@@ -486,7 +486,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
         desc = null;
       }
       
-      const defObj = new DefineObject(desc as string, start);
+      const defObj = new DefineObjectContext(desc as string, start);
       
       debugger;
       

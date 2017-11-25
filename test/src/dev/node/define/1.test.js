@@ -8,54 +8,57 @@ const {Test} = suman.init(module);
 
 debugger;  //////////////////////////////  and here
 
-Test.define('groovy').always(true).timeout(10)
-  .source('age', 'age', 'age')
-  .run((b, it, describe, test) => {
-    
-    b.set('is', 'cool');
-    
-    test.define('turtle').series(true).cb(true)
-      .timeout(1000).run(t => {
-      //////////////////// and here too!
-      debugger;
-      t.assert.equal(b.get('is'), 'cool', 'sandy');
+Test.define('groovy', v => {
+  
+  debugger;
+  
+  v.timeout(10)
+    .source('age', 'age', 'age')
+    .run((b, it, describe, test) => {
+      
+      b.set('is', 'cool');
+      
+      test.define('turtle').series(true).cb(true)
+        .timeout(1000).run(t => {
+        //////////////////// and here too!
+        debugger;
+        t.assert.equal(b.get('is'), 'cool', 'sandy');
+      });
+      
+      describe('inner', b => {
+        
+        it('is cool hand luke 1', t => {
+        
+        });
+        
+        it('is cool hand luke 2', t => {
+        
+        });
+        
+        it('is cool hand luke 3', t => {
+        
+        });
+        
+      });
     });
-    
-    describe('inner', b => {
-      
-      it('is cool hand luke 1', t => {
-      
-      });
-      
-      it('is cool hand luke 2', t => {
-      
-      });
-      
-      it('is cool hand luke 3', t => {
-      
-      });
-      
-    });
-    
-  });
+});
 
 Test.define(v => {
   
   v.inject('age', 'age', 'age')
     .source('mika')
     .run((b, before, after, afterEach, it) => {
-    
-    this.foo = true;
-    
-    debugger;
+      
+      this.foo = true;
+      
+      debugger;
       
       const {mika} = b.ioc;
       
       console.log('mika => ', mika);
       
       before.define(v =>
-        v.source('mika')
-          .first(true)
+        v.first(true)
           .timeout(300)
           .run(h => {
             debugger;
@@ -70,7 +73,7 @@ Test.define(v => {
     .run((b, before, after, afterEach, it) => {
       
       before.define(v =>
-        v.source('mika').timeout(300)
+        v.timeout(300)
           .run(h => {
             debugger;
             console.log('this is before');

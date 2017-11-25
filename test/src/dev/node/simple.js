@@ -12,7 +12,7 @@ Test.create('X', (test, context) => {
 
   1..times(function () {
 
-    context('silly', function () {
+    context('silly', function (b) {
 
       test('is', t => {
 
