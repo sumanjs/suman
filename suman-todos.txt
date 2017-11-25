@@ -6,6 +6,10 @@ three SO profiles:
 
 ///
 
+ => SUMAN_PROJECT_ROOT should be set by the user.
+
+///
+
  "suman-watch-plugins": "latest",
 
 ///
