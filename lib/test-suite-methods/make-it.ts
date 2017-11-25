@@ -131,11 +131,11 @@ export const makeIt = function (suman: ISuman): ItFn {
     const inc = incr();
 
     if (!_suman.inBrowser && !sumanOpts.force) {
-      if (opts.skip && !sumanOpts.allow_skip) {
+      if (opts.skip && !sumanOpts.$allowSkip) {
         throw new Error('Test case was declared as "skipped" but "--allow-skip" option not specified.');
       }
 
-      if (opts.only && !sumanOpts.allow_only) {
+      if (opts.only && !sumanOpts.$allowOnly) {
         throw new Error('Test case was declared as "only" but "--allow-only" option not specified.');
       }
     }

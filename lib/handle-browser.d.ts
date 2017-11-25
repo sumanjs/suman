@@ -1,1 +1,2 @@
-export declare const run: (testRegistrationQueue: any, testQueue: any) => void;
+import { AsyncQueue } from 'async';
+export declare const run: (testRegistrationQueue: AsyncQueue<Function>, testQueue: AsyncQueue<Function>) => void;

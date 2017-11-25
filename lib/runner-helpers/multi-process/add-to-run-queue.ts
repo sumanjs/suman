@@ -105,6 +105,17 @@ export const makeAddToRunQueue = function (runnerObj: IRunnerObj, args: Array<st
       };
 
       const onChildProcessStarted = function (err: Error, n: ISumanChildProcess) {
+        
+        if(err){
+          _suman.log.error();
+          _suman.log.error(chalk.bold('Error launching child process:'));
+          _suman.log.error(err.stack || err.message || err);
+        }
+        
+        if(!n){
+          // process did not actually start, likely a spawn error (EACCES)
+          throw new Error('child process could not start at all.');
+        }
 
         cpHash[$childId] = n;
 
@@ -242,7 +253,7 @@ export const makeAddToRunQueue = function (runnerObj: IRunnerObj, args: Array<st
         handleRunDotShFile(sh, argz, cpOptions, onChildProcessStarted);
       }
       else {
-        handleRegularFile(file, argz, cpOptions, onChildProcessStarted);
+        handleRegularFile(file, shortFile, argz, cpOptions, onChildProcessStarted);
       }
 
       // if (waitForAllTranformsToFinish) {

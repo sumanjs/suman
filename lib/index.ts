@@ -298,7 +298,18 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   
   if (sumanOptsOverride) {
     assert(su.isObject(sumanOptsOverride), 'Suman opts override value must be a plain object.');
-    _sumanOpts = Object.assign({}, _suman.sumanOpts, sumanOptsOverride);
+    
+    Object.keys(sumanOptsOverride).forEach(function (k) {
+      if (String(k).startsWith('$')) {
+        throw new Error('Suman options override object key must not start with "$" character.');
+      }
+      sumanOptsOverride['$' + k] = sumanOptsOverride[k];
+      delete sumanOptsOverride[k];
+    });
+    
+    // this is correct, although it seems wrong given that sumanOpts is referenced twice
+    // we need to keep the reference to _suman.sumanOpts, instead of reassigning
+    _sumanOpts = Object.assign(_suman.sumanOpts, sumanOptsOverride, _suman.sumanOpts);
   }
   
   if (confOverride) {
@@ -437,28 +448,28 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     
     //we run integrants function
     acquireIocStaticDeps()
-      .catch(function (err) {
-        clearTimeout(to);
-        _suman.log.error(err.stack || err);
-        _suman.writeTestError(err.stack || err);
-        process.exit(constants.EXIT_CODES.IOC_STATIC_ACQUISITION_ERROR);
-      })
-      .then(function () {
-        return integrantsFn();
-      })
-      .catch(function (err: Error) {
-        clearTimeout(to);
-        _suman.log.error(err.stack || err);
-        _suman.writeTestError(err.stack || err);
-        process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_ERROR);
-      })
-      .then(onPreVals)
-      .catch(function (err: Error) {
-        clearTimeout(to);
-        _suman.log.error(err.stack || err);
-        _suman.writeTestError(err.stack || err);
-        process.exit(constants.EXIT_CODES.PRE_VALS_ERROR);
-      });
+    .catch(function (err) {
+      clearTimeout(to);
+      _suman.log.error(err.stack || err);
+      _suman.writeTestError(err.stack || err);
+      process.exit(constants.EXIT_CODES.IOC_STATIC_ACQUISITION_ERROR);
+    })
+    .then(function () {
+      return integrantsFn();
+    })
+    .catch(function (err: Error) {
+      clearTimeout(to);
+      _suman.log.error(err.stack || err);
+      _suman.writeTestError(err.stack || err);
+      process.exit(constants.EXIT_CODES.INTEGRANT_VERIFICATION_ERROR);
+    })
+    .then(onPreVals)
+    .catch(function (err: Error) {
+      clearTimeout(to);
+      _suman.log.error(err.stack || err);
+      _suman.writeTestError(err.stack || err);
+      process.exit(constants.EXIT_CODES.PRE_VALS_ERROR);
+    });
     
     // if start/create is attached to options obj
     return this;
@@ -476,7 +487,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
       }
       
       const defObj = new DefineObject(desc as string, start);
-  
+      
       debugger;
       
       if (f) {
