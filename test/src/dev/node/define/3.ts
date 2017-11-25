@@ -6,8 +6,6 @@ const {Test} = suman.init(module);
 
 Test.define('groovy', v => {
   
-  debugger;
-  
   v.timeout(10)
   .mode('a')
   .source('age', 'age', 'age')
@@ -42,11 +40,9 @@ Test.define('groovy', v => {
   });
 });
 
-
 Test.define(v => {
   
-  
-  v.inject('age', 'age', 'age')
+  v.inject()
   .source('mika')
   .run((b, before, after, afterEach, it) => {
     
