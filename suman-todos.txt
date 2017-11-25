@@ -15,6 +15,12 @@ if not a .js file, we need to capture stdout/stderr in suman runner, and put it 
 
 ///
 
+ flyweight design pattern
+ http://www.dofactory.com/javascript/flyweight-design-pattern
+
+
+///
+
     use ts-node/register
     with TypeScript, just like Babel, in the run-child.js file
 
