@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-import suman = require('suman');
-const {Test} = suman.init(module);
+import suman, {IDefObjTestCase, ItFn} from 'suman';
+const {Test} = suman.init(module as any);
 
 
 Test.create(function () {
@@ -14,14 +14,12 @@ Test.define('groovy', v => {
   v.timeout(10)
   .mode('a')
   .source('age', 'age', 'age')
-  .run((b, it, describe, test) => {
+  .run((b, it, describe, test: ItFn) => {
     
     b.set('is', 'cool');
     
     test.define('turtle')
-    .series(true)
-    .cb(true)
-    .timeout(1000).run(t => {
+    .series(true).cb(true).timeout(10).run(t => {
       //////////////////// and here too!
       debugger;
       t.assert.equal(b.get('is'), 'cool', 'sandy');

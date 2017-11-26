@@ -20,8 +20,11 @@ export {IBeforeEachFn} from 'suman-types/dts/before-each';
 export {IAfterFn} from 'suman-types/dts/after';
 export {IAfterEachFn} from 'suman-types/dts/after-each';
 export {DefineObjectContext as IDefObjCtx} from "./test-suite-helpers/define-options-classes";
+export {DefineObjectTestCase as IDefObjTestCase} from "./test-suite-helpers/define-options-classes";
+export {DefineObjectAllHook as IDefObjAllHook} from "./test-suite-helpers/define-options-classes";
+export {DefineObjectEachHook as IDefObjEachHook} from "./test-suite-helpers/define-options-classes";
 
-//////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
