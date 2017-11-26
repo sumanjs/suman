@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj, ISumanConfig, SumanErrorRace} from "suman-types/dts/global";
+import {IGlobalSumanObj, ISumanConfig, SumanErrorRace, ISumanOpts} from "suman-types/dts/global";
 import EventEmitter = NodeJS.EventEmitter;
 import {IStartCreate, IIoCData, IInitFn, IInitOpts} from "suman-types/dts/index-init"
 import {Stream, Transform, Writable} from "stream";
@@ -10,19 +10,47 @@ import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook, IInitRet} from "s
 import {IHookOrTestCaseParam} from "suman-types/dts/test-suite";
 
 //exported imports
-export {ISumanOpts, IGlobalSumanObj} from 'suman-types/dts/global';
-export {ITestCaseParam} from 'suman-types/dts/test-suite';
-export {IHookParam} from 'suman-types/dts/test-suite';
-export {IDescribeFn} from 'suman-types/dts/describe';
-export {ItFn, ITestDataObj} from 'suman-types/dts/it';
-export {IBeforeFn} from 'suman-types/dts/before';
-export {IBeforeEachFn} from 'suman-types/dts/before-each';
-export {IAfterFn} from 'suman-types/dts/after';
-export {IAfterEachFn} from 'suman-types/dts/after-each';
-export {DefineObjectContext as IDefObjCtx} from "./test-suite-helpers/define-options-classes";
-export {DefineObjectTestCase as IDefObjTestCase} from "./test-suite-helpers/define-options-classes";
-export {DefineObjectAllHook as IDefObjAllHook} from "./test-suite-helpers/define-options-classes";
-export {DefineObjectEachHook as IDefObjEachHook} from "./test-suite-helpers/define-options-classes";
+import * as s from './s'
+export {s}
+
+// export {Z}
+
+//
+// export const s = {
+//   DefineObjectContext,
+//   DefineObjectTestCase,
+//   DefineObjectAllHook,
+//   DefineObjectEachHook,
+//   IAfterEachFn
+// };
+
+// class FooTemp {}
+// module FooTemp {}
+// export { FooTemp as Foo }
+// export namespace a {
+//   export import Foo = FooTemp;
+// }
+
+// export namespace s {
+//
+//   // export class FooTemp {}
+//
+//   // export  {AfterEachFn} from 'suman-types/dts/after-each';
+//
+//   export const DefObjEachHook = DefineObjectEachHook;
+//
+//   // export const AfterFn = IAfterFn;
+//
+//   // export const AfterEachFn = IAfterEachFn
+//
+//   //
+//   // export import DefObjTestCase = DefineObjectTestCase
+//   //
+//   //  export import DefObjContext = DefineObjectContext
+//   //
+//   // export import DefObjAllHook = X
+//
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,7 +80,6 @@ const pragmatik = require('pragmatik');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 let inBrowser = false, usingKarma = false;
 import sumanRun = require('./helpers/suman-run');
-import {DefineObject, DefineObjectContext} from './test-suite-helpers/define-options-classes';
 
 _suman.dateEverythingStarted = Date.now();
 require('./helpers/add-suman-global-properties');

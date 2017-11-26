@@ -1,8 +1,10 @@
 #!/usr/bin/env ts-node
 'use strict';
 
-import suman, {ItFn} from 'suman';
+import suman, {s} from 'suman';
 const {Test} = suman.init(module);
+
+// const x = s.DefObjEachHook;
 
 Test.create(function (it) {
 
@@ -16,7 +18,7 @@ Test.define('groovy', v => {
 
   v.timeout(1000)
   .source('age', 'age', 'age')
-  .run((b, it, describe, test: ItFn) => {
+  .run((b, it, describe, test: s.ItFn) => {
 
     b.set('is', 'cool');
 
