@@ -1,6 +1,7 @@
-export { ITestCaseParam } from 'suman-types/dts/test-suite';
+export { ITestCaseParam, ITestSuite } from 'suman-types/dts/test-suite';
 export { IHookParam } from 'suman-types/dts/test-suite';
 export { ItFn, ITestDataObj } from 'suman-types/dts/it';
+export { IDescribeFn, IDescribeOpts, TDescribeHook } from "suman-types/dts/describe";
 export { IBeforeFn } from 'suman-types/dts/before';
 export { IBeforeEachFn } from 'suman-types/dts/before-each';
 export { IAfterFn } from 'suman-types/dts/after';

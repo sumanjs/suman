@@ -3,8 +3,10 @@
 
 import suman, {s} from 'suman';
 const {Test} = suman.init(module);
+type ctxfn = (b: s.ITestSuite, it: s.ItFn, describe: s.IDescribeFn, test: s.ItFn) => void;
 
 // const x = s.DefObjEachHook;
+
 
 Test.create(function (it) {
 
@@ -14,16 +16,19 @@ Test.create(function (it) {
 
 });
 
+
 Test.define('groovy', v => {
 
   v.timeout(1000)
   .source('age', 'age', 'age')
-  .run((b, it, describe, test: s.ItFn) => {
-
+  .run(<ctxfn> ((b, it, describe, test) => {
+    
     b.set('is', 'cool');
 
-    test.define('turtle').series(true).cb(true).timeout(1000)
+    test.cb.define('turtle')
+    .series(true)
     .cb(true)
+    .timeout(1000)
     .run(t => {
       t.assert.equal(b.get('is'), 'cool', 'sandy');
       t.done();
@@ -44,7 +49,7 @@ Test.define('groovy', v => {
       });
 
     });
-  });
+  }));
 });
 
 Test.define(v => {

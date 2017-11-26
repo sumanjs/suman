@@ -5,52 +5,13 @@ import {IGlobalSumanObj, ISumanConfig, SumanErrorRace, ISumanOpts} from "suman-t
 import EventEmitter = NodeJS.EventEmitter;
 import {IStartCreate, IIoCData, IInitFn, IInitOpts} from "suman-types/dts/index-init"
 import {Stream, Transform, Writable} from "stream";
-import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
 import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook, IInitRet} from "suman-types/dts/index-init";
 import {IHookOrTestCaseParam} from "suman-types/dts/test-suite";
+import {DefineObject, DefineObjectContext} from "./test-suite-helpers/define-options-classes";
 
 //exported imports
 import * as s from './s'
-export {s}
-
-// export {Z}
-
-//
-// export const s = {
-//   DefineObjectContext,
-//   DefineObjectTestCase,
-//   DefineObjectAllHook,
-//   DefineObjectEachHook,
-//   IAfterEachFn
-// };
-
-// class FooTemp {}
-// module FooTemp {}
-// export { FooTemp as Foo }
-// export namespace a {
-//   export import Foo = FooTemp;
-// }
-
-// export namespace s {
-//
-//   // export class FooTemp {}
-//
-//   // export  {AfterEachFn} from 'suman-types/dts/after-each';
-//
-//   export const DefObjEachHook = DefineObjectEachHook;
-//
-//   // export const AfterFn = IAfterFn;
-//
-//   // export const AfterEachFn = IAfterEachFn
-//
-//   //
-//   // export import DefObjTestCase = DefineObjectTestCase
-//   //
-//   //  export import DefObjContext = DefineObjectContext
-//   //
-//   // export import DefObjAllHook = X
-//
-// }
+export {s};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
