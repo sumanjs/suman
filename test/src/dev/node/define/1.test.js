@@ -1,12 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-debugger;  ////////////////////////////// here
-
 const suman = require('suman');
 const {Test} = suman.init(module);
-
-debugger;  //////////////////////////////  and here
 
 Test.define('groovy', v => {
   
@@ -43,9 +39,7 @@ Test.define('groovy', v => {
     });
 });
 
-
 Test.define(v => {
-  
   
   v.inject('age', 'age', 'age')
     .source('mika')
