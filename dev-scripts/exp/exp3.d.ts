@@ -1,6 +1,2 @@
-declare class A {
-    foo(): this;
-}
-declare class B extends A {
-    bar(): B;
-}
+declare type T = (x: number) => boolean;
+declare let fn: (a: string, b: boolean, c: T) => void;

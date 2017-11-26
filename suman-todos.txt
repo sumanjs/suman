@@ -10,7 +10,30 @@ three SO profiles:
 
 ///
 
+https://stackoverflow.com/questions/47484010/declare-class-type-with-typescript-pass-class-as-parameter/47493835#47493835
+
+
+As you mentioned, what you are looking to is how to describe class constructor and not the instance.
+ It can be achieved by:
+
+const foo = function(ctor: new() => SomeSuperClass) {
+    ...
+}
+Or alternatively (same result in this case):
+
+const foo = function(ctor: typeof SomeSuperClass) {
+    ...
+}
+This also requires A and B to have parameterless constructors
+
+///
+
 exec() / invoke() / run()
+
+///
+
+to avoid EACCES errors, open bash first and then from bash start the process
+at least the process will start, to avoid the try/catch
 
 ///
 
@@ -20,6 +43,28 @@ exec() / invoke() / run()
 
 if not a .js file, we need to capture stdout/stderr in suman runner, and put it in the
 .suman/runs folder
+
+///
+
+  it.cb.run(t => {
+
+  });
+
+  or
+
+   it.cb(t => {
+
+   });
+
+///
+
+ need to merge options object
+    before.cb.define(v =>
+         v.timeout(300)
+           .run(h => {
+             debugger;
+             console.log('this is before');
+           }));
 
 ///
 

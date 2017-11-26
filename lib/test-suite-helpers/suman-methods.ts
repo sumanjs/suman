@@ -19,6 +19,7 @@ import {IBeforeEachFn} from "suman-types/dts/before-each";
 import {IAfterEachFn} from "suman-types/dts/after-each";
 import {IAfterFn} from "suman-types/dts/after";
 import {
+  DefineObject,
   DefineObjectAllHook, DefineObjectContext, DefineObjectEachHook, DefineObjectTestCase,
   DefineObjectTestOrHook, IDefineObject
 } from "./define-options-classes";
@@ -154,6 +155,14 @@ const makeProxy = function (suman: ISuman): Function {
           args[1].__preParsed = true;
           return method.apply(null, args);
         };
+
+        fn.define = target.define;
+
+        if(fn.define.props){
+          throw new Error('Props property is already defined, you may have called something asynchronously.');
+        }
+
+        fn.define.props = newProps;
         
         return fnCache[cacheId] = getProxy(fn, rule, newProps);
       }
@@ -162,7 +171,7 @@ const makeProxy = function (suman: ISuman): Function {
   
 };
 
-const addDefine = function (fn: any, Clazz: IDefineObject) {
+const addDefine = function (fn: any, Clazz: typeof DefineObject) {
   
   fn.define = function (desc?: string | Function, f?: Function) {
     
@@ -170,12 +179,18 @@ const addDefine = function (fn: any, Clazz: IDefineObject) {
       f = desc;
       desc = null;
     }
-    
-    debugger;
+
     
     const defObj = new Clazz(desc as string, fn);
-    
-    debugger;
+
+    if(fn.define.props){
+
+      fn.define.props.forEach(function(p){
+         defObj.opts[p] = true;
+      });
+
+      delete fn.define.props;
+    }
     
     if (f) {
       assert(typeof f === 'function', 'Optional argument to define() was expected to be a function.');

@@ -6,7 +6,7 @@ import EventEmitter = NodeJS.EventEmitter;
 import {IStartCreate, IIoCData, IInitFn, IInitOpts} from "suman-types/dts/index-init"
 import {Stream, Transform, Writable} from "stream";
 import {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
-import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook} from "suman-types/dts/index-init";
+import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook, IInitRet} from "suman-types/dts/index-init";
 import {IHookOrTestCaseParam} from "suman-types/dts/test-suite";
 
 //exported imports
@@ -478,7 +478,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     return this;
   };
   
-  const ret = {
+  const ret = <IInitRet> {
     parent: $module.parent ? $module.parent.filename : null, //parent is who required the original $module
     file: $module.filename,
     create: start,
