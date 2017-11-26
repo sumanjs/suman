@@ -1,24 +1,30 @@
 #!/usr/bin/env node
 'use strict';
 
-import suman, {IDefObjTestCase, ItFn} from 'suman';
-const {Test} = suman.init(module as any);
+import suman, {ItFn} from 'suman';
+const {Test} = suman.init(module);
 
-Test.create(function () {
+Test.create(function (it) {
+
+  it.cb('here', t => {
+    t.done();
+  });
 
 });
 
 Test.define('groovy', v => {
 
-  v.timeout(10).mode('a').source('age', 'age', 'age')
+  v.timeout(1000)
+  .source('age', 'age', 'age')
   .run((b, it, describe, test: ItFn) => {
 
     b.set('is', 'cool');
 
-    test.series.cb.define('turtle')
-    .timeout(10)
+    test.define('turtle').series(true).cb(true).timeout(1000)
+    .cb(true)
     .run(t => {
       t.assert.equal(b.get('is'), 'cool', 'sandy');
+      t.done();
     });
 
     describe('inner', b => {
@@ -61,11 +67,10 @@ Test.define(v => {
   })
   .run((b, before, after, afterEach, it) => {
 
-    before.define(v =>
-      v.timeout(3000)
-      .cb(true)
+    before.cb.define(v =>
+      v.timeout(300)
       .run(h => {
-
+        h.ctn();
       }));
 
     it('is cool 2', t => {

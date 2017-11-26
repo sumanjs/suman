@@ -139,11 +139,11 @@ exports.constants = Object.freeze({
     warnings: {
         NO_DONE_WARNING: chalk.bold('Warning: no done referenced in callback'),
         RETURNED_VAL_DESPITE_CALLBACK_MODE: chalk.bold('Warning: callback mode is set, but a non-null value was returned by the hook.'),
-        TEST_CASE_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()? ' +
-            '=> You may have forgotten to fire a callback or perhaps the timeout quantity is too short.'),
-        HOOK_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to call t.done()/t.ctn()/t.fatal()? ' +
-            'You may have forgotten to fire a callback or perhaps the timeout quantity is too short.'),
-        DELAY_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to call delay()?')
+        TEST_CASE_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to fire a callback?\n' +
+            '=> You may have forgotten to fire a callback, or perhaps the timeout quantity is too short.'),
+        HOOK_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to fire a callback?\n' +
+            'You may have forgotten to fire a callback, or perhaps the timeout quantity is too short.'),
+        DELAY_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to call resume()?')
     },
     tableData: {
         SUITES_DESIGNATOR: {

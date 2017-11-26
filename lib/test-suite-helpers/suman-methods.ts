@@ -158,9 +158,9 @@ const makeProxy = function (suman: ISuman): Function {
 
         fn.define = target.define;
 
-        if(fn.define.props){
-          throw new Error('Props property is already defined, you may have called something asynchronously.');
-        }
+        // if(fn.define.props){
+        //   throw new Error('Props property is already defined, you may have called something asynchronously.');
+        // }
 
         fn.define.props = newProps;
         
