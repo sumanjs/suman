@@ -4,8 +4,13 @@
 import suman = require('suman');
 const {Test} = suman.init(module);
 
-Test.define('groovy', v => {
+
+Test.create(function () {
   
+});
+
+Test.define('groovy', v => {
+
   v.timeout(10)
   .mode('a')
   .source('age', 'age', 'age')
