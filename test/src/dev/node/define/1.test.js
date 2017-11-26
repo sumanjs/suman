@@ -18,7 +18,9 @@ Test.define('groovy', v => {
       
       b.set('is', 'cool');
       
-      test.define('turtle').series(true).cb(true)
+      test.define('turtle')
+      .series(true)
+      .cb(true)
         .timeout(1000).run(t => {
         //////////////////// and here too!
         debugger;
