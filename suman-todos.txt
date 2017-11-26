@@ -28,7 +28,7 @@ This also requires A and B to have parameterless constructors
 
 ///
 
-exec() / invoke() / run()
+exec() / invoke() / run()  / register()
 
 ///
 

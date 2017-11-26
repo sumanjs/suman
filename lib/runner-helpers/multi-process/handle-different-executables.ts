@@ -147,31 +147,30 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                 _suman.log.info(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
                 
                 let onSpawnError = function (err: Error) {
-                  if(err && err.code === 'EACCES'){
+                  if (err && String(err.message).match(/EACCES/i)) {
                     _suman.log.warning();
-                    _suman.log.warning(`Test file with the following path may not be executable:`);
+                    _suman.log.warning(`Test file with the following path may not be executable, or does not have the right permissions:`);
                     _suman.log.warning(chalk.magenta(file));
                     _suman.log.warning(chalk.gray('fs.Stats for this file were:'), util.inspect(stats));
                   }
-                  else if(err){
+                  else if (err) {
                     _suman.log.error(err.message || err);
                   }
                 };
                 
-                if(!isExecutable){
+                if (!isExecutable) {
                   _suman.log.error('not executable: ', file);
                 }
                 
-                try{
+                try {
                   n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
                   n.usingHashbang = true;
                 }
-                catch(err){
+                catch (err) {
                   onSpawnError(err);
                   return cb(err, n);
                 }
                 
-  
                 if (!isExecutable) {
                   n.once('error', onSpawnError);
                 }
@@ -226,12 +225,30 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
             }
             else {
               
+              let onSpawnError = function (err: Error) {
+                if (err && String(err.message).match(/EACCES/i)) {
+                  _suman.log.warning();
+                  _suman.log.warning(`Test file with the following path may not be executable, or does not have the right permissions:`);
+                  _suman.log.warning(chalk.magenta(file));
+                  _suman.log.warning(chalk.gray('fs.Stats for this file were:'), util.inspect(stats));
+                }
+                else if (err) {
+                  _suman.log.error(err.message || err);
+                }
+              };
               
               // .sh .bash .py, perl, ruby, etc
               _suman.log.info();
               _suman.log.info(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
-              n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
-              n.usingHashbang = true;
+              
+              try {
+                n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
+                n.usingHashbang = true;
+              }
+              catch (err) {
+                onSpawnError(err);
+                return cb(err, n);
+              }
               
               if (!isExecutable) {
                 n.once('error', function () {
