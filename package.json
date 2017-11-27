@@ -104,6 +104,7 @@
     "webpack": "^2.4.0"
   },
   "optionalDependencies": {
+    "suman-types": "latest",
     "suman-watch-plugins": "latest",
     "suman-watch": "latest",
     "play-sound": "^1.1.1"
