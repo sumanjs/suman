@@ -1,27 +1,44 @@
-//
-// const v = {
-//   z: true,
-//   foo: {two: 2}
-// };
-//
-// const x = Object.setPrototypeOf({}, v);
-//
-// x.foo = 3;
-//
-// console.log(x);
-// console.log(v);
+#!/usr/bin/env node
 
-// function* foo() {
-//   yield 1;
-//   yield 2;
-//   yield 3;
-// }
-//
-// for (let o of foo()) {
-//   console.log(o);
-// }
+const v = {
+  z: true,
+  foo: {two: 2}
+};
 
-// console.log(Object.keys(new Map({a: 'b'})));
+let x = Object.setPrototypeOf({}, v);
+
+x.foo = 3;
+
+console.log(x);
+console.log(v);
+
+function* foo() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+for (let o of foo()) {
+  console.log(o);
+}
+
+console.log(Object.keys(new Map({a: 'b'})));
+
+ x = {};
+
+x.retries(5)
+.foo()
+.run(t => {
+
+});
+
+describe('danger')
+
+.run(function () {
+
+
+
+});
 
 const Promise = require('bluebird');
 const async = require('async');
@@ -32,7 +49,7 @@ async.series({
     },
     b: async function (cb) {
       // process.nextTick(cb, null, 'bbb');
-      let c= await Promise.delay(500).then(v => 'hopkins');
+      let c = await Promise.delay(500).then(v => 'hopkins');
       return c;
       // cb(null, 'xxx');
     }

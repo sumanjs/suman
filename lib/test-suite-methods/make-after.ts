@@ -29,12 +29,15 @@ import {parseArgs} from '../helpers/general';
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-const typeName = 'after';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObjectOpts': true,
   plan: true,
   throws: true,
   fatal: true,
   cb: true,
+  desc: true,
+  title: true,
+  sourced: true,
   timeout: true,
   retries: true,
   skip: true,
@@ -42,12 +45,14 @@ const acceptableOptions = <IAcceptableOptions> {
   first: true,
   last: true,
   events: true,
+  successEvent: true,
+  errorEvent: true,
   successEvents: true,
   errorEvents: true,
   __preParsed: true
 };
 
-const handleBadOptions = function (opts: IAfterOpts): void {
+const handleBadOptions = function (opts: IAfterOpts, typeName: string): void {
 
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
@@ -67,10 +72,10 @@ const handleBadOptions = function (opts: IAfterOpts): void {
 
 export const makeAfter = function (suman: ISuman): IAfterFn {
 
-  return function ($desc: string, $opts: IAfterOpts): ITestSuite {
+  return function after($desc: string, $opts: IAfterOpts): ITestSuite {
 
     const zuite = suman.ctx;
-    handleSetupComplete(zuite, typeName);
+    handleSetupComplete(zuite, after.name);
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
@@ -80,7 +85,7 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-    handleBadOptions(opts);
+    handleBadOptions(opts, after.name);
 
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);

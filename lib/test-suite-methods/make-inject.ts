@@ -34,21 +34,26 @@ import {handleSetupComplete} from '../helpers/general';
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-const typeName = 'inject';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObjectOpts': true,
   plan: true,
   throws: true,
   fatal: true,
   cb: true,
   timeout: true,
+  sourced: true,
+  desc: true,
+  title: true,
   skip: true,
   events: true,
   successEvents: true,
   errorEvents: true,
+  successEvent: true,
+  errorEvent: true,
   __preParsed: true
 };
 
-const handleBadOptions = function (opts: IInjectOpts) {
+const handleBadOptions = function (opts: IInjectOpts, typeName: string) {
 
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
@@ -69,19 +74,26 @@ const handleBadOptions = function (opts: IInjectOpts) {
 
 export const makeInject = function (suman: ISuman): IInjectFn {
 
-  return function ($desc: string, $opts: IInjectOpts, $fn: Function) {
+  return function inject($desc: string, $opts: IInjectOpts, $fn: Function) {
 
+    const typeName = inject.name;
     const zuite = suman.ctx;
-    handleSetupComplete(zuite, 'inject');
+    handleSetupComplete(zuite, typeName);
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
       preParsed: typeof $opts === 'object' ? $opts.__preParsed : null
     });
 
-    try {delete $opts.__preParsed} catch(err){}
+    try {
+      delete $opts.__preParsed
+    }
+    catch (err) {
+      //ignore
+    }
+
     // this style produces cleaner transpile code
     let [desc, opts, arr, fn] = args;
-    handleBadOptions(opts);
+    handleBadOptions(opts, typeName);
 
     if (arr && fn) {
       throw new Error('Please use either an array or function, but not both.');

@@ -27,10 +27,16 @@ proto.skip = function () {
 };
 
 proto.set = function (k: string, v: any) {
+  if (arguments.length < 2) {
+    throw new Error('Must pass both a key and value to "set" method.');
+  }
   return this.shared.set(k, v);
 };
 
-proto.get = function (k: string) {
+proto.get = function (k?: string) {
+  if(arguments.length < 1){
+    return this.shared.getAll();
+  }
   return this.shared.get(k);
 };
 

@@ -25,8 +25,6 @@ export const makeNPMInstall = function (resolvedLocal: boolean, pkgDotJSON: Obje
 
     const sumanOpts = _suman.sumanOpts;
 
-    console.log('sumanOpts => ', sumanOpts);
-
     if (!sumanOpts.install || sumanOpts.no_install || resolvedLocal) {
       if (resolvedLocal) {
         console.log('\n');

@@ -6,12 +6,71 @@ three SO profiles:
 
 ///
 
+ => SUMAN_PROJECT_ROOT should be able to be set by the user.
+
+///
+
+https://stackoverflow.com/questions/47484010/declare-class-type-with-typescript-pass-class-as-parameter/47493835#47493835
+
+
+As you mentioned, what you are looking to is how to describe class constructor and not the instance.
+ It can be achieved by:
+
+const foo = function(ctor: new() => SomeSuperClass) {
+    ...
+}
+Or alternatively (same result in this case):
+
+const foo = function(ctor: typeof SomeSuperClass) {
+    ...
+}
+This also requires A and B to have parameterless constructors
+
+///
+
+exec() / invoke() / run()  / register()
+
+///
+
+to avoid EACCES errors, open bash first and then from bash start the process
+at least the process will start, to avoid the try/catch
+
+///
+
  "suman-watch-plugins": "latest",
 
 ///
 
-    how to initialize a Map ->
-    console.log(Object.keys(new Map({a: 'b'}))); // fails
+if not a .js file, we need to capture stdout/stderr in suman runner, and put it in the
+.suman/runs folder
+
+///
+
+  it.cb.run(t => {
+
+  });
+
+  or
+
+   it.cb(t => {
+
+   });
+
+///
+
+ need to merge options object
+    before.cb.define(v =>
+         v.timeout(300)
+           .run(h => {
+             debugger;
+             console.log('this is before');
+           }));
+
+///
+
+ flyweight design pattern
+ http://www.dofactory.com/javascript/flyweight-design-pattern
+
 
 ///
 
@@ -23,6 +82,7 @@ three SO profiles:
     inject hooks => add to $inject
     shared => b.set() / b.get()
     ioc => b.ioc
+    .source('a','b','c');
     h.$inject should be h.?
 
 ///////
@@ -107,11 +167,6 @@ exit with command to the right that exits with non-zero
 
 ///
 
-    we need after.first
-    and before.first / before.last
-
-///
-
     suman --script x --tack-on="--require=ts-node/register"
 
 ///
@@ -131,7 +186,7 @@ exit with command to the right that exits with non-zero
 
 ///
 
-command line --series, needs to take precedence over this:
+    command line --series, needs to take precedence over this:
 
     const Test = suman.init(module, {}, {
       series: false
@@ -163,6 +218,8 @@ command line --series, needs to take precedence over this:
     https://developers.google.com/web/updates/2017/04/headless-chrome
 
 //
+
+this has been superceded:
 
     it.retries_5_('is good', t => {
 
@@ -375,7 +432,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
     });
 
     Test.create(function($inject){
-     const {a,b,c} = $inject;
+       const {a,b,c} = $inject;
     });
 
 
@@ -2094,14 +2151,6 @@ grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./
 
 ////
 
-  before.first
-  before.last
-
-  after.first
-  after.last => new feature => put it at the end, etc.
-
-////
-
  => Ajv schema validation
 
 ////
@@ -2157,10 +2206,6 @@ https://lodash.com/custom-builds
 
 ///
 
- override suman config in each test as needed
-
-///
-
  create new suman event => all test cases registered, so that we can create a progress bar
  in the browser, showing how many tests are done
 
@@ -2181,7 +2226,7 @@ then they can use an env variable or suman.conf.js option, etc.
 
 ///
 
-get TTY background color, should be possible
+get TTY/pty background color, should be possible
 
 ///
 
@@ -2250,28 +2295,24 @@ https://github.com/nodejs/node/issues/10843
 
 ///
 
-Run tests and hooks in c++ as separate call
-
-///
-
- use domains - TapJS, HapiJS, Suman
+    use domains - TapJS, HapiJS, Suman
 
 ////
 
-http://stackoverflow.com/questions/43077255/command-to-cd-to-root-of-project/43077349#43077349
+    http://stackoverflow.com/questions/43077255/command-to-cd-to-root-of-project/43077349#43077349
 
 ///
 
- how to specify .babelrc location when transpiling
+    how to specify .babelrc location when transpiling
 
 ///
 
-prove that TAP output works with all regular suman tests by turning off IPC
+    prove that TAP output works with all regular suman tests by turning off IPC
 
 ///
 
-proxy:
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+    proxy:
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
 
 ///
 
@@ -2279,26 +2320,26 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 
 ///
 
-dynamic tests, tests files should be minimally dynamic so as to be repeatable, knowable etc.
-to call tests programmatically, as opposed through the suman runner.
+    dynamic tests, tests files should be minimally dynamic so as to be repeatable, knowable etc.
+    to call tests programmatically, as opposed through the suman runner.
 
-you can require the test file yourself, with your own code.
-However, to pass different values to the test, it's recommend to use process.argv.
-So use a child process to run the test with your own code.
+    you can require the test file yourself, with your own code.
+    However, to pass different values to the test, it's recommend to use process.argv.
+    So use a child process to run the test with your own code.
 
 ///
 
-use cp.execSync to synchronously install npm deps
+    use cp.execSync to synchronously install npm deps
 
 ////
 
-create gantt chart in suman-server
-https://github.com/dk8996/Gantt-Chart
+    create gantt chart in suman-server
+    https://github.com/dk8996/Gantt-Chart
 
 ///
 
-  suman --create x/js/z
-  suman.template.js
+      suman --create x/js/z
+      suman.template.js
 
 ///
 
@@ -2405,46 +2446,6 @@ http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
 
 ////
 
- lodash woes
-
- leg@xps:~/WebstormProjects/oresoftware/sumanjs/suman$ npm la lodash
- suman@1.1.512218
- │ /home/oleg/WebstormProjects/oresoftware/sumanjs/suman
- │ Suman is an advanced, singular, Node.js test runner designed to supercede Mocha and rival AVA
- │ git+https://github.com/sumanjs/suman.git
- │ https://github.com/sumanjs/suman#readme
- ├─┬ node-check-fast@0.0.1006
- │ │ Run node -c as fast as possible on .js files in a project
- │ │ git+https://github.com/ORESoftware/node-check-fast.git
- │ │ https://github.com/ORESoftware/node-check-fast#readme
- │ └─┬ async@2.1.5
- │   │ Higher-order functions and common patterns for asynchronous code
- │   │ git+https://github.com/caolan/async.git
- │   │ https://github.com/caolan/async#readme
- │   └── lodash@4.17.4
- │       Lodash modular utilities.
- │       git+https://github.com/lodash/lodash.git
- │       https://lodash.com/
- └─┬ suman-utils@0.0.73099
-   │ Shared module within the Suman test runner ecosystem
-   │ git+https://github.com/ORESoftware/suman-utils.git
-   │ https://github.com/ORESoftware/suman-utils#readme
-   ├─┬ async@2.1.5
-   │ │ Higher-order functions and common patterns for asynchronous code
-   │ │ git+https://github.com/caolan/async.git
-   │ │ https://github.com/caolan/async#readme
-   │ └── lodash@4.17.4
-   │     Lodash modular utilities.
-   │     git+https://github.com/lodash/lodash.git
-   │     https://lodash.com/
-   └── lodash@4.17.4
-       Lodash modular utilities.
-       git+https://github.com/lodash/lodash.git
-       https://lodash.com/
-
-
-////
-
   typescript transpile => user needs to pass a path to tsconfig-test.json
   for babel => user needs to pass a path to .babelrc
 
@@ -2529,10 +2530,10 @@ usage: readlink [-n] [file ...]
 
 ////
 
-https://docs.docker.com/engine/reference/commandline/service_logs/
-$ docker service logs [OPTIONS] SERVICE
-docker-cloud => suman_library_test_cluster
-denmanm1/ewRdik9a
+    https://docs.docker.com/engine/reference/commandline/service_logs/
+    $ docker service logs [OPTIONS] SERVICE
+    docker-cloud => suman_library_test_cluster
+    denmanm1/ewRdik9a
 
 ////
 

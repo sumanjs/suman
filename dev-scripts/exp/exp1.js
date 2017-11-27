@@ -1,20 +1,14 @@
+let n;
 
-
-const proto = Object.create(Function.prototype);
-
-proto.addProp = function(prop, val){
-  this[prop] = val;
-  return this;
-};
-
-const fn = function(){
-
-};
-
-Object.setPrototypeOf(fn, proto);
-
-
-fn.addProp('foo','bar');
-
-
-console.log(fn.foo); // => 'bar'
+try{
+  n = cp.spawn(file, []);  //  EACCES error is thrown here
+}
+catch(err){
+  return cb(err);
+}
+n.usingHashbang = true;
+if (!isExecutable) {
+  n.once('error', function () {
+  // this does not get hit !!
+ });
+}

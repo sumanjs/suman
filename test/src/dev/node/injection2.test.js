@@ -17,103 +17,99 @@ const opts = {
 
 const Promise = require('bluebird');
 
-Test.create(opts, ['rudolph',
-  function (assert, describe, before, beforeEach, after, afterEach, it, inject) {
-
-    inject('eage', t => {
-      return t.registerFnMap({
-        a:  async function (cb) {
-          console.log('arguments => ', arguments);
-           Promise.delay(300);
-          process.nextTick(cb, null, 'dogs')
-        }
-      })
-      .then(function () {
-
-      })
+Test.create(opts, ['rudolph', function (b, assert, describe, before, beforeEach, after, afterEach, it, inject) {
+  
+  inject('eage', t => {
+    return t.registerFnMap({
+      a: async function () {
+        console.log('arguments => ', arguments);
+        Promise.delay(300);
+        return 'dogs';
+      }
     });
-
-    it('sync test hagieao agoeajgoea jo joeajgoea  aegjeag oa iag j aogeg ', t => {
-      assert(false);
-    });
-
-    it.skip['retries:5, name:hi']('zoom', t => {
-
-    });
-
-    before('hi', [h => {
-      h.assert.equal(++count, 1);
-    }]);
-
-    describe('zoom', b => {
-
-      describe('nested1', {}, (b) => {
-
-        const a = b.getInjectedValue('a');
-        console.log('a is => ', a);
-
-        b.set('a', true);
-
-        // console.log('before => ', before);
-        assert.equal(count, 0);
-
-        before(h => {
-          h.assert(h.get('a'));
-          h.assert.equal(++count, 2);
-        });
-
-        it('sync test', t => {
-          assert(true);
-        });
-
-        after(h => {
-          h.assert.equal(++count, 5);
-        });
-
-        describe('nested2', {}, b => {
-
-          assert(b.get('a'));
-
-          assert.equal(count, 0);
-
-          it('sync test', t => {
-            assert(true);
-          });
-
-          before(h => {
-            h.assert.equal(++count, 3);
-          });
-
-          after(h => {
-            h.assert.equal(++count, 4);
-          });
-
-        });
-
-      });
-
-    });
-
-    describe('nested3', b => {
-
+  });
+  
+  it('sync test hagieao agoeajgoea jo joeajgoea  aegjeag oa iag j aogeg ', t => {
+    assert(false);
+  });
+  
+  it.skip['retries:5, name:hi']('zoom', t => {
+  
+  });
+  
+  before('hi', [h => {
+    h.assert.equal(++count, 1);
+  }]);
+  
+  describe('zoom', b => {
+    
+    describe('nested1', {}, (b) => {
+      
+      const a = b.getInjectedValue('a');
+      console.log('a is => ', a);
+      
+      b.set('a', true);
+      
+      // console.log('before => ', before);
       assert.equal(count, 0);
-
-      before('zoomy', h => {
-        h.assert.equal(++count, 6);
+      
+      before(h => {
+        h.assert(h.get('a'));
+        h.assert.equal(++count, 2);
       });
-
+      
       it('sync test', t => {
         assert(true);
       });
-
+      
+      after(h => {
+        h.assert.equal(++count, 5);
+      });
+      
+      describe('nested2', {}, b => {
+        
+        assert(b.get('a'));
+        
+        assert.equal(count, 0);
+        
+        it('sync test', t => {
+          assert(true);
+        });
+        
+        before(h => {
+          h.assert.equal(++count, 3);
+        });
+        
+        after(h => {
+          h.assert.equal(++count, 4);
+        });
+        
+      });
+      
     });
-
-    after.last('roomy', h => {
-      h.assert.equal(++count, 8);
+    
+  });
+  
+  describe('nested3', b => {
+    
+    assert.equal(count, 0);
+    
+    before('zoomy', h => {
+      h.assert.equal(++count, 6);
     });
-
-    after.always('roomy', h => {
-      h.assert.equal(++count, 7);
+    
+    it('sync test', t => {
+      assert(true);
     });
-
-  }]);
+    
+  });
+  
+  after.last('roomy', h => {
+    h.assert.equal(++count, 8);
+  });
+  
+  after.always('roomy', h => {
+    h.assert.equal(++count, 7);
+  });
+  
+}]);

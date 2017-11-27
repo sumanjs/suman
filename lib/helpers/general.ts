@@ -19,19 +19,21 @@ import os = require('os');
 import path = require('path');
 import fs = require('fs');
 
+//npm
+import su = require('suman-utils');
+import chalk  = require('chalk');
+import async = require('async');
+
 try {
+  su.vgt(6) && console.log(' [suman] Attempting to load browser polyfills.');
   if (window) {
     fs = require('suman-browser-polyfills/modules/fs');
+    su.vgt(6) && console.log(' [suman] Loaded browser polyfill for "fs".');
   }
 }
 catch (err) {
 
 }
-
-//npm
-import su = require('suman-utils');
-import chalk  = require('chalk');
-import async = require('async');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -168,9 +170,12 @@ export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
 
     if (reporterRets.length < 1) {
       try {
-        window.__karma__.complete();
+        if(window){
+          window.__karma__.complete();
+        }
       }
-      finally {
+      catch(err){
+        _suman.log.error(err.stack || err);
       }
       return process.nextTick(cb);
     }
@@ -839,7 +844,7 @@ export const parseArgs = function (args: Array<any>, fnIsRequired?: boolean) {
   }
 
   if (fnIsRequired) {
-    assert.equal(typeof fn, 'function', ' => Suman usage error => ' +
+    assert.equal(typeof fn, 'function', ' Suman usage error => ' +
       'You need to pass a function as the last argument to the array.');
     // remove last element
   }

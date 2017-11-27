@@ -15,7 +15,6 @@ const pragmatik = require('pragmatik');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
 
-
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('../helpers/handle-varargs');
@@ -27,22 +26,27 @@ import {parseArgs} from '../helpers/general';
 
 //////////////////////////////////////////////////////////////////////////////
 
-const typeName = 'after-each';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObjectOpts': true,
   plan: true,
   throws: true,
   fatal: true,
+  sourced: true,
   retries: true,
   cb: true,
   timeout: true,
   skip: true,
+  desc: true,
+  title: true,
   events: true,
+  successEvent: true,
+  errorEvent: true,
   successEvents: true,
   errorEvents: true,
   __preParsed: true
 };
 
-const handleBadOptions = function (opts: IAfterEachOpts): void {
+const handleBadOptions = function (opts: IAfterEachOpts, typeName: string): void {
 
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
@@ -60,26 +64,31 @@ const handleBadOptions = function (opts: IAfterEachOpts): void {
 
 //////////////////////////////////////////////////////////////////////////////
 
-
 export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
 
-  return function ($$desc: string, $opts: IAfterEachOpts): ITestSuite {
+  return function afterEach($$desc: string, $opts: IAfterEachOpts): ITestSuite {
 
+    const typeName = afterEach.name;
     const zuite = suman.ctx;
     handleSetupComplete(zuite, typeName);
-
     const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: su.isObject($opts) ? $opts.__preParsed : null
+      preParsed: su.isObject($opts) && $opts.__preParsed
     });
 
-    try {delete $opts.__preParsed} catch(err){}
+    try {
+      delete $opts.__preParsed
+    }
+    catch (err) {
+      //ignore
+    }
+
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-    handleBadOptions(opts);
+    handleBadOptions(opts, typeName);
 
     if (arrayDeps.length > 0) {
-      evalOptions(arrayDeps,opts);
+      evalOptions(arrayDeps, opts);
     }
 
     if (opts.skip) {
@@ -110,6 +119,5 @@ export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
     return zuite;
 
   };
-
 
 };

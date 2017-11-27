@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#set -e;
+
 if ! [[ -z "${LOCAL_SUMAN_ALREADY_FOUND+x}" ]]; then
     echo " => \$LOCAL_SUMAN_ALREADY_FOUND ? => $LOCAL_SUMAN_ALREADY_FOUND"
 fi
@@ -8,7 +10,8 @@ fi
 
 if test "$#" -eq "0"; then
     # if there are no arguments to `$suman` then we launch `$suman-shell` instead
-    exec "$(dirname "$0")/suman-shell"
+#    exec "$(dirname "$0")/suman-shell"
+    "$(dirname "$0")/suman-shell"
     exit $?;
 fi
 
@@ -22,7 +25,7 @@ done
 
 if test "$suman_inspect" == "yes"; then
     echo "running suman inspect.";
-    exec "$(dirname "$0")/suman-inspect" "$@"
+#    "$(dirname "$0")/suman-inspect" "$@"
     exit $?;
 fi
 

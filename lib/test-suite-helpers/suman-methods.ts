@@ -13,11 +13,16 @@ import {makeAfterAllParentHooks} from '../test-suite-methods/make-after-all-pare
 import {IInjectFn} from "suman-types/dts/inject";
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {IBeforeFn} from "suman-types/dts/before";
-import {ItFn} from "suman-types/dts/it";
-import {IDescribeFn} from "suman-types/dts/describe";
+import {ItFn, ItHook} from "suman-types/dts/it";
+import {IDescribeFn, TDescribeHook} from "suman-types/dts/describe";
 import {IBeforeEachFn} from "suman-types/dts/before-each";
 import {IAfterEachFn} from "suman-types/dts/after-each";
 import {IAfterFn} from "suman-types/dts/after";
+import {
+  DefineObject,
+  DefineObjectAllHook, DefineObjectContext, DefineObjectEachHook, DefineObjectTestCase,
+  DefineObjectTestOrHook, IDefineObject
+} from "./define-options-classes";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -29,7 +34,9 @@ import assert = require('assert');
 import util = require('util');
 
 //npm
+import su = require('suman-utils');
 const pragmatik = require('pragmatik');
+import _ = require('lodash');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -40,11 +47,10 @@ import {makeCreateInjector} from '../injection/create-injector';
 
 /////////////////////////////////////////////////////////////////////
 
-
 const possibleProps = <any> {
-
-  // ALL LOWERCASE HERE
-
+  
+  // note: ALL LOWERCASE HERE
+  
   //methods
   describe: true,
   beforeeach: true,
@@ -60,7 +66,7 @@ const possibleProps = <any> {
   teardowntest: true,
   setup: true,
   teardown: true,
-
+  
   // options
   events: true,
   errorevents: true,
@@ -78,14 +84,13 @@ const possibleProps = <any> {
   always: true,
   last: true,
   __preparsed: true
-
+  
 };
 
-
 const makeProxy = function (suman: ISuman): Function {
-
+  
   return function getProxy(method: Function, rule: Object, props?: Array<string>): Function {
-
+    
     /*
     NOTE
      this function allows us to dynamically generate functions such as
@@ -93,18 +98,23 @@ const makeProxy = function (suman: ISuman): Function {
      this way we only create the functions we need, instead of enumerating them all here.
      this makes for a leaner and more maintenable codebase as well as higher performance.
     */
-
+    
     ///////////////////////////////////////////////////////
-
+    
     return new Proxy(method, {
       get: function (target, prop) {
-
+        
         if (typeof prop === 'symbol') {
           return Reflect.get.apply(Reflect, arguments);
         }
-
+        
         props = props || [];
-
+        
+        if (prop === 'define') {
+          // we don't need to bind define to target, since it uses a closure
+          return target.define;
+        }
+        
         let hasSkip = false;
         let newProps = props.concat(String(prop))
         .map(v => String(v).toLowerCase()) // we map to lowercase first, so we can use indexOf afterwards
@@ -116,48 +126,87 @@ const makeProxy = function (suman: ISuman): Function {
         })
         // sort the properties alphabetically so that we need to use fewer number of caches
         .sort();
-
+        
         if (hasSkip) {
           // if any of the props are "skip" then we can reduce it to just "skip"
           newProps = ['skip'];
         }
-
+        
         let cache, cacheId = newProps.join('-');
-
+        
         let fnCache = suman.testBlockMethodCache.get(method);
         if (!fnCache) {
           fnCache = {};
           suman.testBlockMethodCache.set(method, fnCache);
         }
-
+        
         if (cache = suman.testBlockMethodCache.get(method)[cacheId]) {
           return cache;
         }
-
+        
         let fn = function () {
-
+          
           let args = pragmatik.parse(arguments, rule);
-
+          
           newProps.forEach(function (p) {
             args[1][p] = true;
           });
-
+          
           args[1].__preParsed = true;
           return method.apply(null, args);
         };
 
+        fn.define = target.define;
+
+        // if(fn.define.props){
+        //   throw new Error('Props property is already defined, you may have called something asynchronously.');
+        // }
+
+        fn.define.props = newProps;
+        
         return fnCache[cacheId] = getProxy(fn, rule, newProps);
       }
     });
   };
-
+  
 };
 
+const addDefine = function (fn: any, Clazz: typeof DefineObject) {
+  
+  fn.define = function (desc?: string | Function, f?: Function) {
+    
+    if (typeof desc === 'function') {
+      f = desc;
+      desc = null;
+    }
 
+    
+    const defObj = new Clazz(desc as string, fn);
+
+    if(fn.define.props){
+
+      fn.define.props.forEach(function(p){
+         defObj.opts[p] = true;
+      });
+
+      delete fn.define.props;
+    }
+    
+    if (f) {
+      assert(typeof f === 'function', 'Optional argument to define() was expected to be a function.');
+      f.call(null, defObj);
+    }
+    
+    return defObj;
+  };
+  
+  return fn;
+  
+};
 
 export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBase,
                                           gracefulExit: Function, notifyParent: Function): any {
-
+  
   /*
 
      NOTE:
@@ -168,24 +217,28 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBas
    this makes for a leaner and more maintenable codebase as well as higher performance.
 
   */
-
+  
   const m = {} as any;
-
+  
   suman.containerProxy = m;
-
+  
+  // injectors
   const blockInjector = makeBlockInjector(suman, m);
   const createInjector = makeCreateInjector(suman, m);
-  const inject: IInjectFn = makeInject(suman);
-  const before: IBeforeFn = makeBefore(suman);
-  const after: IAfterFn = makeAfter(suman);
-  const beforeEach: IBeforeEachFn = makeBeforeEach(suman);
-  const afterEach: IAfterEachFn = makeAfterEach(suman);
-  const it: ItFn = makeIt(suman);
-  const afterAllParentHooks = makeAfterAllParentHooks(suman);
-  const describe: IDescribeFn = makeDescribe(suman, gracefulExit, TestBlock, notifyParent, blockInjector);
-
+  
+  // "methods"
+  const inject: IInjectFn = addDefine(makeInject(suman), DefineObjectTestOrHook);
+  const before: IBeforeFn = addDefine(makeBefore(suman), DefineObjectAllHook);
+  const after: IAfterFn = addDefine(makeAfter(suman), DefineObjectAllHook);
+  const beforeEach: IBeforeEachFn = addDefine(makeBeforeEach(suman), DefineObjectEachHook);
+  const afterEach: IAfterEachFn = addDefine(makeAfterEach(suman), DefineObjectEachHook);
+  const it: ItFn = addDefine(makeIt(suman), DefineObjectTestCase);
+  const afterAllParentHooks = addDefine(makeAfterAllParentHooks(suman), DefineObjectAllHook);
+  const describe: IDescribeFn =
+    addDefine(makeDescribe(suman, gracefulExit, TestBlock, notifyParent, blockInjector), DefineObjectContext);
+  
   /////////////////////////////////////////////////////////////////////////////////////////
-
+  
   const getProxy = makeProxy(suman);
   m.describe = m.context = m.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
   m.it = m.test = getProxy(it, rules.testCaseSignature) as ItFn;
@@ -195,7 +248,7 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBas
   m.after = m.afterall = m.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
   m.aftereach = m.teardowntest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
   m.afterallparenthooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
-
+  
   return createInjector
-
+  
 };
