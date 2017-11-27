@@ -30,8 +30,8 @@ import {evalOptions} from '../helpers/general';
 
 ///////////////////////////////////////////////////////////////////////////////
 
-const typeName = 'it';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObjectOpts': true,
   plan: true,
   throws: true,
   fatal: true,
@@ -39,19 +39,24 @@ const acceptableOptions = <IAcceptableOptions> {
   cb: true,
   val: true,
   value: true,
+  sourced: true,
   parallel: true,
+  desc: true,
+  title: true,
   series: true,
   mode: true,
   timeout: true,
   only: true,
   skip: true,
   events: true,
+  successEvent: true,
+  errorEvent: true,
   successEvents: true,
   errorEvents: true,
   __preParsed: true
 };
 
-const handleBadOptions = function (opts: IItOpts) {
+const handleBadOptions = function (opts: IItOpts, typeName: string) {
 
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
@@ -81,10 +86,11 @@ const incr = function () {
 
 export const makeIt = function (suman: ISuman): ItFn {
 
-  return function ($desc: string, $opts: IItOpts): ITestSuite {
+  return function it($desc: string, $opts: IItOpts): ITestSuite {
 
+    const typeName = it.name;
     const sumanOpts = suman.opts, zuite = suman.ctx;
-    handleSetupComplete(zuite, 'it');
+    handleSetupComplete(zuite, typeName);
 
     const args = pragmatik.parse(arguments, rules.testCaseSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
@@ -92,12 +98,15 @@ export const makeIt = function (suman: ISuman): ItFn {
 
     try {
       delete $opts.__preParsed
-    } catch (err) {
     }
+    catch (err) {
+      //ignore
+    }
+
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-    handleBadOptions(opts);
+    handleBadOptions(opts, typeName);
 
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);
@@ -122,11 +131,11 @@ export const makeIt = function (suman: ISuman): ItFn {
     const inc = incr();
 
     if (!_suman.inBrowser && !sumanOpts.force) {
-      if (opts.skip && !sumanOpts.allow_skip) {
+      if (opts.skip && !sumanOpts.$allowSkip) {
         throw new Error('Test case was declared as "skipped" but "--allow-skip" option not specified.');
       }
 
-      if (opts.only && !sumanOpts.allow_only) {
+      if (opts.only && !sumanOpts.$allowOnly) {
         throw new Error('Test case was declared as "only" but "--allow-only" option not specified.');
       }
     }
@@ -176,9 +185,9 @@ export const makeIt = function (suman: ISuman): ItFn {
       mode: opts.mode,
       delay: opts.delay,
       cb: opts.cb,
-      type: 'it/test-case',
+      type: typeName,
       timeout: opts.timeout || 20000,
-      desc: desc || fn.name || '(unknown test case name)',
+      desc: desc || opts.desc ||  fn.name || '(unknown test case name)',
       fn: fn,
       warningErr: new Error('SUMAN_TEMP_WARNING_ERROR'),
       timedOut: false,

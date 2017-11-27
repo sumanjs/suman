@@ -265,7 +265,7 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 process.removeAllListeners('unhandledRejection');
 process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
 
-  debugger;
+  debugger; // leave it here thanks
 
   const sumanOpts = _suman.sumanOpts;
   const reason = $reason ? ($reason.stack || $reason) : new Error('no reason passed to "unhandledRejection" handler.');

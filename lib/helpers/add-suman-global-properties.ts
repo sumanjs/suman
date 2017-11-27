@@ -1,5 +1,6 @@
 'use strict';
 
+//dts
 import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills

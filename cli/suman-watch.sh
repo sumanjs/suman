@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -e;
 
 suman_watch_location="$HOME/.suman/global/node_modules/suman-watch";
 watch_log="$HOME/.suman/logs/suman-watch.log";

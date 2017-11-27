@@ -6,6 +6,8 @@
 
 # we use this to cache this value in subshells
 # we should not cache, because switching between nvm versions
+
+set -e;
 export suman_global_npm_modules_path="$(npm root -g)";
 
 
@@ -53,7 +55,7 @@ function suman {
         done
 
         if [[ "${suman_inspect}" == "yes" ]]; then
-            exec "$(dirname "$0")/suman-inspect" "$@";
+            "$(dirname "$0")/suman-inspect" "$@";
             exit $?;
         fi
 

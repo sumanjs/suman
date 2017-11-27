@@ -34,24 +34,29 @@ import {parseArgs} from '../helpers/general';
 
 //////////////////////////////////////////////////////////////////////////////
 
-const typeName = 'before';
 const acceptableOptions = <IAcceptableOptions> {
+  '@DefineObjectOpts': true,
   plan: true,
   throws: true,
   fatal: true,
+  sourced: true,
   retries: true,
   cb: true,
   timeout: true,
   skip: true,
+  desc: true,
+  title: true,
   events: true,
   first: true,
   last: true,
+  successEvent: true,
+  errorEvent: true,
   successEvents: true,
   errorEvents: true,
   __preParsed: true
 };
 
-const handleBadOptions = function (opts: IBeforeOpts) {
+const handleBadOptions = function (opts: IBeforeOpts, typeName: string) {
 
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
@@ -66,27 +71,30 @@ const handleBadOptions = function (opts: IBeforeOpts) {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
 
 export const makeBefore = function (suman: ISuman): IBeforeFn {
 
-  return function ($$desc: string, $opts: IBeforeOpts) {
+  return function before($$desc: string, $opts: IBeforeOpts) {
 
     const zuite = suman.ctx;
-    handleSetupComplete(zuite, 'before');
+    handleSetupComplete(zuite, before.name);
 
     const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: su.isObject($opts) ? $opts.__preParsed : null
+      preParsed: su.isObject($opts) && $opts.__preParsed
     });
 
     try {
       delete $opts.__preParsed
-    } catch (err) {
     }
+    catch (err) {
+      //ignore
+    }
+
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-    handleBadOptions(opts);
+    handleBadOptions(opts, before.name);
 
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);
@@ -107,7 +115,7 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
       let obj = {
         ctx: zuite,
         desc: desc || fn.name || '(unknown before-hook name)',
-        timeout: opts.timeout || 11000,
+        timeout: opts.timeoutVal || opts.timeout || 11000,
         cb: opts.cb || false,
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,
@@ -130,7 +138,6 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
       else {
         zuite.getBefores().push(obj);
       }
-
     }
 
     return zuite;

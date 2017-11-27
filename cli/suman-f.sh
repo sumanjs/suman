@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
+set -e;
 
 if [[ "${SUMAN_ENV}" != "local" ]]; then
- echo " => \$SUMAN_ENV is not set to 'local' so we will run suman instead of suman-f.";
+ echo " => SUMAN_ENV env variable is not set to 'local' so we will run suman instead of suman-f.";
  "$(cd $(dirname "$0") && pwd)/suman" "$@";
   exit $?;
 fi

@@ -198,7 +198,6 @@ const useServer = sumanOpts.use_server;
 const tail = sumanOpts.tail;
 const removeBabel = sumanOpts.remove_babel;
 const create = sumanOpts.create;
-const watch = sumanOpts.watch;
 const useIstanbul = sumanOpts.use_istanbul;
 const interactive = sumanOpts.interactive;
 const appendMatchAny = sumanOpts.append_match_any;
@@ -213,7 +212,6 @@ const groups = sumanOpts.groups;
 const useTAPOutput = sumanOpts.use_tap_output;
 const useTAPJSONOutput = sumanOpts.use_tap_json_output;
 const fullStackTraces = sumanOpts.full_stack_traces;
-const coverage = sumanOpts.coverage;
 const diagnostics = sumanOpts.diagnostics;
 const installGlobals = sumanOpts.install_globals;
 const postinstall = sumanOpts.postinstall;
@@ -222,8 +220,21 @@ const sumanShell = sumanOpts.suman_shell;
 const watchPer = sumanOpts.watch_per;
 const singleProcess = sumanOpts.single_process;
 const script = sumanOpts.script;
-const browser = sumanOpts.browser;
 const cwdAsRoot = sumanOpts.force_cwd_to_be_project_root;
+
+
+// boolean options
+const allowOnly = sumanOpts.$allowOnly = Boolean(sumanOpts.allow_only);
+const allowSkip = sumanOpts.$allowSkip = Boolean(sumanOpts.allow_skip);
+const coverage = sumanOpts.$coverage = Boolean(sumanOpts.coverage);
+const browser = sumanOpts.$browser = Boolean(sumanOpts.browser);
+const watch = sumanOpts.$watch = Boolean(sumanOpts.watch);
+
+// string options
+
+// array of string options
+
+
 
 if (sumanOpts.force_inherit_stdio) {
   _suman.$forceInheritStdio = true;
