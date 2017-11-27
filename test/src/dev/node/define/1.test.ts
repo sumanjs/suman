@@ -1,7 +1,8 @@
 #!/usr/bin/env ts-node
 'use strict';
 
-import suman, {s} from 'suman';
+import * as suman from 'suman';
+import {s} from 'suman';
 const {Test} = suman.init(module);
 type ctxfn = (b: s.ITestSuite, it: s.ItFn, describe: s.IDescribeFn, test: s.ItFn) => void;
 

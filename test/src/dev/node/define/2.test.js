@@ -3,11 +3,13 @@
 const suman = require('suman');
 const {Test} = suman.init(module);
 
+
 Test.define('ballistic')
   .parallel(true)
   .run(function (b, test, context, after) {
     
     b.set('a', {foo: true});
+    
     
     context('inner', b => {
       

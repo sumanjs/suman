@@ -95,7 +95,7 @@ export const getTapJSONParser = function () {
     const testpoint = d.testCase;
 
     if (!testpoint) {
-      _suman.log.error('implementation warning: testpoint data does not exist for tap-json object => ',
+      _suman.log.error('implementation error: testpoint data does not exist for tap-json object => ',
         util.inspect(d));
       return;
     }

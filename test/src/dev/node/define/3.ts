@@ -1,19 +1,27 @@
 #!/usr/bin/env node
 'use strict';
 
-import suman, {IDefObjTestCase, ItFn} from 'suman';
-const {Test} = suman.init(module as any);
+import suman, {s} from 'suman';
+const {Test} = suman.init(module);
 
 Test.create(function () {
 
 });
 
-Test.define('groovy', v => {
+Test.define('groovy', (v: s.DefObjContext) => {
 
-  v.timeout(10).mode('a').source('age', 'age', 'age')
-  .run((b, it, describe, test: ItFn) => {
-
+  v.mode('parallel')
+  .source()
+  .names()
+  .run(t => {})
+  .timeout(10)
+  .mode('parallel')
+  .run((b, it, describe, test: s.ItFn) => {
+    
     b.set('is', 'cool');
+    
+    test.define('yes')
+    .series(true);
 
     test.series.cb.define('turtle')
     .timeout(10)
