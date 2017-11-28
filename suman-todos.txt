@@ -212,7 +212,23 @@ exit with command to the right that exits with non-zero
     use puppeteer to launch chrome instead of chrome-launcher
     https://developers.google.com/web/updates/2017/04/headless-chrome
 
-//
+///
+
+
+https://unix.stackexchange.com/questions/407222/find-location-of-shell-bash-function-on-disk
+
+type npmlinkup
+
+# Turn on extended shell debugging
+shopt -s extdebug
+
+# Dump the function's name, line number and fully qualified source file
+declare -F foo
+
+# Turn off extended shell debugging
+shopt -u extdebug
+
+///
 
 this has been superceded:
 
