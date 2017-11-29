@@ -286,6 +286,7 @@ export const execSuite = function (suman: ISuman): Function {
               });
             }
             else {
+              debugger;
               cb.apply(suite, deps);
             }
           }
@@ -295,6 +296,7 @@ export const execSuite = function (suman: ISuman): Function {
               _suman.log.warning('usage warning => suite.resume() has become a noop since delay option is falsy.');
             };
 
+            debugger;
             cb.apply(null, deps);
             suite.isSetupComplete = true;
 

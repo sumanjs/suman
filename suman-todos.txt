@@ -10,6 +10,19 @@ three SO profiles:
 
 ///
 
+put $deps/$core on suman?
+
+const {async} = suman.deps;
+const {async} = suman.installed
+
+////
+
+put
+"const suman = require('suman');"
+in each test file
+
+///
+
 https://stackoverflow.com/questions/47484010/declare-class-type-with-typescript-pass-class-as-parameter/47493835#47493835
 
 As you mentioned, what you are looking to is how to describe class constructor and not the instance.

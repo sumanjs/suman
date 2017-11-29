@@ -117,6 +117,7 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
               _suman.log.warning();
               _suman.log.warning('The following file is missing a hashbang.');
               _suman.log.warning(file);
+              console.error();
             }
             
             if (extname === '.js') {
