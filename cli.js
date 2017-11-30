@@ -69,6 +69,7 @@ process.on('unhandledRejection', function (err, p) {
         }
     }, 500);
 });
+var fs = require("fs");
 var path = require("path");
 var util = require("util");
 var assert = require("assert");
@@ -399,6 +400,28 @@ var paths = _.flatten([sumanOpts._args]).slice(0);
     }
 }
 var isTTY = process.stdout.isTTY;
+if (isTTY) {
+    _suman.log.error('process.stdout appears to be a TTY.');
+}
+else {
+    _suman.log.error('process.stdout appears to *not* be a TTY.');
+}
+var isFifo;
+try {
+    isFifo = fs.fstatSync(1).isFIFO();
+    if (isFifo) {
+        _suman.log.info('process.sdtout appears to be a FIFO.');
+        _suman.log.error('process.stdout appears to be a FIFO.');
+    }
+    else {
+        _suman.log.info('process.sdtout appears to *not* be a FIFO.');
+        _suman.log.error('process.stdout appears to *not* be a FIFO.');
+    }
+}
+catch (err) {
+    _suman.log.error('process.stdout is not a FIFO.');
+    _suman.log.error(err.stack);
+}
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
     if (!isTTY && !useTAPOutput) {
         {
