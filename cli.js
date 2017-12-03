@@ -435,7 +435,7 @@ if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
     }
 }
 if (diagnostics) {
-    require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
+    Promise.resolve().then(function () { return require('./lib/cli-commands/run-diagnostics'); }).run(sumanOpts);
 }
 else if (script) {
     require('./lib/cli-commands/run-scripts').run(sumanConfig, sumanOpts);

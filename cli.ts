@@ -611,6 +611,7 @@ catch (err) {
   _suman.log.error(err.stack);
 }
 
+
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
   if (!isTTY && !useTAPOutput) {
     {
@@ -629,7 +630,7 @@ if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
 ////////////////////// dynamically call files to minimize load, etc //////////////////////////////
 
 if (diagnostics) {
-  require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
+  import('./lib/cli-commands/run-diagnostics').run(sumanOpts);
 }
 else if (script) {
   require('./lib/cli-commands/run-scripts').run(sumanConfig, sumanOpts);

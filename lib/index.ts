@@ -8,6 +8,8 @@ import {Stream, Transform, Writable} from "stream";
 import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook, IInitRet} from "suman-types/dts/index-init";
 import {IHookOrTestCaseParam} from "suman-types/dts/test-suite";
 import {DefineObject, DefineObjectContext} from "./test-suite-helpers/define-options-classes";
+import chai = require('chai');
+import AssertStatic = Chai.AssertStatic;
 
 //exported imports
 import * as s from './s'
@@ -117,6 +119,7 @@ import {execSuite} from './exec-suite';
 import {loadSumanConfig, resolveSharedDirs, loadSharedObjects} from './helpers/general';
 import {acquireIocStaticDeps} from './acquire-dependencies/acquire-ioc-static-deps';
 import {shutdownProcess, handleSingleFileShutdown} from "./helpers/handle-suman-shutdown";
+import {ISumanRunFn} from "./helpers/suman-run";
 
 const allOncePreKeys: Array<Array<string>> = _suman.oncePreKeys = [];
 const allOncePostKeys: Array<Array<string>> = _suman.oncePostKeys = [];
@@ -470,7 +473,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     parent: $module.parent ? $module.parent.filename : null, //parent is who required the original $module
     file: $module.filename,
     create: start,
-    define: function (desc?: string | Function, f?: Function) {
+    define: function (desc, f) {
       
       if (typeof desc === 'function') {
         f = desc;
@@ -537,7 +540,15 @@ export const once = function (fn: Function) {
 
 ///////////////// keep  ////////////////////////////////////////////////
 
+export interface ISumanExports {
+  s: typeof s,
+  init: IInitFn,
+  run: ISumanRunFn,
+  autoPass: typeof autoPass,
+  autoFail: typeof autoFail
+}
+
 const $exports = module.exports;
-export default $exports;
+export default $exports as  ISumanExports;
 
 ////////////////////////////////////////////////////////////////////////

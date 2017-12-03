@@ -179,7 +179,6 @@ const addDefine = function (fn: any, Clazz: typeof DefineObject) {
       f = desc;
       desc = null;
     }
-
     
     const defObj = new Clazz(desc as string, fn);
 
