@@ -216,8 +216,8 @@ export class DefineObjectAllHook extends DefineObjectTestOrHook {
   
   run(fn: TBeforeHook | TAfterHook): this {
     const name = this.opts.desc || '(unknown DefineObject name)';
-    const opts = JSON.parse(su.customStringify(this.opts));
-    this.exec.call(null, name, opts, fn);
+    // const opts = JSON.parse(su.customStringify(this.opts));
+    this.exec.call(null, name, Object.assign({}, this.opts), fn);
     return this;
   }
   
@@ -233,8 +233,8 @@ export class DefineObjectEachHook extends DefineObjectTestOrHook {
   
   run(fn: TBeforeEachHook | TAfterEachHook): this {
     const name = this.opts.desc || '(unknown DefineObject name)';
-    const opts = JSON.parse(su.customStringify(this.opts));
-    this.exec.call(null, name, opts, fn);
+    // const opts = JSON.parse(su.customStringify(this.opts));
+    this.exec.call(null, name, Object.assign({}, this.opts), fn);
     return this;
   }
   
@@ -244,19 +244,19 @@ export class DefineObjectTestCase extends DefineObjectTestOrHook {
   
   run(fn: ItHook): this {
     const name = this.opts.desc || '(unknown DefineObject name)';
-    const opts = JSON.parse(su.customStringify(this.opts));
-    this.exec.call(null, name, opts, fn);
+    // const opts = JSON.parse(su.customStringify(this.opts));
+    this.exec.call(null, name, Object.assign({}, this.opts), fn);
     return this;
   }
   
 }
 
 export class DefineObjectContext extends DefineObject {
-
+  
   source(...args: string[]): this {
     this.opts.sourced = this.opts.sourced || {};
     const self = this; // transpiles better this way
-    Array.from(arguments).forEach(function(a) {
+    Array.from(arguments).forEach(function (a) {
       if (Array.isArray(a)) {
         // break into any arrays, recursively
         self.source(...a);
@@ -281,8 +281,8 @@ export class DefineObjectContext extends DefineObject {
   
   run(fn: TDescribeHook): this {
     const name = this.opts.desc || '(unknown DefineObject name)';
-    const opts = JSON.parse(su.customStringify(this.opts));
-    this.exec.call(null, name, opts, fn);
+    // const opts = JSON.parse(su.customStringify(this.opts));
+    this.exec.call(null, name, Object.assign({}, this.opts), fn);
     return this;
   }
   

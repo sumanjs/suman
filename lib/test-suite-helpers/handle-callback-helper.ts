@@ -38,8 +38,7 @@ const planHelper = function (e: IPseudoError, test: ITestDataObj, hook: IHookObj
   const testOrHook: ITestDataObj | IHookObj = (test || hook);
 
   if (testOrHook.planCountExpected !== undefined) {
-    assert(Number.isInteger(testOrHook.planCountExpected),
-      ' => Suman usage error => "plan" option must be an integer.');
+    assert(Number.isInteger(testOrHook.planCountExpected), 'Suman usage error => "plan" option must be an integer.');
   }
 
   if (Number.isInteger(testOrHook.planCountExpected) && testOrHook.planCountExpected !== assertCount.num) {
@@ -65,14 +64,15 @@ const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHoo
   const testOrHook: ITestDataObj | IHookObj = (test || hook);
 
   if (testOrHook.throws !== undefined) {
-
-    assert(testOrHook.throws instanceof RegExp, ' => Suman usage error => "throws" option must be a RegExp.');
+    
+    assert(testOrHook.throws instanceof RegExp, 'Suman usage error => "throws" option must be a RegExp instance.');
 
     let z;
     if (!err) {
 
       z = testOrHook.didNotThrowErrorWithExpectedMessage =
-        'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , but did not.';
+        'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
+        'but did not throw or pass any error.';
 
       err = cloneError(testOrHook.warningErr, z);
 
@@ -85,7 +85,8 @@ const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHoo
     else if (err && !String(err.stack || err).match(testOrHook.throws)) {
 
       z = testOrHook.didNotThrowErrorWithExpectedMessage =
-        'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , but did not.';
+        'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
+        'but did not throw or pass any error.';
 
       let newErr = cloneError(testOrHook.warningErr, z);
       err = new Error(err.stack + '\n' + newErr.stack);

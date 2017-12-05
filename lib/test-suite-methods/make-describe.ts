@@ -269,7 +269,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
               
               // Object.freeze(suite);
               // Object.freeze(suite);
-              debugger;
               cb.apply(null, $deps);
               
               handleInjections(suite, function (err: Error) {
@@ -335,7 +334,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                 
               };
               
-              debugger;
+              
               cb.apply(null, $deps);
             }
             
