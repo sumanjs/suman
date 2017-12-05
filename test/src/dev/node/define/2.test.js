@@ -16,7 +16,7 @@ Test.define('ballistic')
 
     test.define('zoomrah')
     .throws(/Cannot assign to read only property/)
-    .run(t => {
+    .register(t => {
       const z = b.get('a');
       debugger;
       // throw 'Cannot assign to read only property';
