@@ -286,7 +286,7 @@ var sumanConfig;
             pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
             sumanConfig = _suman.sumanConfig = require(pth);
             if (sumanOpts.verbosity > 2) {
-                log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
+                _suman.log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
             }
         }
         catch (err) {
@@ -305,7 +305,7 @@ var sumanInstalledAtAll = null;
 var sumanServerInstalled = null;
 {
     if (init) {
-        log.info(chalk.magenta(' => "suman --init" is running.'));
+        _suman.log.info(chalk.magenta(' => "suman --init" is running.'));
         sumanConfig = _suman.sumanConfig = _suman.sumanConfig || {};
     }
     else {

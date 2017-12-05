@@ -517,28 +517,10 @@ export const autoFail = function (t: IHookOrTestCaseParam) {
 };
 
 export const run = sumanRun.run();
+export const once = su.onceWithCache;
+export const version = require('../package.json').version;
 
-export const once = function (fn: Function) {
-  let cache: any = null;
-  
-  return function (cb: Function) {
-    
-    if (cache) {
-      process.nextTick(cb, null, cache);
-      return;
-    }
-    
-    fn.call(null, function (err: Error, val: any) {
-      if (!err) {
-        cache = val || {'Suman says': 'This is a dummy-cache val. See => sumanjs.org/tricks-and-tips.html'};
-      }
-      cb.call(null, err, cache);
-    });
-    
-  }
-};
-
-///////////////// keep  ////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 export interface ISumanExports {
   s: typeof s,

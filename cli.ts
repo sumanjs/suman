@@ -407,7 +407,7 @@ let sumanConfig;
       pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
       sumanConfig = _suman.sumanConfig = require(pth);
       if (sumanOpts.verbosity > 2) {  //default to true
-        log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
+        _suman.log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
       }
     }
     catch (err) {
@@ -434,7 +434,7 @@ let sumanServerInstalled = null;
   // set up sumanConfig etc.
   
   if (init) {
-    log.info(chalk.magenta(' => "suman --init" is running.'));
+    _suman.log.info(chalk.magenta(' => "suman --init" is running.'));
     // TODO: force empty config if --init option given?
     sumanConfig = _suman.sumanConfig = _suman.sumanConfig || {} as ISumanConfig;
   }
