@@ -330,6 +330,10 @@ t.final =>
 
 ////
 
+
+
+////
+
     suman --init should not install suman
     at the end of the --init, suman should check to see if suman is in package.json or node_modules
     it should recommend something like:

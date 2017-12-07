@@ -346,7 +346,8 @@ module.exports = [
   {
     names: ['force', 'f'],
     type: 'bool',
-    help: 'Force the command at hand.'
+    help: 'Force the command at hand.',
+    env: 'SUMAN_FORCE'
   },
   {
     names: ['allow-symlinks'],
@@ -356,7 +357,8 @@ module.exports = [
   {
     names: ['fforce', 'ff'],
     type: 'bool',
-    help: 'Force the command at hand, with super double force.'
+    help: 'Force the command at hand, with super double force.',
+    env: 'SUMAN_FFORCE'
   },
   {
     names: ['pipe', 'p'],

@@ -79,10 +79,8 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
 
     const zuite = suman.ctx;
     handleSetupComplete(zuite, before.name);
-
-    const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: su.isObject($opts) && $opts.__preParsed
-    });
+    const isPreParsed = $opts && $opts.__preParsed;
+    const args = pragmatik.parse(arguments, rules.hookSignature, isPreParsed);
 
     try {
       delete $opts.__preParsed

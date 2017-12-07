@@ -76,10 +76,8 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
 
     const zuite = suman.ctx;
     handleSetupComplete(zuite, after.name);
-
-    const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: su.isObject($opts) ? $opts.__preParsed : null
-    });
+    const isPreParsed = $opts && $opts.__preParsed;
+    const args = pragmatik.parse(arguments, rules.hookSignature, isPreParsed);
 
     try {delete $opts.__preParsed} catch(err){}
     const vetted = parseArgs(args);

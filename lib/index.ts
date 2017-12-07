@@ -294,10 +294,10 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     assert(su.isObject(sumanOptsOverride), 'Suman opts override value must be a plain object.');
     
     Object.keys(sumanOptsOverride).forEach(function (k) {
-      if (String(k).startsWith('$')) {
+      if (String(k).trim().startsWith('$')) {
         throw new Error('Suman options override object key must not start with "$" character.');
       }
-      sumanOptsOverride['$' + k] = sumanOptsOverride[k];
+      sumanOptsOverride['$' + String(k).trim()] = sumanOptsOverride[k];
       delete sumanOptsOverride[k];
     });
     
@@ -394,9 +394,8 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   
   const start: IStartCreate = function ($$desc, $$opts, /* signature is likely args: desc, opts, arr, cb */) {
     
-    const args = pragmatik.parse(arguments, rules.createSignature, {
-      preParsed: su.isObject($$opts) && $$opts.__preParsed
-    });
+    const isPreParsed = $$opts && $$opts.__preParsed;
+    const args = pragmatik.parse(arguments, rules.createSignature, isPreParsed);
     
     args[1].__preParsed = true;
     

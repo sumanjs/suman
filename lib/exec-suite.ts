@@ -66,9 +66,8 @@ export const execSuite = function (suman: ISuman): Function {
   return function runRootSuite($$desc: any, $$opts: any): void {
 
     const sumanOpts = suman.opts;
-    const args = pragmatik.parse(arguments, rules.createSignature, {
-      preParsed: su.isObject($$opts) && $$opts.__preParsed
-    });
+    const isPreParsed = su.isObject($$opts) && $$opts.__preParsed;
+    const args = pragmatik.parse(arguments, rules.createSignature, isPreParsed);
 
     const vetted = general.parseArgs(args);
     const [$desc, opts, cb] = vetted.args;

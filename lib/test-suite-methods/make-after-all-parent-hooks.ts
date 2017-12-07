@@ -40,10 +40,8 @@ export const makeAfterAllParentHooks = function (suman: ISuman): IAfterFn {
 
     const zuite = suman.ctx;
     handleSetupComplete(zuite, afterAllParentHooks.name);
-
-    const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: su.isObject($opts) ? $opts.__preParsed : null
-    });
+    const isPreParsed = $opts && $opts.__preParsed;
+    const args = pragmatik.parse(arguments, rules.hookSignature, isPreParsed);
 
     try {
       delete $opts.__preParsed

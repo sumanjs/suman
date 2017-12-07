@@ -80,9 +80,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     
     const sumanOpts = suman.opts, zuite = suman.ctx;
     handleSetupComplete(zuite, describe.name);
-    const args = pragmatik.parse(arguments, rules.blockSignature, {
-      preParsed: su.isObject($opts) ? $opts.__preParsed : null
-    });
+    const isPreParsed = su.isObject($opts) && $opts.__preParsed;
+    const args = pragmatik.parse(arguments, rules.blockSignature, isPreParsed);
     
     try {
       delete $opts.__preParsed

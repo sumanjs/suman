@@ -149,7 +149,7 @@ export const makeAddToTranspileQueue = function (f: string, transpileQueue: Asyn
 
             if (code > 0) {
               cb(new Error(`the @transform.sh process, for file ${file},\nexitted with non-zero exit code. :( 
-                  \n To see the stderr, use --inherit-stdio.`));
+                  \n To see the stderr, use "--inherit-stdio" or "--inherit-all-stdio".`));
             }
             else {
               cb(null, file, shortFile, stdout, stderr, gd);
