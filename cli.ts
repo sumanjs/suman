@@ -488,12 +488,6 @@ sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack
 const sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
 .map((item: RegExp | string) => (item instanceof RegExp) ? item : new RegExp(item));
 
-if (sumanMatchesAny.length < 1) {
-  // if the user does not provide anything, we default to this
-  _suman.log.warning('No runnable file regexes available; using the default => /\.js$/');
-  sumanMatchesAny.push(/\.js$/);
-}
-
 const sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appendMatchNone || []))
 .map((item: RegExp | string) => (item instanceof RegExp) ? item : new RegExp(item));
 
@@ -503,6 +497,13 @@ const sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendM
 _suman.sumanMatchesAny = uniqBy(sumanMatchesAny, (item: RegExp) => item);
 _suman.sumanMatchesNone = uniqBy(sumanMatchesNone, (item: RegExp) => item);
 _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, (item: RegExp) => item);
+
+
+if (sumanMatchesAny.length < 1) {
+  // if the user does not provide anything, we default to this
+  _suman.log.warning('No runnable file regexes available; using the default => /\.js$/');
+  _suman.sumanMatchesAny.push(/\.js$/);
+}
 
 /////////////////////////////// abort if too many top-level options //////////////////////////////////////
 

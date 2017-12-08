@@ -337,10 +337,6 @@ _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 1
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 var sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
     .map(function (item) { return (item instanceof RegExp) ? item : new RegExp(item); });
-if (sumanMatchesAny.length < 1) {
-    _suman.log.warning('No runnable file regexes available; using the default => /\.js$/');
-    sumanMatchesAny.push(/\.js$/);
-}
 var sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appendMatchNone || []))
     .map(function (item) { return (item instanceof RegExp) ? item : new RegExp(item); });
 var sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMatchAll || []))
@@ -348,6 +344,10 @@ var sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMat
 _suman.sumanMatchesAny = uniqBy(sumanMatchesAny, function (item) { return item; });
 _suman.sumanMatchesNone = uniqBy(sumanMatchesNone, function (item) { return item; });
 _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, function (item) { return item; });
+if (sumanMatchesAny.length < 1) {
+    _suman.log.warning('No runnable file regexes available; using the default => /\.js$/');
+    _suman.sumanMatchesAny.push(/\.js$/);
+}
 {
     var preOptCheck_1 = {
         tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
