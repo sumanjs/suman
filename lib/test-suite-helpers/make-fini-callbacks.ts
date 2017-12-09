@@ -109,8 +109,7 @@ export const makeAllHookCallback = function (d: ISumanDomain, assertCount: IAsse
       if (String(err.stack || err).match(/Suman usage error/)) {
         err.sumanFatal = true;
         err.sumanExitCode = constants.EXIT_CODES.ASYCNCHRONOUS_REGISTRY_OF_TEST_BLOCK_METHODS;
-        gracefulExit(err);
-        return;
+        return gracefulExit(err);
       }
       
       if (Array.isArray(err)) {
@@ -186,7 +185,7 @@ export const makeAllHookCallback = function (d: ISumanDomain, assertCount: IAsse
       // otherwise, we need to let the user know their code invoked the cb more than once using console.error
       // and possible fail the test, or add a warning
       
-      if (calledCount > 1 && hook) {  //TODO need to handle this case for hooks
+      if (calledCount > 1 && !hook.timedOut) {
         _suman.writeTestError('\n\nWarning: the following test callback was invoked twice by your code ' +
           'for the following hook with name => "' + (hook.desc || '(hook has no description)') + '".\n\n');
         _suman.writeTestError('The problematic hook can be located from this error trace => \n' +
@@ -298,7 +297,7 @@ export const makeEachHookCallback = function (d: ISumanDomain, assertCount: IAss
       // otherwise, we need to let the user know their code invoked the cb more than once using console.error
       // and possible fail the test, or add a warning
       
-      if (calledCount > 1 && hook) {
+      if (calledCount > 1 && !hook.timedOut) {
         _suman.writeTestError('\n\nWarning: the following test callback was invoked twice by your code ' +
           'for the following hook with name => "' + (hook.desc || '(hook has no description)') + '".\n\n');
         _suman.writeTestError('The problematic hook can be located from this error trace => \n' +
@@ -328,8 +327,7 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
       if (String(err.stack || err).match(/Suman usage error/)) {
         err.sumanFatal = true;
         err.sumanExitCode = constants.EXIT_CODES.ASYCNCHRONOUS_REGISTRY_OF_TEST_BLOCK_METHODS;
-        gracefulExit(err);
-        return;
+        return gracefulExit(err);
       }
       
       if (Array.isArray(err)) {
@@ -397,7 +395,7 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
       // otherwise, we need to let the user know their code invoked the cb more than once using console.error
       // and possible fail the test, or add a warning
       
-      if (calledCount > 1 && test && !test.timedOut) {
+      if (calledCount > 1 && !test.timedOut) {
         _suman.writeTestError('Warning: the following test callback was invoked twice by your code ' +
           'for the following test/hook with name => "' + (test ? test.desc : '') + '".');
         _suman.writeTestError('The problematic test case can be located from this error trace => \n' +

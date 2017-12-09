@@ -708,7 +708,7 @@ export const fatalRequestReply = function (obj: Object, $cb: Function) {
   }
 
   const cb = su.once(null, $cb);
-  _suman.sumanUncaughtExceptionTriggered = obj;
+  _suman.uncaughtExceptionTriggered = obj;
 
   if (_suman.$forceInheritStdio) {
     // we need to use TAP to write test output, instead of sending via process.send

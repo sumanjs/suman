@@ -25,7 +25,7 @@ import su = require('suman-utils');
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../helpers/general';
 import {makeHookObj} from './t-proto-hook';
-import {makeEachHookCallback} from './handle-callback-helper';
+import {makeEachHookCallback} from './make-fini-callbacks';
 const helpers = require('./handle-promise-generator');
 import {freezeExistingProps} from 'freeze-existing-props'
 
@@ -33,14 +33,10 @@ import {freezeExistingProps} from 'freeze-existing-props'
 
 export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit: Function) {
   
-  /////////////////////////////////////////////////////////////////////////
-  
   return function handleBeforeOrAfterEach(self: ITestSuite, test: ITestDataObj,
                                           aBeforeOrAfterEach: IEachHookObj, cb: Function, retryData?: any) {
     
-    /////////////////////////////////////////////////////////////////
-    
-    if (_suman.sumanUncaughtExceptionTriggered) {
+    if (_suman.uncaughtExceptionTriggered) {
       _suman.log.error('runtime error => uncaughtException experienced => halting program.');
       return;
     }
@@ -76,18 +72,20 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     const fnStr = aBeforeOrAfterEach.fn.toString();
     let dError = false, retries: number;
     
-    // if(suman.sumanConfig.retriesEnabled === true && Number.isInteger((retries = aBeforeOrAfterEach.retries))){
-    //   fini.retryFn = handleBeforeOrAfterEach.bind(null, arguments);
-    // }
-    
     if (suman.config.retriesEnabled === true && Number.isInteger((retries = test.retries))) {
       _suman.log.warning('enabled retries.');
       fini.retryFn = retryData ? retryData.retryFn : handleBeforeOrAfterEach.bind(null, arguments);
     }
     
     const handlePossibleError = function (err: Error | IPseudoError) {
-      err && (err.sumanFatal = Boolean(sumanOpts.bail));
-      err ? handleError(err) : fini(null)
+      if (err) {
+        if (typeof err !== 'object') err = new Error(util.inspect(err));
+        err.sumanFatal = Boolean(sumanOpts.bail);
+        handleError(err);
+      }
+      else {
+        fini(null)
+      }
     };
     
     const handleError: IHandleError = function (err: IPseudoError) {
@@ -110,18 +108,24 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         }
       }
       
-      err = err || new Error('unknown/falsy hook error.');
+      const errMessage = err && (err.stack || err.message|| util.inspect(err));
+      err = cloneError(aBeforeOrAfterEach.warningErr, errMessage, false);
       
-      if (typeof err === 'string') {
-        err = new Error(err);
-      }
+      // console.log('error => ', err);
+      // console.log('aBeforeOrAfterEach.warningErr => ', aBeforeOrAfterEach.warningErr);
+      
+      // err = err || new Error('unknown/falsy hook error.');
+      //
+      // if (typeof err === 'string') {
+      //   err = new Error(err);
+      // }
       
       test.failed = true;
       test.error = err;
       
       const stk = err.stack || err;
-      const stck = typeof stk === 'string' ? stk : util.inspect(stk);
-      const formatedStk = String(stck).split('\n').map(item => '\t' + item).join('\n');
+      const formatedStk = typeof stk === 'string' ? stk : util.inspect(stk);
+      // const formatedStk = String(stck).split('\n').map(item => '\t' + item).join('\n');
       
       if (!dError) {
         dError = true;
@@ -203,6 +207,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         
         t.fatal = function fatal(err: IPseudoError) {
           err = err || new Error('Stand-in error, since user did not provide one.');
+          if (typeof err !== 'object') err = new Error(util.inspect(err));
           err.sumanFatal = true;
           handleError(err);
         };
@@ -232,7 +237,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           t.ctn = t.pass = function () {
             // t.pass doesn't make sense since this is not a test case, but for user friendliness
             // this is like t.done() except by design no error will ever get passed
-            t.callbackMode ?  fini(null): handleNonCallbackMode(undefined);
+            t.callbackMode ? fini(null) : handleNonCallbackMode(undefined);
           };
           
           args = Object.setPrototypeOf(dne, freezeExistingProps(t));

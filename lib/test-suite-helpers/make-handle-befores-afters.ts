@@ -20,7 +20,7 @@ import chalk = require('chalk');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {makeAllHookCallback} from './handle-callback-helper';
+import {makeAllHookCallback} from './make-fini-callbacks';
 const helpers = require('./handle-promise-generator');
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../helpers/general';
@@ -33,13 +33,15 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
   
   return function handleBeforesAndAfters(self: ITestSuite, aBeforeOrAfter: IOnceHookObj, cb: Function, retryData?: any) {
     
-    if (_suman.sumanUncaughtExceptionTriggered) {
-      _suman.log.error(`runtime error => "UncaughtException:Triggered" => halting program in file:\n[${__filename}]`);
+    if (_suman.uncaughtExceptionTriggered) {
+      _suman.log.error(
+        `runtime error => "UncaughtException already occurred" => halting program in file:\n[${__filename}]`
+      );
       return;
     }
     
     // records whether a hook was actually attempted
-    // IMPORTANT: this should appear after the _suman.sumanUncaughtExceptionTriggered check
+    // IMPORTANT: this should appear after the _suman.uncaughtExceptionTriggered check
     // because an after.always hook needs to run even in the presence of an uncaught exception
     aBeforeOrAfter.alreadyInitiated = true;
     
@@ -86,16 +88,19 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           _suman.log.error('maximum retries attempted.');
         }
       }
+  
+      const errMessage = err && (err.stack || err.message|| util.inspect(err));
+      err = cloneError(aBeforeOrAfter.warningErr, errMessage, false);
       
-      err = err || new Error('unknown hook error.');
-      
-      if (typeof err === 'string') {
-        err = new Error(err);
-      }
+      // err = err || new Error('unknown hook error.');
+      //
+      // if (typeof err === 'string') {
+      //   err = new Error(err);
+      // }
       
       const stk = err.stack || err;
-      const stck = typeof stk === 'string' ? stk : util.inspect(stk);
-      const formatedStk = String(stck).split('\n').map(item => '\t' + item).join('\n');
+      const formatedStk = typeof stk === 'string' ? stk : util.inspect(stk);
+      // const formatedStk = String(stck).split('\n').map(item => '\t' + item).join('\n');
       
       if (!dError) {
         dError = true;
@@ -106,11 +111,11 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           fini(null);
         }
         else {
-          //always fatal error in beforeEach/afterEach, unless fatal is explicitly set to false
+          //errors are always fatal in all hooks, unless fatal is explicitly set to false
           gracefulExit({
             sumanFatal: true,
             sumanExitCode: constants.EXIT_CODES.FATAL_HOOK_ERROR,
-            stack: '\t=> Fatal error in hook => (to continue even in the event of an error ' +
+            stack: 'Fatal error in hook => (to continue even in the event of an error ' +
             'in a hook use option {fatal:false}) => ' + '\n' + formatedStk
           });
         }
@@ -167,7 +172,9 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         fini.th = t;
         t.timeout = timeout;
         t.fatal = function fatal(err: IPseudoError) {
-          err = err || new Error('Suman placeholder error since this function was not explicitly passed an error object as first argument.');
+          err = err || new Error(
+            'Suman placeholder error since this function was not explicitly passed an error object as first argument.'
+          );
           fini(err, null);
         };
         
@@ -193,13 +200,8 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           
           t.done = dne;
           
-          t.ctn = t.pass = function ctn(err: IPseudoError) {
-            if (!t.callbackMode) {
-              handleNonCallbackMode(err);
-            }
-            else {
-              fini(null);
-            }
+          t.ctn = t.pass = function (err: IPseudoError) {
+            t.callbackMode ? fini(null) : handleNonCallbackMode(err);
           };
           
           arg = Object.setPrototypeOf(dne, freezeExistingProps(t));

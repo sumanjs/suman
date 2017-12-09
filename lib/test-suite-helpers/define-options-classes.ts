@@ -113,7 +113,7 @@ export class DefineObjectTestOrHook extends DefineObject {
     if (typeof v === 'string') {
       v = new RegExp(v);
     }
-    else if (!(v instanceof RegExp)) {
+    if (!(v instanceof RegExp)) {
       throw new Error('Value for "throws" must be a String or regular expression (RegExp instance).');
     }
     this.opts.throws = v;

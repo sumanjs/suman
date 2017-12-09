@@ -343,7 +343,7 @@ export const execSuite = function (suman: ISuman): Function {
 
         const runSuite = function (suite: ITestSuite, cb: Function) {
 
-          if (_suman.sumanUncaughtExceptionTriggered) {
+          if (_suman.uncaughtExceptionTriggered) {
             _suman.log.error(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
             return;
           }
@@ -395,7 +395,7 @@ export const execSuite = function (suman: ISuman): Function {
 
           suman.dateSuiteFinished = Date.now();
 
-          if (_suman.sumanUncaughtExceptionTriggered) {
+          if (_suman.uncaughtExceptionTriggered) {
             _suman.log.error(`"UncaughtException" event => halting program.\n[${__filename}]`);
             return;
           }

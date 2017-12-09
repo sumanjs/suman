@@ -20,17 +20,17 @@ import EE = require('events');
 import chalk = require('chalk');
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
-import su = require('suman-utils');
-import {makeTestCaseCallback} from './handle-callback-helper';
+import {makeTestCaseCallback} from './make-fini-callbacks';
 const helpers = require('./handle-promise-generator');
 import {cloneError} from '../helpers/general';
 import {makeTestCase} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
-const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -41,20 +41,20 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     //records whether a test was actually attempted
     test.alreadyInitiated = true;
     
-    if (_suman.sumanUncaughtExceptionTriggered) {
-      _suman.log.error(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
+    if (_suman.uncaughtExceptionTriggered) {
+      _suman.log.error(`runtime error => "UncaughtException already occurred" => halting program.\n[${__filename}]`);
       return;
     }
     
     if (test.stubbed) {
-      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
-      resultBroadcaster.emit(String(events.TEST_CASE_STUBBED), test);
+      rb.emit(String(events.TEST_CASE_END), test);
+      rb.emit(String(events.TEST_CASE_STUBBED), test);
       return process.nextTick(cb);
     }
     
     if (test.skipped) {
-      resultBroadcaster.emit(String(events.TEST_CASE_END), test);
-      resultBroadcaster.emit(String(events.TEST_CASE_SKIPPED), test);
+      rb.emit(String(events.TEST_CASE_END), test);
+      rb.emit(String(events.TEST_CASE_SKIPPED), test);
       return process.nextTick(cb);
     }
     
@@ -64,7 +64,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
       err.isFromTest = true;
       err.isTimeout = true;
       handleErr(err);
-      // fini(err, true);
     };
     
     const timerObj = {
@@ -230,7 +229,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           fini.th = dne;
           t.done = dne;
           
-          t.pass = t.ctn = function() {
+          t.pass = t.ctn = function () {
             t.callbackMode ? fini(null) : handleNonCallbackMode(null);
           };
           

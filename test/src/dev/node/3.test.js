@@ -14,14 +14,19 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
 
   const {child_process, http} = $core;
 
+  beforeEach.define('early')
+  .run(h =>{
+      return Promise.resolve('foobar');
+  });
+
   describe('here we go', function (b) {
 
     before(h => {
-      assert(true);
+      h.assert(true);
     });
 
     it('sync test', t => {
-      assert(true);
+      t.assert(false);
     });
 
     after(h => {

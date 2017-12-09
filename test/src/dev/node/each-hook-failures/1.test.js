@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-'use strict';
+'use strict'
 
-const suman = require('suman');
+const suman = require('suman')
 const {Test} = suman.init(module, {}, {
   // series: false
   allowSkip: true
-});
+})
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -15,20 +15,20 @@ Test.define('Mo-Rific', v => {
   .run((b, before, beforeEach, it) => {
 
     beforeEach(h => {
-      throw 'bubbles';
+      throw new Error('bubbles')
     });
 
     it('is cool', t => {
 
-    });
+    })
 
   })
   .run((b, before, beforeEach, it) => {
 
     it('is cool', t => {
 
-    });
+    })
 
-  });
+  })
 
-});
+})

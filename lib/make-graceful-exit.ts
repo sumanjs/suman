@@ -46,7 +46,7 @@ export const makeGracefulExit = function (suman: ISuman) {
     let exitTestSuite = false;
     let errs: Array<Error> = flattenDeep([$errs]).filter((e: Error) => e);
 
-    if (_suman.sumanUncaughtExceptionTriggered) {
+    if (_suman.uncaughtExceptionTriggered) {
       _suman.log.error('"uncaughtException" event occurred => halting program.');
       if (errs.length) {
         errs.filter(e => e).forEach(function (e) {
@@ -55,7 +55,7 @@ export const makeGracefulExit = function (suman: ISuman) {
       }
       // do not continue, return here?
       // TODO: need to fix this
-      _suman.log.error('reached graceful exit, but "sumanUncaughtExceptionTriggered" was already true.');
+      _suman.log.error('reached graceful exit, but "uncaughtExceptionTriggered" was already true.');
       return cb && process.nextTick(cb);
     }
 
