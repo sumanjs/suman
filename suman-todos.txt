@@ -952,10 +952,6 @@ node test/src/exp.js | grep -v [[suman]]
 
 ////
 
- create injector and block injector need to be differentiated.
-
-////
-
     afterAllParentHooks('yes', t => {
       console.log('after all parent hooks');
     });
@@ -3393,14 +3389,10 @@ inject data into suman.once.pre.js, because there is data being injected into su
 if uncaughtException is thrown/called, add a global flag, which will be checked by all hooks/test cases
 if the --ignore-uncaught-exceptions flag is not set then exit early from hooks/test cases
 
-////
-
-all for a boolean t.failed = true;
-that way test code can continue and you can print out results/http responses anyway
 
 ////
 
-// matches
+matches
     1. run as test matches
     2. convert as suman test matches
     3. transpile matches, vs "copy only" matches
