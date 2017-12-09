@@ -39,7 +39,7 @@ const acceptableOptions = <IAcceptableOptions> {
   cb: true,
   val: true,
   value: true,
-  sourced: true,
+  __toBeSourcedForIOC: true,
   parallel: true,
   desc: true,
   title: true,

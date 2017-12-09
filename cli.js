@@ -69,6 +69,7 @@ process.on('unhandledRejection', function (err, p) {
         }
     }, 500);
 });
+var fs = require("fs");
 var path = require("path");
 var util = require("util");
 var assert = require("assert");
@@ -285,7 +286,7 @@ var sumanConfig;
             pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
             sumanConfig = _suman.sumanConfig = require(pth);
             if (sumanOpts.verbosity > 2) {
-                log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
+                _suman.log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
             }
         }
         catch (err) {
@@ -295,16 +296,16 @@ var sumanConfig;
             sumanConfig = _suman.sumanConfig = require('./lib/default-conf-files/suman.default.conf.js');
         }
     }
-}
-if (sumanOpts.verbosity > 8) {
-    _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
+    if (sumanOpts.verbosity > 8) {
+        _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
+    }
 }
 var sumanInstalledLocally = null;
 var sumanInstalledAtAll = null;
 var sumanServerInstalled = null;
 {
     if (init) {
-        log.info(chalk.magenta(' => "suman --init" is running.'));
+        _suman.log.info(chalk.magenta(' => "suman --init" is running.'));
         sumanConfig = _suman.sumanConfig = _suman.sumanConfig || {};
     }
     else {
@@ -336,10 +337,6 @@ _suman.maxProcs = sumanOpts.concurrency || sumanConfig.maxParallelProcesses || 1
 sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack_traces;
 var sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
     .map(function (item) { return (item instanceof RegExp) ? item : new RegExp(item); });
-if (sumanMatchesAny.length < 1) {
-    _suman.log.warning('No runnable file regexes available; using the default => /\.js$/');
-    sumanMatchesAny.push(/\.js$/);
-}
 var sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appendMatchNone || []))
     .map(function (item) { return (item instanceof RegExp) ? item : new RegExp(item); });
 var sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMatchAll || []))
@@ -347,6 +344,10 @@ var sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendMat
 _suman.sumanMatchesAny = uniqBy(sumanMatchesAny, function (item) { return item; });
 _suman.sumanMatchesNone = uniqBy(sumanMatchesNone, function (item) { return item; });
 _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, function (item) { return item; });
+if (sumanMatchesAny.length < 1) {
+    _suman.log.warning('No runnable file regexes available; using the default => /\.js$/');
+    _suman.sumanMatchesAny.push(/\.js$/);
+}
 {
     var preOptCheck_1 = {
         tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
@@ -399,6 +400,28 @@ var paths = _.flatten([sumanOpts._args]).slice(0);
     }
 }
 var isTTY = process.stdout.isTTY;
+if (isTTY) {
+    _suman.log.error('process.stdout appears to be a TTY.');
+}
+else {
+    _suman.log.error('process.stdout appears to *not* be a TTY.');
+}
+var isFifo;
+try {
+    isFifo = fs.fstatSync(1).isFIFO();
+    if (isFifo) {
+        _suman.log.info('process.sdtout appears to be a FIFO.');
+        _suman.log.error('process.stdout appears to be a FIFO.');
+    }
+    else {
+        _suman.log.info('process.sdtout appears to *not* be a FIFO.');
+        _suman.log.error('process.stdout appears to *not* be a FIFO.');
+    }
+}
+catch (err) {
+    _suman.log.error('process.stdout is not a FIFO.');
+    _suman.log.error(err.stack);
+}
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
     if (!isTTY && !useTAPOutput) {
         {
@@ -412,7 +435,7 @@ if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
     }
 }
 if (diagnostics) {
-    require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
+    Promise.resolve().then(function () { return require('./lib/cli-commands/run-diagnostics'); }).run(sumanOpts);
 }
 else if (script) {
     require('./lib/cli-commands/run-scripts').run(sumanConfig, sumanOpts);

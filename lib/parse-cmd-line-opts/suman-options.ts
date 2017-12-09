@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = [
-
+  
   {
     names: ['tsc-multi-watch'],
     type: 'bool',
@@ -124,7 +124,7 @@ module.exports = [
     help: 'Use this option to cd to the project root.'
   },
   {
-    names: ['allow-skip','allow-skipped'],
+    names: ['allow-skip', 'allow-skipped'],
     type: 'bool',
     env: 'SUMAN_ALLOW_SKIP',
     help: 'Allow tests to be skipped.'
@@ -346,7 +346,8 @@ module.exports = [
   {
     names: ['force', 'f'],
     type: 'bool',
-    help: 'Force the command at hand.'
+    help: 'Force the command at hand.',
+    env: 'SUMAN_FORCE'
   },
   {
     names: ['allow-symlinks'],
@@ -356,7 +357,8 @@ module.exports = [
   {
     names: ['fforce', 'ff'],
     type: 'bool',
-    help: 'Force the command at hand, with super double force.'
+    help: 'Force the command at hand, with super double force.',
+    env: 'SUMAN_FFORCE'
   },
   {
     names: ['pipe', 'p'],
@@ -531,7 +533,7 @@ module.exports = [
     help: 'Test paths as JSON array.'
   },
   {
-    names: ['reporter-paths','reporter-path'],
+    names: ['reporter-paths', 'reporter-path'],
     type: 'arrayOfString',
     help: 'Specify reporters, by specifying path(s) to reporter module(s) relative to root of project.'
   },
@@ -612,7 +614,13 @@ module.exports = [
   {
     names: ['user-args', 'child-args'],
     type: 'string',
-    help: 'Pass user arguments through command line.'
+    help: 'Pass child arguments through command line.'
+  },
+  {
+    names: ['child-env', 'env'],
+    type: 'arrayOfString',
+    help: 'Pass user arguments through command line.',
+    env: 'SUMAN_CHILD_ENV'
   },
   {
     names: ['groups'],

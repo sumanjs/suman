@@ -7,7 +7,9 @@
 # we use this to cache this value in subshells
 # we should not cache, because switching between nvm versions
 
-set -e;
+# do not use `set -e;` since this will cause user's terminals to close
+# if they source this file
+
 export suman_global_npm_modules_path="$(npm root -g)";
 
 

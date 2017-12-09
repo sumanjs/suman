@@ -10,8 +10,20 @@ three SO profiles:
 
 ///
 
-https://stackoverflow.com/questions/47484010/declare-class-type-with-typescript-pass-class-as-parameter/47493835#47493835
+put $deps/$core on suman?
 
+const {async} = suman.deps;
+const {async} = suman.installed
+
+////
+
+put
+"const suman = require('suman');"
+in each test file
+
+///
+
+https://stackoverflow.com/questions/47484010/declare-class-type-with-typescript-pass-class-as-parameter/47493835#47493835
 
 As you mentioned, what you are looking to is how to describe class constructor and not the instance.
  It can be achieved by:
@@ -41,36 +53,30 @@ at least the process will start, to avoid the try/catch
 
 ///
 
-if not a .js file, we need to capture stdout/stderr in suman runner, and put it in the
-.suman/runs folder
+    if not a .js file, we need to capture stdout/stderr in suman runner, and put it in the
+    .suman/runs folder
 
 ///
 
-  it.cb.run(t => {
+      it.cb.run(t => {
 
-  });
+      });
 
   or
 
-   it.cb(t => {
+       it.cb(t => {
 
-   });
+       });
 
 ///
 
- need to merge options object
+    need to merge options object
     before.cb.define(v =>
          v.timeout(300)
            .run(h => {
              debugger;
              console.log('this is before');
            }));
-
-///
-
- flyweight design pattern
- http://www.dofactory.com/javascript/flyweight-design-pattern
-
 
 ///
 
@@ -125,9 +131,11 @@ Error: EACCES: permission denied, mkdir '/Users/alexamil/WebstormProjects/oresof
  [suman]     at Socket.emit (events.js:188:7)
  [suman]     at Pipe._handle.close [as _onclose] (net.js:501:12)
 
-///////
+/////////////////////////
 
   //inject hooks should be run in series, just like before hooks
+
+  /// should be j.register() / j.registerVal(), not j.val()
 
   let p;
 
@@ -143,7 +151,7 @@ Error: EACCES: permission denied, mkdir '/Users/alexamil/WebstormProjects/oresof
     }
   });
 
-  /////////////////////
+//////////////////////////////////
 
    inject(() => {
       return [
@@ -159,7 +167,7 @@ Error: EACCES: permission denied, mkdir '/Users/alexamil/WebstormProjects/oresof
      ];
   });
 
-///
+////////////////////////
 
 https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
 set -eo pipefail
@@ -217,7 +225,23 @@ exit with command to the right that exits with non-zero
     use puppeteer to launch chrome instead of chrome-launcher
     https://developers.google.com/web/updates/2017/04/headless-chrome
 
-//
+///
+
+
+https://unix.stackexchange.com/questions/407222/find-location-of-shell-bash-function-on-disk
+
+type npmlinkup
+
+# Turn on extended shell debugging
+shopt -s extdebug
+
+# Dump the function's name, line number and fully qualified source file
+declare -F foo
+
+# Turn off extended shell debugging
+shopt -u extdebug
+
+///
 
 this has been superceded:
 
@@ -288,7 +312,7 @@ this has been superceded:
 
 t.final =>
 
-  k.once('exit', function (code) {
+    k.once('exit', function (code) {
       t.assert(code > 0, 'exit code is not greater than 0, but it should be');
       t.assert(regex.test(stderr), 'stderr should match regex: ' + regex);
       t.done();
@@ -303,6 +327,10 @@ t.final =>
         t.assert(regex.test(stderr), 'stderr should match regex: ' + regex);
         });
     });
+
+////
+
+
 
 ////
 
@@ -332,14 +360,12 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
 ///
 
-
  const opts = {
     $inject:{
       ioc:[''],
       iocStatic: ['']
     }
   };
-
 
 ///
 
@@ -413,7 +439,6 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
 
     in the browser we can use
-
     suman.browser.ioc.static.ts
     suman.browser.ioc.ts
     these file paths
@@ -534,13 +559,13 @@ If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` t
 
 ///
 
- "screenshots of suman in action"
+    "screenshots of suman in action"
 
 ///
 
- https://oresoftware.gitbooks.io/sumanjs/content/
- https://github.com/GitbookIO/gitbook
- https://wordpress.com/me => oresoftware / pqiw...
+    https://oresoftware.gitbooks.io/sumanjs/content/
+    https://github.com/GitbookIO/gitbook
+    https://wordpress.com/me => oresoftware / pqiw...
 
 ///
 
@@ -716,7 +741,7 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
-    before hooks can be stubbed? => before('merry');
+  before hooks can be stubbed? => before('merry');
 
 ///
 
@@ -732,7 +757,7 @@ node test/src/exp.js | grep -v [[suman]]
 
 ///
 
- => put Patreon link in all repos except main Suman repo
+    => put Patreon link in all repos except main Suman repo
 
 ///
 

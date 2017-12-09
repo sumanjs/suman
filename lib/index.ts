@@ -8,6 +8,8 @@ import {Stream, Transform, Writable} from "stream";
 import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook, IInitRet} from "suman-types/dts/index-init";
 import {IHookOrTestCaseParam} from "suman-types/dts/test-suite";
 import {DefineObject, DefineObjectContext} from "./test-suite-helpers/define-options-classes";
+import chai = require('chai');
+import AssertStatic = Chai.AssertStatic;
 
 //exported imports
 import * as s from './s'
@@ -117,6 +119,7 @@ import {execSuite} from './exec-suite';
 import {loadSumanConfig, resolveSharedDirs, loadSharedObjects} from './helpers/general';
 import {acquireIocStaticDeps} from './acquire-dependencies/acquire-ioc-static-deps';
 import {shutdownProcess, handleSingleFileShutdown} from "./helpers/handle-suman-shutdown";
+import {ISumanRunFn} from "./helpers/suman-run";
 
 const allOncePreKeys: Array<Array<string>> = _suman.oncePreKeys = [];
 const allOncePostKeys: Array<Array<string>> = _suman.oncePostKeys = [];
@@ -291,10 +294,10 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     assert(su.isObject(sumanOptsOverride), 'Suman opts override value must be a plain object.');
     
     Object.keys(sumanOptsOverride).forEach(function (k) {
-      if (String(k).startsWith('$')) {
+      if (String(k).trim().startsWith('$')) {
         throw new Error('Suman options override object key must not start with "$" character.');
       }
-      sumanOptsOverride['$' + k] = sumanOptsOverride[k];
+      sumanOptsOverride['$' + String(k).trim()] = sumanOptsOverride[k];
       delete sumanOptsOverride[k];
     });
     
@@ -391,9 +394,8 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   
   const start: IStartCreate = function ($$desc, $$opts, /* signature is likely args: desc, opts, arr, cb */) {
     
-    const args = pragmatik.parse(arguments, rules.createSignature, {
-      preParsed: su.isObject($$opts) && $$opts.__preParsed
-    });
+    const isPreParsed = $$opts && $$opts.__preParsed;
+    const args = pragmatik.parse(arguments, rules.createSignature, isPreParsed);
     
     args[1].__preParsed = true;
     
@@ -470,7 +472,7 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     parent: $module.parent ? $module.parent.filename : null, //parent is who required the original $module
     file: $module.filename,
     create: start,
-    define: function (desc?: string | Function, f?: Function) {
+    define: function (desc, f) {
       
       if (typeof desc === 'function') {
         f = desc;
@@ -514,30 +516,20 @@ export const autoFail = function (t: IHookOrTestCaseParam) {
 };
 
 export const run = sumanRun.run();
+export const once = su.onceWithCache;
+export const version = require('../package.json').version;
 
-export const once = function (fn: Function) {
-  let cache: any = null;
-  
-  return function (cb: Function) {
-    
-    if (cache) {
-      process.nextTick(cb, null, cache);
-      return;
-    }
-    
-    fn.call(null, function (err: Error, val: any) {
-      if (!err) {
-        cache = val || {'Suman says': 'This is a dummy-cache val. See => sumanjs.org/tricks-and-tips.html'};
-      }
-      cb.call(null, err, cache);
-    });
-    
-  }
-};
+/////////////////////////////////////////////////////////////////
 
-///////////////// keep  ////////////////////////////////////////////////
+export interface ISumanExports {
+  s: typeof s,
+  init: IInitFn,
+  run: ISumanRunFn,
+  autoPass: typeof autoPass,
+  autoFail: typeof autoFail
+}
 
 const $exports = module.exports;
-export default $exports;
+export default $exports as  ISumanExports;
 
 ////////////////////////////////////////////////////////////////////////

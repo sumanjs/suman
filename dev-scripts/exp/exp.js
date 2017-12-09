@@ -44,9 +44,11 @@ const Promise = require('bluebird');
 const async = require('async');
 
 async.series({
+  
     a: async function (cb) {
       return Promise.delay(500).then(v => 'zzz');
     },
+  
     b: async function (cb) {
       // process.nextTick(cb, null, 'bbb');
       let c = await Promise.delay(500).then(v => 'hopkins');
