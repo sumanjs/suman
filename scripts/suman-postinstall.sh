@@ -50,18 +50,12 @@ if [[ "${SUMAN_INSTALL_NODE_MODULES}" == "yes" ]]; then
 
 (
 
-  set -e;
-
   cd "$HOME/.suman/global";
 
   npm init -f >> ${SUMAN_DEBUG_LOG_PATH} 2>&1
 
   if [[ ! -d "node_modules/handlebars" ]]; then
     npm install -S handlebars
-  fi
-
-  if [[ ! -d "node_modules/istanbul" ]]; then
-    npm install -S istanbul
   fi
 
   if [[ ! -d "node_modules/typescript" ]]; then
@@ -80,13 +74,11 @@ if [[ "${SUMAN_INSTALL_NODE_MODULES}" == "yes" ]]; then
     npm install -S suman-inquirer-directory
   fi
 
-  if [[ ! -d "node_modules/suman-daemon" ]]; then
     npm install -S suman-daemon
-  fi
-
-  if [[ ! -d "node_modules/suman-shell" ]]; then
     npm install -S suman-shell
-  fi
+    npm install -S babel-core
+    npm install -S babel-runtime
+
 )
 
 fi

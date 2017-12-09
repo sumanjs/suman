@@ -81,21 +81,12 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     const handlePossibleError = function (err: Error | IPseudoError) {
       err ? handleError(err) : fini(null)
     };
+    
+    debugger;
 
     const handleError: IHandleError = function (err: IPseudoError) {
-
-      // if(fini.retryFn){
-      //   if(!Number.isInteger(retryCount)){
-      //     return fini.retryFn(retryCount = 1);
-      //   }
-      //   else if(retryCount > retries){
-      //     retryCount++;
-      //     return fini.retryFn();
-      //   }
-      //   else{
-      //     _suman.log.error('maximum retires attempted.');
-      //   }
-      // }
+      
+      debugger;
 
       if(aBeforeOrAfterEach.dynamicallySkipped === true){
         return fini(null);
@@ -127,6 +118,8 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       if (!dError) {
         dError = true;
         if (aBeforeOrAfterEach.fatal === false) {
+          _suman.log.warning('\t.Error in each hook:');
+          _suman.log.warning(formatedStk);
           _suman.writeTestError(constants.SUMAN_HOOK_FATAL_WARNING_MESSAGE + formatedStk);
           fini(null);
         }

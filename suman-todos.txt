@@ -6,6 +6,10 @@ three SO profiles:
 
 ///
 
+ spawn all child processes in shell, launch processes via bash instead of directly
+
+///
+
  => SUMAN_PROJECT_ROOT should be able to be set by the user.
 
 ///

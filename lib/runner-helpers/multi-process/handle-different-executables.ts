@@ -37,6 +37,7 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
   
   const isExe = (stats: fs.Stats) => {
     
+    // find out if file is executable by current user
     if (process.platform === 'win32') {
       return true;
     }
@@ -55,7 +56,10 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
     
     handleRunDotShFile: function (sh: string, argz: Array<string>, cpOptions: Object, cb: Function) {
       
-      _suman.log.info(chalk.bgWhite.underline('Suman has found a @run.sh file => '), chalk.bold(sh));
+      _suman.log.info(
+        chalk.bgWhite.underline.black.bold('Suman has found a @run.sh file => '),
+        chalk.bold(sh)
+      );
       
       //force to project root
       cpOptions.cwd = projectRoot;
