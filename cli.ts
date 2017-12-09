@@ -418,10 +418,10 @@ let sumanConfig;
     }
   }
   
-}
-
-if (sumanOpts.verbosity > 8) {  //default to true
-  _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
+  if (sumanOpts.verbosity > 8) {  //default to true
+    _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
+  }
+  
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -497,7 +497,6 @@ const sumanMatchesAll = (matchAll || (sumanConfig.matchAll || []).concat(appendM
 _suman.sumanMatchesAny = uniqBy(sumanMatchesAny, (item: RegExp) => item);
 _suman.sumanMatchesNone = uniqBy(sumanMatchesNone, (item: RegExp) => item);
 _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, (item: RegExp) => item);
-
 
 if (sumanMatchesAny.length < 1) {
   // if the user does not provide anything, we default to this
@@ -586,32 +585,31 @@ let paths = _.flatten([sumanOpts._args]).slice(0);
 
 let isTTY = process.stdout.isTTY;
 
-if(isTTY){
+if (isTTY) {
   _suman.log.error('process.stdout appears to be a TTY.');
 }
-else{
+else {
   _suman.log.error('process.stdout appears to *not* be a TTY.');
 }
 
 let isFifo;
 
 try {
-  isFifo= fs.fstatSync(1).isFIFO();
-  if(isFifo){
+  isFifo = fs.fstatSync(1).isFIFO();
+  if (isFifo) {
     _suman.log.info('process.sdtout appears to be a FIFO.');
     _suman.log.error('process.stdout appears to be a FIFO.');
   }
-  else{
+  else {
     _suman.log.info('process.sdtout appears to *not* be a FIFO.');
     _suman.log.error('process.stdout appears to *not* be a FIFO.');
   }
-
+  
 }
 catch (err) {
   _suman.log.error('process.stdout is not a FIFO.');
   _suman.log.error(err.stack);
 }
-
 
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
   if (!isTTY && !useTAPOutput) {

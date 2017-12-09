@@ -254,7 +254,7 @@ export class DefineObjectTestCase extends DefineObjectTestOrHook {
 export class DefineObjectContext extends DefineObject {
   
   source(...args: string[]): this {
-    this.opts.sourced = this.opts.sourced || {};
+    this.opts.__toBeSourcedForIOC = this.opts.__toBeSourcedForIOC || {};
     const self = this; // transpiles better this way
     Array.from(arguments).forEach(function (a) {
       if (Array.isArray(a)) {
@@ -262,7 +262,7 @@ export class DefineObjectContext extends DefineObject {
         self.source(...a);
       }
       else if (typeof a === 'string') {
-        self.opts.sourced[a] = true;
+        self.opts.__toBeSourcedForIOC[a] = true;
       }
       else {
         throw new Error('argument must be a string or an array of strings.');

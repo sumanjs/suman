@@ -72,22 +72,35 @@ export const execSuite = function (suman: ISuman): Function {
     const vetted = general.parseArgs(args);
     const [$desc, opts, cb] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
-    let iocDeps: Array<string>;
+    let iocDepNames: Array<string>;
 
     assert(opts.__preParsed, 'Suman implementation error. ' +
       'Options should be pre-parsed at this point in the program. Please report.');
     delete opts.__preParsed;
 
     if (arrayDeps && arrayDeps.length > 0) {
-      iocDeps = evalOptions(arrayDeps, opts);
+      iocDepNames = evalOptions(arrayDeps, opts);
     }
     else {
-      iocDeps = [];
+      iocDepNames = [];
     }
-
-    if(opts.sourced){
-      Object.keys(opts.sourced).forEach(function(v : string){
-        iocDeps.push(v);
+    
+  
+    if (opts.__toBeSourcedForIOC) {
+      Object.keys(opts.__toBeSourcedForIOC).forEach(function (v: string) {
+        iocDepNames.push(v);
+      });
+    }
+  
+    if (su.isObject(opts.inject)) {
+      Object.keys(opts.inject).forEach(function (v: string) {
+        iocDepNames.push(v);
+      });
+    }
+  
+    if (Array.isArray(opts.inject)) {
+      opts.inject.forEach(function (v: string) {
+        iocDepNames.push(v);
       });
     }
 
@@ -191,13 +204,13 @@ export const execSuite = function (suman: ISuman): Function {
 
       d.run(function acquireIocDepsDomainRun() {
 
-        acquireIocDeps(suman, iocDeps, suite, {}, function (err: IPseudoError, iocDeps: IInjectionDeps) {
+        acquireIocDeps(suman, iocDepNames, suite, {}, function (err: IPseudoError, iocDeps: IInjectionDeps) {
 
           if (err) {
             _suman.log.error('Error acquiring IoC deps:', err.stack || err);
             return process.exit(constants.EXIT_CODES.ERROR_ACQUIRING_IOC_DEPS);
           }
-
+          
           suite.ioc = iocDeps;
 
           let mappedDeps: Array<any> = createInjector(suite, deps);

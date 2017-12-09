@@ -47,7 +47,7 @@ const acceptableOptions = <IAcceptableOptions> {
   '@DefineObjectOpts': true,
   skip: true,
   only: true,
-  sourced: true,
+  __toBeSourcedForIOC: true,
   delay: true,
   desc: true,
   title: true,
@@ -103,8 +103,20 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       iocDepNames = [];
     }
     
-    if (opts.sourced) {
-      Object.keys(opts.sourced).forEach(function (v: string) {
+    if (opts.__toBeSourcedForIOC) {
+      Object.keys(opts.__toBeSourcedForIOC).forEach(function (v: string) {
+        iocDepNames.push(v);
+      });
+    }
+    
+    if (su.isObject(opts.inject)) {
+      Object.keys(opts.inject).forEach(function (v: string) {
+        iocDepNames.push(v);
+      });
+    }
+  
+    if (Array.isArray(opts.inject)) {
+      opts.inject.forEach(function (v: string) {
         iocDepNames.push(v);
       });
     }
@@ -332,7 +344,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                 }
                 
               };
-              
               
               cb.apply(null, $deps);
             }

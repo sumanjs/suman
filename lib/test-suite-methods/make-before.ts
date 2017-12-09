@@ -39,7 +39,7 @@ const acceptableOptions = <IAcceptableOptions> {
   plan: true,
   throws: true,
   fatal: true,
-  sourced: true,
+  __toBeSourcedForIOC: true,
   retries: true,
   cb: true,
   timeout: true,

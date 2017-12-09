@@ -37,7 +37,7 @@ const acceptableOptions = <IAcceptableOptions> {
   cb: true,
   desc: true,
   title: true,
-  sourced: true,
+  __toBeSourcedForIOC: true,
   timeout: true,
   retries: true,
   skip: true,

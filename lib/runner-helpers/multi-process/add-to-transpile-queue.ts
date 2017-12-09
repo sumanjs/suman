@@ -80,7 +80,10 @@ export const makeAddToTranspileQueue = function (f: string, transpileQueue: Asyn
 
     if (tr) {
 
-      _suman.log.info(chalk.bgWhite.underline('Suman has found a @transform.sh file => '), chalk.bold(tr));
+      _suman.log.info(
+        chalk.bgWhite.underline.black.bold('Suman has found a @transform.sh file => '),
+        chalk.bold(tr)
+      );
 
       transpileQueue.push(function (cb: Function) {
 

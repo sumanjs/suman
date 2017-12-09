@@ -296,9 +296,9 @@ var sumanConfig;
             sumanConfig = _suman.sumanConfig = require('./lib/default-conf-files/suman.default.conf.js');
         }
     }
-}
-if (sumanOpts.verbosity > 8) {
-    _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
+    if (sumanOpts.verbosity > 8) {
+        _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
+    }
 }
 var sumanInstalledLocally = null;
 var sumanInstalledAtAll = null;
