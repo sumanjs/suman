@@ -40,8 +40,6 @@ Test.define(v => {
   
 });
 
-return; return;
-return;
 
 Test.create(opts, ['rudolph', function (assert, describe, before, beforeEach, after, afterEach, it, inject) {
   

@@ -51,6 +51,9 @@ const thisVal = {'message': `Suman users: don't use "this" here, instead => http
 
 export const acquireIocDeps =
   function (suman: ISuman, iocDepNames: Array<string>, suite: ITestSuite, obj: IInjectionDeps, cb: Function) {
+  
+  
+  debugger;
 
     const iocPromiseContainer = suman.iocPromiseContainer;
     let dependencies: IDependenciesObject = null;

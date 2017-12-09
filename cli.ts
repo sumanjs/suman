@@ -59,19 +59,19 @@ function handleExceptionsAndRejections() {
 }
 
 process.on('uncaughtException', function (err: Error) {
-
+  
   debugger; // leave debugger statement here
-
+  
   if (typeof err !== 'object') {
     console.error(new Error(`err passed to uncaughtException was not an object => ${err}`).stack);
     err = new Error(typeof err === 'string' ? err : util.inspect(err))
   }
-
+  
   if (String(err.stack || err).match(/Cannot find module/i) && _suman && _suman.sumanOpts && _suman.sumanOpts.transpile) {
     console.log(' => If transpiling, you may need to transpile your entire test directory to the destination directory using the ' +
       '--transpile and --all options together.')
   }
-
+  
   setTimeout(function () {
     if (err && !err._alreadyHandledBySuman) {
       err._alreadyHandledBySuman = true;
@@ -79,18 +79,18 @@ process.on('uncaughtException', function (err: Error) {
       handleExceptionsAndRejections();
     }
   }, 500);
-
+  
 });
 
 process.on('unhandledRejection', function (err: Error, p: Promise<any>) {
-
+  
   debugger; // leave it here :)
-
+  
   if (typeof err !== 'object') {
     console.error(new Error(`err passed to unhandledRejection was not an object => '${err}'`).stack);
     err = new Error(typeof err === 'string' ? err : util.inspect(err))
   }
-
+  
   setTimeout(function () {
     if (err && !err._alreadyHandledBySuman) {
       err._alreadyHandledBySuman = true;
@@ -98,7 +98,7 @@ process.on('unhandledRejection', function (err: Error, p: Promise<any>) {
       handleExceptionsAndRejections();
     }
   }, 500);
-
+  
 });
 
 //core
@@ -222,7 +222,6 @@ const singleProcess = sumanOpts.single_process;
 const script = sumanOpts.script;
 const cwdAsRoot = sumanOpts.force_cwd_to_be_project_root;
 
-
 // boolean options
 const allowOnly = sumanOpts.$allowOnly = Boolean(sumanOpts.allow_only);
 const allowSkip = sumanOpts.$allowSkip = Boolean(sumanOpts.allow_skip);
@@ -233,8 +232,6 @@ const watch = sumanOpts.$watch = Boolean(sumanOpts.watch);
 // string options
 
 // array of string options
-
-
 
 if (sumanOpts.force_inherit_stdio) {
   _suman.$forceInheritStdio = true;
@@ -257,7 +254,7 @@ if (!projectRoot) {
       'which will create a package.json file for you at the root of your project.'));
     return process.exit(1);
   }
-
+  
   projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = cwd;
 }
 
@@ -320,9 +317,9 @@ if (sumanOpts.version) {
 }
 
 {
-
+  
   // pre-load files using --require option
-
+  
   const requireFile = general.makeRequireFile(projectRoot);
   _.flattenDeep([sumanOpts.require]).filter(v => v).forEach(function (s) {
     String(s).split(',')
@@ -330,49 +327,49 @@ if (sumanOpts.version) {
     .filter(v => v)
     .forEach(requireFile);
   });
-
+  
 }
 
 {
-
+  
   // check for cmd line options contradictions
-
+  
   const makeThrow = function (msg: string) {
     console.log('\n');
     console.error('\n');
     throw msg;
   };
-
+  
   if (sumanOpts.transpile && sumanOpts.no_transpile) {
     makeThrow(' => Suman fatal problem => --transpile and --no-transpile options were both set,' +
       ' please choose one only.');
   }
-
+  
   if (sumanOpts.append_match_all && sumanOpts.match_all) {
     makeThrow(' => Suman fatal problem => --match-all and --append-match-all options were both set,' +
       ' please choose one only.');
   }
-
+  
   if (sumanOpts.append_match_any && sumanOpts.match_any) {
     makeThrow(' => Suman fatal problem => --match-any and --append-match-any options were both set,' +
       ' please choose one only.');
   }
-
+  
   if (sumanOpts.append_match_none && sumanOpts.match_none) {
     makeThrow(' => Suman fatal problem => --match-none and --append-match-none options were both set,' +
       ' please choose one only.');
   }
-
+  
   if (sumanOpts.watch && sumanOpts.stop_watching) {
     makeThrow('=> Suman fatal problem => --watch and --stop-watching options were both set, ' +
       'please choose one only.');
   }
-
+  
   if (sumanOpts.babel_register && sumanOpts.no_babel_register) {
     makeThrow('=> Suman fatal problem => --babel-register and --no-babel-register command line options were both set,' +
       ' please choose one only.');
   }
-
+  
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -380,24 +377,24 @@ if (sumanOpts.version) {
 let sumanConfig;
 
 {
-
+  
   // load suman.conf.js file
-
+  
   let pth;
-
+  
   try {
     //TODO: There's a potential bug where the user passes a test path to the config argument like so --cfg path/to/test
     pth = path.resolve(configPath || (cwd + '/' + 'suman.conf.js'));
     sumanConfig = _suman.sumanConfig = require(pth);
   }
   catch (err) {
-
+    
     _suman.log.warning(chalk.yellow(err.message));
     if (!/Cannot find module/i.test(err.stack)) {
       log.error(err.stack);
       return process.exit(1);
     }
-
+    
     if (!init) {
       // if init option is flagged to true, we don't expect user to have a suman.conf.js file, duh
       _suman.log.warning(chalk.yellow('Warning: Could not load your config file ' +
@@ -405,12 +402,12 @@ let sumanConfig;
       _suman.log.warning(chalk.yellow('...are you sure you issued the suman command in the right directory? ' +
         '...now looking for a config file at the root of your project...'));
     }
-
+    
     try {
       pth = path.resolve(projectRoot + '/' + 'suman.conf.js');
       sumanConfig = _suman.sumanConfig = require(pth);
       if (sumanOpts.verbosity > 2) {  //default to true
-        log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
+        _suman.log.info(chalk.cyan('=> Suman config used: ' + pth + '\n'));
       }
     }
     catch (err) {
@@ -420,11 +417,11 @@ let sumanConfig;
       sumanConfig = _suman.sumanConfig = require('./lib/default-conf-files/suman.default.conf.js');
     }
   }
-
-}
-
-if (sumanOpts.verbosity > 8) {  //default to true
-  _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
+  
+  if (sumanOpts.verbosity > 8) {  //default to true
+    _suman.log.info(' => Suman verbose message => Suman config used: ' + pth);
+  }
+  
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -435,21 +432,21 @@ let sumanServerInstalled = null;
 
 {
   // set up sumanConfig etc.
-
+  
   if (init) {
-    log.info(chalk.magenta(' => "suman --init" is running.'));
+    _suman.log.info(chalk.magenta(' => "suman --init" is running.'));
     // TODO: force empty config if --init option given?
     sumanConfig = _suman.sumanConfig = _suman.sumanConfig || {} as ISumanConfig;
   }
   else {
-
+    
     const {vetLocalInstallations} = require('./lib/cli-helpers/determine-if-suman-is-installed');
     const installObj = vetLocalInstallations(sumanConfig, sumanOpts, projectRoot);
     sumanInstalledAtAll = installObj.sumanInstalledAtAll;
     sumanServerInstalled = installObj.sumanServerInstalled;
     sumanInstalledLocally = installObj.sumanInstalledLocally;
   }
-
+  
   const sumanPaths = general.resolveSharedDirs(sumanConfig, projectRoot, sumanOpts);
   const sumanObj = general.loadSharedObjects(sumanPaths, projectRoot, sumanOpts);
 }
@@ -491,12 +488,6 @@ sumanOpts.$fullStackTraces = sumanConfig.fullStackTraces || sumanOpts.full_stack
 const sumanMatchesAny = (matchAny || (sumanConfig.matchAny || []).concat(appendMatchAny || []))
 .map((item: RegExp | string) => (item instanceof RegExp) ? item : new RegExp(item));
 
-if (sumanMatchesAny.length < 1) {
-  // if the user does not provide anything, we default to this
-  _suman.log.warning('No runnable file regexes available; using the default => /\.js$/');
-  sumanMatchesAny.push(/\.js$/);
-}
-
 const sumanMatchesNone = (matchNone || (sumanConfig.matchNone || []).concat(appendMatchNone || []))
 .map((item: RegExp | string) => (item instanceof RegExp) ? item : new RegExp(item));
 
@@ -507,12 +498,18 @@ _suman.sumanMatchesAny = uniqBy(sumanMatchesAny, (item: RegExp) => item);
 _suman.sumanMatchesNone = uniqBy(sumanMatchesNone, (item: RegExp) => item);
 _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, (item: RegExp) => item);
 
+if (sumanMatchesAny.length < 1) {
+  // if the user does not provide anything, we default to this
+  _suman.log.warning('No runnable file regexes available; using the default => /\.js$/');
+  _suman.sumanMatchesAny.push(/\.js$/);
+}
+
 /////////////////////////////// abort if too many top-level options //////////////////////////////////////
 
 {
-
+  
   // check to make sure we don't have more than one primary command line option
-
+  
   const preOptCheck = <IPreOptCheck> {
     tscMultiWatch, watch, watchPer,
     create, useServer, useBabel,
@@ -521,7 +518,7 @@ _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, (item: RegExp) => item);
     diagnostics, installGlobals, postinstall,
     repair, sumanShell, script
   };
-
+  
   const optCheck = Object.keys(preOptCheck).filter(function (key, index) {
     // we return non-falsy values
     return preOptCheck[key];
@@ -532,7 +529,7 @@ _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, (item: RegExp) => item);
     obj[key] = value;
     return obj;
   });
-
+  
   if (optCheck.length > 1) {
     console.error('\t => Too many options, pick one from:\n', util.inspect(Object.keys(preOptCheck)));
     console.error('\t => Current options used were:\n', util.inspect(optCheck));
@@ -540,7 +537,7 @@ _suman.sumanMatchesAll = uniqBy(sumanMatchesAll, (item: RegExp) => item);
     console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
   }
-
+  
 }
 
 /////////////////////////////// load reporters  ////////////////////////////////
@@ -557,28 +554,28 @@ rb.emit(String(events.SUMAN_VERSION), sumanVersion);
 let paths = _.flatten([sumanOpts._args]).slice(0);
 
 {
-
+  
   // resolve / map test file paths
-
+  
   if (sumanOpts.test_paths_json) {
     let jsonPaths = JSON.parse(String(sumanOpts.test_paths_json).trim());
     jsonPaths.forEach(function (p: string) {
       paths.push(p);
     });
   }
-
+  
   if (sumanOpts.replace_match && sumanOpts.replace_with) {
     paths = paths.map(function (p: string) {
       return String(p).replace(sumanOpts.replace_match, sumanOpts.replace_with);
     });
   }
-
+  
   if (sumanOpts.replace_ext_with) {
     paths = paths.map(function (p: string) {
       return String(p).substr(0, String(p).lastIndexOf('.')) + sumanOpts.replace_ext_with;
     });
   }
-
+  
   if (su.vgt(7)) {
     _suman.log.info('arguments assumed to be test file paths to be run:', paths);
   }
@@ -587,6 +584,32 @@ let paths = _.flatten([sumanOpts._args]).slice(0);
 /////////////////// check to make sure --tap option is used if we are piping ////////////////////
 
 let isTTY = process.stdout.isTTY;
+
+if (isTTY) {
+  _suman.log.error('process.stdout appears to be a TTY.');
+}
+else {
+  _suman.log.error('process.stdout appears to *not* be a TTY.');
+}
+
+let isFifo;
+
+try {
+  isFifo = fs.fstatSync(1).isFIFO();
+  if (isFifo) {
+    _suman.log.info('process.sdtout appears to be a FIFO.');
+    _suman.log.error('process.stdout appears to be a FIFO.');
+  }
+  else {
+    _suman.log.info('process.sdtout appears to *not* be a FIFO.');
+    _suman.log.error('process.stdout appears to *not* be a FIFO.');
+  }
+  
+}
+catch (err) {
+  _suman.log.error('process.stdout is not a FIFO.');
+  _suman.log.error(err.stack);
+}
 
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
   if (!isTTY && !useTAPOutput) {
@@ -606,7 +629,7 @@ if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
 ////////////////////// dynamically call files to minimize load, etc //////////////////////////////
 
 if (diagnostics) {
-  require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
+  import('./lib/cli-commands/run-diagnostics').run(sumanOpts);
 }
 else if (script) {
   require('./lib/cli-commands/run-scripts').run(sumanConfig, sumanOpts);
@@ -673,7 +696,7 @@ else {
     _suman.log.info('The following "--user-args" will be passed to child processes as process.argv:');
     _suman.log.info(userArgs);
   }
-
+  
   require('./lib/run').run(sumanOpts, sumanConfig, paths, sumanServerInstalled, sumanVersion);
 }
 

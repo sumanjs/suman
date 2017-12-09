@@ -31,7 +31,8 @@ const acceptableOptions = <IAcceptableOptions> {
   plan: true,
   throws: true,
   fatal: true,
-  sourced: true,
+  ioc: true,
+  __toBeSourcedForIOC: true,
   retries: true,
   cb: true,
   timeout: true,
@@ -47,14 +48,14 @@ const acceptableOptions = <IAcceptableOptions> {
 };
 
 const handleBadOptions = function (opts: IAfterEachOpts, typeName: string): void {
-
+  
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
       const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
       throw new Error(`'${k}' is not a valid option property for an ${typeName} hook. See: ${url}`);
     }
   });
-
+  
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
     _suman.log.error(new Error(' => Suman usage error => "plan" option is not an integer.').stack);
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
@@ -65,32 +66,31 @@ const handleBadOptions = function (opts: IAfterEachOpts, typeName: string): void
 //////////////////////////////////////////////////////////////////////////////
 
 export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
-
+  
   return function afterEach($$desc: string, $opts: IAfterEachOpts): ITestSuite {
-
+    
     const typeName = afterEach.name;
     const zuite = suman.ctx;
     handleSetupComplete(zuite, typeName);
-    const args = pragmatik.parse(arguments, rules.hookSignature, {
-      preParsed: su.isObject($opts) && $opts.__preParsed
-    });
-
+    const isPreParsed = $opts && $opts.__preParsed;
+    const args = pragmatik.parse(arguments, rules.hookSignature, isPreParsed);
+    
     try {
       delete $opts.__preParsed
     }
     catch (err) {
       //ignore
     }
-
+    
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
     handleBadOptions(opts, typeName);
-
+    
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);
     }
-
+    
     if (opts.skip) {
       suman.numHooksSkipped++;
     }
@@ -115,9 +115,9 @@ export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')
       });
     }
-
+    
     return zuite;
-
+    
   };
-
+  
 };

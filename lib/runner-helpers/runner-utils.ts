@@ -49,9 +49,13 @@ export const findPathOfRunDotSh: IFindShFunctions = function (p) {
             let plugin = require(v.plugin.value);
             return plugin.getRunPath();
           }
+          else if(v.plugin){
+            throw new Error('"plugin" should be an object with a "value" property.')
+          }
         }
       }
       catch(err){
+        _suman.log.warning('Your @config.json file may be malformed at path: ', dirname);
         _suman.log.error(err.message || err);
       }
     }

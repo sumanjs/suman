@@ -1,5 +1,8 @@
 
 
+import chai = require('chai');
+import AssertStatic = Chai.AssertStatic;
+
 export {ITestCaseParam, ITestSuite} from 'suman-types/dts/test-suite';
 export {IHookParam} from 'suman-types/dts/test-suite';
 export {ItFn, ITestDataObj} from 'suman-types/dts/it';

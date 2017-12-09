@@ -10,77 +10,62 @@ Test.create('A', function (it, before, afterEach, beforeEach, assert, describe, 
   });
 
   after.last(h => {
-    console.log('after 00');
-    return Promise.delay(100);
+    return Promise.delay(10);
   });
 
 
   after(h => {
-    console.log('after 01');
-    return Promise.delay(1000);
+    return Promise.delay(10);
   });
 
   afterEach.cb(h => {
-
-    console.log('h is', h);
-    setTimeout(h.done, 300);
-    // console.log('h is => ',util.inspect(h));
+    setTimeout(h.done, 150);
   });
 
-  describe('B', function () {
+  describe('B', function (b) {
 
-    it('1', t => {
+    it('1', {throws: /in test cases/}, t => {
       t.assert.equal(t.$inject.foo, 3);
       t.$inject.foo = 4;
     });
 
-    describe('F', function(){
+    describe('F', function(b){
 
       it('d',t => {
-        return Promise.delay(1000);
+        return Promise.delay(10);
       });
 
       after(h => {
-        console.log('after zzz2');
-        return Promise.delay(300);
+        return Promise.delay(30);
       });
 
     });
 
-    describe('F', function(){
+    describe('F', function(b){
 
       it('sd',t => {
-        return Promise.delay(1000);
+        return Promise.delay(10);
       });
 
       after(h => {
-        console.log('after zzz1');
-        return Promise.delay(100);
+        return Promise.delay(10);
       });
 
     });
 
     after(h => {
-      console.log('after 1');
-      return Promise.delay(300);
+      return Promise.delay(30);
     });
 
-    describe('C', function () {
+    describe('C', function (b) {
 
-      it('2', t => {
+      it('2', {throws: /in test cases/}, t => {
         t.assert.equal(t.$inject.foo, 3);
         t.$inject.zoo = 5;
       });
 
-      after(h => {
-        console.log('after 2');
-      });
 
-      describe('D', function () {
-
-        after(h => {
-          console.log('after 3');
-        });
+      describe('D', function (b) {
 
         it('3', t => {
           t.assert.equal(t.$inject.zoo, undefined);
