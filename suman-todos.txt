@@ -4,15 +4,15 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
-///
+////
 
  spawn all child processes in shell, launch processes via bash instead of directly
 
-///
+////
 
  => SUMAN_PROJECT_ROOT should be able to be set by the user.
 
-///
+////
 
 put $deps/$core on suman?
 
@@ -35,6 +35,7 @@ As you mentioned, what you are looking to is how to describe class constructor a
 const foo = function(ctor: new() => SomeSuperClass) {
     ...
 }
+
 Or alternatively (same result in this case):
 
 const foo = function(ctor: typeof SomeSuperClass) {
@@ -95,7 +96,7 @@ at least the process will start, to avoid the try/catch
     .source('a','b','c');
     h.$inject should be h.?
 
-///////
+////
 
     if (sumanOpts.coverage) {
         //TODO: we can pass an env to tell suman where to put the coverage data
@@ -103,7 +104,7 @@ at least the process will start, to avoid the try/catch
         _suman.log.warning(chalk.yellow('so in this case, you will need to run your coverage call via @run.sh.'));
     }
 
-///////
+////
 
  istanbul coverage problem:
 
@@ -135,7 +136,7 @@ Error: EACCES: permission denied, mkdir '/Users/alexamil/WebstormProjects/oresof
  [suman]     at Socket.emit (events.js:188:7)
  [suman]     at Pipe._handle.close [as _onclose] (net.js:501:12)
 
-/////////////////////////
+////
 
   //inject hooks should be run in series, just like before hooks
 
@@ -155,7 +156,7 @@ Error: EACCES: permission denied, mkdir '/Users/alexamil/WebstormProjects/oresof
     }
   });
 
-//////////////////////////////////
+////
 
    inject(() => {
       return [
@@ -171,7 +172,7 @@ Error: EACCES: permission denied, mkdir '/Users/alexamil/WebstormProjects/oresof
      ];
   });
 
-////////////////////////
+////
 
 https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
 set -eo pipefail
@@ -247,22 +248,6 @@ shopt -u extdebug
 
 ///
 
-this has been superceded:
-
-    it.retries_5_('is good', t => {
-
-    });
-
-    it['retries:5']('is good', t => {
-
-    });
-
-    it['retries:5, name:foobar']('is good', t => {
-
-    });
-
-//
-
     mocha context issue:
     https://github.com/mochajs/mocha/issues/2014
 
@@ -331,10 +316,6 @@ t.final =>
         t.assert(regex.test(stderr), 'stderr should match regex: ' + regex);
         });
     });
-
-////
-
-
 
 ////
 
@@ -474,17 +455,6 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
     need to create a programmatic API
     suman.run(file);
-
-///
-
-    we can use $inject and put props on that
-
-    BaseReporter.decoratorFactory.$inject = [
-      'formatError',
-      'config.reportSlowerThan',
-      'config.colors',
-      'config.browserConsoleLogOptions'
-    ]
 
 ///
 
