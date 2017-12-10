@@ -221,6 +221,8 @@ const watchPer = sumanOpts.watch_per;
 const singleProcess = sumanOpts.single_process;
 const script = sumanOpts.script;
 const cwdAsRoot = sumanOpts.force_cwd_to_be_project_root;
+const tap = sumanOpts.use_tap_output;
+const tapJSON = sumanOpts.use_tap_json_output;
 
 // boolean options
 const allowOnly = sumanOpts.$allowOnly = Boolean(sumanOpts.allow_only);
@@ -585,17 +587,26 @@ let paths = _.flatten([sumanOpts._args]).slice(0);
 
 let isTTY = process.stdout.isTTY;
 
-if (isTTY) {
-  _suman.log.error('process.stdout appears to be a TTY.');
-}
-else {
-  _suman.log.error('process.stdout appears to *not* be a TTY.');
+if (su.vgt(7)) {
+  if (isTTY) {
+    _suman.log.error('process.stdout appears to be a TTY.');
+  }
+  else {
+    _suman.log.error('process.stdout appears to *not* be a TTY.');
+  }
 }
 
 let isFifo;
 
 try {
   isFifo = fs.fstatSync(1).isFIFO();
+}
+catch (err) {
+  _suman.log.error('process.stdout is not a FIFO.');
+  _suman.log.error(err.stack);
+}
+
+if (su.vgt(7)) {
   if (isFifo) {
     _suman.log.info('process.sdtout appears to be a FIFO.');
     _suman.log.error('process.stdout appears to be a FIFO.');
@@ -604,25 +615,23 @@ try {
     _suman.log.info('process.sdtout appears to *not* be a FIFO.');
     _suman.log.error('process.stdout appears to *not* be a FIFO.');
   }
-  
-}
-catch (err) {
-  _suman.log.error('process.stdout is not a FIFO.');
-  _suman.log.error(err.stack);
 }
 
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
   if (!isTTY && !useTAPOutput) {
-    {
+    
+    if (!tapJSON) {
       // let writeToSumanRStdout = JSONStdio.initLogToStdout(su.constants.JSON_STDIO_SUMAN_R);
       let messages = [
         'You may need to turn on TAP output for test results to be captured in destination process.',
         'Try using the "--tap" or "--tap-json" options at the suman command line.'
       ];
+      
       _suman.log.error(chalk.yellow.bold(messages.join('\n')));
       JSONStdio.logToStdout({sumanMessage: true, kind: 'warning', messages: messages});
       // writeToSumanRStdout({sumanMessage: true, kind: 'warning', messages: messages});
     }
+    
   }
 }
 

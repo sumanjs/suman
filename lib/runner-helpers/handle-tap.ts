@@ -50,6 +50,8 @@ export const getTapParser = function () {
       _suman.log.info(chalk.yellow.bold('suman we have received at least one test result via TAP.'));
       console.log('\n');
     }
+    
+    debugger;
 
     rb.emit(String(events.TEST_CASE_END), testpoint);
 
@@ -95,10 +97,11 @@ export const getTapJSONParser = function () {
     const testpoint = d.testCase;
 
     if (!testpoint) {
-      _suman.log.error('implementation error: testpoint data does not exist for tap-json object => ',
-        util.inspect(d));
+      _suman.log.error('implementation error: testpoint data does not exist for tap-json object => ', util.inspect(d));
       return;
     }
+    
+    debugger;
 
     rb.emit(String(events.TEST_CASE_END_TAP_JSON), d);
 

@@ -156,6 +156,8 @@ var watchPer = sumanOpts.watch_per;
 var singleProcess = sumanOpts.single_process;
 var script = sumanOpts.script;
 var cwdAsRoot = sumanOpts.force_cwd_to_be_project_root;
+var tap = sumanOpts.use_tap_output;
+var tapJSON = sumanOpts.use_tap_json_output;
 var allowOnly = sumanOpts.$allowOnly = Boolean(sumanOpts.allow_only);
 var allowSkip = sumanOpts.$allowSkip = Boolean(sumanOpts.allow_skip);
 var coverage = sumanOpts.$coverage = Boolean(sumanOpts.coverage);
@@ -400,15 +402,23 @@ var paths = _.flatten([sumanOpts._args]).slice(0);
     }
 }
 var isTTY = process.stdout.isTTY;
-if (isTTY) {
-    _suman.log.error('process.stdout appears to be a TTY.');
-}
-else {
-    _suman.log.error('process.stdout appears to *not* be a TTY.');
+if (su.vgt(7)) {
+    if (isTTY) {
+        _suman.log.error('process.stdout appears to be a TTY.');
+    }
+    else {
+        _suman.log.error('process.stdout appears to *not* be a TTY.');
+    }
 }
 var isFifo;
 try {
     isFifo = fs.fstatSync(1).isFIFO();
+}
+catch (err) {
+    _suman.log.error('process.stdout is not a FIFO.');
+    _suman.log.error(err.stack);
+}
+if (su.vgt(7)) {
     if (isFifo) {
         _suman.log.info('process.sdtout appears to be a FIFO.');
         _suman.log.error('process.stdout appears to be a FIFO.');
@@ -418,13 +428,9 @@ try {
         _suman.log.error('process.stdout appears to *not* be a FIFO.');
     }
 }
-catch (err) {
-    _suman.log.error('process.stdout is not a FIFO.');
-    _suman.log.error(err.stack);
-}
 if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
     if (!isTTY && !useTAPOutput) {
-        {
+        if (!tapJSON) {
             var messages = [
                 'You may need to turn on TAP output for test results to be captured in destination process.',
                 'Try using the "--tap" or "--tap-json" options at the suman command line.'
