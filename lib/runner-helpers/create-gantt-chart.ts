@@ -23,7 +23,7 @@ import {cpHash, socketHash, ganttHash} from './socket-cp-hash';
 
 export const createGanttChart = function (cb: Function) {
 
-  if (_suman.sumanConfig && !_suman.sumanConfig.viewGantt) {
+  if (!(_suman.sumanConfig && _suman.sumanConfig.viewGantt)) {
     // user does not want to render Gantt chart visualization
     return process.nextTick(cb);
   }
@@ -68,7 +68,7 @@ export const createGanttChart = function (cb: Function) {
       tasks: JSON.stringify(tasks)
     });
 
-    const p = path.resolve(_suman.sumanHelperDirRoot + '/gantt-4.html');
+    const p = path.resolve(_suman.sumanHelperDirRoot + '/.meta/gantt.html');
     fs.writeFile(p, result, cb);
 
   });

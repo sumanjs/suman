@@ -3452,7 +3452,6 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: http://nathanleclaire.com/blog/2014/07/12/10-docker-tips-and-tricks-that-will-make-you-sing-a-whale-song-of-joy/
 //TODO: http://stackoverflow.com/questions/8173232/make-exe-files-from-node-js-app
 //TODO: create binary of suman project for speed?
-//TODO: assert that rootDir is the same as cd'ing two directories higher than suman/index.js
 //TODO: "$ suman --stop-watching"
 //TODO: "$ suman --convert" with the "--omit-comments"
 //TODO: https://github.com/creationix/nvm/issues/668
