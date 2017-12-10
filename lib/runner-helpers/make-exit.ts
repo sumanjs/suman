@@ -29,7 +29,7 @@ const {constants} = require('../../config/suman-constants');
 import {makeHandleAsyncReporters} from '../helpers/general';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);
-import {createGanttChart} from './create-gantt-chart';
+import {createGanttChart, createTimelineChart} from './create-gantt-chart';
 let timeOutMillis = 15000;
 
 /////////////////////////////////////////////////////////
@@ -223,6 +223,11 @@ export const makeExit = function (runnerObj: IRunnerObj, tableRows: ITableRows) 
         },
         
         handleAsyncReporters: makeHandleAsyncReporters(reporterRets),
+        
+        makeTimelineChart: function (cb: Function) {
+          // keep it simple
+          createTimelineChart(cb);
+        },
         
         makeGanttChart: function (cb: Function) {
           // keep it simple

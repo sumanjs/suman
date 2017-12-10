@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>
+    Title
+  </title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+
+
+<script type="text/javascript">
+  google.charts.load("current", {packages: ["timeline"]});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var container = document.getElementById('suman-test-timeline');
+    var chart = new google.visualization.Timeline(container);
+    var dataTable = new google.visualization.DataTable();
+
+    dataTable.addColumn({type: 'string', id: 'Term'});
+    dataTable.addColumn({type: 'string', id: 'Name'});
+    dataTable.addColumn({type: 'date', id: 'Start'});
+    dataTable.addColumn({type: 'date', id: 'End'});
+
+
+    let tasksRaw = JSON.parse('[{"startDate":1512868207030,"endDate":1512868207586,"transformStartDate":null,"transformEndDate":null,"taskName":"/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/1.test.js","status":"FAILED"},{"startDate":1512868207025,"endDate":1512868207586,"transformStartDate":null,"transformEndDate":null,"taskName":"/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/3.test.js","status":"FAILED"},{"startDate":1512868206199,"endDate":1512868208415,"transformStartDate":null,"transformEndDate":null,"taskName":"/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/2.test.js","status":"SUCCEEDED"},{"startDate":1512868206195,"endDate":1512868207139,"transformStartDate":null,"transformEndDate":null,"taskName":"/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/4.test.js","status":"SUCCEEDED"},{"startDate":1512868206193,"endDate":1512868207076,"transformStartDate":null,"transformEndDate":null,"taskName":"/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/5.test.js","status":"SUCCEEDED"},{"startDate":1512868206190,"endDate":1512868207076,"transformStartDate":null,"transformEndDate":null,"taskName":"/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/6.test.js","status":"SUCCEEDED"},{"startDate":1512868206187,"endDate":1512868207839,"transformStartDate":null,"transformEndDate":null,"taskName":"/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/events.test.js","status":"SUCCEEDED"},{"startDate":1512868206182,"endDate":1512868207064,"transformStartDate":null,"transformEndDate":null,"taskName":"/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/injection.test.js","status":"SUCCEEDED"},{"startDate":1512868206178,"endDate":1512868207020,"transformStartDate":null,"transformEndDate":null,"taskName":"/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/injection2.test.js","status":"FAILED"},{"startDate":1512868206184,"endDate":1512868207022,"transformStartDate":null,"transformEndDate":null,"taskName":"/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/simple.js","status":"SUCCEEDED"}]');
+
+    let tasks = [];
+    let colors = [];
+
+    tasksRaw.forEach(function (t, i) {
+
+      // we have two separate tasks per item, one for transform, one for run
+      if (t.transformStartDate && t.transformEndDate) {
+        tasks.push([
+          String(i+1),
+          t.taskName,
+          new Date(t.transformStartDate),
+          new Date(t.transformEndDate),
+        ]);
+      }
+
+      if (t.startDate && t.endDate) {
+
+        if(t.status === 'FAILED'){
+          colors.push('yellow');
+        }
+        else if(t.status === 'SUCCEEDED'){
+          colors.push('green');
+        }
+        else {
+          colors.push('blue');
+        }
+
+        tasks.push([
+          String(i+1),
+          t.taskName,
+          new Date(t.startDate),
+          new Date(t.endDate)
+        ]);
+      }
+    });
+
+    dataTable.addRows(tasks);
+
+    // dataTable.addRows([
+    //   ['1', 'George Washington', new Date(1789, 3, 30), new Date(1797, 2, 4)],
+    //   ['2', 'John Adams', new Date(1797, 2, 4), new Date(1801, 2, 4)],
+    //   ['3', 'Thomas Jefferson', new Date(1801, 2, 4), new Date(1809, 2, 4)]
+    // ]);
+
+    var options = {
+      colors: colors,
+      // timeline: { singleColor: '#8d8' },
+    };
+
+    chart.draw(dataTable, options);
+  }
+</script>
+
+<div id="suman-test-timeline" style="height: 800px;"></div>
+
+</body>
+</html>
