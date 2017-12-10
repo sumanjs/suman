@@ -14,6 +14,15 @@ three SO profiles:
 
 ////
 
+add ts-node/register in run-child.js
+
+///
+
+use nyc instead of istanbul
+https://github.com/istanbuljs/nyc
+
+///
+
 put $deps/$core on suman?
 
 const {async} = suman.deps;
@@ -45,7 +54,7 @@ This also requires A and B to have parameterless constructors
 
 ///
 
-exec() / invoke() / run()  / register()
+exec() / invoke() / run() / register()
 
 ///
 
@@ -207,7 +216,7 @@ exit with command to the right that exits with non-zero
 
 ///
 
- allow for default reporter:
+   allow for default reporter:
 
    reporters: {
      default: 'std-reporter',   /// <<<<<<<<<<<<<<
@@ -3454,11 +3463,7 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: create binary of suman project for speed?
 //TODO: "$ suman --stop-watching"
 //TODO: "$ suman --convert" with the "--omit-comments"
-//TODO: https://github.com/creationix/nvm/issues/668
 //TODO: if export is set to true, then we need to exit if we are using the runner
-//TODO: use util.format =>    error: util.format('The specified application package "%s" does not exist', params.id)
-//TODO: before/after.always
-//TODO: verify t.plan/t.confirm
 //TODO: in before/after hooks, we should be able to access t.data and pass that to all tests?
 //TODO: when re-initting suman and potentially overwriting existing suman files, mv the current suman folder to root and
 //TODO: draw data => picture showing ioc injecting data into multiple tests
@@ -3488,24 +3493,10 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 //TODO: 'use strict'; is useful when user attemps to overwrite frozen vars
 //TODO: to convert files, cp from test to test-temp, rename all test files to a.test.js, then run --convert
 //TODO: use .profile instead of .bash_profile?
-//TODO: if suman is not installed in a project, and the user tries to run "$ suman" on a test file, suman could choose to install the default files before
-// proceeding
-
-//TODO: if suman is not installed yet, we get this error (its looking for the suman folder in the root of the project):
-
- => Suman fatal error => Error: ENOENT: no such file or directory, stat '/Users/amills/WebstormProjects/vmware/wem_server2/undefined'
-    at Error (native)
-    at Object.fs.statSync (fs.js:844:18)
-    at getAllFiles (/Users/amills/WebstormProjects/oresoftware/suman/lib/runner.js:587:48)
-    at /Users/amills/WebstormProjects/oresoftware/suman/lib/runner.js:676:11
+//TODO: if suman is not installed in a project,
+//TODO: and the user tries to run "$ suman" on a test file, suman could choose to install the default files before
 
 
-//TODO:
-	 ⚑  => Suman fatal error  => making a graceful exit =>
-	[object Object]
-
-
-//TODO: describe(__filename, function() {
 //TODO: for a given test, should be able to force all things parallel with --parallel flag
 //TODO: testing => http://open.blogs.nytimes.com/2015/01/15/how-to-unit-test-a-requirejs-application/?_r=0
 //TODO: need to fix suman server so that user can see server errors
@@ -3529,17 +3520,10 @@ SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integra
 // --concurrency option should just be "--processes"
 
 
-
-//TODO: rename test-stderr.log to test-debug.log and runner-debug.log, along with server.log
 //TODO: suman test results table for individual file should have date started as metric
 //TODO: for chokidar watcher, need to worry about nested directories using **/* etc, see build-tests
-//TODO: when running the runner against the entire test-target dir, the runner hangs, so we need a list of cps that have not exited yet after 30 seconds or whatever
 //...special keystrokes should kill all currently running cps and then just collect the best results possible
 //TODO: allow suman.once.js and suman.ioc.js to handle generator fns
-//TODO: could try "brew install sqlite3" if it's not already installed and running
-//TODO: warn if test or hook does not return anything if there is no callback
-//TODO: make sure that generator functions get recognized when transpiling isGenerator() check needs to work correctly
-//TODO: hook into stdout with node to write to test-stdout.log - https://gist.github.com/pguillory/729616
 //TODO: http://krasimirtsonev.com/blog/article/debugging-with-node
 //TODO: https://babeljs.io/docs/usage/options/
 //TODO: https://www.sitepoint.com/solve-global-npm-module-dependency-problem/

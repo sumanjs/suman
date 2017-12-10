@@ -26,7 +26,7 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
     });
 
     it('sync test', t => {
-      t.assert(false);
+      t.assert(true);
     });
 
     after(h => {

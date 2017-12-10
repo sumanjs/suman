@@ -66,6 +66,10 @@ if [[ "${SUMAN_INSTALL_NODE_MODULES}" == "yes" ]]; then
     npm install -S istanbul
   fi
 
+  if [[ ! -d "node_modules/nyc" ]]; then
+    npm install -S nyc
+  fi
+
   if [[ ! -d "node_modules/suman-inquirer" ]]; then
     npm install -S suman-inquirer
   fi
@@ -74,10 +78,13 @@ if [[ "${SUMAN_INSTALL_NODE_MODULES}" == "yes" ]]; then
     npm install -S suman-inquirer-directory
   fi
 
-    npm install -S suman-daemon
-    npm install -S suman-shell
+  if [[ ! -d "node_modules/babel-core" ]]; then
     npm install -S babel-core
+  fi
+
+  if [[ ! -d "node_modules/babel-runtime" ]]; then
     npm install -S babel-runtime
+  fi
 
 )
 

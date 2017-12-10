@@ -179,11 +179,6 @@ module.exports = [
     help: 'Suman will *UN-install* the related dependencies.'
   },
   {
-    names: ['remove-babel', 'rm-babel'],  // this flag is only used when uninstalling suman as well
-    type: 'bool',
-    help: 'Suman will * uninstall * the "babel" related dependencies necessary to transpile to your local project.'
-  },
-  {
     names: ['use-server'],
     type: 'bool',
     help: 'Suman will download and install the "suman-server" dependencies necessary for file-watching to your local project.'
@@ -253,9 +248,14 @@ module.exports = [
     help: 'Use this to filter input to ignore matches of the given JS regex; append to what is in <suman.conf.js>.',
   },
   {
-    names: ['babel-register', 'use-babel-register'],
+    names: ['ts-node-register', 'use-ts-node-register', 'ts-node'],
     type: 'bool',
-    help: 'Use babel-core register to transpile sources on the fly, even in child processes.'
+    help: 'Use "ts-node/register" to transpile sources on the fly.'
+  },
+  {
+    names: ['babel-register', 'use-babel-register', 'babel'],
+    type: 'bool',
+    help: 'Use "babel-core/register" to transpile sources on the fly.'
   },
   {
     names: ['no-babel-register', 'no-use-babel-register'],
