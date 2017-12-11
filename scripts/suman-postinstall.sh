@@ -62,6 +62,10 @@ if [[ "${SUMAN_INSTALL_NODE_MODULES}" == "yes" ]]; then
     npm install -S typescript
   fi
 
+  if [[ ! -d "node_modules/ts-node" ]]; then
+    npm install -S ts-node
+  fi
+
   if [[ ! -d "node_modules/istanbul" ]]; then
     npm install -S istanbul
   fi

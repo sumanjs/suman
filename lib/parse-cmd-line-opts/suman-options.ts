@@ -184,10 +184,9 @@ module.exports = [
     help: 'Suman will download and install the "suman-server" dependencies necessary for file-watching to your local project.'
   },
   {
-    names: ['use-istanbul'],
+    names: ['install-istanbul'],
     type: 'bool',
-    help: 'Suman will download and install the Istanbul dependencies necessary to run test coverage on your local project. You could do this' +
-    'yourself manually or you can tell Suman to do it for you intelligently.'
+    help: 'Install the default istanbul/nyc dependencies, for getting test coverage data.'
   },
   {
     names: ['log-stdio-to-files'],
@@ -248,12 +247,17 @@ module.exports = [
     help: 'Use this to filter input to ignore matches of the given JS regex; append to what is in <suman.conf.js>.',
   },
   {
-    names: ['ts-node-register', 'use-ts-node-register', 'ts-node'],
+    names: ['use-ts-node-register', 'ts-node-register', 'ts-node'],
     type: 'bool',
     help: 'Use "ts-node/register" to transpile sources on the fly.'
   },
   {
-    names: ['babel-register', 'use-babel-register', 'babel'],
+    names: ['install-babel'],
+    type: 'bool',
+    help: 'Install default babel dependencies.'
+  },
+  {
+    names: ['use-babel-register', 'babel-register', 'babel'],
     type: 'bool',
     help: 'Use "babel-core/register" to transpile sources on the fly.'
   },
@@ -561,7 +565,7 @@ module.exports = [
     '@run.sh, @transform.sh, @target, @src, have the correct permissions.'
   },
   {
-    names: ['browser', 'b'],
+    names: ['browser'],
     type: 'bool',
     help: 'Tell Suman to run browser tests.'
   },
@@ -597,7 +601,7 @@ module.exports = [
     help: 'Override config value for maximum number of parallel Node.js processes.'
   },
   {
-    names: ['server', 's'],
+    names: ['server'],
     type: 'bool',
     help: 'Start the suman server manually.'
   },
@@ -612,12 +616,18 @@ module.exports = [
     help: 'Pass exec arguments through command line.'
   },
   {
-    names: ['user-args', 'child-args'],
+    names: ['user-arg', 'arg'],
     type: 'string',
     help: 'Pass child arguments through command line.'
   },
   {
-    names: ['child-env', 'env'],
+    names: ['child-arg'],
+    type: 'string',
+    help: 'Pass Suman library arguments to child processes through command line. ' +
+    'Use --arg=foo --arg=bar to pass arguments to process.argv of child processes.'
+  },
+  {
+    names: ['child-env'],
     type: 'arrayOfString',
     help: 'Pass user arguments through command line.',
     env: 'SUMAN_CHILD_ENV'

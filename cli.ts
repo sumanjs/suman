@@ -175,9 +175,21 @@ const sumanExecutablePath = _suman.sumanExecutablePath = process.env.SUMAN_EXECU
 
 ////////////////////////////////////////////////////////////////////
 
+let userTrailingArgs, indexOfDoubleDash;
+if ((indexOfDoubleDash = process.argv.indexOf('--')) > 0) {
+  userTrailingArgs = [];
+  while (true) {
+    let v = process.argv.pop();
+    if (v === '--') {
+      break;
+    }
+    userTrailingArgs.unshift(v);
+  }
+}
+
 const sumanOpts = _suman.sumanOpts = require('./lib/parse-cmd-line-opts/parse-opts');
 const viaSuman = _suman.viaSuman = true;
-const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
 
 /////////////////////////////////////////////////////////////////////
 
@@ -193,12 +205,12 @@ const fforce = sumanOpts.fforce;
 const s = sumanOpts.server;
 const tailRunner = sumanOpts.tail_runner;
 const tailTest = sumanOpts.tail_test;
-const useBabel = sumanOpts.use_babel;
+const installBabel = sumanOpts.install_babel;
 const useServer = sumanOpts.use_server;
 const tail = sumanOpts.tail;
 const removeBabel = sumanOpts.remove_babel;
 const create = sumanOpts.create;
-const useIstanbul = sumanOpts.use_istanbul;
+const installIstanbul = sumanOpts.use_istanbul;
 const interactive = sumanOpts.interactive;
 const appendMatchAny = sumanOpts.append_match_any;
 const appendMatchAll = sumanOpts.append_match_all;
@@ -207,7 +219,6 @@ const matchAny = sumanOpts.match_any;
 const matchAll = sumanOpts.match_all;
 const matchNone = sumanOpts.match_none;
 const repair = sumanOpts.repair;
-const uninstallBabel = sumanOpts.uninstall_babel;
 const groups = sumanOpts.groups;
 const useTAPOutput = sumanOpts.use_tap_output;
 const useTAPJSONOutput = sumanOpts.use_tap_json_output;
@@ -223,6 +234,19 @@ const script = sumanOpts.script;
 const cwdAsRoot = sumanOpts.force_cwd_to_be_project_root;
 const tap = sumanOpts.use_tap_output;
 const tapJSON = sumanOpts.use_tap_json_output;
+const userArgs = sumanOpts.user_arg = sumanOpts.user_arg || [];
+
+userArgs.forEach(function(v: string){
+   process.argv.push(v);
+});
+
+if (userTrailingArgs) {
+  //restore the user's arguments to process.argv, only after parsing arguments with dashdash
+  userTrailingArgs.forEach(function (v) {
+    userArgs.push(v);
+    process.argv.push(v);
+  });
+}
 
 // boolean options
 const allowOnly = sumanOpts.$allowOnly = Boolean(sumanOpts.allow_only);
@@ -235,8 +259,12 @@ const watch = sumanOpts.$watch = Boolean(sumanOpts.watch);
 
 // array of string options
 
-if (sumanOpts.force_inherit_stdio) {
-  _suman.$forceInheritStdio = true;
+{
+  sumanOpts.transpile = Boolean(sumanOpts.transpile);
+  sumanOpts.$useTSNodeRegister = Boolean(sumanOpts.use_ts_node_register);
+  sumanOpts.$useBabelRegister = Boolean(sumanOpts.use_babel_register);
+  sumanOpts.$noBabelRegister = Boolean(sumanOpts.no_babel_register);
+  sumanOpts.$forceInheritStdio = Boolean(sumanOpts.force_inherit_stdio);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -297,16 +325,11 @@ if (sumanOpts.user_args) {
   _suman.log.info(chalk.magenta('raw user_args is'), sumanOpts.user_args);
 }
 
-const userArgs = sumanOpts.user_args = _.flatten([sumanOpts.user_args]).join(' ');
-
 if (coverage) {
-  _suman.log.info(chalk.magenta.bold('Coverage reports will be written out due to presence of --coverage flag.'));
+  _suman.log.info(chalk.magenta.bold(
+    'Coverage reports will be written out due to presence of --coverage flag.'
+  ));
 }
-
-//re-assignable
-let babelRegister = sumanOpts.babel_register;
-let noBabelRegister = sumanOpts.no_babel_register;
-const originalTranspileOption = sumanOpts.transpile = Boolean(sumanOpts.transpile);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -514,9 +537,9 @@ if (sumanMatchesAny.length < 1) {
   
   const preOptCheck = <IPreOptCheck> {
     tscMultiWatch, watch, watchPer,
-    create, useServer, useBabel,
-    useIstanbul, init, uninstall,
-    convert, groups, s, interactive, uninstallBabel,
+    create, useServer, installBabel,
+    installIstanbul, init, uninstall,
+    convert, groups, s, interactive,
     diagnostics, installGlobals, postinstall,
     repair, sumanShell, script
   };
@@ -638,7 +661,7 @@ if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
 ////////////////////// dynamically call files to minimize load, etc //////////////////////////////
 
 if (diagnostics) {
-  import('./lib/cli-commands/run-diagnostics').run(sumanOpts);
+  require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
 }
 else if (script) {
   require('./lib/cli-commands/run-scripts').run(sumanConfig, sumanOpts);
@@ -661,11 +684,8 @@ else if (sumanShell) {
 else if (interactive) {
   require('./lib/cli-commands/run-suman-interactive').run();
 }
-else if (uninstallBabel) {
-  require('./lib/use-babel/uninstall-babel')(null);
-}
-else if (useIstanbul) {
-  require('./lib/use-istanbul/use-istanbul')();
+else if (installIstanbul) {
+  require('./lib/cli-commands/install-istanbul').run();
 }
 else if (create) {
   require('./lib/cli-commands/create-opt').run(create);
@@ -673,18 +693,14 @@ else if (create) {
 else if (useServer) {
   require('./lib/use-server/use-server')(null);
 }
-else if (useBabel) {
-  require('./lib/use-babel/use-babel')(null);
+else if (installBabel) {
+  require('./lib/cli-commands/install-babel').run(null);
 }
 else if (init) {
   require('./lib/cli-commands/init-opt').run(sumanOpts, projectRoot, cwd);
 }
 else if (uninstall) {
-  require('./lib/uninstall/uninstall-suman')({
-    force: force,
-    fforce: fforce,
-    removeBabel: removeBabel,
-  });
+  require('./lib/cli-commands/uninstall').run(sumanOpts);
 }
 else if (convert) {
   require('./lib/cli-commands/convert-mocha').run(projectRoot, src, dest, force);
@@ -702,7 +718,7 @@ else if (groups) {
 else {
   //this path runs all tests
   if (userArgs.length > 0 && sumanOpts.verbosity > 4) {
-    _suman.log.info('The following "--user-args" will be passed to child processes as process.argv:');
+    _suman.log.info('The following "--user-arg" arguments will be passed to child processes as process.argv:');
     _suman.log.info(userArgs);
   }
   

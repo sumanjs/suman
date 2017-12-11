@@ -113,9 +113,20 @@ _suman.log.info('[process.pid] => ', process.pid);
 _suman.startTime = Date.now();
 var cwd = process.cwd();
 var sumanExecutablePath = _suman.sumanExecutablePath = process.env.SUMAN_EXECUTABLE_PATH = __filename;
+var userTrailingArgs, indexOfDoubleDash;
+if ((indexOfDoubleDash = process.argv.indexOf('--')) > 0) {
+    userTrailingArgs = [];
+    while (true) {
+        var v = process.argv.pop();
+        if (v === '--') {
+            break;
+        }
+        userTrailingArgs.unshift(v);
+    }
+}
 var sumanOpts = _suman.sumanOpts = require('./lib/parse-cmd-line-opts/parse-opts');
 var viaSuman = _suman.viaSuman = true;
-var rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+var rb = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
 var configPath = sumanOpts.config;
 var serverName = sumanOpts.server_name;
 var convert = sumanOpts.convert_from_mocha;
@@ -128,12 +139,12 @@ var fforce = sumanOpts.fforce;
 var s = sumanOpts.server;
 var tailRunner = sumanOpts.tail_runner;
 var tailTest = sumanOpts.tail_test;
-var useBabel = sumanOpts.use_babel;
+var installBabel = sumanOpts.install_babel;
 var useServer = sumanOpts.use_server;
 var tail = sumanOpts.tail;
 var removeBabel = sumanOpts.remove_babel;
 var create = sumanOpts.create;
-var useIstanbul = sumanOpts.use_istanbul;
+var installIstanbul = sumanOpts.use_istanbul;
 var interactive = sumanOpts.interactive;
 var appendMatchAny = sumanOpts.append_match_any;
 var appendMatchAll = sumanOpts.append_match_all;
@@ -142,7 +153,6 @@ var matchAny = sumanOpts.match_any;
 var matchAll = sumanOpts.match_all;
 var matchNone = sumanOpts.match_none;
 var repair = sumanOpts.repair;
-var uninstallBabel = sumanOpts.uninstall_babel;
 var groups = sumanOpts.groups;
 var useTAPOutput = sumanOpts.use_tap_output;
 var useTAPJSONOutput = sumanOpts.use_tap_json_output;
@@ -158,13 +168,27 @@ var script = sumanOpts.script;
 var cwdAsRoot = sumanOpts.force_cwd_to_be_project_root;
 var tap = sumanOpts.use_tap_output;
 var tapJSON = sumanOpts.use_tap_json_output;
+var userArgs = sumanOpts.user_arg = sumanOpts.user_arg || [];
+userArgs.forEach(function (v) {
+    process.argv.push(v);
+});
+if (userTrailingArgs) {
+    userTrailingArgs.forEach(function (v) {
+        userArgs.push(v);
+        process.argv.push(v);
+    });
+}
 var allowOnly = sumanOpts.$allowOnly = Boolean(sumanOpts.allow_only);
 var allowSkip = sumanOpts.$allowSkip = Boolean(sumanOpts.allow_skip);
 var coverage = sumanOpts.$coverage = Boolean(sumanOpts.coverage);
 var browser = sumanOpts.$browser = Boolean(sumanOpts.browser);
 var watch = sumanOpts.$watch = Boolean(sumanOpts.watch);
-if (sumanOpts.force_inherit_stdio) {
-    _suman.$forceInheritStdio = true;
+{
+    sumanOpts.transpile = Boolean(sumanOpts.transpile);
+    sumanOpts.$useTSNodeRegister = Boolean(sumanOpts.use_ts_node_register);
+    sumanOpts.$useBabelRegister = Boolean(sumanOpts.use_babel_register);
+    sumanOpts.$noBabelRegister = Boolean(sumanOpts.no_babel_register);
+    sumanOpts.$forceInheritStdio = Boolean(sumanOpts.force_inherit_stdio);
 }
 var projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = su.findProjectRoot(cwd);
 if (!projectRoot) {
@@ -211,13 +235,9 @@ if (watch || watchPer) {
 if (sumanOpts.user_args) {
     _suman.log.info(chalk.magenta('raw user_args is'), sumanOpts.user_args);
 }
-var userArgs = sumanOpts.user_args = _.flatten([sumanOpts.user_args]).join(' ');
 if (coverage) {
     _suman.log.info(chalk.magenta.bold('Coverage reports will be written out due to presence of --coverage flag.'));
 }
-var babelRegister = sumanOpts.babel_register;
-var noBabelRegister = sumanOpts.no_babel_register;
-var originalTranspileOption = sumanOpts.transpile = Boolean(sumanOpts.transpile);
 if (sumanOpts.version) {
     console.log('\n');
     _suman.log.info('Node.js version:', nodeVersion);
@@ -353,9 +373,9 @@ if (sumanMatchesAny.length < 1) {
 {
     var preOptCheck_1 = {
         tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
-        create: create, useServer: useServer, useBabel: useBabel,
-        useIstanbul: useIstanbul, init: init, uninstall: uninstall,
-        convert: convert, groups: groups, s: s, interactive: interactive, uninstallBabel: uninstallBabel,
+        create: create, useServer: useServer, installBabel: installBabel,
+        installIstanbul: installIstanbul, init: init, uninstall: uninstall,
+        convert: convert, groups: groups, s: s, interactive: interactive,
         diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
         repair: repair, sumanShell: sumanShell, script: script
     };
@@ -441,7 +461,7 @@ if (String(process.env.SUMAN_WATCH_TEST_RUN).trim() !== 'yes') {
     }
 }
 if (diagnostics) {
-    Promise.resolve().then(function () { return require('./lib/cli-commands/run-diagnostics'); }).run(sumanOpts);
+    require('./lib/cli-commands/run-diagnostics').run(sumanOpts);
 }
 else if (script) {
     require('./lib/cli-commands/run-scripts').run(sumanConfig, sumanOpts);
@@ -464,11 +484,8 @@ else if (sumanShell) {
 else if (interactive) {
     require('./lib/cli-commands/run-suman-interactive').run();
 }
-else if (uninstallBabel) {
-    require('./lib/use-babel/uninstall-babel')(null);
-}
-else if (useIstanbul) {
-    require('./lib/use-istanbul/use-istanbul')();
+else if (installIstanbul) {
+    require('./lib/cli-commands/install-istanbul').run();
 }
 else if (create) {
     require('./lib/cli-commands/create-opt').run(create);
@@ -476,18 +493,14 @@ else if (create) {
 else if (useServer) {
     require('./lib/use-server/use-server')(null);
 }
-else if (useBabel) {
-    require('./lib/use-babel/use-babel')(null);
+else if (installBabel) {
+    require('./lib/cli-commands/install-babel').run(null);
 }
 else if (init) {
     require('./lib/cli-commands/init-opt').run(sumanOpts, projectRoot, cwd);
 }
 else if (uninstall) {
-    require('./lib/uninstall/uninstall-suman')({
-        force: force,
-        fforce: fforce,
-        removeBabel: removeBabel,
-    });
+    require('./lib/cli-commands/uninstall').run(sumanOpts);
 }
 else if (convert) {
     require('./lib/cli-commands/convert-mocha').run(projectRoot, src, dest, force);
@@ -503,7 +516,7 @@ else if (groups) {
 }
 else {
     if (userArgs.length > 0 && sumanOpts.verbosity > 4) {
-        _suman.log.info('The following "--user-args" will be passed to child processes as process.argv:');
+        _suman.log.info('The following "--user-arg" arguments will be passed to child processes as process.argv:');
         _suman.log.info(userArgs);
     }
     require('./lib/run').run(sumanOpts, sumanConfig, paths, sumanServerInstalled, sumanVersion);

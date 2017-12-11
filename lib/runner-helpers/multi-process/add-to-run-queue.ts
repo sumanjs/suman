@@ -79,7 +79,7 @@ export const makeAddToRunQueue = function (runnerObj: IRunnerObj, args: Array<st
       let  hashbang = false;
       let $childId = childId++;
       let childUuid = uuidV4();
-      const inherit = _suman.$forceInheritStdio ? 'inherit' : '';
+      const inherit = sumanOpts.$forceInheritStdio ? 'inherit' : '';
 
       if (inherit) {
         _suman.log.info('we are inheriting stdio of child, because of sumanception.');

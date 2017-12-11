@@ -676,6 +676,8 @@ export const vetPaths = function (paths: Array<string>): void {
 
 let fatalRequestReplyCallable = true;
 export const fatalRequestReply = function (obj: Object, $cb: Function) {
+  
+  const sumanOpts = _suman.sumanOpts || {};
 
   try {
     if (obj && obj.data && obj.data.msg) {
@@ -710,7 +712,7 @@ export const fatalRequestReply = function (obj: Object, $cb: Function) {
   const cb = su.once(null, $cb);
   _suman.uncaughtExceptionTriggered = obj;
 
-  if (_suman.$forceInheritStdio) {
+  if (sumanOpts.$forceInheritStdio) {
     // we need to use TAP to write test output, instead of sending via process.send
     return process.nextTick(cb);
   }

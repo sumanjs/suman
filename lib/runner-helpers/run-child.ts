@@ -60,6 +60,8 @@ if (childArgs.length) {
   sumanOpts = _suman.sumanOpts = Object.assign(sumanOpts, opts);
 }
 
+console.error('suman opts => ', sumanOpts);
+
 const usingRunner = _suman.usingRunner = true;
 const projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT;
 
@@ -143,11 +145,23 @@ require('../helpers/log-stdio-of-child').run(filePath);
 
 //////////////////////////////////////////////////////////
 
-const useBabelRegister = _suman.useBabelRegister = sumanOpts.$useBabelRegister;
+const useBabelRegister = sumanOpts.$useBabelRegister;
 
 if (useBabelRegister) {
   console.error(chalk.bgRed.white(' => We are using babel-register.'));
   require('babel-register')({
+    // This will override `node_modules` ignoring - you can alternatively pass
+    // an array of strings to be explicitly matched or a regex / glob
+    ignore: /node_modules/
+  });
+}
+
+
+const useTSNodeRegister  = sumanOpts.$useTSNodeRegister;
+
+if (useTSNodeRegister) {
+  _suman.log.warning(chalk.magenta(' => We are using ts-node-register.'));
+  require('ts-node').register({
     // This will override `node_modules` ignoring - you can alternatively pass
     // an array of strings to be explicitly matched or a regex / glob
     ignore: /node_modules/
