@@ -36,10 +36,12 @@ if (process.env.NPM_COLORS === 'no') {
 
 //////////////////////////////////////////////////////////////////////////////
 
-let sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || JSON.parse(process.env.SUMAN_OPTS));
+let sumanOpts = _suman.sumanOpts = _suman.sumanOpts || JSON.parse(process.env.SUMAN_OPTS);
 const options = require('../parse-cmd-line-opts/suman-options');
 
-const childArgs = String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
+const childArgs = sumanOpts.child_arg || [];
+
+console.error('childArgs => ', childArgs);
 
 if (childArgs.length) {
 
@@ -51,8 +53,9 @@ if (childArgs.length) {
 
   try {
     opts = parser.parse(childArgs);
-  } catch (err) {
-    console.error(chalk.red(' => Suman command line options error: %s'), err.message);
+  }
+  catch (err) {
+    console.error(chalk.red(' => Suman command line options error:'), err.message);
     console.error(' => Try "suman --help" or visit sumanjs.org');
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
   }
@@ -60,13 +63,12 @@ if (childArgs.length) {
   sumanOpts = _suman.sumanOpts = Object.assign(sumanOpts, opts);
 }
 
-console.error('suman opts => ', sumanOpts);
 
 const usingRunner = _suman.usingRunner = true;
 const projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT;
 
 process.send = process.send || function (data) {
-  console.error(chalk.magenta('Suman implementation warning => '));
+  console.error(chalk.magenta('Suman warning:'));
   console.error('process.send() was not originally defined in this process.');
   console.error('(Perhaps we are using Istanbul?), we are logging the first argument to process.send() here => ');
   console.error(chalk.red(typeof  data === 'string' ? data : util.inspect(data)));

@@ -14,10 +14,6 @@ three SO profiles:
 
 ////
 
-add ts-node/register in run-child.js
-
-///
-
 use nyc instead of istanbul
 https://github.com/istanbuljs/nyc
 

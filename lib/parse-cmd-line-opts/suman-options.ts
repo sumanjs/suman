@@ -622,7 +622,7 @@ module.exports = [
   },
   {
     names: ['child-arg'],
-    type: 'string',
+    type: 'arrayOfString',
     help: 'Pass Suman library arguments to child processes through command line. ' +
     'Use --arg=foo --arg=bar to pass arguments to process.argv of child processes.'
   },

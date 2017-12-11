@@ -2,7 +2,11 @@
 'use strict';
 
 const suman = require('suman');
-const {Test} = suman.init(module);
+const {Test} = suman.init(module, {}, {
+  allowSkip: true
+}, {
+  allowSkip: true
+});
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -14,10 +18,11 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
 
   const {child_process, http} = $core;
 
-  beforeEach.define('early')
-  .run(h =>{
-      return Promise.resolve('foobar');
+  beforeEach.define('early').run(h => {
+    return Promise.resolve('foobar');
   });
+
+  describe.skip('foo');
 
   describe('here we go', function (b) {
 
