@@ -111,38 +111,6 @@ at least the process will start, to avoid the try/catch
 
 ////
 
- istanbul coverage problem:
-
- [suman] Suman is running the Istanbul collated report.
- [suman] To disable automatic report generation, use "--no-coverage-report".
-/Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/node_modules/mkdirp/index.js:90
-                    throw err0;
-                    ^
-
-Error: EACCES: permission denied, mkdir '/Users/alexamil/WebstormProjects/oresoftware/live-mutex/coverage/lcov-report'
-    at Error (native)
-    at Object.fs.mkdirSync (fs.js:923:18)
-    at Function.sync (/Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/node_modules/mkdirp/index.js:71:13)
-    at FileWriter.copyFile (/Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/lib/util/file-writer.js:143:16)
-    at /Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/lib/report/html.js:552:32
-    at Array.forEach (native)
-    at copyAssets (/Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/lib/report/html.js:543:40)
-    at /Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/lib/report/html.js:562:13
-    at Array.forEach (native)
-    at HtmlReport.writeReport (/Users/alexamil/.nvm/versions/node/v6.10.2/lib/node_modules/istanbul/lib/report/html.js:561:26)
- [suman] Error: Test coverage process exitted with non-zero exit code => "1".
- [suman]     at ChildProcess.<anonymous> (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/runner-helpers/coverage-reporting.js:24:19)
- [suman]     at ChildProcess.g (events.js:291:16)
- [suman]     at emitTwo (events.js:106:13)
- [suman]     at ChildProcess.emit (events.js:191:7)
- [suman]     at maybeClose (internal/child_process.js:886:16)
- [suman]     at Socket.<anonymous> (internal/child_process.js:342:11)
- [suman]     at emitOne (events.js:96:13)
- [suman]     at Socket.emit (events.js:188:7)
- [suman]     at Pipe._handle.close [as _onclose] (net.js:501:12)
-
-////
-
   inject hooks should be run in series, just like before hooks
 
   /// should be j.register() / j.registerVal(), not j.val()
