@@ -30,7 +30,7 @@ put
 "const suman = require('suman');"
 in each test file
 
-///
+////
 
 https://stackoverflow.com/questions/47484010/declare-class-type-with-typescript-pass-class-as-parameter/47493835#47493835
 
@@ -143,7 +143,7 @@ Error: EACCES: permission denied, mkdir '/Users/alexamil/WebstormProjects/oresof
 
 ////
 
-  //inject hooks should be run in series, just like before hooks
+  inject hooks should be run in series, just like before hooks
 
   /// should be j.register() / j.registerVal(), not j.val()
 
@@ -183,26 +183,26 @@ https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
 set -eo pipefail
 exit with command to the right that exits with non-zero
 
-///
+////
 
     suman --script x --tack-on="--require=ts-node/register"
 
-///
+////
 
  todo: ignore all .js files in project for purposes of version control
 
-///
+////
 
   load suman.globals.js after running require('suman');
   or suman.init(module)?
 
-///
+////
 
     @config.json files need to have a property that
     tells suman if all matching files are run through @transform.sh once,
     or if each file is run through @transform.sh separately.
 
-///
+////
 
     command line --series, needs to take precedence over this:
 
@@ -210,7 +210,7 @@ exit with command to the right that exits with non-zero
       series: false
     });
 
-///
+////
 
    allow for default reporter:
 
@@ -221,22 +221,21 @@ exit with command to the right that exits with non-zero
      }
    },
 
-///
+////
 
     suman tests should work without having to run suman --init
     see new option: use-default-config
 
-///
+////
 
     what is "return" for in bash scripts? ("return" as opposed to "exit").
 
-///
+////
 
     use puppeteer to launch chrome instead of chrome-launcher
     https://developers.google.com/web/updates/2017/04/headless-chrome
 
-///
-
+////
 
 https://unix.stackexchange.com/questions/407222/find-location-of-shell-bash-function-on-disk
 
@@ -256,17 +255,17 @@ shopt -u extdebug
     mocha context issue:
     https://github.com/mochajs/mocha/issues/2014
 
-//
+///
 
     enable retries
     retriesEnabled: false, in suman.conf.js
 
-//
+///
 
     default _suman.sumanOpts values?
     we might need some for suman-reporters/lib/utils.ts
 
-//
+///
 
     this should only work for tests, not for hooks?
 
@@ -278,17 +277,17 @@ shopt -u extdebug
       }
     };
 
-//
+///
 
     [suman child stdout] => [suman child stdout / the-file-path]
 
-//
+///
 
     need to implement `suman --require x`
     --require ts-node/register
     mocha --require ts-node/register --reporter=dot test/**/*-test.ts --timeout=10000
 
-//
+///
 
     suman-types
     https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-342028894
@@ -330,25 +329,25 @@ t.final =>
     using the global suman version is totally acceptable
     otherwise to install locally, use `npm install -D suman`
 
-///
+////
 
     skip and only do not work creates - Test.create(['bat', 'suit', {only: true},
 
-///
+////
 
  if beforeEach hook fails -> we do not exit, but we should mark the test as failed.
 
-///
+////
 
 if function parameter name is in $ioc, but is listed explicity, then we should throw to let the user know.
 e.g.   describe('x', function(runMyQuestionsPage){});
  when runMyQuestionsPage is on $ioc, instead of available.
 
-//
+////
 
   perhaps only --force should allow us to do optimistic ignoring of missing injectable deps.
 
-///
+/////
 
  const opts = {
     $inject:{
@@ -357,7 +356,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
     }
   };
 
-///
+/////
 
  use $ioc like this:
 
@@ -365,7 +364,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
      console.log(b.ioc.age); // 3;
    }]);
 
-///
+////
 
     node core will backport NODE_OPTIONS =>
     https://github.com/nodejs/help/issues/925

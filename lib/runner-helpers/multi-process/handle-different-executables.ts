@@ -33,7 +33,7 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                                                         runnerObj: IRunnerObj) {
   
   const execFile = path.resolve(__dirname + '/../run-child.js');
-  const istanbulExecPath = _suman.istanbulExecPath || 'istanbul';
+  const istanbulExecPath = 'nyc' || _suman.istanbulExecPath || 'istanbul';
   
   const isExe = (stats: fs.Stats) => {
     
@@ -54,10 +54,11 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
   
   return {
     
-    handleRunDotShFile: function (sh: string, argz: Array<string>, cpOptions: Object, cb: Function) {
+    handleRunDotShFile: function (sh: string, argz: Array<string>, file: string,
+                                  shortFile: string, cpOptions: Object, cb: Function) {
       
       _suman.log.info(
-        chalk.bgWhite.underline.black.bold('Suman has found a @run.sh file => '),
+        chalk.bgWhite.underline.black.bold('Suman has found a @run.sh file =>'),
         chalk.bold(sh)
       );
       
@@ -70,14 +71,52 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
           return cb(err);
         }
         
+        let sourceMarkerDir = null;
+        let targetMarkerDir = null;
+        let start = String(path.resolve(file)).split(path.sep);
+        let targetTestPath = String(path.resolve(file)).replace(/@src/g, '@target');
+        
+        if (targetTestPath === file) {
+          throw new Error('target test path did not resolve to a different directory than the source path.');
+        }
+        
+        while (start.length > 0) {
+          let last = start.pop();
+          if (last === '@src') {
+            sourceMarkerDir = path.resolve(start.concat('@src').join(path.sep));
+            targetMarkerDir = path.resolve(start.concat('@target').join(path.sep));
+            break;
+          }
+        }
+        
+        if (!sourceMarkerDir) {
+          throw new Error('No source marker dir could be found given the test path => ' + file);
+        }
+        
+        if (!targetMarkerDir) {
+          throw new Error('No target marker dir could be found given the test path => ' + file);
+        }
+        
+        let coverageDir = path.resolve(_suman.projectRoot + '/coverage/suman_by_timestamp/' + _suman.timestamp +
+          '/suman_by_process/' + String(shortFile).replace(/\//g, '-'));
+        
         if (sumanOpts.coverage) {
           //TODO: we can pass an env to tell suman where to put the coverage data
           _suman.log.warning(chalk.yellow('coverage option was set to true, but we are running your tests via @run.sh.'));
           _suman.log.warning(chalk.yellow('so in this case, you will need to run your coverage call via @run.sh.'));
+          
+          Object.assign(cpOptions.env, {
+            SUMAN_COVERAGE_DIR: coverageDir,
+            SUMAN_SRC_DIR: sourceMarkerDir,
+            SUMAN_TARGET_DIR: targetMarkerDir,
+            SUMAN_TARGET_TEST_PATH: targetTestPath
+          });
         }
         
-        const n = cp.spawn(sh, argz, cpOptions) as ISumanChildProcess;
+        // console.log('cpOptions => ',cpOptions);
         
+        const n = cp.spawn('bash', [], cpOptions) as ISumanChildProcess;
+        n.stdin.end(`\n${sh} ${argz.join(' ')};\n`);
         cb(null, n);
         
       });
@@ -134,7 +173,9 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
               
               if (sumanOpts.coverage) {
                 
-                let coverageDir = path.resolve(_suman.projectRoot + '/coverage/' + String(shortFile).replace(/\//g, '-'));
+                let coverageDir = path.resolve(_suman.projectRoot + '/coverage/suman_by_timestamp/' + _suman.timestamp +
+                  '/suman_by_process/' + String(shortFile).replace(/\//g, '-'));
+                
                 let argzz = ['cover', execFile, '--dir', coverageDir, '--'].concat(argz);
                 
                 //'--include-all-sources'
@@ -151,34 +192,13 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                 _suman.log.info();
                 _suman.log.info(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
                 
-                let onSpawnError = function (err: Error) {
-                  if (err && String(err.message).match(/EACCES/i)) {
-                    _suman.log.warning();
-                    _suman.log.warning(`Test file with the following path may not be executable, or does not have the right permissions:`);
-                    _suman.log.warning(chalk.magenta(file));
-                    _suman.log.warning(chalk.gray('fs.Stats for this file were:'), util.inspect(stats));
-                  }
-                  else if (err) {
-                    _suman.log.error(err.message || err);
-                  }
-                };
-                
                 if (!isExecutable) {
-                  _suman.log.error('not executable: ', file);
+                  _suman.log.warning('warning: file may not be executable: ', file);
                 }
                 
-                try {
-                  n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
-                  n.usingHashbang = true;
-                }
-                catch (err) {
-                  onSpawnError(err);
-                  return cb(err, n);
-                }
-                
-                if (!isExecutable) {
-                  n.once('error', onSpawnError);
-                }
+                n = cp.spawn('bash', [], cpOptions) as ISumanChildProcess;
+                n.usingHashbang = true;
+                n.stdin.end(`\n${file} ${argz.join(' ')};\n`);
                 
               }
               else {
@@ -224,7 +244,9 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                 
                 argz.unshift(execFile);
                 let argzz = $execArgz.concat(argz); // append exec args to beginning
-                n = cp.spawn('node', argzz, cpOptions) as ISumanChildProcess;
+                
+                n = cp.spawn('bash', [], cpOptions)as ISumanChildProcess;
+                n.stdin.end(`\nnode ${argzz.join(' ')};\n`);
               }
               
             }
