@@ -49,14 +49,14 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
   v.__handle = v.__handleErr = handleError;
   v.__fini = fini;
   
-  const assrt = <Partial<AssertStatic>>  function () {
-    try {
-      return chaiAssert.apply(chaiAssert, arguments);
-    }
-    catch (e) {
-      return handleError(e);
-    }
-  };
+  // const assrt = <Partial<AssertStatic>>  function () {
+  //   try {
+  //     return chaiAssert.apply(chaiAssert, arguments);
+  //   }
+  //   catch (e) {
+  //     return handleError(e);
+  //   }
+  // };
   
   v.registerKey = v.register = function (k: string, val: any): Promise<any> {
     assert(k && typeof k === 'string', 'key must be a string.');
@@ -122,39 +122,39 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
     }));
   };
   
-  v.assert = new Proxy(assrt, {
-    get: function (target, prop) {
-      
-      if (typeof prop === 'symbol') {
-        return Reflect.get.apply(Reflect, arguments);
-      }
-      
-      // if (badProps[String(prop)]) {
-      //   return Reflect.get(...arguments);
-      // }
-      
-      if (!(prop in chaiAssert)) {
-        
-        try {
-          return Reflect.get.apply(Reflect, arguments);
-        }
-        catch (err) {
-          return handleError(
-            new Error(`The assertion library used does not have a '${prop}' property or method.`)
-          );
-        }
-      }
-      
-      return function () {
-        try {
-          return chaiAssert[prop].apply(chaiAssert, arguments);
-        }
-        catch (e) {
-          return handleError(e);
-        }
-      }
-    }
-  });
+  // v.assert = new Proxy(assrt, {
+  //   get: function (target, prop) {
+  //
+  //     if (typeof prop === 'symbol') {
+  //       return Reflect.get.apply(Reflect, arguments);
+  //     }
+  //
+  //     // if (badProps[String(prop)]) {
+  //     //   return Reflect.get(...arguments);
+  //     // }
+  //
+  //     if (!(prop in chaiAssert)) {
+  //
+  //       try {
+  //         return Reflect.get.apply(Reflect, arguments);
+  //       }
+  //       catch (err) {
+  //         return handleError(
+  //           new Error(`The assertion library used does not have a '${prop}' property or method.`)
+  //         );
+  //       }
+  //     }
+  //
+  //     return function () {
+  //       try {
+  //         return chaiAssert[prop].apply(chaiAssert, arguments);
+  //       }
+  //       catch (e) {
+  //         return handleError(e);
+  //       }
+  //     }
+  //   }
+  // });
   
   v.plan = function (num: number) {
     if (planCalled) {

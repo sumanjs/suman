@@ -119,6 +119,7 @@ proto.slow = function () {
 
 
 let assertCtx : any = {
+  // this is used to store the context
    val: null
 };
 
@@ -137,10 +138,6 @@ const p = new Proxy(assrt, {
     if (typeof prop === 'symbol') {
       return Reflect.get.apply(Reflect, arguments);
     }
-    
-    // if (badProps[String(prop)]) {
-    //   return Reflect.get(...arguments);
-    // }
     
     if (!(prop in chaiAssert)) {
       try {
@@ -168,11 +165,8 @@ const p = new Proxy(assrt, {
 Object.defineProperty(proto, 'assert', {
   get: function() {
     assertCtx.val = this;
-    debugger;
-    return p
-  },
-  // enumerable: true,
-  // configurable: true
+    return p;
+  }
 });
 
 
