@@ -257,6 +257,17 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
         return this.parent.getInjectedValue(key);
       }
     }
+  
+    getInjectedValues(...args: string[]) {
+      return args.map(a => {
+        if (a in this.injectedValues) {
+          return this.injectedValues[a];
+        }
+        else if (this.parent) {
+          return this.parent.getInjectedValue(a);
+        }
+      });
+    }
     
     getInjections() {
       return this[TestBlockSymbols.injections];

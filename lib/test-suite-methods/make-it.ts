@@ -184,7 +184,7 @@ export const makeIt = function (suman: ISuman): ItFn {
       parallel: isOverallParallel,
       mode: opts.mode,
       delay: opts.delay,
-      cb: opts.cb,
+      cb: opts.cb === true, // default to false
       type: typeName,
       timeout: opts.timeout || 20000,
       desc: desc || opts.desc ||  fn.name || '(unknown test case name)',

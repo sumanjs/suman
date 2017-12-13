@@ -39,16 +39,16 @@ let badProps = <IBadProps> {
 
 export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite,
                                        values: Array<any>,
-                                     handleError: IHandleError, fini: Function): IHookParam {
-
+                                       handleError: IHandleError, fini: Function): IHookParam {
+  
   let planCalled = false;
   const v = Object.create(tProto);
   const valuesMap = {} as any;
-
+  
   v.__hook = inject;
   v.__handle = v.__handleErr = handleError;
   v.__fini = fini;
-
+  
   const assrt = <Partial<AssertStatic>>  function () {
     try {
       return chaiAssert.apply(chaiAssert, arguments);
@@ -58,19 +58,17 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
     }
   };
   
-  
   v.registerKey = v.register = function (k: string, val: any): Promise<any> {
     assert(k && typeof k === 'string', 'key must be a string.');
-    {
-      if (k in valuesMap) {
-        throw new Error(`Injection key '${k}' has already been added.`);
-      }
-      if (k in suite.injectedValues) {
-        throw new Error(`Injection key '${k}' has already been added.`);
-      }
+    
+    if (k in valuesMap) {
+      throw new Error(`Injection key '${k}' has already been added.`);
+    }
+    if (k in suite.injectedValues) {
+      throw new Error(`Injection key '${k}' has already been added.`);
     }
     
-    valuesMap[k] = true; // mark
+    valuesMap[k] = true; // mark as reserved
     values.push({k, val});
     return Promise.resolve(val);
   };
@@ -97,7 +95,7 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
             return reject(new Error(`Injection key '${k}' has already been added.`));
           }
           
-          valuesMap[k] = true;
+          valuesMap[k] = true; // mark as reserved
           values.push({k, val: results[k]});
         });
         
@@ -118,25 +116,25 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
         throw new Error(`Injection key '${k}' has already been added.`);
       }
       
-      valuesMap[k] = true;
+      valuesMap[k] = true; // mark as reserved
       values.push({k, val: o[k]});
       return o[k];
     }));
   };
-
+  
   v.assert = new Proxy(assrt, {
     get: function (target, prop) {
-
+      
       if (typeof prop === 'symbol') {
         return Reflect.get.apply(Reflect, arguments);
       }
-
+      
       // if (badProps[String(prop)]) {
       //   return Reflect.get(...arguments);
       // }
-
+      
       if (!(prop in chaiAssert)) {
-
+        
         try {
           return Reflect.get.apply(Reflect, arguments);
         }
@@ -146,7 +144,7 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
           );
         }
       }
-
+      
       return function () {
         try {
           return chaiAssert[prop].apply(chaiAssert, arguments);
@@ -157,27 +155,27 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
       }
     }
   });
-
+  
   v.plan = function (num: number) {
     if (planCalled) {
       _suman.writeTestError(new Error('Suman warning => plan() called more than once.').stack);
       return;
     }
-
+    
     planCalled = true;
     if (inject.planCountExpected !== undefined) {
       _suman.writeTestError(new Error(' => Suman warning => plan() called, even though plan was already passed as an option.').stack);
     }
-
+    
     assert(Number.isInteger(num), 'Suman usage error => value passed to plan() is not an integer.');
     inject.planCountExpected = v.planCountExpected = num;
   };
-
+  
   v.confirm = function () {
     assertCount.num++;
   };
-
+  
   return v;
-
+  
 };
 

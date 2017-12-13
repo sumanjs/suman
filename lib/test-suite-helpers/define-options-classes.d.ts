@@ -27,14 +27,17 @@ export interface IDefineObject {
 export declare class DefineObjectTestOrHook extends DefineObject {
     throws(v: string | RegExp): this;
     cb(v: boolean): this;
+    fatal(v: boolean): this;
     events(): this;
     successEvents(...args: (string | Array<string>)[]): this;
     successEvent(...args: string[]): this;
     errorEvents(...args: (Array<string> | string)[]): this;
     errorEvent(...args: string[]): this;
 }
+export declare class DefineOptionsInjectHook extends DefineObjectTestOrHook {
+    run(fn: T | TAfterEachHook): this;
+}
 export declare class DefineObjectAllHook extends DefineObjectTestOrHook {
-    fatal(v: boolean): this;
     first(v: boolean): this;
     last(v: boolean): this;
     always(v: boolean): this;

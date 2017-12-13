@@ -50,12 +50,31 @@ This also requires A and B to have parameterless constructors
 
 ///
 
-exec() / invoke() / run() / register()
+TAP YAML diagnostics:
+https://github.com/tapjs/node-tap/issues/247
 
 ///
 
-to avoid EACCES errors, open bash first and then from bash start the process
-at least the process will start, to avoid the try/catch
+var Messages = require('tap-emitter/lib/messages');
+
+var messages = new Messages('13', 0);
+
+console.log([
+  messages.version(),
+  messages.test({
+    ok: false,
+    testNumber: 1,
+    description: 'this is the message'
+  }),
+  messages.yaml(someError),
+  messages.plan(1),
+  messages.diagnostic('failed 1 of 1 tests'),
+  messages.diagnostic('time=19.221ms')
+].join('\n'));
+
+////
+
+exec() / invoke() / run() / register()
 
 ///
 
@@ -82,11 +101,11 @@ at least the process will start, to avoid the try/catch
 
     need to merge options object
     before.cb.define(v =>
-         v.timeout(300)
-           .run(h => {
-             debugger;
-             console.log('this is before');
-           }));
+     v.timeout(300)
+       .run(h => {
+         debugger;
+         console.log('this is before');
+       }));
 
 ///
 
@@ -109,41 +128,6 @@ at least the process will start, to avoid the try/catch
         _suman.log.warning(chalk.yellow('so in this case, you will need to run your coverage call via @run.sh.'));
     }
 
-////
-
-  inject hooks should be run in series, just like before hooks
-
-  /// should be j.register() / j.registerVal(), not j.val()
-
-  let p;
-
-  inject(() => {
-    return {
-      broker: p = new Broker(conf).ensure()
-    }
-  });
-
-  inject(() => {
-    return {
-      c: p.then(v => new Client(conf).ensure())
-    }
-  });
-
-////
-
-   inject(() => {
-      return [
-        ''
-        c: p.then(v => new Client(conf).ensure())
-      ]
-   });
-
-  inject(t => {
-     return [
-     t.val('av',age),
-
-     ];
-  });
 
 ////
 
@@ -259,11 +243,6 @@ shopt -u extdebug
 
     suman-types
     https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-342028894
-
-///
-
-    t.log needs to exist, logs the test name
-    [test:   ,parent:] data
 
 ///
 
@@ -425,11 +404,6 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
 ///
 
-    need to create a programmatic API
-    suman.run(file);
-
-///
-
 https://code.google.com/archive/p/js-test-driver/
 
 ///
@@ -446,7 +420,8 @@ One thing I could do is "cache" the result of the npm command, something like th
 export global_npm_modules_path=${global_npm_modules_path:-"$(npm root -g)"}
 but my question is - how can I set global_npm_modules_path so that it's held in store by the parent shell / parent process?
 
-@AlexanderMills, look at how programs like ssh-agent do it -- they instruct the user to eval "$(ssh-agent -s)". If there were a prettier way to do things (that didn't break the security model), it would be in use in common/standard UNIX tools with comparable needs. – Charles Duffy 3 mins ago
+@AlexanderMills, look at how programs like ssh-agent do it -- they instruct the user to eval "$(ssh-agent -s)".
+If there were a prettier way to do things (that didn't break the security model), it would be in use in common/standard UNIX tools with comparable needs. – Charles Duffy 3 mins ago
 
 @CharlesDuffy thanks what does that eval command accomplish though? How is it different than just running ssh-agent directly? – Alexander Mills 1 min ago   edit
 1	upvote

@@ -129,7 +129,7 @@ export const makeInject = function (suman: ISuman): IInjectFn {
         ctx: zuite,
         desc: desc || fn.name || constants.UNKNOWN_INJECT_HOOK_NAME,
         timeout: opts.timeout || 11000,
-        cb: opts.cb || false,
+        cb: opts.cb === true, // default to false
         throws: opts.throws,
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,

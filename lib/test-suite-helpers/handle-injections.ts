@@ -45,8 +45,6 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
       throw new Error(` => Injection value '${k}' was used more than once; this value needs to be unique.`);
     }
     
-    console.log('registering key =>', k);
-    
     // freeze the property so it cannot be modified by user after the fact
     Object.defineProperty(suite.injectedValues, k, {
       enumerable: true,
@@ -88,6 +86,8 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
     return new Promise(function (resolve, reject) {
       
       const injParam = makeInjectObj(inj, assertCount, suite, values, reject, resolve);
+  
+      injParam.fatal = reject;
       
       if (inj.cb) {
         
@@ -99,13 +99,26 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
           
           Promise.resolve(results).then(resolve, reject);
         };
+  
+        injParam.done = d;
+        injParam.ctn = resolve;
+        injParam.fail = reject;
         
         inj.fn.call(null, Object.setPrototypeOf(d, injParam));
       }
       else {
         
         Promise.resolve(inj.fn.call(null, injParam))
-        .then(resolve, reject)
+        .then(function () {
+          return values.reduce(function (a, b) {
+            //run promises in series
+            return Promise.resolve(b.val)
+          }, null);
+        })
+        .then(
+          resolve,
+          reject
+        );
         
       }
     })
@@ -125,12 +138,14 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
       //
       // });
       
+      debugger;
+      
       const p = values.reduce(function (a, b) {
         //run promises in series
         return Promise.resolve(b.val)
         .then(function (v) {
           return addValuesToSuiteInjections(b.k, v);
-        })
+        });
         
       }, null);
       

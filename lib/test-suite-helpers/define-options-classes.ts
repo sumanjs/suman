@@ -126,6 +126,12 @@ export class DefineObjectTestOrHook extends DefineObject {
     return this;
   }
   
+  fatal(v: boolean): this {
+    assert.equal(typeof v, 'boolean', 'Value for "fatal" must be a boolean.');
+    this.opts.fatal = v;
+    return this;
+  }
+  
   events(): this {
     
     const successEvents = this.opts.successEvents = this.opts.successEvents || [];
@@ -188,13 +194,20 @@ export class DefineObjectTestOrHook extends DefineObject {
   
 }
 
-export class DefineObjectAllHook extends DefineObjectTestOrHook {
+export class DefineOptionsInjectHook extends DefineObjectTestOrHook {
   
-  fatal(v: boolean): this {
-    assert.equal(typeof v, 'boolean', 'Value for "fatal" must be a boolean.');
-    this.opts.fatal = v;
+  run(fn: T | TAfterEachHook): this {
+    const name = this.opts.desc || '(unknown DefineObject name)';
+    // const opts = JSON.parse(su.customStringify(this.opts));
+    this.exec.call(null, name, Object.assign({}, this.opts), fn);
     return this;
   }
+
+}
+
+
+export class DefineObjectAllHook extends DefineObjectTestOrHook {
+  
   
   first(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "first" must be a boolean.');

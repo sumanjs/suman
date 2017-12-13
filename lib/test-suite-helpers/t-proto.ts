@@ -2,6 +2,7 @@
 
 //dts
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
+import AssertStatic = Chai.AssertStatic;
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -12,6 +13,8 @@ import EE = require('events');
 
 //npm
 import {freezeExistingProps} from 'freeze-existing-props';
+const chai = require('chai');
+const chaiAssert = chai.assert;
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -52,7 +55,7 @@ proto.wrap = function (fn: Function) {
   }
 };
 
-proto.final = function (fn: Function) {
+proto.wrapFinal = proto.final = function (fn: Function) {
   const self = this;
   return function () {
     try {
@@ -65,7 +68,7 @@ proto.final = function (fn: Function) {
   }
 };
 
-proto.finalErrFirst = proto.finalErrorFirst = function (fn: Function) {
+proto.wrapFinalErr = proto.wrapFinalErrFirst = proto.finalErrFirst = proto.finalErrorFirst = function (fn: Function) {
   const self = this;
   return function (err: Error) {
     if (err) {
@@ -113,6 +116,66 @@ proto.log = function (...args: Array<string>) {
 proto.slow = function () {
   this.timeout(30000);
 };
+
+
+let assertCtx : any = {
+   val: null
+};
+
+const assrt = <Partial<AssertStatic>> function () {
+  try {
+    return chaiAssert.apply(chaiAssert, arguments);
+  }
+  catch (e) {
+    return assertCtx.val.__handleError(e);
+  }
+};
+
+const p = new Proxy(assrt, {
+  get: function (target, prop) {
+    
+    if (typeof prop === 'symbol') {
+      return Reflect.get.apply(Reflect, arguments);
+    }
+    
+    // if (badProps[String(prop)]) {
+    //   return Reflect.get(...arguments);
+    // }
+    
+    if (!(prop in chaiAssert)) {
+      try {
+        return Reflect.get.apply(Reflect, arguments);
+      }
+      catch (err) {
+        return assertCtx.val.__handleError(
+          new Error(`The assertion library used does not have a '${prop}' property or method.`)
+        );
+      }
+    }
+    
+    return function () {
+      try {
+        return chaiAssert[prop].apply(chaiAssert, arguments);
+      }
+      catch (e) {
+        return assertCtx.val.__handleError(e);
+      }
+    }
+  }
+});
+
+
+Object.defineProperty(proto, 'assert', {
+  get: function() {
+    assertCtx.val = this;
+    debugger;
+    return p
+  },
+  // enumerable: true,
+  // configurable: true
+});
+
+
 
 export const tProto = freezeExistingProps(proto);
 
