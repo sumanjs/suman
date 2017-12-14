@@ -931,6 +931,11 @@ process.stderr.write = function () {
 
 ////
 
+mocha internals video:
+https://www.youtube.com/watch?v=zLayCLcIno0&feature=youtu.be
+
+////
+
  => https://github.com/mochajs/mocha/issues/911
  create a methodology to run beforeEach before any child before blocks
 

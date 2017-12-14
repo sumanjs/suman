@@ -124,11 +124,18 @@ let assertCtx : any = {
 };
 
 const assrt = <Partial<AssertStatic>> function () {
+  
+  const ctx = assertCtx.val;
+  
+  if(!ctx){
+    throw new Error('Suman implementation error => assert context is not defined.');
+  }
+  
   try {
     return chaiAssert.apply(chaiAssert, arguments);
   }
   catch (e) {
-    return assertCtx.val.__handleError(e);
+    return ctx.__handleError(e);
   }
 };
 
@@ -139,12 +146,18 @@ const p = new Proxy(assrt, {
       return Reflect.get.apply(Reflect, arguments);
     }
     
+    const ctx = assertCtx.val;
+    
+    if(!ctx){
+      throw new Error('Suman implementation error => assert context is not defined.');
+    }
+    
     if (!(prop in chaiAssert)) {
       try {
         return Reflect.get.apply(Reflect, arguments);
       }
       catch (err) {
-        return assertCtx.val.__handleError(
+        return ctx.__handleError(
           new Error(`The assertion library used does not have a '${prop}' property or method.`)
         );
       }
@@ -155,7 +168,7 @@ const p = new Proxy(assrt, {
         return chaiAssert[prop].apply(chaiAssert, arguments);
       }
       catch (e) {
-        return assertCtx.val.__handleError(e);
+        return ctx.__handleError(e);
       }
     }
   }
