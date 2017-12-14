@@ -236,8 +236,8 @@ const tap = sumanOpts.use_tap_output;
 const tapJSON = sumanOpts.use_tap_json_output;
 const userArgs = sumanOpts.user_arg = sumanOpts.user_arg || [];
 
-userArgs.forEach(function(v: string){
-   process.argv.push(v);
+userArgs.forEach(function (v: string) {
+  process.argv.push(v);
 });
 
 if (userTrailingArgs) {
@@ -259,12 +259,14 @@ const watch = sumanOpts.$watch = Boolean(sumanOpts.watch);
 
 // array of string options
 
-{
-  sumanOpts.transpile = Boolean(sumanOpts.transpile);
-  sumanOpts.$useTSNodeRegister = Boolean(sumanOpts.use_ts_node_register);
-  sumanOpts.$useBabelRegister = Boolean(sumanOpts.use_babel_register);
-  sumanOpts.$noBabelRegister = Boolean(sumanOpts.no_babel_register);
-  sumanOpts.$forceInheritStdio = Boolean(sumanOpts.force_inherit_stdio);
+sumanOpts.transpile = Boolean(sumanOpts.transpile);
+sumanOpts.$useTSNodeRegister = Boolean(sumanOpts.use_ts_node_register);
+sumanOpts.$useBabelRegister = Boolean(sumanOpts.use_babel_register);
+sumanOpts.$noBabelRegister = Boolean(sumanOpts.no_babel_register);
+sumanOpts.$forceInheritStdio = Boolean(sumanOpts.force_inherit_stdio);
+
+if(sumanOpts.$useTSNodeRegister){
+  _suman.log.info('using ts-node to transpile tests.');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

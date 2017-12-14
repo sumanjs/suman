@@ -183,12 +183,13 @@ var allowSkip = sumanOpts.$allowSkip = Boolean(sumanOpts.allow_skip);
 var coverage = sumanOpts.$coverage = Boolean(sumanOpts.coverage);
 var browser = sumanOpts.$browser = Boolean(sumanOpts.browser);
 var watch = sumanOpts.$watch = Boolean(sumanOpts.watch);
-{
-    sumanOpts.transpile = Boolean(sumanOpts.transpile);
-    sumanOpts.$useTSNodeRegister = Boolean(sumanOpts.use_ts_node_register);
-    sumanOpts.$useBabelRegister = Boolean(sumanOpts.use_babel_register);
-    sumanOpts.$noBabelRegister = Boolean(sumanOpts.no_babel_register);
-    sumanOpts.$forceInheritStdio = Boolean(sumanOpts.force_inherit_stdio);
+sumanOpts.transpile = Boolean(sumanOpts.transpile);
+sumanOpts.$useTSNodeRegister = Boolean(sumanOpts.use_ts_node_register);
+sumanOpts.$useBabelRegister = Boolean(sumanOpts.use_babel_register);
+sumanOpts.$noBabelRegister = Boolean(sumanOpts.no_babel_register);
+sumanOpts.$forceInheritStdio = Boolean(sumanOpts.force_inherit_stdio);
+if (sumanOpts.$useTSNodeRegister) {
+    _suman.log.info('using ts-node to transpile tests.');
 }
 var projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = su.findProjectRoot(cwd);
 if (!projectRoot) {

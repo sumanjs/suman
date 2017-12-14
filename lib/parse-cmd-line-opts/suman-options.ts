@@ -262,7 +262,7 @@ module.exports = [
     help: 'Use "babel-core/register" to transpile sources on the fly.'
   },
   {
-    names: ['no-babel-register', 'no-use-babel-register'],
+    names: ['no-babel-register', 'no-babel'],
     type: 'bool',
     help: 'Prevent usage of babel-register, even useBabelRegister is set to true in your config.'
   },
@@ -334,7 +334,7 @@ module.exports = [
   {
     names: ['suman-helpers-dir', 'shd'],
     type: 'string',
-    internal: true,  //only visible to lib authors?
+    hidden:true,
     help: 'Use this option to force-specify the directory that houses the suman helpers files.'
   },
   {
@@ -365,11 +365,6 @@ module.exports = [
     env: 'SUMAN_FFORCE'
   },
   {
-    names: ['pipe', 'p'],
-    type: 'bool',
-    help: 'Pipe data to Suman using stdout to stdin.'
-  },
-  {
     names: ['convert-from-mocha', 'convert'],
     type: 'bool',
     help: 'Convert Mocha test file or directory to Suman test(s).'
@@ -392,7 +387,6 @@ module.exports = [
   {
     names: ['suman-shell', 'shell'],
     type: 'bool',
-    internal: true,  //only visible to lib authors?
     help: 'Run suman-shell.'
   },
   {
