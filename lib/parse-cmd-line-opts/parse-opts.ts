@@ -22,9 +22,9 @@ import flatten = require('lodash.flatten');
 import su = require('suman-utils');
 
 //project
-const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
+const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {constants} = require('../../config/suman-constants');
-const options = _suman.allSumanOptions = require('./suman-options');
+import {options} from './suman-options';
 const IS_SUMAN_DEBUG = process.env['SUMAN_DEBUG'] === 'yes';
 
 ////////////////////////////////////////////////////////////////////
@@ -39,7 +39,8 @@ let opts, parser = dashdash.createParser({options: options});
 
 try {
   opts = parser.parse(process.argv);
-} catch (err) {
+}
+catch (err) {
   console.error(chalk.red(' => Suman command line options error: %s'), err.message);
   console.error(' => Try "suman --help" or visit sumanjs.org');
   process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
@@ -101,7 +102,7 @@ if (opts.fforce) {
   opts.force = true;
 }
 
-if(opts.per){
+if (opts.per) {
   opts.watch_per = opts.per;
 }
 

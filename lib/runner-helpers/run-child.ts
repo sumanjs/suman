@@ -37,11 +37,9 @@ if (process.env.NPM_COLORS === 'no') {
 //////////////////////////////////////////////////////////////////////////////
 
 let sumanOpts = _suman.sumanOpts = _suman.sumanOpts || JSON.parse(process.env.SUMAN_OPTS);
-const options = require('../parse-cmd-line-opts/suman-options');
-
+import {options} from '../parse-cmd-line-opts/suman-options';
 const childArgs = sumanOpts.child_arg || [];
 
-console.error('childArgs => ', childArgs);
 
 if (childArgs.length) {
 
@@ -137,7 +135,6 @@ else {
 }
 
 const sumanHelperDirRoot = _suman.sumanHelperDirRoot = process.env['SUMAN_HELPERS_DIR_ROOT'];
-
 assert(sumanHelperDirRoot,
   ' => sumanHelperDirRoot should be defined by process.env.SUMAN_HELPERS_DIR_ROOT, but is null/undefined');
 
@@ -148,7 +145,6 @@ require('../helpers/log-stdio-of-child').run(filePath);
 //////////////////////////////////////////////////////////
 
 const useBabelRegister = sumanOpts.$useBabelRegister;
-
 if (useBabelRegister) {
   console.error(chalk.bgRed.white(' => We are using babel-register.'));
   require('babel-register')({
@@ -160,7 +156,6 @@ if (useBabelRegister) {
 
 
 const useTSNodeRegister  = sumanOpts.$useTSNodeRegister;
-
 if (useTSNodeRegister) {
   _suman.log.warning(chalk.magenta(' => We are using ts-node-register.'));
   require('ts-node').register({
@@ -175,10 +170,8 @@ if (useTSNodeRegister) {
 const singleProc = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 //////// delete env vars that should not get passed to any cp's forked from this process //////////
-
-//TODO delete more vars
-// delete process.env.SUMAN_SINGLE_PROCESS;
-
+///// TODO delete more vars
+///// delete process.env.SUMAN_SINGLE_PROCESS;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 try {

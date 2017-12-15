@@ -203,12 +203,7 @@ const uninstall = sumanOpts.uninstall;
 const force = sumanOpts.force;
 const fforce = sumanOpts.fforce;
 const s = sumanOpts.server;
-const tailRunner = sumanOpts.tail_runner;
-const tailTest = sumanOpts.tail_test;
 const installBabel = sumanOpts.install_babel;
-const useServer = sumanOpts.use_server;
-const tail = sumanOpts.tail;
-const removeBabel = sumanOpts.remove_babel;
 const create = sumanOpts.create;
 const installIstanbul = sumanOpts.use_istanbul;
 const interactive = sumanOpts.interactive;
@@ -258,7 +253,6 @@ const watch = sumanOpts.$watch = Boolean(sumanOpts.watch);
 // string options
 
 // array of string options
-
 sumanOpts.transpile = Boolean(sumanOpts.transpile);
 sumanOpts.$useTSNodeRegister = Boolean(sumanOpts.use_ts_node_register);
 sumanOpts.$useBabelRegister = Boolean(sumanOpts.use_babel_register);
@@ -539,7 +533,7 @@ if (sumanMatchesAny.length < 1) {
   
   const preOptCheck = <IPreOptCheck> {
     tscMultiWatch, watch, watchPer,
-    create, useServer, installBabel,
+    create, installBabel,
     installIstanbul, init, uninstall,
     convert, groups, s, interactive,
     diagnostics, installGlobals, postinstall,
@@ -564,7 +558,6 @@ if (sumanMatchesAny.length < 1) {
     console.error('\t => Use --examples to see command line examples for using Suman in the intended manner.\n');
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
   }
-  
 }
 
 /////////////////////////////// load reporters  ////////////////////////////////
@@ -691,9 +684,6 @@ else if (installIstanbul) {
 }
 else if (create) {
   require('./lib/cli-commands/create-opt').run(create);
-}
-else if (useServer) {
-  require('./lib/use-server/use-server')(null);
 }
 else if (installBabel) {
   require('./lib/cli-commands/install-babel').run(null);

@@ -137,12 +137,7 @@ var uninstall = sumanOpts.uninstall;
 var force = sumanOpts.force;
 var fforce = sumanOpts.fforce;
 var s = sumanOpts.server;
-var tailRunner = sumanOpts.tail_runner;
-var tailTest = sumanOpts.tail_test;
 var installBabel = sumanOpts.install_babel;
-var useServer = sumanOpts.use_server;
-var tail = sumanOpts.tail;
-var removeBabel = sumanOpts.remove_babel;
 var create = sumanOpts.create;
 var installIstanbul = sumanOpts.use_istanbul;
 var interactive = sumanOpts.interactive;
@@ -374,7 +369,7 @@ if (sumanMatchesAny.length < 1) {
 {
     var preOptCheck_1 = {
         tscMultiWatch: tscMultiWatch, watch: watch, watchPer: watchPer,
-        create: create, useServer: useServer, installBabel: installBabel,
+        create: create, installBabel: installBabel,
         installIstanbul: installIstanbul, init: init, uninstall: uninstall,
         convert: convert, groups: groups, s: s, interactive: interactive,
         diagnostics: diagnostics, installGlobals: installGlobals, postinstall: postinstall,
@@ -490,9 +485,6 @@ else if (installIstanbul) {
 }
 else if (create) {
     require('./lib/cli-commands/create-opt').run(create);
-}
-else if (useServer) {
-    require('./lib/use-server/use-server')(null);
 }
 else if (installBabel) {
     require('./lib/cli-commands/install-babel').run(null);

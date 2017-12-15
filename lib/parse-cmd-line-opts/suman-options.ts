@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = [
+export const options = [
   
   {
     names: ['tsc-multi-watch'],
@@ -18,8 +18,9 @@ module.exports = [
     help: 'A dummy option useful for various things.'
   },
   {
-    names: ['auto-pass'],
+    names: ['always-exit-zero'], // note: just use this instead: `suman x | cat` or `suman x || exit 0;`
     type: 'bool',
+    hidden: true,
     help: 'With this flag, suman process always exits with code 0, this is useful when the place suman in a CI/CD pipeline ' +
     'but do not want failing to tests to unnecessarily break things.'
   },
@@ -35,19 +36,19 @@ module.exports = [
     help: 'Tells the NPM colors module to not use any control chars for color.'
   },
   {
-    names: ['containerize', 'ctrz'],
+    names: ['containerize', 'cntrz', 'ctrz'],
     type: 'bool',
     help: 'Tells Suman to containerize all tests into a Docker container.'
   },
   {
-    names: ['debug-hooks'],
+    names: ['debug-hooks', 'log-hooks'],
     type: 'bool',
-    help: 'Tells Suman to write a log when hooks begin and end for debugging purposes.'
+    help: 'Tells Suman to log when hooks begin/end, for debugging purposes.'
   },
   {
-    names: ['debug-tests-and-hooks'],
+    names: ['debug-tests-and-hooks', 'log-all'],
     type: 'bool',
-    help: 'Tells Suman to write a log when hooks and tests begin and end for debugging purposes.'
+    help: 'Tells Suman to log when hooks and tests begin/end, for debugging purposes.'
   },
   {
     names: ['version', 'vn'],
@@ -116,6 +117,7 @@ module.exports = [
   {
     names: ['uninstall-suman'],
     type: 'bool',
+    hidden: true,
     help: 'Uninstall Suman in your project. Will clean up various directories safely.'
   },
   {
@@ -156,6 +158,7 @@ module.exports = [
   {
     names: ['completion'],
     type: 'bool',
+    hidden: true,
     help: 'Use this print out the bash completion functions to include in suman-clis.sh.'
   },
   {
@@ -181,12 +184,8 @@ module.exports = [
   {
     names: ['use-server'],
     type: 'bool',
+    hidden: true,
     help: 'Suman will download and install the "suman-server" dependencies necessary for file-watching to your local project.'
-  },
-  {
-    names: ['install-istanbul'],
-    type: 'bool',
-    help: 'Install the default istanbul/nyc dependencies, for getting test coverage data.'
   },
   {
     names: ['log-stdio-to-files'],
@@ -334,7 +333,7 @@ module.exports = [
   {
     names: ['suman-helpers-dir', 'shd'],
     type: 'string',
-    hidden:true,
+    hidden: true,
     help: 'Use this option to force-specify the directory that houses the suman helpers files.'
   },
   {
@@ -597,17 +596,13 @@ module.exports = [
   {
     names: ['server'],
     type: 'bool',
+    hidden: true,
     help: 'Start the suman server manually.'
   },
   {
     names: ['exec-arg'],
     type: 'arrayOfString',
     help: 'Pass an argument through command line to the executable.'
-  },
-  {
-    names: ['exec-args'],
-    type: 'string',
-    help: 'Pass exec arguments through command line.'
   },
   {
     names: ['user-arg', 'arg'],

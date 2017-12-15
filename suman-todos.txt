@@ -76,16 +76,16 @@ console.log([
 
 exec() / invoke() / run() / register()
 
-///
+////
 
  "suman-watch-plugins": "latest",
 
-///
+////
 
     if not a .js file, we need to capture stdout/stderr in suman runner, and put it in the
     .suman/runs folder
 
-///
+////
 
       it.cb.run(t => {
 
@@ -97,7 +97,7 @@ exec() / invoke() / run() / register()
 
        });
 
-///
+////
 
     need to merge options object
     before.cb.define(v =>
