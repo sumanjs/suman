@@ -186,9 +186,9 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         fini.th = t;
         t.throw = $throw;
         t.timeout = timeout;
-        t.shared = self.shared;
-        t.__inject = self.inject;
-        t.$inject = new Proxy(self.__inject, {
+        t.__shared = self.shared;
+        t.__supply = self.supply;
+        t.supply = new Proxy(self.__supply, {
           set(target, property, value, receiver) {
             throw new Error('cannot set any properties on t.$inject (in test cases).');
           }
@@ -199,7 +199,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         t.fatal = function fatal(err: IPseudoError) {
           err = err || new Error('t.fatal() was called by the developer.');
           err.sumanFatal = true;
-          fini(err);
+          handleErr(err);
         };
         
         ////////////////////////////////////////////////////////////////////////////////////////////

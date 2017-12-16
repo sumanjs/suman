@@ -54,58 +54,6 @@ export const makeTestCase = function (test: ITestDataObj, assertCount: IAssertCo
   v.__handle = v.__handleError = handleError;
   v.__fini = fini;
   
-  // const assrt = <Partial<AssertStatic>> function () {
-  //   try {
-  //     return chaiAssert.apply(chaiAssert, arguments);
-  //   }
-  //   catch (e) {
-  //     return handleError(e);
-  //   }
-  // };
-  
-  // Object.defineProperty(v, 'skirt', {
-  //   get: function () {
-  //     _suman.assertCtx = this;
-  //     console.log('assert ctx => ', this);
-  //     debugger;
-  //     return 5;
-  //   },
-  //   // enumerable: true,
-  //   // configurable: true
-  // });
-  
-  // v.XXXassert = new Proxy(assrt, {
-  //   get: function (target, prop) {
-  //
-  //     if (typeof prop === 'symbol') {
-  //       return Reflect.get.apply(Reflect, arguments);
-  //     }
-  //
-  //     // if (badProps[String(prop)]) {
-  //     //   return Reflect.get(...arguments);
-  //     // }
-  //
-  //     if (!(prop in chaiAssert)) {
-  //       try {
-  //         return Reflect.get.apply(Reflect, arguments);
-  //       }
-  //       catch (err) {
-  //         return handleError(
-  //           new Error(`The assertion library used does not have a '${prop}' property or method.`)
-  //         );
-  //       }
-  //     }
-  //
-  //     return function () {
-  //       try {
-  //         return chaiAssert[prop].apply(chaiAssert, arguments);
-  //       }
-  //       catch (e) {
-  //         return handleError(e);
-  //       }
-  //     }
-  //   }
-  // });
   
   v.plan = function (num: number) {
     

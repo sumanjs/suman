@@ -33,14 +33,14 @@ proto.set = function (k: string, v: any) {
   if (arguments.length < 2) {
     throw new Error('Must pass both a key and value to "set" method.');
   }
-  return this.shared.set(k, v);
+  return this.__shared.set(k, v);
 };
 
 proto.get = function (k?: string) {
-  if(arguments.length < 1){
-    return this.shared.getAll();
+  if (arguments.length < 1) {
+    return this.__shared.getAll();
   }
-  return this.shared.get(k);
+  return this.__shared.get(k);
 };
 
 proto.wrap = function (fn: Function) {
@@ -55,7 +55,7 @@ proto.wrap = function (fn: Function) {
   }
 };
 
-proto.wrapFinal = proto.final = function (fn: Function) {
+proto.wrapFinal = function (fn: Function) {
   const self = this;
   return function () {
     try {
@@ -68,14 +68,24 @@ proto.wrapFinal = proto.final = function (fn: Function) {
   }
 };
 
-proto.wrapFinalErr = proto.wrapFinalErrFirst = proto.finalErrFirst = proto.finalErrorFirst = function (fn: Function) {
+proto.final = function (fn: Function) {
+  try {
+    fn.apply(null, arguments);
+    this.__fini(null);
+  }
+  catch (e) {
+    this.__handle(e, false);
+  }
+};
+
+const slice = Array.prototype.slice;
+
+proto.wrapFinalErr = proto.wrapFinalErrFirst = proto.wrapFinalErrorFirst = proto.wrapFinalError = function (fn: Function) {
   const self = this;
   return function (err: Error) {
-    if (err) {
-      return self.__handle(err, false);
-    }
+    if (err) return self.__handle(err, false);
     try {
-      fn.apply(this, Array.from(arguments).slice(1));
+      fn.apply(this, slice.call(arguments, 1));
       self.__fini(null);
     }
     catch (e) {
@@ -92,7 +102,7 @@ proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
     }
     try {
       // remove the error-first argument
-      return fn.apply(this, Array.from(arguments).slice(1));
+      return fn.apply(this, slice.call(arguments, 1));
     }
     catch (e) {
       return self.__handle(e, false);
@@ -117,17 +127,16 @@ proto.slow = function () {
   this.timeout(30000);
 };
 
-
-let assertCtx : any = {
+let assertCtx: any = {
   // this is used to store the context
-   val: null
+  val: null
 };
 
 const assrt = <Partial<AssertStatic>> function () {
   
   const ctx = assertCtx.val;
   
-  if(!ctx){
+  if (!ctx) {
     throw new Error('Suman implementation error => assert context is not defined.');
   }
   
@@ -148,7 +157,7 @@ const p = new Proxy(assrt, {
     
     const ctx = assertCtx.val;
     
-    if(!ctx){
+    if (!ctx) {
       throw new Error('Suman implementation error => assert context is not defined.');
     }
     
@@ -174,15 +183,12 @@ const p = new Proxy(assrt, {
   }
 });
 
-
 Object.defineProperty(proto, 'assert', {
-  get: function() {
+  get: function () {
     assertCtx.val = this;
     return p;
   }
 });
-
-
 
 export const tProto = freezeExistingProps(proto);
 

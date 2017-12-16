@@ -201,9 +201,8 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         t.desc = aBeforeOrAfterEach.desc;
         t.value = test.value;
         t.state = 'pending';
-        t.shared = self.shared;
-        t.__inject = self.$inject;
-        t.$inject = self.$inject;
+        t.__shared = self.shared;
+        t.supply = t.__supply = self.supply;
         
         t.fatal = function fatal(err: IPseudoError) {
           err = err || new Error('Stand-in error, since user did not provide one.');

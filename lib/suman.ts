@@ -49,8 +49,8 @@ let sumanId = 0;
 export class Suman {
 
   ctx?: ITestSuite;
-  $inject: Object;
-  private __inject: Object;
+  supply: Object;
+  private __supply: Object;
   testBlockMethodCache: Map<Function, ITestBlockMethodCache>;
   iocData: Object;
   force: boolean;

@@ -166,8 +166,8 @@ export const execSuite = function (suman: ISuman): Function {
     //   value: McProxy.create(suite.__inject)
     // });
 
-    suite.__inject = {};
-    suite.$inject = McProxy.create(suite.__inject);
+    const v = suite.__supply = {};
+    suite.supply = McProxy.create(v);
 
     try {
       assert(typeof _suman.globalHooksFn === 'function', '<suman.hooks.js> file must export a function.');

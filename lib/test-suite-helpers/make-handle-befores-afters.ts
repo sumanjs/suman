@@ -166,8 +166,8 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         };
         
         const t = makeHookObj(aBeforeOrAfter, assertCount, handleError, handlePossibleError);
-        t.shared = self.shared;
-        t.$inject = self.$inject;
+        t.__shared = self.shared;
+        t.supply = self.supply;
         t.desc = aBeforeOrAfter.desc;
         fini.th = t;
         t.timeout = timeout;
@@ -175,7 +175,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           err = err || new Error(
             'Suman placeholder error since this function was not explicitly passed an error object as first argument.'
           );
-          fini(err, null);
+          handleError(err, null);
         };
         
         let arg;

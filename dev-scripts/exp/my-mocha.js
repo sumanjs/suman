@@ -22,28 +22,17 @@
 // });
 //
 
-const assert = require('assert');
-
-const foo = function () {
-  console.log('this 1 => ', this);
-  assert.notEqual(this, v);
+const a = function (o,z,k) {
+  Array.from(arguments).forEach(function (a, index) {
+    console.log(index, a);
+  });
 };
 
-const v = {};
+const b = function (o,z,k) {
+  a.apply(null,arguments.slice());
+};
 
-v.foo = new Proxy(foo, {
-  get: function (target, prop) {
-    console.log('target => ', target);
-    console.log('this 2 => ', this);
-  }
-});
 
-const x = Object.create(v);
-x.zoom = 3;
-
-x.foo();
-const z = v.foo.five;
-console.log('z => ', z);
-
+b(1,2,3);
 
 

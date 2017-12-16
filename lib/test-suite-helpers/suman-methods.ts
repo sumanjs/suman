@@ -191,8 +191,6 @@ const addDefine = function (fn: any, Clazz: typeof DefineObject) {
       delete fn.define.props;
     }
     
-    debugger;
-    
     if (f) {
       assert(typeof f === 'function', 'Optional argument to define() was expected to be a function.');
       f.call(null, defObj);
