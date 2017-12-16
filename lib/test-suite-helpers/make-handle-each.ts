@@ -185,7 +185,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         };
         
         const t = makeHookObj(aBeforeOrAfterEach, assertCount, handleError, handlePossibleError);
-        fini.th = t;
+        fini.thot = t;
         t.timeout = timeout;
         t.test = {};
         t.test.desc = test.desc;

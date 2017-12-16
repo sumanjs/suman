@@ -100,7 +100,7 @@ export const makeAllHookCallback = function (d: ISumanDomain, assertCount: IAsse
   
   ////////////////////////////////////////////////////////////////////////////////////////////////
   
-  return function testAndHookCallbackHandler(err: IPseudoError, isTimeout?: boolean) {
+  return function allHookFini(err: IPseudoError, isTimeout?: boolean) {
     
     const {sumanOpts} = _suman;
     
@@ -142,9 +142,10 @@ export const makeAllHookCallback = function (d: ISumanDomain, assertCount: IAsse
         err = $err;
       }
       
-      if (testAndHookCallbackHandler.th) {
-        testAndHookCallbackHandler.th.emit('done', err);
-        testAndHookCallbackHandler.th.removeAllListeners();
+      if (allHookFini.thot) {
+        debugger;
+        allHookFini.thot.emit('done', err);
+        allHookFini.thot.removeAllListeners();
       }
       
       if (d !== process.domain) {
@@ -205,7 +206,7 @@ export const makeEachHookCallback = function (d: ISumanDomain, assertCount: IAss
   
   ///////////////////////////////////////////////////////////////////////////
   
-  return function testAndHookCallbackHandler(err: IPseudoError, isTimeout?: boolean) {
+  return function eachHookFini(err: IPseudoError, isTimeout?: boolean) {
     
     const {sumanOpts} = _suman;
     
@@ -249,9 +250,9 @@ export const makeEachHookCallback = function (d: ISumanDomain, assertCount: IAss
         err = $err;
       }
       
-      if (testAndHookCallbackHandler.th) {
-        testAndHookCallbackHandler.th.emit('done', err);
-        testAndHookCallbackHandler.th.removeAllListeners();
+      if (eachHookFini.thot) {
+        eachHookFini.thot.emit('done', err);
+        eachHookFini.thot.removeAllListeners();
       }
       
       if (d !== process.domain) {
@@ -317,7 +318,7 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
   
   ///////////////////////////////////////////////////////////////////
   
-  return function testCaseCallbackHandler(err: IPseudoError, isTimeout?: boolean) {
+  return function testCaseFini(err: IPseudoError, isTimeout?: boolean) {
     
     const {sumanOpts} = _suman;
     
@@ -350,9 +351,10 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
         err = $err;
       }
       
-      if (testCaseCallbackHandler.th) {
-        testCaseCallbackHandler.th.emit('done', err);
-        testCaseCallbackHandler.th.removeAllListeners();
+      if (testCaseFini.thot) {
+        debugger;
+        testCaseFini.thot.emit('done', err);
+        testCaseFini.thot.removeAllListeners();
       }
       
       if (d !== process.domain) {

@@ -183,7 +183,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         };
         
         const t = makeTestCase(test, assertCount, handleErr, handlePossibleError);
-        fini.th = t;
+        fini.thot = t;
         t.throw = $throw;
         t.timeout = timeout;
         t.__shared = self.shared;
@@ -226,7 +226,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
             t.callbackMode ? handlePossibleError(err) : handleNonCallbackMode(err);
           };
           
-          fini.th = dne;
           t.done = dne;
           
           t.pass = t.ctn = function () {

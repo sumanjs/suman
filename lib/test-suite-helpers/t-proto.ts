@@ -14,7 +14,7 @@ import EE = require('events');
 //npm
 import {freezeExistingProps} from 'freeze-existing-props';
 const chai = require('chai');
-const chaiAssert = chai.assert;
+
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -29,6 +29,10 @@ proto.skip = function () {
   (this.__hook || this.__test).dynamicallySkipped = true;
 };
 
+proto.done = proto.pass = proto.ctn = proto.fail = function () {
+  throw new Error('You have fired a callback for a test case or hook that was not callback oriented.');
+};
+
 proto.set = function (k: string, v: any) {
   if (arguments.length < 2) {
     throw new Error('Must pass both a key and value to "set" method.');
@@ -41,6 +45,13 @@ proto.get = function (k?: string) {
     return this.__shared.getAll();
   }
   return this.__shared.get(k);
+};
+
+proto.gets = proto.getMany = function (...args: Array<string>) {
+  const self = this;
+  return args.map(function(k){
+    return self.__shared.get(k);
+  });
 };
 
 proto.wrap = function (fn: Function) {
@@ -127,10 +138,74 @@ proto.slow = function () {
   this.timeout(30000);
 };
 
-let assertCtx: any = {
+const assertCtx: any = {
   // this is used to store the context
   val: null
 };
+
+const expectCtx: any = {
+  // this is used to store the context
+  val: null
+};
+
+
+const expct = <Partial<AssertStatic>> function () {
+  
+  const ctx = expectCtx.val;
+  
+  if (!ctx) {
+    throw new Error('Suman implementation error => expect context is not defined.');
+  }
+  
+  try {
+    return chai.expect.apply(chai.expect, arguments);
+  }
+  catch (e) {
+    return ctx.__handleError(e);
+  }
+};
+
+const expectProxy = new Proxy(expct, {
+  get: function (target, prop) {
+    
+    if (typeof prop === 'symbol') {
+      return Reflect.get.apply(Reflect, arguments);
+    }
+    
+    const ctx = expectCtx.val;
+    
+    if (!ctx) {
+      throw new Error('Suman implementation error => assert context is not defined.');
+    }
+    
+    if (!(prop in chai.expect)) {
+      try {
+        return Reflect.get.apply(Reflect, arguments);
+      }
+      catch (err) {
+        return ctx.__handleError(
+          new Error(`The assertion library used does not have a '${prop}' property or method.`)
+        );
+      }
+    }
+    
+    return function () {
+      try {
+        return chai.expect[prop].apply(chai.expect, arguments);
+      }
+      catch (e) {
+        return ctx.__handleError(e);
+      }
+    }
+  }
+});
+
+Object.defineProperty(proto, 'expect', {
+  get: function () {
+    expectCtx.val = this;
+    return expectProxy;
+  }
+});
 
 const assrt = <Partial<AssertStatic>> function () {
   
@@ -141,7 +216,7 @@ const assrt = <Partial<AssertStatic>> function () {
   }
   
   try {
-    return chaiAssert.apply(chaiAssert, arguments);
+    return chai.assert.apply(chai.assert, arguments);
   }
   catch (e) {
     return ctx.__handleError(e);
@@ -161,7 +236,7 @@ const p = new Proxy(assrt, {
       throw new Error('Suman implementation error => assert context is not defined.');
     }
     
-    if (!(prop in chaiAssert)) {
+    if (!(prop in chai.assert)) {
       try {
         return Reflect.get.apply(Reflect, arguments);
       }
@@ -174,7 +249,7 @@ const p = new Proxy(assrt, {
     
     return function () {
       try {
-        return chaiAssert[prop].apply(chaiAssert, arguments);
+        return chai.assert[prop].apply(chai.assert, arguments);
       }
       catch (e) {
         return ctx.__handleError(e);
@@ -190,6 +265,6 @@ Object.defineProperty(proto, 'assert', {
   }
 });
 
-export const tProto = freezeExistingProps(proto);
+// export const tProto = freezeExistingProps(proto);
 
-
+export const tProto = proto;
