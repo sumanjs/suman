@@ -55,7 +55,7 @@ Test.create(function (b, assert, describe, test, before, beforeEach, after, afte
       });
 
       test.define('sync test').run(t => {
-        t.assert(false);
+        t.assert(true);
       });
 
       after(h => {

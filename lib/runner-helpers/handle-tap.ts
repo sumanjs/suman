@@ -22,11 +22,9 @@ import EE = require('events');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
+const rb = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
 
 ///////////////////////////////////////////////////////////////////////////
-
-const logOutput = {};
 
 let firstTAPOccurrence = true;
 let firstTAPCall = true;
@@ -52,6 +50,8 @@ export const getTapParser = function () {
       _suman.log.info(chalk.yellow.bold('suman we have received at least one test result via TAP.'));
       console.log('\n');
     }
+    
+    testpoint = testpoint.testCase || testpoint;
     
     rb.emit(String(events.TEST_CASE_END), testpoint);
     
