@@ -2,14 +2,6 @@
 
 //dts
 import {ISuman, Suman} from "../suman";
-import {makeIt} from '../test-suite-methods/make-it';
-import {makeAfter} from '../test-suite-methods/make-after';
-import {makeAfterEach} from '../test-suite-methods/make-after-each';
-import {makeBeforeEach} from '../test-suite-methods/make-before-each';
-import {makeBefore} from '../test-suite-methods/make-before';
-import {makeInject} from '../test-suite-methods/make-inject';
-import {makeDescribe} from '../test-suite-methods/make-describe';
-import {makeAfterAllParentHooks} from '../test-suite-methods/make-after-all-parent-hooks';
 import {IInjectFn} from "suman-types/dts/inject";
 import {IGlobalSumanObj} from "suman-types/dts/global";
 import {IBeforeFn} from "suman-types/dts/before";
@@ -21,7 +13,7 @@ import {IAfterFn} from "suman-types/dts/after";
 import {
   DefineObject,
   DefineObjectAllHook, DefineObjectContext, DefineObjectEachHook, DefineObjectTestCase,
-  DefineObjectTestOrHook, IDefineObject
+  DefineObjectTestOrHook, IDefineObject, DefineOptionsInjectHook
 } from "./define-options-classes";
 
 //polyfills
@@ -40,10 +32,18 @@ import _ = require('lodash');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+import {makeAfterAllParentHooks} from '../test-suite-methods/make-after-all-parent-hooks';
 import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import {makeBlockInjector} from '../injection/block-injector';
 import {makeCreateInjector} from '../injection/create-injector';
+import {makeIt} from '../test-suite-methods/make-it';
+import {makeAfter} from '../test-suite-methods/make-after';
+import {makeAfterEach} from '../test-suite-methods/make-after-each';
+import {makeBeforeEach} from '../test-suite-methods/make-before-each';
+import {makeBefore} from '../test-suite-methods/make-before';
+import {makeInject} from '../test-suite-methods/make-inject';
+import {makeDescribe} from '../test-suite-methods/make-describe';
 
 /////////////////////////////////////////////////////////////////////
 
@@ -226,7 +226,7 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBas
   const createInjector = makeCreateInjector(suman, m);
   
   // "methods"
-  const inject: IInjectFn = addDefine(makeInject(suman), DefineObjectTestOrHook);
+  const inject: IInjectFn = addDefine(makeInject(suman), DefineOptionsInjectHook);
   const before: IBeforeFn = addDefine(makeBefore(suman), DefineObjectAllHook);
   const after: IAfterFn = addDefine(makeAfter(suman), DefineObjectAllHook);
   const beforeEach: IBeforeEachFn = addDefine(makeBeforeEach(suman), DefineObjectEachHook);

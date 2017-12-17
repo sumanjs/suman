@@ -18,9 +18,6 @@ const opts = {
 
 Test.define(v => {
   
-  debugger;
-  
-  
   v.inject('age', 'age', 'age')
     .names('b', 'before', 'after', 'afterEach')
     .run((b, before, after, afterEach, it) => {
@@ -50,30 +47,6 @@ Test.create(opts, ['rudolph', function (assert, describe, before, beforeEach, af
   before({cb: true, retries: 4}, h => {
     h.done();
   });
-  
-  // test.define(v => {
-  //
-  //   let c = Number(3);
-  //
-  //   v.timeout(400)
-  //   .retries(300)
-  //   .run(function(){
-  //
-  //   });
-  //
-  // });
-  
-  // context.define(v =>{
-  //
-  //   v.parallel(true)
-  //   .run(function(){
-  //
-  //
-  //
-  //   })
-  //
-  //
-  // });
   
   before.define(v => {
     
@@ -130,8 +103,8 @@ Test.create(opts, ['rudolph', function (assert, describe, before, beforeEach, af
     console.log('me first 1');
   });
   
-  it('sync test hagieao agoeajgoea jo joeajgoea  aegjeag oa iag j aogeg ', t => {
-    assert(false);
+  it('xxx ', t => {
+    assert(true);
   });
   
   it.skip['retries:5, name:hi']('zoom', t => {

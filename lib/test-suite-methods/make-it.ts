@@ -15,7 +15,6 @@ import util = require('util');
 
 //npm
 const pragmatik = require('pragmatik');
-const _ = require('underscore');
 import async = require('async');
 import * as chalk from 'chalk';
 import su = require('suman-utils');
@@ -184,7 +183,7 @@ export const makeIt = function (suman: ISuman): ItFn {
       parallel: isOverallParallel,
       mode: opts.mode,
       delay: opts.delay,
-      cb: opts.cb,
+      cb: opts.cb === true, // default to false
       type: typeName,
       timeout: opts.timeout || 20000,
       desc: desc || opts.desc ||  fn.name || '(unknown test case name)',

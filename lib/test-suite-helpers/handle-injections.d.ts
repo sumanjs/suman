@@ -1,2 +1,3 @@
 import { ITestSuite } from "suman-types/dts/test-suite";
-export declare const handleInjections: (suite: ITestSuite, cb: Function) => void;
+import { ErrorCallback } from 'async';
+export declare const handleInjections: (suite: ITestSuite, cb: ErrorCallback<any>) => void;

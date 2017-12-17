@@ -15,15 +15,15 @@ import {pt} from 'prepend-transform';
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
-if (!('SUMAN_INCEPTION_LEVEL' in process.env) || process.argv.indexOf('--force-inception-level-zero')) {
-  _suman.inceptionLevel = 0;
-  process.env.SUMAN_INCEPTION_LEVEL = 0;
-}
-else {
-  let sil = Number(process.env.SUMAN_INCEPTION_LEVEL);
+if (('SUMAN_INCEPTION_LEVEL' in process.env) && process.argv.indexOf('--force-inception-level-zero') < 0) {
+  let sil = parseInt(process.env.SUMAN_INCEPTION_LEVEL);
   let silVal = ++sil;
   _suman.inceptionLevel = silVal;
   process.env.SUMAN_INCEPTION_LEVEL = silVal;
+}
+else {
+  _suman.inceptionLevel = 0;
+  process.env.SUMAN_INCEPTION_LEVEL = 0;
 }
 
 _suman.log = {} as any;
@@ -51,6 +51,11 @@ if (_suman.inceptionLevel < 1 && String(process.env.SUMAN_USE_STDIO_PREFIX).trim
 }
 else {
   _suman.$forceInheritStdio = true;
+  
+  if(_suman.sumanOpts){
+    _suman.sumanOpts.$forceInheritStdio = true;
+  }
+  
   _suman.log.info = console.log.bind(console);
   _suman.log.warning = console.error.bind(console);
   _suman.log.error = console.error.bind(console);

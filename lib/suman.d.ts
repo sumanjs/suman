@@ -8,8 +8,8 @@ export interface ITestBlockMethodCache {
 }
 export declare class Suman {
     ctx?: ITestSuite;
-    $inject: Object;
-    private __inject;
+    supply: Object;
+    private __supply;
     testBlockMethodCache: Map<Function, ITestBlockMethodCache>;
     iocData: Object;
     force: boolean;

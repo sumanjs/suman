@@ -12,6 +12,7 @@ const util = require('util');
 
 //npm
 const async = require('async');
+import chalk = require('chalk');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -38,7 +39,7 @@ const installsGroupA = [
   'babel-preset-stage-3'
 ];
 
-module.exports = function initBabelLocally(data, cb) {
+export const run =  function initBabelLocally(data, cb) {
 
   if (process.env.SUMAN_DEBUG === 'yes') {
     console.log('"data" pass to initBabelLocally =>', util.inspect(data));

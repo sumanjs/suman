@@ -12,10 +12,12 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
   
   before(h => {
     h.assert.equal(++count, 1);
+    h.supply.three = 3;
   });
   
   it.cb('sync test', t => {
     t.assert.equal(++count, 2);
+    t.assert.equal(t.supply.three,3);
     t.done()
   });
   
@@ -28,10 +30,12 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
     
     before(h => {
       h.assert.equal(++count, 3);
+      h.assert.equal(h.supply.three,3);
     });
     
     it.cb('sync test', t => {
       t.assert.equal(++count, 4);
+      t.assert.equal(t.supply.three,3);
       t.done()
     });
     

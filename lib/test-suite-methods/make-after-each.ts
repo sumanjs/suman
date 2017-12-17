@@ -102,7 +102,7 @@ export const makeAfterEach = function (suman: ISuman): IAfterEachFn {
         ctx: zuite,
         timeout: opts.timeout || 11000,
         desc: desc || fn.name || '(unknown afterEach-hook name)',
-        cb: opts.cb || false,
+        cb: opts.cb === true, // default to false
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,
         retries: opts.retries,

@@ -1,6 +1,6 @@
 {
   "name": "suman",
-  "version": "1.1.51234",
+  "version": "1.1.51235",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -41,7 +41,6 @@
     "du": "^0.1.0",
     "freeze-existing-props": "latest",
     "function-arguments": "^1.0.4",
-    "glob": "^7.1.2",
     "handlebars": "^4.0.10",
     "json-stdio": "latest",
     "lockfile": "^1.0.3",
@@ -78,11 +77,9 @@
     "tap-json-parser": "latest",
     "tap-parser": "^5.4.0",
     "tcp-ping": "^0.1.1",
-    "underscore": "^1.8.3",
     "uuid": "^3.0.1",
     "v8flags": "^3.0.0",
-    "vamoot": "latest",
-    "websocket-stream": "^4.0.0"
+    "vamoot": "latest"
   },
   "devDependencies": {
     "@types/async": "^2.0.38",

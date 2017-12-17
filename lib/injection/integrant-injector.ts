@@ -27,11 +27,7 @@ export default function (names: Array<string>, $ioc: Object) {
     }
 
     if (n === '$args') {
-      return String(_suman.sumanOpts.user_args || '').split(/ +/).filter(i => i);
-    }
-
-    if (n === '$argsRaw') {
-      return _suman.sumanOpts.user_args || '';
+      return _suman.sumanOpts.user_arg || [];
     }
 
     if (n === '$root' || n === '$projectRoot') {

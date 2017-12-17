@@ -13,7 +13,7 @@ import vm = require('vm');
 
 //npm
 import su = require('suman-utils');
-const _ = require('underscore');
+const _ = require('lodash');
 
 //////////////////////////////////////////////////////////////////////
 

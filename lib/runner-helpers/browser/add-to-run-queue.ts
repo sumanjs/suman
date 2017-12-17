@@ -81,7 +81,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
 
       let $childId = childId++;
       let childUuid = uuidV4();
-      const inherit = _suman.$forceInheritStdio ? 'inherit' : '';
+      const inherit = sumanOpts.$forceInheritStdio ? 'inherit' : '';
 
       if (inherit) {
         _suman.log.info('we are inheriting stdio of child, because of sumanception.');
@@ -172,7 +172,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
 
             if (_suman.weAreDebugging) {  //TODO: add check for NODE_ENV=dev_local_debug
               //TODO: go through code and make sure that no console.log statements should in fact be console.error
-              console.log('pid => ', n.pid, 'stderr => ', d);
+              _suman.log.info('pid => ', n.pid, 'stderr => ', d);
             }
           });
 

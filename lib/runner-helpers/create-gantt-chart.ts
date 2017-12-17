@@ -1,5 +1,6 @@
 'use strict';
 
+//dts
 import {IGlobalSumanObj, ISumanConfig, ISumanOpts} from "suman-types/dts/global";
 
 //polyfills
@@ -22,14 +23,14 @@ import {cpHash, socketHash, ganttHash} from './socket-cp-hash';
 //////////////////////////////////////////////////////
 
 export const createGanttChart = function (cb: Function) {
-
-  if (_suman.sumanConfig && !_suman.sumanConfig.viewGantt) {
+  
+  if (!(_suman.sumanConfig && _suman.sumanConfig.viewGantt)) {
     // user does not want to render Gantt chart visualization
     return process.nextTick(cb);
   }
-
+  
   let Handlebars: any;
-
+  
   try {
     Handlebars = require('handlebars');
   }
@@ -37,22 +38,22 @@ export const createGanttChart = function (cb: Function) {
     _suman.log.error(err.message || err);
     return process.nextTick(cb);
   }
-
+  
   let p = path.resolve(__dirname + '/../gantt/index.html');
-
+  
   fs.readFile(p, function (err, data) {
-
+    
     if (err) {
       _suman.log.error(err.stack || err);
       return cb();
     }
-
+    
     let template = Handlebars.compile(String(data));
-
+    
     const tasks = Object.keys(ganttHash).map(function (k) {
-
+      
       const gd = ganttHash[k];
-
+      
       return {
         startDate: gd.startDate,
         endDate: gd.endDate,
@@ -61,21 +62,75 @@ export const createGanttChart = function (cb: Function) {
         taskName: gd.fullFilePath || gd.shortFilePath,
         status: gd.sumanExitCode > 0 ? 'FAILED' : 'SUCCEEDED'
       };
-
+      
     });
-
+    
     const result = template({
       tasks: JSON.stringify(tasks)
     });
-
-    const p = path.resolve(_suman.sumanHelperDirRoot + '/gantt-4.html');
+    
+    const p = path.resolve(_suman.sumanHelperDirRoot + '/.meta/gantt.html');
     fs.writeFile(p, result, cb);
-
+    
   });
-
+  
 };
 
-
+export const createTimelineChart = function (cb: Function) {
+  
+  if (!(_suman.sumanConfig && _suman.sumanConfig.viewGantt)) {
+    // user does not want to render Gantt chart visualization
+    return process.nextTick(cb);
+  }
+  
+  let Handlebars: any;
+  
+  try {
+    Handlebars = require('handlebars');
+  }
+  catch (err) {
+    _suman.log.error(err.message || err);
+    return process.nextTick(cb);
+  }
+  
+  let p = path.resolve(__dirname + '/../gantt/timeline-template.html');
+  
+  fs.readFile(p, function (err, data) {
+    
+    if (err) {
+      _suman.log.error(err.stack || err);
+      return cb();
+    }
+    
+    let template = Handlebars.compile(String(data));
+    
+    const tasks = Object.keys(ganttHash).map(function (k) {
+      
+      const gd = ganttHash[k];
+      
+      return {
+        startDate: gd.startDate,
+        endDate: gd.endDate,
+        transformStartDate: gd.transformStartDate,
+        transformEndDate: gd.transformEndDate,
+        taskName: gd.shortFilePath || gd.fullFilePath,
+        status: gd.sumanExitCode > 0 ? 'FAILED' : 'SUCCEEDED'
+      };
+      
+    });
+    
+    const result = template({
+      tasks: JSON.stringify(tasks.sort(function(a,b){
+         return a.startDate - b.startDate;
+      }))
+    });
+    
+    const p = path.resolve(_suman.sumanHelperDirRoot + '/.meta/timeline.html');
+    fs.writeFile(p, result, cb);
+    
+  });
+  
+};
 
 
 
