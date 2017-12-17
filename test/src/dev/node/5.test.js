@@ -3,9 +3,12 @@
 
 const suman = require('suman');
 const {Test} = suman.init(module, {
-  forceParallel: true,  // parallel, not parallel-max
-  __expectedExitCode: 56
-});
+    forceParallel: true,  // parallel, not parallel-max
+    __expectedExitCode: 56
+  },
+  {
+    allowSkip: true
+  });
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -17,28 +20,19 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
     console.log('before all hook');
   });
 
-  // before.cb(['fatal:false', h => {
-  //
-  //   const d = domain.create();
-  //   d.xxx = 'foo';
-  //
-  //   const d2 = process.domain;
-  //   d2.yyy = 'bar';
-  //
-  //   debugger;
-  //
-  //   // throw 'samsam';
-  //   // process.on('uncaughtException', function (e) {
-  //   //   console.log('ue => ', e);
-  //   // });
-  //
-  //   d.run(function () {
-  //
-  //     throw new Error('barf');
-  //
-  //   });
-  //
-  // }]);
+  before.cb(['fatal:false', h => {
+
+    const d = domain.create();
+    d.xxx = 'foo';
+
+    const d2 = process.domain;
+    d2.yyy = 'bar';
+
+    d.run(function () {
+      throw new Error('barf');
+    });
+
+  }]);
 
   it.cb('passing', t => {
     t.done();

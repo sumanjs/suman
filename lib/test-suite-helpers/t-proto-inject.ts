@@ -70,6 +70,9 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
     assert(su.isObject(o), 'value must be a non-array object.');
     
     return new Promise(function (resolve, reject) {
+      
+      debugger;
+      
       async.series(o, function (err: Error, results: Dictionary<any>) {
         
         console.log('err => ', err);

@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 'use strict';
 
-const suman = require('suman');
+import suman = require('suman');
 const Test = suman.init(module, {}, {
   // series: false
+  allowSkip: true
 });
 
 ///////////////////////////////////////////////////////////////////////
@@ -15,15 +16,17 @@ const opts = {
   fixed: true
 };
 
-const Promise = require('bluebird');
+global.Promise = require('bluebird');
 
 Test.create(opts, ['rudolph', function (b, assert, describe, before, beforeEach, after, afterEach, it, inject) {
   
   inject('eage', t => {
     return t.registerFnMap({
-      a: async function () {
-        console.log('arguments => ', arguments);
-        Promise.delay(300);
+      a: function (cb) {
+        // await Promise.delay(300);
+        return process.nextTick(cb, null, 'dogs');
+      },
+      b: async function () {
         return 'dogs';
       }
     });

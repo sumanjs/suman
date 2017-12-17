@@ -2,22 +2,22 @@
 'use strict';
 
 const suman = require('suman');
-const { Test } = suman.init(module, {
-  pre: ['dog']
-},
+const {Test} = suman.init(module, {
+    pre: ['dog']
+  },
   {
     allowSkip: true
   });
 
 ///////////////////////////////////////////////////////////////////////
 
-Test.create({ delay: true }, b => {
+Test.create({delay: true}, b => {
   b.resume();
 });
 
 Test.create(function (b, assert, describe, test, before, beforeEach, after, afterEach, it, $core) {
 
-  const { child_process, http } = $core;
+  const {child_process, http} = $core;
 
   beforeEach.define('early').run(h => {
     return Promise.resolve('foobar');

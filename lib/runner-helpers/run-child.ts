@@ -159,6 +159,8 @@ const useTSNodeRegister  = sumanOpts.$useTSNodeRegister;
 if (useTSNodeRegister) {
   _suman.log.warning(chalk.magenta(' => We are using ts-node-register.'));
   require('ts-node').register({
+    allowJS: true,
+    allowJs: true,
     // This will override `node_modules` ignoring - you can alternatively pass
     // an array of strings to be explicitly matched or a regex / glob
     ignore: /node_modules/
