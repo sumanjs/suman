@@ -113,7 +113,7 @@ export class DefineObjectTestOrHook extends DefineObject {
     if (typeof v === 'string') {
       v = new RegExp(v);
     }
-    else if (!(v instanceof RegExp)) {
+    if (!(v instanceof RegExp)) {
       throw new Error('Value for "throws" must be a String or regular expression (RegExp instance).');
     }
     this.opts.throws = v;
@@ -123,6 +123,12 @@ export class DefineObjectTestOrHook extends DefineObject {
   cb(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "cb" must be a boolean.');
     this.opts.cb = v;
+    return this;
+  }
+  
+  fatal(v: boolean): this {
+    assert.equal(typeof v, 'boolean', 'Value for "fatal" must be a boolean.');
+    this.opts.fatal = v;
     return this;
   }
   
@@ -188,13 +194,20 @@ export class DefineObjectTestOrHook extends DefineObject {
   
 }
 
-export class DefineObjectAllHook extends DefineObjectTestOrHook {
+export class DefineOptionsInjectHook extends DefineObjectTestOrHook {
   
-  fatal(v: boolean): this {
-    assert.equal(typeof v, 'boolean', 'Value for "fatal" must be a boolean.');
-    this.opts.fatal = v;
+  run(fn: T | TAfterEachHook): this {
+    const name = this.opts.desc || '(unknown DefineObject name)';
+    // const opts = JSON.parse(su.customStringify(this.opts));
+    this.exec.call(null, name, Object.assign({}, this.opts), fn);
     return this;
   }
+
+}
+
+
+export class DefineObjectAllHook extends DefineObjectTestOrHook {
+  
   
   first(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "first" must be a boolean.');

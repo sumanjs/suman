@@ -52,8 +52,6 @@ export const constants = Object.freeze({
 
     //all
     $root: true, // root of project
-    inject: true,
-    $injections: true,
     $macro: true,
     $ioc: true,
     $pre: true,

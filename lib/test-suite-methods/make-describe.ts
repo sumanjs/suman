@@ -36,7 +36,7 @@ import {constants} from '../../config/suman-constants';
 import {acquireIocDeps} from '../acquire-dependencies/acquire-ioc-deps';
 import {IInjectionDeps} from "suman-types/dts/injection";
 import {handleSetupComplete} from '../helpers/general';
-import {handleInjections} from '../test-suite-helpers/handle-injections2';
+import {handleInjections} from '../test-suite-helpers/handle-injections';
 import {parseArgs} from '../helpers/general';
 import {evalOptions} from '../helpers/general';
 
@@ -114,7 +114,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
         iocDepNames.push(v);
       });
     }
-  
+    
     if (Array.isArray(opts.inject)) {
       opts.inject.forEach(function (v: string) {
         iocDepNames.push(v);
@@ -149,11 +149,12 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
     
     if (!sumanOpts.force && !_suman.inBrowser) {
-      if (opts.skip && !sumanOpts.allow_skip) {
+      debugger;
+      if (opts.skip && !sumanOpts.allow_skip && !sumanOpts.$allowSkip) {
         throw new Error('Test block was declared as "skipped" but "--allow-skip" / "--force" option not specified.');
       }
       
-      if (opts.only && !sumanOpts.allow_only) {
+      if (opts.only && !sumanOpts.allow_only && !sumanOpts.$allowOnly) {
         throw new Error('Test block was declared as "only" but "--allow-only" / "--force" option not specified.');
       }
     }
@@ -239,8 +240,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
         //   writable: false
         // });
         
-        let v = suite.__inject = Object.create(zuite.__inject);
-        suite.$inject = McProxy.create(v);
+        let v = suite.__supply = Object.create(zuite.__supply);
+        suite.supply = McProxy.create(v);
         const iocDepsParent = Object.create(zuite.ioc);
         
         acquireIocDeps(suman, iocDepNames, suite, iocDepsParent, function (err: Error, iocDeps: IInjectionDeps) {

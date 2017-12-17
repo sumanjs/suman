@@ -35,8 +35,6 @@ exports.constants = Object.freeze({
         teardowntest: true,
         context: true,
         $root: true,
-        inject: true,
-        $injections: true,
         $macro: true,
         $ioc: true,
         $pre: true,

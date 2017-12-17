@@ -35,16 +35,16 @@ interface ICopyableItem {
 
 export const writeSumanFiles = function (newSumanHelperDirAbsPath: string, prependToSumanConf: string,
                                          newSumanHelperDir: string, projectRoot: string) {
-
+  
   return function installSumanFiles(cb: Function) {
-
+    
     async.autoInject({
-
+        
         createSumanDir: function (cb: Function) {
           //if dir exists an error will be thrown
           fs.mkdir(newSumanHelperDirAbsPath, 0o777, cb);
         },
-
+        
         copyDefaultFiles: function (createSumanDir: any, cb: Function) {
           async.each([
             {
@@ -84,17 +84,37 @@ export const writeSumanFiles = function (newSumanHelperDirAbsPath: string, prepe
               src: 'default-conf-files/suman.default.readme',
               dest: newSumanHelperDir + '/README.md'
             }
-
+          
           ], function (item: ICopyableItem, cb: Function) {
-
+            
             fs.createReadStream(path.resolve(__dirname + '/../../' + item.src))
             .pipe(fs.createWriteStream(path.resolve(projectRoot + '/' + item.dest)))
             .once('error', cb).once('finish', cb);
-
+            
           }, cb);
         },
-
-
+        
+        createMetaDir: function (createSumanDir: any, cb: Function) {
+          fs.mkdir(path.resolve(newSumanHelperDirAbsPath + '/.meta'), 0o777, function (err: Error) {
+            
+            if (err) {
+              if (!String(err).match(/EEXIST/i)) {
+                return cb(err);
+              }
+            }
+            
+            const msg = 'Readme file here primarily for version control stability.';
+            
+            async.forEachOf([
+                'README.md'
+              ],
+              function (item: string, index: number, cb: Function) {
+                let p = path.resolve(newSumanHelperDirAbsPath + '/.meta/' + item);
+                fs.writeFile(p, msg, cb);
+              }, cb);
+          });
+        },
+        
         createLogsDir: function (createSumanDir: any, cb: Function) {
           fs.mkdir(path.resolve(newSumanHelperDirAbsPath + '/logs'), 0o777, function (err: Error) {
             if (err) {
@@ -107,7 +127,7 @@ export const writeSumanFiles = function (newSumanHelperDirAbsPath: string, prepe
             const msg2 = 'Suman recommends that you tail the files in this directory when you\'re developing tests => most useful thing to do is to tail the runner-debug.log when running tests with the Suman runner,' +
               'this is because accessing the individual test errors is less transparent due to the nature of child-processes/subprocesses)';
             const msg3 = msg1 + '\n' + msg2;
-
+            
             async.forEachOf([
               'README.md',
               'watcher-output.log',
@@ -120,12 +140,12 @@ export const writeSumanFiles = function (newSumanHelperDirAbsPath: string, prepe
             }, cb);
           });
         },
-
+        
         chownDirs: function (createLogsDir: any, createSumanDir: any, cb: Function) {
           chmodr(newSumanHelperDirAbsPath, 0o777, cb);
         }
       },
       cb);
   }
-
+  
 };

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>
+    Title
+  </title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+
+
+<script type="text/javascript">
+
+  google.charts.load("current", {packages: ["timeline"]});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var container = document.getElementById('suman-test-timeline');
+    var chart = new google.visualization.Timeline(container);
+    var dataTable = new google.visualization.DataTable();
+
+    dataTable.addColumn({type: 'string', id: 'Term'});
+    dataTable.addColumn({type: 'string', id: 'Name'});
+    dataTable.addColumn({type: 'date', id: 'Start'});
+    dataTable.addColumn({type: 'date', id: 'End'});
+
+    let tasksRaw = JSON.parse('[{"startDate":1513489996166,"endDate":1513489996935,"transformStartDate":null,"transformEndDate":null,"taskName":"simple.js","status":"SUCCEEDED"},{"startDate":1513489996170,"endDate":1513489996974,"transformStartDate":null,"transformEndDate":null,"taskName":"injection2.test.js","status":"FAILED"},{"startDate":1513489996173,"endDate":1513489996990,"transformStartDate":null,"transformEndDate":null,"taskName":"injection.test.js","status":"SUCCEEDED"},{"startDate":1513489996176,"endDate":1513489997902,"transformStartDate":null,"transformEndDate":null,"taskName":"events.test.js","status":"SUCCEEDED"},{"startDate":1513489996179,"endDate":1513489996996,"transformStartDate":null,"transformEndDate":null,"taskName":"6.test.js","status":"SUCCEEDED"},{"startDate":1513489996182,"endDate":1513489996875,"transformStartDate":null,"transformEndDate":null,"taskName":"5.test.js","status":"FAILED"},{"startDate":1513489996186,"endDate":1513489996940,"transformStartDate":null,"transformEndDate":null,"taskName":"4.test.js","status":"SUCCEEDED"},{"startDate":1513489996189,"endDate":1513489998436,"transformStartDate":null,"transformEndDate":null,"taskName":"2.test.js","status":"SUCCEEDED"},{"startDate":1513489996892,"endDate":1513489997377,"transformStartDate":null,"transformEndDate":null,"taskName":"3.test.js","status":"SUCCEEDED"},{"startDate":1513489996939,"endDate":1513489997508,"transformStartDate":null,"transformEndDate":null,"taskName":"1.test.js","status":"SUCCEEDED"}]');
+
+    let tasks = [];
+    let colors = [];
+
+    tasksRaw.forEach(function (t, i) {
+
+      // we have two separate tasks per item, one for transform, one for run
+      if (t.transformStartDate && t.transformEndDate) {
+        tasks.push([
+          String(i + 1),
+          t.taskName,
+          new Date(t.transformStartDate),
+          new Date(t.transformEndDate),
+        ]);
+      }
+
+      if (t.startDate && t.endDate) {
+
+        if (t.status === 'FAILED') {
+          colors.push('yellow');
+        }
+        else if (t.status === 'SUCCEEDED') {
+          colors.push('green');
+        }
+        else {
+          colors.push('blue');
+        }
+
+        tasks.push([
+          String(i + 1),
+          t.taskName,
+          new Date(t.startDate),
+          new Date(t.endDate)
+        ]);
+      }
+    });
+
+    dataTable.addRows(tasks);
+
+    // dataTable.addRows([
+    //   ['1', 'George Washington', new Date(1789, 3, 30), new Date(1797, 2, 4)],
+    //   ['2', 'John Adams', new Date(1797, 2, 4), new Date(1801, 2, 4)],
+    //   ['3', 'Thomas Jefferson', new Date(1801, 2, 4), new Date(1809, 2, 4)]
+    // ]);
+
+    var options = {
+      colors: colors
+      // timeline: { singleColor: '#8d8' },
+    };
+
+    chart.draw(dataTable, options);
+  }
+
+
+</script>
+
+<div id="suman-test-timeline" style="height: 900px;"></div>
+
+</body>
+</html>

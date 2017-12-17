@@ -33,12 +33,7 @@ x.retries(5)
 });
 
 describe('danger')
-
-.run(function () {
-
-
-
-});
+.run(function () {});
 
 const Promise = require('bluebird');
 const async = require('async');

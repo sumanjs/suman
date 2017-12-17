@@ -137,7 +137,7 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
           }
 
           const t = makeHookObj(anAfter, assertCount, handleError);
-          fini.th = t;
+          fini.thot = t;
           t.timeout = timeout;
 
           t.fatal = function fatal(err: IPseudoError) {

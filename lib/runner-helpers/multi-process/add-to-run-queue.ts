@@ -28,7 +28,7 @@ import {events} from 'suman-events';
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getTapParser, getTapJSONParser} from '../handle-tap';
 import pt from 'prepend-transform';
-import uuidV4 = require('uuid/v4');
+import uuid = require('uuid');
 import {findPathOfRunDotSh} from '../runner-utils'
 import {constants} from "../../../config/suman-constants";
 import {makeHandleDifferentExecutables} from './handle-different-executables';
@@ -78,8 +78,8 @@ export const makeAddToRunQueue = function (runnerObj: IRunnerObj, args: Array<st
       const argz = JSON.parse(JSON.stringify(args));
       let  hashbang = false;
       let $childId = childId++;
-      let childUuid = uuidV4();
-      const inherit = _suman.$forceInheritStdio ? 'inherit' : '';
+      let childUuid = uuid.v4();
+      const inherit = sumanOpts.$forceInheritStdio ? 'inherit' : '';
 
       if (inherit) {
         _suman.log.info('we are inheriting stdio of child, because of sumanception.');
@@ -90,7 +90,7 @@ export const makeAddToRunQueue = function (runnerObj: IRunnerObj, args: Array<st
         cwd: projectRoot,
         // cwd: sumanOpts.force_cwd_to_be_project_root ? projectRoot : path.dirname(file),
         stdio: [
-          'ignore',
+          'pipe',
           inherit || (isStdoutSilent ? 'ignore' : 'pipe'),
           inherit || (isStderrSilent ? 'ignore' : 'pipe'),
           // 'ipc'  => we don't need IPC anymore, but also can we assume 'ipc' is ignored if not a .js file?
@@ -170,8 +170,6 @@ export const makeAddToRunQueue = function (runnerObj: IRunnerObj, args: Array<st
             let logfile = path.resolve(file + '/' + onlyFile + '.log');
             let fileStrm = fs.createWriteStream(logfile);
 
-            console.log('logFile => ', logfile);
-
             if (sumanOpts.log_stdio_to_files || sumanOpts.log_stderr_to_files) {
               n.stderr.pipe(fileStrm).once('error', onError);
             }
@@ -230,7 +228,7 @@ export const makeAddToRunQueue = function (runnerObj: IRunnerObj, args: Array<st
 
             if (_suman.weAreDebugging) {  //TODO: add check for NODE_ENV=dev_local_debug
               //TODO: go through code and make sure that no console.log statements should in fact be console.error
-              console.log('pid => ', n.pid, 'stderr => ', d);
+              _suman.log.info('pid => ', n.pid, 'stderr => ', d);
             }
           });
 
@@ -250,7 +248,7 @@ export const makeAddToRunQueue = function (runnerObj: IRunnerObj, args: Array<st
       let sh = !sumanOpts.ignore_run_config && findPathOfRunDotSh(file);
 
       if (sh) {
-        handleRunDotShFile(sh, argz, cpOptions, onChildProcessStarted);
+        handleRunDotShFile(sh, argz, file, shortFile, cpOptions, onChildProcessStarted);
       }
       else {
         handleRegularFile(file, shortFile, argz, cpOptions, onChildProcessStarted);

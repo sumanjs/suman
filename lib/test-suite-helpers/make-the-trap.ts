@@ -109,7 +109,7 @@ const stckMapFn = function (item: string, index: number) {
 
   return function handleTestError(err: IPseudoError, test: ITestDataObj) {
 
-    if (_suman.sumanUncaughtExceptionTriggered) {
+    if (_suman.uncaughtExceptionTriggered) {
       _suman.log.error(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
@@ -172,7 +172,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
 
   return function runTheTrap(self: ITestSuite, test: ITestDataObj, opts: IItOpts, cb: Function) {
 
-    if (_suman.sumanUncaughtExceptionTriggered) {
+    if (_suman.uncaughtExceptionTriggered) {
       _suman.log.error(`runtime error => "uncaughtException" event => halting program.\n[${__filename}]`);
       return;
     }

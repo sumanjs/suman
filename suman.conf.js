@@ -27,6 +27,7 @@ module.exports = Object.freeze({
   logsDir: process.env['SUMAN_LOGS_DIR'],
 
   //boolean
+  viewGantt: true,
   retriesEnabled: true,
   enforceUniqueTestCaseNames: true,
   logCompletedHooks: true,

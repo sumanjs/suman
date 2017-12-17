@@ -48,9 +48,7 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
       switch (lowerCaseKey) {
 
         case '$args':
-          return String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
-        case '$argsraw':
-          return sumanOpts.user_args || '';
+          return sumanOpts.user_arg || []
         case '$ioc':
           return _suman.$staticIoc;
         case 'b':
@@ -97,12 +95,6 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
         case 'userdata':
           return _suman.userData;
       }
-
-      // let val;
-      // if (val = parent.getInjectedValue(key)) {
-      //   // note! if the injected value is falsy, it will get passed over
-      //   return val;
-      // }
 
       return lastDitchRequire(key, '<block-injector>');
 

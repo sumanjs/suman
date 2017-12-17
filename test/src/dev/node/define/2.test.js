@@ -10,13 +10,23 @@ Test.define('ballistic')
 
   b.set('a', {foo: true});
 
+  test('home', t => {
+
+    debugger;
+    t.final(function(){
+      debugger;
+       t.assert(false);
+    });
+
+  });
+
   context('inner', b => {
 
     b.set('b', {bar: 4});
 
     test.define('zoomrah')
     .throws(/Cannot assign to read only property/)
-    .register(t => {
+    .run(t => {
       const z = b.get('a');
       debugger;
       // throw 'Cannot assign to read only property';

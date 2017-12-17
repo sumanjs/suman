@@ -109,7 +109,7 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
         ctx: zuite,
         timeout: opts.timeout || 11000,
         desc: desc || fn.name,
-        cb: opts.cb || false,
+        cb: opts.cb  === true, // default to false
         throws: opts.throws,
         always: opts.always,
         retries: opts.retries,
@@ -118,7 +118,7 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
         events: opts.events,
         last: opts.last,
         planCountExpected: opts.plan,
-        fatal: opts.fatal === true, // default is false for after hooks
+        fatal: opts.fatal === true, // default is false for after hooks!
         fn: fn,
         type: 'after/teardown',
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')

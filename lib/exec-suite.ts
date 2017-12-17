@@ -24,7 +24,6 @@ import {VamootProxy} from 'vamoot';
 import McProxy = require('proxy-mcproxy');
 import * as chalk from 'chalk';
 import * as async from 'async';
-const _ = require('underscore');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
 
@@ -37,7 +36,7 @@ import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
 import {makeTestSuite} from './test-suite-helpers/make-test-suite';
 import {fatalRequestReply} from './helpers/general';
-import {handleInjections} from './test-suite-helpers/handle-injections2';
+import {handleInjections} from './test-suite-helpers/handle-injections';
 import {makeOnSumanCompleted} from './helpers/general';
 import {evalOptions} from './helpers/general';
 import general = require('./helpers/general');
@@ -166,8 +165,8 @@ export const execSuite = function (suman: ISuman): Function {
     //   value: McProxy.create(suite.__inject)
     // });
 
-    suite.__inject = {};
-    suite.$inject = McProxy.create(suite.__inject);
+    const v = suite.__supply = {};
+    suite.supply = McProxy.create(v);
 
     try {
       assert(typeof _suman.globalHooksFn === 'function', '<suman.hooks.js> file must export a function.');
@@ -343,7 +342,7 @@ export const execSuite = function (suman: ISuman): Function {
 
         const runSuite = function (suite: ITestSuite, cb: Function) {
 
-          if (_suman.sumanUncaughtExceptionTriggered) {
+          if (_suman.uncaughtExceptionTriggered) {
             _suman.log.error(`"UncaughtException:Triggered" => halting program.\n[${__filename}]`);
             return;
           }
@@ -395,7 +394,7 @@ export const execSuite = function (suman: ISuman): Function {
 
           suman.dateSuiteFinished = Date.now();
 
-          if (_suman.sumanUncaughtExceptionTriggered) {
+          if (_suman.uncaughtExceptionTriggered) {
             _suman.log.error(`"UncaughtException" event => halting program.\n[${__filename}]`);
             return;
           }

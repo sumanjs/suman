@@ -33,20 +33,20 @@ const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors
 /////////////////////////////////////////////////////////////////////////////
 
 export const makeGracefulExit = function (suman: ISuman) {
-
+  
   return function runGracefulExitOrNot($errs: Error | IPseudoError | Array<any>, cb: Function) {
-
+    
     const fst = _suman.sumanOpts.full_stack_traces;
-
+    
     if (cb && typeof cb !== 'function') {
       throw new Error('Suman implementation error - callback was not passed to gracefulExit, please report.');
     }
-
+    
     let highestExitCode = 0;
     let exitTestSuite = false;
     let errs: Array<Error> = flattenDeep([$errs]).filter((e: Error) => e);
-
-    if (_suman.sumanUncaughtExceptionTriggered) {
+    
+    if (_suman.uncaughtExceptionTriggered) {
       _suman.log.error('"uncaughtException" event occurred => halting program.');
       if (errs.length) {
         errs.filter(e => e).forEach(function (e) {
@@ -55,12 +55,12 @@ export const makeGracefulExit = function (suman: ISuman) {
       }
       // do not continue, return here?
       // TODO: need to fix this
-      _suman.log.error('reached graceful exit, but "sumanUncaughtExceptionTriggered" was already true.');
+      _suman.log.error('reached graceful exit, but "uncaughtExceptionTriggered" was already true.');
       return cb && process.nextTick(cb);
     }
-
+    
     const big = errs.filter(function (err) {
-
+      
       if (err && err.isFromTest && !_suman.sumanOpts.bail) {
         return undefined;   //explicit for your pleasure
       }
@@ -77,64 +77,69 @@ export const makeGracefulExit = function (suman: ISuman) {
       }
     })
     .map(function (err: IPseudoError) {
-
+      
       let sumanFatal = err.sumanFatal;
       let exitCode = err.sumanExitCode;
-
+      
       if (exitCode) {
         console.error('\n');
         _suman.log.error('positive exit code with value', exitCode);
       }
-
+      
       if (exitCode > highestExitCode) {
         highestExitCode = exitCode;
       }
-
+      
       let stack = su.getCleanErrStr(err).split('\n').filter(function (item, index) {
-
+        
         if (fst) {
           // if we are using full stack traces, then we include all lines of trace
           return true;
         }
-
+        
         if (index < 2) {
           // always include first two lines
           return true;
         }
-
-        if (String(item).match(/\//) &&
-          !String(item).match(/\/node_modules\//) &&
+        
+        // if (String(item).match(/\//) &&
+        //   !String(item).match(/\/node_modules\//) &&
+        //   !String(item).match(/next_tick.js/)) {
+        //   return true;
+        // }
+        
+        if (!String(item).match(/\/node_modules\//) &&
           !String(item).match(/next_tick.js/)) {
           return true;
         }
-
+        
       });
-
+      
       stack[0] = chalk.bold(stack[0]);
       return stack.join('\n').concat('\n');
-
+      
     })
     .map(function (err: any) {
-
+      
       exitTestSuite = true;
       sumanRuntimeErrors.push(err);
-
+      
       const isBail = _suman.sumanOpts.bail ? '(note that the "--bail" option set to true)\n' : '';
       const str = '\n⚑ ' + chalk.bgRed.white.bold(' Suman fatal error ' + isBail +
         ' => making a graceful exit => ') + '\n' + chalk.red(String(err)) + '\n\n';
-
+      
       const padded = str.split('\n').map(function (s) {
         return su.padWithXSpaces(3) + s;
       });
-
+      
       const s = padded.join('\n');
       // do not delete the following console.error call, this is the primary logging mechanism for errors
       console.log('\n');
-      _suman.log.error(s);
+      _suman.log.error('SUMAN ERROR:',s);
       return s;
-
+      
     });
-
+    
     if (singleProc && exitTestSuite) {
       //TODO: need to handle fatal errors in suman single process
       _suman.log.error('Suman single process and runtime uncaught exception or error in hook experienced.');
@@ -142,12 +147,12 @@ export const makeGracefulExit = function (suman: ISuman) {
       suiteResultEmitter.emit('suman-test-file-complete');
     }
     else if (exitTestSuite) {
-
+      
       if (!suman.sumanCompleted) {
-
+        
         // note: we need this check because on occasion errors occur in async code that don't get thrown
         // until after all boxes are checked in the system, we ignore the bad exit code in that case
-
+        
         async.parallel([
             function (cb: Function) {
               const joined = big.join('\n');
@@ -164,12 +169,12 @@ export const makeGracefulExit = function (suman: ISuman) {
             }
           ],
           function () {
-
+            
             suman.logFinished(highestExitCode || 1, null, function (err: Error, val: any) {
               err && _suman.log.error(su.getCleanErrorString(err));
               process.exit(highestExitCode || 1);
             });
-
+            
           });
       }
     }
@@ -178,9 +183,9 @@ export const makeGracefulExit = function (suman: ISuman) {
         process.nextTick(cb);
       }
       else {
-        _suman.log.error('Suman implementation warning: no callback passed to graceful exit routine.');
+        _suman.log.error('Suman implementation warning: no callback passed to graceful-exit routine.');
       }
-
+      
     }
   }
 };
