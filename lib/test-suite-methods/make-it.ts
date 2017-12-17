@@ -15,7 +15,6 @@ import util = require('util');
 
 //npm
 const pragmatik = require('pragmatik');
-const _ = require('underscore');
 import async = require('async');
 import * as chalk from 'chalk';
 import su = require('suman-utils');

@@ -25,7 +25,6 @@ import util = require('util');
 
 //npm
 const pragmatik = require('pragmatik');
-const _ = require('underscore');
 import async = require('async');
 import {freezeExistingProps} from 'freeze-existing-props';
 
@@ -143,7 +142,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       this.isSetupComplete = false;
       
       // user can access container methods if they need to => b.m.describe()
-      this.m = suman.containerProxy;
+      // this.m = suman.containerProxy;
       
       let parallel = obj.opts.parallel;
       let mode = obj.opts.mode;
@@ -158,30 +157,6 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       this.injectedValues = {};
       this.interface = suman.interface;
       this.desc = this.title = obj.desc;
-      
-      // this.getInjectedVal = this.getInjectedValue = function (k: string) {
-      //   let ret, parent = this;
-      //
-      //   while (true) {
-      //     if (ret = parent.injectedValues[k]) {
-      //       break;
-      //     }
-      //     else if (parent.parent) {
-      //       parent = parent.parent
-      //     }
-      //     else {
-      //       break;
-      //     }
-      //   }
-      //
-      //   try {
-      //     return Object.freeze(ret);
-      //   }
-      //   catch (err) {
-      //     return ret;
-      //   }
-      //
-      // };
       
       this[TestBlockSymbols.children] = [] as Array<ITestSuite>;
       this[TestBlockSymbols.tests] = [] as Array<ITestDataObj>;
@@ -201,7 +176,6 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       this[TestBlockSymbols.beforeEaches] = [] as Array<IBeforeEachObj>;
       this[TestBlockSymbols.afterEaches] = [] as Array<IAFterEachObj>;
       
-      
       this[TestBlockSymbols.injections] = [] as Array<IInjectionObj>;
       this[TestBlockSymbols.getAfterAllParentHooks] = [] as Array<IAfterAllParentHooks>;
       
@@ -211,6 +185,9 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
     }
     
     set(k: any, v: any) {
+      if (arguments.length < 2) {
+        throw new Error('Must pass both a key and value to "set" method.');
+      }
       return this.shared.set(k, v);
     }
     
@@ -219,6 +196,13 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
         return this.shared.getAll();
       }
       return this.shared.get(k);
+    }
+    
+    gets(...args: Array<string>) {
+      const self = this;
+      return args.map(function (k) {
+        return self.shared.get(k);
+      });
     }
     
     getAfterAllParentHooks() {
@@ -257,7 +241,7 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
         return this.parent.getInjectedValue(key);
       }
     }
-  
+    
     getInjectedValues(...args: string[]) {
       return args.map(a => {
         if (a in this.injectedValues) {
@@ -297,7 +281,6 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       return this[TestBlockSymbols.beforesLast];
     }
     
-    
     getBeforeEaches() {
       return this[TestBlockSymbols.beforeEaches];
     }
@@ -320,8 +303,9 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
     
     resume() {
       const args = Array.from(arguments);
-      process.nextTick(() => {
-        this.__resume.apply(null, args);
+      const self = this;
+      process.nextTick(function () {
+        self.__resume.apply(null, args);
       });
     }
     

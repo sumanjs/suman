@@ -26,24 +26,26 @@ const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 ///////////////////////////////////////////////////////////////////////////
 
+const logOutput = {};
+
 let firstTAPOccurrence = true;
 let firstTAPCall = true;
 
 export const getTapParser = function () {
-
+  
   if (firstTAPCall) {
     firstTAPCall = false;
     _suman.log.info(chalk.black.bold('we are handling TAP.'));
   }
-
+  
   const p = parser();
-
+  
   p.on('complete', function (data: string) {
     rb.emit(String(events.TAP_COMPLETE), data);
   });
-
+  
   p.on('assert', function (testpoint: Object) {
-
+    
     if (firstTAPOccurrence) {
       firstTAPOccurrence = false;
       console.log('\n');
@@ -51,10 +53,8 @@ export const getTapParser = function () {
       console.log('\n');
     }
     
-    debugger;
-
     rb.emit(String(events.TEST_CASE_END), testpoint);
-
+    
     if (testpoint.skip) {
       rb.emit(String(events.TEST_CASE_SKIPPED), testpoint);
     }
@@ -68,43 +68,41 @@ export const getTapParser = function () {
       rb.emit(String(events.TEST_CASE_FAIL), testpoint);
     }
   });
-
+  
   return p;
-
+  
 };
 
 let firstTAPJSONOccurrence = true;
 let firstTAPJSONCall = true;
 
 export const getTapJSONParser = function () {
-
+  
   if (firstTAPJSONCall) {
     firstTAPJSONCall = false;
     _suman.log.info(chalk.black.bold('we are handling TAP-JSON.'));
   }
-
+  
   const p = TAPJSONParser();
-
+  
   p.on('testpoint', function (d: ITAPJSONTestCase) {
-
+    
     if (firstTAPJSONOccurrence) {
       firstTAPJSONOccurrence = false;
       console.log('\n');
-      _suman.log.info(chalk.yellow.bold('suman runner has received first test result via TAP.'));
+      _suman.log.info(chalk.yellow.bold('suman runner has received first test result via TAP-JSON.'));
       console.log('\n');
     }
-
+    
     const testpoint = d.testCase;
-
+    
     if (!testpoint) {
-      _suman.log.error('implementation error: testpoint data does not exist for tap-json object => ', util.inspect(d));
-      return;
+      throw new Error('implementation error: testpoint data does not exist for tap-json object => ' + util.inspect(d));
     }
     
-    debugger;
-
+    // rb.emit(String(events.TEST_CASE_END), testpoint);
     rb.emit(String(events.TEST_CASE_END_TAP_JSON), d);
-
+    
     if (testpoint.skip) {
       rb.emit(String(events.TEST_CASE_SKIPPED_TAP_JSON), d);
     }
@@ -118,9 +116,9 @@ export const getTapJSONParser = function () {
       rb.emit(String(events.TEST_CASE_FAIL_TAP_JSON), d);
     }
   });
-
+  
   return p;
-
+  
 };
 
 

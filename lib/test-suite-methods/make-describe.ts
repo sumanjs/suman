@@ -114,7 +114,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
         iocDepNames.push(v);
       });
     }
-  
+    
     if (Array.isArray(opts.inject)) {
       opts.inject.forEach(function (v: string) {
         iocDepNames.push(v);
@@ -149,11 +149,12 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
     
     if (!sumanOpts.force && !_suman.inBrowser) {
-      if (opts.skip && !sumanOpts.allow_skip) {
+      debugger;
+      if (opts.skip && !sumanOpts.allow_skip && !sumanOpts.$allowSkip) {
         throw new Error('Test block was declared as "skipped" but "--allow-skip" / "--force" option not specified.');
       }
       
-      if (opts.only && !sumanOpts.allow_only) {
+      if (opts.only && !sumanOpts.allow_only && !sumanOpts.$allowOnly) {
         throw new Error('Test block was declared as "only" but "--allow-only" / "--force" option not specified.');
       }
     }

@@ -77,7 +77,6 @@
     "tap-json-parser": "latest",
     "tap-parser": "^5.4.0",
     "tcp-ping": "^0.1.1",
-    "underscore": "^1.8.3",
     "uuid": "^3.0.1",
     "v8flags": "^3.0.0",
     "vamoot": "latest"

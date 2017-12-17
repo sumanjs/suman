@@ -24,7 +24,6 @@ import {VamootProxy} from 'vamoot';
 import McProxy = require('proxy-mcproxy');
 import * as chalk from 'chalk';
 import * as async from 'async';
-const _ = require('underscore');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
 
