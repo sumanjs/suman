@@ -76,8 +76,11 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
         let start = String(path.resolve(file)).split(path.sep);
         let targetTestPath = String(path.resolve(file)).replace(/@src/g, '@target');
         
-        if (targetTestPath === file) {
-          throw new Error('target test path did not resolve to a different directory than the source path.');
+        if (!sumanOpts.allow_in_place && targetTestPath === file) {
+          throw new Error([
+            'target test path did not resolve to a different directory than the source path.',
+            'to override this warning, use the "--allow-in-place" flag, useful for using babel or ts-node, etc.'
+          ].join('\n'));
         }
         
         while (start.length > 0) {
@@ -89,11 +92,11 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
           }
         }
         
-        if (!sourceMarkerDir) {
+        if (!sumanOpts.allow_in_place && !sourceMarkerDir) {
           throw new Error('No source marker dir could be found given the test path => ' + file);
         }
         
-        if (!targetMarkerDir) {
+        if (!sumanOpts.allow_in_place && !targetMarkerDir) {
           throw new Error('No target marker dir could be found given the test path => ' + file);
         }
         
@@ -112,8 +115,6 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
             SUMAN_TARGET_TEST_PATH: targetTestPath
           });
         }
-        
-        // console.log('cpOptions => ',cpOptions);
         
         const n = cp.spawn('bash', [], cpOptions) as ISumanChildProcess;
         n.stdin.end(`\n${sh} ${argz.join(' ')};\n`);

@@ -44,6 +44,7 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
   
   const logsDir = sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
   const sumanCPLogs = path.resolve(logsDir + '/runs');
+  const sumanMetaDir = path.resolve(_suman.sumanHelperDirRoot + '/.meta');
   
   debugger;  //leave here forever so users can easily debug
   
@@ -82,32 +83,6 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
   
   async.autoInject({
       
-      // removeCoverageDir: function (cb: Function) {
-      //   if (!sumanOpts.coverage) {
-      //     return process.nextTick(cb);
-      //   }
-      //
-      //   const covDir = path.resolve(_suman.projectRoot + '/coverage');
-      //   rimraf(covDir, function () {
-      //     // fs.mkdir(covDir, '511', cb);
-      //     mkdirp(covDir, cb);
-      //   });
-      //
-      // },
-      //
-      // removeNYCCoverageDir: function (cb: Function) {
-      //   if (!sumanOpts.coverage) {
-      //     return process.nextTick(cb);
-      //   }
-      //
-      //   const covDir = path.resolve(_suman.projectRoot + '/.nyc_output');
-      //   rimraf(covDir, function () {
-      //     // fs.mkdir(covDir, '511', cb);
-      //     mkdirp(covDir, cb);
-      //   });
-      //
-      // },
-      
       getChildEnvVars: function (cb: Function) {
         
         if (!sumanOpts.child_env) {
@@ -127,43 +102,37 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
         };
         
         async.series([
+          makeFile(path.resolve(sumanCPLogs)),
+          makeFile(path.resolve(sumanMetaDir)),
           makeFile(path.resolve(sumanHome + '/global')),
           makeFile(path.resolve(sumanHome + '/database'))
         ], cb);
       },
       
-      rimrafLogs: function (cb: Function) {
+      rimrafLogs: function (mkdirs: any, cb: Function) {
         
-        fs.mkdir(sumanCPLogs, function (err) {
+        async.parallel({
           
-          if (err && !String(err).match(/EEXIST/i)) {
-            return cb(err);
+          removeOutdated: function (cb: Function) {
+            
+            fs.readdir(sumanCPLogs, function (err: Error, items) {
+              if (err) {
+                return cb(err);
+              }
+              
+              // we only keep the most recent 5 items, everything else we delete
+              items.sort().reverse().splice(0, Math.min(items.length, 4));
+              
+              async.each(items, function (item: string, cb: Function) {
+                const pitem = path.resolve(sumanCPLogs + '/' + item);
+                rimraf(pitem, cb); // ignore callback
+              }, cb);
+              
+            });
+            
           }
           
-          async.parallel({
-            
-            removeOutdated: function (cb: Function) {
-              
-              fs.readdir(sumanCPLogs, function (err: Error, items) {
-                if (err) {
-                  return cb(err);
-                }
-                
-                // we only keep the most recent 5 items, everything else we delete
-                items.sort().reverse().splice(0, Math.min(items.length, 4));
-                
-                async.each(items, function (item: string, cb: Function) {
-                  const pitem = path.resolve(sumanCPLogs + '/' + item);
-                  rimraf(pitem, cb); // ignore callback
-                }, cb);
-                
-              });
-              
-            }
-            
-          }, cb);
-          
-        });
+        }, cb);
         
       },
       

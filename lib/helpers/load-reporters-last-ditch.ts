@@ -65,10 +65,11 @@ export const run = function () {
   else {
     loaded = true;
   }
-
+  
+  const sumanOpts = _suman.sumanOpts;
   _suman.currentPaddingCount = _suman.currentPaddingCount || {val: 0};
   // we do not want the user to modify sumanOpts at runtime! so we copy it
-  const optsCopy = Object.assign({}, _suman.sumanOpts);
+  const optsCopy = Object.assign({}, sumanOpts);
 
   let fn: Function, client: SocketIOClient.Socket;
 
@@ -93,7 +94,7 @@ export const run = function () {
         _suman.log.warning(chalk.yellow.bold(err.message));
       }
 
-      if (_suman.inceptionLevel > 0 || _suman.sumanOpts.$useTAPOutput || _suman.usingRunner) {
+      if (_suman.inceptionLevel > 0 || sumanOpts.$useTAPOutput || sumanOpts.$useTAPJSONOutput || _suman.usingRunner) {
         su.vgt(6) && _suman.log.info('last-ditch effort to load a reporter: loading "tap-json-reporter"');
         fn = loadReporter('suman-reporters/modules/tap-json-reporter');
       }

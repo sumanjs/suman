@@ -51,6 +51,11 @@ export const options = [
     help: 'Tells Suman to log when hooks and tests begin/end, for debugging purposes.'
   },
   {
+    names: ['allow-in-place'],
+    type: 'bool',
+    help: 'Tells Suman to allow files to be transpiled/execute in place (same directory).'
+  },
+  {
     names: ['version', 'vn'],
     type: 'bool',
     help: 'Print tool version and exit.'
@@ -376,12 +381,14 @@ export const options = [
   {
     names: ['use-tap-output', 'use-tap', 'tap'],
     type: 'bool',
-    help: 'Use this option to tell the Suman process to output test results as TAP.'
+    help: 'Use this option to tell the Suman process to output test results as TAP.',
+    env: 'SUMAN_TAP'
   },
   {
     names: ['use-tap-json-output', 'use-tap-json', 'tap-json'],
     type: 'bool',
-    help: 'Tells the Suman process to output test results as TAP-JSON.'
+    help: 'Tells the Suman process to output test results as TAP-JSON.',
+    env: 'SUMAN_TAP_JSON'
   },
   {
     names: ['suman-shell', 'shell'],

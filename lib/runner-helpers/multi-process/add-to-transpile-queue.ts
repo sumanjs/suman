@@ -35,7 +35,7 @@ export const makeAddToTranspileQueue = function (f: string, transpileQueue: Asyn
   const inheritTransformStdio = sumanOpts.inherit_all_stdio ||
     sumanOpts.inherit_transform_stdio || process.env.SUMAN_INHERIT_STDIO;
   
-  return function (fileShortAndFull: Array<Array<string>>) {
+  return function (fileShortAndFull: Array<string>) {
     
     const uuidVal = String(uuid.v4());
     const file = fileShortAndFull[0];
@@ -99,9 +99,12 @@ export const makeAddToTranspileQueue = function (f: string, transpileQueue: Asyn
           let targetMarkerDir = null;
           let start = String(path.resolve(file)).split(path.sep);
           let targetTestPath = String(path.resolve(file)).replace(/@src/g, '@target');
-          
-          if (targetTestPath === file) {
-            throw new Error('target test path did not resolve to a different directory than the source path.');
+  
+          if (!sumanOpts.allow_in_place && targetTestPath === file) {
+            throw new Error([
+              'target test path did not resolve to a different directory than the source path.',
+              'to override this warning, use the "--allow-in-place" flag, useful for using babel or ts-node, etc.'
+            ].join(' '));
           }
           
           while (start.length > 0) {
