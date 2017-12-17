@@ -22,6 +22,20 @@ three SO profiles:
 
 ////
 
+
+const Test = suman.init(module, {
+  override: {
+    opts:{
+
+    },
+    config:{
+
+    }
+  }
+});
+
+////
+
 use nyc instead of istanbul
 https://github.com/istanbuljs/nyc
 

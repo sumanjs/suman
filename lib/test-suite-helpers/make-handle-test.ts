@@ -197,7 +197,13 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         ////////////// note: unfortunately these fns cannot be moved to prototype /////////////////
         
         t.fatal = function fatal(err: IPseudoError) {
-          err = err || new Error('t.fatal() was called by the developer.');
+          if(!err){
+            err = new Error('t.fatal() was called by the developer, with a falsy first argument.');
+          }
+          else if(!su.isObject(err)){
+            let msg = 't.fatal() was called by the developer: ';
+            err = new Error(msg + util.inspect(err));
+          }
           err.sumanFatal = true;
           handleErr(err);
         };

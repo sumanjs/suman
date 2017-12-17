@@ -184,6 +184,7 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                 
               }
               else if (hasHasbang && !hashbangIsNode) {
+                
                 _suman.log.warning();
                 _suman.log.warning('The following file has a ".js" extension but appears to have a hashbang which is not the node executable:');
                 _suman.log.warning('Hashbang: ', firstLine);
@@ -194,7 +195,11 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                 _suman.log.info(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
                 
                 if (!isExecutable) {
-                  _suman.log.warning('warning: file may not be executable: ', file);
+                  console.error('\n');
+                  _suman.log.warning(`Warning: test file with the following path may not be executable:`);
+                  _suman.log.warning(chalk.magenta(file));
+                  su.vgt(6) && _suman.log.warning('fs.Stats for this file were:\n', util.inspect(stats));
+                  console.error();
                 }
                 
                 n = cp.spawn('bash', [], cpOptions) as ISumanChildProcess;
@@ -253,38 +258,24 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
             }
             else {
               
-              let onSpawnError = function (err: Error) {
-                if (err && String(err.message).match(/EACCES/i)) {
-                  _suman.log.warning();
-                  _suman.log.warning(`Test file with the following path may not be executable, or does not have the right permissions:`);
-                  _suman.log.warning(chalk.magenta(file));
-                  _suman.log.warning(chalk.gray('fs.Stats for this file were:'), util.inspect(stats));
-                }
-                else if (err) {
-                  _suman.log.error(err.message || err);
-                }
-              };
+              if (!isExecutable) {
+                console.error('\n');
+                _suman.log.warning(`Warning: Test file with the following path may not be executable:`);
+                _suman.log.warning(chalk.magenta(file));
+                su.vgt(6) && _suman.log.warning('fs.Stats for this file were:\n', util.inspect(stats));
+                console.error();
+              }
               
               // .sh .bash .py, perl, ruby, etc
-              _suman.log.info();
-              _suman.log.info(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
-              
-              try {
-                n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
-                n.usingHashbang = true;
-              }
-              catch (err) {
-                onSpawnError(err);
-                return cb(err, n);
+              if(su.vgt(5)){
+                _suman.log.info();
+                _suman.log.info(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
               }
               
-              if (!isExecutable) {
-                n.once('error', function () {
-                  _suman.log.warning(`Test file with the following path may not be executable:`);
-                  _suman.log.warning(chalk.magenta(file));
-                  _suman.log.warning('fs.Stats for this file were:\n', util.inspect(stats));
-                });
-              }
+              // n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
+              n = cp.spawn('bash', [], cpOptions) as ISumanChildProcess;
+              n.stdin.end(`\n${file} ${argz.join(' ')};\n`);
+              n.usingHashbang = true;
             }
             
             cb(null, n);

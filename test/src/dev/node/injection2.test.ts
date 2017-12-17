@@ -1,10 +1,16 @@
 #!/usr/bin/env node
 'use strict';
 
-import suman = require('suman');
-const Test = suman.init(module, {}, {
-  // series: false
-  allowSkip: true
+const suman = require('suman');
+const Test = suman.init(module, {
+  override: {
+    opts:{
+    
+    },
+    config:{
+    
+    }
+  }
 });
 
 ///////////////////////////////////////////////////////////////////////

@@ -108,7 +108,7 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
       let obj: IAfterObj = {
         ctx: zuite,
         timeout: opts.timeout || 11000,
-        desc: desc || fn.name,
+        desc: desc || fn.name || '(unknown after-all-hook name)',
         cb: opts.cb  === true, // default to false
         throws: opts.throws,
         always: opts.always,

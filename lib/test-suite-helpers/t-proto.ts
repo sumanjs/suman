@@ -15,7 +15,6 @@ import EE = require('events');
 import {freezeExistingProps} from 'freeze-existing-props';
 const chai = require('chai');
 
-
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
@@ -30,7 +29,7 @@ proto.skip = function () {
 };
 
 proto.done = proto.pass = proto.ctn = proto.fail = function () {
-  throw new Error('You have fired a callback for a test case or hook that was not callback oriented.');
+  this.__handle(new Error('You have fired a callback for a test case or hook that was not callback oriented.'));
 };
 
 proto.set = function (k: string, v: any) {
@@ -49,7 +48,7 @@ proto.get = function (k?: string) {
 
 proto.gets = proto.getMany = function (...args: Array<string>) {
   const self = this;
-  return args.map(function(k){
+  return args.map(function (k) {
     return self.__shared.get(k);
   });
 };
@@ -147,7 +146,6 @@ const expectCtx: any = {
   // this is used to store the context
   val: null
 };
-
 
 const expct = <Partial<AssertStatic>> function () {
   

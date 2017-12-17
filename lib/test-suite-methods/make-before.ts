@@ -112,7 +112,7 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
 
       let obj = {
         ctx: zuite,
-        desc: desc || fn.name || '(unknown before-hook name)',
+        desc: desc || fn.name || '(unknown before-all-hook name)',
         timeout: opts.timeoutVal || opts.timeout || 11000,
         cb: opts.cb === true,  // default to false
         successEvents: opts.successEvents,
