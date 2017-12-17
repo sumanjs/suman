@@ -35,7 +35,7 @@ export const vetLocalInstallations = function (sumanConfig: ISumanConfig, opts: 
     if (fs.lstatSync(sumanNodeModulesPath).isSymbolicLink()) {
       sumanIsSymlinkedLocally = true;
       if (opts.verbosity > 4) {
-        _suman.log.info(chalk.yellow('Note that Suman is installed locally as a symlinked directory.'));
+        _suman.log.info(chalk.yellow('Note that Suman is installed locally as a symlinked directory (which is fine).'));
       }
     }
   }

@@ -174,7 +174,6 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
       });
 
       after.cb(h => {
-
         h.ctn();
       });
 
@@ -183,7 +182,6 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
       });
 
       it.cb('passing', t => {
-
         t.done();
       });
 

@@ -114,14 +114,14 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
         ctx: zuite,
         desc: desc || fn.name || '(unknown before-hook name)',
         timeout: opts.timeoutVal || opts.timeout || 11000,
-        cb: opts.cb || false,
+        cb: opts.cb === true,  // default to false
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,
         events: opts.events,
         retries: opts.retries,
         throws: opts.throws,
         planCountExpected: opts.plan,
-        fatal: !(opts.fatal === false),
+        fatal: opts.fatal !== false, // default is true for before hooks!
         fn: fn,
         type: 'before/setup',
         warningErr: new Error('SUMAN_TEMP_WARNING_ERROR')

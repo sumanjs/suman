@@ -36,10 +36,10 @@ if (process.env.NPM_COLORS === 'no') {
 
 //////////////////////////////////////////////////////////////////////////////
 
-let sumanOpts = _suman.sumanOpts = (_suman.sumanOpts || JSON.parse(process.env.SUMAN_OPTS));
-const options = require('../parse-cmd-line-opts/suman-options');
+let sumanOpts = _suman.sumanOpts = _suman.sumanOpts || JSON.parse(process.env.SUMAN_OPTS);
+import {options} from '../parse-cmd-line-opts/suman-options';
+const childArgs = sumanOpts.child_arg || [];
 
-const childArgs = String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
 
 if (childArgs.length) {
 
@@ -51,8 +51,9 @@ if (childArgs.length) {
 
   try {
     opts = parser.parse(childArgs);
-  } catch (err) {
-    console.error(chalk.red(' => Suman command line options error: %s'), err.message);
+  }
+  catch (err) {
+    console.error(chalk.red(' => Suman command line options error:'), err.message);
     console.error(' => Try "suman --help" or visit sumanjs.org');
     process.exit(constants.EXIT_CODES.BAD_COMMAND_LINE_OPTION);
   }
@@ -60,11 +61,12 @@ if (childArgs.length) {
   sumanOpts = _suman.sumanOpts = Object.assign(sumanOpts, opts);
 }
 
+
 const usingRunner = _suman.usingRunner = true;
 const projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT;
 
 process.send = process.send || function (data) {
-  console.error(chalk.magenta('Suman implementation warning => '));
+  console.error(chalk.magenta('Suman warning:'));
   console.error('process.send() was not originally defined in this process.');
   console.error('(Perhaps we are using Istanbul?), we are logging the first argument to process.send() here => ');
   console.error(chalk.red(typeof  data === 'string' ? data : util.inspect(data)));
@@ -133,7 +135,6 @@ else {
 }
 
 const sumanHelperDirRoot = _suman.sumanHelperDirRoot = process.env['SUMAN_HELPERS_DIR_ROOT'];
-
 assert(sumanHelperDirRoot,
   ' => sumanHelperDirRoot should be defined by process.env.SUMAN_HELPERS_DIR_ROOT, but is null/undefined');
 
@@ -143,11 +144,21 @@ require('../helpers/log-stdio-of-child').run(filePath);
 
 //////////////////////////////////////////////////////////
 
-const useBabelRegister = _suman.useBabelRegister = sumanOpts.$useBabelRegister;
-
+const useBabelRegister = sumanOpts.$useBabelRegister;
 if (useBabelRegister) {
   console.error(chalk.bgRed.white(' => We are using babel-register.'));
   require('babel-register')({
+    // This will override `node_modules` ignoring - you can alternatively pass
+    // an array of strings to be explicitly matched or a regex / glob
+    ignore: /node_modules/
+  });
+}
+
+
+const useTSNodeRegister  = sumanOpts.$useTSNodeRegister;
+if (useTSNodeRegister) {
+  _suman.log.warning(chalk.magenta(' => We are using ts-node-register.'));
+  require('ts-node').register({
     // This will override `node_modules` ignoring - you can alternatively pass
     // an array of strings to be explicitly matched or a regex / glob
     ignore: /node_modules/
@@ -159,10 +170,8 @@ if (useBabelRegister) {
 const singleProc = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 //////// delete env vars that should not get passed to any cp's forked from this process //////////
-
-//TODO delete more vars
-// delete process.env.SUMAN_SINGLE_PROCESS;
-
+///// TODO delete more vars
+///// delete process.env.SUMAN_SINGLE_PROCESS;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 try {

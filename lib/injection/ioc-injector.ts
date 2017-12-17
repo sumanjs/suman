@@ -29,11 +29,7 @@ export const makeIocInjector = function ($iocData: Object, $preData: Object, $io
       }
 
       if (n === '$args') {
-        return String(_suman.sumanOpts.user_args || '').split(/ +/).filter(i => i);
-      }
-
-      if (n === '$argsRaw') {
-        return _suman.sumanOpts.user_args || '';
+        return _suman.sumanOpts.user_arg || [];
       }
 
       if (n === '$data') {

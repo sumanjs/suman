@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = [
+export const options = [
   
   {
     names: ['tsc-multi-watch'],
@@ -18,8 +18,9 @@ module.exports = [
     help: 'A dummy option useful for various things.'
   },
   {
-    names: ['auto-pass'],
+    names: ['always-exit-zero'], // note: just use this instead: `suman x | cat` or `suman x || exit 0;`
     type: 'bool',
+    hidden: true,
     help: 'With this flag, suman process always exits with code 0, this is useful when the place suman in a CI/CD pipeline ' +
     'but do not want failing to tests to unnecessarily break things.'
   },
@@ -35,19 +36,24 @@ module.exports = [
     help: 'Tells the NPM colors module to not use any control chars for color.'
   },
   {
-    names: ['containerize', 'ctrz'],
+    names: ['containerize', 'cntrz', 'ctrz'],
     type: 'bool',
     help: 'Tells Suman to containerize all tests into a Docker container.'
   },
   {
-    names: ['debug-hooks'],
+    names: ['debug-hooks', 'log-hooks'],
     type: 'bool',
-    help: 'Tells Suman to write a log when hooks begin and end for debugging purposes.'
+    help: 'Tells Suman to log when hooks begin/end, for debugging purposes.'
   },
   {
-    names: ['debug-tests-and-hooks'],
+    names: ['debug-tests-and-hooks', 'log-all'],
     type: 'bool',
-    help: 'Tells Suman to write a log when hooks and tests begin and end for debugging purposes.'
+    help: 'Tells Suman to log when hooks and tests begin/end, for debugging purposes.'
+  },
+  {
+    names: ['allow-in-place'],
+    type: 'bool',
+    help: 'Tells Suman to allow files to be transpiled/execute in place (same directory).'
   },
   {
     names: ['version', 'vn'],
@@ -116,6 +122,7 @@ module.exports = [
   {
     names: ['uninstall-suman'],
     type: 'bool',
+    hidden: true,
     help: 'Uninstall Suman in your project. Will clean up various directories safely.'
   },
   {
@@ -156,6 +163,7 @@ module.exports = [
   {
     names: ['completion'],
     type: 'bool',
+    hidden: true,
     help: 'Use this print out the bash completion functions to include in suman-clis.sh.'
   },
   {
@@ -179,20 +187,10 @@ module.exports = [
     help: 'Suman will *UN-install* the related dependencies.'
   },
   {
-    names: ['remove-babel', 'rm-babel'],  // this flag is only used when uninstalling suman as well
-    type: 'bool',
-    help: 'Suman will * uninstall * the "babel" related dependencies necessary to transpile to your local project.'
-  },
-  {
     names: ['use-server'],
     type: 'bool',
+    hidden: true,
     help: 'Suman will download and install the "suman-server" dependencies necessary for file-watching to your local project.'
-  },
-  {
-    names: ['use-istanbul'],
-    type: 'bool',
-    help: 'Suman will download and install the Istanbul dependencies necessary to run test coverage on your local project. You could do this' +
-    'yourself manually or you can tell Suman to do it for you intelligently.'
   },
   {
     names: ['log-stdio-to-files'],
@@ -253,12 +251,22 @@ module.exports = [
     help: 'Use this to filter input to ignore matches of the given JS regex; append to what is in <suman.conf.js>.',
   },
   {
-    names: ['babel-register', 'use-babel-register'],
+    names: ['use-ts-node-register', 'ts-node-register', 'ts-node', 'tsnode'],
     type: 'bool',
-    help: 'Use babel-core register to transpile sources on the fly, even in child processes.'
+    help: 'Use "ts-node/register" to transpile sources on the fly.'
   },
   {
-    names: ['no-babel-register', 'no-use-babel-register'],
+    names: ['install-babel'],
+    type: 'bool',
+    help: 'Install default babel dependencies.'
+  },
+  {
+    names: ['use-babel-register', 'babel-register', 'babel'],
+    type: 'bool',
+    help: 'Use "babel-core/register" to transpile sources on the fly.'
+  },
+  {
+    names: ['no-babel-register', 'no-babel'],
     type: 'bool',
     help: 'Prevent usage of babel-register, even useBabelRegister is set to true in your config.'
   },
@@ -273,7 +281,7 @@ module.exports = [
     help: 'Create suman test skeleton at the path(s) you specified.'
   },
   {
-    names: ['coverage'],
+    names: ['coverage', 'cov'],
     type: 'bool',
     help: 'Run Suman tests and see coverage report.'
   },
@@ -330,7 +338,7 @@ module.exports = [
   {
     names: ['suman-helpers-dir', 'shd'],
     type: 'string',
-    internal: true,  //only visible to lib authors?
+    hidden: true,
     help: 'Use this option to force-specify the directory that houses the suman helpers files.'
   },
   {
@@ -361,11 +369,6 @@ module.exports = [
     env: 'SUMAN_FFORCE'
   },
   {
-    names: ['pipe', 'p'],
-    type: 'bool',
-    help: 'Pipe data to Suman using stdout to stdin.'
-  },
-  {
     names: ['convert-from-mocha', 'convert'],
     type: 'bool',
     help: 'Convert Mocha test file or directory to Suman test(s).'
@@ -378,17 +381,18 @@ module.exports = [
   {
     names: ['use-tap-output', 'use-tap', 'tap'],
     type: 'bool',
-    help: 'Use this option to tell the Suman process to output test results as TAP.'
+    help: 'Use this option to tell the Suman process to output test results as TAP.',
+    env: 'SUMAN_TAP'
   },
   {
     names: ['use-tap-json-output', 'use-tap-json', 'tap-json'],
     type: 'bool',
-    help: 'Tells the Suman process to output test results as TAP-JSON.'
+    help: 'Tells the Suman process to output test results as TAP-JSON.',
+    env: 'SUMAN_TAP_JSON'
   },
   {
     names: ['suman-shell', 'shell'],
     type: 'bool',
-    internal: true,  //only visible to lib authors?
     help: 'Run suman-shell.'
   },
   {
@@ -561,7 +565,7 @@ module.exports = [
     '@run.sh, @transform.sh, @target, @src, have the correct permissions.'
   },
   {
-    names: ['browser', 'b'],
+    names: ['browser'],
     type: 'bool',
     help: 'Tell Suman to run browser tests.'
   },
@@ -597,8 +601,9 @@ module.exports = [
     help: 'Override config value for maximum number of parallel Node.js processes.'
   },
   {
-    names: ['server', 's'],
+    names: ['server'],
     type: 'bool',
+    hidden: true,
     help: 'Start the suman server manually.'
   },
   {
@@ -607,17 +612,18 @@ module.exports = [
     help: 'Pass an argument through command line to the executable.'
   },
   {
-    names: ['exec-args'],
-    type: 'string',
-    help: 'Pass exec arguments through command line.'
-  },
-  {
-    names: ['user-args', 'child-args'],
+    names: ['user-arg', 'arg'],
     type: 'string',
     help: 'Pass child arguments through command line.'
   },
   {
-    names: ['child-env', 'env'],
+    names: ['child-arg'],
+    type: 'arrayOfString',
+    help: 'Pass Suman library arguments to child processes through command line. ' +
+    'Use --arg=foo --arg=bar to pass arguments to process.argv of child processes.'
+  },
+  {
+    names: ['child-env'],
     type: 'arrayOfString',
     help: 'Pass user arguments through command line.',
     env: 'SUMAN_CHILD_ENV'

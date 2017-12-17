@@ -69,7 +69,7 @@ export const makeAfterAllParentHooks = function (suman: ISuman): IAfterFn {
         ctx: zuite,
         timeout: opts.timeout || 11000,
         desc: desc || fn.name,
-        cb: opts.cb || false,
+        cb: opts.cb  === true,  // default to false
         throws: opts.throws,
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,

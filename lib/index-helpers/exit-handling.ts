@@ -229,7 +229,7 @@ process.on('uncaughtException', function (err: SumanErrorRace) {
 
   if (!sumanOpts || sumanOpts.ignoreUncaughtExceptions !== false) {
 
-    _suman.sumanUncaughtExceptionTriggered = err;
+    _suman.uncaughtExceptionTriggered = err;
 
     setTimeout(function () {
 
@@ -299,7 +299,7 @@ process.on('unhandledRejection', ($reason: any, p: IPromiseWithDomain) => {
   _suman.log.error(chalk.magenta.bold('Rejection reason'), chalk.magenta(reason));
   console.error('\n');
 
-  _suman.sumanUncaughtExceptionTriggered = reason;
+  _suman.uncaughtExceptionTriggered = reason;
 
   if (_suman.afterAlwaysEngaged) {
     // we are running after always hooks, and any uncaught exceptions will be ignored in this case

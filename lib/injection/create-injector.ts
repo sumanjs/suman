@@ -33,9 +33,7 @@ export const makeCreateInjector = function (suman: ISuman, container: Object) {
       switch (lowerCaseKey) {
 
         case '$args':
-          return String(sumanOpts.user_args || '').split(/ +/).filter(i => i);
-        case '$argsraw':
-          return sumanOpts.user_args || '';
+          return sumanOpts.user_arg || [];
         case '$iocStatic':
           return _suman.$staticIoc;
         case 'b':
