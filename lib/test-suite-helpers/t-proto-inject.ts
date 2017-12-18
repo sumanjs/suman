@@ -49,15 +49,20 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
   v.__handle = handleError;
   v.__fini = fini;
   
-  
   v.registerKey = v.register = function (k: string, val: any): Promise<any> {
-    assert(k && typeof k === 'string', 'key must be a string.');
+    
+    try {
+      assert(k && typeof k === 'string', 'key must be a string.');
+    }
+    catch (err) {
+      return this.__handle(err);
+    }
     
     if (k in valuesMap) {
-      throw new Error(`Injection key '${k}' has already been added.`);
+      return this.__handle(new Error(`Injection key '${k}' has already been added.`));
     }
     if (k in suite.injectedValues) {
-      throw new Error(`Injection key '${k}' has already been added.`);
+      return this.__handle(new Error(`Injection key '${k}' has already been added.`));
     }
     
     valuesMap[k] = true; // mark as reserved
@@ -67,56 +72,72 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
   
   v.registerFnsMap = v.registerFnMap = function (o: Dictionary<any>): Promise<any> {
     
-    assert(su.isObject(o), 'value must be a non-array object.');
+    const self = this;
     
     return new Promise(function (resolve, reject) {
       
-      debugger;
+      assert(su.isObject(o), 'value must be a non-array object.');
       
       async.series(o, function (err: Error, results: Dictionary<any>) {
-        
-        console.log('err => ', err);
-        console.log('results => ', results);
         
         if (err) {
           return reject(err);
         }
         
-        Object.keys(results).forEach(function (k) {
-          if (k in valuesMap) {
-            return reject(new Error(`Injection key '${k}' has already been added.`));
-          }
-          if (k in suite.injectedValues) {
-            return reject(new Error(`Injection key '${k}' has already been added.`));
-          }
-          
-          valuesMap[k] = true; // mark as reserved
-          values.push({k, val: results[k]});
-        });
+        try {
+          Object.keys(results).forEach(function (k) {
+            if (k in valuesMap) {
+              throw new Error(`Injection key '${k}' has already been added.`);
+            }
+            if (k in suite.injectedValues) {
+              throw new Error(`Injection key '${k}' has already been added.`);
+            }
+            valuesMap[k] = true; // mark as reserved
+            values.push({k, val: results[k]});
+          });
+        }
+        catch (err) {
+          return reject(err);
+        }
         
         resolve(results);
       });
+    })
+    .catch(function (err) {
+      return self.__handle(err);
     });
   };
   
   v.registerMap = v.registerPromisesMap = function (o: Dictionary<any>): Promise<Array<any>> {
     
-    let keys = Object.keys(o);
-    return Promise.all(keys.map(function (k) {
-      
-      if (k in valuesMap) {
-        throw new Error(`Injection key '${k}' has already been added.`);
-      }
-      if (k in suite.injectedValues) {
-        throw new Error(`Injection key '${k}' has already been added.`);
-      }
-      
-      valuesMap[k] = true; // mark as reserved
-      values.push({k, val: o[k]});
-      return o[k];
-    }));
+    const keys = Object.keys(o);
+    const self = this;
+    let registry;
+    
+    try {
+      registry = keys.map(function (k) {
+        
+        if (k in valuesMap) {
+          throw new Error(`Injection key '${k}' has already been added.`);
+        }
+        if (k in suite.injectedValues) {
+          throw new Error(`Injection key '${k}' has already been added.`);
+        }
+        
+        valuesMap[k] = true; // mark as reserved
+        values.push({k, val: o[k]});
+        return o[k];
+      });
+    }
+    catch (err) {
+      return self.__handle(err);
+    }
+    
+    return Promise.all(registry)
+    .catch(function (err) {
+      return self.__handle(err);
+    });
   };
-
   
   v.plan = function (num: number) {
     if (planCalled) {
@@ -126,10 +147,18 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
     
     planCalled = true;
     if (inject.planCountExpected !== undefined) {
-      _suman.writeTestError(new Error(' => Suman warning => plan() called, even though plan was already passed as an option.').stack);
+      _suman.writeTestError(
+        new Error(' => Suman warning => plan() called, even though plan was already passed as an option.').stack
+      );
     }
     
-    assert(Number.isInteger(num), 'Suman usage error => value passed to plan() is not an integer.');
+    try {
+      assert(Number.isInteger(num), 'Suman usage error => value passed to plan() is not an integer.');
+    }
+    catch (err) {
+      return this.__handle(err);
+    }
+    
     inject.planCountExpected = v.planCountExpected = num;
   };
   

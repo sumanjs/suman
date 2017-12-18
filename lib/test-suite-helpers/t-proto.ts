@@ -107,7 +107,9 @@ const slice = Array.prototype.slice;
 proto.wrapFinalErr = proto.wrapFinalErrFirst = proto.wrapFinalErrorFirst = proto.wrapFinalError = function (fn: Function) {
   const self = this;
   return function (err: Error) {
-    if (err) return self.__handle(err, false);
+    if (err) {
+      return self.__handle(err, false);
+    }
     try {
       fn.apply(this, slice.call(arguments, 1));
       self.__fini(null);
@@ -136,10 +138,10 @@ proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
 
 proto.handleAssertions = proto.wrapAssertions = function (fn: Function) {
   try {
-    fn.call(null);
+    return fn.call(null);
   }
   catch (e) {
-    this.__handle(e);
+    return this.__handle(e);
   }
 };
 

@@ -33,35 +33,40 @@ let badProps = <IBadProps> {
 
 export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj,
                                      handleError: IHandleError, fini: Function): IHookParam {
-
+  
   let planCalled = false;
   const v = Object.create(tProto);
-
+  
   v.__hook = hook;
   v.__handle = handleError;
   v.__fini = fini;
   
-
   v.plan = function (num: number) {
     if (planCalled) {
       _suman.writeTestError(new Error('Suman warning => plan() called more than once.').stack);
       return;
     }
-
+    
     planCalled = true;
     if (hook.planCountExpected !== undefined) {
       _suman.writeTestError(new Error(' => Suman warning => plan() called, even though plan was already passed as an option.').stack);
     }
-
-    assert(Number.isInteger(num), 'Suman usage error => value passed to plan() is not an integer.');
+    
+    try {
+      assert(Number.isInteger(num), 'Suman usage error => value passed to plan() is not an integer.');
+    }
+    catch (err) {
+      return this.__handle(err);
+    }
+    
     hook.planCountExpected = v.planCountExpected = num;
   };
-
+  
   v.confirm = function () {
     assertCount.num++;
   };
-
+  
   return v;
-
+  
 };
 
