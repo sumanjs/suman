@@ -198,11 +198,20 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       return this.shared.get(k);
     }
     
-    gets(...args: Array<string>) {
+    getValues(...args: Array<string>) {
       const self = this;
       return args.map(function (k) {
         return self.shared.get(k);
       });
+    }
+    
+    getMap(...args: Array<string>) {
+      const self = this;
+      const ret = {} as any;
+      args.forEach(function (k) {
+        ret[k] = self.shared.get(k);
+      });
+      return ret;
     }
     
     getAfterAllParentHooks() {
@@ -243,14 +252,44 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
     }
     
     getInjectedValues(...args: string[]) {
-      return args.map(a => {
-        if (a in this.injectedValues) {
-          return this.injectedValues[a];
-        }
-        else if (this.parent) {
-          return this.parent.getInjectedValue(a);
-        }
+      const self = this;
+      return args.map(function (a) {
+        return self.getInjectedValue(a);
       });
+    }
+    
+    getInjectedMap(...args: string[]) {
+      const self = this;
+      const ret = {} as any;
+      args.forEach(function (a) {
+        ret[a] = self.getInjectedValue(a);
+      });
+      return ret;
+    }
+    
+    getSourcedValue(v: string): any {
+      if (v in this.ioc) {
+        return this.ioc[v];
+      }
+      else if (this.parent) {
+        return this.parent.getSourcedValue(v);
+      }
+    }
+    
+    getSourcedValues(...args: string[]) {
+      const self = this;
+      return args.map(function (a) {
+        return self.getSourcedValue(a);
+      });
+    }
+    
+    getSourcedMap(...args: string[]) {
+      const self = this;
+      const ret = {} as any;
+      args.forEach(function (a) {
+        ret[a] = self.getSourcedValue(a);
+      });
+      return ret;
     }
     
     getInjections() {

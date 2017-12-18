@@ -55,3 +55,16 @@ Test.create(['aaa', 'bbb', 'ccc', (b, describe, before, after, afterEach) => {
   // });
 
 }]);
+
+Test.define('roo')
+.source('bat', 'suit')
+.run(b => {
+
+  console.log('B dot i.o.c.', b.ioc);
+  console.log('B dot i.o.c.', b.getSourcedValues('bat'));
+
+})
+.run(b => {
+
+  console.log('B dot i.o.c.', b.ioc);
+});

@@ -35,10 +35,10 @@ proto.done = proto.pass = proto.ctn = proto.fail = function () {
 };
 
 proto.fatal = function fatal(err: IPseudoError) {
-  if(!err){
+  if (!err) {
     err = new Error('t.fatal() was called by the developer, with a falsy first argument.');
   }
-  else if(!su.isObject(err)){
+  else if (!su.isObject(err)) {
     let msg = 't.fatal() was called by the developer: ';
     err = new Error(msg + util.inspect(err));
   }
@@ -60,11 +60,20 @@ proto.get = function (k?: string) {
   return this.__shared.get(k);
 };
 
-proto.gets = proto.getMany = function (...args: Array<string>) {
+proto.getValues = function (...args: Array<string>) {
   const self = this;
   return args.map(function (k) {
     return self.__shared.get(k);
   });
+};
+
+proto.getMap = function (...args: Array<string>) {
+  const self = this;
+  const ret = {} as any;
+  args.forEach(function (a) {
+    ret[a] = self.__shared.get(a);
+  });
+  return ret;
 };
 
 proto.wrap = function (fn: Function) {
