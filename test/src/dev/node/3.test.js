@@ -24,7 +24,7 @@ Test.create(function (b, assert, describe, test, before, beforeEach, after, afte
   });
 
   b.set('a', 'bingo');
-  const [a, z] = b.gets('a', 'b');
+  const [a, z] = b.getValues('a', 'b');
   assert.equal(a, 'bingo');
   assert.equal(z, undefined);
 
@@ -32,7 +32,7 @@ Test.create(function (b, assert, describe, test, before, beforeEach, after, afte
 
   describe('here we go', function (b) {
 
-    const [a, z] = b.gets('a', 'b');
+    const [a, z] = b.getValues('a', 'b');
     assert.equal(a, 'bingo');
     assert.equal(z, undefined);
 
