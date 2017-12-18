@@ -204,19 +204,13 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         t.__shared = self.shared;
         t.supply = t.__supply = self.supply;
         
-        t.fatal = function fatal(err: IPseudoError) {
-          err = err || new Error('Stand-in error, since user did not provide one.');
-          if (typeof err !== 'object') err = new Error(util.inspect(err));
-          err.sumanFatal = true;
-          handleError(err);
-        };
         
-        let args;
+        let arg;
         
         if (isGeneratorFn) {
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfterEach);
-          args = [freezeExistingProps(t)];
-          handlePotentialPromise(helpers.handleGenerator(aBeforeOrAfterEach.fn, args));
+          arg = freezeExistingProps(t);
+          handlePotentialPromise(helpers.handleGenerator(aBeforeOrAfterEach.fn, arg));
         }
         else if (aBeforeOrAfterEach.cb) {
           
@@ -239,9 +233,9 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
             t.callbackMode ? fini(null) : handleNonCallbackMode(undefined);
           };
           
-          args = Object.setPrototypeOf(dne, freezeExistingProps(t));
+          arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
           
-          if (aBeforeOrAfterEach.fn.call(null, args)) {
+          if (aBeforeOrAfterEach.fn.call(null, arg)) {
             _suman.writeTestError(cloneError(aBeforeOrAfterEach.warningErr,
               constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
@@ -249,8 +243,8 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         else {
           
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfterEach);
-          args = freezeExistingProps(t);
-          handlePotentialPromise(aBeforeOrAfterEach.fn.call(null, args), false);
+          arg = freezeExistingProps(t);
+          handlePotentialPromise(aBeforeOrAfterEach.fn.call(null, arg), false);
         }
         
       });

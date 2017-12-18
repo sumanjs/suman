@@ -38,7 +38,7 @@ export const makeHookObj = function (hook: IHookObj, assertCount: IAssertObj,
   const v = Object.create(tProto);
 
   v.__hook = hook;
-  v.__handle = v.__handleErr = handleError;
+  v.__handle = handleError;
   v.__fini = fini;
   
 

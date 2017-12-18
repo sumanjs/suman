@@ -10,8 +10,10 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import EE = require('events');
+import util = require('util');
 
 //npm
+import su = require('suman-utils');
 import {freezeExistingProps} from 'freeze-existing-props';
 const chai = require('chai');
 
@@ -30,6 +32,18 @@ proto.skip = function () {
 
 proto.done = proto.pass = proto.ctn = proto.fail = function () {
   this.__handle(new Error('You have fired a callback for a test case or hook that was not callback oriented.'));
+};
+
+proto.fatal = function fatal(err: IPseudoError) {
+  if(!err){
+    err = new Error('t.fatal() was called by the developer, with a falsy first argument.');
+  }
+  else if(!su.isObject(err)){
+    let msg = 't.fatal() was called by the developer: ';
+    err = new Error(msg + util.inspect(err));
+  }
+  err.sumanFatal = true;
+  this.__handle(err);
 };
 
 proto.set = function (k: string, v: any) {
@@ -125,7 +139,7 @@ proto.handleAssertions = proto.wrapAssertions = function (fn: Function) {
     fn.call(null);
   }
   catch (e) {
-    this.__handleErr(e);
+    this.__handle(e);
   }
 };
 
@@ -159,7 +173,7 @@ const expct = <Partial<AssertStatic>> function () {
     return chai.expect.apply(chai.expect, arguments);
   }
   catch (e) {
-    return ctx.__handleError(e);
+    return ctx.__handle(e);
   }
 };
 
@@ -181,7 +195,7 @@ const expectProxy = new Proxy(expct, {
         return Reflect.get.apply(Reflect, arguments);
       }
       catch (err) {
-        return ctx.__handleError(
+        return ctx.__handle(
           new Error(`The assertion library used does not have a '${prop}' property or method.`)
         );
       }
@@ -192,7 +206,7 @@ const expectProxy = new Proxy(expct, {
         return chai.expect[prop].apply(chai.expect, arguments);
       }
       catch (e) {
-        return ctx.__handleError(e);
+        return ctx.__handle(e);
       }
     }
   }
@@ -217,7 +231,7 @@ const assrt = <Partial<AssertStatic>> function () {
     return chai.assert.apply(chai.assert, arguments);
   }
   catch (e) {
-    return ctx.__handleError(e);
+    return ctx.__handle(e);
   }
 };
 
@@ -239,7 +253,7 @@ const p = new Proxy(assrt, {
         return Reflect.get.apply(Reflect, arguments);
       }
       catch (err) {
-        return ctx.__handleError(
+        return ctx.__handle(
           new Error(`The assertion library used does not have a '${prop}' property or method.`)
         );
       }
@@ -250,7 +264,7 @@ const p = new Proxy(assrt, {
         return chai.assert[prop].apply(chai.assert, arguments);
       }
       catch (e) {
-        return ctx.__handleError(e);
+        return ctx.__handle(e);
       }
     }
   }

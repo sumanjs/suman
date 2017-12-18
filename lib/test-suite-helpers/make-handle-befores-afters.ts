@@ -1,9 +1,9 @@
 'use strict';
 
 //dts
-import {IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
+import {IHandleError, IOnceHookObj, ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanAllHookDomain, ISumanDomain} from "suman-types/dts/global";
+import {ISuman, Suman} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -26,6 +26,7 @@ const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../helpers/general';
 import {makeHookObj} from './t-proto-hook';
 import {freezeExistingProps} from 'freeze-existing-props';
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -92,11 +93,6 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
       const errMessage = err && (err.stack || err.message|| util.inspect(err));
       err = cloneError(aBeforeOrAfter.warningErr, errMessage, false);
       
-      // err = err || new Error('unknown hook error.');
-      //
-      // if (typeof err === 'string') {
-      //   err = new Error(err);
-      // }
       
       const stk = err.stack || err;
       const formatedStk = typeof stk === 'string' ? stk : util.inspect(stk);
@@ -171,12 +167,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         t.desc = aBeforeOrAfter.desc;
         fini.thot = t;
         t.timeout = timeout;
-        t.fatal = function fatal(err: IPseudoError) {
-          err = err || new Error(
-            'Suman placeholder error since this function was not explicitly passed an error object as first argument.'
-          );
-          handleError(err, null);
-        };
+      
         
         let arg;
         

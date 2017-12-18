@@ -46,7 +46,7 @@ export const makeInjectObj = function (inject: IHookObj, assertCount: IAssertObj
   const valuesMap = {} as any;
   
   v.__hook = inject;
-  v.__handle = v.__handleErr = handleError;
+  v.__handle = handleError;
   v.__fini = fini;
   
   

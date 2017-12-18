@@ -28,12 +28,12 @@ const defaultErrorEvents = ['error'];
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-export const handleReturnVal = function (done: Function, str: string, testOrHook: ITestDataObj | IHookObj) {
+export const handleReturnVal = function (done: Function, fnStr: string, testOrHook: ITestDataObj | IHookObj) {
 
   return function handle(val: any, warn: boolean, d: ISumanDomain) {
 
     if ((!val || (typeof val.then !== 'function')) && warn) {
-      _suman.writeTestError('\n Suman warning: you may have forgotten to return a Promise => \n' + str + '\n');
+      _suman.writeTestError('\n Suman warning: you may have forgotten to return a Promise => \n' + fnStr + '\n');
     }
 
     if (su.isObservable(val)) {
@@ -134,9 +134,9 @@ export const handleReturnVal = function (done: Function, str: string, testOrHook
   }
 };
 
-export const handleGenerator = function (fn: Function, args: Array<any>) {
+export const handleGenerator = function (fn: Function, arg: any) {
   const gen = makeRunGenerator(fn, null);
-  return gen.apply(null, args);
+  return gen.call(null, arg);
 };
 
 

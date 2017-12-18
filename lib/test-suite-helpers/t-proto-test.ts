@@ -51,7 +51,7 @@ export const makeTestCase = function (test: ITestDataObj, assertCount: IAssertCo
   v.desc = v.title = test.desc;
   v.data = test.data;
   v.__test = test;
-  v.__handle = v.__handleError = handleError;
+  v.__handle = handleError;
   v.__fini = fini;
   
   
