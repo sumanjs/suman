@@ -26,7 +26,7 @@ import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const runnerUtils = require('./runner-utils');
+import * as ru from './runner-utils';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {pt} from 'prepend-transform';
 
@@ -164,7 +164,7 @@ export const makeContainerize =
           }
         };
 
-        const tr = runnerUtils.findPathOfTransformDotSh(file);
+        const tr = ru.findPathOfTransformDotSh(file);
 
         if (tr) {
 

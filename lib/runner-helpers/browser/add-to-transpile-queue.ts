@@ -19,7 +19,7 @@ import async = require('async');
 import chalk = require('chalk');
 import su = require('suman-utils');
 import {pt} from 'prepend-transform';
-import uuidV4 = require('uuid/v4');
+import uuid = require('uuid');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -37,7 +37,7 @@ export const makeAddToTranspileQueue = function (f: string, transpileQueue: Asyn
 
   return function (fileShortAndFull: Array<Array<string>>) {
 
-    const uuid = String(uuidV4());
+    const uuidV4 = String(uuid.v4());
     const file = fileShortAndFull[0];
     const shortFile = fileShortAndFull[1];
     const filePathFromProjectRoot = fileShortAndFull[2];
@@ -65,8 +65,8 @@ export const makeAddToTranspileQueue = function (f: string, transpileQueue: Asyn
       }
     };
 
-    const gd = ganttHash[uuid] = {
-      uuid: uuid,
+    const gd = ganttHash[uuidV4] = {
+      uuid: uuidV4,
       fullFilePath: String(file),
       shortFilePath: String(shortFile),
       filePathFromProjectRoot: String(filePathFromProjectRoot),

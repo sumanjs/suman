@@ -28,8 +28,7 @@ import {events} from 'suman-events';
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getTapParser,getTapJSONParser} from '../handle-tap';
 import pt from 'prepend-transform';
-import uuidV4 = require('uuid/v4');
-import {findPathOfRunDotSh} from '../runner-utils'
+import uuid = require('uuid');
 import {constants} from "../../../config/suman-constants";
 const runChildPath = require.resolve(__dirname + '/../run-child.js');
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
@@ -80,7 +79,7 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
       const extname = path.extname(shortFile);
 
       let $childId = childId++;
-      let childUuid = uuidV4();
+      let childUuid = uuid.v4();
       const inherit = sumanOpts.$forceInheritStdio ? 'inherit' : '';
 
       if (inherit) {
