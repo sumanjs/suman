@@ -177,7 +177,7 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                 let coverageDir = path.resolve(_suman.projectRoot + '/coverage/suman_by_timestamp/' + _suman.timestamp +
                   '/suman_by_process/' + String(shortFile).replace(/\//g, '-'));
                 
-                let argzz = ['cover', execFile, '--dir', coverageDir, '--'].concat(argz);
+                let argzz = ['cover', execFile, '--report=json', '--dir', coverageDir, '--'].concat(argz);
                 
                 //'--include-all-sources'
                 n = cp.spawn(istanbulExecPath, argzz, cpOptions) as ISumanChildProcess;

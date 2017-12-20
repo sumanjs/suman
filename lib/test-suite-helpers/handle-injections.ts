@@ -138,7 +138,7 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
       //
       // });
       
-      debugger;
+      const seed = Promise.resolve(null);
       
       const p = values.reduce(function (a, b) {
         //run promises in series
@@ -146,8 +146,7 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
         .then(function (v) {
           return addValuesToSuiteInjections(b.k, v);
         });
-        
-      }, null);
+      }, seed);
       
       return p.then(function () {
         first(null);
