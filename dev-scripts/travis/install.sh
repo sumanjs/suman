@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e;
+#set -e;
 
 rm -rf node_modules
 npm cache verify # npm cache clean
