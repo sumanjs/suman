@@ -280,10 +280,6 @@ shopt -u extdebug
 
 ////
 
- if beforeEach hook fails -> we do not exit, but we should mark the test as failed.
-
-////
-
 if function parameter name is in $ioc, but is listed explicity, then we should throw to let the user know.
 e.g.   describe('x', function(runMyQuestionsPage){});
  when runMyQuestionsPage is on $ioc, instead of available.

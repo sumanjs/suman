@@ -44,8 +44,15 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     const {sumanOpts} = _suman;
     aBeforeOrAfterEach.alreadyInitiated = true;
     
-    if (test.skipped || test.stubbed || test.failed) {
+    if (test.skipped || test.stubbed) {
+      return process.nextTick(cb);
+    }
+    
+    if(test.failed && aBeforeOrAfterEach.type === 'beforeEach/setupTest'){
       // if test.failed => another beforeEach hook failed, so test failed
+      // if this is a beforeEach hook, we can skip it
+      // on the other hand this is an afterEach hook,
+      // we should continue processing afterEach hooks even if the test failed.
       return process.nextTick(cb);
     }
     
