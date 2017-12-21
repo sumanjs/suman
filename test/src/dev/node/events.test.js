@@ -20,7 +20,7 @@ Test.create(function (b, assert, describe, before, beforeEach, after, afterEach,
 
     setTimeout(function () {
       ee.emit('done');
-    }, 300);
+    }, 30);
 
     return ee;
 
@@ -32,7 +32,7 @@ Test.create(function (b, assert, describe, before, beforeEach, after, afterEach,
 
     setTimeout(function () {
       ee.emit('bubba', new Error('zoom'));
-    }, 300);
+    }, 30);
 
     return ee;
 
@@ -44,7 +44,7 @@ Test.create(function (b, assert, describe, before, beforeEach, after, afterEach,
 
     setTimeout(function () {
       ee.emit('bubba', new Error('zoom'));
-    }, 300);
+    }, 30);
 
     return ee;
 

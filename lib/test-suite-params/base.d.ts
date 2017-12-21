@@ -1,11 +1,9 @@
-/// <reference types="node" />
 import { IPseudoError } from "suman-types/dts/global";
 import { IHookObj } from "suman-types/dts/test-suite";
-import EE = require('events');
-export declare class ParamBase implements IParamBase {
+export declare class ParamBase {
     protected __hook: IHookObj;
-    done: Function;
     constructor();
+    done(): void;
     skip(): void;
     fatal(err: IPseudoError): void;
     set(k: string, v: any): any;
@@ -17,8 +15,16 @@ export declare class ParamBase implements IParamBase {
     final(fn: Function): void;
     log(...args: Array<string>): void;
     slow(): void;
+    wrapFinalErrorFirst(fn: Function): (err: Error) => any;
+    wrapErrorFirst(fn: Function): (err: IPseudoError) => any;
+    handleAssertions(fn: Function): any;
 }
-export interface IParamBase {
-    handleAssertions: (fn: Function) => any;
+export interface ParamBase {
+    pass: typeof ParamBase.prototype.done;
+    ctn: typeof ParamBase.prototype.done;
+    fail: typeof ParamBase.prototype.done;
+    wrapFinalErrFirst: typeof ParamBase.prototype.wrapFinalErrorFirst;
+    wrapFinalErr: typeof ParamBase.prototype.wrapFinalErrorFirst;
+    wrapFinalError: typeof ParamBase.prototype.wrapFinalErrorFirst;
+    wrapErrFirst: typeof ParamBase.prototype.wrapErrorFirst;
 }
-export declare const tProto: ParamBase & Function & EE;

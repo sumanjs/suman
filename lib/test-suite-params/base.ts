@@ -26,20 +26,30 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 // const fproto = Object.create(Function.prototype);
 // export const proto = Object.create(Object.assign(fproto, EE.prototype));
 
+interface IBadProps {
+  [key: string]: true
+}
+
+let badProps = <IBadProps> {
+  inspect: true,
+  constructor: true
+};
+
 const slice = Array.prototype.slice;
 
-
-export class ParamBase implements IParamBase {
+export class ParamBase {
   
   protected __hook: IHookObj;
-  public done: Function;
   
-  
-  constructor(){
+  constructor() {
     // super();
   }
   
-  skip () {
+  done() {
+    this.__handle(new Error('You have fired a callback for a test case or hook that was not callback oriented.'));
+  }
+  
+  skip() {
     (this.__hook || this.__test).skipped = true;
     (this.__hook || this.__test).dynamicallySkipped = true;
   }
@@ -56,29 +66,28 @@ export class ParamBase implements IParamBase {
     this.__handle(err);
   }
   
-  set (k: string, v: any) {
+  set(k: string, v: any) {
     if (arguments.length < 2) {
       throw new Error('Must pass both a key and value to "set" method.');
     }
     return this.__shared.set(k, v);
   }
   
-  get (k?: string) {
+  get(k?: string) {
     if (arguments.length < 1) {
       return this.__shared.getAll();
     }
     return this.__shared.get(k);
   }
   
-  
-  getValues (...args: Array<string>) {
+  getValues(...args: Array<string>) {
     const self = this;
     return args.map(function (k) {
       return self.__shared.get(k);
     });
   }
   
-  getMap (...args: Array<string>) {
+  getMap(...args: Array<string>) {
     const self = this;
     const ret = {} as any;
     args.forEach(function (a) {
@@ -87,7 +96,7 @@ export class ParamBase implements IParamBase {
     return ret;
   }
   
-  wrap (fn: Function) {
+  wrap(fn: Function) {
     const self = this;
     return function () {
       try {
@@ -99,7 +108,7 @@ export class ParamBase implements IParamBase {
     }
   };
   
-  wrapFinal (fn: Function) {
+  wrapFinal(fn: Function) {
     const self = this;
     return function () {
       try {
@@ -112,7 +121,7 @@ export class ParamBase implements IParamBase {
     }
   }
   
-  final (fn: Function) {
+  final(fn: Function) {
     try {
       fn.apply(null, arguments);
       this.__fini(null);
@@ -122,69 +131,71 @@ export class ParamBase implements IParamBase {
     }
   }
   
-  log (...args: Array<string>) {
+  log(...args: Array<string>) {
     console.log(` [ '${this.desc || 'unknown'}' ] `, ...args);
   }
   
-  slow () {
+  slow() {
     this.timeout(30000);
   }
   
+  wrapFinalErrorFirst(fn: Function) {
+    const self = this;
+    return function (err: Error) {
+      if (err) {
+        return self.__handle(err, false);
+      }
+      try {
+        fn.apply(this, slice.call(arguments, 1));
+        self.__fini(null);
+      }
+      catch (e) {
+        self.__handle(e, false);
+      }
+    }
+  }
+  
+  wrapErrorFirst(fn: Function) {
+    const self = this;
+    return function (err: IPseudoError) {
+      if (err) {
+        return self.__handle(err, false);
+      }
+      try {
+        // remove the error-first argument
+        return fn.apply(this, slice.call(arguments, 1));
+      }
+      catch (e) {
+        return self.__handle(e, false);
+      }
+    }
+  }
+  
+  handleAssertions(fn: Function) {
+    try {
+      return fn.call(null);
+    }
+    catch (e) {
+      return this.__handle(e);
+    }
+  };
+  
 }
 
+export interface ParamBase {
+  pass: typeof ParamBase.prototype.done;
+  ctn: typeof ParamBase.prototype.done;
+  fail: typeof ParamBase.prototype.done;
+  wrapFinalErrFirst: typeof ParamBase.prototype.wrapFinalErrorFirst;
+  wrapFinalErr: typeof ParamBase.prototype.wrapFinalErrorFirst;
+  wrapFinalError: typeof ParamBase.prototype.wrapFinalErrorFirst;
+  wrapErrFirst: typeof ParamBase.prototype.wrapErrorFirst;
+}
 
 const proto = Object.assign(ParamBase.prototype, Function.prototype, EE.prototype);
-
-proto.done = proto.pass = proto.ctn = proto.fail = function () {
-  this.__handle(new Error('You have fired a callback for a test case or hook that was not callback oriented.'));
-};
-
-proto.wrapFinalErr = proto.wrapFinalErrFirst = proto.wrapFinalErrorFirst = proto.wrapFinalError = function (fn: Function) {
-  const self = this;
-  return function (err: Error) {
-    if (err) {
-      return self.__handle(err, false);
-    }
-    try {
-      fn.apply(this, slice.call(arguments, 1));
-      self.__fini(null);
-    }
-    catch (e) {
-      self.__handle(e, false);
-    }
-  }
-};
-
-
-proto.wrapErrorFirst = proto.wrapErrFirst = function (fn: Function) {
-  const self = this;
-  return function (err: IPseudoError) {
-    if (err) {
-      return self.__handle(err, false);
-    }
-    try {
-      // remove the error-first argument
-      return fn.apply(this, slice.call(arguments, 1));
-    }
-    catch (e) {
-      return self.__handle(e, false);
-    }
-  }
-};
-
-proto.handleAssertions = proto.wrapAssertions = function (fn: Function) {
-  try {
-    return fn.call(null);
-  }
-  catch (e) {
-    return this.__handle(e);
-  }
-};
-
-
-export interface IParamBase {
-  handleAssertions: (fn: Function) => any;
-}
+proto.pass = proto.ctn = proto.fail = proto.done;
+proto.wrapFinalErrFirst = proto.wrapFinalErr = proto.wrapFinalError = proto.wrapFinalErrorFirst;
+proto.wrapErrFirst = proto.wrapErrorFirst;
 
 
 const assertCtx: any = {
@@ -271,7 +282,6 @@ const assrt = <Partial<AssertStatic>> function () {
   }
 };
 
-
 const p = new Proxy(assrt, {
   get: function (target, prop) {
     
@@ -315,5 +325,4 @@ Object.defineProperty(proto, 'assert', {
 });
 
 // export const tProto = freezeExistingProps(proto);
-
-export const tProto = proto;
+// export const tProto = proto;

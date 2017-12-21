@@ -1,15 +1,33 @@
 
+//
+// type T = (x: number) => boolean;
+//
+// let fn = function(a: string, b: boolean, c: T){ c()};
+//
+// fn('yes', true, (() => {
+//
+// }) as any);
+//
+// fn('yes', true, <any>(() => {
+//
+// }));
+//
+// debugger;
 
-type T = (x: number) => boolean;
 
-let fn = function(a: string, b: boolean, c: T){ c()};
+class Person {
+  constructor(public name: string) {}
+  greet(greeting: string): string { return `${greeting}, ${this.name}`; }
+}
 
-fn('yes', true, (() => {
+interface Person {
+  hi: typeof Person.prototype.greet;
+}
 
-}) as any);
 
-fn('yes', true, <any>(() => {
+Person.prototype.hi = Person.prototype.greet;
 
-}));
+const p = new Person("Alice");
+console.log(p.greet("Hey"));
+console.log(p.hi("Hi"));
 
-debugger;
