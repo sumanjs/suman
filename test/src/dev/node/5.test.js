@@ -39,7 +39,7 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
   });
 
   it.cb('failing', t => {
-    t.done('this test failed');
+    t.done(null,'this test failed');
   });
 
   afterEach.cb(h => {
@@ -61,7 +61,7 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
     });
 
     it.cb('failing', t => {
-      t.done('buggers')
+      t.done(null,'buggers')
     });
 
     afterEach.cb(h => {
@@ -100,7 +100,7 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
         });
 
         it('failing', t => {
-          return Promise.reject('zoomba');
+          return Promise.resolve('zoomba');
         });
 
         after.cb(h => {

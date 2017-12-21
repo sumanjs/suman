@@ -28,10 +28,6 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 
 const slice = Array.prototype.slice;
 
-export interface IParamBase {
-
-}
-
 
 export class ParamBase implements IParamBase {
   
@@ -186,6 +182,11 @@ proto.handleAssertions = proto.wrapAssertions = function (fn: Function) {
 };
 
 
+export interface IParamBase {
+  handleAssertions: (fn: Function) => any;
+}
+
+
 const assertCtx: any = {
   // this is used to store the context
   val: null
@@ -269,6 +270,7 @@ const assrt = <Partial<AssertStatic>> function () {
     return ctx.__handle(e);
   }
 };
+
 
 const p = new Proxy(assrt, {
   get: function (target, prop) {

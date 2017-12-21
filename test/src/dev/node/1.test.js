@@ -108,7 +108,7 @@ Test.create(opts, ['rudolph', function (assert, describe, before, beforeEach, af
   
   it('xxx ', t => {
     assert(true);
-    t.fatal();
+    // t.fatal();
   });
   
   it.skip['retries:5, name:hi']('zoom', t => {

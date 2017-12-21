@@ -2,8 +2,6 @@
 import { IPseudoError } from "suman-types/dts/global";
 import { IHookObj } from "suman-types/dts/test-suite";
 import EE = require('events');
-export interface IParamBase {
-}
 export declare class ParamBase implements IParamBase {
     protected __hook: IHookObj;
     done: Function;
@@ -19,5 +17,8 @@ export declare class ParamBase implements IParamBase {
     final(fn: Function): void;
     log(...args: Array<string>): void;
     slow(): void;
+}
+export interface IParamBase {
+    handleAssertions: (fn: Function) => any;
 }
 export declare const tProto: ParamBase & Function & EE;
