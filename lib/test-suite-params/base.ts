@@ -4,6 +4,8 @@
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 import AssertStatic = Chai.AssertStatic;
 import {IHookObj} from "suman-types/dts/test-suite";
+import {ITestDataObj} from "suman-types/dts/it";
+import {VamootProxy} from "vamoot";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -16,6 +18,8 @@ import util = require('util');
 //npm
 import su = require('suman-utils');
 import {freezeExistingProps} from 'freeze-existing-props';
+
+
 const chai = require('chai');
 
 //project
@@ -38,12 +42,18 @@ let badProps = <IBadProps> {
 
 const slice = Array.prototype.slice;
 
-export class ParamBase {
+export class ParamBase extends EE {
   
   protected __hook: IHookObj;
+  protected __test: ITestDataObj;
+  protected __handle: Function;
+  protected __shared: VamootProxy;
+  protected __fini: Function;
   
   constructor() {
-    // super();
+    super();
+    // EE.call(this);
+    // Function.call(this);
   }
   
   done() {
@@ -283,7 +293,7 @@ const assrt = <Partial<AssertStatic>> function () {
   }
 };
 
-const p = new Proxy(assrt, {
+const assertProxy = new Proxy(assrt, {
   get: function (target, prop) {
     
     if (typeof prop === 'symbol') {
@@ -321,7 +331,7 @@ const p = new Proxy(assrt, {
 Object.defineProperty(proto, 'assert', {
   get: function () {
     assertCtx.val = this;
-    return p;
+    return assertProxy;
   }
 });
 

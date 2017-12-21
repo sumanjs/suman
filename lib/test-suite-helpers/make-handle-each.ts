@@ -215,7 +215,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         
         if (isGeneratorFn) {
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfterEach);
-          arg = freezeExistingProps(t);
+          // arg = freezeExistingProps(t);
           handlePotentialPromise(helpers.handleGenerator(aBeforeOrAfterEach.fn, arg));
         }
         else if (aBeforeOrAfterEach.cb) {
@@ -239,7 +239,8 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
             t.callbackMode ? fini(null) : handleNonCallbackMode(undefined);
           };
           
-          arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
+          // arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
+          arg = Object.setPrototypeOf(dne, t);
           
           if (aBeforeOrAfterEach.fn.call(null, arg)) {
             _suman.writeTestError(cloneError(aBeforeOrAfterEach.warningErr,
@@ -249,7 +250,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         else {
           
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfterEach);
-          arg = freezeExistingProps(t);
+          // arg = freezeExistingProps(t);
           handlePotentialPromise(aBeforeOrAfterEach.fn.call(null, arg), false);
         }
         

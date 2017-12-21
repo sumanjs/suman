@@ -203,7 +203,8 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         
         if (isGeneratorFn) {
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, test);
-          arg = freezeExistingProps(t);
+          // arg = freezeExistingProps(t);
+          arg = t;
           handlePotentialPromise(helpers.handleGenerator(test.fn, arg));
         }
         else if (test.cb === true) {
@@ -235,7 +236,8 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
             }
           };
           
-          arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
+          // arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
+          arg = Object.setPrototypeOf(dne, t);
           if (test.fn.call(null, arg)) {  ///run the fn, but if it returns something, then add warning
             _suman.writeTestError(cloneError(test.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
@@ -243,7 +245,8 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         }
         else {
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, test);
-          arg = freezeExistingProps(t);
+          // arg = freezeExistingProps(t);
+          arg = t;
           handlePotentialPromise(test.fn.call(null, arg), warn, d);
         }
         

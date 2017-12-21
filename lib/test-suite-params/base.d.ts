@@ -1,12 +1,20 @@
+/// <reference types="node" />
 import { IPseudoError } from "suman-types/dts/global";
 import { IHookObj } from "suman-types/dts/test-suite";
-export declare class ParamBase {
+import { ITestDataObj } from "suman-types/dts/it";
+import { VamootProxy } from "vamoot";
+import EE = require('events');
+export declare class ParamBase extends EE {
     protected __hook: IHookObj;
+    protected __test: ITestDataObj;
+    protected __handle: Function;
+    protected __shared: VamootProxy;
+    protected __fini: Function;
     constructor();
     done(): void;
     skip(): void;
     fatal(err: IPseudoError): void;
-    set(k: string, v: any): any;
+    set(k: string, v: any): boolean;
     get(k?: string): any;
     getValues(...args: Array<string>): any[];
     getMap(...args: Array<string>): any;

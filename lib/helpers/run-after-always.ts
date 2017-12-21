@@ -150,7 +150,8 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
 
           if (isGeneratorFn) {
             const handleGenerator = helpers.makeHandleGenerator(fini);
-            arg = [freezeExistingProps(t)];
+            // arg = [freezeExistingProps(t)];
+            arg = t;
             handleGenerator(anAfter.fn, arg, anAfter.ctx);
           }
           else if (anAfter.cb) {
@@ -185,7 +186,8 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
 
             };
 
-            arg = Object.setPrototypeOf(d, freezeExistingProps(t));
+            // arg = Object.setPrototypeOf(d, freezeExistingProps(t));
+            arg = Object.setPrototypeOf(d, t);
 
             if (anAfter.fn.call(anAfter.ctx, arg)) {  //check to see if we have a defined return value
               _suman.writeTestError(cloneError(anAfter.warningErr,
@@ -195,7 +197,8 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
           }
           else {
             const handlePotentialPromise = helpers.handleReturnVal(fini, fnStr);
-            arg = freezeExistingProps(t);
+            // arg = freezeExistingProps(t);
+            arg =t;
             handlePotentialPromise(anAfter.fn.call(anAfter.ctx, arg), warn);
           }
 

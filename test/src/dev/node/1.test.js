@@ -24,7 +24,7 @@ Test.define(v => {
       
       it('is cool', t => {
 
-        console.log(t);
+        // console.log(t);
         debugger;
       
       });
