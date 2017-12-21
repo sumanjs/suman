@@ -1,9 +1,9 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ITestDataObj} from "suman-types/dts/it";
-import {IHandleError, ITestCaseParam} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj} from 'suman-types/dts/global';
+import {ITestDataObj} from 'suman-types/dts/it';
+import {IHandleError, ITestCaseParam} from 'suman-types/dts/test-suite';
 import AssertStatic = Chai.AssertStatic;
 
 //polyfills
@@ -20,7 +20,7 @@ const chaiAssert = chai.assert;
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {tProto} from './t-proto';
+import {ParamBase} from '../base';
 
 //////////////////////////////////////////////////////////////////////
 
@@ -41,44 +41,49 @@ let badProps = <IBadProps> {
 
 ///////////////////////////////////////////////////////////////////////
 
-export const makeTestCaseParam = function (test: ITestDataObj, assertCount: IAssertCount,
-                                           handleError: IHandleError, fini: Function): ITestCaseParam {
+export class TestCaseParam extends ParamBase {
   
-  let planCalled = false;
-  const v = Object.create(tProto);
-  v.value = test.value;
-  v.testId = test.testId;
-  v.desc = v.title = test.desc;
-  v.data = test.data;
-  v.__test = test;
-  v.__handle = handleError;
-  v.__fini = fini;
-  
-  
-  v.plan = function (num: number) {
+  constructor(test: ITestDataObj, assertCount: IAssertCount,
+              handleError: IHandleError, fini: Function) {
+    super();
     
-    if (planCalled) {
+    this.assertCount = assertCount;
+    this.planCalled = false;
+    this.value = test.value;
+    this.testId = test.testId;
+    this.desc = this.title = test.desc;
+    this.data = test.data;
+    this.__test = test;
+    this.__handle = handleError;
+    this.__fini = fini;
+  }
+  
+  plan(num: number) {
+    
+    const test = this.__test;
+    
+    if (this.planCalled) {
       _suman.writeTestError(new Error('Suman warning => t.plan() called more than once for ' +
         'the same test case.').stack);
       return;
     }
     
-    planCalled = true;
+    this.planCalled = true;
     if (test.planCountExpected !== undefined) {
       _suman.writeTestError(new Error('Suman warning => t.plan() called, even though plan ' +
         'was already passed as an option.').stack);
     }
     
     assert(Number.isInteger(num), 'Suman usage error => value passed to t.plan() is not an integer.');
-    test.planCountExpected = v.planCountExpected = num;
+    test.planCountExpected = this.planCountExpected = num;
     
-  };
+  }
   
-  v.confirm = function () {
-    assertCount.num++;
-  };
+  confirm() {
+    this.assertCount.num++;
+  }
   
-  return v;
-  
-};
+}
+
+
 

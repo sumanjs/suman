@@ -1,8 +1,8 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj, IHookParam} from "suman-types/dts/test-suite";
-import {IGlobalSumanObj} from "suman-types/dts/global";
+import {IAssertObj, IHandleError, IHookObj, IHookParam} from 'suman-types/dts/test-suite';
+import {IGlobalSumanObj} from 'suman-types/dts/global';
 import AssertStatic = Chai.AssertStatic;
 import {ITestSuite} from 'suman-types/dts/test-suite';
 import {ErrorCallback, Dictionary} from 'async';
@@ -22,7 +22,7 @@ import async = require('async');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {tProto} from './t-proto';
+import {ParamBase} from '../base';
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -35,21 +35,29 @@ let badProps = <IBadProps> {
   constructor: true
 };
 
-/////////////////////////////////////////////////////////////////////////////////
 
-export const makeInjectParam = function (inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite,
-                                       values: Array<any>,
-                                       handleError: IHandleError, fini: Function): IHookParam {
+export class InjectParam extends  ParamBase{
   
-  let planCalled = false;
-  const v = Object.create(tProto);
-  const valuesMap = {} as any;
+  constructor(inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite,
+              values: Array<any>, handleError: IHandleError, fini: Function){
+    
+    super();
+    this.__planCalled = false;
+    this.__valuesMap = {} as any;
+    this.__suite = suite;
+    this.__hook = inject;
+    this.__handle = handleError;
+    this.__fini = fini;
+    this.__values = values;
+    this.__inject = inject;
+  }
   
-  v.__hook = inject;
-  v.__handle = handleError;
-  v.__fini = fini;
   
-  v.registerKey = v.register = function (k: string, val: any): Promise<any> {
+  registerKey (k: string, val: any): Promise<any> {   //  'register' should be an alias?
+    
+    const suite  = this.__suite;
+    const valuesMap = this.__valuesMap;
+    const values = this.__values;
     
     try {
       assert(k && typeof k === 'string', 'key must be a string.');
@@ -68,10 +76,13 @@ export const makeInjectParam = function (inject: IHookObj, assertCount: IAssertO
     valuesMap[k] = true; // mark as reserved
     values.push({k, val});
     return Promise.resolve(val);
-  };
+  }
   
-  v.registerFnsMap = v.registerFnMap = function (o: Dictionary<any>): Promise<any> {
-    
+  registerFnMap (o: Dictionary<any>): Promise<any> { // 'registerFnsMap' shoule be an alias
+  
+    const suite  = this.__suite;
+    const valuesMap = this.__valuesMap;
+    const values = this.__values;
     const self = this;
     
     return new Promise(function (resolve, reject) {
@@ -106,10 +117,13 @@ export const makeInjectParam = function (inject: IHookObj, assertCount: IAssertO
     .catch(function (err) {
       return self.__handle(err);
     });
-  };
+  }
   
-  v.registerMap = v.registerPromisesMap = function (o: Dictionary<any>): Promise<Array<any>> {
-    
+  registerMap (o: Dictionary<any>): Promise<Array<any>> { // 'registerPromisesMap' should be an alias
+  
+    const suite  = this.__suite;
+    const valuesMap = this.__valuesMap;
+    const values = this.__values;
     const keys = Object.keys(o);
     const self = this;
     let registry;
@@ -137,16 +151,17 @@ export const makeInjectParam = function (inject: IHookObj, assertCount: IAssertO
     .catch(function (err) {
       return self.__handle(err);
     });
-  };
+  }
   
-  v.plan = function (num: number) {
-    if (planCalled) {
+  plan (num: number) {
+    
+    if (this.__planCalled) {
       _suman.writeTestError(new Error('Suman warning => plan() called more than once.').stack);
       return;
     }
     
-    planCalled = true;
-    if (inject.planCountExpected !== undefined) {
+    this.__planCalled = true;
+    if (this.__inject.planCountExpected !== undefined) {
       _suman.writeTestError(
         new Error(' => Suman warning => plan() called, even though plan was already passed as an option.').stack
       );
@@ -159,14 +174,15 @@ export const makeInjectParam = function (inject: IHookObj, assertCount: IAssertO
       return this.__handle(err);
     }
     
-    inject.planCountExpected = v.planCountExpected = num;
-  };
+    this.__inject.planCountExpected = this.planCountExpected = num;
+  }
   
-  v.confirm = function () {
-    assertCount.num++;
-  };
+  confirm = function () {
+    this.assertCount.num++;
+  }
   
-  return v;
-  
-};
+}
+
+
+
 

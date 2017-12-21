@@ -1,3 +1,3 @@
 import { IAssertObj, IHandleError, IHookObj, IHookParam } from "suman-types/dts/test-suite";
 import { ITestSuite } from 'suman-types/dts/test-suite';
-export declare const makeInjectObj: (inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite, values: any[], handleError: IHandleError, fini: Function) => IHookParam;
+export declare const makeInjectParam: (inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite, values: any[], handleError: IHandleError, fini: Function) => IHookParam;

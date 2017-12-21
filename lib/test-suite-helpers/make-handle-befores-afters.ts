@@ -24,7 +24,8 @@ import {makeAllHookCallback} from './make-fini-callbacks';
 const helpers = require('./handle-promise-generator');
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../helpers/general';
-import {makeHookObj} from './t-proto-hook';
+// import {makeHookParam} from './t-proto-hook';
+import {AllHookParam} from "../test-suite-params/all-hook/all-hook-param";
 import {freezeExistingProps} from 'freeze-existing-props';
 
 
@@ -161,13 +162,12 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
         
-        const t = makeHookObj(aBeforeOrAfter, assertCount, handleError, handlePossibleError);
+        const t = new AllHookParam(aBeforeOrAfter, assertCount, handleError, handlePossibleError);
         t.__shared = self.shared;
         t.supply = self.supply;
         t.desc = aBeforeOrAfter.desc;
         fini.thot = t;
         t.timeout = timeout;
-      
         
         let arg;
         

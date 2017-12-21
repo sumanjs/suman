@@ -21,7 +21,8 @@ import su from 'suman-utils';
 
 const helpers = require('../test-suite-helpers/handle-promise-generator');
 import {cloneError} from './general';
-import {makeHookObj} from '../test-suite-helpers/t-proto-hook';
+// import {makeHookParam} from '../test-suite-helpers/t-proto-hook';
+import {AllHookParam} from '../test-suite-params/all-hook/all-hook-param';
 import {freezeExistingProps} from 'freeze-existing-props'
 import {constants} from '../../config/suman-constants';
 
@@ -136,7 +137,7 @@ export const runAfterAlways = function (suman: ISuman, cb: Function) {
             handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
           }
 
-          const t = makeHookObj(anAfter, assertCount, handleError);
+          const t = new AllHookParam(anAfter, assertCount, handleError, fini);
           fini.thot = t;
           t.timeout = timeout;
 

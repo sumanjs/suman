@@ -23,6 +23,9 @@ Test.define(v => {
     .run((b, before, after, afterEach, it) => {
       
       it('is cool', t => {
+
+        console.log(t);
+        debugger;
       
       });
       

@@ -24,7 +24,8 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../helpers/general';
-import {makeHookObj} from './t-proto-hook';
+// import {makeHookParam} from './t-proto-hook';
+import {EachHookParam} from "../test-suite-params/each-hook/each-hook-param";
 import {makeEachHookCallback} from './make-fini-callbacks';
 const helpers = require('./handle-promise-generator');
 import {freezeExistingProps} from 'freeze-existing-props'
@@ -120,7 +121,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       
       // console.log('error => ', err);
       // console.log('aBeforeOrAfterEach.warningErr => ', aBeforeOrAfterEach.warningErr);
-      
+      //
       // err = err || new Error('unknown/falsy hook error.');
       //
       // if (typeof err === 'string') {
@@ -178,8 +179,6 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           isAsyncAwait = true;
         }
         
-        //TODO: need to implement all assert methods
-        
         const timeout = function (val: number) {
           clearTimeout(timerObj.timer);
           assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
@@ -191,7 +190,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
         
-        const t = makeHookObj(aBeforeOrAfterEach, assertCount, handleError, handlePossibleError);
+        const t = new EachHookParam(aBeforeOrAfterEach, assertCount, handleError, handlePossibleError);
         fini.thot = t;
         t.timeout = timeout;
         t.test = {};
@@ -201,7 +200,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         if (aBeforeOrAfterEach.type === 'afterEach/teardownTest') {
           // these properties are sent to afterEach hooks, but not beforeEach hooks
           t.test.result = test.error ? 'failed' : 'passed';
-          t.test.error = test.error;
+          t.test.error = test.error || null;
         }
         
         t.data = test.data;

@@ -21,7 +21,8 @@ import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {makeInjectObj} from './t-proto-inject';
+// import {makeInjectParam} from './t-proto-inject';
+import {InjectParam} from "../test-suite-params/inject/inject-param";
 import {constants} from "../../config/suman-constants";
 const weAreDebugging = su.weAreDebugging;
 
@@ -85,7 +86,7 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
     
     return new Promise(function (resolve, reject) {
       
-      const injParam = makeInjectObj(inj, assertCount, suite, values, reject, resolve);
+      const injParam = new InjectParam(inj, assertCount, suite, values, reject, resolve);
   
       injParam.fatal = reject;
       

@@ -1,8 +1,8 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj, IHookParam} from "suman-types/dts/test-suite";
-import {IGlobalSumanObj} from "suman-types/dts/global";
+import {IAssertObj, IHandleError, IHookObj, IHookParam} from 'suman-types/dts/test-suite';
+import {IGlobalSumanObj} from 'suman-types/dts/global';
 import AssertStatic = Chai.AssertStatic;
 
 //polyfills
@@ -16,7 +16,7 @@ const chaiAssert = chai.assert;
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {tProto} from './t-proto';
+import {ParamBase} from '../base';
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -29,25 +29,32 @@ let badProps = <IBadProps> {
   constructor: true
 };
 
-/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 
-export const makeHookParam = function (hook: IHookObj, assertCount: IAssertObj,
-                                     handleError: IHandleError, fini: Function): IHookParam {
+export class EachHookParam extends ParamBase {
   
-  let planCalled = false;
-  const v = Object.create(tProto);
+  constructor(hook: IHookObj, assertCount: IAssertObj,
+              handleError: IHandleError, fini: Function) {
+    
+    super();
+    
+    this.__planCalled = false;
+    this.__hook = hook;
+    this.__handle = handleError;
+    this.__fini = fini;
+    
+  }
   
-  v.__hook = hook;
-  v.__handle = handleError;
-  v.__fini = fini;
-  
-  v.plan = function (num: number) {
-    if (planCalled) {
+  plan(num: number) {
+    
+    if (this.planCalled) {
       _suman.writeTestError(new Error('Suman warning => plan() called more than once.').stack);
       return;
     }
     
-    planCalled = true;
+    const hook = this.__hook;
+    this.__planCalled = true;
+    
     if (hook.planCountExpected !== undefined) {
       _suman.writeTestError(new Error(' => Suman warning => plan() called, even though plan was already passed as an option.').stack);
     }
@@ -59,14 +66,13 @@ export const makeHookParam = function (hook: IHookObj, assertCount: IAssertObj,
       return this.__handle(err);
     }
     
-    hook.planCountExpected = v.planCountExpected = num;
-  };
+    hook.planCountExpected = this.planCountExpected = num;
+  }
   
-  v.confirm = function () {
-    assertCount.num++;
-  };
+  confirm() {
+    this.assertCount.num++;
+  }
   
-  return v;
-  
-};
+}
+
 
