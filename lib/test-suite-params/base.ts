@@ -203,7 +203,11 @@ export interface ParamBase {
   wrapErrFirst: typeof ParamBase.prototype.wrapErrorFirst;
 }
 
-const proto = Object.assign(ParamBase.prototype, Function.prototype, EE.prototype);
+// Alternative:
+const b = Object.setPrototypeOf(ParamBase.prototype, Function.prototype);
+const proto = Object.assign(ParamBase.prototype, EE.prototype);
+
+// const proto = Object.assign(ParamBase.prototype, Function.prototype, EE.prototype);
 proto.pass = proto.ctn = proto.fail = proto.done;
 proto.wrapFinalErrFirst = proto.wrapFinalErr = proto.wrapFinalError = proto.wrapFinalErrorFirst;
 proto.wrapErrFirst = proto.wrapErrorFirst;

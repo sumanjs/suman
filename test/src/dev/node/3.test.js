@@ -11,9 +11,9 @@ const {Test} = suman.init(module, {
 
 ///////////////////////////////////////////////////////////////////////
 
-Test.create({delay: true}, b => {
-  b.resume();
-});
+// Test.create({delay: true}, b => {
+//   b.resume();
+// });
 
 Test.create(function (b, assert, describe, test, before, beforeEach, after, afterEach, it, $core) {
 

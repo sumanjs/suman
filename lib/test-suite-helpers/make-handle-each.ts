@@ -49,7 +49,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       return process.nextTick(cb);
     }
     
-    if(test.failed && aBeforeOrAfterEach.type === 'beforeEach/setupTest'){
+    if (test.failed && aBeforeOrAfterEach.type === 'beforeEach/setupTest') {
       // if test.failed => another beforeEach hook failed, so test failed
       // if this is a beforeEach hook, we can skip it
       // on the other hand this is an afterEach hook,
@@ -57,7 +57,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       return process.nextTick(cb);
     }
     
-    const onTimeout = function () {
+    const onTimeout =  () => {
       const err = cloneError(aBeforeOrAfterEach.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR);
       err.sumanExitCode = constants.EXIT_CODES.HOOK_TIMED_OUT_ERROR;
       fini(err, true);
@@ -85,7 +85,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       fini.retryFn = retryData ? retryData.retryFn : handleBeforeOrAfterEach.bind(null, arguments);
     }
     
-    const handlePossibleError = function (err: Error | IPseudoError) {
+    const handlePossibleError =  (err: Error | IPseudoError) => {
       if (err) {
         if (typeof err !== 'object') err = new Error(util.inspect(err));
         err.sumanFatal = Boolean(sumanOpts.bail);
@@ -96,7 +96,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       }
     };
     
-    const handleError: IHandleError = function (err: IPseudoError) {
+    const handleError: IHandleError =  (err: IPseudoError) => {
       
       if (aBeforeOrAfterEach.dynamicallySkipped === true) {
         err && _suman.log.warning('Hook was dynamically skipped, but error occurred:', err.message || util.inspect(err));
@@ -116,7 +116,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         }
       }
       
-      const errMessage = err && (err.stack || err.message|| util.inspect(err));
+      const errMessage = err && (err.stack || err.message || util.inspect(err));
       err = cloneError(aBeforeOrAfterEach.warningErr, errMessage, false);
       
       // console.log('error => ', err);
@@ -161,7 +161,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     
     d.on('error', handleError);
     
-    process.nextTick(function () {
+    process.nextTick(() => {
       
       _suman.activeDomain = d;
       
@@ -210,7 +210,6 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         t.__shared = self.shared;
         t.supply = t.__supply = self.supply;
         
-        
         let arg;
         
         if (isGeneratorFn) {
@@ -227,13 +226,13 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           //    throw aBeforeOrAfter.NO_DONE;
           // }
           
-          const dne = function done(err: IPseudoError) {
+          const dne = function (err: IPseudoError) {
             t.callbackMode ? handlePossibleError(err) : handleNonCallbackMode(err);
           };
           
           t.done = dne;
           
-          t.ctn = t.pass = function () {
+          t.ctn = t.pass =  () => {
             // t.pass doesn't make sense since this is not a test case, but for user friendliness
             // this is like t.done() except by design no error will ever get passed
             t.callbackMode ? fini(null) : handleNonCallbackMode(undefined);

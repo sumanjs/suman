@@ -173,7 +173,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
         };
         
-        const $throw = function (str: any) {
+        const $throw =  (str: any) => {
           handleErr(str instanceof Error ? str : new Error(str));
         };
         
@@ -222,11 +222,11 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           
           t.done = dne;
           
-          t.pass = t.ctn = function () {
+          t.pass = t.ctn =  () => {
             t.callbackMode ? fini(null) : handleNonCallbackMode(null);
           };
           
-          t.fail = function fail(err: Error) {
+          t.fail = (err: Error) => {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }
