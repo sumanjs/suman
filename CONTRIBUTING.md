@@ -35,3 +35,13 @@ Once you submit the PR to master, CI/CD tests will run, then if they pass, we de
 You can use this tool to clone all the SumanJS projects onto your machine:
 
 This project will run the ./build.sh file and ./contribute.sh file in each project.
+
+
+
+# Release steps
+
+1. update bash completion in case command line arguments have changed
+
+`$ suman --completion > scripts/suman-completion.sh`
+
+2. ?

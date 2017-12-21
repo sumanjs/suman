@@ -35,6 +35,7 @@ let badProps = <IBadProps> {
   constructor: true
 };
 
+
 const slice = Array.prototype.slice;
 
 export class ParamBase {
