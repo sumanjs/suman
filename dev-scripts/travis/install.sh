@@ -3,7 +3,7 @@
 set -e;
 
 rm -rf node_modules
-npm cache clean
+npm cache verify # npm cache clean
 
 npm install --silent --no-optional
 
