@@ -240,6 +240,12 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
     return initMap.get($module) as any;
   }
   
+  if ($module.sumanInitted) {
+    throw new Error(`suman.init() already called for this module with filename => ${$module.filename}`);
+  }
+  
+  $module.sumanInitted = true;
+  
   if (typeof _suman.sumanConfig === 'string') {
     _suman.sumanConfig = JSON.parse(_suman.sumanConfig);
   }
@@ -297,21 +303,21 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
       if (String(k).trim().startsWith('$')) {
         throw new Error('Suman options override object key must not start with "$" character.');
       }
-      sumanOptsOverride['$' + String(k).trim()] = sumanOptsOverride[k];
-      delete sumanOptsOverride[k];
+      _sumanOpts['$' + String(k).trim()] = sumanOptsOverride[k];
     });
     
     // this is correct, although it seems wrong given that sumanOpts is referenced twice
     // we need to keep the reference to _suman.sumanOpts, instead of reassigning
-    _sumanOpts = Object.assign(_suman.sumanOpts, sumanOptsOverride, _suman.sumanOpts);
+    // _sumanOpts = Object.assign(_suman.sumanOpts, sumanOptsOverride, _suman.sumanOpts);
+    // _sumanOpts = Object.assign(_suman.sumanOpts, sumanOptsOverride);
   }
   
   if (confOverride) {
-    assert(su.isObject(confOverride), 'Suman conf override value must be a plain object.');
+    assert(su.isObject(confOverride), 'Suman config override value must be a plain object.');
     _sumanConfig = Object.assign({}, _suman.sumanConfig, confOverride);
   }
   
-  _suman.sumanInitStartDate = (_suman.sumanInitStartDate || Date.now());
+  _suman.sumanInitStartDate = _suman.sumanInitStartDate || Date.now();
   
   // TODO: could potention figure out what original test module is via suman.init call, instead of
   // requiring that user pass it explicitly
@@ -327,11 +333,23 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   }
   
   const opts: IInitOpts = $opts || {};
-  if ($module.sumanInitted) {
-    throw new Error(`suman.init() already called for this module with filename => ${$module.filename}`);
-  }
   
-  $module.sumanInitted = true;
+  if(opts.override){
+    if(opts.override.config){
+      assert(su.isObject(opts.override.config),'config override value must be a plain object.');
+      _sumanConfig = Object.assign({}, _suman.sumanConfig, opts.override.config);
+    }
+    if(opts.override.opts){
+      assert(su.isObject(opts.override.opts), 'opts override value must be a plain object.');
+      Object.keys(opts.override.opts).forEach(function (k) {
+        if (String(k).trim().startsWith('$')) {
+          throw new Error('Suman options override object key must not start with "$" character.');
+        }
+        _sumanOpts['$' + String(k).trim()] = opts.override.opts[k];
+      });
+    }
+  }
+
   opts.integrants && assert(Array.isArray(opts.integrants), `'integrants' option must be an array.`);
   opts.pre && assert(Array.isArray(opts.pre), `'pre' option must be an array.`);
   
@@ -487,7 +505,6 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
       }
       
       return defObj;
-      
     }
   };
   

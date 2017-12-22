@@ -23,6 +23,9 @@ Test.define(v => {
     .run((b, before, after, afterEach, it) => {
       
       it('is cool', t => {
+
+        // console.log(t);
+        debugger;
       
       });
       
@@ -105,6 +108,7 @@ Test.create(opts, ['rudolph', function (assert, describe, before, beforeEach, af
   
   it('xxx ', t => {
     assert(true);
+    // t.fatal();
   });
   
   it.skip['retries:5, name:hi']('zoom', t => {

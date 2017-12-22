@@ -58,7 +58,6 @@ export const makeHandleMultipleProcesses = function (runnerObj: IRunnerObj, tabl
     const logsDir = _suman.sumanConfig.logsDir || _suman.sumanHelperDirRoot + '/logs';
     const sumanCPLogs = path.resolve(logsDir + '/runs/');
     const f = path.resolve(sumanCPLogs + '/' + _suman.timestamp + '-' + _suman.runId);
-
     const args: Array<string> = ['--user-args', sumanOpts.user_args];
     const runQueue = makeRunQueue();
     const onExitFn = makeOnExitFn(runnerObj, tableRows, messages, forkedCPs, beforeExitRunOncePost, makeExit, runQueue);

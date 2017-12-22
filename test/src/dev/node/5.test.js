@@ -3,9 +3,12 @@
 
 const suman = require('suman');
 const {Test} = suman.init(module, {
-  forceParallel: true,  // parallel, not parallel-max
-  __expectedExitCode: 56
-});
+    forceParallel: true,  // parallel, not parallel-max
+    __expectedExitCode: 56
+  },
+  {
+    allowSkip: true
+  });
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -17,35 +20,26 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
     console.log('before all hook');
   });
 
-  // before.cb(['fatal:false', h => {
-  //
-  //   const d = domain.create();
-  //   d.xxx = 'foo';
-  //
-  //   const d2 = process.domain;
-  //   d2.yyy = 'bar';
-  //
-  //   debugger;
-  //
-  //   // throw 'samsam';
-  //   // process.on('uncaughtException', function (e) {
-  //   //   console.log('ue => ', e);
-  //   // });
-  //
-  //   d.run(function () {
-  //
-  //     throw new Error('barf');
-  //
-  //   });
-  //
-  // }]);
+  before.cb(['fatal:false', h => {
+
+    const d = domain.create();
+    d.xxx = 'foo';
+
+    const d2 = process.domain;
+    d2.yyy = 'bar';
+
+    d.run(function () {
+      throw new Error('barf');
+    });
+
+  }]);
 
   it.cb('passing', t => {
     t.done();
   });
 
   it.cb('failing', t => {
-    t.done('this test failed');
+    t.done(null,'this test failed');
   });
 
   afterEach.cb(h => {
@@ -67,7 +61,7 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
     });
 
     it.cb('failing', t => {
-      t.done('buggers')
+      t.done(null,'buggers')
     });
 
     afterEach.cb(h => {
@@ -106,7 +100,7 @@ Test.create(function (assert, describe, before, beforeEach, after, afterEach, it
         });
 
         it('failing', t => {
-          return Promise.reject('zoomba');
+          return Promise.resolve('zoomba');
         });
 
         after.cb(h => {

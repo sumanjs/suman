@@ -183,6 +183,7 @@ export const makeIt = function (suman: ISuman): ItFn {
       parallel: isOverallParallel,
       mode: opts.mode,
       delay: opts.delay,
+      state: 'pending',
       cb: opts.cb === true, // default to false
       type: typeName,
       timeout: opts.timeout || 20000,

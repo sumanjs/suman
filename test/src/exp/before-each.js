@@ -41,7 +41,7 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context, util
     });
   });
 
-  context('inner block A', function(){
+  context('inner block A', function(b){
 
     it.cb('third', t => {
       setTimeout(t, 10);
@@ -51,7 +51,7 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context, util
       setTimeout(t, 10);
     });
 
-    context('inner block B', function(){
+    context('inner block B', function(b){
 
       it.cb('fifth', t => {
         setTimeout(t, 10);
@@ -63,7 +63,7 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context, util
     });
   });
 
-  context('inner block C', function(){
+  context('inner block C', function(b){
 
     it.cb('seventh', t => {
       setTimeout(t, 10);
@@ -73,7 +73,7 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context, util
       setTimeout(t, 10);
     });
 
-    context('inner block D', function(){
+    context('inner block D', function(b){
 
       it.cb('ninth', t => {
         setTimeout(t, 10);
@@ -86,7 +86,7 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context, util
   });
 
 
-  context('inner block E', function(){
+  context('inner block E', function(b){
 
     it.cb('eleventh', t => {
       setTimeout(t, 10);
@@ -96,7 +96,7 @@ Test.create('hotels1', function (it, before, beforeEach, describe, context, util
       setTimeout(t, 10);
     });
 
-    context('inner block F', function(){
+    context('inner block F', function(b){
 
       it.cb('thirteenth', t => {
         setTimeout(t, 10);

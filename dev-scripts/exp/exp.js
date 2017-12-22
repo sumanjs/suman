@@ -1,118 +1,57 @@
 #!/usr/bin/env node
 
-const v = {
-  z: true,
-  foo: {two: 2}
-};
-
-let x = Object.setPrototypeOf({}, v);
-
-x.foo = 3;
-
-console.log(x);
-console.log(v);
-
-function* foo() {
-  yield 1;
-  yield 2;
-  yield 3;
-}
-
-for (let o of foo()) {
-  console.log(o);
-}
-
-console.log(Object.keys(new Map({a: 'b'})));
-
- x = {};
-
-x.retries(5)
-.foo()
-.run(t => {
-
-});
-
-describe('danger')
-.run(function () {});
-
-const Promise = require('bluebird');
-const async = require('async');
-
-async.series({
-  
-    a: async function (cb) {
-      return Promise.delay(500).then(v => 'zzz');
-    },
-  
-    b: async function (cb) {
-      // process.nextTick(cb, null, 'bbb');
-      let c = await Promise.delay(500).then(v => 'hopkins');
-      return c;
-      // cb(null, 'xxx');
-    }
-
-  },
-  function (err, results) {
-
-    if (err) throw err;
-    console.log('results => ', results);
-    process.exit(0);
-  });
-
-// inject(j => {
+// (async function(){
 //
-//   return j.inject({
-//     a: function(cb){
+//   let z= await 5;
+//   console.log('z => ',z);
 //
-//     },
-//
-//     b: function (cb) {
-//
-//     }
-//   });
-//
-//   return [j.inject('av', function (cb) {
-//
-//
-//   })];
-//
-//   // b.$injected.x = z;
-//
+// })();
+
+
+
+// Object.keys({a:'b','c':'cr'}).forEach(function(k){
+//   console.log('k => ', k);
+//   throw 'boo';
 // });
 
-// console.log(typeof [][Symbol.iterator]);
+//
+// const assert = require('assert');
+// assert.equal(typeof (()=>{}).prototype, 'undefined');
 
-// const x = {
-//   watch: {
+// that's cool that arrow functions don't have a prototype property
+// why not create a special kind of function that has no prototype?
+// we only use the prototype, 5% of the time, or less
+
+// the existing way
+
+// let fn1 = function(){
+//
+// };
+//
+// assert.equal(typeof fn1.prototype, 'object');
+//
+// // why not a prototype-less function
+// let fn2 = function(){
+//
+// };
 //
 //
-//     per: {
+// const time = Date.now();
 //
-//       foo: {
-//         exec: 'suman test/*.js',
-//         include: [],
-//         exclude: [],
-//         confOverride: {},
-//         env: {}
-//       },
 //
-//       bar: {
-//         exec: 'suman --browser test/front-end/*.js',
-//         include: [],
-//         exclude: [],
-//         confOverride: {}
-//       },
-//
-//       baz: {
-//         exec: 'exec "${SUMAN_CHANGED_TEST_FILE}"',
-//         include: [],
-//         exclude: [],
-//         confOverride: {
-//
-//         }
-//       }
-//
-//     }
+// for(let i = 0; i < 1000000; i++){
+//   var z = function () {
 //
 //   }
-// };
+// }
+//
+//
+// console.log(Date.now() - time);
+
+
+let err = false;
+
+let z  = !err;
+
+
+console.log('z => ',z );

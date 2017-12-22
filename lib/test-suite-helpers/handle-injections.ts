@@ -21,7 +21,8 @@ import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {makeInjectObj} from './t-proto-inject';
+// import {makeInjectParam} from './t-proto-inject';
+import {InjectParam} from "../test-suite-params/inject/inject-param";
 import {constants} from "../../config/suman-constants";
 const weAreDebugging = su.weAreDebugging;
 
@@ -64,14 +65,20 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
     
     let callable = true, timeoutVal = weAreDebugging ? 5000000 : inj.timeout;
     
-    const to = setTimeout(function () {
+    let onTimeout = function () {
       first(new Error(`Injection hook timeout. ${'For injection with name => ' + inj.desc}`));
-    }, timeoutVal);
+    };
+  
+    const timerObj = {
+      timer: setTimeout(onTimeout, timeoutVal)
+    };
+    
+    // const to = setTimeout(, timeoutVal);
     
     const first = function (err: IPseudoError) {
       if (callable) {
         callable = false;
-        clearTimeout(to);
+        clearTimeout(timerObj.timer);
         process.nextTick(cb, err);
       }
       else if (err) {
@@ -85,7 +92,7 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
     
     return new Promise(function (resolve, reject) {
       
-      const injParam = makeInjectObj(inj, assertCount, suite, values, reject, resolve);
+      const injParam = new InjectParam(inj, assertCount, suite, values, reject, resolve);
   
       injParam.fatal = reject;
       
@@ -138,7 +145,7 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
       //
       // });
       
-      debugger;
+      const seed = Promise.resolve(null);
       
       const p = values.reduce(function (a, b) {
         //run promises in series
@@ -146,8 +153,7 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
         .then(function (v) {
           return addValuesToSuiteInjections(b.k, v);
         });
-        
-      }, null);
+      }, seed);
       
       return p.then(function () {
         first(null);

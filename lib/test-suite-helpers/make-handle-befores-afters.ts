@@ -1,9 +1,9 @@
 'use strict';
 
 //dts
-import {IHandleError, IOnceHookObj, ITestSuite} from "dts/test-suite";
-import {ISuman} from "suman-types/dts/suman";
+import {IHandleError, IOnceHookObj, ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanAllHookDomain, ISumanDomain} from "suman-types/dts/global";
+import {ISuman, Suman} from "../suman";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -24,7 +24,8 @@ import {makeAllHookCallback} from './make-fini-callbacks';
 const helpers = require('./handle-promise-generator');
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../helpers/general';
-import {makeHookObj} from './t-proto-hook';
+// import {makeHookParam} from './t-proto-hook';
+import {AllHookParam} from "../test-suite-params/all-hook/all-hook-param";
 import {freezeExistingProps} from 'freeze-existing-props';
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +71,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     
     let dError = false;
     
-    const handleError: IHandleError = function (err: IPseudoError) {
+    const handleError: IHandleError = (err: IPseudoError) => {
       
       if (aBeforeOrAfter.dynamicallySkipped === true) {
         return fini(null);
@@ -88,15 +89,9 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           _suman.log.error('maximum retries attempted.');
         }
       }
-  
-      const errMessage = err && (err.stack || err.message|| util.inspect(err));
-      err = cloneError(aBeforeOrAfter.warningErr, errMessage, false);
       
-      // err = err || new Error('unknown hook error.');
-      //
-      // if (typeof err === 'string') {
-      //   err = new Error(err);
-      // }
+      const errMessage = err && (err.stack || err.message || util.inspect(err));
+      err = cloneError(aBeforeOrAfter.warningErr, errMessage, false);
       
       const stk = err.stack || err;
       const formatedStk = typeof stk === 'string' ? stk : util.inspect(stk);
@@ -126,13 +121,13 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
       }
     };
     
-    const handlePossibleError = function (err: Error | IPseudoError) {
+    const handlePossibleError = (err: Error | IPseudoError) => {
       err ? handleError(err) : fini(null)
     };
     
     d.on('error', handleError);
     
-    process.nextTick(function () {
+    process.nextTick(() => {
       
       const {sumanOpts} = _suman;
       
@@ -143,7 +138,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
       // need to d.run instead process.next so that errors thrown in same-tick get trapped by "Node.js domains in browser"
       // process.nextTick is necessary in the first place, so that async module does not experience Zalgo
       
-      d.run(function runAllHook() {
+      d.run(function runAllHook(){
         
         _suman.activeDomain = d;
         let warn = false;
@@ -154,35 +149,30 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         
         const isGeneratorFn = su.isGeneratorFn(aBeforeOrAfter.fn);
         
-        const timeout = function (val: number) {
+        const timeout = (val: number) => {
           clearTimeout(timerObj.timer);
           assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
         };
         
-        const handleNonCallbackMode = function (err: IPseudoError) {
+        const handleNonCallbackMode = (err: IPseudoError) => {
           err = err ? ('Also, you have this error => ' + err.stack || err) : '';
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
         
-        const t = makeHookObj(aBeforeOrAfter, assertCount, handleError, handlePossibleError);
+        const t = new AllHookParam(aBeforeOrAfter, assertCount, handleError, handlePossibleError);
         t.__shared = self.shared;
         t.supply = self.supply;
         t.desc = aBeforeOrAfter.desc;
         fini.thot = t;
         t.timeout = timeout;
-        t.fatal = function fatal(err: IPseudoError) {
-          err = err || new Error(
-            'Suman placeholder error since this function was not explicitly passed an error object as first argument.'
-          );
-          handleError(err, null);
-        };
         
         let arg;
         
         if (isGeneratorFn) {
           const handle = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfter);
-          arg = [freezeExistingProps(t)];
+          // arg = [freezeExistingProps(t)];
+          arg = t;
           handle(helpers.handleGenerator(aBeforeOrAfter.fn, arg));
         }
         else if (aBeforeOrAfter.cb) {
@@ -194,7 +184,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           //    throw aBeforeOrAfter.NO_DONE;
           // }
           
-          const dne = function done(err: IPseudoError) {
+          const dne = (err: IPseudoError) => {
             t.callbackMode ? handlePossibleError(err) : handleNonCallbackMode(err);
           };
           
@@ -204,7 +194,8 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
             t.callbackMode ? fini(null) : handleNonCallbackMode(err);
           };
           
-          arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
+          // arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
+          arg = Object.setPrototypeOf(dne, t);
           
           if (aBeforeOrAfter.fn.call(null, arg)) {  //check to see if we have a defined return value
             _suman.writeTestError(cloneError(aBeforeOrAfter.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
@@ -213,7 +204,8 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         }
         else {
           const handle = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfter);
-          arg = freezeExistingProps(t);
+          // arg = freezeExistingProps(t);
+          arg = t;
           handle(aBeforeOrAfter.fn.call(null, arg), warn);
         }
         

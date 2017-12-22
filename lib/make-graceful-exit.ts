@@ -62,18 +62,24 @@ export const makeGracefulExit = function (suman: ISuman) {
     const big = errs.filter(function (err) {
       
       if (err && err.isFromTest && !_suman.sumanOpts.bail) {
-        return undefined;   //explicit for your pleasure
+        _suman.log.warning('The following error will be ignored because it was a test case error and bail is not true.');
+        _suman.log.warning(err.stack || util.inspect(err));
+        return false;
       }
       else if (err && err.sumanFatal === false) {
-        return undefined;   //explicit for your pleasure
+        _suman.log.warning('The following error will be ignored because "sumanFatal" was set to false.');
+        _suman.log.warning(err.stack || util.inspect(err));
+        return false;
       }
       else if (err) {
         //explicit for your pleasure
         return true;
       }
       else {
+        _suman.log.warning('An error will be ignored because it is falsy:');
+        _suman.log.warning(util.inspect(err));
         //explicit for your pleasure
-        return undefined;
+        return false;
       }
     })
     .map(function (err: IPseudoError) {

@@ -44,6 +44,8 @@ import {makeBeforeEach} from '../test-suite-methods/make-before-each';
 import {makeBefore} from '../test-suite-methods/make-before';
 import {makeInject} from '../test-suite-methods/make-inject';
 import {makeDescribe} from '../test-suite-methods/make-describe';
+import {TestBlockBase} from "./make-test-suite";
+
 
 /////////////////////////////////////////////////////////////////////
 
@@ -203,8 +205,9 @@ const addDefine = function (fn: any, Clazz: typeof DefineObject) {
   
 };
 
-export const makeSumanMethods = function (suman: ISuman, TestBlock: TestBlockBase,
+export const makeSumanMethods = function (suman: ISuman, TestBlock: typeof TestBlockBase,
                                           gracefulExit: Function, notifyParent: Function): any {
+  
   
   /*
 

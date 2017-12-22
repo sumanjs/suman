@@ -28,7 +28,8 @@ const {constants} = require('../../config/suman-constants');
 import {makeTestCaseCallback} from './make-fini-callbacks';
 const helpers = require('./handle-promise-generator');
 import {cloneError} from '../helpers/general';
-import {makeTestCase} from './t-proto-test';
+import {TestCaseParam} from "../test-suite-params/test-case/test-case-param";
+// import {makeTestCaseParam} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -173,7 +174,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
         };
         
-        const $throw = function (str: any) {
+        const $throw =  (str: any) => {
           handleErr(str instanceof Error ? str : new Error(str));
         };
         
@@ -182,7 +183,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           handleErr(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
         
-        const t = makeTestCase(test, assertCount, handleErr, handlePossibleError);
+        const t = new TestCaseParam(test, assertCount, handleErr, handlePossibleError);
         fini.thot = t;
         t.throw = $throw;
         t.timeout = timeout;
@@ -190,28 +191,22 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         t.__supply = self.supply;
         t.supply = new Proxy(self.__supply, {
           set(target, property, value, receiver) {
-            throw new Error('cannot set any properties on t.$inject (in test cases).');
+            handleErr(new Error('cannot set any properties on t.supply (in test cases).'));
+            return false;
           }
         });
-        
-        ////////////// note: unfortunately these fns cannot be moved to prototype /////////////////
-        
-        t.fatal = function fatal(err: IPseudoError) {
-          err = err || new Error('t.fatal() was called by the developer.');
-          err.sumanFatal = true;
-          handleErr(err);
-        };
         
         ////////////////////////////////////////////////////////////////////////////////////////////
         
         test.dateStarted = Date.now();
         
-        let args;
+        let arg;
         
         if (isGeneratorFn) {
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, test);
-          args = [freezeExistingProps(t)];
-          handlePotentialPromise(helpers.handleGenerator(test.fn, args));
+          // arg = freezeExistingProps(t);
+          arg = t;
+          handlePotentialPromise(helpers.handleGenerator(test.fn, arg));
         }
         else if (test.cb === true) {
           
@@ -228,11 +223,11 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           
           t.done = dne;
           
-          t.pass = t.ctn = function () {
+          t.pass = t.ctn =  () => {
             t.callbackMode ? fini(null) : handleNonCallbackMode(null);
           };
           
-          t.fail = function fail(err: Error) {
+          t.fail = (err: Error) => {
             if (!t.callbackMode) {
               handleNonCallbackMode(err);
             }
@@ -242,16 +237,18 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
             }
           };
           
-          args = Object.setPrototypeOf(dne, freezeExistingProps(t));
-          if (test.fn.call(null, args)) {  ///run the fn, but if it returns something, then add warning
+          // arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
+          arg = Object.setPrototypeOf(dne, t);
+          if (test.fn.call(null, arg)) {  ///run the fn, but if it returns something, then add warning
             _suman.writeTestError(cloneError(test.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
           
         }
         else {
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, test);
-          args = freezeExistingProps(t);
-          handlePotentialPromise(test.fn.call(null, args), warn, d);
+          // arg = freezeExistingProps(t);
+          arg = t;
+          handlePotentialPromise(test.fn.call(null, arg), warn, d);
         }
         
       });

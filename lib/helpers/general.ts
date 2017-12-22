@@ -46,12 +46,6 @@ const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from '../index-helpers/socketio-child-client';
 const fnArgs = require('function-arguments');
 
-//////////////////////////////////////////////////////////////////////////////
-
-export interface ICloneErrorFn {
-  (err: Error, newMessage: string, stripAllButTestFilePathMatch?: boolean): IPseudoError
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const handleSetupComplete = function (test: ITestSuite, type: string) {
@@ -299,9 +293,9 @@ export const asyncHelper =
     
   };
 
-export const implementationError = function (err: IPseudoError, isThrow: boolean) {
+export const implementationError = function (err: IPseudoError, isThrow?: boolean) {
   if (err) {
-    err = new Error(' => Suman implementation error => Please report!' + '\n' + (err.stack || err));
+    err = new Error('Suman implementation error => Please report!' + '\n' + (err.stack || err));
     _suman.log.error(err.stack);
     _suman.writeTestError(err.stack);
     if (isThrow) {
@@ -810,19 +804,19 @@ export const makeOnSumanCompleted = function (suman: ISuman) {
   };
 };
 
-export const cloneError: ICloneErrorFn = function (err, newMessage, stripAllButTestFilePathMatch) {
+export const cloneError = function (err: Error, newMessage: string, strip?: boolean) {
   
   const obj = {} as IPseudoError;
   obj.message = newMessage || `Suman implementation error: "newMessage" is not defined. Please report: ${constants.SUMAN_ISSUE_TRACKER_URL}.`;
   let temp;
-  if (stripAllButTestFilePathMatch !== false) {
+  if (strip !== false) {
     temp = su.createCleanStack(String(err.stack || err));
   }
   else {
     temp = String(err.stack || err).split('\n');
   }
-  temp[0] = newMessage;
   
+  temp[0] = newMessage;
   obj.message = newMessage;
   obj.stack = temp.join('\n');
   return obj;
