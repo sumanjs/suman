@@ -28,9 +28,11 @@ Test.create(function (b, assert, describe, before, beforeEach, after, afterEach,
     const ee = new EE();
 
     setTimeout(function () {
+      debugger;
       ee.emit('bubba', new Error('zoom'));
     }, 30);
 
+    debugger;
     return ee;
 
   });

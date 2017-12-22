@@ -27,7 +27,7 @@ import {cloneError} from '../helpers/general';
 // import {makeHookParam} from './t-proto-hook';
 import {EachHookParam} from "../test-suite-params/each-hook/each-hook-param";
 import {makeEachHookCallback} from './make-fini-callbacks';
-const helpers = require('./handle-promise-generator');
+import * as helpers from './handle-promise-generator';
 import {freezeExistingProps} from 'freeze-existing-props'
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -50,10 +50,10 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     }
     
     if (test.failed && aBeforeOrAfterEach.type === 'beforeEach/setupTest') {
-      // if test.failed => another beforeEach hook failed, so test failed
+      // if test.failed => a prior beforeEach hook failed, so test failed
       // if this is a beforeEach hook, we can skip it
-      // on the other hand this is an afterEach hook,
-      // we should continue processing afterEach hooks even if the test failed.
+      // on the other hand, if this is an afterEach hook,
+      // we should continue processing afterEach hooks, even if the test failed.
       return process.nextTick(cb);
     }
     
@@ -119,15 +119,6 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       const errMessage = err && (err.stack || err.message || util.inspect(err));
       err = cloneError(aBeforeOrAfterEach.warningErr, errMessage, false);
       
-      // console.log('error => ', err);
-      // console.log('aBeforeOrAfterEach.warningErr => ', aBeforeOrAfterEach.warningErr);
-      //
-      // err = err || new Error('unknown/falsy hook error.');
-      //
-      // if (typeof err === 'string') {
-      //   err = new Error(err);
-      // }
-      
       test.failed = true;
       test.error = err;
       
@@ -173,54 +164,38 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       d.run(function runHandleEachHook() {
         
         let isAsyncAwait = false;
-        const isGeneratorFn = su.isGeneratorFn(aBeforeOrAfterEach.fn);
-        
         if (fnStr.indexOf('async') === 0) {
           isAsyncAwait = true;
         }
         
-        const timeout = function (val: number) {
-          clearTimeout(timerObj.timer);
-          assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
-          timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 500000 : val);
-        };
+        const h = new EachHookParam(aBeforeOrAfterEach, assertCount, handleError, fini, timerObj, onTimeout);
         
-        const handleNonCallbackMode = function (err: IPseudoError) {
-          err = err ? ('Also, you have this error => ' + err.stack || err) : '';
-          handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
-        };
-        
-        const t = new EachHookParam(aBeforeOrAfterEach, assertCount, handleError, handlePossibleError);
-        fini.thot = t;
-        t.timeout = timeout;
-        t.test = {};
-        t.test.desc = test.desc;
-        t.test.testId = test.testId;
+        fini.thot = h;
+        h.test = {};
+        h.test.desc = test.desc;
+        h.test.testId = test.testId;
         
         if (aBeforeOrAfterEach.type === 'afterEach/teardownTest') {
           // these properties are sent to afterEach hooks, but not beforeEach hooks
-          t.test.result = test.error ? 'failed' : 'passed';
-          t.test.error = test.error || null;
+          h.test.result = test.error ? 'failed' : 'passed';
+          h.test.error = test.error || null;
         }
         
-        t.data = test.data;
-        t.desc = aBeforeOrAfterEach.desc;
-        t.value = test.value;
-        t.state = 'pending';
-        t.__shared = self.shared;
-        t.supply = t.__supply = self.supply;
+        h.data = test.data;
+        h.desc = aBeforeOrAfterEach.desc;
+        h.value = test.value;
+        h.state = 'pending';
+        h.__shared = self.shared;
+        h.supply = h.__supply = self.supply;
         
-        let arg;
         
-        if (isGeneratorFn) {
+        if (su.isGeneratorFn(aBeforeOrAfterEach.fn)) {
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfterEach);
-          // arg = freezeExistingProps(t);
-          arg = t;
-          handlePotentialPromise(helpers.handleGenerator(aBeforeOrAfterEach.fn, arg));
+          handlePotentialPromise(helpers.handleGenerator(aBeforeOrAfterEach.fn, h));
         }
         else if (aBeforeOrAfterEach.cb) {
           
-          t.callbackMode = true;
+          h.callbackMode = true;
           
           // TODO: in the future, we may be able to check for presence of callback, if no callback, then fire error
           // if (!su.checkForValInStr(fnStr, /done/g)) {
@@ -228,19 +203,13 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           // }
           
           const dne = function (err: IPseudoError) {
-            t.callbackMode ? handlePossibleError(err) : handleNonCallbackMode(err);
+            h.callbackMode ? h.handlePossibleError(err) : h.handleNonCallbackMode(err);
           };
           
-          t.done = dne;
-          
-          t.ctn = t.pass =  () => {
-            // t.pass doesn't make sense since this is not a test case, but for user friendliness
-            // this is like t.done() except by design no error will ever get passed
-            t.callbackMode ? fini(null) : handleNonCallbackMode(undefined);
-          };
+          h.done = dne;
           
           // arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
-          arg = Object.setPrototypeOf(dne, t);
+          let arg = Object.setPrototypeOf(dne, h);
           
           if (aBeforeOrAfterEach.fn.call(null, arg)) {
             _suman.writeTestError(cloneError(aBeforeOrAfterEach.warningErr,
@@ -250,9 +219,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         else {
           
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfterEach);
-          // arg = freezeExistingProps(t);
-          arg = t;
-          handlePotentialPromise(aBeforeOrAfterEach.fn.call(null, arg), false);
+          handlePotentialPromise(aBeforeOrAfterEach.fn.call(null, h), false);
         }
         
       });

@@ -86,8 +86,8 @@ const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHoo
   else if (err && !String(err.stack || err).match(testOrHook.throws)) {
     
     let z = testOrHook.didNotThrowErrorWithExpectedMessage =
-      'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
-      'but did not throw or pass any error.';
+      'Error => Expected to throw an error matching regex (' + testOrHook.throws + '), ' +
+      'although an error was thrown/emitted, it did not match the regular expression.';
     
     let newErr = cloneError(testOrHook.warningErr, z, false);
     err = new Error(err.stack + '\n' + newErr.stack);
@@ -142,13 +142,11 @@ export const makeAllHookCallback = function (d: ISumanDomain, assertCount: IAsse
         }
       }
       
-      try {
-        err = !err && planHelper(hook, assertCount);
-        err = throwsHelper(err, null, hook);
+      if (!err) {
+        err = planHelper(hook, assertCount);
       }
-      catch (e) {
-        err = e;
-      }
+      
+      err = throwsHelper(err, null, hook);
       
       if (allHookFini.thot) {
         allHookFini.thot.emit('done', err);
@@ -249,13 +247,11 @@ export const makeEachHookCallback = function (d: ISumanDomain, assertCount: IAss
         }
       }
       
-      try {
-        err = !err && planHelper(hook, assertCount);
-        err = throwsHelper(err, null, hook);
+      if (!err) {
+        err = planHelper(hook, assertCount)
       }
-      catch (e) {
-        err = e;
-      }
+      
+      err = throwsHelper(err, null, hook);
       
       if (eachHookFini.thot) {
         eachHookFini.thot.emit('done', err);
@@ -345,18 +341,17 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
         err = typeof err === 'object' ? err : new Error(typeof err === 'string' ? err : util.inspect(err));
       }
       
+      err.isFromTest = true;
       err.isTimeoutErr = isTimeout || false;
     }
     
     if (++calledCount === 1) {
       
-      try {
-        err = !err && planHelper(test, assertCount);
-        err = throwsHelper(err, test, null);
+      if (!err) {
+        err = planHelper(test, assertCount);
       }
-      catch ($err) {
-        err = $err;
-      }
+      
+      err = throwsHelper(err, test, null);
       
       if (testCaseFini.thot) {
         testCaseFini.thot.emit('done', err);
@@ -377,7 +372,7 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
       clearTimeout(timerObj.timer);
       
       if (err) {
-        
+        err.isFromTest = true;
         err.sumanFatal = err.sumanFatal || sumanOpts.bail;
         test.error = err;
         

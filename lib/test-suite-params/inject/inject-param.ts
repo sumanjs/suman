@@ -1,7 +1,8 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj} from 'suman-types/dts/test-suite';
+import {IAssertObj, ITimerObj} from "suman-types/dts/general";
+import {IHandleError, IHookObj} from 'suman-types/dts/test-suite';
 import {IInjectHookParam} from 'suman-types/dts/params';
 import {IGlobalSumanObj} from 'suman-types/dts/global';
 import AssertStatic = Chai.AssertStatic;
@@ -50,7 +51,8 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
   public planCountExpected: number;
   
   constructor(inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite,
-              values: Array<any>, handleError: IHandleError, fini: Function){
+              values: Array<any>, handleError: IHandleError, fini: Function,
+              timerObj: ITimerObj, onTimeout: Function){
     
     super();
     this.__planCalled = false;
@@ -63,6 +65,8 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
     this.__assertCount = assertCount;
     this.__inject = inject;
     this.planCountExpected = null;
+    this.__timerObj = timerObj;
+    this.__onTimeout = onTimeout;
   }
   
   

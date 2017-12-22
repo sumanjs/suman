@@ -147,7 +147,7 @@ export class DefineObjectTestOrHook extends DefineObject {
   successEvents(...args: (string | Array<string>)[]): this {
     
     const successEvents = this.opts.successEvents = this.opts.successEvents || [];
-    _.flattenDeep([Array.from(arguments)]).forEach(function (v) {
+    _.flattenDeep([args]).forEach(function (v) {
       assert(v, 'Value was going to be added to "successEvents", but value is falsy');
       assert.equal(typeof v, 'string', 'Value for "successEvent" must be a string.');
       successEvents.push(v);

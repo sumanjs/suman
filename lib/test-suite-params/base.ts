@@ -7,12 +7,14 @@ import {IHookObj} from "suman-types/dts/test-suite";
 import {ITestDataObj} from "suman-types/dts/it";
 import {VamootProxy} from "vamoot";
 import {IHookOrTestCaseParam} from "suman-types/dts/params";
+import {IAssertObj, ITimerObj} from "suman-types/dts/general";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
+import assert = require('assert');
 import EE = require('events');
 import util = require('util');
 
@@ -38,17 +40,18 @@ let badProps = <IBadProps> {
   constructor: true
 };
 
-
 const slice = Array.prototype.slice;
 
-export class ParamBase extends EE implements IHookOrTestCaseParam{
+export class ParamBase extends EE implements IHookOrTestCaseParam {
   
+  protected __timerObj: ITimerObj;
+  protected __onTimeout: Function;
   protected __hook: IHookObj;
   protected __test: ITestDataObj;
   protected __handle: Function;
   protected __shared: VamootProxy;
   protected __fini: Function;
-  protected callbackMode?: boolean;
+  public callbackMode?: boolean;
   assert: typeof chai.assert;
   should: typeof chai.should;
   expect: typeof chai.expect;
@@ -57,10 +60,17 @@ export class ParamBase extends EE implements IHookOrTestCaseParam{
     super();
   }
   
-  timeout(v:number){
-  
+  timeout(val: number) {
+    clearTimeout(this.__timerObj.timer);
+    try {
+      assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
+    }
+    catch (e) {
+      return this.__handle(e);
+    }
+    
+    this.__timerObj.timer = setTimeout(this.__onTimeout, _suman.weAreDebugging ? 5000000 : val);
   }
-  
   
   done() {
     this.__handle(new Error('You have fired a callback for a test case or hook that was not callback oriented.'));
@@ -197,6 +207,19 @@ export class ParamBase extends EE implements IHookOrTestCaseParam{
     }
   }
   
+  handlePossibleError (err: Error | IPseudoError){
+    err ? this.__handle(err) : this.__fini(null)
+  }
+  
+  handleNonCallbackMode(err: IPseudoError){
+    err = err ? ('Also, you have this error => ' + err.stack || err) : '';
+    this.__handle(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
+  }
+  
+  throw(str: any){
+    this.__handle(str instanceof Error ? str : new Error(str));
+  }
+  
 }
 
 export interface ParamBase {
@@ -210,14 +233,13 @@ export interface ParamBase {
 }
 
 // Alternative:
-const b = Object.setPrototypeOf(ParamBase.prototype, Function.prototype);
+Object.setPrototypeOf(ParamBase.prototype, Function.prototype);
 const proto = Object.assign(ParamBase.prototype, EE.prototype);
 
 // const proto = Object.assign(ParamBase.prototype, Function.prototype, EE.prototype);
 proto.pass = proto.ctn = proto.fail = proto.done;
 proto.wrapFinalErrFirst = proto.wrapFinalErr = proto.wrapFinalError = proto.wrapFinalErrorFirst;
 proto.wrapErrFirst = proto.wrapErrorFirst;
-
 
 const assertCtx: any = {
   // this is used to store the context
@@ -344,6 +366,3 @@ Object.defineProperty(proto, 'assert', {
     return assertProxy;
   }
 });
-
-// export const tProto = freezeExistingProps(proto);
-// export const tProto = proto;

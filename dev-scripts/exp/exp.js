@@ -36,22 +36,27 @@
 // };
 //
 //
-// const time = Date.now();
-//
-//
-// for(let i = 0; i < 1000000; i++){
-//   var z = function () {
-//
-//   }
-// }
-//
-//
-// console.log(Date.now() - time);
+const time = Date.now();
 
 
-let err = false;
+for(let i = 0; i < 1000000; i++){
+  new Proxy({}, {
+    set: function () {
+      return true;
+    }
+  })
+}
 
-let z  = !err;
 
+console.log(Date.now() - time);
 
-console.log('z => ',z );
+// const getNewError = function () {
+//    return {message: 'bar',stack:'bar'};
+// };
+//
+// let err = true;
+//
+// let z  = !err && getNewError();
+//
+//
+// console.log('z => ',z );

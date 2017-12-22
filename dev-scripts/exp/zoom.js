@@ -11,8 +11,6 @@
 // });
 
 
-
-
 const o = {};
 
 Object.defineProperty(o,'foo', {

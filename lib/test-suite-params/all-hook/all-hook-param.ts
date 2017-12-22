@@ -1,9 +1,10 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj} from 'suman-types/dts/test-suite';
+import {IHandleError, IHookObj} from 'suman-types/dts/test-suite';
 import {IGlobalSumanObj} from 'suman-types/dts/global';
 import {IAllHookParam} from 'suman-types/dts/params';
+import {IAssertObj, ITimerObj} from "suman-types/dts/general";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -38,7 +39,8 @@ export class AllHookParam extends ParamBase implements IAllHookParam {
   protected __assertCount: IAssertObj;
   protected planCountExpected: number;
   
-  constructor(hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError, fini: Function) {
+  constructor(hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError,
+              fini: Function, timerObj: ITimerObj, onTimeout: Function) {
     
     super();
     
@@ -48,7 +50,17 @@ export class AllHookParam extends ParamBase implements IAllHookParam {
     this.__handle = handleError;
     this.__fini = fini;
     this.__assertCount = assertCount;
+    this.__timerObj = timerObj;
+    this.__onTimeout = onTimeout;
     
+  }
+  
+  ctn(err: any) {
+    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(err);
+  }
+  
+  pass(err: any) {
+    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(err);
   }
   
   plan(num: number) {

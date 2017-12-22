@@ -1,6 +1,7 @@
 'use strict';
 
 //dts
+import {IAssertObj, ITimerObj} from "suman-types/dts/general";
 import {IGlobalSumanObj} from 'suman-types/dts/global';
 import {ITestDataObj} from 'suman-types/dts/it';
 import {IHandleError} from 'suman-types/dts/test-suite';
@@ -41,8 +42,8 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
   protected desc: string;
   protected title: string;
   
-  constructor(test: ITestDataObj, assertCount: IAssertCount,
-              handleError: IHandleError, fini: Function) {
+  constructor(test: ITestDataObj, assertCount: IAssertCount, handleError: IHandleError,
+              fini: Function, timerObj: ITimerObj, onTimeout: Function) {
     super();
     
     this.__assertCount = assertCount;
@@ -54,6 +55,31 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
     this.__test = test;
     this.__handle = handleError;
     this.__fini = fini;
+    this.__timerObj = timerObj;
+    this.__onTimeout = onTimeout;
+  }
+  
+  __inheritedSupply(target: any, prop: PropertyKey, value: any, receiver: any) {
+    this.__handle(new Error('cannot set any properties on t.supply (in test cases).'));
+    return false;
+  }
+  
+  pass() {
+    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(null);
+  }
+  
+  ctn() {
+    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(null);
+  }
+  
+  fail(err: Error) {
+    if (!this.callbackMode) {
+      this.handleNonCallbackMode(err);
+    }
+    else {
+      this.__handle(err || new Error('t.fail() was called on test (note that null/undefined value ' +
+        'was passed as first arg to the fail function.)'));
+    }
   }
   
   plan(num: number) {

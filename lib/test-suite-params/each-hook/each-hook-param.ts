@@ -1,7 +1,8 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj} from 'suman-types/dts/test-suite';
+import {IAssertObj, ITimerObj} from "suman-types/dts/general";
+import {IHandleError, IHookObj} from 'suman-types/dts/test-suite';
 import {IGlobalSumanObj} from 'suman-types/dts/global';
 import {IEachHookParam} from 'suman-types/dts/params';
 import AssertStatic = Chai.AssertStatic;
@@ -38,8 +39,8 @@ export class EachHookParam extends ParamBase implements IEachHookParam {
   protected __assertCount: IAssertObj;
   protected planCountExpected: number;
   
-  constructor(hook: IHookObj, assertCount: IAssertObj,
-              handleError: IHandleError, fini: Function) {
+  constructor(hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError,
+              fini: Function, timerObj: ITimerObj, onTimeout: Function) {
     
     super();
     
@@ -48,7 +49,20 @@ export class EachHookParam extends ParamBase implements IEachHookParam {
     this.__handle = handleError;
     this.__fini = fini;
     this.__assertCount = assertCount;
-    
+    this.__timerObj = timerObj;
+    this.__onTimeout = onTimeout;
+  }
+  
+  ctn() {
+    // t.pass doesn't make sense since this is not a test case, but for user friendliness
+    // this is like t.done() except by design no error will ever get passed
+    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(undefined);
+  }
+  
+  pass() {
+    // t.pass doesn't make sense since this is not a test case, but for user friendliness
+    // this is like t.done() except by design no error will ever get passed
+    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(undefined);
   }
   
   plan(num: number) {

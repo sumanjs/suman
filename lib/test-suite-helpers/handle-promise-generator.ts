@@ -29,15 +29,15 @@ const defaultErrorEvents = ['error'];
 /////////////////////////////////////////////////////////////////////////////////////////
 
 export const handleReturnVal = function (done: Function, fnStr: string, testOrHook: ITestDataObj | IHookObj) {
-
-  return function handle(val: any, warn: boolean, d: ISumanDomain) {
-
+  
+  return function handle(val: any, warn?: boolean) {
+    
     if ((!val || (typeof val.then !== 'function')) && warn) {
       _suman.writeTestError('\n Suman warning: you may have forgotten to return a Promise => \n' + fnStr + '\n');
     }
-
+    
     if (su.isObservable(val)) {
-
+      
       (val as Observable<any>).subscribe(
         function onNext(val: any) {
           console.log(' => Suman Observable subscription onNext => ', util.inspect(val));
@@ -50,33 +50,33 @@ export const handleReturnVal = function (done: Function, fnStr: string, testOrHo
           //TODO: we assume we are unsubscribed automatically if onCompleted is fired
           done();
         });
-
+      
     }
     else if (su.isSubscriber(val)) {
-
-      const next = val._next;
+      
+      const _next = val._next;
       const _error = val._error;
-      const complete = val._complete;
-
+      const _complete = val._complete;
+      
       val._next = function () {
-        next.apply(val, arguments);
+        _next.apply(val, arguments);
       };
-
+      
       val._error = function (e: IPseudoError) {
         _error.apply(val, arguments);
         done(e || new Error('Suman dummy error.'));
       };
-
+      
       val._complete = function () {
-        complete.apply(val, arguments);
+        _complete.apply(val, arguments);
         done();
       }
-
+      
     }
     else if (su.isStream(val) || su.isEventEmitter(val)) {
-
+      
       let first = true;
-
+      
       let onSuccess = function () {
         // happens in nextTick so that if error occurs, error has a chance to sneak in
         if (first) {
@@ -84,7 +84,7 @@ export const handleReturnVal = function (done: Function, fnStr: string, testOrHo
           process.nextTick(done);
         }
       };
-
+      
       let onError = function (e: Error) {
         // happens in nextTick so that if error occurs, error has a chance to sneak in
         if (first) {
@@ -92,10 +92,10 @@ export const handleReturnVal = function (done: Function, fnStr: string, testOrHo
           process.nextTick(done, e || new Error('Suman dummy error.'));
         }
       };
-
+      
       const eventsSuccess = testOrHook.events && testOrHook.events.success;
       const eventsError = testOrHook.events && testOrHook.events.error;
-
+      
       /*
         options could look like:
 
@@ -106,19 +106,31 @@ export const handleReturnVal = function (done: Function, fnStr: string, testOrHo
         }, t => {});
 
       */
-
-      const successEvents = (testOrHook.successEvents || eventsSuccess) ?
-        _.flattenDeep([testOrHook.successEvents, eventsSuccess]) : defaultSuccessEvents;
-      successEvents.forEach(function (name: string) {
+      
+      const successEvents = _.flattenDeep([testOrHook.successEvents, eventsSuccess, defaultSuccessEvents]);
+      successEvents.filter(function (v, i, a) {
+        if (v && typeof v !== 'string') {
+          _suman.log.error(new Error('Value passed to success events was not a string: ' + util.inspect(v)));
+          return false;
+        }
+        return v && a.indexOf(v) === i;
+      })
+      .forEach(function (name: string) {
         val.once(name, onSuccess);
       });
-
-      const errorEvents = (testOrHook.errorEvents || eventsError) ?
-        _.flattenDeep([testOrHook.errorEvents, eventsError]) : defaultErrorEvents;
-      errorEvents.forEach(function (name: string) {
+      
+      const errorEvents = _.flattenDeep([testOrHook.errorEvents, eventsError, defaultErrorEvents]);
+      errorEvents.filter(function (v, i, a) {
+        if (v && typeof v !== 'string') {
+          _suman.log.error(new Error('Value passed to error events was not a string: ' + util.inspect(v)));
+          return false;
+        }
+        return v && a.indexOf(v) === i;
+      })
+      .forEach(function (name: string) {
         val.once(name, onError);
       });
-
+      
     }
     else {
       // then() callback does not happen in same tick, so needs to be separate call from observables/streams
@@ -130,7 +142,7 @@ export const handleReturnVal = function (done: Function, fnStr: string, testOrHo
           done(err || new Error('Suman unkwnown error'));
         });
     }
-
+    
   }
 };
 
