@@ -33,6 +33,10 @@ let badProps = <IBadProps> {
 
 export class EachHookParam extends ParamBase {
   
+  protected __planCalled: boolean;
+  protected __assertCount: IAssertObj;
+  protected planCountExpected: number;
+  
   constructor(hook: IHookObj, assertCount: IAssertObj,
               handleError: IHandleError, fini: Function) {
     
@@ -42,12 +46,13 @@ export class EachHookParam extends ParamBase {
     this.__hook = hook;
     this.__handle = handleError;
     this.__fini = fini;
+    this.__assertCount = assertCount;
     
   }
   
   plan(num: number) {
     
-    if (this.planCalled) {
+    if (this.__planCalled) {
       _suman.writeTestError(new Error('Suman warning => plan() called more than once.').stack);
       return;
     }
@@ -70,7 +75,7 @@ export class EachHookParam extends ParamBase {
   }
   
   confirm() {
-    this.assertCount.num++;
+    this.__assertCount.num++;
   }
   
 }

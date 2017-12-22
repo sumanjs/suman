@@ -8,8 +8,12 @@
 
 #sh $(dirname $0)/exp.js
 
+json_array=\''["one","two","three"]'\';
 
+function getJSON {
+   node -pe "JSON.parse($json_array).forEach(v => console.log(v))"
+}
 
-node -pe "JSON.parse('[\"one\",\"two\",\"three\"]')" | while read line; do
+getJSON | while read line; do
     echo "$line"
 done

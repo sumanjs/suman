@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj, IHookParam} from 'suman-types/dts/test-suite';
+import {IAssertObj, IHandleError, IHookObj} from 'suman-types/dts/test-suite';
 import {IGlobalSumanObj} from 'suman-types/dts/global';
 import AssertStatic = Chai.AssertStatic;
 
@@ -33,21 +33,27 @@ let badProps = <IBadProps> {
 
 export class AllHookParam extends ParamBase {
   
+  protected __planCalled: boolean;
+  protected __assertCount: IAssertObj;
+  protected planCountExpected: number;
+  
   constructor(hook: IHookObj, assertCount: IAssertObj,
               handleError: IHandleError, fini: Function) {
     
     super();
     
+    this.planCountExpected = null;
     this.__planCalled = false;
     this.__hook = hook;
     this.__handle = handleError;
     this.__fini = fini;
+    this.__assertCount = assertCount;
     
   }
   
   plan(num: number) {
     
-    if (this.planCalled) {
+    if (this.__planCalled) {
       _suman.writeTestError(new Error('Suman warning => plan() called more than once.').stack);
       return;
     }
@@ -70,7 +76,7 @@ export class AllHookParam extends ParamBase {
   }
   
   confirm() {
-    this.assertCount.num++;
+    this.__assertCount.num++;
   }
   
 }
