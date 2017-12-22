@@ -14,7 +14,7 @@ Test.create(function (b, test, setup, setupTest, setuptest, teardown, teardownTe
 
   test('here we go');
 
-  b.shared.set('users', 888);
+  b.set('users', 888);
 
   setup({}, h => {
     console.log('this is a setup..');

@@ -1,7 +1,10 @@
-export interface IFindShFunctions {
-    (p: string): string | null;
+import { IAtConfig } from 'suman-types/dts/at-config';
+export interface IFindConfig {
+    'config': IAtConfig;
+    'runPath': string;
 }
-export declare const findPathOfRunDotSh: IFindShFunctions;
-export declare const findPathOfTransformDotSh: IFindShFunctions;
+export declare const findPathOfRunDotSh: (p: string) => string;
+export declare const findPathAndConfigOfRunDotSh: (p: string) => IFindConfig;
+export declare const findPathOfTransformDotSh: (p: string) => string;
 declare const $exports: any;
 export default $exports;

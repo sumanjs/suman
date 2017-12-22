@@ -2,29 +2,31 @@
 'use strict';
 
 const suman = require('suman');
-const { Test } = suman.init(module, {
-  pre: ['dog']
-},
+const {Test} = suman.init(module, {
+    pre: ['dog']
+  },
   {
     allowSkip: true
   });
 
+let count = 0;
+
 ///////////////////////////////////////////////////////////////////////
 
-Test.create({ delay: true }, b => {
-  b.resume();
-});
+// Test.create({delay: true}, b => {
+//   b.resume();
+// });
 
 Test.create(function (b, assert, describe, test, before, beforeEach, after, afterEach, it, $core) {
 
-  const { child_process, http } = $core;
+  const {child_process, http} = $core;
 
   beforeEach.define('early').run(h => {
     return Promise.resolve('foobar');
   });
 
   b.set('a', 'bingo');
-  const [a, z] = b.gets('a', 'b');
+  const [a, z] = b.getValues('a', 'b');
   assert.equal(a, 'bingo');
   assert.equal(z, undefined);
 
@@ -32,7 +34,7 @@ Test.create(function (b, assert, describe, test, before, beforeEach, after, afte
 
   describe('here we go', function (b) {
 
-    const [a, z] = b.gets('a', 'b');
+    const [a, z] = b.getValues('a', 'b');
     assert.equal(a, 'bingo');
     assert.equal(z, undefined);
 
@@ -40,11 +42,19 @@ Test.create(function (b, assert, describe, test, before, beforeEach, after, afte
       h.assert(true);
     });
 
-    it('sync test', t => {
-      t.assert(true);
-    });
+    // it('sync test', t => {
+    //   t.assert(true);
+    //   t.plan(3);
+    //   t.confirm();
+    //   t.confirm();
+    // });
 
-    after(h => {
+
+    after.fatal(h => {
+      h.plan(3);
+      h.confirm();
+      h.confirm();
+      h.confirm();
       assert(true);
     });
 

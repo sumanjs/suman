@@ -8,6 +8,14 @@ three SO profiles:
 
 //TODO: t.state = 'passed'/'failed' etc.
 
+///
+
+  use procure instead of source, or load, or locate, gather
+
+////
+
+ add env vars to @config.json
+
 ////
 
  spawn all child processes in shell, launch processes via bash instead of directly
@@ -183,6 +191,11 @@ exit with command to the right that exits with non-zero
 
 ////
 
+   suman watch, suman-refine, suman-shell
+   need to pass env vars so that we get the right reporter at top level and child levels
+
+////
+
     suman tests should work without having to run suman --init
     see new option: use-default-config
 
@@ -194,6 +207,8 @@ exit with command to the right that exits with non-zero
 
     use puppeteer to launch chrome instead of chrome-launcher
     https://developers.google.com/web/updates/2017/04/headless-chrome
+
+    https://github.com/mochajs/mocha/pull/3152
 
 ////
 
@@ -267,10 +282,6 @@ shopt -u extdebug
 ////
 
     skip and only do not work creates - Test.create(['bat', 'suit', {only: true},
-
-////
-
- if beforeEach hook fails -> we do not exit, but we should mark the test as failed.
 
 ////
 

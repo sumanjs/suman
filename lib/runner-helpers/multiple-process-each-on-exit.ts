@@ -28,7 +28,6 @@ import {IGanttData} from "./socket-cp-hash";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const runnerUtils = require('./runner-utils');
 import {handleTestCoverageReporting} from './coverage-reporting';
 const {constants} = require('../../config/suman-constants');
 import {getTranspileQueue, getRunQueue} from './shared/queues';

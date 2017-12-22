@@ -46,9 +46,9 @@ Test.create('X', {
       
       before(async function (h) {
         h.assert.equal(++count, 2);
-        return Promise.delay(399).then(function () {
+        return Promise.delay(39).then(function () {
           console.log('delaying more.');
-          return Promise.delay(1000);
+          return Promise.delay(100);
         });
       });
       

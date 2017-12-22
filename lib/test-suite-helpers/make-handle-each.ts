@@ -24,7 +24,8 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../helpers/general';
-import {makeHookObj} from './t-proto-hook';
+// import {makeHookParam} from './t-proto-hook';
+import {EachHookParam} from "../test-suite-params/each-hook/each-hook-param";
 import {makeEachHookCallback} from './make-fini-callbacks';
 const helpers = require('./handle-promise-generator');
 import {freezeExistingProps} from 'freeze-existing-props'
@@ -44,12 +45,19 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     const {sumanOpts} = _suman;
     aBeforeOrAfterEach.alreadyInitiated = true;
     
-    if (test.skipped || test.stubbed || test.failed) {
-      // if test.failed => another beforeEach hook failed, so test failed
+    if (test.skipped || test.stubbed) {
       return process.nextTick(cb);
     }
     
-    const onTimeout = function () {
+    if (test.failed && aBeforeOrAfterEach.type === 'beforeEach/setupTest') {
+      // if test.failed => another beforeEach hook failed, so test failed
+      // if this is a beforeEach hook, we can skip it
+      // on the other hand this is an afterEach hook,
+      // we should continue processing afterEach hooks even if the test failed.
+      return process.nextTick(cb);
+    }
+    
+    const onTimeout =  () => {
       const err = cloneError(aBeforeOrAfterEach.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR);
       err.sumanExitCode = constants.EXIT_CODES.HOOK_TIMED_OUT_ERROR;
       fini(err, true);
@@ -77,7 +85,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       fini.retryFn = retryData ? retryData.retryFn : handleBeforeOrAfterEach.bind(null, arguments);
     }
     
-    const handlePossibleError = function (err: Error | IPseudoError) {
+    const handlePossibleError =  (err: Error | IPseudoError) => {
       if (err) {
         if (typeof err !== 'object') err = new Error(util.inspect(err));
         err.sumanFatal = Boolean(sumanOpts.bail);
@@ -88,7 +96,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       }
     };
     
-    const handleError: IHandleError = function (err: IPseudoError) {
+    const handleError: IHandleError =  (err: IPseudoError) => {
       
       if (aBeforeOrAfterEach.dynamicallySkipped === true) {
         err && _suman.log.warning('Hook was dynamically skipped, but error occurred:', err.message || util.inspect(err));
@@ -108,12 +116,12 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         }
       }
       
-      const errMessage = err && (err.stack || err.message|| util.inspect(err));
+      const errMessage = err && (err.stack || err.message || util.inspect(err));
       err = cloneError(aBeforeOrAfterEach.warningErr, errMessage, false);
       
       // console.log('error => ', err);
       // console.log('aBeforeOrAfterEach.warningErr => ', aBeforeOrAfterEach.warningErr);
-      
+      //
       // err = err || new Error('unknown/falsy hook error.');
       //
       // if (typeof err === 'string') {
@@ -153,7 +161,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     
     d.on('error', handleError);
     
-    process.nextTick(function () {
+    process.nextTick(() => {
       
       _suman.activeDomain = d;
       
@@ -171,8 +179,6 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           isAsyncAwait = true;
         }
         
-        //TODO: need to implement all assert methods
-        
         const timeout = function (val: number) {
           clearTimeout(timerObj.timer);
           assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
@@ -184,7 +190,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
         
-        const t = makeHookObj(aBeforeOrAfterEach, assertCount, handleError, handlePossibleError);
+        const t = new EachHookParam(aBeforeOrAfterEach, assertCount, handleError, handlePossibleError);
         fini.thot = t;
         t.timeout = timeout;
         t.test = {};
@@ -194,7 +200,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         if (aBeforeOrAfterEach.type === 'afterEach/teardownTest') {
           // these properties are sent to afterEach hooks, but not beforeEach hooks
           t.test.result = test.error ? 'failed' : 'passed';
-          t.test.error = test.error;
+          t.test.error = test.error || null;
         }
         
         t.data = test.data;
@@ -204,19 +210,13 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         t.__shared = self.shared;
         t.supply = t.__supply = self.supply;
         
-        t.fatal = function fatal(err: IPseudoError) {
-          err = err || new Error('Stand-in error, since user did not provide one.');
-          if (typeof err !== 'object') err = new Error(util.inspect(err));
-          err.sumanFatal = true;
-          handleError(err);
-        };
-        
-        let args;
+        let arg;
         
         if (isGeneratorFn) {
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfterEach);
-          args = [freezeExistingProps(t)];
-          handlePotentialPromise(helpers.handleGenerator(aBeforeOrAfterEach.fn, args));
+          // arg = freezeExistingProps(t);
+          arg = t;
+          handlePotentialPromise(helpers.handleGenerator(aBeforeOrAfterEach.fn, arg));
         }
         else if (aBeforeOrAfterEach.cb) {
           
@@ -227,21 +227,22 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           //    throw aBeforeOrAfter.NO_DONE;
           // }
           
-          const dne = function done(err: IPseudoError) {
+          const dne = function (err: IPseudoError) {
             t.callbackMode ? handlePossibleError(err) : handleNonCallbackMode(err);
           };
           
           t.done = dne;
           
-          t.ctn = t.pass = function () {
+          t.ctn = t.pass =  () => {
             // t.pass doesn't make sense since this is not a test case, but for user friendliness
             // this is like t.done() except by design no error will ever get passed
             t.callbackMode ? fini(null) : handleNonCallbackMode(undefined);
           };
           
-          args = Object.setPrototypeOf(dne, freezeExistingProps(t));
+          // arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
+          arg = Object.setPrototypeOf(dne, t);
           
-          if (aBeforeOrAfterEach.fn.call(null, args)) {
+          if (aBeforeOrAfterEach.fn.call(null, arg)) {
             _suman.writeTestError(cloneError(aBeforeOrAfterEach.warningErr,
               constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
           }
@@ -249,8 +250,9 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
         else {
           
           const handlePotentialPromise = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfterEach);
-          args = freezeExistingProps(t);
-          handlePotentialPromise(aBeforeOrAfterEach.fn.call(null, args), false);
+          // arg = freezeExistingProps(t);
+          arg = t;
+          handlePotentialPromise(aBeforeOrAfterEach.fn.call(null, arg), false);
         }
         
       });

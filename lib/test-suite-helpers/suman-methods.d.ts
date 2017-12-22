@@ -1,2 +1,3 @@
 import { Suman } from "../suman";
-export declare const makeSumanMethods: (suman: Suman, TestBlock: any, gracefulExit: Function, notifyParent: Function) => any;
+import { TestBlockBase } from "./make-test-suite";
+export declare const makeSumanMethods: (suman: Suman, TestBlock: typeof TestBlockBase, gracefulExit: Function, notifyParent: Function) => any;
