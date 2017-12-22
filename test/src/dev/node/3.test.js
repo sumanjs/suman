@@ -53,6 +53,8 @@ Test.create(function (b, assert, describe, test, before, beforeEach, after, afte
     after.fatal(h => {
       h.plan(3);
       h.confirm();
+      h.confirm();
+      h.confirm();
       assert(true);
     });
 

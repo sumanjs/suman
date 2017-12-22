@@ -49,9 +49,7 @@ const planHelper = function (testOrHook: ITestDataObj | IHookObj, assertCount: I
     let errorPlanCount = 'Error => Expected plan count was ' + testOrHook.planCountExpected +
       ', but actual assertion/confirm count was ' + assertCount.num;
     
-    let t = cloneError(testOrHook.warningErr, errorPlanCount, false);
-    debugger;
-    return t;
+    return cloneError(testOrHook.warningErr, errorPlanCount, false);
   }
   
 };
@@ -59,7 +57,6 @@ const planHelper = function (testOrHook: ITestDataObj | IHookObj, assertCount: I
 const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
   
   const testOrHook: ITestDataObj | IHookObj = (test || hook);
-  
   
   if (testOrHook.throws === undefined) {
     return err;
@@ -72,10 +69,9 @@ const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHoo
     return e;
   }
   
-  let z;
   if (!err) {
     
-    z = testOrHook.didNotThrowErrorWithExpectedMessage =
+    let z = testOrHook.didNotThrowErrorWithExpectedMessage =
       'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
       'but did not throw or pass any error.';
     
@@ -89,7 +85,7 @@ const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHoo
   }
   else if (err && !String(err.stack || err).match(testOrHook.throws)) {
     
-    z = testOrHook.didNotThrowErrorWithExpectedMessage =
+    let z = testOrHook.didNotThrowErrorWithExpectedMessage =
       'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
       'but did not throw or pass any error.';
     
@@ -182,7 +178,7 @@ export const makeAllHookCallback = function (d: ISumanDomain, assertCount: IAsse
       }
       
       gracefulExit(err, function () {
-        process.nextTick(cb, null, err);
+        cb(null, err);
       });
       
     }
@@ -294,7 +290,7 @@ export const makeEachHookCallback = function (d: ISumanDomain, assertCount: IAss
       }
       
       gracefulExit(err, function () {
-        process.nextTick(cb, null, err);
+        cb(null, err);
       });
       
     }
@@ -382,10 +378,10 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
       
       if (err) {
         
-        err.sumanFatal = err.sumanFatal || _suman.sumanOpts.bail;
+        err.sumanFatal = err.sumanFatal || sumanOpts.bail;
         test.error = err;
         
-        if (_suman.sumanOpts.bail) {
+        if (sumanOpts.bail) {
           err.sumanExitCode = constants.EXIT_CODES.TEST_ERROR_AND_BAIL_IS_TRUE;
         }
       }
@@ -394,7 +390,10 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
         test.dateComplete = Date.now();
       }
       
-      process.nextTick(cb, null, err);
+      gracefulExit(err, function () {
+        cb(null, err);
+      });
+      
     }
     else {
       
