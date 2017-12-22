@@ -72,10 +72,10 @@ const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHoo
   if (!err) {
     
     let z = testOrHook.didNotThrowErrorWithExpectedMessage =
-      'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
+      'Error => Expected to throw an error matching regex (' + testOrHook.throws + '), ' +
       'but did not throw or pass any error.';
     
-    err = cloneError(testOrHook.warningErr, z);
+    err = cloneError(testOrHook.warningErr, z, false);
     
     if (hook) {
       err.sumanFatal = true;
@@ -89,7 +89,7 @@ const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHoo
       'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
       'but did not throw or pass any error.';
     
-    let newErr = cloneError(testOrHook.warningErr, z);
+    let newErr = cloneError(testOrHook.warningErr, z, false);
     err = new Error(err.stack + '\n' + newErr.stack);
     
   }

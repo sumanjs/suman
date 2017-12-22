@@ -8,15 +8,12 @@ const {Test} = suman.init(module);
 
 Test.create(function (b, assert, describe, before, beforeEach, after, afterEach, it, $core, events) {
 
-  const EventEmitter = events.EventEmitter;
+  const EE = events.EventEmitter;
 
-  const x = b;
-
-  debugger;
 
   it('test successEvents', {successEvents: null}, t => {
 
-    const ee = new EventEmitter();
+    const ee = new EE();
 
     setTimeout(function () {
       ee.emit('done');
@@ -28,7 +25,7 @@ Test.create(function (b, assert, describe, before, beforeEach, after, afterEach,
 
   it('test successEvents', {throws: /zoom/, errorEvents: ['bubba']}, t => {
 
-    const ee = new EventEmitter();
+    const ee = new EE();
 
     setTimeout(function () {
       ee.emit('bubba', new Error('zoom'));
@@ -40,7 +37,7 @@ Test.create(function (b, assert, describe, before, beforeEach, after, afterEach,
 
   it('test successEvents', {throws: /zoom/, events: {error: ['bubba']}}, t => {
 
-    const ee = new EventEmitter();
+    const ee = new EE();
 
     setTimeout(function () {
       ee.emit('bubba', new Error('zoom'));
