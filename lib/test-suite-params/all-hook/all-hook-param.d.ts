@@ -1,6 +1,7 @@
 import { IAssertObj, IHandleError, IHookObj } from 'suman-types/dts/test-suite';
+import { IAllHookParam } from 'suman-types/dts/params';
 import { ParamBase } from '../base';
-export declare class AllHookParam extends ParamBase {
+export declare class AllHookParam extends ParamBase implements IAllHookParam {
     protected __planCalled: boolean;
     protected __assertCount: IAssertObj;
     protected planCountExpected: number;

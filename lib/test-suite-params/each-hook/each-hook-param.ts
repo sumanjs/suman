@@ -1,8 +1,9 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj, IHookParam} from 'suman-types/dts/test-suite';
+import {IAssertObj, IHandleError, IHookObj} from 'suman-types/dts/test-suite';
 import {IGlobalSumanObj} from 'suman-types/dts/global';
+import {IEachHookParam} from 'suman-types/dts/params';
 import AssertStatic = Chai.AssertStatic;
 
 //polyfills
@@ -31,7 +32,7 @@ let badProps = <IBadProps> {
 
 /////////////////////////////////////////////////////////////////////////
 
-export class EachHookParam extends ParamBase {
+export class EachHookParam extends ParamBase implements IEachHookParam {
   
   protected __planCalled: boolean;
   protected __assertCount: IAssertObj;

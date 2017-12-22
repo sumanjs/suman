@@ -2,6 +2,7 @@
 
 //dts
 import {IAssertObj, IHandleError, IHookObj} from 'suman-types/dts/test-suite';
+import {IInjectHookParam} from 'suman-types/dts/params';
 import {IGlobalSumanObj} from 'suman-types/dts/global';
 import AssertStatic = Chai.AssertStatic;
 import {ITestSuite} from 'suman-types/dts/test-suite';
@@ -15,8 +16,8 @@ const global = require('suman-browser-polyfills/modules/global');
 import assert = require('assert');
 
 //npm
-import su = require('suman-utils');
 import async = require('async');
+import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -38,7 +39,7 @@ let badProps = <IBadProps> {
 };
 
 
-export class InjectParam extends ParamBase {
+export class InjectParam extends ParamBase implements IInjectHookParam{
   
   protected __planCalled: boolean;
   protected __valuesMap: IValuesMap;

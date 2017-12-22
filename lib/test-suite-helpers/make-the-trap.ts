@@ -33,109 +33,108 @@ const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 ////////////////////////////////////////////////////////////////////////////////
 
 const getAllBeforesEaches = function (zuite: ITestSuite) {
-
+  
   const beforeEaches: Array<Array<IBeforeEachObj>> = [];
   beforeEaches.unshift(zuite.getBeforeEaches());
-
+  
   if (!zuite.alreadyHandledAfterAllParentHooks) {
     zuite.alreadyHandledAfterAllParentHooks = true;
     beforeEaches.unshift(zuite.getAfterAllParentHooks());
   }
-
+  
   const getParentBefores = function (parent: ITestSuite) {
     beforeEaches.unshift(parent.getBeforeEaches());
     if (parent.parent) {
       getParentBefores(parent.parent);
     }
   };
-
+  
   if (zuite.parent) {
     getParentBefores(zuite.parent);
   }
-
+  
   return _.flatten(beforeEaches);
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
 const getAllAfterEaches = function (zuite: ITestSuite) {
-
+  
   const afterEaches: Array<Array<IAFterEachObj>> = [];
   afterEaches.push(zuite.getAfterEaches());
-
+  
   const getParentAfters = function (parent: ITestSuite) {
     afterEaches.push(parent.getAfterEaches());
     if (parent.parent) {
       getParentAfters(parent.parent);
     }
   };
-
+  
   if (zuite.parent) {
     getParentAfters(zuite.parent);
   }
-
+  
   return _.flatten(afterEaches);
 };
-
 
 //////////////////////////////////////////////////////////
 
 const stckMapFn = function (item: string, index: number) {
-
+  
   const fst = _suman.sumanOpts && _suman.sumanOpts.full_stack_traces;
-
-  if(!item){
+  
+  if (!item) {
     return '';
   }
-
+  
   if (index === 0) {
     return '\t' + item;
   }
-
+  
   if (fst) {
     return su.padWithXSpaces(4) + item;
   }
-
+  
   if ((String(item).match(/\//) || String(item).match('______________')) && !String(item).match(/\/node_modules\//) &&
     !String(item).match(/internal\/process\/next_tick.js/)) {
     return su.padWithXSpaces(4) + item;
   }
-
+  
 };
 
 /////////////////////////////////////////////////////////////////////////////////////
 
- const makeHandleTestResults = function (suman: ISuman) {
-
+const makeHandleTestResults = function (suman: ISuman) {
+  
   return function handleTestError(err: IPseudoError, test: ITestDataObj) {
-
+    
     if (_suman.uncaughtExceptionTriggered) {
       _suman.log.error(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
       return;
     }
-
+    
     test.error = null;
-
+    
     if (err) {
-
+      
       const sumanFatal = err.sumanFatal;
-
+      
       if (err instanceof Error) {
-
+        
         test.error = err;
         test.errorDisplay = String(err.stack).split('\n')
-        .concat(`\t${su.repeatCharXTimes('_',70)}`)
+        .concat(`\t${su.repeatCharXTimes('_', 70)}`)
         .map(stckMapFn)
         .filter(item => item)
         .join('\n')
         .concat('\n');
-
+        
       }
       else if (typeof err.stack === 'string') {
-
+        
         test.error = err;
         test.errorDisplay = String(err.stack).split('\n')
-        .concat(`\t${su.repeatCharXTimes('_',70)}`)
+        .concat(`\t${su.repeatCharXTimes('_', 70)}`)
         .map(stckMapFn)
         .filter(item => item)
         .join('\n')
@@ -144,72 +143,71 @@ const stckMapFn = function (item: string, index: number) {
       else {
         throw new Error('Suman internal implementation error => invalid error format, please report this.');
       }
-
+      
       if (su.isSumanDebug()) {
         _suman.writeTestError('\n\nTest error: ' + test.desc + '\n\t' + 'stack: ' + test.error.stack + '\n\n');
       }
-
+      
       testErrors.push(test.error);
     }
-
+    
     if (test.error) {
       test.error.isFromTest = true;
     }
-
+    
     suman.logResult(test);
     return test.error;
   }
 };
 
-
 ////////////////////////////////////////////////////////////////////////////////
 
 export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
-
+  
   const handleTest = makeHandleTest(suman, gracefulExit);
   const handleTestResult = makeHandleTestResults(suman);
   const handleBeforeOrAfterEach = makeHandleBeforeOrAfterEach(suman, gracefulExit);
-
-  return function runTheTrap(self: ITestSuite, test: ITestDataObj, opts: IItOpts, cb: Function) {
-
+  
+  return function runTheTrap(self: ITestSuite, test: ITestDataObj, opts: Partial<IItOpts>, cb: Function) {
+    
     if (_suman.uncaughtExceptionTriggered) {
       _suman.log.error(`runtime error => "uncaughtException" event => halting program.\n[${__filename}]`);
       return;
     }
-
+    
     const sumanOpts = suman.opts, sumanConfig = suman.config;
     let delaySum = 0; //TODO: is this correct?
-
+    
     if (test.stubbed) {
       rb.emit(String(events.TEST_CASE_END), test);
       rb.emit(String(events.TEST_CASE_STUBBED), test);
       return process.nextTick(cb, null);
     }
-
+    
     if (test.skipped) {
       rb.emit(String(events.TEST_CASE_END), test);
       rb.emit(String(events.TEST_CASE_SKIPPED), test);
       return process.nextTick(cb, null);
     }
-
+    
     const parallel = sumanOpts.parallel || (opts.parallel && !_suman.sumanOpts.series);
-
+    
     async.eachSeries(getAllBeforesEaches(self), function (aBeforeEach: IBeforeEachObj, cb: Function) {
         handleBeforeOrAfterEach(self, test, aBeforeEach, cb);
       },
       function doneWithBeforeEaches(err: IPseudoError) {
-
+        
         implementationError(err);
-
+        
         if (parallel) {
           delaySum += (test.delay || 0);
         } else {
           delaySum = 0;
         }
-
+        
         async.series([
             function (cb: Function) {
-
+              
               const handleTestContainer = function () {
                 handleTest(self, test, function (err: IPseudoError, result: any) {
                   implementationError(err);
@@ -224,33 +222,34 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
                   }
                 });
               };
-
+              
               if (delaySum) { // if non-zero / non-falsy value
                 setTimeout(handleTestContainer, delaySum);
               }
               else {
                 handleTestContainer();
               }
-
+              
             },
-
+            
             function (cb: Function) {
-
+              
               async.eachSeries(getAllAfterEaches(self), function (aAfterEach: IAFterEachObj, cb: Function) {
-                handleBeforeOrAfterEach(self, test, aAfterEach, cb);
-              }, function done(err: IPseudoError) {
-                implementationError(err);
-                process.nextTick(cb);
-              });
-
+                  handleBeforeOrAfterEach(self, test, aAfterEach, cb);
+                },
+                function done(err: IPseudoError) {
+                  implementationError(err);
+                  process.nextTick(cb);
+                });
+              
             }
           ],
           function doneWithTests(err: IPseudoError, results: Array<any>) {
             err && console.error('Suman implementation error => the following error should not be present => ', err);
             cb(null, results);
           });
-
+        
       });
   }
-
+  
 };

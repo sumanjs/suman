@@ -37,7 +37,7 @@ export class DefineObject {
   
   plan(v: number): this {
     assert(Number.isInteger(v), 'Argument to plan must be an integer.');
-    this.opts.planCount = v;
+    this.opts.plan = v;
     return this;
   }
   
@@ -196,7 +196,7 @@ export class DefineObjectTestOrHook extends DefineObject {
 
 export class DefineOptionsInjectHook extends DefineObjectTestOrHook {
   
-  run(fn: T | TAfterEachHook): this {
+  run(fn: TBeforeEachHook | TAfterEachHook): this {
     const name = this.opts.desc || '(unknown DefineObject name)';
     // const opts = JSON.parse(su.customStringify(this.opts));
     this.exec.call(null, name, Object.assign({}, this.opts), fn);
@@ -207,7 +207,6 @@ export class DefineOptionsInjectHook extends DefineObjectTestOrHook {
 
 
 export class DefineObjectAllHook extends DefineObjectTestOrHook {
-  
   
   first(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "first" must be a boolean.');
@@ -233,7 +232,6 @@ export class DefineObjectAllHook extends DefineObjectTestOrHook {
     this.exec.call(null, name, Object.assign({}, this.opts), fn);
     return this;
   }
-  
 }
 
 export class DefineObjectEachHook extends DefineObjectTestOrHook {
@@ -269,7 +267,7 @@ export class DefineObjectContext extends DefineObject {
   source(...args: string[]): this {
     this.opts.__toBeSourcedForIOC = this.opts.__toBeSourcedForIOC || {};
     const self = this; // transpiles better this way
-    Array.from(arguments).forEach(function (a) {
+    args.forEach(function (a) {
       if (Array.isArray(a)) {
         // break into any arrays, recursively
         self.source(...a);
@@ -286,7 +284,7 @@ export class DefineObjectContext extends DefineObject {
   }
   
   names(...args: string[]): this {
-    this.opts.names = Array.from(arguments).reduce(function (a, b) {
+    this.opts.names = args.reduce(function (a, b) {
       return a.concat(b);
     }, []);
     return this;

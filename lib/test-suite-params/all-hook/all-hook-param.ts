@@ -3,7 +3,7 @@
 //dts
 import {IAssertObj, IHandleError, IHookObj} from 'suman-types/dts/test-suite';
 import {IGlobalSumanObj} from 'suman-types/dts/global';
-import AssertStatic = Chai.AssertStatic;
+import {IAllHookParam} from 'suman-types/dts/params';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -31,14 +31,14 @@ let badProps = <IBadProps> {
 
 /////////////////////////////////////////////////////////////////////////
 
-export class AllHookParam extends ParamBase {
+
+export class AllHookParam extends ParamBase implements IAllHookParam {
   
   protected __planCalled: boolean;
   protected __assertCount: IAssertObj;
   protected planCountExpected: number;
   
-  constructor(hook: IHookObj, assertCount: IAssertObj,
-              handleError: IHandleError, fini: Function) {
+  constructor(hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError, fini: Function) {
     
     super();
     
@@ -62,7 +62,7 @@ export class AllHookParam extends ParamBase {
     this.__planCalled = true;
     
     if (hook.planCountExpected !== undefined) {
-      _suman.writeTestError(new Error(' => Suman warning => plan() called, even though plan was already passed as an option.').stack);
+      _suman.writeTestError(new Error('Suman warning => plan() called, even though plan was already passed as an option.').stack);
     }
     
     try {

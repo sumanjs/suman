@@ -39,6 +39,7 @@ import {handleSetupComplete} from '../helpers/general';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
 import {parseArgs} from '../helpers/general';
 import {evalOptions} from '../helpers/general';
+import {TestBlockBase} from "../test-suite-helpers/make-test-suite";
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -70,7 +71,7 @@ const handleBadOptions = function (opts: IDescribeOpts, typeName: string) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestBlock: any,
+export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestBlock: TestBlockBase,
                                       notifyParentThatChildIsComplete: Function,
                                       blockInjector: Function): IDescribeFn {
   
@@ -149,7 +150,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
     
     if (!sumanOpts.force && !_suman.inBrowser) {
-      debugger;
       if (opts.skip && !sumanOpts.allow_skip && !sumanOpts.$allowSkip) {
         throw new Error('Test block was declared as "skipped" but "--allow-skip" / "--force" option not specified.');
       }

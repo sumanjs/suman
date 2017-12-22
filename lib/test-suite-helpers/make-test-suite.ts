@@ -39,7 +39,7 @@ import {makeStartSuite} from './make-start-suite';
 
 type ITestSuiteConstructor = (obj: ITestSuiteMakerOpts) => void;
 
-class TestBlockBase {
+export class TestBlockBase {
   // public
   opts: Object;
   testId: number;

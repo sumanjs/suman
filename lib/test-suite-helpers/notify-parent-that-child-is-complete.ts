@@ -62,14 +62,13 @@ export const makeNotifyParent = function (suman: ISuman, gracefulExit: Function,
 
       parent.alreadyStartedAfterHooks = true;
 
-      async.mapSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
+      async.eachSeries(parent.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
           handleBeforesAndAfters(child, aBeforeOrAfter, cb);
         },
 
-        function complete(err: IPseudoError, results: Array<IPseudoError>) {
-
+        function complete(err: IPseudoError) {
           implementationError(err);
-          gracefulExit(results, function () {
+          process.nextTick(function () {
             notifyParentThatChildIsComplete(parent, cb);
           });
         });

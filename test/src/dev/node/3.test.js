@@ -9,6 +9,8 @@ const {Test} = suman.init(module, {
     allowSkip: true
   });
 
+let count = 0;
+
 ///////////////////////////////////////////////////////////////////////
 
 // Test.create({delay: true}, b => {
@@ -40,11 +42,17 @@ Test.create(function (b, assert, describe, test, before, beforeEach, after, afte
       h.assert(true);
     });
 
-    it('sync test', t => {
-      t.assert(true);
-    });
+    // it('sync test', t => {
+    //   t.assert(true);
+    //   t.plan(3);
+    //   t.confirm();
+    //   t.confirm();
+    // });
 
-    after(h => {
+
+    after.fatal(h => {
+      h.plan(3);
+      h.confirm();
       assert(true);
     });
 

@@ -35,7 +35,7 @@ export declare class DefineObjectTestOrHook extends DefineObject {
     errorEvent(...args: string[]): this;
 }
 export declare class DefineOptionsInjectHook extends DefineObjectTestOrHook {
-    run(fn: T | TAfterEachHook): this;
+    run(fn: TBeforeEachHook | TAfterEachHook): this;
 }
 export declare class DefineObjectAllHook extends DefineObjectTestOrHook {
     first(v: boolean): this;

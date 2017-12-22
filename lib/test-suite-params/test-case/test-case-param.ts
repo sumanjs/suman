@@ -16,30 +16,37 @@ import assert = require('assert');
 import util = require('util');
 
 //npm
-const chai = require('chai');
-const chaiAssert = chai.assert;
+import * as chai from 'chai';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {ParamBase} from '../base';
 
-//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 export interface IAssertCount {
   num: number
 }
 
-
-///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 export class TestCaseParam extends ParamBase implements ITestCaseParam {
+  
+  protected __planCalled: boolean;
+  protected __assertCount: IAssertCount;
+  protected planCountExpected: number;
+  protected value: Object;
+  protected data: Object;
+  protected testId: number;
+  protected desc: string;
+  protected title: string;
   
   constructor(test: ITestDataObj, assertCount: IAssertCount,
               handleError: IHandleError, fini: Function) {
     super();
     
-    this.assertCount = assertCount;
-    this.planCalled = false;
+    this.__assertCount = assertCount;
+    this.__planCalled = false;
     this.value = test.value;
     this.testId = test.testId;
     this.desc = this.title = test.desc;
@@ -53,13 +60,13 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
     
     const test = this.__test;
     
-    if (this.planCalled) {
+    if (this.__planCalled) {
       _suman.writeTestError(new Error('Suman warning => t.plan() called more than once for ' +
         'the same test case.').stack);
       return;
     }
     
-    this.planCalled = true;
+    this.__planCalled = true;
     if (test.planCountExpected !== undefined) {
       _suman.writeTestError(new Error('Suman warning => t.plan() called, even though plan ' +
         'was already passed as an option.').stack);
@@ -67,11 +74,10 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
     
     assert(Number.isInteger(num), 'Suman usage error => value passed to t.plan() is not an integer.');
     test.planCountExpected = this.planCountExpected = num;
-    
   }
   
   confirm() {
-    this.assertCount.num++;
+    this.__assertCount.num++;
   }
   
 }

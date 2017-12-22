@@ -11,7 +11,7 @@
 json_array=\''["one","two","three"]'\';
 
 function getJSON {
-   node -pe "JSON.parse($json_array).forEach(v => console.log(v))"
+   node -pe "JSON.parse($json_array).join('\n')"
 }
 
 getJSON | while read line; do

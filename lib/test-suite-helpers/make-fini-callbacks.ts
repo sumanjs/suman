@@ -33,63 +33,75 @@ const missingHookOrTest = function () {
   return mzg;
 };
 
-const planHelper = function (e: IPseudoError, testOrHook: ITestDataObj | IHookObj, assertCount: IAssertObj) {
+const planHelper = function (testOrHook: ITestDataObj | IHookObj, assertCount: IAssertObj) {
   
   if (testOrHook.planCountExpected !== undefined) {
-    assert(Number.isInteger(testOrHook.planCountExpected), 'Suman usage error => "plan" option must be an integer.');
+    try {
+      assert(Number.isInteger(testOrHook.planCountExpected), 'Suman usage error => "plan" option must be an integer.');
+    }
+    catch (err) {
+      return err;
+    }
   }
   
   if (Number.isInteger(testOrHook.planCountExpected) && testOrHook.planCountExpected !== assertCount.num) {
     
-    testOrHook.errorPlanCount = 'Error => Expected plan count was ' + testOrHook.planCountExpected +
-      ' but actual assertion/confirm count was ' + assertCount.num;
+    let errorPlanCount = 'Error => Expected plan count was ' + testOrHook.planCountExpected +
+      ', but actual assertion/confirm count was ' + assertCount.num;
     
-    const newErr = cloneError(testOrHook.warningErr, testOrHook.errorPlanCount);
-    e = e ? new Error(su.getCleanErrStr(e) + '\n' + newErr.stack) : newErr;
+    let t = cloneError(testOrHook.warningErr, errorPlanCount, false);
+    debugger;
+    return t;
   }
   
-  return e;
 };
 
 const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
   
   const testOrHook: ITestDataObj | IHookObj = (test || hook);
   
-  if (testOrHook.throws !== undefined) {
+  
+  if (testOrHook.throws === undefined) {
+    return err;
+  }
+  
+  try {
+    assert(testOrHook.throws instanceof RegExp, 'Suman error => "throws" option must be a RegExp instance.');
+  }
+  catch (e) {
+    return e;
+  }
+  
+  let z;
+  if (!err) {
     
-    assert(testOrHook.throws instanceof RegExp, 'Suman usage error => "throws" option must be a RegExp instance.');
+    z = testOrHook.didNotThrowErrorWithExpectedMessage =
+      'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
+      'but did not throw or pass any error.';
     
-    let z;
-    if (!err) {
-      
-      z = testOrHook.didNotThrowErrorWithExpectedMessage =
-        'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
-        'but did not throw or pass any error.';
-      
-      err = cloneError(testOrHook.warningErr, z);
-      
-      if (hook) {
-        err.sumanFatal = true;
-        err.sumanExitCode = constants.EXIT_CODES.HOOK_DID_NOT_THROW_EXPECTED_ERROR;
-      }
-      
-    }
-    else if (err && !String(err.stack || err).match(testOrHook.throws)) {
-      
-      z = testOrHook.didNotThrowErrorWithExpectedMessage =
-        'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
-        'but did not throw or pass any error.';
-      
-      let newErr = cloneError(testOrHook.warningErr, z);
-      err = new Error(err.stack + '\n' + newErr.stack);
-      
-    }
-    else {
-      // err matches expected error, so we can ignore error now
-      err = null;
+    err = cloneError(testOrHook.warningErr, z);
+    
+    if (hook) {
+      err.sumanFatal = true;
+      err.sumanExitCode = constants.EXIT_CODES.HOOK_DID_NOT_THROW_EXPECTED_ERROR;
     }
     
   }
+  else if (err && !String(err.stack || err).match(testOrHook.throws)) {
+    
+    z = testOrHook.didNotThrowErrorWithExpectedMessage =
+      'Error => Expected to throw an error matching regex (' + testOrHook.throws + ') , ' +
+      'but did not throw or pass any error.';
+    
+    let newErr = cloneError(testOrHook.warningErr, z);
+    err = new Error(err.stack + '\n' + newErr.stack);
+    
+  }
+  else {
+    // err matches expected error, so we can ignore error now
+    err = null;
+  }
+  
   return err;
 };
 
@@ -135,15 +147,14 @@ export const makeAllHookCallback = function (d: ISumanDomain, assertCount: IAsse
       }
       
       try {
-        err = planHelper(err, hook, assertCount);
+        err = !err && planHelper(hook, assertCount);
         err = throwsHelper(err, null, hook);
       }
-      catch ($err) {
-        err = $err;
+      catch (e) {
+        err = e;
       }
       
       if (allHookFini.thot) {
-        debugger;
         allHookFini.thot.emit('done', err);
         allHookFini.thot.removeAllListeners();
       }
@@ -163,7 +174,7 @@ export const makeAllHookCallback = function (d: ISumanDomain, assertCount: IAsse
       
       if (err) {
         
-        err.sumanFatal = err.sumanFatal || !!((hook && hook.fatal !== false) || _suman.sumanOpts.bail);
+        err.sumanFatal = Boolean(err.sumanFatal || hook.fatal !== false || sumanOpts.bail);
         
         if (sumanOpts.bail) {
           err.sumanExitCode = constants.EXIT_CODES.HOOK_ERROR_AND_BAIL_IS_TRUE;
@@ -243,11 +254,11 @@ export const makeEachHookCallback = function (d: ISumanDomain, assertCount: IAss
       }
       
       try {
-        err = planHelper(err, hook, assertCount);
+        err = !err && planHelper(hook, assertCount);
         err = throwsHelper(err, null, hook);
       }
-      catch ($err) {
-        err = $err;
+      catch (e) {
+        err = e;
       }
       
       if (eachHookFini.thot) {
@@ -344,7 +355,7 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
     if (++calledCount === 1) {
       
       try {
-        err = planHelper(err, test, assertCount);
+        err = !err && planHelper(test, assertCount);
         err = throwsHelper(err, test, null);
       }
       catch ($err) {
@@ -352,7 +363,6 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
       }
       
       if (testCaseFini.thot) {
-        debugger;
         testCaseFini.thot.emit('done', err);
         testCaseFini.thot.removeAllListeners();
       }
