@@ -28,7 +28,8 @@ const {constants} = require('../../config/suman-constants');
 import {makeTestCaseCallback} from './make-fini-callbacks';
 const helpers = require('./handle-promise-generator');
 import {cloneError} from '../helpers/general';
-import {makeTestCaseParam} from './t-proto-test';
+import {TestCaseParam} from "../test-suite-params/test-case/test-case-param";
+// import {makeTestCaseParam} from './t-proto-test';
 import {freezeExistingProps} from 'freeze-existing-props'
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
@@ -182,7 +183,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           handleErr(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
         };
         
-        const t = makeTestCaseParam(test, assertCount, handleErr, handlePossibleError);
+        const t = new TestCaseParam(test, assertCount, handleErr, handlePossibleError);
         fini.thot = t;
         t.throw = $throw;
         t.timeout = timeout;

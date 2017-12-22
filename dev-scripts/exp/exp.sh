@@ -6,4 +6,10 @@
 #echo "global_modules => $global_modules"
 
 
-sh $(dirname $0)/exp.js
+#sh $(dirname $0)/exp.js
+
+
+
+node -pe "JSON.parse('[\"one\",\"two\",\"three\"]')" | while read line; do
+    echo "$line"
+done

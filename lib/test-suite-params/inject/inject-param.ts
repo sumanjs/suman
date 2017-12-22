@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHandleError, IHookObj, IHookParam} from 'suman-types/dts/test-suite';
+import {IAssertObj, IHandleError, IHookObj} from 'suman-types/dts/test-suite';
 import {IGlobalSumanObj} from 'suman-types/dts/global';
 import AssertStatic = Chai.AssertStatic;
 import {ITestSuite} from 'suman-types/dts/test-suite';
@@ -13,8 +13,6 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //core
 import assert = require('assert');
-const chai = require('chai');
-const chaiAssert = chai.assert;
 
 //npm
 import su = require('suman-utils');
@@ -30,13 +28,25 @@ interface IBadProps {
   [key: string]: true
 }
 
+export interface IValuesMap {
+  [key: string]: true
+}
+
 let badProps = <IBadProps> {
   inspect: true,
   constructor: true
 };
 
 
-export class InjectParam extends  ParamBase{
+export class InjectParam extends ParamBase {
+  
+  protected __planCalled: boolean;
+  protected __valuesMap: IValuesMap;
+  protected __suite: ITestSuite;
+  protected __values: Array<any>;
+  protected __inject: IHookObj;
+  protected __assertCount: IAssertObj;
+  public planCountExpected: number;
   
   constructor(inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite,
               values: Array<any>, handleError: IHandleError, fini: Function){
@@ -49,7 +59,9 @@ export class InjectParam extends  ParamBase{
     this.__handle = handleError;
     this.__fini = fini;
     this.__values = values;
+    this.__assertCount = assertCount;
     this.__inject = inject;
+    this.planCountExpected = null;
   }
   
   
@@ -177,8 +189,8 @@ export class InjectParam extends  ParamBase{
     this.__inject.planCountExpected = this.planCountExpected = num;
   }
   
-  confirm = function () {
-    this.assertCount.num++;
+  confirm () {
+    this.__assertCount.num++;
   }
   
 }

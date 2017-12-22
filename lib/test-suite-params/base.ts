@@ -6,6 +6,7 @@ import AssertStatic = Chai.AssertStatic;
 import {IHookObj} from "suman-types/dts/test-suite";
 import {ITestDataObj} from "suman-types/dts/it";
 import {VamootProxy} from "vamoot";
+import {IHookOrTestCaseParam} from "suman-types/dts/params";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -18,9 +19,7 @@ import util = require('util');
 //npm
 import su = require('suman-utils');
 import {freezeExistingProps} from 'freeze-existing-props';
-
-
-const chai = require('chai');
+import * as chai from 'chai';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -42,19 +41,26 @@ let badProps = <IBadProps> {
 
 const slice = Array.prototype.slice;
 
-export class ParamBase extends EE {
+export class ParamBase extends EE implements IHookOrTestCaseParam{
   
   protected __hook: IHookObj;
   protected __test: ITestDataObj;
   protected __handle: Function;
   protected __shared: VamootProxy;
   protected __fini: Function;
+  protected callbackMode?: boolean;
+  assert: typeof chai.assert;
+  should: typeof chai.should;
+  expect: typeof chai.expect;
   
   constructor() {
     super();
-    // EE.call(this);
-    // Function.call(this);
   }
+  
+  timeout(v:number){
+  
+  }
+  
   
   done() {
     this.__handle(new Error('You have fired a callback for a test case or hook that was not callback oriented.'));
@@ -189,7 +195,7 @@ export class ParamBase extends EE {
     catch (e) {
       return this.__handle(e);
     }
-  };
+  }
   
 }
 
@@ -265,7 +271,7 @@ const expectProxy = new Proxy(expct, {
     
     return function () {
       try {
-        return chai.expect[prop].apply(chai.expect, arguments);
+        return (chai.expect as any)[prop].apply(chai.expect, arguments);
       }
       catch (e) {
         return ctx.__handle(e);
@@ -323,7 +329,7 @@ const assertProxy = new Proxy(assrt, {
     
     return function () {
       try {
-        return chai.assert[prop].apply(chai.assert, arguments);
+        return (chai.assert as any)[prop].apply(chai.assert, arguments);
       }
       catch (e) {
         return ctx.__handle(e);

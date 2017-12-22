@@ -14,13 +14,6 @@ three SO profiles:
 
 ////
 
-   need to call
-
-   Function.call(this)
-   EE.call(this)
-
-////
-
  add env vars to @config.json
 
 ////
@@ -195,6 +188,11 @@ exit with command to the right that exits with non-zero
        'tap': 'suman-reporters/modules/tap-reporter'
      }
    },
+
+////
+
+   suman watch, suman-refine, suman-shell
+   need to pass env vars so that we get the right reporter at top level and child levels
 
 ////
 

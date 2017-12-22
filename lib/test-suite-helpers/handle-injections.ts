@@ -65,14 +65,20 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
     
     let callable = true, timeoutVal = weAreDebugging ? 5000000 : inj.timeout;
     
-    const to = setTimeout(function () {
+    let onTimeout = function () {
       first(new Error(`Injection hook timeout. ${'For injection with name => ' + inj.desc}`));
-    }, timeoutVal);
+    };
+  
+    const timerObj = {
+      timer: setTimeout(onTimeout, timeoutVal)
+    };
+    
+    // const to = setTimeout(, timeoutVal);
     
     const first = function (err: IPseudoError) {
       if (callable) {
         callable = false;
-        clearTimeout(to);
+        clearTimeout(timerObj.timer);
         process.nextTick(cb, err);
       }
       else if (err) {

@@ -3,14 +3,21 @@ import { IPseudoError } from "suman-types/dts/global";
 import { IHookObj } from "suman-types/dts/test-suite";
 import { ITestDataObj } from "suman-types/dts/it";
 import { VamootProxy } from "vamoot";
+import { IHookOrTestCaseParam } from "suman-types/dts/params";
 import EE = require('events');
-export declare class ParamBase extends EE {
+import * as chai from 'chai';
+export declare class ParamBase extends EE implements IHookOrTestCaseParam {
     protected __hook: IHookObj;
     protected __test: ITestDataObj;
     protected __handle: Function;
     protected __shared: VamootProxy;
     protected __fini: Function;
+    protected callbackMode?: boolean;
+    assert: typeof chai.assert;
+    should: typeof chai.should;
+    expect: typeof chai.expect;
     constructor();
+    timeout(v: number): void;
     done(): void;
     skip(): void;
     fatal(err: IPseudoError): void;

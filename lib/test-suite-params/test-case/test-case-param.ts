@@ -3,7 +3,8 @@
 //dts
 import {IGlobalSumanObj} from 'suman-types/dts/global';
 import {ITestDataObj} from 'suman-types/dts/it';
-import {IHandleError, ITestCaseParam} from 'suman-types/dts/test-suite';
+import {IHandleError} from 'suman-types/dts/test-suite';
+import {ITestCaseParam} from 'suman-types/dts/params';
 import AssertStatic = Chai.AssertStatic;
 
 //polyfills
@@ -31,7 +32,7 @@ export interface IAssertCount {
 
 ///////////////////////////////////////////////////////////////////////
 
-export class TestCaseParam extends ParamBase {
+export class TestCaseParam extends ParamBase implements ITestCaseParam {
   
   constructor(test: ITestDataObj, assertCount: IAssertCount,
               handleError: IHandleError, fini: Function) {

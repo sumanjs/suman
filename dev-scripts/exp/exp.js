@@ -14,9 +14,9 @@
 //   throw 'boo';
 // });
 
-
-const assert = require('assert');
-assert.equal(typeof (()=>{}).prototype, 'undefined');
+//
+// const assert = require('assert');
+// assert.equal(typeof (()=>{}).prototype, 'undefined');
 
 // that's cool that arrow functions don't have a prototype property
 // why not create a special kind of function that has no prototype?
@@ -24,26 +24,34 @@ assert.equal(typeof (()=>{}).prototype, 'undefined');
 
 // the existing way
 
-let fn1 = function(){
+// let fn1 = function(){
+//
+// };
+//
+// assert.equal(typeof fn1.prototype, 'object');
+//
+// // why not a prototype-less function
+// let fn2 = function(){
+//
+// };
+//
+//
+// const time = Date.now();
+//
+//
+// for(let i = 0; i < 1000000; i++){
+//   var z = function () {
+//
+//   }
+// }
+//
+//
+// console.log(Date.now() - time);
 
-};
 
-assert.equal(typeof fn1.prototype, 'object');
+let err = false;
 
-// why not a prototype-less function
-let fn2 = function(){
-
-};
+let z  = !err;
 
 
-const time = Date.now();
-
-
-for(let i = 0; i < 1000000; i++){
-  var z = function () {
-    
-  }
-}
-
-
-console.log(Date.now() - time);
+console.log('z => ',z );
