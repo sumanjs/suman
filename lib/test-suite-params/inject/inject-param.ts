@@ -54,7 +54,7 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
   
   constructor(inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite,
               values: Array<any>, handleError: IHandleError, fini: Function,
-              timerObj: ITimerObj, onTimeout: Function){
+              timerObj: ITimerObj){
     
     
     super();
@@ -68,8 +68,10 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
     this.__assertCount = assertCount;
     this.__inject = inject;
     this.planCountExpected = null;
-    this.__timerObj = timerObj;
-    this.__onTimeout = onTimeout;
+    const v= this.__timerObj = timerObj;
+    const amount = _suman.weAreDebugging ? 5000000 : inject.timeout;
+    const fn = this.onTimeout.bind(this);
+    v.timer = setTimeout(fn,amount) as any;
   }
   
   

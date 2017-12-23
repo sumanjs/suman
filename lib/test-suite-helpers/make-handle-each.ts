@@ -88,7 +88,9 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
     
     const handlePossibleError =  (err: Error | IPseudoError) => {
       if (err) {
-        if (typeof err !== 'object') err = new Error(util.inspect(err));
+        if (typeof err !== 'object') {
+          err = new Error(util.inspect(err));
+        }
         err.sumanFatal = Boolean(sumanOpts.bail);
         handleError(err);
       }

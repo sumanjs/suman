@@ -56,7 +56,6 @@ export class EachHookParam extends ParamBase implements IEachHookParam {
     const amount = _suman.weAreDebugging ? 5000000 : hook.timeout;
     const fn = this.onTimeout.bind(this);
     v.timer = setTimeout(fn,amount) as any;
-    
   }
   
   onTimeout () {
