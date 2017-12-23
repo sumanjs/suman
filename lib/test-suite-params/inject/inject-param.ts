@@ -23,6 +23,8 @@ import su = require('suman-utils');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {ParamBase} from '../base';
+import {constants} from "../../../config/suman-constants";
+import {cloneError} from "../../helpers/general";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,8 +41,7 @@ let badProps = <IBadProps> {
   constructor: true
 };
 
-
-export class InjectParam extends ParamBase implements IInjectHookParam{
+export class InjectParam extends ParamBase implements IInjectHookParam {
   
   protected __planCalled: boolean;
   protected __valuesMap: IValuesMap;
@@ -51,11 +52,9 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
   public planCountExpected: number;
   protected __hook: IHookObj;
   
-  
   constructor(inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite,
               values: Array<any>, handleError: IHandleError, fini: Function,
-              timerObj: ITimerObj){
-    
+              timerObj: ITimerObj) {
     
     super();
     this.__planCalled = false;
@@ -68,16 +67,28 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
     this.__assertCount = assertCount;
     this.__inject = inject;
     this.planCountExpected = null;
-    const v= this.__timerObj = timerObj;
+    const v = this.__timerObj = timerObj;
     const amount = _suman.weAreDebugging ? 5000000 : inject.timeout;
     const fn = this.onTimeout.bind(this);
-    v.timer = setTimeout(fn,amount) as any;
+    v.timer = setTimeout(fn, amount) as any;
   }
   
+  skip() {
+    (this.__hook).skipped = true;
+    (this.__hook).dynamicallySkipped = true;
+  }
   
-  registerKey (k: string, val: any): Promise<any> {   //  'register' should be an alias?
+  onTimeout() {
+    const v = this.__hook;
+    v.timedOut = true;
+    const err = cloneError(v.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR);
+    err.isTimeout = true;
+    this.__handle(err);
+  }
+  
+  registerKey(k: string, val: any): Promise<any> {   //  'register' should be an alias?
     
-    const suite  = this.__suite;
+    const suite = this.__suite;
     const valuesMap = this.__valuesMap;
     const values = this.__values;
     
@@ -100,9 +111,9 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
     return Promise.resolve(val);
   }
   
-  registerFnMap (o: Dictionary<any>): Promise<any> { // 'registerFnsMap' shoule be an alias
-  
-    const suite  = this.__suite;
+  registerFnMap(o: Dictionary<any>): Promise<any> { // 'registerFnsMap' shoule be an alias
+    
+    const suite = this.__suite;
     const valuesMap = this.__valuesMap;
     const values = this.__values;
     const self = this;
@@ -141,9 +152,9 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
     });
   }
   
-  registerMap (o: Dictionary<any>): Promise<Array<any>> { // 'registerPromisesMap' should be an alias
-  
-    const suite  = this.__suite;
+  registerMap(o: Dictionary<any>): Promise<Array<any>> { // 'registerPromisesMap' should be an alias
+    
+    const suite = this.__suite;
     const valuesMap = this.__valuesMap;
     const values = this.__values;
     const keys = Object.keys(o);
@@ -175,7 +186,7 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
     });
   }
   
-  plan (num: number) {
+  plan(num: number) {
     
     if (this.__planCalled) {
       _suman.writeTestError(new Error('Suman warning => plan() called more than once.').stack);
@@ -199,7 +210,7 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
     this.__inject.planCountExpected = this.planCountExpected = num;
   }
   
-  confirm () {
+  confirm() {
     this.__assertCount.num++;
   }
   

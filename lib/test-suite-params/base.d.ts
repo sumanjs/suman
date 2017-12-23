@@ -7,7 +7,6 @@ import EE = require('events');
 import * as chai from 'chai';
 export declare class ParamBase extends EE implements IHookOrTestCaseParam {
     protected __timerObj: ITimerObj;
-    protected onTimeout: Function;
     protected __handle: Function;
     protected __shared: VamootProxy;
     protected __fini: Function;
@@ -18,7 +17,6 @@ export declare class ParamBase extends EE implements IHookOrTestCaseParam {
     constructor();
     timeout(val: number): any;
     done(): void;
-    skip(): void;
     fatal(err: IPseudoError): void;
     set(k: string, v: any): boolean;
     get(k?: string): any;

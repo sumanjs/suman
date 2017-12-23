@@ -47,7 +47,6 @@ const slice = Array.prototype.slice;
 export class ParamBase extends EE implements IHookOrTestCaseParam {
   
   protected __timerObj: ITimerObj;
-  protected onTimeout: Function;
   protected __handle: Function;
   protected __shared: VamootProxy;
   protected __fini: Function;
@@ -61,7 +60,7 @@ export class ParamBase extends EE implements IHookOrTestCaseParam {
   }
   
   timeout(val: number) {
-    clearTimeout(this.__timerObj.timer);
+    this.__timerObj.timer && clearTimeout(this.__timerObj.timer);
     try {
       assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
     }
@@ -75,11 +74,6 @@ export class ParamBase extends EE implements IHookOrTestCaseParam {
   
   done() {
     this.__handle(new Error('You have fired a callback for a test case or hook that was not callback oriented.'));
-  }
-  
-  skip() {
-    (this.__hook || this.__test).skipped = true;
-    (this.__hook || this.__test).dynamicallySkipped = true;
   }
   
   fatal(err: IPseudoError) {

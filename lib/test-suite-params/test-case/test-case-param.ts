@@ -58,12 +58,17 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
     this.__test = test;
     this.__handle = handleError;
     this.__fini = fini;
-    const v= this.__timerObj = timerObj;
+    const v = this.__timerObj = timerObj;
     const amount = _suman.weAreDebugging ? 5000000 : test.timeout;
     v.timer = setTimeout(this.onTimeout.bind(this), amount) as any;
   }
   
-  onTimeout () {
+  skip() {
+    (this.__test).skipped = true;
+    (this.__test).dynamicallySkipped = true;
+  }
+  
+  onTimeout() {
     const v = this.__test;
     v.timedOut = true;
     const err = cloneError(v.warningErr, constants.warnings.TEST_CASE_TIMED_OUT_ERROR);

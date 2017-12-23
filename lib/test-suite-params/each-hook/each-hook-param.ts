@@ -46,7 +46,6 @@ export class EachHookParam extends ParamBase implements IEachHookParam {
               fini: Function, timerObj: ITimerObj) {
     
     super();
-    
     this.__planCalled = false;
     this.__hook = hook;
     this.__handle = handleError;
@@ -56,6 +55,11 @@ export class EachHookParam extends ParamBase implements IEachHookParam {
     const amount = _suman.weAreDebugging ? 5000000 : hook.timeout;
     const fn = this.onTimeout.bind(this);
     v.timer = setTimeout(fn,amount) as any;
+  }
+  
+  skip() {
+    (this.__hook).skipped = true;
+    (this.__hook).dynamicallySkipped = true;
   }
   
   onTimeout () {

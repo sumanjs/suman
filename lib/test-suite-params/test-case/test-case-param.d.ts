@@ -17,6 +17,7 @@ export declare class TestCaseParam extends ParamBase implements ITestCaseParam {
     protected title: string;
     protected __test: ITestDataObj;
     constructor(test: ITestDataObj, assertCount: IAssertCount, handleError: IHandleError, fini: Function, timerObj: ITimerObj);
+    skip(): void;
     onTimeout(): void;
     __inheritedSupply(target: any, prop: PropertyKey, value: any, receiver: any): boolean;
     pass(): void;
