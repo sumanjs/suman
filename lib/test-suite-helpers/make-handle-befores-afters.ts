@@ -164,11 +164,15 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           //    throw aBeforeOrAfter.NO_DONE;
           // }
           
-          const dne = (err: IPseudoError) => {
-            h.callbackMode ? h.handlePossibleError(err) : h.handleNonCallbackMode(err);
+          const dne = (err?: any) => {
+            h.handlePossibleError(err);
           };
           
           h.done = dne;
+          h.ctn = h.pass = function (ignoredError?: any) {
+            fini(null);
+          };
+          
           let arg = Object.setPrototypeOf(dne, h);
           
           if (aBeforeOrAfter.fn.call(null, arg)) {  //check to see if we have a defined return value

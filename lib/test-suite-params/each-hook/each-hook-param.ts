@@ -55,6 +55,12 @@ export class EachHookParam extends ParamBase implements IEachHookParam {
     const amount = _suman.weAreDebugging ? 5000000 : hook.timeout;
     const fn = this.onTimeout.bind(this);
     v.timer = setTimeout(fn,amount) as any;
+  
+    // const self = this;
+    // process.nextTick(() => {
+    //   // at this point, we can no longer call this.timeout(), etc.
+    //   self.__tooLate = true;
+    // });
   }
   
   skip() {
@@ -68,18 +74,6 @@ export class EachHookParam extends ParamBase implements IEachHookParam {
     const err = cloneError(v.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR);
     err.isTimeout = true;
     this.__handle(err);
-  }
-  
-  ctn() {
-    // t.pass doesn't make sense since this is not a test case, but for user friendliness
-    // this is like t.done() except by design no error will ever get passed
-    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(undefined);
-  }
-  
-  pass() {
-    // t.pass doesn't make sense since this is not a test case, but for user friendliness
-    // this is like t.done() except by design no error will ever get passed
-    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(undefined);
   }
   
   plan(num: number) {

@@ -14,9 +14,10 @@ export declare class ParamBase extends EE implements IHookOrTestCaseParam {
     assert: typeof chai.assert;
     should: typeof chai.should;
     expect: typeof chai.expect;
+    protected __tooLate: boolean;
     constructor();
     timeout(val: number): any;
-    done(): void;
+    done(err?: Error): void;
     fatal(err: IPseudoError): void;
     set(k: string, v: any): boolean;
     get(k?: string): any;
@@ -38,6 +39,8 @@ export interface ParamBase {
     pass: typeof ParamBase.prototype.done;
     ctn: typeof ParamBase.prototype.done;
     fail: typeof ParamBase.prototype.done;
+    finalErrFirst: typeof ParamBase.prototype.final;
+    finalErrorFirst: typeof ParamBase.prototype.final;
     wrapFinalErrFirst: typeof ParamBase.prototype.wrapFinalErrorFirst;
     wrapFinalErr: typeof ParamBase.prototype.wrapFinalErrorFirst;
     wrapFinalError: typeof ParamBase.prototype.wrapFinalErrorFirst;

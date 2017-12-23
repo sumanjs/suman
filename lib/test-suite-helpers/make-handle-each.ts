@@ -205,11 +205,16 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           //    throw aBeforeOrAfter.NO_DONE;
           // }
           
-          const dne = function (err: IPseudoError) {
-            h.callbackMode ? h.handlePossibleError(err) : h.handleNonCallbackMode(err);
+          const dne = function (err?: any) {
+            h.handlePossibleError(err);
           };
           
           h.done = dne;
+          h.ctn = h.pass =  function(ignoredError?: any) {
+            // t.pass doesn't make sense since this is not a test case, but for user friendliness
+            // this is like t.done() except by design no error will ever get passed
+           fini(null);
+          };
           
           // arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
           let arg = Object.setPrototypeOf(dne, h);

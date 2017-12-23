@@ -10,8 +10,6 @@ export declare class EachHookParam extends ParamBase implements IEachHookParam {
     constructor(hook: IHookObj, assertCount: IAssertObj, handleError: IHandleError, fini: Function, timerObj: ITimerObj);
     skip(): void;
     onTimeout(): void;
-    ctn(): void;
-    pass(): void;
     plan(num: number): any;
     confirm(): void;
 }

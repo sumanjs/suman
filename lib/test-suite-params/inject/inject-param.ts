@@ -52,9 +52,9 @@ export class InjectParam extends ParamBase implements IInjectHookParam {
   public planCountExpected: number;
   protected __hook: IHookObj;
   
-  constructor(inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite,
-              values: Array<any>, handleError: IHandleError, fini: Function,
-              timerObj: ITimerObj) {
+  constructor(inject: IHookObj, assertCount: IAssertObj, timerObj: ITimerObj, suite: ITestSuite,
+              values: Array<any>, fini: Function, handleError: IHandleError) {
+    
     
     super();
     this.__planCalled = false;
@@ -71,6 +71,11 @@ export class InjectParam extends ParamBase implements IInjectHookParam {
     const amount = _suman.weAreDebugging ? 5000000 : inject.timeout;
     const fn = this.onTimeout.bind(this);
     v.timer = setTimeout(fn, amount) as any;
+  
+    // const self = this;
+    // process.nextTick(() => {
+    //   self.__tooLate = true;
+    // });
   }
   
   skip() {
@@ -196,7 +201,7 @@ export class InjectParam extends ParamBase implements IInjectHookParam {
     this.__planCalled = true;
     if (this.__inject.planCountExpected !== undefined) {
       _suman.writeTestError(
-        new Error(' => Suman warning => plan() called, even though plan was already passed as an option.').stack
+        new Error('Suman warning => plan() called, even though plan was already passed as an option.').stack
       );
     }
     

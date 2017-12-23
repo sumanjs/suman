@@ -57,6 +57,11 @@ export class AllHookParam extends ParamBase implements IAllHookParam {
     const amount = _suman.weAreDebugging ? 5000000 : hook.timeout;
     const fn = this.onTimeout.bind(this);
     v.timer = setTimeout(fn,amount) as any;
+    
+    // const self = this;
+    // process.nextTick(() => {
+    //    self.__tooLate = true;
+    // });
   }
   
   onTimeout () {

@@ -43,6 +43,7 @@ let badProps = <IBadProps> {
 };
 
 const slice = Array.prototype.slice;
+const notCallbackOrientedError = 'You have fired a callback for a test case or hook that was not callback oriented.';
 
 export class ParamBase extends EE implements IHookOrTestCaseParam {
   
@@ -54,6 +55,7 @@ export class ParamBase extends EE implements IHookOrTestCaseParam {
   assert: typeof chai.assert;
   should: typeof chai.should;
   expect: typeof chai.expect;
+  protected __tooLate: boolean;
   
   constructor() {
     super();
@@ -72,8 +74,13 @@ export class ParamBase extends EE implements IHookOrTestCaseParam {
     this.__timerObj.timer = setTimeout(this.onTimeout.bind(this), amount) as any;
   }
   
-  done() {
-    this.__handle(new Error('You have fired a callback for a test case or hook that was not callback oriented.'));
+  done(err?: Error) {
+    if (this && this.__handle) {
+      this.__handle(new Error(notCallbackOrientedError));
+    }
+    else {
+      throw new Error(notCallbackOrientedError)
+    }
   }
   
   fatal(err: IPseudoError) {
@@ -221,6 +228,8 @@ export interface ParamBase {
   pass: typeof ParamBase.prototype.done;
   ctn: typeof ParamBase.prototype.done;
   fail: typeof ParamBase.prototype.done;
+  finalErrFirst: typeof ParamBase.prototype.final;
+  finalErrorFirst: typeof ParamBase.prototype.final;
   wrapFinalErrFirst: typeof ParamBase.prototype.wrapFinalErrorFirst;
   wrapFinalErr: typeof ParamBase.prototype.wrapFinalErrorFirst;
   wrapFinalError: typeof ParamBase.prototype.wrapFinalErrorFirst;
@@ -235,6 +244,7 @@ const proto = Object.assign(ParamBase.prototype, EE.prototype);
 proto.pass = proto.ctn = proto.fail = proto.done;
 proto.wrapFinalErrFirst = proto.wrapFinalErr = proto.wrapFinalError = proto.wrapFinalErrorFirst;
 proto.wrapErrFirst = proto.wrapErrorFirst;
+// proto.finalErrFirst = proto.finalErrorFirst = proto.fi
 
 const assertCtx: any = {
   // this is used to store the context

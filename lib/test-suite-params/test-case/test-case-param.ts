@@ -61,6 +61,11 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
     const v = this.__timerObj = timerObj;
     const amount = _suman.weAreDebugging ? 5000000 : test.timeout;
     v.timer = setTimeout(this.onTimeout.bind(this), amount) as any;
+  
+    // const self = this;
+    // process.nextTick(() => {
+    //   self.__tooLate = true;
+    // });
   }
   
   skip() {
@@ -80,24 +85,6 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
   __inheritedSupply(target: any, prop: PropertyKey, value: any, receiver: any) {
     this.__handle(new Error('cannot set any properties on t.supply (in test cases).'));
     return false;
-  }
-  
-  pass() {
-    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(null);
-  }
-  
-  ctn() {
-    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(null);
-  }
-  
-  fail(err: Error) {
-    if (!this.callbackMode) {
-      this.handleNonCallbackMode(err);
-    }
-    else {
-      this.__handle(err || new Error('t.fail() was called on test (note that null/undefined value ' +
-        'was passed as first arg to the fail function.)'));
-    }
   }
   
   plan(num: number) {

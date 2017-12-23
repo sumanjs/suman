@@ -42,6 +42,7 @@ interface IInjectionValues {
 export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<any>) {
   
   const addValuesToSuiteInjections = function (k: string, val: any): void {
+    
     if (k in suite.injectedValues) {
       throw new Error(` => Injection value '${k}' was used more than once; this value needs to be unique.`);
     }
@@ -65,12 +66,12 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
     
     let callable = true, timeoutVal = weAreDebugging ? 5000000 : inj.timeout;
     
-    let onTimeout = function () {
-      first(new Error(`Injection hook timeout. ${'For injection with name => ' + inj.desc}`));
-    };
-  
+    // let onTimeout = function () {
+    //   first(new Error(`Injection hook timeout. ${'For injection with name => ' + inj.desc}`));
+    // };
+    
     const timerObj = {
-      timer: setTimeout(onTimeout, timeoutVal)
+      timer: null as any
     };
     
     // const to = setTimeout(, timeoutVal);
@@ -92,11 +93,13 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
     
     return new Promise(function (resolve, reject) {
       
-      const injParam = new InjectParam(inj, assertCount, suite, values, reject, resolve);
-  
+      const injParam = new InjectParam(inj, assertCount, timerObj, suite, values, resolve, reject);
+      
       injParam.fatal = reject;
       
       if (inj.cb) {
+        
+        injParam.callbackMode = true;
         
         let d = function (err: IPseudoError, results: IInjectionRetObj) {
           
@@ -106,9 +109,9 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
           
           Promise.resolve(results).then(resolve, reject);
         };
-  
+        
         injParam.done = d;
-        injParam.ctn = resolve;
+        injParam.ctn = injParam.pass = resolve;
         injParam.fail = reject;
         
         inj.fn.call(null, Object.setPrototypeOf(d, injParam));
@@ -131,22 +134,7 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
     })
     .then(function () {
       
-      // const keys = Object.keys(valuesMap);
-      // return Promise.all(keys.map(function (k) {
-      //   return valuesMap[k];
-      // }))
-      // .then(function (values) {
-      //
-      //   keys.forEach(function (k, i) {
-      //     addValuesToSuiteInjections(k, values[i]);
-      //   });
-      //
-      //   first(null);
-      //
-      // });
-      
       const seed = Promise.resolve(null);
-      
       const p = values.reduce(function (a, b) {
         //run promises in series
         return Promise.resolve(b.val)

@@ -61,7 +61,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     const timerObj = {
       timer: null as any
     };
-  
+    
     const assertCount = {
       num: 0
     };
@@ -72,7 +72,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     const fnStr = test.fn.toString();
     const fini = makeTestCaseCallback(d, assertCount, test, timerObj, gracefulExit, cb);
     let derror = false, retries: number;
-    
     
     const handleErr: IHandleError = function (err: IPseudoError) {
       
@@ -100,7 +99,7 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           _suman.log.error('maximum retires attempted.');
         }
       }
-  
+      
       const errMessage = err && (err.stack || err.message || util.inspect(err));
       err = cloneError(test.warningErr, errMessage, false);
       
@@ -118,12 +117,11 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         _suman.writeTestError('Suman error => Error in test => \n' + stack);
       }
     };
-  
-  
+    
     if (suman.config.retriesEnabled === true && Number.isInteger((retries = test.retries))) {
       fini.retryFn = retryData ? retryData.retryFn : handleTest.bind(null, ...arguments);
     }
-    else if(test.retries && !Number.isInteger(test.retries)){
+    else if (test.retries && !Number.isInteger(test.retries)) {
       return handleErr(new Error('retries property is not an integer => ' + util.inspect(test.retries)));
     }
     
@@ -178,11 +176,21 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           //    throw aBeforeOrAfter.NO_DONE;
           // }
           
-          const dne = function done(err: Error) {
-            t.callbackMode ? t.handlePossibleError(err) : t.handleNonCallbackMode(err);
+          const dne = function done(err?: any) {
+            t.handlePossibleError(err);
           };
           
           t.done = dne;
+          
+          // these functions cannot be put on prototype because we may not have a reference to "this"
+          t.pass = t.ctn = function () {
+            fini(null);
+          };
+          
+          t.fail = function (err: Error) {
+            handleErr(err || new Error('t.fail() was called on test (note that null/undefined value ' +
+              'was passed as first arg to the fail function.)'));
+          };
           
           let arg = Object.setPrototypeOf(dne, t);
           if (test.fn.call(null, arg)) {  ///run the fn, but if it returns something, then add warning

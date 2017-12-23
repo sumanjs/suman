@@ -20,9 +20,6 @@ export declare class TestCaseParam extends ParamBase implements ITestCaseParam {
     skip(): void;
     onTimeout(): void;
     __inheritedSupply(target: any, prop: PropertyKey, value: any, receiver: any): boolean;
-    pass(): void;
-    ctn(): void;
-    fail(err: Error): void;
     plan(num: number): void;
     confirm(): void;
 }

@@ -16,7 +16,7 @@ export declare class InjectParam extends ParamBase implements IInjectHookParam {
     protected __assertCount: IAssertObj;
     planCountExpected: number;
     protected __hook: IHookObj;
-    constructor(inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite, values: Array<any>, handleError: IHandleError, fini: Function, timerObj: ITimerObj);
+    constructor(inject: IHookObj, assertCount: IAssertObj, timerObj: ITimerObj, suite: ITestSuite, values: Array<any>, fini: Function, handleError: IHandleError);
     skip(): void;
     onTimeout(): void;
     registerKey(k: string, val: any): Promise<any>;
