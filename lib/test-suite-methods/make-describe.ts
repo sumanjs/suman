@@ -129,9 +129,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     if (isGenerator || isAsync) { //TODO: need to check for generators or async/await as well
       const msg = constants.ERROR_MESSAGES.INVALID_FUNCTION_TYPE_USAGE;
       console.log('\n' + msg + '\n');
-      console.error(new Error(' => Suman usage error => invalid arrow/generator function usage.').stack);
-      process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
-      return;
+      _suman.log.error(new Error('Suman usage error => invalid generator/async/await function usage.').stack);
+      return process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
     }
     
     if (zuite.parallel && opts.parallel === false) {
@@ -143,9 +142,9 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     
     if (zuite.skipped) {
       let msg = 'Suman implementation warning => Child block entered when parent was skipped.';
-      console.error(msg);
-      console.error(' => Please open an issue with the following stacktrace:', '\n');
-      console.error(new Error(msg).stack);
+      _suman.log.error(msg);
+      _suman.log.error(' => Please open an issue with the following stacktrace:', '\n');
+      _suman.log.error(new Error(msg).stack);
       console.log('\n');
     }
     
@@ -204,7 +203,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
       
       const d = domain.create();
       
-      d.once('error', function blockRegistrationErrorHandler(err: IPseudoError) {
+      d.once('error', function (err: IPseudoError) {
         console.error('\n');
         if (!err || typeof err !== 'object') {
           err = new Error(err ? (typeof err === 'string' ? err : util.inspect(err)) : 'unknown error passed to handler');
@@ -279,48 +278,31 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                 _suman.log.warning('usage warning => suite.resume() has become a no-op since delay option is falsy.');
               };
               
-              // Object.freeze(suite);
-              // Object.freeze(suite);
               cb.apply(null, $deps);
               
               handleInjections(suite, function (err: Error) {
                 
                 if (err) {
-                  gracefulExit(err);
+                  return gracefulExit(err);
                 }
-                else {
-                  d.exit();
-                  suite.isSetupComplete = true;
-                  process.nextTick(function () {
-                    zuite.bindExtras();  //bind extras back to parent test
-                    suite.invokeChildren(null, callback);
-                  });
-                }
+                
+                d.exit();
+                suite.isSetupComplete = true;
+                process.nextTick(function () {
+                  zuite.bindExtras();  //bind extras back to parent test
+                  suite.invokeChildren(null, callback);
+                });
+                
               });
               
             }
             
             else {
+              
               suite.isDelayed = true;
               
-              const str = cb.toString();
-              //TODO this will not work when delay is simply commented out
-              
-              if (!su.checkForValInStr(str, /resume/g, 0)) {
-                
-                process.nextTick(function () {
-                  console.error(new Error(' => Suman usage error => delay option was elected, so suite.resume() ' +
-                    'method needs to be called to continue,' +
-                    ' but the resume method was never referenced in the needed location, so your test cases would ' +
-                    'never be invoked before timing out => \n\n' + str).stack);
-                  process.exit(constants.EXIT_CODES.DELAY_NOT_REFERENCED);
-                });
-                
-                return; //hard, ugly and visible
-              }
-              
               const to = setTimeout(function () {
-                console.error('\n\n => Suman fatal error => delay function was not called within alloted time.');
+                _suman.log.error('Suman fatal error => delay function was not called within alloted time.');
                 process.exit(constants.EXIT_CODES.DELAY_FUNCTION_TIMED_OUT);
               }, _suman.weAreDebugging ? 5000000 : 11000);
               
@@ -339,8 +321,8 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
                   });
                 }
                 else {
-                  let w = ' => Suman usage warning => suite.resume() was called more than once.';
-                  console.error(w);
+                  let w = 'Suman usage warning => suite.resume() was called more than once.';
+                  _suman.log.error(w);
                   _suman.writeTestError(w)
                 }
                 

@@ -58,16 +58,8 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
       return process.nextTick(cb);
     }
     
-    const onTimeout = function () {
-      test.timedOut = true;
-      const err = cloneError(test.warningErr, constants.warnings.TEST_CASE_TIMED_OUT_ERROR);
-      err.isFromTest = true;
-      err.isTimeout = true;
-      handleErr(err);
-    };
-    
     const timerObj = {
-      timer: setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : test.timeout)
+      timer: null as any
     };
   
     const assertCount = {
@@ -81,9 +73,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
     const fini = makeTestCaseCallback(d, assertCount, test, timerObj, gracefulExit, cb);
     let derror = false, retries: number;
     
-    if (suman.config.retriesEnabled === true && Number.isInteger((retries = test.retries))) {
-      fini.retryFn = retryData ? retryData.retryFn : handleTest.bind(null, ...arguments);
-    }
     
     const handleErr: IHandleError = function (err: IPseudoError) {
       
@@ -111,12 +100,9 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           _suman.log.error('maximum retires attempted.');
         }
       }
-      
-      err = err || new Error('unknown hook error.');
-      
-      if (typeof err === 'string') {
-        err = new Error(err);
-      }
+  
+      const errMessage = err && (err.stack || err.message || util.inspect(err));
+      err = cloneError(test.warningErr, errMessage, false);
       
       const stk = err.stack || err;
       const stack = typeof stk === 'string' ? stk : util.inspect(stk);
@@ -132,10 +118,18 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         _suman.writeTestError('Suman error => Error in test => \n' + stack);
       }
     };
+  
+  
+    if (suman.config.retriesEnabled === true && Number.isInteger((retries = test.retries))) {
+      fini.retryFn = retryData ? retryData.retryFn : handleTest.bind(null, ...arguments);
+    }
+    else if(test.retries && !Number.isInteger(test.retries)){
+      return handleErr(new Error('retries property is not an integer => ' + util.inspect(test.retries)));
+    }
     
     if (test.failed) {
       assert(test.error, 'Suman implementation error: error property should be defined at this point in the program.');
-      return handleErr(test.error);
+      return handleErr(test.error || new Error('Suman implementation error - <test.error> was falsy.'));
     }
     
     d.on('error', handleErr);
@@ -155,11 +149,11 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
         let isAsyncAwait = false;
         
         if (fnStr.indexOf('async') === 0) {
-          //TODO: this check needs to get updated, async functions should return promises implicitly
+          isAsyncAwait = true;
           warn = true;
         }
         
-        const t = new TestCaseParam(test, assertCount, handleErr, fini, timerObj, onTimeout);
+        const t = new TestCaseParam(test, assertCount, handleErr, fini, timerObj);
         fini.thot = t;
         t.__shared = self.shared;
         t.__supply = self.supply;
@@ -190,7 +184,6 @@ export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
           
           t.done = dne;
           
-          // arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
           let arg = Object.setPrototypeOf(dne, t);
           if (test.fn.call(null, arg)) {  ///run the fn, but if it returns something, then add warning
             _suman.writeTestError(cloneError(test.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);

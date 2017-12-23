@@ -46,12 +46,13 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     // because an after.always hook needs to run even in the presence of an uncaught exception
     aBeforeOrAfter.alreadyInitiated = true;
     
-    const onTimeout = function () {
-      fini(cloneError(aBeforeOrAfter.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR), true);
-    };
+    // const onTimeout = function () {
+    //   fini(cloneError(aBeforeOrAfter.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR), true);
+    // };
     
     const timerObj = {
-      timer: setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : aBeforeOrAfter.timeout)
+      timer: null as any
+      // timer: setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : aBeforeOrAfter.timeout)
     };
     
     const assertCount = {
@@ -144,7 +145,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           warn = true;
         }
         
-        const h = new AllHookParam(aBeforeOrAfter, assertCount, handleError, fini, timerObj, onTimeout);
+        const h = new AllHookParam(aBeforeOrAfter, assertCount, handleError, fini, timerObj);
         h.__shared = self.shared;
         h.supply = self.supply;
         h.desc = aBeforeOrAfter.desc;

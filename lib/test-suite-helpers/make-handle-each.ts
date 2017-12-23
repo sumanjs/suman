@@ -57,14 +57,15 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
       return process.nextTick(cb);
     }
     
-    const onTimeout =  () => {
-      const err = cloneError(aBeforeOrAfterEach.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR);
-      err.sumanExitCode = constants.EXIT_CODES.HOOK_TIMED_OUT_ERROR;
-      fini(err, true);
-    };
+    // const onTimeout =  () => {
+    //   const err = cloneError(aBeforeOrAfterEach.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR);
+    //   err.sumanExitCode = constants.EXIT_CODES.HOOK_TIMED_OUT_ERROR;
+    //   fini(err, true);
+    // };
     
     const timerObj = {
-      timer: setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : aBeforeOrAfterEach.timeout)
+      timer: null as any
+      // timer: setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : aBeforeOrAfterEach.timeout)
     };
     
     const assertCount = {
@@ -168,7 +169,7 @@ export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit
           isAsyncAwait = true;
         }
         
-        const h = new EachHookParam(aBeforeOrAfterEach, assertCount, handleError, fini, timerObj, onTimeout);
+        const h = new EachHookParam(aBeforeOrAfterEach, assertCount, handleError, fini, timerObj);
         
         fini.thot = h;
         h.test = {};

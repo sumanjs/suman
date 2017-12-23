@@ -1,7 +1,5 @@
 /// <reference types="node" />
 import { IPseudoError } from "suman-types/dts/global";
-import { IHookObj } from "suman-types/dts/test-suite";
-import { ITestDataObj } from "suman-types/dts/it";
 import { VamootProxy } from "vamoot";
 import { IHookOrTestCaseParam } from "suman-types/dts/params";
 import { ITimerObj } from "suman-types/dts/general";
@@ -9,9 +7,7 @@ import EE = require('events');
 import * as chai from 'chai';
 export declare class ParamBase extends EE implements IHookOrTestCaseParam {
     protected __timerObj: ITimerObj;
-    protected __onTimeout: Function;
-    protected __hook: IHookObj;
-    protected __test: ITestDataObj;
+    protected onTimeout: Function;
     protected __handle: Function;
     protected __shared: VamootProxy;
     protected __fini: Function;

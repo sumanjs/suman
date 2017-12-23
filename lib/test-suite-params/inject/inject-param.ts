@@ -49,10 +49,13 @@ export class InjectParam extends ParamBase implements IInjectHookParam{
   protected __inject: IHookObj;
   protected __assertCount: IAssertObj;
   public planCountExpected: number;
+  protected __hook: IHookObj;
+  
   
   constructor(inject: IHookObj, assertCount: IAssertObj, suite: ITestSuite,
               values: Array<any>, handleError: IHandleError, fini: Function,
               timerObj: ITimerObj, onTimeout: Function){
+    
     
     super();
     this.__planCalled = false;

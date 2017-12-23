@@ -25,6 +25,8 @@ import * as chai from 'chai';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+import {cloneError} from '../helpers/general';
+import {constants} from '../../config/suman-constants';
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -45,9 +47,7 @@ const slice = Array.prototype.slice;
 export class ParamBase extends EE implements IHookOrTestCaseParam {
   
   protected __timerObj: ITimerObj;
-  protected __onTimeout: Function;
-  protected __hook: IHookObj;
-  protected __test: ITestDataObj;
+  protected onTimeout: Function;
   protected __handle: Function;
   protected __shared: VamootProxy;
   protected __fini: Function;
@@ -69,7 +69,8 @@ export class ParamBase extends EE implements IHookOrTestCaseParam {
       return this.__handle(e);
     }
     
-    this.__timerObj.timer = setTimeout(this.__onTimeout, _suman.weAreDebugging ? 5000000 : val);
+    const amount = _suman.weAreDebugging ? 5000000 : val;
+    this.__timerObj.timer = setTimeout(this.onTimeout.bind(this), amount) as any;
   }
   
   done() {
@@ -207,16 +208,16 @@ export class ParamBase extends EE implements IHookOrTestCaseParam {
     }
   }
   
-  handlePossibleError (err: Error | IPseudoError){
+  handlePossibleError(err: Error | IPseudoError) {
     err ? this.__handle(err) : this.__fini(null)
   }
   
-  handleNonCallbackMode(err: IPseudoError){
+  handleNonCallbackMode(err: IPseudoError) {
     err = err ? ('Also, you have this error => ' + err.stack || err) : '';
     this.__handle(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
   }
   
-  throw(str: any){
+  throw(str: any) {
     this.__handle(str instanceof Error ? str : new Error(str));
   }
   
