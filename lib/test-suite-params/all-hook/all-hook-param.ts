@@ -77,13 +77,6 @@ export class AllHookParam extends ParamBase implements IAllHookParam {
     (this.__hook).dynamicallySkipped = true;
   }
   
-  ctn(err: any) {
-    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(err);
-  }
-  
-  pass(err: any) {
-    this.callbackMode ? this.__fini(null) : this.handleNonCallbackMode(err);
-  }
   
   plan(num: number) {
     

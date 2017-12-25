@@ -14,7 +14,7 @@ three SO profiles:
 
 ////
 
- add env vars to @config.json
+ add env vars to @config.json - execArgs or nodeFlags could be env vars
 
 ////
 

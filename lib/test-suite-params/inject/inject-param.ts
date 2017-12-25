@@ -55,7 +55,6 @@ export class InjectParam extends ParamBase implements IInjectHookParam {
   constructor(inject: IHookObj, assertCount: IAssertObj, timerObj: ITimerObj, suite: ITestSuite,
               values: Array<any>, fini: Function, handleError: IHandleError) {
     
-    
     super();
     this.__planCalled = false;
     this.__valuesMap = {} as any;
@@ -71,7 +70,7 @@ export class InjectParam extends ParamBase implements IInjectHookParam {
     const amount = _suman.weAreDebugging ? 5000000 : inject.timeout;
     const fn = this.onTimeout.bind(this);
     v.timer = setTimeout(fn, amount) as any;
-  
+    
     // const self = this;
     // process.nextTick(() => {
     //   self.__tooLate = true;
@@ -220,6 +219,18 @@ export class InjectParam extends ParamBase implements IInjectHookParam {
   }
   
 }
+
+export interface InjectParam {
+  register: typeof InjectParam.prototype.registerKey;
+  registerPromisesMap: typeof InjectParam.prototype.registerMap;
+  registerPromiseMap: typeof InjectParam.prototype.registerMap;
+  registerFnsMap: typeof InjectParam.prototype.registerFnMap;
+}
+
+const p = InjectParam.prototype;
+p.register = p.registerKey;
+p.registerPromisesMap = p.registerPromiseMap = p.registerMap;
+p.registerFnsMap = p.registerFnMap;
 
 
 

@@ -25,3 +25,9 @@ export declare class InjectParam extends ParamBase implements IInjectHookParam {
     plan(num: number): any;
     confirm(): void;
 }
+export interface InjectParam {
+    register: typeof InjectParam.prototype.registerKey;
+    registerPromisesMap: typeof InjectParam.prototype.registerMap;
+    registerPromiseMap: typeof InjectParam.prototype.registerMap;
+    registerFnsMap: typeof InjectParam.prototype.registerFnMap;
+}

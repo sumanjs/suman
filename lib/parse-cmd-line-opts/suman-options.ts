@@ -82,16 +82,20 @@ export const options = [
     help: 'Print this help menu and exit.'
   },
   {
-    names: ['inherit-stdio'],
+    names: ['inherit-stdio','log-child-stdio','child-stdio'],
     type: 'bool',
-    help: 'When using the runner, the runner (parent process) will inherit stdout/stderr from test child processes; useful' +
+    help: 'The Suman runner (parent process) will log stdout/stderr from test child processes; useful' +
     'for simple and quick debugging.'
   },
   {
-    names: ['inherit-all-stdio'],
+    names: ['inherit-stdio-match','log-child-stdio-match','child-stdio-match'],
+    type: 'string',
+    help: 'The Suman runner (parent process) will log stdout/stderr from child processes; useful for simple and quick debugging.'
+  },
+  {
+    names: ['inherit-all-stdio','log-all-child-stdio'],
     type: 'bool',
-    help: 'When using the runner, the runner (parent process) will inherit stdout/stderr from test child processes; useful' +
-    'for simple and quick debugging.'
+    help: 'Like the "log-child-stdio" option, but will also log stdout/stderr from @transform processes.'
   },
   {
     names: ['inherit-transform-stdio'],
@@ -605,6 +609,11 @@ export const options = [
     type: 'bool',
     hidden: true,
     help: 'Start the suman server manually.'
+  },
+  {
+    names: ['node-flag'],
+    type: 'arrayOfString',
+    help: 'Pass an argument through command line to the Node.js executable.'
   },
   {
     names: ['exec-arg'],
