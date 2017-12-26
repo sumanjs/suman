@@ -36,19 +36,34 @@
 // };
 //
 //
-const time = Date.now();
 
 
-for(let i = 0; i < 1000000; i++){
-  new Proxy({}, {
-    set: function () {
-      return true;
-    }
-  })
-}
+const util = require('util');
+
+process.on('warning', function (w) {
+  console.warn(w.name);
+  console.warn(w.stack);
+  console.warn(w.message);
+  console.warn(w.code);
+});
 
 
-console.log(Date.now() - time);
+process.emitWarning('Something happened!');
+
+
+// const time = Date.now();
+//
+//
+// for(let i = 0; i < 1000000; i++){
+//   new Proxy({}, {
+//     set: function () {
+//       return true;
+//     }
+//   })
+// }
+//
+//
+// console.log(Date.now() - time);
 
 // const getNewError = function () {
 //    return {message: 'bar',stack:'bar'};

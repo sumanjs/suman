@@ -40,7 +40,7 @@ export const handleReturnVal = function (done: Function, fnStr: string, testOrHo
       
       (val as Observable<any>).subscribe(
         function onNext(val: any) {
-          console.log(' => Suman Observable subscription onNext => ', util.inspect(val));
+          _suman.log.info('Observable subscription onNext => ', util.inspect(val));
         },
         function onError(e: IPseudoError) {
           //TODO: we assume we are unsubscribed automatically if onError is fired

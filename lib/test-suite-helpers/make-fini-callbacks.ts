@@ -1,9 +1,10 @@
 'use strict';
 
 //dts
-import {IAssertObj, IHookObj, ITimerObj} from "suman-types/dts/test-suite";
+import {IHookObj} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
 import {ITestDataObj} from "suman-types/dts/it";
+import {IAssertObj, ITimerObj} from "suman-types/dts/general";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -153,7 +154,7 @@ export const makeAllHookCallback = function (d: ISumanDomain, assertCount: IAsse
         allHookFini.thot.removeAllListeners();
       }
       
-      if (d !== process.domain) {
+      if (process.domain && d !== process.domain) {
         _suman.log.warning('Suman implementation warning: diverging domains in handle callback helper.');
       }
       
@@ -258,7 +259,7 @@ export const makeEachHookCallback = function (d: ISumanDomain, assertCount: IAss
         eachHookFini.thot.removeAllListeners();
       }
       
-      if (d !== process.domain) {
+      if (process.domain && d !== process.domain) {
         _suman.log.warning('Suman implementation warning: diverging domains in handle callback helper.');
       }
       
@@ -358,7 +359,7 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
         testCaseFini.thot.removeAllListeners();
       }
       
-      if (d !== process.domain) {
+      if (process.domain && d !== process.domain) {
         _suman.log.warning('Suman implementation warning: diverging domains in handle callback helper.');
       }
       
@@ -375,7 +376,6 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
         err.isFromTest = true;
         err.sumanFatal = err.sumanFatal || sumanOpts.bail;
         test.error = err;
-        
         if (sumanOpts.bail) {
           err.sumanExitCode = constants.EXIT_CODES.TEST_ERROR_AND_BAIL_IS_TRUE;
         }
