@@ -14,20 +14,30 @@
 //
 // debugger;
 
+//
+// class Person {
+//   constructor(public name: string) {}
+//   greet(greeting: string): string { return `${greeting}, ${this.name}`; }
+// }
+//
+// interface Person {
+//   hi: typeof Person.prototype.greet;
+// }
+//
+//
+// Person.prototype.hi = Person.prototype.greet;
+//
+// const p = new Person("Alice");
+// console.log(p.greet("Hey"));
+// console.log(p.hi("Hi"));
 
-class Person {
-  constructor(public name: string) {}
-  greet(greeting: string): string { return `${greeting}, ${this.name}`; }
+
+class Bar {
+
 }
 
-interface Person {
-  hi: typeof Person.prototype.greet;
-}
+const makeBar = function () {
+ return new Bar(...arguments);
+};
 
-
-Person.prototype.hi = Person.prototype.greet;
-
-const p = new Person("Alice");
-console.log(p.greet("Hey"));
-console.log(p.hi("Hi"));
 

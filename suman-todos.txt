@@ -201,7 +201,7 @@ exit with command to the right that exits with non-zero
 
 ////
 
-    what is "return" for in bash scripts? ("return" as opposed to "exit").
+    what is "return" for, in bash scripts? ("return" as opposed to "exit").
 
 ////
 
@@ -458,7 +458,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
 ///
 
-FORCE_COLOR=0 suman -- => will use colors for watch, etc.
+    FORCE_COLOR=0 suman -- => will use colors for watch, etc.
 
 ///
 

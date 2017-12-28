@@ -1,7 +1,8 @@
 'use strict';
 
 //dts
-import {IInjectionObj, ITestSuite} from "suman-types/dts/test-suite";
+import {ITestSuite} from "suman-types/dts/test-suite";
+import {IInjectionObj} from "suman-types/dts/inject";
 import {IPseudoError, IGlobalSumanObj} from "suman-types/dts/global";
 import {ErrorCallback, Dictionary} from 'async';
 
@@ -95,7 +96,7 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
         
         injParam.callbackMode = true;
         
-        let d = function (err: IPseudoError, results: IInjectionRetObj) {
+        let d = function (err?: IPseudoError, results?: IInjectionRetObj) {
           
           if (err) {
             return reject(err);
@@ -131,8 +132,7 @@ export const handleInjections = function (suite: ITestSuite, cb: ErrorCallback<a
       const seed = Promise.resolve(null);
       const p = values.reduce(function (a, b) {
         //run promises in series
-        return Promise.resolve(b.val)
-        .then(function (v) {
+        return Promise.resolve(b.val).then(function (v) {
           return addValuesToSuiteInjections(b.k, v);
         });
       }, seed);
