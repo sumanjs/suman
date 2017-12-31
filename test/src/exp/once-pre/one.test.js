@@ -6,9 +6,10 @@ const Test = suman.init(module, {
   pre: ['three']
 });
 
-Test.create(function (assert) {
+Test.create(function (assert,it) {
 
-  this.it('closes', t => {
+ it('closes', t => {
+
   });
 
 });

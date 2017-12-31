@@ -1,9 +1,6 @@
 const suman = require('suman');
 const Test = suman.init(module);
 
-//project
-const _suman = global.__suman = (global.__suman || {});
-
 Test.create(function (it, context, after) {
 
   after.last(function(){
