@@ -339,13 +339,17 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
       assert(su.isObject(opts.override.config),'config override value must be a plain object.');
       _sumanConfig = Object.assign({}, _suman.sumanConfig, opts.override.config);
     }
-    if(opts.override.opts){
-      assert(su.isObject(opts.override.opts), 'opts override value must be a plain object.');
-      Object.keys(opts.override.opts).forEach(function (k) {
+    if(opts.override.opts && opts.override.options){
+      throw new Error('please use either "override.options" or "override.opts", not both.');
+    }
+    const zopts = opts.override.opts || opts.override.options;
+    if(zopts){
+      assert(su.isObject(zopts), 'opts override value must be a plain object.');
+      Object.keys(zopts).forEach(function (k) {
         if (String(k).trim().startsWith('$')) {
           throw new Error('Suman options override object key must not start with "$" character.');
         }
-        _sumanOpts['$' + String(k).trim()] = opts.override.opts[k];
+        _sumanOpts['$' + String(k).trim()] = zopts[k];
       });
     }
   }
