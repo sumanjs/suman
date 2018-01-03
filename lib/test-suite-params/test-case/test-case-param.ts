@@ -84,7 +84,7 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
   
   __inheritedSupply(target: any, prop: PropertyKey, value: any, receiver: any) {
     this.__handle(new Error('cannot set any properties on t.supply (in test cases).'));
-    return false;
+    return true;
   }
   
   plan(num: number) {

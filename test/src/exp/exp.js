@@ -1,9 +1,15 @@
 'use strict';
 
 const suman = require('suman');
-const Test = suman.init(module);
+const Test = suman.init(module, {
+  override: {
+    opts: {
+      allowSkip: true
+    }
+  }
+});
 
-Test.create(function (it, before, beforeEach, describe, context, after) {
+Test.create(function (b,it, before, beforeEach, describe, context, after) {
 
 
   // beforeEach.cb(h => {
@@ -70,14 +76,14 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
 
   it.cb('is stubbed 1');
 
-  describe.skip('foo', function () {
+  describe.skip('foo', function (b) {
 
   });
 
-  describe('pajamas', function () {
+  describe('pajamas', function (b) {
 
-    this.describe('rudolph', function () {
-      this.it('is cool', t => {
+    describe('rudolph', function (b) {
+      it('is cool', t => {
 
       });
 
@@ -92,7 +98,7 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
 
     });
 
-    it.cb.skip('is NOT 222 skipped', t => {
+    it.cb.skip('is 222 skipped', t => {
       t.done();
     });
 
@@ -104,9 +110,7 @@ Test.create(function (it, before, beforeEach, describe, context, after) {
       setTimeout(h, 10);
     });
 
-    it('is stubbed 2', t => {
-      return 3
-    });
+    it('is stubbed 2', null);
 
   });
 

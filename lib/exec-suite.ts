@@ -127,6 +127,7 @@ export const execSuite = function (suman: ISuman): Function {
     }
     
     const deps = suman.deps = fnArgs(cb);
+
     const delayOptionElected = opts.delay;
     
     //TODO: we need to warn the user when the give an option to describe or it that is not recognized
@@ -147,6 +148,7 @@ export const execSuite = function (suman: ISuman): Function {
     }
     
     const suite = new TestBlock({desc, isTopLevel: true, opts});
+    suite.bIsFirstArg = deps[0] === 'b';
     suite.isRootSuite = true;
     suite.bindExtras();
     allDescribeBlocks.push(suite);
