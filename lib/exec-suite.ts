@@ -106,10 +106,7 @@ export const execSuite = function (suman: ISuman): Function {
     // suman description is the same as the description of the top level test block
     suman.desc = desc;
     
-    const isGenerator = su.isGeneratorFn(cb);
-    const isAsync = su.isAsyncFn(cb);
-    
-    if (isGenerator || isAsync) {
+    if (su.isGeneratorFn(cb) || su.isAsyncFn(cb)) {
       
       const msg = constants.ERROR_MESSAGES.INVALID_FUNCTION_TYPE_USAGE;
       return fatalRequestReply({
@@ -120,7 +117,7 @@ export const execSuite = function (suman: ISuman): Function {
           }
         },
         function () {
-          console.error(msg + '\n\n');
+         console.error('\n'); _suman.log.error(msg);
           let err = new Error('Suman usage error => invalid arrow/generator function usage.').stack;
           _suman.log.error(err);
           _suman.writeTestError(err);

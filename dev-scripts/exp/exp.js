@@ -38,17 +38,38 @@
 //
 
 
-const util = require('util');
+// const util = require('util');
+//
+// process.on('warning', function (w) {
+//   console.warn(w.name);
+//   console.warn(w.stack);
+//   console.warn(w.message);
+//   console.warn(w.code);
+// });
+//
+//
+// process.emitWarning('Something happened!');
 
-process.on('warning', function (w) {
-  console.warn(w.name);
-  console.warn(w.stack);
-  console.warn(w.message);
-  console.warn(w.code);
-});
+const doc = {foo:'bar'};
 
+(function () {
 
-process.emitWarning('Something happened!');
+  var scope = Object.create(null);
+  var obscurer = {};
+  for (var key in doc) {
+    obscurer[key] = undefined;
+  }
+
+  with (obscurer) {
+    var isolated = function() {
+      'use strict';
+      console.log(doc);
+    };
+  }
+
+  isolated.call(scope);
+})();
+
 
 
 // const time = Date.now();

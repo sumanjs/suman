@@ -3,36 +3,36 @@
 import * as chalk from 'chalk';
 
 export const constants = Object.freeze({
-
+  
   SUMAN_ISSUE_TRACKER_URL: 'https://github.com/sumanjs/suman/issues',
   SUMAN_TYPES_ROOT_URL: 'https://github.com/sumanjs/suman-types/blob/master/dts',
-
+  
   DEFAULT_TRANSFORM_CONCURRENCY: 3,
   DEFAULT_PARALLEL_TOTAL_LIMIT: 30,
   DEFAULT_PARALLEL_TEST_LIMIT: 10,
   DEFAULT_PARALLEL_BLOCK_LIMIT: 10,
-
+  
   DEFAULT_CHILD_PROCESS_TIMEOUT: 6000000,
-
+  
   OLDEST_SUPPORTED_NODE_VERSION: 'v6.0.0',
-
+  
   DEBUGGING_ENV: {
     name: 'SUMAN_DEBUG',
     value: 'yes'
   },
-
+  
   SUMAN_SERVER_MESSAGE: 'SUMAN_SERVER_MESSAGE',
-
+  
   UNKNOWN_INJECT_HOOK_NAME: '(unknown inject-hook name)',
-
+  
   SUMAN_HOOK_FATAL_WARNING_MESSAGE:
     'Suman non-fatal error => Error in hook and "fatal" option for the hook is set to false =>\n',
-
+  
   SUMAN_HOOK_FATAL_MESSAGE:
     ' => fatal error in hook => (to continue even in the event of an error in a hook, use option {fatal:false}) =>\n',
-
+  
   SUMAN_HARD_LIST: Object.keys({
-
+    
     // all lowercase
     describe: true,
     before: true,
@@ -49,7 +49,7 @@ export const constants = Object.freeze({
     setuptest: true,
     teardowntest: true,
     context: true,
-
+    
     //all
     $root: true, // root of project
     $macro: true,
@@ -59,15 +59,15 @@ export const constants = Object.freeze({
     $deps: true,
     extraargs: true,
     userdata: true,
-
+    
   }),
-
+  
   CORE_MODULE_LIST: require('builtin-modules'),
-
+  
   CLI_EXIT_CODES: {
     NO_GROUP_NAME_MATCHED_COMMAND_LINE_INPUT: 20,
   },
-
+  
   RUNNER_EXIT_CODES: {
     NO_TEST_FILE_OR_DIR_SPECIFIED: 30,
     ERROR_INVOKING_NETWORK_LOG_IN_RUNNER: 31,
@@ -76,7 +76,7 @@ export const constants = Object.freeze({
     NO_TEST_FILES_MATCHED_OR_FOUND: 34,
     UNCAUGHT_EXCEPTION: 777
   },
-
+  
   EXIT_CODES: {
     SUCCESSFUL_RUN: 0,
     WHOLE_TEST_SUITE_SKIPPED: 0,
@@ -133,19 +133,16 @@ export const constants = Object.freeze({
     IOC_STATIC_ACQUISITION_ERROR: 98,
     PRE_VALS_ERROR: 99
   },
-
+  
   ERROR_MESSAGES: {
-    INVALID_FUNCTION_TYPE_USAGE: ' => Suman fatal error => Note that by default Suman does not allow you to use arrow ' +
-    'functions with test blocks.\n' +
-    '\n => You can change this by setting "allowArrowFunctionsForTestBlocks" to true in your suman.conf.js file.\n' +
-    '\n => In any case, you cannot use generators or async/await with test block callbacks.\n' +
-    'This is because test block callbacks need to register' +
-    ' all hooks and test cases synchronously,\nwhich is why generator functions and async/await ' +
-    'are not permitted.\nNote that if you choose to use arrow functions with test blocks, the expected value for "this" will not be bound correctly,\n' +
-    'so as an alternative it is best practice to simply inject the "suite" value which would be the same value for "this".\n' +
-    'Please see: xxx.'
+    INVALID_FUNCTION_TYPE_USAGE: [
+      'Suman fatal error: Note that Suman does not allow you to use async or generator functions with test blocks.',
+      'This is because test block callbacks need to register all hooks and test cases synchronously,',
+      'which is why generator functions and async/await are not permitted.'
+    ]
+    .join('\n')
   },
-
+  
   runner_message_type: {
     BROWSER_FINISHED: 'BROWSER_FINISHED',
     FATAL: 'FATAL',
@@ -158,7 +155,7 @@ export const constants = Object.freeze({
     MAX_MEMORY: 'MAX_MEMORY',
     TABLE_DATA_RECEIVED: 'TABLE_DATA_RECEIVED'
   },
-
+  
   warnings: {
     NO_DONE_WARNING: chalk.bold('Warning: no done referenced in callback'),
     RETURNED_VAL_DESPITE_CALLBACK_MODE: chalk.bold('Warning: callback mode is set, but a non-null value was returned by the hook.'),
@@ -168,9 +165,9 @@ export const constants = Object.freeze({
       'You may have forgotten to fire a callback, or perhaps the timeout quantity is too short.'),
     DELAY_TIMED_OUT_ERROR: chalk.bold('Error: *timed out* - did you forget to call resume()?')
   },
-
+  
   tableData: {
-
+    
     SUITES_DESIGNATOR: {
       name: ' ▼ Test entry path ▼ ',
       default: '(!! suman error !!)'
@@ -208,5 +205,5 @@ export const constants = Object.freeze({
       default: '-'
     }
   }
-
+  
 });

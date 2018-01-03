@@ -123,12 +123,10 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
     
     const allDescribeBlocks = suman.allDescribeBlocks;
-    const isGenerator = su.isGeneratorFn(cb);
-    const isAsync = su.isAsyncFn(cb);
     
-    if (isGenerator || isAsync) { //TODO: need to check for generators or async/await as well
+    if (su.isGeneratorFn(cb) || su.isAsyncFn(cb)) {
       const msg = constants.ERROR_MESSAGES.INVALID_FUNCTION_TYPE_USAGE;
-      console.log('\n' + msg + '\n');
+      console.error('\n'); _suman.log.error(msg);
       _suman.log.error(new Error('Suman usage error => invalid generator/async/await function usage.').stack);
       return process.exit(constants.EXIT_CODES.INVALID_ARROW_FUNCTION_USAGE);
     }
