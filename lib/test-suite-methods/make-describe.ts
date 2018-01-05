@@ -123,7 +123,6 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
 
     const allDescribeBlocks = suman.allDescribeBlocks;
-
     
     if (su.isGeneratorFn(cb) || su.isAsyncFn(cb)) {
       const msg = constants.ERROR_MESSAGES.INVALID_FUNCTION_TYPE_USAGE;

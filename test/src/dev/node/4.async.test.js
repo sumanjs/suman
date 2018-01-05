@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-'use strict';
+// 'use strict';
 
 const suman = require('suman');
 const Test = suman.init(module);
@@ -10,15 +10,15 @@ let count = 0;
 
 const su = require('suman-utils');
 
-const isolated = function (fn) {
+const isolated2 = function (fn) {
 
   const str = String(fn).trim();
 
-  if(str.indexOf('async') === 0){
+  if (str.indexOf('async') === 0) {
     throw new Error('Cannot use async functions for isolated scopes.');
   }
 
-  if(str.indexOf('function') !==0 && !/=>\s*{/.test(str)){
+  if (str.indexOf('function') !== 0 && !/=>\s*{/.test(str)) {
     throw new Error('Cannot use functions without outer braces.');
   }
 
@@ -30,6 +30,25 @@ const isolated = function (fn) {
   return new Function(...paramNames.concat(body));
 };
 
+function isolated(fn) {
+  return new Function(`
+    with (new Proxy({}, {
+      has() { return true; },
+      get(target, property) {
+        if (typeof property !== 'string') return target[property];
+        throw new ReferenceError(property + ' accessed from isolated scope');
+      }
+    })) return ${Function.prototype.toString.call(fn)}
+  `).call(new Proxy(function () {
+  }, new Proxy({}, {
+    get() {
+      throw new ReferenceError('this accessed from isolated scope');
+    }
+  })));
+}
+
+
+
 Test.create((assert, describe, before, beforeEach, after, afterEach, it) => {
 
   before(async h => {
@@ -40,7 +59,7 @@ Test.create((assert, describe, before, beforeEach, after, afterEach, it) => {
   it.cb('sync test', async t => {
     t.assert.equal(++count, 2);
     t.assert.equal(t.supply.three, 3);
-    t.done()
+    t.done();
   });
 
   after.cb(async h => {
@@ -57,8 +76,9 @@ Test.create((assert, describe, before, beforeEach, after, afterEach, it) => {
   ));
 
   const foo = 3;
-  it.cb('zoom', suman.isolated(h => {
+  it.cb('zoom', isolated(h => {
     // console.log(foo);
+    const x = foo;
     h.ctn();
   }));
 
