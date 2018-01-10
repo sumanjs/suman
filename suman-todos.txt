@@ -31,53 +31,53 @@ TODO: t.state = 'passed'/'failed' etc.
 
 ////
 
-use nyc instead of istanbul
-https://github.com/istanbuljs/nyc
+    use nyc instead of istanbul
+    https://github.com/istanbuljs/nyc
 
 ///
 
-put $deps/$core on suman?
+    put $deps/$core on suman?
 
-const {async} = suman.deps;
-const {async} = suman.installed
-
-////
-
-put
-"const suman = require('suman');"
-in each test file
+    const {async} = suman.deps;
+    const {async} = suman.installed
 
 ////
 
-TAP YAML diagnostics:
-https://github.com/tapjs/node-tap/issues/247
+    put
+    "const suman = require('suman');"
+    in each test file
+
+////
+
+    TAP YAML diagnostics:
+    https://github.com/tapjs/node-tap/issues/247
 
 ///
 
-var Messages = require('tap-emitter/lib/messages');
+    var Messages = require('tap-emitter/lib/messages');
 
-var messages = new Messages('13', 0);
+    var messages = new Messages('13', 0);
 
-console.log([
-  messages.version(),
-  messages.test({
-    ok: false,
-    testNumber: 1,
-    description: 'this is the message'
-  }),
-  messages.yaml(someError),
-  messages.plan(1),
-  messages.diagnostic('failed 1 of 1 tests'),
-  messages.diagnostic('time=19.221ms')
-].join('\n'));
-
-////
-
-exec() / invoke() / run() / register()
+    console.log([
+      messages.version(),
+      messages.test({
+        ok: false,
+        testNumber: 1,
+        description: 'this is the message'
+      }),
+      messages.yaml(someError),
+      messages.plan(1),
+      messages.diagnostic('failed 1 of 1 tests'),
+      messages.diagnostic('time=19.221ms')
+    ].join('\n'));
 
 ////
 
- "suman-watch-plugins": "latest",
+    exec() / invoke() / run() / register()
+
+////
+
+     "suman-watch-plugins": "latest",
 
 ////
 
@@ -86,15 +86,15 @@ exec() / invoke() / run() / register()
 
 ////
 
-      it.cb.run(t => {
+    it.cb.run(t => {
 
-      });
+    });
 
   or
 
-       it.cb(t => {
+    it.cb(t => {
 
-       });
+    });
 
 ////
 
