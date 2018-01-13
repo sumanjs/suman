@@ -1,10 +1,9 @@
 /* globals suman */
 
-declare const module;
-import {ItFn, IDescribeFn} from 'suman';
+import {s} from 'suman';
 let {Test} = suman.init(module);
 
-Test.create(function (it: ItFn, context: IDescribeFn) {
+Test.create(function (it: s.ItFn, context: s.IDescribeFn) {
 
   it('passes with flying colors', t => {
 

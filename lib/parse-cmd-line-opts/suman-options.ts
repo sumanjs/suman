@@ -51,6 +51,11 @@ export const options = [
     help: 'Tells Suman to log when hooks and tests begin/end, for debugging purposes.'
   },
   {
+    names: ['stdout-only'],
+    type: 'bool',
+    help: 'Tells Suman to write everything to stdout, nothing to stderr.'
+  },
+  {
     names: ['allow-in-place'],
     type: 'bool',
     help: 'Tells Suman to allow files to be transpiled/execute in place (same directory).'

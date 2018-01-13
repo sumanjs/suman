@@ -4,10 +4,17 @@ module.exports = {
 
   // entry: ['babel-polyfill', './lib/index.js'],
   entry: ['./lib/index.js'],
+
+  // entry: ['./test/one.js'],
   output: {
     path: path.resolve(__dirname + '/dist'),
-    filename: 'suman.js'
+    filename: 'suman.js',
+    library: 'suman',
+    libraryTarget: 'var',
+    umdNamedDefine: true
   },
+
+  externals: ['suman'],
 
   module: {
 

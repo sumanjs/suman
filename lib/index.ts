@@ -84,7 +84,7 @@ try {
   inBrowser = _suman.inBrowser = true;
   if (window.__karma__) {
     usingKarma = _suman.usingKarma = true;
-    _suman.sumanOpts && _suman.sumanOpts.force = true;
+    _suman.sumanOpts && (_suman.sumanOpts.force = true);
   }
 }
 catch (err) {

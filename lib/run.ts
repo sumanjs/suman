@@ -167,7 +167,6 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
           }
           
           try {
-            
             const browser = sumanConfig['browser']  as any;
             assert(su.isObject(browser), '"browser" property on suman.conf.js needs to be an object.');
             const entryPoints = browser['entryPoints'];
@@ -176,8 +175,7 @@ export const run = function (sumanOpts: ISumanOpts, sumanConfig: ISumanConfig, p
             return process.nextTick(cb, null, {files});
           }
           catch (err) {
-            process.nextTick(cb, err);
-            return;
+            return process.nextTick(cb, err);
           }
         }
         else {
