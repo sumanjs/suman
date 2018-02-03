@@ -674,6 +674,7 @@ else if (installGlobals) {
   require('./lib/cli-commands/install-global-deps')(paths);
 }
 else if (sumanShell) {
+  debugger;
   require('./lib/cli-commands/run-suman-shell').run(projectRoot, sumanLibRoot, sumanOpts.suman_d_opts)
 }
 else if (interactive) {
