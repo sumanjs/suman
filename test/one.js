@@ -1,9 +1,17 @@
 const suman = require('suman');
 const Test = suman.init(module);
 
-Test.create((describe, it, context, before) => {
+Test.create((describe, it, context, before, beforeEachBlock, afterEachBlock) => {
 
   let count = 1;
+
+  beforeEachBlock(h => {
+    console.log('before each block');
+  });
+
+  afterEachBlock(h => {
+    console.log('after each block');
+  });
 
   context('fo', b => {
 
@@ -24,7 +32,7 @@ Test.create((describe, it, context, before) => {
       setTimeout(function () {
         h.supply.foo = 4;
         h.done();
-      }, 1000);
+      }, 10);
 
     });
 
@@ -54,7 +62,7 @@ Test.create((describe, it, context, before) => {
       setTimeout(function () {
         h.supply.foo = 9;
         h.done();
-      }, 300);
+      }, 30);
     });
 
     it('foo', async t => {

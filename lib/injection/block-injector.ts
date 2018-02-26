@@ -80,6 +80,8 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
         case 'before':
         case 'after':
         case 'inject':
+        case 'beforeeachblock':
+        case 'aftereachblock':
         case 'beforeall':
         case 'afterall':
         case 'beforeeach':

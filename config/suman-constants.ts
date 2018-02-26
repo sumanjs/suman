@@ -37,6 +37,8 @@ export const constants = Object.freeze({
     describe: true,
     before: true,
     after: true,
+    beforeeachblock: true,
+    aftereachblock: true,
     beforeall: true,
     afterall: true,
     beforeeach: true,
