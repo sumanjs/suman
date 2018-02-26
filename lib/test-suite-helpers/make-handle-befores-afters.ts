@@ -148,6 +148,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         const h = new AllHookParam(aBeforeOrAfter, assertCount, handleError, fini, timerObj);
         h.__shared = self.shared;
         h.supply = self.supply;
+        h.block = self;
         h.desc = aBeforeOrAfter.desc;
         fini.thot = h;
         
