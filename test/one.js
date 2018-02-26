@@ -6,68 +6,32 @@ Test.create((describe, it, context, before, beforeEachBlock, afterEachBlock) => 
   let count = 1;
 
   beforeEachBlock(h => {
-    console.log('before each block');
+    console.log('before each block with name:', h.block.title);
+    h.block.startTime = Date.now();
   });
 
   afterEachBlock(h => {
-    console.log('after each block');
+    console.log('after each block with name:', h.block.title);
+    const totalTimeMillis = Date.now() - h.block.startTime;
+    console.log('total time:', totalTimeMillis);
   });
 
-  context('fo', b => {
-
-    before(async h => {
-      h.supply.foo = 5;
+  describe('one', b => {
+    before.cb(h => {
+      setTimeout(h, 150);
     });
-
-    it('foo', async t => {
-      t.assert.equal(t.supply.foo, 5);
-      t.assert.equal(count++, 1)
-    });
-
   });
 
-  context('fo', b => {
-
-    before.cb( h => {
-      setTimeout(function () {
-        h.supply.foo = 4;
-        h.done();
-      }, 10);
-
+  describe('two', b => {
+    before.cb(h => {
+      setTimeout(h, 100);
     });
-
-    it('foo', async t => {
-      t.assert.equal(t.supply.foo, 4);
-      t.assert.equal(count++, 2)
-    });
-
   });
 
-  context('fo', b => {
+  describe('three', b => {
 
-    before(async h => {
-      h.supply.foo = 3;
-    });
-
-    it('foo', async t => {
-      t.assert.equal(t.supply.foo, 3);
-      t.assert.equal(count++, 3)
-    });
-
-  });
-
-  context('fo', b => {
-
-    before.cb( h => {
-      setTimeout(function () {
-        h.supply.foo = 9;
-        h.done();
-      }, 30);
-    });
-
-    it('foo', async t => {
-      t.assert.equal(t.supply.foo, 9);
-      t.assert.equal(count++, 4);
+    before.cb(h => {
+      setTimeout(h, 200);
     });
 
   });
