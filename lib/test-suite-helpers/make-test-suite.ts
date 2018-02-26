@@ -353,17 +353,21 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
     }
     
     getAfterBlockList() {
-      let v = this, ret = this.getAfterBlocks();
+      let v = this,  ret = [];//ret = this.getAfterBlocks();
       while (v = v.parent) {
-        ret = v.getAfterBlocks().concat(ret);
+        v.getAfterBlocks().reverse().forEach(function (z) {
+           ret.unshift(z);
+        })
       }
       return ret;
     }
     
     getBeforeBlockList() {
-      let v = this, ret = this.getBeforeBlocks();
+      let v = this, ret = [];//ret = this.getBeforeBlocks();
       while (v = v.parent) {
-        ret = v.getBeforeBlocks().concat(ret);
+        v.getBeforeBlocks().reverse().forEach(function (z) {
+           ret.unshift(z);
+        });
       }
       return ret;
     }
