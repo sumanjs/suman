@@ -67,6 +67,8 @@ export const makeCreateInjector = function (suman: ISuman, container: Object) {
         case 'inject':
         case 'beforeall':
         case 'afterall':
+        case 'beforeeachblock':
+        case 'aftereachblock':
         case 'beforeeach':
         case 'aftereach':
         case 'it':

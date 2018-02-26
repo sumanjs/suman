@@ -15,7 +15,7 @@ import assert = require('assert');
 
 //npm
 const pragmatik = require('pragmatik');
-import * as chalk from 'chalk';
+import chalk = require('chalk');
 import su from 'suman-utils';
 
 //project
@@ -106,6 +106,8 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
     else {
 
       let obj: IAfterObj = {
+        last: Boolean(opts.last),
+        first: Boolean(opts.first),
         ctx: zuite,
         timeout: opts.timeout || 11000,
         desc: desc || fn.name || '(unknown after-all-hook name)',
@@ -116,7 +118,6 @@ export const makeAfter = function (suman: ISuman): IAfterFn {
         successEvents: opts.successEvents,
         errorEvents: opts.errorEvents,
         events: opts.events,
-        last: opts.last,
         planCountExpected: opts.plan,
         fatal: opts.fatal === true, // default is false for after hooks!
         fn: fn,

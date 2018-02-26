@@ -22,6 +22,8 @@ exports.constants = Object.freeze({
         describe: true,
         before: true,
         after: true,
+        beforeeachblock: true,
+        aftereachblock: true,
         beforeall: true,
         afterall: true,
         beforeeach: true,
@@ -112,15 +114,12 @@ exports.constants = Object.freeze({
         PRE_VALS_ERROR: 99
     },
     ERROR_MESSAGES: {
-        INVALID_FUNCTION_TYPE_USAGE: ' => Suman fatal error => Note that by default Suman does not allow you to use arrow ' +
-            'functions with test blocks.\n' +
-            '\n => You can change this by setting "allowArrowFunctionsForTestBlocks" to true in your suman.conf.js file.\n' +
-            '\n => In any case, you cannot use generators or async/await with test block callbacks.\n' +
-            'This is because test block callbacks need to register' +
-            ' all hooks and test cases synchronously,\nwhich is why generator functions and async/await ' +
-            'are not permitted.\nNote that if you choose to use arrow functions with test blocks, the expected value for "this" will not be bound correctly,\n' +
-            'so as an alternative it is best practice to simply inject the "suite" value which would be the same value for "this".\n' +
-            'Please see: xxx.'
+        INVALID_FUNCTION_TYPE_USAGE: [
+            'Suman fatal error: Note that Suman does not allow you to use async or generator functions with test blocks.',
+            'This is because test block callbacks need to register all hooks and test cases synchronously,',
+            'which is why generator functions and async/await are not permitted.'
+        ]
+            .join('\n')
     },
     runner_message_type: {
         BROWSER_FINISHED: 'BROWSER_FINISHED',

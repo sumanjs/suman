@@ -7,12 +7,14 @@ import {IHookObj} from "suman-types/dts/test-suite";
 import {ITestDataObj} from "suman-types/dts/it";
 import {VamootProxy} from "vamoot";
 import {IHookOrTestCaseParam} from "suman-types/dts/params";
+import {IAssertObj, ITimerObj} from "suman-types/dts/general";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
+import assert = require('assert');
 import EE = require('events');
 import util = require('util');
 
@@ -23,6 +25,8 @@ import * as chai from 'chai';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
+import {cloneError} from '../helpers/general';
+import {constants} from '../../config/suman-constants';
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -38,37 +42,45 @@ let badProps = <IBadProps> {
   constructor: true
 };
 
-
 const slice = Array.prototype.slice;
+const notCallbackOrientedError = 'You have fired a callback for a test case or hook that was not callback oriented.';
 
-export class ParamBase extends EE implements IHookOrTestCaseParam{
+export class ParamBase extends EE implements IHookOrTestCaseParam {
   
-  protected __hook: IHookObj;
-  protected __test: ITestDataObj;
+  protected __timerObj: ITimerObj;
   protected __handle: Function;
   protected __shared: VamootProxy;
   protected __fini: Function;
-  protected callbackMode?: boolean;
+  public callbackMode?: boolean;
   assert: typeof chai.assert;
   should: typeof chai.should;
   expect: typeof chai.expect;
+  protected __tooLate: boolean;
   
   constructor() {
     super();
   }
   
-  timeout(v:number){
-  
+  timeout(val: number) {
+    this.__timerObj.timer && clearTimeout(this.__timerObj.timer);
+    try {
+      assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
+    }
+    catch (e) {
+      return this.__handle(e);
+    }
+    
+    const amount = _suman.weAreDebugging ? 5000000 : val;
+    this.__timerObj.timer = setTimeout(this.onTimeout.bind(this), amount) as any;
   }
   
-  
-  done() {
-    this.__handle(new Error('You have fired a callback for a test case or hook that was not callback oriented.'));
-  }
-  
-  skip() {
-    (this.__hook || this.__test).skipped = true;
-    (this.__hook || this.__test).dynamicallySkipped = true;
+  done(err?: Error) {
+    if (this && this.__handle) {
+      this.__handle(new Error(notCallbackOrientedError));
+    }
+    else {
+      throw new Error(notCallbackOrientedError)
+    }
   }
   
   fatal(err: IPseudoError) {
@@ -197,12 +209,27 @@ export class ParamBase extends EE implements IHookOrTestCaseParam{
     }
   }
   
+  handlePossibleError(err: Error | IPseudoError) {
+    err ? this.__handle(err) : this.__fini(null)
+  }
+  
+  handleNonCallbackMode(err: IPseudoError) {
+    err = err ? ('Also, you have this error => ' + err.stack || err) : '';
+    this.__handle(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
+  }
+  
+  throw(str: any) {
+    this.__handle(str instanceof Error ? str : new Error(str));
+  }
+  
 }
 
 export interface ParamBase {
   pass: typeof ParamBase.prototype.done;
   ctn: typeof ParamBase.prototype.done;
   fail: typeof ParamBase.prototype.done;
+  finalErrFirst: typeof ParamBase.prototype.final;
+  finalErrorFirst: typeof ParamBase.prototype.final;
   wrapFinalErrFirst: typeof ParamBase.prototype.wrapFinalErrorFirst;
   wrapFinalErr: typeof ParamBase.prototype.wrapFinalErrorFirst;
   wrapFinalError: typeof ParamBase.prototype.wrapFinalErrorFirst;
@@ -210,14 +237,14 @@ export interface ParamBase {
 }
 
 // Alternative:
-const b = Object.setPrototypeOf(ParamBase.prototype, Function.prototype);
+Object.setPrototypeOf(ParamBase.prototype, Function.prototype);
 const proto = Object.assign(ParamBase.prototype, EE.prototype);
 
 // const proto = Object.assign(ParamBase.prototype, Function.prototype, EE.prototype);
 proto.pass = proto.ctn = proto.fail = proto.done;
 proto.wrapFinalErrFirst = proto.wrapFinalErr = proto.wrapFinalError = proto.wrapFinalErrorFirst;
 proto.wrapErrFirst = proto.wrapErrorFirst;
-
+// proto.finalErrFirst = proto.finalErrorFirst = proto.fi
 
 const assertCtx: any = {
   // this is used to store the context
@@ -344,6 +371,3 @@ Object.defineProperty(proto, 'assert', {
     return assertProxy;
   }
 });
-
-// export const tProto = freezeExistingProps(proto);
-// export const tProto = proto;

@@ -11,14 +11,14 @@ Test.create(['semver', function (b, assert, describe, before, beforeEach, after,
 
   before.cb('adds foo', h => {
      suman.run.cb({args: ['--default']}, function (err, v) {
-      h.$inject.v = v;
+      h.supply.v = v;
       h.done(err);
     });
   });
 
   it('sync test', t => {
-    t.assert(su.isStream(t.$inject.v.sumanProcess.stdout), 'stdout is not a stream.');
-    t.assert(su.isStream(t.$inject.v.sumanProcess.stderr), 'stderr is not defined');
+    t.assert(su.isStream(t.supply.v.sumanProcess.stdout), 'stdout is not a stream.');
+    t.assert(su.isStream(t.supply.v.sumanProcess.stderr), 'stderr is not defined');
   });
 
   describe.parallel('par', b => {
@@ -26,21 +26,21 @@ Test.create(['semver', function (b, assert, describe, before, beforeEach, after,
     it.parallel('sync test', t => {
 
       setTimeout(function () {
-        t.$inject.v.sumanProcess.stdout.pipe(process.stdout);
-        t.$inject.v.sumanProcess.stderr.pipe(process.stderr);
+        t.supply.v.sumanProcess.stdout.pipe(process.stdout);
+        t.supply.v.sumanProcess.stderr.pipe(process.stderr);
       }, 1000);
 
       // setTimeout(function () {
-      //   t.$inject.v.sumanProcess.stdout.pause();
-      //   t.$inject.v.sumanProcess.stderr.pause();
+      //   t.supply.v.sumanProcess.stdout.pause();
+      //   t.supply.v.sumanProcess.stderr.pause();
       // }, 200);
 
-      // t.$inject.v.sumanProcess.stdout.resume();
-      // t.$inject.v.sumanProcess.stderr.resume();
+      // t.supply.v.sumanProcess.stdout.resume();
+      // t.supply.v.sumanProcess.stderr.resume();
     });
 
     it.parallel.cb('wait for exit', t => {
-      t.$inject.v.sumanProcess.stdout.once('finish', t.pass);
+      t.supply.v.sumanProcess.stdout.once('finish', t.pass);
     });
 
   });

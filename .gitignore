@@ -8,6 +8,7 @@ dist/
 
 ### matching files
 *.log
+test/.suman/.meta/*.html
 
 ### files
 yarn.lock

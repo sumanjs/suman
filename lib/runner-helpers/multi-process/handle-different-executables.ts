@@ -33,7 +33,7 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                                                         runnerObj: IRunnerObj) {
   
   const execFile = path.resolve(__dirname + '/../run-child.js');
-  const istanbulExecPath = 'nyc' || _suman.istanbulExecPath || 'istanbul';
+  const istanbulExecPath =  'istanbul' || 'nyc' || _suman.istanbulExecPath || 'istanbul';
   
   const isExe = (stats: fs.Stats) => {
     
@@ -61,6 +61,8 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
         chalk.bgWhite.underline.black.bold('Suman has found a @run.sh file =>'),
         chalk.bold(sh)
       );
+      
+      debugger;
       
       //force to project root
       cpOptions.cwd = projectRoot;
@@ -126,6 +128,7 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
     
     handleRegularFile: function (file: string, shortFile: string, argz: Array<string>, cpOptions: Object, cb: Function) {
       
+      debugger;
       const extname = path.extname(file);
       
       // open file for reading only
@@ -177,10 +180,15 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                 let coverageDir = path.resolve(_suman.projectRoot + '/coverage/suman_by_timestamp/' + _suman.timestamp +
                   '/suman_by_process/' + String(shortFile).replace(/\//g, '-'));
                 
-                let argzz = ['cover', execFile, '--report=json', '--dir', coverageDir, '--'].concat(argz);
+                let argzz = ['cover', execFile, '--report=lcov', '--dir', coverageDir, '--'].concat(argz);
                 
                 //'--include-all-sources'
-                n = cp.spawn(istanbulExecPath, argzz, cpOptions) as ISumanChildProcess;
+                // n = cp.spawn(istanbulExecPath, argzz, cpOptions) as ISumanChildProcess;
+                n = cp.spawn('bash', [], cpOptions) as ISumanChildProcess;
+                process.nextTick(function () {
+                  n.stdin.write([istanbulExecPath].concat(argzz).join(' '));
+                  n.stdin.end('\n');
+                });
                 
               }
               else if (hasHasbang && !hashbangIsNode) {
@@ -204,7 +212,10 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                 
                 n = cp.spawn('bash', [], cpOptions) as ISumanChildProcess;
                 n.usingHashbang = true;
-                n.stdin.end(`\n${file} ${argz.join(' ')};\n`);
+                process.nextTick(function () {
+                  n.stdin.write(`${file} ${argz.join(' ')};`);
+                  n.stdin.end(`\n`);
+                });
                 
               }
               else {
@@ -252,7 +263,10 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
                 let argzz = $execArgz.concat(argz); // append exec args to beginning
                 
                 n = cp.spawn('bash', [], cpOptions)as ISumanChildProcess;
-                n.stdin.end(`\nnode ${argzz.join(' ')};\n`);
+                process.nextTick(function () {
+                  n.stdin.write(`node ${argzz.join(' ')};`);
+                  n.stdin.end('\n');
+                });
               }
               
             }
@@ -267,15 +281,19 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
               }
               
               // .sh .bash .py, perl, ruby, etc
-              if(su.vgt(5)){
+              if (su.vgt(5)) {
                 _suman.log.info();
                 _suman.log.info(`perl bash python or ruby file? '${chalk.magenta(file)}'`);
               }
               
               // n = cp.spawn(file, argz, cpOptions) as ISumanChildProcess;
               n = cp.spawn('bash', [], cpOptions) as ISumanChildProcess;
-              n.stdin.end(`\n${file} ${argz.join(' ')};\n`);
               n.usingHashbang = true;
+              process.nextTick(function(){
+                n.stdin.write(`${file} ${argz.join(' ')};`);
+                n.stdin.end(`\n`);
+              });
+              
             }
             
             cb(null, n);

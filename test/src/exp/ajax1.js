@@ -7,7 +7,7 @@ const Test = suman.init(module, {
   post: ['smartconnect']
 });
 
-Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks, sheep, function_arguments) {
+Test.create('hotels', function (b, it, before, beforeEach, context, afterAllParentHooks, sheep, function_arguments) {
 
 
   let foo;
@@ -22,17 +22,17 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
     console.log('parent before each');
   });
 
-  this.shared.set('x', {zoom: {val: 5}});
+  b.set('x', {zoom: {val: 5}});
 
-  context('foo', function ($suite) {
+  context('foo', function (b) {
 
-    // this.shared.get('x').zoom.zz = 7;
-    console.log('this.shared boof', this.shared.getAll());
+    // b.get('x').zoom.zz = 7;
+    console.log('this.shared boof', b.get());
 
-    context('foo', function () {
+    context('foo', function (b) {
 
-      // this.shared.get('x').zoom.zz = 7;
-      this.shared.set('x', 'babababa');
+      // b.get('x').zoom.zz = 7;
+      b.set('x', 'babababa');
 
     });
   });
@@ -51,15 +51,15 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
 
   });
 
-  context('zoo', function () {
-    console.log('this.shared real', this.shared.getAll());
+  context('zoo', function (b) {
+    console.log('this.shared real', b.get());
   });
 
 });
 
 //////
 
-Test.create('hotels', function (it, before, beforeEach, context, afterAllParentHooks) {
+Test.create('hotels', function (b,it, before, beforeEach, context, afterAllParentHooks) {
 
   let foo;
   {
@@ -73,21 +73,21 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
     console.log('parent before each');
   });
 
-  this.shared.set('x', {zoom: {val: 5}});
+  b.set('x', {zoom: {val: 5}});
 
   before(t => {
     console.log('parent before');
   });
 
-  context('foo', function ($suite) {
+  context('foo', function (b) {
 
-    // this.shared.get('x').zoom.zz = 7;
-    console.log('this.shared boof', this.shared.getAll());
+    // b.get('x').zoom.zz = 7;
+    console.log('this.shared boof', b.get());
 
-    context('foo', function () {
+    context('foo', function (b) {
 
-      // this.shared.get('x').zoom.zz = 7;
-      this.shared.set('x', 'babababa');
+      // b.get('x').zoom.zz = 7;
+      b.set('x', 'babababa');
       it('is cool story bro 1', suman.autoPass);
       // it.cb('is cool story bro 2', t => {
       //   setTimeout(function () {
@@ -98,9 +98,9 @@ Test.create('hotels', function (it, before, beforeEach, context, afterAllParentH
     });
   });
 
-  context('zoo', function () {
+  context('zoo', function (b) {
 
-    console.log('this.shared real', this.shared.getAll());
+    console.log('this.shared real', b.get());
 
   });
 

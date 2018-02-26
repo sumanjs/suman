@@ -21,7 +21,7 @@ import chalk = require('chalk');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {makeAllHookCallback} from './make-fini-callbacks';
-const helpers = require('./handle-promise-generator');
+import * as helpers from './handle-promise-generator';
 const {constants} = require('../../config/suman-constants');
 import {cloneError} from '../helpers/general';
 // import {makeHookParam} from './t-proto-hook';
@@ -46,12 +46,13 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     // because an after.always hook needs to run even in the presence of an uncaught exception
     aBeforeOrAfter.alreadyInitiated = true;
     
-    const onTimeout = function () {
-      fini(cloneError(aBeforeOrAfter.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR), true);
-    };
+    // const onTimeout = function () {
+    //   fini(cloneError(aBeforeOrAfter.warningErr, constants.warnings.HOOK_TIMED_OUT_ERROR), true);
+    // };
     
     const timerObj = {
-      timer: setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : aBeforeOrAfter.timeout)
+      timer: null as any
+      // timer: setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : aBeforeOrAfter.timeout)
     };
     
     const assertCount = {
@@ -121,10 +122,6 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
       }
     };
     
-    const handlePossibleError = (err: Error | IPseudoError) => {
-      err ? handleError(err) : fini(null)
-    };
-    
     d.on('error', handleError);
     
     process.nextTick(() => {
@@ -135,10 +132,11 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
         _suman.log.info(`now running all hook with name '${chalk.yellow(aBeforeOrAfter.desc)}'.`);
       }
       
-      // need to d.run instead process.next so that errors thrown in same-tick get trapped by "Node.js domains in browser"
+      // need to d.run instead process.nextTick
+      // so that errors thrown in same-tick get trapped by "Node.js domains in browser"
       // process.nextTick is necessary in the first place, so that async module does not experience Zalgo
       
-      d.run(function runAllHook(){
+      d.run(function runAllHook() {
         
         _suman.activeDomain = d;
         let warn = false;
@@ -147,68 +145,46 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
           warn = true;
         }
         
-        const isGeneratorFn = su.isGeneratorFn(aBeforeOrAfter.fn);
+        const h = new AllHookParam(aBeforeOrAfter, assertCount, handleError, fini, timerObj);
+        h.__shared = self.shared;
+        h.supply = self.supply;
+        h.desc = aBeforeOrAfter.desc;
+        fini.thot = h;
         
-        const timeout = (val: number) => {
-          clearTimeout(timerObj.timer);
-          assert(val && Number.isInteger(val), 'value passed to timeout() must be an integer.');
-          timerObj.timer = setTimeout(onTimeout, _suman.weAreDebugging ? 5000000 : val);
-        };
-        
-        const handleNonCallbackMode = (err: IPseudoError) => {
-          err = err ? ('Also, you have this error => ' + err.stack || err) : '';
-          handleError(new Error('Callback mode for this test-case/hook is not enabled, use .cb to enabled it.\n' + err));
-        };
-        
-        const t = new AllHookParam(aBeforeOrAfter, assertCount, handleError, handlePossibleError);
-        t.__shared = self.shared;
-        t.supply = self.supply;
-        t.desc = aBeforeOrAfter.desc;
-        fini.thot = t;
-        t.timeout = timeout;
-        
-        let arg;
-        
-        if (isGeneratorFn) {
-          const handle = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfter);
-          // arg = [freezeExistingProps(t)];
-          arg = t;
-          handle(helpers.handleGenerator(aBeforeOrAfter.fn, arg));
+        if (su.isGeneratorFn(aBeforeOrAfter.fn)) {
+          const handle = helpers.handleReturnVal(h.handlePossibleError.bind(h), fnStr, aBeforeOrAfter);
+          handle(helpers.handleGenerator(aBeforeOrAfter.fn, h));
         }
         else if (aBeforeOrAfter.cb) {
           
-          t.callbackMode = true;
+          h.callbackMode = true;
           
           // TODO: in the future, we may be able to check for presence of callback, if no callback, then fire error
           // if (!su.checkForValInStr(fnStr, /done/g)) {
           //    throw aBeforeOrAfter.NO_DONE;
           // }
           
-          const dne = (err: IPseudoError) => {
-            t.callbackMode ? handlePossibleError(err) : handleNonCallbackMode(err);
+          const dne = (err?: any) => {
+            h.handlePossibleError(err);
           };
           
-          t.done = dne;
-          
-          t.ctn = t.pass = function (err: IPseudoError) {
-            t.callbackMode ? fini(null) : handleNonCallbackMode(err);
+          h.done = dne;
+          h.ctn = h.pass = function (ignoredError?: any) {
+            fini(null);
           };
           
-          // arg = Object.setPrototypeOf(dne, freezeExistingProps(t));
-          arg = Object.setPrototypeOf(dne, t);
+          let arg = Object.setPrototypeOf(dne, h);
           
           if (aBeforeOrAfter.fn.call(null, arg)) {  //check to see if we have a defined return value
-            _suman.writeTestError(cloneError(aBeforeOrAfter.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack);
+            _suman.writeTestError(
+              cloneError(aBeforeOrAfter.warningErr, constants.warnings.RETURNED_VAL_DESPITE_CALLBACK_MODE, true).stack
+            );
           }
-          
         }
         else {
-          const handle = helpers.handleReturnVal(handlePossibleError, fnStr, aBeforeOrAfter);
-          // arg = freezeExistingProps(t);
-          arg = t;
-          handle(aBeforeOrAfter.fn.call(null, arg), warn);
+          const handle = helpers.handleReturnVal(h.handlePossibleError.bind(h), fnStr, aBeforeOrAfter);
+          handle(aBeforeOrAfter.fn.call(null, h), warn);
         }
-        
       });
       
     });

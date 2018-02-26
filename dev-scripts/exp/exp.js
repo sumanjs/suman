@@ -36,22 +36,63 @@
 // };
 //
 //
+
+
+// const util = require('util');
+//
+// process.on('warning', function (w) {
+//   console.warn(w.name);
+//   console.warn(w.stack);
+//   console.warn(w.message);
+//   console.warn(w.code);
+// });
+//
+//
+// process.emitWarning('Something happened!');
+
+const doc = {foo:'bar'};
+
+(function () {
+
+  var scope = Object.create(null);
+  var obscurer = {};
+  for (var key in doc) {
+    obscurer[key] = undefined;
+  }
+
+  with (obscurer) {
+    var isolated = function() {
+      'use strict';
+      console.log(doc);
+    };
+  }
+
+  isolated.call(scope);
+})();
+
+
+
 // const time = Date.now();
 //
 //
 // for(let i = 0; i < 1000000; i++){
-//   var z = function () {
-//
-//   }
+//   new Proxy({}, {
+//     set: function () {
+//       return true;
+//     }
+//   })
 // }
 //
 //
 // console.log(Date.now() - time);
 
-
-let err = false;
-
-let z  = !err;
-
-
-console.log('z => ',z );
+// const getNewError = function () {
+//    return {message: 'bar',stack:'bar'};
+// };
+//
+// let err = true;
+//
+// let z  = !err && getNewError();
+//
+//
+// console.log('z => ',z );

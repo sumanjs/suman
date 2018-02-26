@@ -45,7 +45,8 @@ import {makeBefore} from '../test-suite-methods/make-before';
 import {makeInject} from '../test-suite-methods/make-inject';
 import {makeDescribe} from '../test-suite-methods/make-describe';
 import {TestBlockBase} from "./make-test-suite";
-
+import {makeBeforeBlock} from "../test-suite-methods/make-before-block";
+import {makeAfterBlock} from "../test-suite-methods/make-after-block";
 
 /////////////////////////////////////////////////////////////////////
 
@@ -56,6 +57,8 @@ const possibleProps = <any> {
   //methods
   describe: true,
   beforeeach: true,
+  beforeeachblock: true,
+  aftereachblock: true,
   aftereach: true,
   beforeall: true,
   afterall: true,
@@ -157,13 +160,13 @@ const makeProxy = function (suman: ISuman): Function {
           args[1].__preParsed = true;
           return method.apply(null, args);
         };
-
+        
         fn.define = target.define;
-
+        
         // if(fn.define.props){
         //   throw new Error('Props property is already defined, you may have called something asynchronously.');
         // }
-
+        
         fn.define.props = newProps;
         
         return fnCache[cacheId] = getProxy(fn, rule, newProps);
@@ -183,13 +186,13 @@ const addDefine = function (fn: any, Clazz: typeof DefineObject) {
     }
     
     const defObj = new Clazz(desc as string, fn);
-
-    if(fn.define.props){
-
-      fn.define.props.forEach(function(p){
-         defObj.opts[p] = true;
+    
+    if (fn.define.props) {
+      
+      fn.define.props.forEach(function (p) {
+        defObj.opts[p] = true;
       });
-
+      
       delete fn.define.props;
     }
     
@@ -230,8 +233,13 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: typeof TestB
   
   // "methods"
   const inject: IInjectFn = addDefine(makeInject(suman), DefineOptionsInjectHook);
+  
   const before: IBeforeFn = addDefine(makeBefore(suman), DefineObjectAllHook);
   const after: IAfterFn = addDefine(makeAfter(suman), DefineObjectAllHook);
+  
+  const beforeEachBlock: IBeforeFn = addDefine(makeBeforeBlock(suman), DefineObjectAllHook);
+  const afterEachBlock: IAfterFn = addDefine(makeAfterBlock(suman), DefineObjectAllHook);
+  
   const beforeEach: IBeforeEachFn = addDefine(makeBeforeEach(suman), DefineObjectEachHook);
   const afterEach: IAfterEachFn = addDefine(makeAfterEach(suman), DefineObjectEachHook);
   const it: ItFn = addDefine(makeIt(suman), DefineObjectTestCase);
@@ -243,13 +251,21 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: typeof TestB
   
   const getProxy = makeProxy(suman);
   m.describe = m.context = m.suite = getProxy(describe, rules.blockSignature) as IDescribeFn;
+  
   m.it = m.test = getProxy(it, rules.testCaseSignature) as ItFn;
+  
   m.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
+  
   m.before = m.beforeall = m.setup = getProxy(before, rules.hookSignature) as IBeforeFn;
   m.beforeeach = m.setuptest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
+  
   m.after = m.afterall = m.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
   m.aftereach = m.teardowntest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
+  
   m.afterallparenthooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
+  
+  m.beforeeachblock = m.beforeeachchild = getProxy(beforeEachBlock, rules.hookSignature) as Function;
+  m.aftereachblock = m.aftereachchild = getProxy(afterEachBlock, rules.hookSignature) as Function;
   
   return createInjector
   

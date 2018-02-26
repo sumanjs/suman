@@ -12,7 +12,7 @@ import {IBeforeObj} from 'suman-types/dts/before';
 import {IBeforeEachObj} from 'suman-types/dts/before-each';
 import {IAfterObj} from 'suman-types/dts/after';
 import {IAFterEachObj} from 'suman-types/dts/after-each';
-import {IInjectionObj} from 'suman-types/dts/test-suite';
+import {IInjectionObj} from 'suman-types/dts/inject';
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -102,10 +102,12 @@ export const TestBlockSymbols: ISumanSymbols = {
   tests: Symbol('tests'),
   parallelTests: Symbol('parallelTests'),
   befores: Symbol('befores'),
+  beforeBlocks: Symbol('beforeBlocks'),
   beforesFirst: Symbol('beforesFirst'),
   beforesLast: Symbol('beforesLast'),
   beforeEaches: Symbol('beforeEaches'),
   afters: Symbol('afters'),
+  afterBlocks: Symbol('afterBlocks'),
   aftersLast: Symbol('aftersLast'),
   aftersFirst: Symbol('aftersFirst'),
   afterEaches: Symbol('afterEaches'),
@@ -164,11 +166,13 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       
       //befores
       this[TestBlockSymbols.befores] = [] as Array<IBeforeObj>;
+      this[TestBlockSymbols.beforeBlocks] = [] as Array<any>;
       this[TestBlockSymbols.beforesFirst] = [] as Array<IBeforeObj>;
       this[TestBlockSymbols.beforesLast] = [] as Array<IBeforeObj>;
       
       // afters
       this[TestBlockSymbols.afters] = [] as Array<IAfterObj>;
+      this[TestBlockSymbols.afterBlocks] = [] as Array<any>;
       this[TestBlockSymbols.aftersFirst] = [] as Array<IAfterObj>;
       this[TestBlockSymbols.aftersLast] = [] as Array<IAfterObj>;
       
@@ -312,6 +316,10 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       return this[TestBlockSymbols.befores];
     }
     
+    getBeforeBlocks() {
+      return this[TestBlockSymbols.beforeBlocks];
+    }
+    
     getBeforesFirst() {
       return this[TestBlockSymbols.beforesFirst];
     }
@@ -336,8 +344,28 @@ export const makeTestSuite = function (suman: ISuman, gracefulExit: Function,
       return this[TestBlockSymbols.afters];
     }
     
+    getAfterBlocks() {
+      return this[TestBlockSymbols.afterBlocks];
+    }
+    
     getAfterEaches() {
       return this[TestBlockSymbols.afterEaches];
+    }
+    
+    getAfterBlockList() {
+      let v = this, ret = this.getAfterBlocks();
+      while (v = v.parent) {
+        ret = v.getAfterBlocks().concat(ret);
+      }
+      return ret;
+    }
+    
+    getBeforeBlockList() {
+      let v = this, ret = this.getBeforeBlocks();
+      while (v = v.parent) {
+        ret = v.getBeforeBlocks().concat(ret);
+      }
+      return ret;
     }
     
     resume() {

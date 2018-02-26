@@ -36,7 +36,8 @@ export const makeGracefulExit = function (suman: ISuman) {
   
   return function runGracefulExitOrNot($errs: Error | IPseudoError | Array<any>, cb: Function) {
     
-    const fst = _suman.sumanOpts.full_stack_traces;
+    const {sumanOpts} = _suman;
+    const fst = sumanOpts.full_stack_traces;
     
     if (cb && typeof cb !== 'function') {
       throw new Error('Suman implementation error - callback was not passed to gracefulExit, please report.');
@@ -59,11 +60,13 @@ export const makeGracefulExit = function (suman: ISuman) {
       return cb && process.nextTick(cb);
     }
     
-    const big = errs.filter(function (err) {
+    const big = errs.filter(function (err: IPseudoError) {
       
-      if (err && err.isFromTest && !_suman.sumanOpts.bail) {
-        _suman.log.warning('The following error will be ignored because it was a test case error and bail is not true.');
-        _suman.log.warning(err.stack || util.inspect(err));
+      if (err && err.isFromTest && !sumanOpts.bail) {
+        if(su.vgt(7)){
+          _suman.log.warning('The following error will be ignored because it was a test case error and bail is not true.');
+          _suman.log.warning(err.stack || util.inspect(err));
+        }
         return false;
       }
       else if (err && err.sumanFatal === false) {
@@ -76,8 +79,10 @@ export const makeGracefulExit = function (suman: ISuman) {
         return true;
       }
       else {
-        _suman.log.warning('An error will be ignored because it is falsy:');
-        _suman.log.warning(util.inspect(err));
+        if(su.vgt(5)){
+          _suman.log.warning('An error will be ignored because it is falsy:');
+          _suman.log.warning(util.inspect(err));
+        }
         //explicit for your pleasure
         return false;
       }
@@ -130,7 +135,7 @@ export const makeGracefulExit = function (suman: ISuman) {
       exitTestSuite = true;
       sumanRuntimeErrors.push(err);
       
-      const isBail = _suman.sumanOpts.bail ? '(note that the "--bail" option set to true)\n' : '';
+      const isBail = sumanOpts.bail ? '(note that the "--bail" option set to true)\n' : '';
       const str = '\n⚑ ' + chalk.bgRed.white.bold(' Suman fatal error ' + isBail +
         ' => making a graceful exit => ') + '\n' + chalk.red(String(err)) + '\n\n';
       

@@ -1,9 +1,3 @@
-declare class Person {
-    name: string;
-    constructor(name: string);
-    greet(greeting: string): string;
+declare class Bar {
 }
-interface Person {
-    hi: typeof Person.prototype.greet;
-}
-declare const p: Person;
+declare const makeBar: () => Bar;

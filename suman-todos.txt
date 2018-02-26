@@ -6,19 +6,30 @@ three SO profiles:
 
 ////
 
-//TODO: t.state = 'passed'/'failed' etc.
+ with this in mind: /test/src/dev/node/x.test.js
+ https://github.com/mochajs/mocha/issues/3250
+
+ beforeEachBlock
+
+ afterEachBlock
+
+
+////
+
+TODO: t.state = 'passed'/'failed' etc.
 
 ///
+
+  run(function(b, context, before, after, beforeEach, afterEach))
+
+///
+
 
   use procure instead of source, or load, or locate, gather
 
 ////
 
- add env vars to @config.json
-
-////
-
- spawn all child processes in shell, launch processes via bash instead of directly
+ add env vars to @config.json - execArgs or nodeFlags could be env vars
 
 ////
 
@@ -30,71 +41,53 @@ three SO profiles:
 
 ////
 
-use nyc instead of istanbul
-https://github.com/istanbuljs/nyc
+    use nyc instead of istanbul
+    https://github.com/istanbuljs/nyc
 
 ///
 
-put $deps/$core on suman?
+    put $deps/$core on suman?
 
-const {async} = suman.deps;
-const {async} = suman.installed
-
-////
-
-put
-"const suman = require('suman');"
-in each test file
+    const {async} = suman.deps;
+    const {async} = suman.installed
 
 ////
 
-https://stackoverflow.com/questions/47484010/declare-class-type-with-typescript-pass-class-as-parameter/47493835#47493835
+    put
+    "const suman = require('suman');"
+    in each test file
 
-As you mentioned, what you are looking to is how to describe class constructor and not the instance.
- It can be achieved by:
+////
 
-const foo = function(ctor: new() => SomeSuperClass) {
-    ...
-}
-
-Or alternatively (same result in this case):
-
-const foo = function(ctor: typeof SomeSuperClass) {
-    ...
-}
-This also requires A and B to have parameterless constructors
+    TAP YAML diagnostics:
+    https://github.com/tapjs/node-tap/issues/247
 
 ///
 
-TAP YAML diagnostics:
-https://github.com/tapjs/node-tap/issues/247
+    var Messages = require('tap-emitter/lib/messages');
 
-///
+    var messages = new Messages('13', 0);
 
-var Messages = require('tap-emitter/lib/messages');
-
-var messages = new Messages('13', 0);
-
-console.log([
-  messages.version(),
-  messages.test({
-    ok: false,
-    testNumber: 1,
-    description: 'this is the message'
-  }),
-  messages.yaml(someError),
-  messages.plan(1),
-  messages.diagnostic('failed 1 of 1 tests'),
-  messages.diagnostic('time=19.221ms')
-].join('\n'));
+    console.log([
+      messages.version(),
+      messages.test({
+        ok: false,
+        testNumber: 1,
+        description: 'this is the message'
+      }),
+      messages.yaml(someError),
+      messages.plan(1),
+      messages.diagnostic('failed 1 of 1 tests'),
+      messages.diagnostic('time=19.221ms')
+    ].join('\n'));
 
 ////
 
-exec() / invoke() / run() / register()
+    exec() / invoke() / run() / register()
 
 ////
 
- "suman-watch-plugins": "latest",
+     "suman-watch-plugins": "latest",
 
 ////
 
@@ -103,15 +96,15 @@ exec() / invoke() / run() / register()
 
 ////
 
-      it.cb.run(t => {
+    it.cb.run(t => {
 
-      });
+    });
 
   or
 
-       it.cb(t => {
+    it.cb(t => {
 
-       });
+    });
 
 ////
 
@@ -147,9 +140,9 @@ exec() / invoke() / run() / register()
 
 ////
 
-https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
-set -eo pipefail
-exit with command to the right that exits with non-zero
+    https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+    set -eo pipefail
+    exit with command to the right that exits with non-zero
 
 ////
 
@@ -201,7 +194,7 @@ exit with command to the right that exits with non-zero
 
 ////
 
-    what is "return" for in bash scripts? ("return" as opposed to "exit").
+    what is "return" for, in bash scripts? ("return" as opposed to "exit").
 
 ////
 
@@ -458,7 +451,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
 ///
 
-FORCE_COLOR=0 suman -- => will use colors for watch, etc.
+    FORCE_COLOR=0 suman -- => will use colors for watch, etc.
 
 ///
 

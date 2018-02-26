@@ -164,7 +164,8 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
       return;
     }
     
-    const sumanOpts = suman.opts, sumanConfig = suman.config;
+    const sumanOpts = suman.opts,
+      sumanConfig = suman.config;
     let delaySum = 0; //TODO: is this correct?
     
     if (test.stubbed) {
@@ -227,7 +228,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
             }
           ],
           function doneWithTests(err: IPseudoError, results: Array<any>) {
-            err && console.error('Suman implementation error => the following error should not be present => ', err);
+            err && _suman.log.error('Suman implementation error => the following error should not be present => ', err);
             cb(null, results);
           });
         

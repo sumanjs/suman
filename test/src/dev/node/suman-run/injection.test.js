@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-const suman = require('suman');
+import suman from 'suman';
 const {Test} = suman.init(module);
 
 ///////////////////////////////////////////////////////////////////////

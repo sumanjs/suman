@@ -676,13 +676,13 @@ export const fatalRequestReply = function (obj: Object, $cb: Function) {
   try {
     if (obj && obj.data && obj.data.msg) {
       _suman.log.error(
-        chalk.magenta('\tFatal request reply message => '),
+        chalk.magenta('Fatal request reply message => '),
         obj.data.msg
       );
     }
     else {
       _suman.log.error(
-        chalk.magenta('\tFatal request reply message => '),
+        chalk.magenta('Fatal request reply message => '),
         obj && util.inspect(obj.data || obj)
       );
     }

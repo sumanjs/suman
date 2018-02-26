@@ -84,7 +84,7 @@ try {
   inBrowser = _suman.inBrowser = true;
   if (window.__karma__) {
     usingKarma = _suman.usingKarma = true;
-    _suman.sumanOpts && _suman.sumanOpts.force = true;
+    _suman.sumanOpts && (_suman.sumanOpts.force = true);
   }
 }
 catch (err) {
@@ -334,22 +334,26 @@ export const init: IInitFn = function ($module, $opts, sumanOptsOverride, confOv
   
   const opts: IInitOpts = $opts || {};
   
-  if(opts.override){
-    if(opts.override.config){
-      assert(su.isObject(opts.override.config),'config override value must be a plain object.');
+  if (opts.override) {
+    if (opts.override.config) {
+      assert(su.isObject(opts.override.config), 'config override value must be a plain object.');
       _sumanConfig = Object.assign({}, _suman.sumanConfig, opts.override.config);
     }
-    if(opts.override.opts){
-      assert(su.isObject(opts.override.opts), 'opts override value must be a plain object.');
-      Object.keys(opts.override.opts).forEach(function (k) {
+    if (opts.override.opts && opts.override.options) {
+      throw new Error('please use either "override.options" or "override.opts", not both.');
+    }
+    const zopts = opts.override.opts || opts.override.options;
+    if (zopts) {
+      assert(su.isObject(zopts), 'opts override value must be a plain object.');
+      Object.keys(zopts).forEach(function (k) {
         if (String(k).trim().startsWith('$')) {
           throw new Error('Suman options override object key must not start with "$" character.');
         }
-        _sumanOpts['$' + String(k).trim()] = opts.override.opts[k];
+        _sumanOpts['$' + String(k).trim()] = zopts[k];
       });
     }
   }
-
+  
   opts.integrants && assert(Array.isArray(opts.integrants), `'integrants' option must be an array.`);
   opts.pre && assert(Array.isArray(opts.pre), `'pre' option must be an array.`);
   
@@ -530,6 +534,29 @@ export const autoFail = function (t: IHookOrTestCaseParam) {
   else {
     return Promise.reject(err);
   }
+};
+
+export const isolated = function (fn: Function) {
+  
+  if (typeof fn !== 'function') {
+    throw new Error('Looks like you did not pass a function to the isolated helper.');
+  }
+  
+  const str = String(fn).trim();
+  
+  if(str.indexOf('async') === 0){
+    throw new Error('Cannot use async functions for isolated scopes.');
+  }
+  
+  if(str.indexOf('function') !==0 && !/=>\s*{/.test(str)){
+    throw new Error('Cannot use functions without outer braces.');
+  }
+  
+  let first = str.indexOf('{') + 1;
+  let last = str.lastIndexOf('}');
+  const body = str.substr(first, last - first);
+  const paramNames = su.getArgumentNames(str);
+  return new Function(...paramNames.concat(body));
 };
 
 export const run = sumanRun.run();

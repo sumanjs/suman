@@ -46,7 +46,7 @@ export const makeTranspileQueue = function (failedTransformObjects, runFile: Fun
     task(function (err: Error, file: string, shortFile: string, stdout: string, stderr: string, gd: IGanttData) {
 
       if (err) {
-        _suman.log.error('tranpile error => ', err.stack || err);
+        _suman.log.error('transform error => ', err.stack || err);
         failedTransformObjects.push({err, file, shortFile, stdout, stderr});
         return;
       }

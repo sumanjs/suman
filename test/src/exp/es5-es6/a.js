@@ -6,7 +6,7 @@ const Test = suman.init(module, {
   $inject: ['abc']
 });
 
-Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe) => {
+Test.create(['parallel: true', (b, assert, before, beforeEach, it, after, describe) => {
 
   console.log('arguments => ', arguments);
 
@@ -59,7 +59,7 @@ Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe)
 
   Number(5).times(num => {
 
-    describe('nested group 1', {parallel: true}, function () {
+    describe('nested group 1', {parallel: true}, function (b) {
 
       before([t => {
         console.log('before b');
@@ -70,7 +70,7 @@ Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe)
       });
 
       Number(1).times(num => {
-        describe('nested group 2', {parallel: true}, function () {
+        describe('nested group 2', {parallel: true}, function (b) {
 
           before(t => {
             console.log('before c & d');
@@ -96,7 +96,7 @@ Test.create(['parallel: true', (assert, before, beforeEach, it, after, describe)
         });
 
         Number(5).times(num => {
-          describe('nested group 2', {parallel: true}, function () {
+          describe('nested group 2', {parallel: true}, function (b) {
 
             before(t => {
               console.log('before c & d');

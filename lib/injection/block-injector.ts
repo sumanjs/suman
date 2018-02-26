@@ -44,11 +44,11 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
 
     return names.map(key => {
 
-      const lowerCaseKey = String(key).toLowerCase();
+      const lowerCaseKey = String(key).toLowerCase().trim();
       switch (lowerCaseKey) {
 
         case '$args':
-          return sumanOpts.user_arg || []
+          return sumanOpts.user_arg || [];
         case '$ioc':
           return _suman.$staticIoc;
         case 'b':
@@ -80,6 +80,8 @@ export const makeBlockInjector = function (suman: ISuman, container: Object) {
         case 'before':
         case 'after':
         case 'inject':
+        case 'beforeeachblock':
+        case 'aftereachblock':
         case 'beforeall':
         case 'afterall':
         case 'beforeeach':

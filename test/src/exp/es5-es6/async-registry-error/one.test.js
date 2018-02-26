@@ -1,42 +1,41 @@
-
 const suman = require('suman');  //using npm link
 const Test = suman.init(module, {
-    interface: 'TDD'
+  interface: 'TDD'
 });
 
 function promiseTimeout(val) {
-    return new Promise(function (resolve) {
-        setTimeout(resolve.bind(null, val * 3), 100);
-    });
+  return new Promise(function (resolve) {
+    setTimeout(resolve.bind(null, val * 3), 100);
+  });
 }
 
-Test.suite('@Test1-EMpty', {parallel: false}, function (assert, william) {
+Test.create('@Test1-EMpty', {parallel: false}, function (b, suite, test, assert, william) {
 
-    console.log('william:', william);
+  console.log('william:', william);
 
-    this.test('passes right away', function *() {
-        // var val = yield promiseTimeout(yield promiseTimeout(4));
-        // console.log('val:',val);
-        assert.equal(36, yield promiseTimeout(yield promiseTimeout(4)));
-    });
+  test('passes right away', function* () {
+    // var val = yield promiseTimeout(yield promiseTimeout(4));
+    // console.log('val:',val);
+    assert.equal(36, yield promiseTimeout(yield promiseTimeout(4)));
+  });
 
-    this.test('fails right away', function () {
-        throw new Error('chuck');
-    });
+  test('fails right away', {throws: /chuck/}, function () {
+    throw new Error('chuck');
+  });
 
+  test('fails right away', {throws: /bar/}, function () {
+    throw new Error('foo');
+  });
 
-    this.test('should never run if bail is set to true', function () {
-        assert(true);
-    });
+  test('should never run if bail is set to true', function () {
+    assert(true);
+  });
 
-    const suite = this;
+  suite('yo', function (b, setup) {
 
-    this.suite('yo', function(){
-
-        suite.setup(function(){
-
-        });
-
+    setup('a', function () {
 
     });
+
+  });
 });
