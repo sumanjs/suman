@@ -25,6 +25,7 @@
 
     "suman-r",
     "suman-types",
+    "suman-browser",
     "suman-watch",
     "suman-shell",
     "suman-utils",

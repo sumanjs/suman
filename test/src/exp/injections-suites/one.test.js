@@ -6,58 +6,43 @@ const Test = suman.init(module);
 
 Test.create(['delay:false', function (assert, inject, describe, lodash, chuck, mark, util) {
 
-  // setTimeout(resume, 1);
-
-  inject.cb('zoom', i => {
-
-    process.nextTick(i.wrapErrFirst(function () {
-      i(null, {
-        foo: 'bar'
-      });
-    }));
-
+  inject('zoom', i => {
+    i.registerKey('zoom', {foo: 'bar'})
   });
 
-  inject.cb(i => {
-
-    process.nextTick(i.wrapErrFirst(function () {
-      i(null, {
-        foo: 'star',
-        bar: 'chicken'
-      });
-    }));
-
+  inject(i => {
+    i.registerMap({
+      foo: 'star',
+      bar: 'chicken'
+    });
   });
 
-  describe('vram', zoom => {
+  describe('vram', b => {
 
-    console.log('zoom 1 => ', zoom);
-
+    const [zoom] = b.getInjectedValues('zoom');
     assert(lodash.isEqual(zoom, {
       foo: 'bar'
     }));
 
-    describe('vram', zoom => {
-      console.log('zoom 2 => ', zoom);
+    describe('vram', b => {
 
+      const [zoom] = b.getInjectedValues('zoom');
       assert(lodash.isEqual(zoom, {
         foo: 'bar'
       }));
 
-      describe('vram', foo => {
+      describe('vram', b => {
 
-        console.log('foo 1 => ', foo);
-
+        const [foo] = b.getInjectedValues('foo');
         assert(lodash.isEqual(foo, 'star'));
 
       });
 
     });
 
-    describe('vram', bar => {
+    describe('vram', b => {
 
-      console.log('bar 1 => ', bar);
-
+      const [bar] = b.getInjectedValues('bar');
       assert.equal(bar, 'chicken');
 
     });

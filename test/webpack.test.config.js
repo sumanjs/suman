@@ -2,7 +2,7 @@ const path = require('path');
 const glob = require('glob');
 const _ = require('lodash');
 process.env.IS_SUMAN_BROWSER_TEST = 'yes';
-const tests = path.resolve(__dirname + '/src/dev/browser/**/*.ts');
+const tests = path.resolve(__dirname + '/src/dev/browser/js/**/*.js');
 
 const all = _.flattenDeep([process.env.SUMAN_BROWSER_TEST_PATHS || glob.sync(tests)]);
 const entries = all.filter(f => f);
@@ -20,6 +20,8 @@ module.exports = {
     filename: 'browser-tests.js'
   },
 
+  externals: ['suman'],
+
   module: {
 
     rules: [
@@ -28,21 +30,12 @@ module.exports = {
         loader: 'ignore-loader'
       },
       {
-        // ignore both .ts and .d.ts files
         test: /\.ts$/,
         loader: 'ts-loader'
       },
       {
-        // ignore both .ts and .d.ts files
+        // ignore .d.ts files
         test: /\.d\.ts$/,
-        loader: 'ignore-loader'
-      },
-      {
-        test: new RegExp('^' + path.resolve(__dirname + '/lib/cli-commands/') + '.*'),
-        loader: 'ignore-loader'
-      },
-      {
-        test: new RegExp('^' + path.resolve(__dirname + '/suman.conf.js')),
         loader: 'ignore-loader'
       }
     ]

@@ -1,6 +1,7 @@
 'use strict';
 
 //dts
+import {IAssertObj, ITimerObj} from "suman-types/dts/general";
 import {IGlobalSumanObj} from 'suman-types/dts/global';
 import {ITestDataObj} from 'suman-types/dts/it';
 import {IHandleError} from 'suman-types/dts/test-suite';
@@ -21,6 +22,8 @@ import * as chai from 'chai';
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {ParamBase} from '../base';
+import {constants} from "../../../config/suman-constants";
+import {cloneError} from "../../helpers/general";
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -40,9 +43,10 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
   protected testId: number;
   protected desc: string;
   protected title: string;
+  protected __test: ITestDataObj;
   
-  constructor(test: ITestDataObj, assertCount: IAssertCount,
-              handleError: IHandleError, fini: Function) {
+  constructor(test: ITestDataObj, assertCount: IAssertCount, handleError: IHandleError,
+              fini: Function, timerObj: ITimerObj) {
     super();
     
     this.__assertCount = assertCount;
@@ -54,6 +58,33 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
     this.__test = test;
     this.__handle = handleError;
     this.__fini = fini;
+    const v = this.__timerObj = timerObj;
+    const amount = _suman.weAreDebugging ? 5000000 : test.timeout;
+    v.timer = setTimeout(this.onTimeout.bind(this), amount) as any;
+  
+    // const self = this;
+    // process.nextTick(() => {
+    //   self.__tooLate = true;
+    // });
+  }
+  
+  skip() {
+    (this.__test).skipped = true;
+    (this.__test).dynamicallySkipped = true;
+  }
+  
+  onTimeout() {
+    const v = this.__test;
+    v.timedOut = true;
+    const err = cloneError(v.warningErr, constants.warnings.TEST_CASE_TIMED_OUT_ERROR);
+    err.isFromTest = true;
+    err.isTimeout = true;
+    this.__handle(err);
+  }
+  
+  __inheritedSupply(target: any, prop: PropertyKey, value: any, receiver: any) {
+    this.__handle(new Error('cannot set any properties on t.supply (in test cases).'));
+    return true;
   }
   
   plan(num: number) {

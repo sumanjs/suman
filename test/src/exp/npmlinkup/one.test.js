@@ -6,14 +6,13 @@ const Test = suman.init(module);
 
 Test.create(['parallel:true', function (assert, path, fs, it, $root, util) {
 
-  const npmlinkconf = require('../../../npm-link-up.json');
+  const npmlinkconf = require('../../../../npm-link-up.json');
 
   npmlinkconf.list.forEach(item => {
 
-    it.cb('is symlink', t => {
+    it.cb(`is symlink [${item}]`, t => {
 
-      fs.stat(path.resolve($root + '/node_modules/' + item), t.wrapErrFirst(function (stats) {
-        console.log(util.inspect(stats));
+      fs.lstat(path.resolve($root + '/node_modules/' + item), t.wrapFinalErrFirst(function (stats) {
         assert(stats.isSymbolicLink());
       }));
 

@@ -1,23 +1,23 @@
 const suman = require('suman');
 const Test = suman.init(module, {});
 
-Test.create({parallel: true}, function (assert, path, fs, $root) {
+Test.create({parallel: true}, function (assert, path, fs, $root, it) {
 
   const source = path.resolve($root + '/test/fixtures/read-this-file.txt');
   const dest = path.resolve($root + '/test/fixtures/write-to-this-file.txt');
 
-  this.it(' [writable 1] ', function () {
+  it(' [writable 1] ', function () {
 
     return fs.createReadStream(source).pipe(fs.createWriteStream(dest));
   });
 
-  this.it(' [readable] ', function () {
+  it(' [readable] ', function () {
 
     return fs.createReadStream(source).on('data', function () {});
 
   });
 
-  this.it(' [writable 2] ', function () {
+  it(' [writable 2] ', function () {
 
     const z = fs.createWriteStream(dest);
     z.write('summa');
@@ -27,11 +27,11 @@ Test.create({parallel: true}, function (assert, path, fs, $root) {
     return z;
   });
 
-  this.it(' [transform] ', function () {
+  it(' [transform] ', function () {
 
   });
 
-  this.it(' [pipe] ', function () {
+  it(' [pipe] ', function () {
 
   });
 

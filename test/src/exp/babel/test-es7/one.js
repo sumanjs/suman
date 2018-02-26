@@ -1,25 +1,22 @@
-import * as suman from 'suman';
+const suman = require('suman');
 const Test = suman.init(module);
 
 
 function makeProm(val) {
-
 	return new Promise(function (resolve, reject) {
-
 		setTimeout(function () {
 			resolve(val*5);
 		});
 	});
-
 }
 
 //
 
-Test.describe('a', function (assert, fs) {
+Test.create('a', function (assert, fs, describe, before, it) {
 
-	this.describe('b', function () {
+	describe('b', function () {
 
-		this.before(function*(t) {
+		before(function*(t) {
 
 			const z = yield 3;
 			const m = yield makeProm(z);
@@ -27,14 +24,14 @@ Test.describe('a', function (assert, fs) {
 
 		});
 
-		this.it('a', {value: 4}, function*(t) {
+		it('a', {value: 4}, function*(t) {
 
 			const m = yield makeProm(t.value);
 			yield assert.equal(m,20);
 
 		});
 
-		this.it('a', {value: 10}, function*(t) {
+		it('a', {value: 10}, function*(t) {
 
 		});
 

@@ -1,11 +1,8 @@
-var Person = (function () {
-    function Person(name) {
-        this.name = name;
+var Bar = (function () {
+    function Bar() {
     }
-    Person.prototype.greet = function (greeting) { return greeting + ", " + this.name; };
-    return Person;
+    return Bar;
 }());
-Person.prototype.hi = Person.prototype.greet;
-var p = new Person("Alice");
-console.log(p.greet("Hey"));
-console.log(p.hi("Hi"));
+var makeBar = function () {
+    return new (Bar.bind.apply(Bar, [void 0].concat(arguments)))();
+};

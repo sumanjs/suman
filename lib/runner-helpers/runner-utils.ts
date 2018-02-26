@@ -172,5 +172,3 @@ export const findPathOfTransformDotSh = function (p: string): string | null {
   
 };
 
-const $exports = module.exports;
-export default $exports;

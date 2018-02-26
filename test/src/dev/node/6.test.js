@@ -25,7 +25,7 @@ Test.create(function (b, test, setup, setupTest, setuptest, teardown, teardownTe
     console.log('this is setupTest..');
   });
 
-  Number(4).times(function () {
+  4..times(function () {
 
     describe('this is a nested thign', function (b) {
 

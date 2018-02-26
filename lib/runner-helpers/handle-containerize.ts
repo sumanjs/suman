@@ -62,7 +62,7 @@ export const makeContainerize =
           setImmediate(cb);
 
           if (err) {
-            _suman.log.error('tranpile error => ', su.getCleanErrorString(err));
+            _suman.log.error('transpile error => ', su.getCleanErrorString(err));
             failedTestObjects.push({err, file, shortFile, stdout, pathFromProjecRoot});
           }
           else {

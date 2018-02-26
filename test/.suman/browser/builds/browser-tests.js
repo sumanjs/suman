@@ -63,50 +63,73 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(module) {
-Object.defineProperty(exports, "__esModule", { value: true });
-var Test = suman.init(module).Test;
+/* WEBPACK VAR INJECTION */(function(module) {/* globals suman */
+
+const suman = __webpack_require__(2);
+let {Test} = suman.init(module);
+
 Test.create(function (it, context) {
-    it('passes with flying colors', function (t) {
+
+  it('passes with flying colors XXX', t => {
+
+  });
+
+  context('is good', b => {
+
+    b.set('good', true);
+
+    it('is good 1', t => {
+      t.assert.equal(t.get('good'), true);
     });
-    context('is good', function (b) {
-        b.set('good', true);
-        it('is good 1', function (t) {
-            t.assert.equal(t.get('good'), true);
-        });
-        it('is good 2', function (t) {
-            t.assert.equal(t.get('good'), true);
-        });
+
+    it('is good 2', t => {
+      t.assert.equal(t.get('good'), true);
     });
-    context('is good', function (b) {
-        b.set('good', true);
-        it.skip('is good');
+
+  });
+
+  context('is good', b => {
+
+    b.set('good', true);
+    it('is good');
+
+  });
+
+  context('is good', b => {
+
+    b.set('good', true);
+    it('is good');
+
+    context('is good', b => {
+
+      b.set('good', false);
+
+      it('is very good', t => {
+        t.assert.equal(t.get('good'), false);
+      });
+
+      it('is very good', t => {
+        t.assert.equal(t.get('good'), false);
+      });
+
     });
-    context('is good', function (b) {
-        b.set('good', true);
-        it.skip('is good');
-        context('is good', function (b) {
-            b.set('good', false);
-            it('is very good', function (t) {
-                t.assert.equal(t.get('good'), false);
-            });
-            it('is very good', function (t) {
-                t.assert.equal(t.get('good'), false);
-            });
-        });
-    });
-    context('is good', function (b) {
-        b.set('good', true);
-        it.skip('is good');
-    });
+
+  });
+
+  context('is good', b => {
+
+    b.set('good', true);
+    it('is good');
+
+  });
+
 });
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))
@@ -141,6 +164,12 @@ module.exports = function(module) {
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports) {
+
+module.exports = suman;
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(0);

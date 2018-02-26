@@ -9,23 +9,12 @@ const su = require('suman-utils');
 
 Test.create({parallel: true}, ['semver', function (b, assert, describe, before, beforeEach, after, afterEach, it, fs) {
 
-  it('is spectacular1', t => {
-
-  });
-
-  it('is spectacular2', t => {
-
-  });
-
-  it('is spectacular3', t => {
-
-  });
-
   describe.parallel('use global', b => {
 
-    b.$inject.s = 5;
+    b.supply.s = 5;
 
-    const getStrm = function(){
+    const getStrm = function () {
+      // return process.stdout;
       return fs.createWriteStream('/dev/null', {end: false});
     };
 
@@ -35,47 +24,60 @@ Test.create({parallel: true}, ['semver', function (b, assert, describe, before, 
         useGlobalVersion: true
       })
       .then(function (v) {
-        h.$inject.v = v;
+        h.supply.v = v;
       });
     });
 
+    before(h => {
+      h.supply.v.sumanProcess.stdout.resume();
+      h.supply.v.sumanProcess.stderr.resume();
+    });
+
     it('sync test', t => {
-      t.assert(su.isStream(t.$inject.v.sumanProcess.stdout), 'stdout is not a stream.');
-      t.assert(su.isStream(t.$inject.v.sumanProcess.stderr), 'stderr is not defined');
-      t.$inject.v.sumanProcess.x = 5;
+      t.assert(su.isStream(t.supply.v.sumanProcess.stdout), 'stdout is not a stream.');
+      t.assert(su.isStream(t.supply.v.sumanProcess.stderr), 'stderr is not defined');
+      t.supply.v.sumanProcess.x = 5;
     });
 
     it.cb.parallel('sync test', t => {
 
-      setTimeout(t.final(function () {
-        t.$inject.v.sumanProcess.stdout.pipe(getStrm());
-        t.$inject.v.sumanProcess.stderr.pipe(getStrm());
+      console.log(111111111);
+
+      setTimeout(t.wrapFinal(function () {
+        debugger;
+        console.log(222222);
+        t.supply.v.sumanProcess.stdout.pipe(getStrm());
+        t.supply.v.sumanProcess.stderr.pipe(getStrm());
+
       }), 100);
 
+      // t.supply.v.sumanProcess.stdout.pipe(getStrm());
+      // t.supply.v.sumanProcess.stderr.pipe(getStrm());
+
       // setTimeout(function () {
-      //   t.$inject.v.sumanProcess.stdout.pause();
-      //   t.$inject.v.sumanProcess.stderr.pause();
+      //   t.supply.v.sumanProcess.stdout.pipe(getStrm());
+      //   t.supply.v.sumanProcess.stderr.pipe(getStrm());
+      //   // t.supply.v.sumanProcess.stdout.pause();
+      //   // t.supply.v.sumanProcess.stderr.pause();
       // }, 200);
 
-      // t.$inject.v.sumanProcess.stdout.resume();
-      // t.$inject.v.sumanProcess.stderr.resume();
+      // t.supply.v.sumanProcess.stdout.resume();
+      // t.supply.v.sumanProcess.stderr.resume();
     });
 
-    it.parallel.cb('wait for exit', t => {
-      t.$inject.v.sumanProcess.stdout.once('finish', t.pass);
+    it.parallel.cb('wait for exit B', t => {
+      console.log(333333);
+      // t.supply.v.sumanProcess.stdout.once('end', t.pass);
+      t.supply.v.sumanProcess.stdout.once('end', function () {
+        console.log('the end.');
+      });
+
+      t.pass();
     });
 
   });
 
   describe.parallel('use local', b => {
-
-    describe('inner', b => {
-
-      it('is great', t => {
-
-      });
-
-    });
 
     before(h => {
       return suman.run({
@@ -83,47 +85,40 @@ Test.create({parallel: true}, ['semver', function (b, assert, describe, before, 
         useLocalVersion: true
       })
       .then(function (v) {
-        h.$inject.v = v;
+        h.supply.v = v;
       });
     });
 
     it('sync test', t => {
-      t.assert(su.isStream(t.$inject.v.sumanProcess.stdout), 'stdout is not a stream.');
-      t.assert(su.isStream(t.$inject.v.sumanProcess.stderr), 'stderr is not defined');
+      t.assert(su.isStream(t.supply.v.sumanProcess.stdout), 'stdout is not a stream.');
+      t.assert(su.isStream(t.supply.v.sumanProcess.stderr), 'stderr is not defined');
     });
 
-    it.parallel('sync test', t => {
+    it.parallel('sync test A', t => {
+      //
+      // setTimeout(t.wrapFinalErrFirst(function () {
+      //   t.supply.v.sumanProcess.stdout.pipe(getStrm());
+      //   t.supply.v.sumanProcess.stderr.pipe(getStrm());
+      // }), 100);
 
-      setTimeout(t.finalErrFirst(function () {
-        t.$inject.v.sumanProcess.stdout.pipe(getStrm());
-        t.$inject.v.sumanProcess.stderr.pipe(getStrm());
-      }), 100);
+      setTimeout(function () {
+        t.supply.v.sumanProcess.stdout.pause();
+        t.supply.v.sumanProcess.stderr.pause();
+      }, 200);
 
-      // setTimeout(function () {
-      //   t.$inject.v.sumanProcess.stdout.pause();
-      //   t.$inject.v.sumanProcess.stderr.pause();
-      // }, 200);
-
-      // t.$inject.v.sumanProcess.stdout.resume();
-      // t.$inject.v.sumanProcess.stderr.resume();
+      // t.supply.v.sumanProcess.stdout.resume();
+      // t.supply.v.sumanProcess.stderr.resume();
     });
 
     it.parallel.cb('wait for exit', t => {
-      t.$inject.v.sumanProcess.stdout.once('finish', t.pass);
+      // t.supply.v.sumanProcess.stdout.once('end', t.pass);
+
+      t.supply.v.sumanProcess.stdout.once('end', function () {
+        console.log('the end.');
+      });
+
+      t.ctn();
     });
-
-  });
-
-
-  it('is groovy 1', t => {
-
-  });
-
-  it('is groovy 2', t => {
-
-  });
-
-  it('is groovy 3', t => {
 
   });
 

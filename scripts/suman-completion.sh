@@ -1,25 +1,11 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 #
-# Bash completion generated for 'suman' at Tue Mar 28 2017 15:07:37 GMT-0700 (PDT).
+# Bash completion generated for 'suman' at Fri Dec 22 2017 21:12:21 GMT-0800 (PST).
 #
 # The original template lives here:
 # https://github.com/trentm/node-dashdash/blob/master/etc/dashdash.bash_completion.in
 #
-
-##
-## This is a Bash completion file for the 'suman' command. You can install
-## with either:
-##
-##     cp FILE /usr/local/etc/bash_completion.d/suman   # Mac
-##     cp FILE /etc/bash_completion.d/suman             # Linux
-##
-## or:
-##
-##     cp FILE > ~/.suman.completion
-##     echo "source ~/.suman.completion" >> ~/.bashrc
-##
-
 
 #
 # Copyright 2016 Trent Mick
@@ -95,9 +81,9 @@ function _suman_completer {
 
     # ---- cmd definition
 
-    local cmd_shortopts="-a -b -d -f -h -p -r -s -t -v -w"
-local cmd_longopts="--all --allow-reuse-image --append-match-all --append-match-any --append-match-none --babel-register --bail --cfg --cnvt --completion --concurrency --config --convert --coverage --create --cwd-is-root --cwd-is-tfd --daemon --dest --diagnostics --errors-only --fast --ff --fforce --force --force-cwd-root --force-cwd-to-be-project-root --force-cwd-to-test-file-dir --fst --full-stack-traces --groups --help --home --ignore-break --ignore-uncaught-exceptions --ignore-unhandled-rejections --inherit-stdio --init --install-globals --interactive --iue --iur --match-all --match-any --match-none --max-depth --no-allow-reuse-image --no-babel-register --no-color --no-colors --no-coverage-report --no-report --no-run --no-runner-lock --no-stream-to-console --no-stream-to-file --no-tables --no-transpile --no-use-babel-register --no-use-container --nt --pipe --postinstall --processes --procs --rand --random --recursive --remove-babel --repair --reporter-paths --reporters --rm-babel --rnr --runner --runner-lock --safe --server --shd --silent --sort-by-millis --src --stdout-silent --suman-helpers-dir --tail --touch --transpile --uninstall --uninstall-babel --use-babel --use-babel-register --use-container --use-istanbul --use-server --use-tap --use-tap-output --verbosity --version --vn --watch"
-local cmd_optargs="--append-match-all=arrayOfString --append-match-any=arrayOfString --append-match-none=arrayOfString --cfg=string --concurrency=integer --config=string --create=arrayOfString --dest=string --match-all=arrayOfString --match-any=arrayOfString --match-none=arrayOfString --max-depth=integer --processes=integer --procs=integer --reporter-paths=arrayOfString --reporters=arrayOfString --shd=string --src=string --suman-helpers-dir=string --verbosity=integer -v=integer"
+    local cmd_shortopts="-R -d -f -h -t -v -w"
+local cmd_longopts="--allow-duplicate-tests --allow-in-place --allow-only --allow-reuse-image --allow-skip --allow-skipped --allow-symlinks --append-match-all --append-match-any --append-match-none --arg --babel --babel-register --bail --browser --cfg --child-arg --child-env --cntrz --color --concurrency --config --containerize --convert --convert-from-mocha --cov --coverage --create --ctrz --cwd-is-project-root --cwd-is-tfd --daemon --debug-child --debug-children --debug-hooks --debug-tests-and-hooks --default --dest --diagnostics --dry-run --dummy --errors-only --exec-arg --ff --fforce --find-only --force --force-color --force-cwd-as-root --force-cwd-to-be-project-root --force-cwd-to-test-file-dir --force-inception-level-zero --force-inherit-stdio --force-match --force-runner --force-transpile --fst --full-stack-traces --groups --help --home --ignore-break --ignore-run-config --ignore-uncaught-exceptions --ignore-unhandled-rejections --inherit-all-stdio --inherit-stdio --inherit-transform-stdio --init --inspect --inspect-brk --inspect-child --inspect-children --install-babel --install-globals --interactive --iue --iur --log-all --log-hooks --log-stderr-to-files --log-stdio-to-files --log-stdout-to-files --match --match-all --match-any --match-every --match-none --match-not --max-depth --no-allow-reuse-image --no-babel --no-babel-register --no-color --no-colors --no-coverage-report --no-match --no-report --no-run --no-stream-to-console --no-stream-to-file --no-tables --no-tap --no-transpile --no-use-container --not-match --nr --nt --parallel --parallel-max --per --postinstall --processes --procs --rand --random --recursive --reinstall --repair --replace-ext-with --replace-extension-with --replace-match --replace-with --reporter --reporter-path --reporter-paths --reporters --require --runner --safe --script --series --shell --silent --single --single-process --sort-by-millis --sp --src --stderr-silent --stdout-silent --suman-shell --tail --tap --tap-json --test-paths-json --touch --transpile --ts-node --ts-node-register --tsc-multi-watch --tsnode --uninstall --use-babel-register --use-container --use-default-config --use-tap --use-tap-json --use-tap-json-output --use-tap-output --use-ts-node-register --user-arg --verbosity --version --vn --wait-for-all-transforms --wait-for-transforms --watch --watch-per --wp"
+local cmd_optargs="--append-match-all=arrayOfString --append-match-any=arrayOfString --append-match-none=arrayOfString --arg=string --cfg=string --child-arg=arrayOfString --child-env=arrayOfString --color=string --concurrency=integer --config=string --create=arrayOfString --dest=string --exec-arg=arrayOfString --force-color=string --match-all=arrayOfString --match-any=arrayOfString --match-every=arrayOfString --match-none=arrayOfString --match-not=arrayOfString --match=arrayOfString --max-depth=integer --no-match=arrayOfString --not-match=arrayOfString --per=string --processes=integer --procs=integer --reinstall=arrayOfString --replace-ext-with=string --replace-extension-with=string --replace-match=string --replace-with=string --reporter-path=arrayOfString --reporter-paths=arrayOfString --reporter=arrayOfString --reporters=arrayOfString --require=arrayOfString --script=string --shd=string --src=string --suman-helpers-dir=string --test-paths-json=string --uninstall=arrayOfString --user-arg=string --verbosity=integer --watch-per=string --wp=string -v=integer"
 
 
     # ---- locals
@@ -391,3 +377,16 @@ elif type compctl &>/dev/null; then
     compctl -K _suman_completion suman
 fi
 
+
+##
+## This is a Bash completion file for the 'suman' command. You can install
+## with either:
+##
+##     cp FILE /usr/local/etc/bash_completion.d/suman   # Mac
+##     cp FILE /etc/bash_completion.d/suman             # Linux
+##
+## or:
+##
+##     cp FILE > ~/.suman.completion
+##     echo "source ~/.suman.completion" >> ~/.bashrc
+##

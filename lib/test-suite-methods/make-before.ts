@@ -111,6 +111,8 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
     else {
 
       let obj = {
+        last: Boolean(opts.last),
+        first: Boolean(opts.first),
         ctx: zuite,
         desc: desc || fn.name || '(unknown before-all-hook name)',
         timeout: opts.timeoutVal || opts.timeout || 11000,

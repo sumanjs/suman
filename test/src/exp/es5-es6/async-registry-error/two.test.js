@@ -5,10 +5,13 @@ const Test = suman.init(module, {
 });
 
 
-Test.suite('@Test1-EMpty', {parallel: false}, function (assert, william) {
+Test.create('@Test1-EMpty', {parallel: false}, function (assert, william) {
 
- Test.suite('here we go', function(){
 
- });
+
+});
+
+
+Test.create('here we go', function(){
 
 });

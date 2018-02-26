@@ -38,13 +38,17 @@ Test.create('X', {
       
       // console.log('before => ', before);
       
-      test('we have a test here', t => {
+      test('we have a test here NORMAL', t => {
+        t.timeout(3);
+        t.skip();
         console.log(t.data);
+        return Promise.delay(300);
       });
       
       assert.equal(count, 0);
       
       before(async function (h) {
+
         h.assert.equal(++count, 2);
         return Promise.delay(39).then(function () {
           console.log('delaying more.');

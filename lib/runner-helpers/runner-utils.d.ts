@@ -6,5 +6,3 @@ export interface IFindConfig {
 export declare const findPathOfRunDotSh: (p: string) => string;
 export declare const findPathAndConfigOfRunDotSh: (p: string) => IFindConfig;
 export declare const findPathOfTransformDotSh: (p: string) => string;
-declare const $exports: any;
-export default $exports;
