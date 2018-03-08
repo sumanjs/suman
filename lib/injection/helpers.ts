@@ -89,7 +89,7 @@ export const lastDitchRequire = function (dep: string, requestorName: string): a
     }
     catch (err) {
       _suman.log.error(`'${requestorName}' warning => cannot require dependency with name => '${dep}'.`);
-      _suman.log.error('despite the missing dependency, Suman will continue optimistically.');
+      _suman.log.error('Despite the missing dependency, Suman will continue optimistically.');
       console.error('\n');
       return null;
     }

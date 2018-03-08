@@ -13,6 +13,10 @@ module.exports = ($data, $core, $deps, $ioc) => {
       'bat': function () {
         return 'BAT';
       },
+      
+      'semver': function () {
+        return 'zoom';
+      },
 
       'suit': function () {
         return 'SUIT';

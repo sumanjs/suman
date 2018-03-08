@@ -4,7 +4,7 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
-////
+===========================================
 
  with this in mind: /test/src/dev/node/x.test.js
  https://github.com/mochajs/mocha/issues/3250
@@ -14,55 +14,68 @@ three SO profiles:
  afterEachBlock
 
 
-////
+===========================================
+
+There is an easier way to get a property from a json string. Using a package.json file as an example, try this:
+
+#!/usr/bin/env bash
+str=`cat package.json`;
+my_val="$(node -pe "JSON.parse(\`$str\`)['version']")"
+or
+
+#!/usr/bin/env bash
+prop="version"
+my_val="$(node -pe "require('./package.json')['$prop']")"
+
+===========================================
 
 TODO: t.state = 'passed'/'failed' etc.
 
-///
+===========================================
 
   run(function(b, context, before, after, beforeEach, afterEach))
 
-///
+===========================================
 
 
   use procure instead of source, or load, or locate, gather
 
-////
+===========================================
 
  add env vars to @config.json - execArgs or nodeFlags could be env vars
 
-////
+===========================================
 
 //TODO: place array of tests in befores/afters so we know which tests pertain to the hook
 
-////
+===========================================
 
  => SUMAN_PROJECT_ROOT should be able to be set by the user.
 
-////
+===========================================
 
     use nyc instead of istanbul
     https://github.com/istanbuljs/nyc
 
-///
+===========================================
 
     put $deps/$core on suman?
 
     const {async} = suman.deps;
     const {async} = suman.installed
 
-////
+===========================================
 
     put
     "const suman = require('suman');"
     in each test file
 
-////
+===========================================
 
     TAP YAML diagnostics:
     https://github.com/tapjs/node-tap/issues/247
 
-///
+===========================================
 
     var Messages = require('tap-emitter/lib/messages');
 
@@ -81,20 +94,20 @@ TODO: t.state = 'passed'/'failed' etc.
       messages.diagnostic('time=19.221ms')
     ].join('\n'));
 
-////
+===========================================
 
     exec() / invoke() / run() / register()
 
-////
+===========================================
 
      "suman-watch-plugins": "latest",
 
-////
+===========================================
 
     if not a .js file, we need to capture stdout/stderr in suman runner, and put it in the
     .suman/runs folder
 
-////
+===========================================
 
     it.cb.run(t => {
 
@@ -106,7 +119,7 @@ TODO: t.state = 'passed'/'failed' etc.
 
     });
 
-////
+===========================================
 
     need to merge options object
     before.cb.define(v =>
@@ -116,12 +129,12 @@ TODO: t.state = 'passed'/'failed' etc.
          console.log('this is before');
        }));
 
-///
+===========================================
 
     use ts-node/register
     with TypeScript, just like Babel, in the run-child.js file
 
-///
+===========================================
 
     inject hooks => add to $inject
     shared => b.set() / b.get()
@@ -129,7 +142,7 @@ TODO: t.state = 'passed'/'failed' etc.
     .source('a','b','c');
     h.$inject should be h.?
 
-////
+===========================================
 
     if (sumanOpts.coverage) {
         //TODO: we can pass an env to tell suman where to put the coverage data
@@ -138,32 +151,32 @@ TODO: t.state = 'passed'/'failed' etc.
     }
 
 
-////
+===========================================
 
     https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
     set -eo pipefail
     exit with command to the right that exits with non-zero
 
-////
+===========================================
 
     suman --script x --tack-on="--require=ts-node/register"
 
-////
+===========================================
 
  todo: ignore all .js files in project for purposes of version control
 
-////
+===========================================
 
   load suman.globals.js after running require('suman');
   or suman.init(module)?
 
-////
+===========================================
 
     @config.json files need to have a property that
     tells suman if all matching files are run through @transform.sh once,
     or if each file is run through @transform.sh separately.
 
-////
+===========================================
 
     command line --series, needs to take precedence over this:
 
@@ -171,39 +184,39 @@ TODO: t.state = 'passed'/'failed' etc.
       series: false
     });
 
-////
+===========================================
 
    allow for default reporter:
 
    reporters: {
-     default: 'std-reporter',   /// <<<<<<<<<<<<<<
+     default: 'std-reporter',   =========================================== <<<<<<<<<<<<<<
      map: {
        'tap': 'suman-reporters/modules/tap-reporter'
      }
    },
 
-////
+===========================================
 
    suman watch, suman-refine, suman-shell
    need to pass env vars so that we get the right reporter at top level and child levels
 
-////
+===========================================
 
     suman tests should work without having to run suman --init
     see new option: use-default-config
 
-////
+===========================================
 
     what is "return" for, in bash scripts? ("return" as opposed to "exit").
 
-////
+===========================================
 
     use puppeteer to launch chrome instead of chrome-launcher
     https://developers.google.com/web/updates/2017/04/headless-chrome
 
     https://github.com/mochajs/mocha/pull/3152
 
-////
+===========================================
 
 https://unix.stackexchange.com/questions/407222/find-location-of-shell-bash-function-on-disk
 
@@ -218,22 +231,22 @@ declare -F foo
 # Turn off extended shell debugging
 shopt -u extdebug
 
-///
+===========================================
 
     mocha context issue:
     https://github.com/mochajs/mocha/issues/2014
 
-///
+===========================================
 
     enable retries
     retriesEnabled: false, in suman.conf.js
 
-///
+===========================================
 
     default _suman.sumanOpts values?
     we might need some for suman-reporters/lib/utils.ts
 
-///
+===========================================
 
     this should only work for tests, not for hooks?
 
@@ -245,26 +258,26 @@ shopt -u extdebug
       }
     };
 
-///
+===========================================
 
     [suman child stdout] => [suman child stdout / the-file-path]
 
-///
+===========================================
 
     need to implement `suman --require x`
     --require ts-node/register
     mocha --require ts-node/register --reporter=dot test/**/*-test.ts --timeout=10000
 
-///
+===========================================
 
     suman-types
     https://github.com/DefinitelyTyped/DefinitelyTyped/pull/19817#issuecomment-342028894
 
-///
+===========================================
 
     implement --debug-tests-and-hooks along with --debug-hooks
 
-///
+===========================================
 
     suman --init should not install suman
     at the end of the --init, suman should check to see if suman is in package.json or node_modules
@@ -272,21 +285,21 @@ shopt -u extdebug
     using the global suman version is totally acceptable
     otherwise to install locally, use `npm install -D suman`
 
-////
+===========================================
 
     skip and only do not work creates - Test.create(['bat', 'suit', {only: true},
 
-////
+===========================================
 
 if function parameter name is in $ioc, but is listed explicity, then we should throw to let the user know.
 e.g.   describe('x', function(runMyQuestionsPage){});
  when runMyQuestionsPage is on $ioc, instead of available.
 
-////
+===========================================
 
   perhaps only --force should allow us to do optimistic ignoring of missing injectable deps.
 
-/////
+===========================================/
 
  const opts = {
     $inject:{
@@ -295,7 +308,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
     }
   };
 
-/////
+===========================================/
 
  use $ioc like this:
 
@@ -303,36 +316,36 @@ e.g.   describe('x', function(runMyQuestionsPage){});
      console.log(b.ioc.age); // 3;
    }]);
 
-////
+===========================================
 
     node core will backport NODE_OPTIONS =>
     https://github.com/nodejs/help/issues/925
     https://github.com/nodejs/node/pull/16263
 
-///
+===========================================
 
     better npm publish routine
     https://github.com/sindresorhus/np
 
-///
+===========================================
 
    debugging with chrome + chrome-launcher
    https://bugs.chromium.org/p/chromium/issues/detail?id=778781#c3
 
-///
+===========================================
 
     create suman-watch functionality that watches primary code-base and all symlinked directories in node_modules!
 
-///
+===========================================
 
     if no test cases found, suman should exit with 1 not 0!!
     probably operator error if no test cases found
 
-///
+===========================================
 
     Suman watch - if watchPer has an item with --watch in it, then you have to throw err
 
-///
+===========================================
 
   context('is good', b => {
 
@@ -342,7 +355,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
   });
 
-///
+===========================================
 
     chrome.debugger.attach({
       tabId: tabId
@@ -353,17 +366,17 @@ e.g.   describe('x', function(runMyQuestionsPage){});
       // we are good
     });
 
-///
+===========================================
 
     need to implement suman --browser --watch
 
-///
+===========================================
 
     call suman.run() could put suman in "export mode"
     otherwise, if you are not in "export mode", when you require a file,
     it will just run from start to finish
 
-///
+===========================================
 
 
     in the browser we can use
@@ -371,12 +384,12 @@ e.g.   describe('x', function(runMyQuestionsPage){});
     suman.browser.ioc.ts
     these file paths
 
-///
+===========================================
 
     @AlexanderMills you can also enable inspector by
     calling process._debugProcess(pid) from another Node.js instance. – Eugene 39 mins ago
 
-///
+===========================================
 
     use $inject like so:
 
@@ -389,21 +402,21 @@ e.g.   describe('x', function(runMyQuestionsPage){});
     });
 
 
-///
+===========================================
 
     https://github.com/avajs/karma-ava
     https://developers.soundcloud.com/blog/writing-your-own-karma-adapter
 
-///
+===========================================
 
     https://code.google.com/archive/p/js-test-driver/
 
-///
+===========================================
 
     suman --browser --watch
     using watch will re-run tests on changes
 
-///
+===========================================
 
     global_npm_modules_path="$(npm root -g)";
     this npm command is slow, and I am looking to speed up this script.
@@ -421,7 +434,7 @@ e.g.   describe('x', function(runMyQuestionsPage){});
     @AlexanderMills, the eval command tells the shell to run the output from ssh-agent as a series of shell commands.
     Thus, it enables ssh-agent to modify the environment of the shell that calls it. – Charles Duffy 18 secs ago
 
-///
+===========================================
 
     describe('nested1', opts, () => {});  ---> this makes an error (see 1.test.js)
 
@@ -432,55 +445,55 @@ e.g.   describe('x', function(runMyQuestionsPage){});
 
     [suman]        at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/test/src/dev/node/1.test.js:27:3
 
-///
+===========================================
 
     https://www.jetbrains.com/help/webstorm/keyboard-shortcuts-you-cannot-miss.html
 
-///
+===========================================
 
     suman --default  => should run default tests given by config
 
-///
+===========================================
 
     suman --watch --per instead of suman --watch-per
 
-///
+===========================================
 
     create ctrl-c or ctrl-f icons
     <kbd>Ctrl</kbd>-<kbd>C</kbd>
 
-///
+===========================================
 
     FORCE_COLOR=0 suman -- => will use colors for watch, etc.
 
-///
+===========================================
 
     use es6 symbols to hide properties?
     https://www.keithcirkel.co.uk/metaprogramming-in-es6-symbols/
 
-///
+===========================================
 
 @ORESoftware It depends on the version of node the running process uses.
 If it's node 8, then you should be able to `kill -USR2 ${pidOfTheNodeProcess}` to enable the
 --inspect behavior after the fact.
 
 
-///
+===========================================
 
     suman-watch should be optionalDep?
     suman-interactive should be optionalDep?
 
-///
+===========================================
 
     "screenshots of suman in action"
 
-///
+===========================================
 
     https://oresoftware.gitbooks.io/sumanjs/content/
     https://github.com/GitbookIO/gitbook
     https://wordpress.com/me => oresoftware / pqiw...
 
-///
+===========================================
 
 cd $(dirname "$0")
 [ ! -d "node_modules/babel-runtime" ] && npm install babel-runtime
@@ -495,25 +508,25 @@ cd $(dirname "$0")
 [ ! -d "node_modules/babel-preset-stage-3" ] &&  npm install babel-preset-stage-3
 
 
-////
+===========================================
 
  => give user choice as to use bash or zsh or whatever for suman watch
 
-////
+===========================================
 
  suman --scripts abc
  => should run the script that's in suman.conf.js
 
-///
+===========================================
 
     use an env variable to tell suman to use suman-daemon / suman-fast
 
-///
+===========================================
 
  the following should be in yellow or magenta:
  (note that your test ran with suman-f, not suman)
 
-///
+===========================================
 
     specify node start command with env var:
 
@@ -521,7 +534,7 @@ cd $(dirname "$0")
     which would become:
     bash -e "node --foo -bar ../suman/cli.js"
 
-///
+===========================================
 
     babel:
     removed these from {package.json}.devDependencies:
@@ -529,16 +542,16 @@ cd $(dirname "$0")
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.24.0",
 
-///
+===========================================
 
     after always may not be run in the right order
     async.eachSeries(allDescribeBlocks, function (block: ITestSuite, cb: Function) {
 
-///
+===========================================
 
     => chai 4.0.2 works.
 
-///
+===========================================
 
  [suman]
  [suman]    ⚑  Suman fatal error  => making a graceful exit =>
@@ -552,11 +565,11 @@ cd $(dirname "$0")
  [suman]            at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/exec-suite.js:244:29
 
 
-///
+===========================================
 
     _suman.whichSuman => needs to get fixed
 
-///
+===========================================
 
   we should be able to create a test file with suman --create
   and run the file, without running suman --init on a directory, see unnecessary error:
@@ -570,7 +583,7 @@ cd $(dirname "$0")
 
   // >>>>> or just run the test with node instead of suman?
 
-///
+===========================================
 
  => describe.only / context.only does not work
 
@@ -595,7 +608,7 @@ Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, desc
   });
 });
 
-///
+===========================================
 
    ⚑  Suman fatal error  => making a graceful exit =>
    TypeError: context.skip is not a function
@@ -604,7 +617,7 @@ Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, desc
        at startWholeShebang (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/exec-suite.js:135:15)
 
 
-///
+===========================================
 
    [3]  ✘  => test fail   "get collection info based off duplicate users"
         Error: no success property on body => { status: 500,
@@ -613,7 +626,7 @@ Test.create('hotels2', {parallel: false}, function (it, before, beforeEach, desc
 
   => if error message is multi-line, it gets removed...for example when we call "'no success property on body => ' + util.inspect(x) "
 
-///
+===========================================
 
  https://stackoverflow.com/a/1221870/5020949
 
@@ -627,31 +640,31 @@ set -o pipefail
 ...
 The first option does not work with zsh due to a little bit different syntax.
 
-///
+===========================================
 
 ∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆
 
-///
+===========================================
 
  --bisect, to find which tests cause problems
  http://make.bettermistak.es/2016/03/05/rspecs-bisect/
 
-///
+===========================================
 
 node test/src/exp.js | grep -v [[suman]]
 
-///
+===========================================
 
  h.set('x', y);
  t.set('x', y):
 
  ???
 
-///
+===========================================
 
   before hooks can be stubbed? => before('merry');
 
-///
+===========================================
 
     fatal error in hook does not have cause or reason (the first line!):
 
@@ -663,63 +676,63 @@ node test/src/exp.js | grep -v [[suman]]
             at /Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-each.js:75:15
        at Domain.handleError (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-handle-each.js:61:27)
 
-///
+===========================================
 
     => put Patreon link in all repos except main Suman repo
 
-///
+===========================================
 
     use git submodules to publish suman-types
     https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
-///
+===========================================
 
     use https://github.com/tunnckoCore/parse-function, instead of function-arguments
 
-///
+===========================================
 
     suman test/src/tap-output/tap-producer1.js  --runner --use-tap  => exit code is 56
     suman test/src/tap-output/tap-producer1.js  --runner            => exit code is 1
 
-//
+===============================================
 
     in order for parallel-max to work properly,
     the last test suite to be put on the queue, needs to wait.
 
-//
+=================================================
 
     --use-tap prevents tables from being printed by runner, weird.
     (probably because tap-reporter doesn't print tables, duh)
 
-///
+===========================================
 
     "please report this on the Github issue..." => add a link to these instance in the codebase to sumanjs/suman#issues
 
-///
+===========================================
 
     when a command in run.sh fails, we need to send that stderr
     to the runner, e.g.:
     => [suman child stderr] => ./suman/test/src/mocha/@run.sh: line 6: mocha: command not found
 
-////
+===========================================
 
     taskset -cp 0,4 9030
     get bash script PID with $$
     https://stackoverflow.com/questions/2493642/how-does-a-linux-unix-bash-script-know-its-own-pid
 
-////
+===========================================
 
     need a methodology to run @run.sh scripts and write log information to file.
     // @run.sh
     protractor | tee blah # doesn't work because we want all commands from @run.sh to end up in log file
 
-/////
+===========================================
 
     if a dep request makes to require(dep) then we should coerce dep into a string that meets npm criteria
     for example function_arguments => we should try to
     require('function-arguments') and require('function_arguments')
 
-/////
+===========================================
 
     make-graceful-exit =>
 
@@ -731,13 +744,13 @@ node test/src/exp.js | grep -v [[suman]]
 
     suman can handle 1 but not 2.
 
-////
+===========================================
 
     when we install suman
     [object Object]
     => Suman message => Suman was successfully installed locally.
 
-////
+===========================================
 
  suman.ioc.js is being loaded for all make-describes
 
@@ -750,69 +763,85 @@ node test/src/exp.js | grep -v [[suman]]
      at runChild (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:26:15)
      at TestSuiteMaker.TestSuite.__invokeChildren (/Users/alexamil/WebstormProjects/oresoftware/sumanjs/suman/lib/test-suite-helpers/make-test-suite.js:205:19)
 
-///
+===========================================
 
  suman child id should be a uuid not an integer
 
-///
+============================================
+
+There is an easier way to get a property from a json string. Using a package.json file as an example, try this:
+
+#!/usr/bin/env bash
+str=`cat package.json`;
+my_val="$(node -pe "JSON.parse(\`$str\`)['version']")"
+or
+
+#!/usr/bin/env bash
+prop="version"
+my_val="$(node -pe "require('./package.json')['$prop']")"
+both techniques work great. enjoy.
+
+============================================
 
  suman needs to take a node path as argument SUMAN_NODEJS_EXEC_PATH=x
 
-///
+ suman could source a .sh file that's in test/.suman/shell/*.sh
+
+===========================================
 
  use -- --seed instead of --user-args?
 
-///
+===========================================
 
   if @run.sh exists for a file x, but the command is just "suman x", then the runner won't be used and @run.sh won't
   be used. To correct this, if @run.sh is found, we must use the runner.
 
-///
+===========================================
 
     put a "twitter like" button on the webpage
     Please Share on Twitter if you like #mockgoose
     Please Share on Twitter if you like #suman
 
-////
+===========================================
 
  if sumanception > 0, then we have to use the runner, so that we collect tap output correctly
  so that grandchildren do not write to grandparents directly.
 
-////
+===========================================
 
  when a hook fails, we should include the hook type and name in graceful exit,
  that's why (hook || test) was being passed to graceful exit in the first place.
 
-////
+===========================================
 
     using tsc --watch to transpile files according to rules
     https://github.com/Microsoft/TypeScript/issues/16779
     => tsc --p <name of your tsconfig.json> --watch --outDir <your new outDir>
 
-////
+===========================================
 
     brew install phantomjs
     https://code.tutsplus.com/tutorials/testing-javascript-with-phantomjs--net-28243
     brew install sumanjs ???
 
-////
+===========================================
 
  suman.ioc.js values should be injectable into suman.once.pre.js and suman.once.post.js
 
-////
+===========================================
 
  https://github.com/avajs/karma-ava
 
-////
+===========================================
 
  include yaml "diagnostics" as part of TAP
 
-////
+===========================================
 
     https://github.com/substack/tape/issues/378
     Getting a list of failing/passing tests after test suite execution
 
-////
+===========================================
 
     SUCCEEDED/FAILED/KILLED/BAILED
     need to add transpile/transform block before run block in gantt chart
@@ -820,27 +849,27 @@ node test/src/exp.js | grep -v [[suman]]
     d3 gantt chart
     https://gist.github.com/dk8996/5449641
 
-////
+===========================================
 
     if sumanception level > 1, then we shouldn't write any TAP results
     because stdout cannot be multiplexed, etc.
     actually each parent can successfully parse a child, so it will work.
 
-////
+===========================================
 
     print test path run if using node x.js or suman x.js
     sometimes I just forget what test I just ran lol
 
-////
+===========================================
 
     suman-single-process should use vm to run in this context?
     https://nodejs.org/api/vm.html#vm_script_runinthiscontext_options
 
-////
+===========================================
 
  => use suman --view-results, to view HTML rendering of results from last run
 
-////
+===========================================
 
   use block scope
 
@@ -850,35 +879,35 @@ node test/src/exp.js | grep -v [[suman]]
       foo = v*2;
     }
 
-////
+===========================================
 
   suman --containerize should reference node_modules instead of re-installing
 
-////
+===========================================
 
   if suman.init() is called more than once and we are not in SUMAN_SINGLE_PROCESS, we should fail right away
 
-////
+===========================================
 
     afterAllParentHooks('yes', t => {
       console.log('after all parent hooks');
     });
 
-////
+===========================================
 
    need to switch out function arguments parsing
 
-////
+===========================================
 
     include $index file, inject that into Test.create
 
-////
+===========================================
 
    add flag --auto-pass, which means runner or test always exits with code 0.
    this is useful when the place suman in a CI/CD pipeline but don't want failing to tests to unnecessarily
    break things.
 
-////
+===========================================
 
 const strm = fs.createWriteStream(path.resolve(__dirname + '/../logs/stderr.log'));
 
@@ -890,12 +919,12 @@ process.stderr.write = function () {
   stderr.apply(process.stderr, arguments);
 };
 
-////
+===========================================
 
 mocha internals video:
 https://www.youtube.com/watch?v=zLayCLcIno0&feature=youtu.be
 
-////
+===========================================
 
  => https://github.com/mochajs/mocha/issues/911
  create a methodology to run beforeEach before any child before blocks
@@ -923,7 +952,7 @@ https://www.youtube.com/watch?v=zLayCLcIno0&feature=youtu.be
  })
 
 
-////
+===========================================
 
 https://github.com/nodejs/help/issues/735
 
@@ -933,25 +962,25 @@ fs.createReadStream(<file1>, {end:false})
 .pipe(new ReplaceStream('bar','star')).pipe(writable);
 writable.end('})');
 
-////
+===========================================
 
  use a symlink library to follow symlinks in test directory
  library must detect circular deps
 
-////
+===========================================
 
   supports non-NPM projects (global installation)
     => need to look for suman.conf.js and package.json, whichever comes first.
 
-////
+===========================================
 
  --random / --rand should store the order in which the files were started
 
-////
+===========================================
 
  we should allow people to put suman.conf.js somewhere besides project root, using some convention.
 
-////
+===========================================
 
  find nearest @Dockerfile, if no @Dockerfile found, then use the built in Dockerfile in lib/dockerize
 
@@ -968,7 +997,7 @@ writable.end('})');
 
  suman --containerize => should look for the nearest Dockerfile in the test dir to run
 
-///
+===========================================
 
 when two files are passed x.js and y.js, it still is looking in folders for files, but it shant
 
@@ -990,15 +1019,15 @@ these should not be env variables:
   const testSrcDir = process.env.TEST_SRC_DIR;
   const testTargerDir = process.env.TEST_TARGET_DIR;
 
-///
+===========================================
 
 https://askubuntu.com/questions/936040/edit-compose-key-in-system-preferences-keyboard
 
-////
+===========================================
 
 typeof https://stackoverflow.com/questions/44686446/generate-typescript-interface-from-const
 
-////
+===========================================
 
  brew cask install osxfuse
  brew install bindfs
@@ -1006,15 +1035,15 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
   bindfs
   https://apple.stackexchange.com/questions/97920/mount-folder-as-a-volume-osx
 
-////
+===========================================
 
  create readme file for suman helpers dir, to explain what each file is for.
 
-////
+===========================================
 
   => suman-f is picking up the wrong suman.conf.js file
 
-////
+===========================================
 
  give user feedback as to why callback was not a function, by letting users know the signature is
  (data,cb) not (cb)
@@ -1069,17 +1098,17 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
 
     cannot seem to run cli.sh files directly from suman project
 
-///
+===========================================
 
     SUMAN_ENV=local => use suman-deamon
 
-///
+===========================================
 
     take a screenshot with each test failure
     https://github.com/avajs/ava/issues/840
     Is there a way to get test status on afterEach() method ? #840
 
-///
+===========================================
 
     if suman --init is called and there is no package.json file - should fail immediately
 
@@ -1115,19 +1144,19 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
     suman --confirm flag should open up an interactive session
     and allow users to choose yes or no to run the files.
 
-////
+===========================================
 
     https://github.com/mochajs/mocha/issues/2914#issuecomment-313283613
 
-////
+===========================================
 
     log npm version also?
 
-////
+===========================================
 
     --dry-run flag will tell suman to just show what would be run, without actually running anything
 
-////
+===========================================
 
     new Test('z', function (assert) {
 
@@ -1140,31 +1169,31 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
       });
     });
 
-////
+===========================================
 
     test-debug.log gets populated for individual tests, but not for runner, even if there are warnings
 
-////
+===========================================
 
    we can cross-check the accumulated test data in the child process to compare with the parent
    they should always align, if not we should log a warning
 
-///
+===========================================
 
     we may only need one tap parser instance instead of so many
     OR - we need to create table results from each test in the runner
     the child should not be responsible for creating the table
     that way there is one source of truth in the runner
 
-///
+===========================================
 
     If suman inception value is > x , then inherit stdio should be true.
 
-///
+===========================================
 
     should merge once-post and make-before-exit-once-post
 
-///
+===========================================
 
     coverage information should be collected by istanbul at the end of the test (suman.once.post.js)
 
@@ -1177,11 +1206,11 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
       cwd: _suman.projectRoot
     });
 
-///
+===========================================
 
     create suman conversion utility that will wrap a mocha test
 
-///
+===========================================
 
  slack integration?
 
@@ -1219,47 +1248,47 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
   });
 
 
-///
+===========================================
 
     SUMAN_SINGLE_PROCESS should not be an env variable?
 
-///
+===========================================
 
     => SUMAN_DEBUG => should bind "=> SUMAN_DEBUG =>" to suman debug utility logging to make it consistent.
 
-///
+===========================================
 
     merge once-post with make-before-once-exit-post?
 
-///
+===========================================
 
     in handle-integrants (index-helpers), if there are no integrants, then runner won't be sent message
     about expected exit code or expected timeout.
 
-///
+===========================================
 
     write runner without constraints, then add constraints last, after everything else is proven
 
-///
+===========================================
 
     definitely need gantt chart to confirm to stuff runs in the right order
 
-///
+===========================================
 
     would you ever have to run (@run.sh) more than one file at a time?
     we need to @transform.sh multiple files...but run multiple files?
 
-///
+===========================================
 
     @run.sh and @transform.sh should be written with simple serial processing and not attempt to do more
     work than 1 processor could do. This allows Suman to maximize speed by parallelizing other processses.
 
-///
+===========================================
 
     async lib types =>
     https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/async/index.d.ts#L112
 
-///
+===========================================
 
     suman-debug sux, but here is how you use it:
 
@@ -1277,12 +1306,12 @@ typeof https://stackoverflow.com/questions/44686446/generate-typescript-interfac
      return su.vgt(6) && matchesAll.length > 0;
     });
 
-///
+===========================================
 
     https://unix.stackexchange.com/questions/373597/get-exit-code-from-preceding-command-before-pipe
     <command> | tee out.txt ; test ${PIPESTATUS[0]} -eq 0
 
-///
+===========================================
 
 if running a single test file, but the file matches  "/@src/" then we need to run the file with the suman runner...
 see:
@@ -1298,7 +1327,7 @@ import * as suman from 'suman';
 SyntaxError: Unexpected token import
     at createScript (vm.js:56:10)
 
-///
+===========================================
 
     new API style:
 
@@ -1318,30 +1347,30 @@ SyntaxError: Unexpected token import
 
     });
 
-///
+===========================================
 
     suman --reinstall=x --reinstall=y
 
-///
+===========================================
 
     suman injection function({x}){}  => what will happen
 
-///
+===========================================
 
     a git subtree => lib/index.d.ts can be pushed to @types/suman
 
-///
+===========================================
 
     CLI best practices  - login - alex@oresoftware.com
     https://bestpractices.coreinfrastructure.org/projects/new
     https://bestpractices.coreinfrastructure.org/projects/29
 
-///
+===========================================
 
     it's the users responsibility to send the suman executable meaningful filepaths.
     there should be a 1:1 corerespondence between filepaths passed and independent executables to be run.
 
-///
+===========================================
 
 Error: Cannot find module '/Users/alexamil/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js'
     at Function.Module._resolveFilename (module.js:469:15)
@@ -1376,18 +1405,18 @@ Create the file to remove the warning.
 worker added.
 
 
-///
+===========================================
 
   stdout/stderr will be generated from @transform.sh -
   @run.sh will be responsible for determining if the output from @transform.sh is OK
 
-///
+===========================================
 
     compile ts file in memory
     create suman-ts which can run a .ts file directly?
     https://www.npmjs.com/package/ts-node
 
-///
+===========================================
 
 If you're willing to assume non-embedded Linux,
 then you can use the test external command, which is part of GNU coreutils.
@@ -1402,13 +1431,13 @@ However many implementations (dash, bash, pdksh, mksh, BusyBox — tested on Deb
 But it would be a better idea to use tools dedicated to this job, such as make.
 Running a command only if a certain file is newer than some other file is the whole point of make.
 
-////
+===========================================
 
   if multiple files are in the same @src directory, and we run all of them
   we should run each @tranform.sh file only once max per run, with a list of all applicable files
   we should also send all files as a list to the @run.sh file
 
-/////
+===========================================/
 
   watch: {
     scripts:{
@@ -1416,7 +1445,7 @@ Running a command only if a certain file is newer than some other file is the wh
      }
   }
 
-/////
+===========================================/
 
     vorpal uses this gulpfile.js to build to dist directory:
 
@@ -1446,20 +1475,20 @@ Running a command only if a certain file is newer than some other file is the wh
 
     gulp.task('default', ['watch']);
 
-/////
+===========================================/
 
  => create GIF of suman command line usage -> take a video and then convert to GIF.
 
-///
+===========================================
 
  useBabel or transpile in suman.conf.js?
 
-///
+===========================================
 
  use Proxy for injecting values and renaming them
  use Proxy for creating container of all require('x') deps
 
-///
+===========================================
 
   suman.order.js should have a list of files that can't be run together
 
@@ -1485,20 +1514,20 @@ Running a command only if a certain file is newer than some other file is the wh
     ]
  }
 
-////
+===========================================
 
     -nt and -ot to compare files
     https://unix.stackexchange.com/questions/372857/compare-two-file-modification-dates/372858#372858
 
-////
+===========================================
 
     @transform.sh => check to see if target file has a modified date that is after the source file
 
-////
+===========================================
 
     uninstall request module from project, and possibly socket.io as well.
 
-////
+===========================================
 
     let obj = {};
 
@@ -1511,41 +1540,41 @@ Running a command only if a certain file is newer than some other file is the wh
     const {async, bluebird } = proxyObj;
     console.log('bluebird => ', bluebird);
 
-////
+===========================================
 
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
 
-////
+===========================================
 
     +++ need to fix this, it's being logged after
 
      => [Suman runner] =>  initial set => 59 processes running 59 suites
      => [Suman runner] =>  overall set => 59 processes will run 59 suites with no more than 8 running at a time.
 
-////
+===========================================
 
     need to implement t.skip(); for tests
     causes a fatal error in test suite, when it should not => suman test/src/tap-output/@target
 
-////
+===========================================
 
     _suman.logError and _suman.logWarning should hook into _writeTestError, etc.
 
-////
+===========================================
 
     TODO: plugins http://hapijs.com/tutorials/plugins
 
-////
+===========================================
 
     tslint.json  => linting typescript
 
-////
+===========================================
 
     nvm use 8 && node --inspect-brk test/src/es5-es6/j.js
     node test/src/es5-es6/j.js
     node --inspect-brk test/src/es5-es6/j.js
 
-////
+===========================================
 
     $ioc should contain all ioc deps, we can inject that and save space.
     $pre should contain all pre deps, etc
@@ -1556,21 +1585,21 @@ Running a command only if a certain file is newer than some other file is the wh
 
     we can inject "$inject" into any describe block, and it will have the ioc values attached to it
 
-////
+===========================================
 
     running .ts files directly => https://github.com/avajs/ava/issues/1109
     https://github.com/avajs/ava/issues/631
 
-////
+===========================================
 
     type SubsetOfIAll = Partial<IAll>;
 
-////
+===========================================
 
     karma with front-end tests:
     https://github.com/mochajs/mocha/issues/2756
 
-////
+===========================================
 
 monkeypatch require()?
 
@@ -1601,40 +1630,40 @@ if (false) {
   });
 }
 
-///
+===========================================
 
 regexes get converted to objects...
 
   SUMAN_CONFIG: '{"matchAny":[{},{},{},{},{},{},{}],"matchNone":[{},{},{},{}],"matchAll":[],"testDir":...}
   SUMAN_OPTS: '{"runner":true,"inherit_stdio":true,"verbosity":5,"errors_only":false,"max_depth":70,"_order":[{"key":"runner","value":true,"from":"argv"},{"key":"inherit_stdio","value":true,"from":"argv"}],"_args":[],"transpile":false}',
 
-///
+===========================================
 
  good file mask => !*.log, !*.txt, !yarn*, !package*
  !*.log, !*.txt,c test, !yarn*, !package*, !*.d.ts
 
-////
+===========================================
 
  suman test/e2e/\@target/backend-user-roles.test.js --runner --inspect-children --inherit-stdio
 
-////
+===========================================
 
  --exec-arg option should work with "suman --no-runner", because we can pass the exec args with our bash cli scripts
 
-////
+===========================================
 
 @transform.sh cannot be respsonsible for sending back target path, because in many cases we will
 skip running @transform.sh because "we have already transpiled.".
 
-////
+===========================================
 
  => need to refactor acquireIntegrantsSingleProcess
 
-////
+===========================================
 
  should send the stdout of @transform.sh to @run.sh
 
-////
+===========================================
 
    use exec to run stuff at command lines
    else if('.sh'  === extname){
@@ -1642,23 +1671,23 @@ skip running @transform.sh because "we have already transpiled.".
           //   console.log('args => ', argz);
           //   n = cp.spawn('exec', argz, ext);
           // }
-////
+===========================================
 
   @run.sh =>  if "/@target/" matches path, then don't look for @run.sh
 
-////
+===========================================
 
 --inspect-brk instead of --inspect --debug-brk
 
-////
+===========================================
 
   n.once('exit', cb) in handle multiple processes, cb should be moved into a different file
 
-////
+===========================================
 
  force TAP reporter for anything with sumanception > 0
 
-////
+===========================================
 
  the emitter that I pass into suman reporters, something like this:
 
@@ -1672,16 +1701,16 @@ skip running @transform.sh because "we have already transpiled.".
  }
 
 
-////
+===========================================
 
   we should inject sumanOpts into reporters, instead of using _suman.sumanOpts, etc.
 
-////
+===========================================
 
   ioc deps should be injected only at the root suite
   inject.cb() values should only be injected for non-root suites
 
-////
+===========================================
 
   each suman process should forward message to parent, to allow for sumanception.
   process.on('message', function(){
@@ -1696,37 +1725,37 @@ skip running @transform.sh because "we have already transpiled.".
 
   => If SUMAN_INCEPTION_LEVEL > 0, then don't output test results - leave that to the top level runner
 
-////
+===========================================
 
 error TS5033: Could not write file
 '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/a.test.js':
 EACCES: permission denied,
 open '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/a.test.js'.
 
-////
+===========================================
 
 error TS5033: Could not write file
 '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/b.test.js':
 EACCES: permission denied,
  open '/home/oleg/WebstormProjects/oresoftware/sumanjs/suman/test/src/typescript/@target/b.test.js'.
 
-////
+===========================================
 
  npm set progress=false  => faster installs
 
   source matching - find files to run
   run matching  - file types that are actually runnable
 
-////
+===========================================
 
   @transform.sh => does not have to exist - will transform the code
   @run.sh => will be run instead with list of arguments of matching files
 
-////
+===========================================
 
  -f flag should allow us to run a test even if it doesn't match the regexes in suman.conf.js
 
-////
+===========================================
 
  have to fix SUMAN_SINGLE_PROCESS + --runner
 
@@ -1759,37 +1788,37 @@ EACCES: permission denied,
 
 
 
-////
+===========================================
 
  change module.exports in suman.once.pre.js, suman.ioc.js to exports.default
 
-////
+===========================================
 
  suman --repair should make all @run.sh and @transform.sh files executable (chmod u+x ...)
  and all @target executable but not writable
 
-////
+===========================================
 
  it's likely that ~/.suman/global/node_modules will eventually get corrupted
  suman --repair should fix that
  rm -rf ~/.suman/global/node_modules
  and then reinstall
 
-////
+===========================================
 
  for suman.conf.js =>
   => module.exports = {}, should become exports.default = {};
 
-////
+===========================================
 
 after.always should complete before any suman.post hooks begin
 
-////
+===========================================
 
   sumans (Test.creates()) should run in series. Whenever a suman starts, we set global.__suman.whichSuman.
   when it ends, we set global.__suman.whichSuman to null.
 
-////
+===========================================
 
     nested data here in suman.once.pre.js =>
     => Drop-db data =>  { 'launch-server': { 'launch-server': 'early resolve, because server is already available.' } }
@@ -1797,26 +1826,26 @@ after.always should complete before any suman.post hooks begin
 
     https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript
 
-////
+===========================================
 
     use macports to update readline on macos?
     sudo port -d selfupdate
 
-////
+===========================================
 
     https://help.github.com/articles/user-organization-and-project-pages/
 
-////
+===========================================
 
     http://typedoc.org/guides/installation/#task-runners
 
-////
+===========================================
 
     Error: table suman_run_info already exists
     Error: table suman_run_id already exists
     Error: UNIQUE constraint failed: suman_run_id.id
 
-////
+===========================================
 
 need to allow users to define timeout for suman.once.pre.js hooks
 
@@ -1826,34 +1855,34 @@ Error: Suman dependency acquisition timed-out for dependency with key => 'seed-d
     at tryOnTimeout (timers.js:250:5)
     at Timer.listOnTimeout (timers.js:214:5)
 
-////
+===========================================
 
   we need to verify suman.once.post.js is valid before running everything else potentially
   ok...we can't do that, since we don't know which test scripts will run until they actually do
   aka, pre:[] will not be known for all files beforehand, the files have to execute first.
 
-////
+===========================================
 
 TODO: allow a command line option to not import devDeps
 
-///
+===========================================
 
  generate docs via
  https://github.com/TypeStrong/typedoc
 
-///
+===========================================
 
     https://www.npmjs.com/package/graceful-readlink
 
-///
+===========================================
 
 => after.always should complete before any suman.post hooks begin
 
-///
+===========================================
 
     https://stackoverflow.com/questions/43422058/how-to-do-a-synchronous-require-of-webpack-build-module-from-outside-of-webpa
 
-///
+===========================================
 
 => What happens when t.done(null)
 is called more than once? Will it run callbacks more than once? break async lib?
@@ -1864,11 +1893,11 @@ is called more than once? Will it run callbacks more than once? break async lib?
   if t.cleanup is defined as a function, fire it, that's it.
      t.on('done') is ridic
 
-///
+===========================================
 
     Tests skipped                 |        At least 0
 
-///
+===========================================
 
     put the assertion in the test title
     e.g.:
@@ -1878,15 +1907,15 @@ is called more than once? Will it run callbacks more than once? break async lib?
 
     ✔  ' => PUT to acquisitions => cdt_moderator.gen' (4ms) [expected: "400"]
 
-///
+===========================================
 
     in series mode (everything is series), then we can log the describe titles, etc.!
 
-////
+===========================================
 
     $suite title should work
 
-////
+===========================================
 
     best practices:
 
@@ -1900,27 +1929,27 @@ is called more than once? Will it run callbacks more than once? break async lib?
         describe('POST', {parallel: false}, function () {
         Object.keys(usernames).forEach(function (name) {
 
-///
+===========================================
 
     inject stuff:
     https://docs.angularjs.org/guide/unit-testing
 
-///
+===========================================
 
     $pre should be injected into test.creates =>
 
-///
+===========================================
 
     suman --repair # this should install missing deps in $HOME/.suman/global/node_modules
     aka, go through all, try to require them, if they cannot be required, reinstall them
 
-///
+===========================================
 
 Argument is *not* required at argument index = 2, but type was wrong
  => expected => "array"
  => actual => "object"
     at Object.parse (/usr/local/cdt-tests/node_modules/pragmatik/index.js:278:17)
-    at TestSuiteBase.it (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-it.js:20:30)   /// <<< it(), not describe() !!
+    at TestSuiteBase.it (/usr/local/cdt-tests/node_modules/suman/lib/test-suite-methods/make-it.js:20:30)   =========================================== <<< it(), not describe() !!
     at it (/usr/local/cdt-tests/node_modules/suman/lib/acquire-deps-fill-in.js:31:30)
     at /usr/local/cdt-tests/test/e2e/user-roles.test.js:148:7
     at Array.forEach (native)
@@ -1958,7 +1987,7 @@ Argument is *not* required at argument index = 2, but type was wrong
   });
 
 
-////
+===========================================
 
     the following output does not show which hook (we need a file and line number) caused the problem
 
@@ -1980,7 +2009,7 @@ Argument is *not* required at argument index = 2, but type was wrong
        at _combinedTickCallback (internal/process/next_tick.js:77:11)
        at process._tickDomainCallback (internal/process/next_tick.js:128:9)
 
-////
+===========================================
 
 => Allow for auto-logging of hook begin and end
 
@@ -1990,7 +2019,7 @@ e.g.:
 => finished sourcing deps for pre task "x"
 => finished pre-task "x"
 
-////////////////////////////////////////////////
+====================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
 
 => inject ctx is incorrect, see cdt-now import.test.js file
 
@@ -2022,202 +2051,202 @@ npm i -D @types/suman  => need to produce these types for suman
 
 // slow and ensure logs  => --slow-and-ensure-logs
 
-/////
+===========================================/
 
   find/grep for all files that do not have "suman-polyfills"
 
-/////
+===========================================/
 
  => might need to use "parse-function" instead of "function-arguments"
  https://github.com/tunnckoCore/function-arguments/pull/6
 
-/////
+===========================================/
 
   allow for cleanup SIGINT handler for bail, etc, in each test child process
 
-/////
+===========================================/
 
   bash '/Applications/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'
 
-/////
+===========================================/
 
 grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'global\.' . | grep -Ev 'global\.__suman' > grep.log
 grep -r --exclude "node_modules/**" --exclude "**/node_modules/**" --exclude "./dist/**" --exclude "**/test/**" --exclude "*.log" --exclude "**/suman-todos.txt" 'suman\.__suman' . > grep.log
 
-/////
+===========================================/
 
   => error first callback wrap => put this in suman docs tips and tricks
 
-/////
+===========================================/
 
  => Ajv schema validation
 
-/////
+===========================================/
 
  webpack options schema - https://github.com/webpack/webpack/blob/master/schemas/webpackOptionsSchema.json
  do the same thing with suman.conf.js.
 
-////
+===========================================
 
  => dynamic require's
 
-////
+===========================================
 
  webpack options schema - https://github.com/webpack/webpack/blob/master/schemas/webpackOptionsSchema.json
  do the same thing with suman.conf.js.
 
-////
+===========================================
 
  need to use frankenstop to avoid bad suman.conf.js files
 
-////
+===========================================
 
  do suman pre hooks work with "suman x --no-runner", as opposed to node x?
 
-////
+===========================================
 
    need to log which pre hooks are running, for each one - log started/ended, so user knows which
    are running parallel and series.
 
-////
+===========================================
 
   create web reporter - add spinning circles to grid for each test, spinning circles update for each test case
 
-////
+===========================================
 
  on jenkins servers, etc, we should install $HOME/.suman to the project directory /.suman
 
-////
+===========================================
 
 restore contents of examples directory?? look in git history
 
-///
+===========================================
 
 https://lodash.com/custom-builds
 
-///
+===========================================
 
  TODO: if a child describe is only, but the parent is not, then we still need to run hooks for parent
 
-///
+===========================================
 
  https://github.com/Microsoft/TypeScript/issues/14941#issuecomment-293023423
 
-///
+===========================================
 
  create new suman event => all test cases registered, so that we can create a progress bar
  in the browser, showing how many tests are done
 
-///
+===========================================
 
  suman uses a more declarative style and dependency injection for code reuse, etc.
 
-///
+===========================================
 
 passing rate currently includes stubbed tests -
 need to filter out stubbed and skipped tests, before calculating passing rate.
 
-///
+===========================================
 
 use typescript to remove all debugger; statements
 however, if user wants to have a debugger; statement,
 then they can use an env variable or suman.conf.js option, etc.
 
-///
+===========================================
 
 get TTY/pty background color, should be possible
 
-///
+===========================================
 
  --node-arg=--inspect
 
-///
+===========================================
 
 support snakecase and pascalcase for NPM modules => FirefoxProfile or firefox_profile
 
-///
+===========================================
 
 passing rate currently includes stubbed tests -
 need to filter out stubbed and skipped tests, before calculating passing rate.
 
-///
+===========================================
 
  => Suman should try its best to run all after hooks for cleanup, right now after hooks seem to be skipped
  if there is a fatal error.
 
-///
+===========================================
 
  for writing test result output to stdout, we can check to see if the previous stdout has two newline chars,
  if not, then output a newline char beforehand, make output much cleaner!
 
-///
+===========================================
 
 webpack => https://github.com/AriaFallah/WebpackTutorial/tree/master/part1
 
-///
+===========================================
 
 https://www.w3.org/TR/webdriver/
 suman can use webdriverio => https://github.com/webdriverio/webdriverio
 
-///
+===========================================
 
 NODEOPT => https://github.com/nodejs/help/issues/556
 
-///
+===========================================
 
  suman has support for asynchronous reporters -> https://github.com/mochajs/mocha/issues/2368
 
-///
+===========================================
 
   https://github.com/maxogden/websocket-stream
 
-///
+===========================================
 
   window.close() will close the browser.
 
-///
+===========================================
 
  browser support - https://github.com/avajs/ava/issues/24
 
-///
+===========================================
 
      merged namespace - https://github.com/Microsoft/TypeScript/issues/2719#issuecomment-290408640
 
-///
+===========================================
 
     require hooks - https://github.com/nodejs/help/issues/556#issuecomment-290241186
     https://github.com/nodejs/node/pull/12028
 
-///
+===========================================
 
     https://github.com/nodejs/node/issues/10843
 
-///
+===========================================
 
     use domains - TapJS, HapiJS, Suman
 
-////
+===========================================
 
     http://stackoverflow.com/questions/43077255/command-to-cd-to-root-of-project/43077349#43077349
 
-///
+===========================================
 
     how to specify .babelrc location when transpiling
 
-///
+===========================================
 
     prove that TAP output works with all regular suman tests by turning off IPC
 
-///
+===========================================
 
     proxy:
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
 
-///
+===========================================
 
  in readme put the installation size
 
-///
+===========================================
 
     dynamic tests, tests files should be minimally dynamic so as to be repeatable, knowable etc.
     to call tests programmatically, as opposed through the suman runner.
@@ -2226,49 +2255,49 @@ NODEOPT => https://github.com/nodejs/help/issues/556
     However, to pass different values to the test, it's recommend to use process.argv.
     So use a child process to run the test with your own code.
 
-////
+===========================================
 
     use cp.execSync to synchronously install npm deps
 
-////
+===========================================
 
       suman --create x/js/z
       suman.template.js
 
-////
+===========================================
 
  suman uses a more declarative style and dependency injection for code reuse, etc.
 
-////
+===========================================
 
  add .ts and .sh to npmignore without ignorring .d.ts and without ignoring cli/*.sh
 
-////
+===========================================
 
   put default suman config files in separate project?
 
-////
+===========================================
 
    need a way to assert that there is a test case for each - need to get list of test names
    and match list of test names to some other list
 
-////
+===========================================
 
 https://github.com/mochajs/mocha/issues/2726
 
-////
+===========================================
 
 what is node_modules/graceful-readlink
 
-////
+===========================================
 
 suman_single_process does not work with runner - try running it against the pragmatik project, and see
 
-////
+===========================================
 
 throws: true, vs throws RegExp, if true, any error is ok, or just have them use /.*/ as the regex
 
-////
+===========================================
 
 why are some global suman deps being installed as dev deps?
 
@@ -2313,26 +2342,26 @@ why are some global suman deps being installed as dev deps?
   "description": ""
 }
 
-////
+===========================================
 
  https://angular.io/docs/ts/latest/guide/dependency-injection.html
 
-////
+===========================================
 
 
 Squash commits based on author
 http://stackoverflow.com/questions/38871300/squash-commits-based-on-author
 
-////
+===========================================
 
   typescript transpile => user needs to pass a path to tsconfig-test.json
   for babel => user needs to pass a path to .babelrc
 
-////
+===========================================
 
 https://angular.io/docs/ts/latest/guide/dependency-injection.html
 
-////
+===========================================
 
 > suman@1.1.512217 postinstall /usr/local/lib/node_modules/suman
 > ./scripts/suman-postinstall.sh
@@ -2343,7 +2372,7 @@ Error: EACCES: permission denied, open '/Users/alexamil/.suman/suman-debug.log'
 ./scripts/suman-postinstall.sh: line 49: /Users/alexamil/.suman/suman-debug.log: Permission denied
 ./scripts/suman-postinstall.sh: line 51: /Users/alexamil/.suman/suman-debug.log: Permission denied
 
-////
+===========================================
 
  // when npm link . (suman) is not there
  // and when suman-clis.sh is not imported
@@ -2359,35 +2388,35 @@ alexamils-MacBook-Pro:suman alexamil$ suman
  => Attempting to run installed version of Suman here =>
 /Users/alexamil/.nvm/versions/node/v7.5.0/bin/suman: line 34: node: No such file or directory
 
-////
+===========================================
 
  => tap + bash => https://github.com/sstephenson/bats
 
-////
+===========================================
 
  what is node_modules/graceful-readlink
 
-////
+===========================================
 
   suman daemon should leave the item it's currently working on at the top of the list, so that if another
   process tries to add the same, it's a dupe
 
-////
+===========================================
 
     https://github.com/docker/docker/issues/30585#issuecomment-280833742
 
-////
+===========================================
 
   need to support typescript and babel, both in the same project, if need be. Just need user to point
   to tsconfig-test.json and we can get tsc to work for testing. We can probably generate one based off their
   suman.config. So we look for a permanent one. If the permanent file does not exist, we generate our own
   temporary tsconfig-test.json based off their suman config.
 
-////
+===========================================
 
  we should be able to inject core deps etc into suman.ioc.js, suman.hooks.js, suman.once.pre.js etc, etc
 
-////
+===========================================
 
  on MacOS:
 
@@ -2407,100 +2436,100 @@ usage: readlink [-n] [file ...]
 
     SOLUTION - use fs.readlinkSync?
 
-////
+===========================================
 
     https://docs.docker.com/engine/reference/commandline/service_logs/
     $ docker service logs [OPTIONS] SERVICE
     docker-cloud => suman_library_test_cluster
     denmanm1/ewRdik9a
 
-////
+===========================================
 
   **** PEER deps => should Suman and Suman server be NPM peer dependencies? ****
 
-////
+===========================================
 
    if debugging a single test with the runner,
    just send all stdout and stderr to the parent process
    the user can use the --inherit-stdio option
 
-/////
+===========================================/
 
   if we aggregate coverage report at the end, we do not need lcov report per file,
   just need coverage.json per run
 
-/////
+===========================================/
 
     get istanbul coverage working with suman-test-projects
     TODO: use --include-all-sources with istanbul
 
-/////
+===========================================/
 
     get nyc to work alongside istanbul
 
-/////
+===========================================/
 
     https://www.quora.com/How-can-I-get-my-ssh-keys-into-a-docker-container-running-locally
     Docker copy can help you to achieve that:
     docker cp ~/.ssh {container id}:/home/root
     docker exec container_id your_command
 
-/////
+===========================================/
 
     if user wants babel and it doesn't exist, (1) block and install it <locally>,
     and (2) if not in a container, then put install thing on queue, then proceed
 
-/////
+===========================================/
 
  If no name is passed to Test.create(name), then the test name should be the path from root to module.filename,
  by default. No need to pass __filename to the test. However, if Test.create(function(){}) is called
  twice in the same file, then...append a number?
 
-/////
+===========================================/
 
  => runs directory needs a readme file
 
-/////
+===========================================/
 
  add a command to fix postinstall if it didn't work or something
  suman --post-install
 
-/////
+===========================================/
 
  jasmine to write tests and karma
 
-/////
+===========================================/
 
   list failed tests at the end - even with suman single-js-file table
 
-/////
+===========================================/
 
 suman_software @twitter
 upon new release, send out tweet
 
-/////
+===========================================/
 
  add a propaganda link in the Suman docs - showing:
  the difference!
  1:1 process to test file
 
-/////
+===========================================/
 
  Add TapJS and Lab to list of test runners
 
-////
+===========================================
 
  TODO: improve delay/resume so that it works with inject
 
-////
+===========================================
 
   => support x.spec.js =>, testsrc might be project root
 
-////
+===========================================
 
   if using macro and more than 1 Test.create, all of those will be called.
 
-////
+===========================================
 
   => DI =>
 
@@ -2521,19 +2550,19 @@ upon new release, send out tweet
   source top-level
   source core-modules
 
-////
+===========================================
 
 if using runner, stderr from test case fails should still be written
 
-////
+===========================================
 
 http://stackoverflow.com/a/34703425/1223975
 
-////
+===========================================
 
 https://docs.docker.com/swarm/reference/swarm/
 
-////
+===========================================
 
 if there are any test errors or warnings, print out a link
 to the relevent log files
@@ -2542,7 +2571,7 @@ if there are multiple errors, just print a link to test/_suman/logs/tests direct
 
 if there is no stderr for a test, we should delete the file in the /tests directory
 
-/////
+===========================================/
 
 use child unref after all children have exited in suman runner
 
@@ -2550,27 +2579,27 @@ By default, the parent will wait for the detached child to exit. To prevent the 
 use the child.unref() method. Doing so will cause the parent's event loop to not include the child in its reference count,
 allowing the parent to exit independently of the child, unless there is an established IPC channel between the child and parent.
 
-/////
+===========================================/
 
 top-level can see IOC injections, other describe blocks can only see $injection functions,
 thus, no conflict
 
-/////
+===========================================/
 
 proper plugin system for suman
 https://github.com/substack/tape/issues/341#issuecomment-273993725
 
-/////
+===========================================/
 
 end-to-end front-end testing:
 https://twitter.com/mpjme/status/811184862954737665
 nightwatch.js, cypress.io, selenium/cucumber
 
-/////
+===========================================/
 
 https://github.com/nodejs/help/issues/389
 
-/////
+===========================================/
 
 let timesFunction = function(callback) {
     if (typeof callback !== 'function' ) {
@@ -2590,75 +2619,75 @@ Number(5).times(function(val){
 
 });
 
-/////
+===========================================/
 
 data from pre should be separate from ioc data - that way if the user requests the pre data, but did not
 use any pre: [] options, an error will be thrown or at least a warning will be logged
 
-/////
+===========================================/
 
 guarantee that suman.once.pre.js callbacks are run in series in the order in which they are declared
 
-/////
+===========================================/
 
 we should maintain that series block which forces tests to run in series, that way multiple devs
 working on the same project know that it will be ok to make things async if the series block is already there
 
-/////
+===========================================/
 
 assert that a test takes a certain amount of time, if the test runs too fast, it is likely running
 synchronously, or some async feature is not working correctly
 
-////
+===========================================
 
  should have hook for each root suite, so we can inject ids
 
-////
+===========================================
 
  add the ability to make an after hook the last hook, or first hook, despite the order in which it was registered,
  same with before hook (make it run first or last)
 
-////
+===========================================
 
 npm de-dupe => https://docs.npmjs.com/cli/dedupe
 
-////
+===========================================
 
 closure compiler:
 https://developers.google.com/closure/compiler/
 
-////
+===========================================
 
 set -e at top of bash script
 https://www.quora.com/When-writing-a-shell-script-how-do-you-verify-that-a-command-completes-successfully
 
-////
+===========================================
 
 git.io shortlinks / tinyurls, as in (https://git.io/vMUyr)
 
-////
+===========================================
 
 cd suman-test/suman-test-projects && suman $(find subprojects -mindepth 2 -maxdepth 2 -name "test.sh" | xargs ) --concurrency=1
 
-////
+===========================================
 
 need to accumulate errors and show them at the end, whether it's the runner or with suman
 
-////
+===========================================
 
 incorporate suman.order.js with suman.groups.js
 note: if user doesn't want to run two tests at the same time, they should just go in different
 suman groups!!
 
-////
+===========================================
 
 use suman-server for suman optional dependencies install mutex, in place of lockfile
 
-////
+===========================================
 
 add do's and do not's to readme
 
-////
+===========================================
 
 //TODO: create suman --diagnostics option at command line to check for common problems with both project and test suites
 // list of checks
@@ -2666,77 +2695,77 @@ add do's and do not's to readme
 1. testSrcDir and testTargetDir need to be same level
 2. if suman or suman/logs does not exist, need to tell user to install suman (or suman should create if they don't exist)
 
-////
+===========================================
 
 http://www.2ality.com/2015/03/no-promises.html
 
-////
+===========================================
 
 run mocha tests in browser - use child process
 => browser tests should be => test.browser.js
 
-////
+===========================================
 
 http://www.thegeekstuff.com/2010/11/50-linux-commands/
 http://www.thegeekstuff.com/2010/08/ipcs-command-examples/
 
-////
+===========================================
 
 instead of use-server, use-babel, use-whatever, we try to use require.resolve(),
 and if not, we install them on the fly
 
-///
+===========================================
 
 suman-test-projects => should work suman#dev and suman#staging and suman#master
 
-////
+===========================================
 
 https://github.com/integrations/feature/continuous-integration
 
-////
+===========================================
 
 >>>> ava stores the babel .cache in node_modules/.cache/ava
 https://github.com/avajs/find-cache-dir/issues/1
 
-////
+===========================================
 
 use pkill to kills suman procs
 
-////
+===========================================
 
 npm install material-ui@next
 npm @next vs @latest
 
-////
+===========================================
 
 suman-meta => uses git-clone-all-org-repos and then runs the build.sh file,
 which should checkout all the right branches from remote repo.
 
-////
+===========================================
 
 https://github.com/avajs/ava/issues/1147
 
-////
+===========================================
 
 java / spark / go / python
 
-////
+===========================================
 
 SUMAN_SINGLE_PROCESS needs to forbid non-js file
 
-////
+===========================================
 
  =>
         *default
  =>
         { host: '127.0.0.1', port: 6969 }
 
-////
+===========================================
 
 debugging with node debug <pid> etc
 https://github.com/nodejs/help/issues/363#issuecomment-260213843
 
-////
+===========================================
 
 http://stackoverflow.com/questions/31578446/running-a-script-inside-a-docker-container-using-shell-script
 http://timmurphy.org/2015/02/27/running-multiple-programs-in-a-docker-container-from-the-command-line/
@@ -2757,43 +2786,43 @@ then run that in a container, based off of the list of test files
 use kubernetes to run tests on different nodes in a cluster
 http://kubernetes.io/docs/getting-started-guides/minikube/
 
-////
+===========================================
 
 TODO: incorporate nyc also as example, make sure it works
 todo: make coverage take one argument --coverage istanbul --coverage nyc
 
-////
+===========================================
 
 if base directory is not home or users, then we are installing globally, so always install all
 
 TODO: what about NVM?
 
-////
+===========================================
 
     cd suman && npm install suman -f   // force
 
-////
+===========================================
 
     refactor FILE_IS_NOT_DOT_JS => FILE_IS_NOT_ACCEPTED_EXTENSION
 
-////
+===========================================
 
     send usage data to slack (create app to track data)
 
-////
+===========================================
 
     we want a separate script to checkout master, run tests, then publish
     right now we have an npm publish script which might make staging the published branch instead of master
     even though master and staging should never be different
 
-////
+===========================================
 
     if not installing as daemon - should only install the deps explicitly declared in suman.conf.js
 
     in other words - if suman.conf.js is not present - install all deps as daemon,
     if it is present, only install deps declared as foreground process
 
-////
+===========================================
 
     if project with suman as a dependency are being installed in parallel, then .suman/node_modules will be
     written to in parallel, need to mitigate this (hopefully the queue works)
@@ -2801,7 +2830,7 @@ TODO: what about NVM?
     if someone is installing project for first time (ie, no suman.conf.js file), then we should install all
     optional deps as a daemon process.
 
-////
+===========================================
 
     require.resolve('istanbul') - we want executable, not package.json.main
     put .suman/global/node_modules on $PATH, then just call "$ which X"
@@ -2810,125 +2839,125 @@ TODO: what about NVM?
     https://github.com/nodejs/help/issues/389
     https://www.npmjs.com/package/which
 
-////
+===========================================
 
 ~/suman/test_results are still being written out
 
-////
+===========================================
 
  in --interactive, on final countdown from 10, only listen for backspace event instead of all stdin keys
 
-////
+===========================================
 
     because Poolio depends on Suman,
     we might need to install suman with --production / --only=production flag
 
-////
+===========================================
 
     pnpm, ied => https://github.com/tapjs/node-tap/issues/333#issuecomment-264680790
 
-////
+===========================================
 
 TODO: when running require('suman'), it will try to load suman.conf.js,
 which is bad when trying to run init!
 it will throw an error if suman.conf.js does not exist
 
-////
+===========================================
 
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04
 
-////
+===========================================
 
 https://semver.npmjs.com/
 
-////
+===========================================
 
 https://medium.com/@mbostock/prereleases-and-npm-e778fc5e2420#.v7sfbacbc
 
-////
+===========================================
 
 http://stackoverflow.com/questions/40902445/using-variable-interpolation-in-string-in-docker/40903689#40903689
 
-////
+===========================================
 
 => load suman-inquirer and suman-inquirer-directory from NPM instead of installing first
 
-////
+===========================================
 
 => Cache dependencies => https://docs.npmjs.com/cli/cache, instead of writing them to .suman/node_modules
 
-////
+===========================================
 
 creating documentation site:
 https://code.google.com/p/gitiles/
 
-////
+===========================================
 
 headless chrome browser
 https://gist.github.com/addyosmani/5336747
  >>>> this >>>> https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
 https://github.com/dhamaniasad/HeadlessBrowsers
 
-////
+===========================================
 
 npm ls x
 npm la x   // list dependencies in your project that depend on x
 
-////
+===========================================
 
 need to make suman.load() work with relative paths
 
-////
+===========================================
 
 Docker:
 https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
 
-////
+===========================================
 
 send the exit code with each FATAL message to runner, so that we don't print unnecessary errors
 in the runner for tests that are expected to exit with a certain non-zero exit code
 
-////
+===========================================
 
 C++ addons for speed
 https://medium.com/developers-writing/how-to-get-a-performance-boost-using-node-js-native-addons-fd3a24719c85#.ko1c8huw8
 
-////
+===========================================
 
 readlink => need to install it on a mac
 in init, need to run "which readlink", if it's not there, need to log big red warning
 
-////
+===========================================
 
     if we use SUMAN_SINGLE_PROCESS=yes, if suman tests spawn suman tests, then those will be forced to be SSP also
     because of nature of environment vars.
 
-////
+===========================================
 
     https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
 
-////
+===========================================
 
     add labjs and tapjs to readme tables
 
-////
+===========================================
 
     http://unix.stackexchange.com/questions/34273/can-i-pipe-stdout-on-one-server-to-stdin-on-another-server
 
     utilize multiple machines in a local network, instead of running 100 tests on one machine, or whatever
     how to do this? suman code shouldn't have to change, instead, we create different bash scripts
 
-////
+===========================================
 
     add to docs:
     Preventing false negatives
     preventing false positives
 
-////
+===========================================
 
     if user calls t.done() and there is no cb, this.test.cb, should log warnings
 
-////
+===========================================
 
 spawn child process, make sure no_silent or whatever options are available
 
@@ -2940,61 +2969,61 @@ spawn child process, make sure no_silent or whatever options are available
  (2) to send the stdio to a file, or
  (3) send all stdio to /dev/null
 
-////
+===========================================
 
     implement:
 
     enforceTestCaseNames: true,
     enforceBlockNames: true,
 
-////
+===========================================
 
     how to use babel vs babel-node
     https://github.com/babel/example-node-server
 
-////
+===========================================
 
     http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
 
-////
+===========================================
 
     http://stackoverflow.com/questions/40800418/resolving-path-with-bash/40800713?noredirect=1#comment68825967_40800713
 
-////
+===========================================
 
      => if Suman usage warning: no suman.once.pre.js file found
     then if there are any integrants/pre: [], we have to throw an error
 
-////
+===========================================
 
     need to validate suman.conf.js when we read it in
 
     AssertionError:  => Suman usage error => "testSrcDir" and "testTargetDir" must be at the same level in your project =>
     but in this cased testSrcDir is not defined
 
-////
+===========================================
 
     http://stackoverflow.com/questions/27701930/add-user-to-docker-container
 
-////
+===========================================
 
     #!/usr/bin/env node -- --inspect
     https://github.com/creationix/nvm/issues/1318#event-869975010
 
-////
+===========================================
 
     should node --inspect / suman-inspect only be for one file (not --inspecting the runner)?
 
-////
+===========================================
 
     if sumanOpts.strict => then we fail early if certain files don't exist, like certain suman helpers files
     alternatively it could be strict = !lax
 
-////
+===========================================
 
     http://www.codeproject.com/Questions/1157471/Redirecting-shell-output-via-grep
 
-////
+===========================================
 
     TODO: make this path reference the resolved paths in the resolved paths module
     const globalHooks = require(path.resolve(global.sumanHelperDirRoot + '/suman.hooks.js'));
@@ -3002,28 +3031,28 @@ spawn child process, make sure no_silent or whatever options are available
     in create-suman-runner =>
     const orderPath = path.resolve(global.sumanHelperDirRoot + '/suman.order.js');
 
-/////
+===========================================/
 
     TODO: we need to create shared suman-config loading file so that in index and lib/index it uses same logic
 
-/////
+===========================================/
 
     TODO: hooks always run ==> less conditionals ==> even if all tests are stubbed out, hooks still run, which makes sense
 
-////
+===========================================
 
     add suman-debug / suman--debug  --paths=["a.js","b.js"]
 
-/////
+===========================================/
 
     forwarding event emitters
     https://stackoverflow.com/questions/40856154/forwarding-events-from-one-event-emitter-to-another
 
-/////
+===========================================/
 
     update visit *** (every sequence of *** is a future hyperlink that needs filling in)
 
-/////
+===========================================/
 
     TODO:
 
@@ -3032,7 +3061,7 @@ spawn child process, make sure no_silent or whatever options are available
     run tests with test coverage
     watch project and run/transpile tests on changes
 
-/////
+===========================================/
 
     https://nodejs.org/api/tty.html
     http://stackoverflow.com/questions/24582183/how-to-stream-to-from-a-file-descriptor-in-node
@@ -3041,15 +3070,15 @@ spawn child process, make sure no_silent or whatever options are available
     https://github.com/nodejs/help/issues/363#issuecomment-260245021
     https://github.com/nodejs/help/issues/363#issuecomment-260213843
 
-/////
+===========================================/
 
     TODO: passing rate => 1 stubbed, 5 passed, 6 total, passing rate is 83.33%?
 
-////
+===========================================
 
     https://github.com/gulpjs/gulp/issues/770#issuecomment-259282294
 
-/////
+===========================================/
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -3090,69 +3119,69 @@ function openBrowser(url) {
 
 module.exports = openBrowser;
 
-////
+===========================================
 
     no_silent option needs to be replaced with (pipe, ignore, inherit, etc)
 
-////
+===========================================
 
     parse (subset of?) command line opts for plain node Suman run?
 
-////
+===========================================
 
     runner should show which order files are read, and then if --rand is chosen, the random order in which
     they will run
 
-////
+===========================================
 
     do better checks to make sure TDD/BDD interface and give user better warnings if using before instead of setup etc
     /Users/Olegzandr/WebstormProjects/oresoftware/suman/test/testsrc/es5-es6/build-recursion-tests/tes-t7-start.test.js
 
-////
+===========================================
 
     provide expected exit-code in test file, so that when runner sees exit code, it is OK with it and says
     56 (expected)
 
-////
+===========================================
 
     double check to see if bail option is always sumanOpts and also make it work with suman.conf.js too
 
-////
+===========================================
 
     TODO: runner lock would allow only one instance of the runner to run at a time, perhaps putting requests in a queue
     TODO: suman --clear-runner-queue would delete all lines in the file that queued runner runs
     TODO: add runner-lock to roadmap
     TODO: runnerLock: false should be default in suman.conf.js
 
-////
+===========================================
 
     TODO: allow printing of just one line of results, until a failure
     readline.clearLine(process.stdout, 0);
     process.stdout.write('\r' + chalk.green('Pass count: ' + successCount));
 
-////
+===========================================
 
     => Users should be able to provide expected exit codes in another place besides in suman.init()
 
-////
+===========================================
 
     add "append-match-none"
 
-////
+===========================================
 
     suman recommends usage of nvm, so that your global modules actually get installed into your user directory
 
-////
+===========================================
 
     TODO: when transpile: true, and test-target is not inside test directory, *and* sumanhelpersdir is inside test directory,
     then we need to point sumanHelpersDir to the target directory. Basically, whenever sumanHelpersDir is inside the directory
     that will get transpiled/moved, we have to update location.
 
-////
+===========================================
 
     --errors-only should be readline/clearLine so pass count simply goes up
 
-////
+===========================================
 
     image:
 
@@ -3161,49 +3190,49 @@ module.exports = openBrowser;
     testsuite
     testblock
 
-////
+===========================================
 
     TODO: use pragmatik in the lib/index.js file so that we can work with opts.skip properly
 
-////
+===========================================
 
     For SUMAN_SINGLE_PROCESS => need to run once.pre before everything and once.post after everything
 
-////
+===========================================
 
     change Suites skipped : 1, to Suites skipped  (at least 1)
 
-////
+===========================================
 
     TODO: SUMAN_SINGLE_PROCESS => for runner, have it either pass data back to runner table, or don't print table at all,
     probably latter is better.
 
-////
+===========================================
 
     suman --touch   // will touch package.json, which should fire chokidar change events
 
-////
+===========================================
 
     suman --diagnostics
 
     1. check to see if testSrcDir and testTargetDir have the same directory depth, if not, that's a problem
     2. ?
 
-////
+===========================================
 
     make sure that .babelrc does not get overwritten when using suman --use-babel
 
-////
+===========================================
 
      => beep when a watch-project test fails => https://www.npmjs.com/browse/keyword/beep
 
-////
+===========================================
 
     need to add SIGINT handler to runner (there is one in lib/index);
     this should allow us to run shutdown hooks in any event, and then exit.
     if they use two SIGINTs, then shutdown immediately.
 
-////
+===========================================
 
     error should be thrown for any key/values passed to suman.init(module,{
        x: 'y'
@@ -3212,33 +3241,33 @@ module.exports = openBrowser;
 
     throw new Error('"x" is not an available option, available options are: a b c, etc');
 
-////
+===========================================
 
     create functionality for timeout option in suman.init(module)
 
-////
+===========================================
 
     create setTimeout and call n.kill if child_process does not exit after X number of seconds
 
-////
+===========================================
 
     TODO: if transpile:true, and the user points suman to test-target/xyz,
     then we should just run the tests, not transpile first
 
-////
+===========================================
 
     suman.hook.js => suman.shared-hooks.js
 
-////
+===========================================
 
     inject data into suman.once.pre.js, because there is data being injected into suman.once.post.js
 
-////
+===========================================
 
     if uncaughtException is thrown/called, add a global flag, which will be checked by all hooks/test cases
     if the --ignore-uncaught-exceptions flag is not set then exit early from hooks/test cases
 
-////
+===========================================
 
     matches
     1. run as test matches
@@ -3254,37 +3283,37 @@ module.exports = openBrowser;
     };
 
 
-////
+===========================================
 
   pass root path to suman helpers
 
-////
+===========================================
 
 when running "$ gulp x" in the wrong directory
 [12:47:13] Local gulp not found in ~/WebstormProjects/moover
 [12:47:13] Try running: npm install gulp
 
-////
+===========================================
 
 suman --init: if suman is already installed locally, and version is not too old, don't reinstall
 
-////
+===========================================
 
 https://github.com/avajs/ava/pull/402
 
-////
+===========================================
 
 On linux you can use taskset to run node with a given CPU affinity.
 See this post for information on using the start command in Windows to do the same.
 http://stackoverflow.com/questions/10829974/taskset-equivalent-in-windows
 http://superuser.com/questions/149312/how-to-set-processor-affinity-on-os-x
 
-////
+===========================================
 
   3 diagrams, 1 for node a.test.js, 1 for suman a.test.js, 1 for suman --runner a.test.js
   draw a node green arrow through a test script
 
-////
+===========================================
 
   the runner fails to finish for poolio and for burro, not sure why, perhaps add a timeout for each test
 SUMAN_DEBUG=yes suman /Users/Olegzandr/WebstormProjects/burro/test-suman/integration_test.js

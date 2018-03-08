@@ -3,7 +3,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var suman_1 = require("suman");
 var Test = suman_1.default.init(module);
-Test.create(function (it) {
-    it('is a bird', function (t) {
+Test.define(function (v) {
+    v.desc('hi')
+        .run(function (b, it) {
+        it.parallel('hi', function (t) {
+        });
     });
 });

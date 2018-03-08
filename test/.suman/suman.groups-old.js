@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 var util = require("util");
 var assert = require("assert");
-var _ = require('underscore');
+var _ = require('lodash');
 var scripts = path.resolve(__dirname + '/scripts');
 function getScript(s) {
     return path.resolve(scripts + '/' + s + '.sh');
