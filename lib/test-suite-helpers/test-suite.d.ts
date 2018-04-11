@@ -1,7 +1,11 @@
 import { ITestSuite } from 'suman-types/dts/test-suite';
 import { ITestSuiteMakerOpts } from 'suman-types/dts/test-suite-maker';
 import { IAfterObj } from 'suman-types/dts/after';
-export declare class TestBlockBase {
+export interface ISumanSymbols {
+    [key: string]: symbol;
+}
+export declare const TestBlockSymbols: ISumanSymbols;
+export declare class TestBlock {
     opts: Object;
     testId: number;
     childCompletionCount: number;
@@ -27,24 +31,6 @@ export declare class TestBlockBase {
     it: Function;
     test: Function;
     testBlockMethodCache: Object;
-    protected mergeAfters: Function;
-    protected getAfters: Function;
-    protected getAfterEaches: Function;
-    protected getBefores: Function;
-    protected getBeforeEaches: Function;
-    protected injectedValues: Object;
-    protected getInjectedValue: Function;
-    protected getInjections: Function;
-    protected getChildren: Function;
-    protected getTests: Function;
-    protected getParallelTests: Function;
-    protected getAftersLast: Function;
-}
-export interface ISumanSymbols {
-    [key: string]: symbol;
-}
-export declare const TestBlockSymbols: ISumanSymbols;
-export declare class TestBlock extends TestBlockBase {
     constructor(obj: ITestSuiteMakerOpts);
     getHooks(): any;
     set(k: any, v: any): any;

@@ -35,51 +35,6 @@ import {makeStartSuite} from './make-start-suite';
 
 type ITestSuiteConstructor = (obj: ITestSuiteMakerOpts) => void;
 
-export class TestBlockBase {
-  // public
-  opts: Object;
-  testId: number;
-  childCompletionCount: number;
-  allChildBlocksCompleted: boolean;
-  isSetupComplete: boolean;
-  parallel: boolean;
-  skipped: boolean;
-  fixed: boolean;
-  only: boolean;
-  filename: string;
-  getAfterAllParentHooks: Function;
-  completedChildrenMap: Map<ITestSuite, boolean>;
-  parent?: ITestSuite;
-  
-  describe: Function;
-  context: Function;
-  suite: Function;
-  before: Function;
-  beforeAll: Function;
-  beforeEach: Function;
-  after: Function;
-  afterAll: Function;
-  afterEach: Function;
-  it: Function;
-  test: Function;
-  
-  testBlockMethodCache: Object;
-  
-  // protected
-  protected mergeAfters: Function;
-  protected getAfters: Function;
-  protected getAfterEaches: Function;
-  protected getBefores: Function;
-  protected getBeforeEaches: Function;
-  protected injectedValues: Object;
-  protected getInjectedValue: Function;
-  protected getInjections: Function;
-  protected getChildren: Function;
-  protected getTests: Function;
-  protected getParallelTests: Function;
-  protected getAftersLast: Function;
-}
-
 const makeRunChild = function (val: any) {
   return function runChild(child: ITestSuite, cb: Function) {
     child._run(val, cb);
@@ -121,13 +76,54 @@ const incr = function () {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export class TestBlock extends TestBlockBase {
+export class TestBlock {
+  
+  // public
+  opts: Object;
+  testId: number;
+  childCompletionCount: number;
+  allChildBlocksCompleted: boolean;
+  isSetupComplete: boolean;
+  parallel: boolean;
+  skipped: boolean;
+  fixed: boolean;
+  only: boolean;
+  filename: string;
+  getAfterAllParentHooks: Function;
+  completedChildrenMap: Map<ITestSuite, boolean>;
+  parent?: ITestSuite;
+  
+  describe: Function;
+  context: Function;
+  suite: Function;
+  before: Function;
+  beforeAll: Function;
+  beforeEach: Function;
+  after: Function;
+  afterAll: Function;
+  afterEach: Function;
+  it: Function;
+  test: Function;
+  
+  testBlockMethodCache: Object;
+  
+  // protected
+  // protected mergeAfters: Function;
+  // protected getAfters: Function;
+  // protected getAfterEaches: Function;
+  // protected getBefores: Function;
+  // protected getBeforeEaches: Function;
+  // protected injectedValues: Object;
+  // protected getInjectedValue: Function;
+  // protected getInjections: Function;
+  // protected getChildren: Function;
+  // protected getTests: Function;
+  // protected getParallelTests: Function;
+  // protected getAftersLast: Function;
   
   constructor(obj: ITestSuiteMakerOpts) {
     
-    super();
     const sumanOpts = _suman.sumanOpts;
-    
     const {suman, gracefulExit, handleBeforesAndAfters, notifyParent} = obj;
     this.__suitesuman = suman;
     this.__startSuite = makeStartSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
@@ -271,15 +267,15 @@ export class TestBlock extends TestBlockBase {
   getSourced(): any {
     // get a map of ALL source keys/values
     const ret = {};
-    let parent = this as TestBlockBase;
-    while (parent) {
-      let ioc = parent.ioc;
+    let v = this as TestBlock;
+    while (v) {
+      let ioc = v.ioc;
       Object.keys(ioc).forEach(function (k) {
         if (!(k in ret)) {
           ret[k] = ioc[k];
         }
       });
-      parent = this.parent;
+      v = this.parent;
     }
     return ret;
   }
@@ -370,7 +366,7 @@ export class TestBlock extends TestBlockBase {
     while (v = v.parent) {
       v.getAfterBlocks().reverse().forEach(function (z) {
         ret.unshift(z);
-      })
+      });
     }
     return ret;
   }
