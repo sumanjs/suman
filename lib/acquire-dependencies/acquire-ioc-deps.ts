@@ -19,7 +19,7 @@ import cp = require('child_process');
 
 //npm
 import chalk = require('chalk');
-import su from 'suman-utils';
+import su = require('suman-utils');
 const includes = require('lodash.includes');
 const fnArgs = require('function-arguments');
 

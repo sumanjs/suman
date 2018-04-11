@@ -44,7 +44,6 @@ import {makeBeforeEach} from '../test-suite-methods/make-before-each';
 import {makeBefore} from '../test-suite-methods/make-before';
 import {makeInject} from '../test-suite-methods/make-inject';
 import {makeDescribe} from '../test-suite-methods/make-describe';
-import {TestBlockBase} from "./make-test-suite";
 import {makeBeforeBlock} from "../test-suite-methods/make-before-block";
 import {makeAfterBlock} from "../test-suite-methods/make-after-block";
 
@@ -208,9 +207,8 @@ const addDefine = function (fn: any, Clazz: typeof DefineObject) {
   
 };
 
-export const makeSumanMethods = function (suman: ISuman, TestBlock: typeof TestBlockBase,
-                                          gracefulExit: Function, notifyParent: Function): any {
-  
+export const makeSumanMethods = function (suman: ISuman, gracefulExit: Function,
+                                          handleBeforesAndAfters: Function, notifyParent: Function): any {
   
   /*
 
@@ -224,7 +222,6 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: typeof TestB
   */
   
   const m = {} as any;
-  
   suman.containerProxy = m;
   
   // injectors
@@ -245,7 +242,7 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: typeof TestB
   const it: ItFn = addDefine(makeIt(suman), DefineObjectTestCase);
   const afterAllParentHooks = addDefine(makeAfterAllParentHooks(suman), DefineObjectAllHook);
   const describe: IDescribeFn =
-    addDefine(makeDescribe(suman, gracefulExit, TestBlock, notifyParent, blockInjector), DefineObjectContext);
+    addDefine(makeDescribe(suman, gracefulExit, notifyParent, blockInjector, handleBeforesAndAfters), DefineObjectContext);
   
   /////////////////////////////////////////////////////////////////////////////////////////
   
@@ -257,16 +254,16 @@ export const makeSumanMethods = function (suman: ISuman, TestBlock: typeof TestB
   m.inject = getProxy(inject, rules.hookSignature) as IInjectFn;
   
   m.before = m.beforeall = m.setup = getProxy(before, rules.hookSignature) as IBeforeFn;
-  m.beforeeach = m.setuptest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
+  m.beforeeach = m.beforeEach = m.setupTest = m.setuptest = getProxy(beforeEach, rules.hookSignature) as IBeforeEachFn;
   
-  m.after = m.afterall = m.teardown = getProxy(after, rules.hookSignature) as IAfterFn;
-  m.aftereach = m.teardowntest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
+  m.after = m.afterAll = m.afterall = m.teardown = m.tearDown = getProxy(after, rules.hookSignature) as IAfterFn;
+  m.aftereach = m.afterEach = m.tearDownTest = m.teardownTest = m.teardowntest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
   
-  m.afterallparenthooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
+  m.afterallparenthooks = m.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
   
-  m.beforeeachblock = m.beforeeachchild = getProxy(beforeEachBlock, rules.hookSignature) as Function;
-  m.aftereachblock = m.aftereachchild = getProxy(afterEachBlock, rules.hookSignature) as Function;
+  m.beforeeachblock = m.beforeEachBlock = m.beforeeachchild = m.beforeEachChild = getProxy(beforeEachBlock, rules.hookSignature) as Function;
+  m.aftereachblock = m.afterEachBlock = m.aftereachchild = m.afterEachChild = getProxy(afterEachBlock, rules.hookSignature) as Function;
   
-  return createInjector
+  return createInjector;
   
 };

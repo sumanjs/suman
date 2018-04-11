@@ -39,7 +39,7 @@ import {handleSetupComplete} from '../helpers/general';
 import {handleInjections} from '../test-suite-helpers/handle-injections';
 import {parseArgs} from '../helpers/general';
 import {evalOptions} from '../helpers/general';
-import {TestBlockBase} from "../test-suite-helpers/make-test-suite";
+import {TestBlock} from "../test-suite-helpers/test-suite";
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -71,9 +71,9 @@ const handleBadOptions = function (opts: IDescribeOpts, typeName: string) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeDescribe = function (suman: ISuman, gracefulExit: Function, TestBlock: TestBlockBase,
-                                      notifyParentThatChildIsComplete: Function,
-                                      blockInjector: Function): IDescribeFn {
+export const makeDescribe = function (suman: ISuman, gracefulExit: Function,
+                                      notifyParent: Function, blockInjector: Function,
+                                      handleBeforesAndAfters: Function): IDescribeFn {
 
   //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -162,7 +162,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     }
 
     // note: zuite is the parent of suite; aka, suite is the child of zuite
-    const suite = new TestBlock({desc, title: desc, opts});
+    const suite = new TestBlock({desc, title: desc, opts, suman, notifyParent, handleBeforesAndAfters, gracefulExit});
 
     if (zuite.fixed) {
       suite.fixed = true;
@@ -199,7 +199,7 @@ export const makeDescribe = function (suman: ISuman, gracefulExit: Function, Tes
     suite._run = function (val: any, callback: Function) {
 
       if (zuite.skipped || zuite.skippedDueToDescribeOnly) {
-        notifyParentThatChildIsComplete(zuite, callback);
+        notifyParent(zuite, callback);  // notify parent that child is complete
         return;
       }
 

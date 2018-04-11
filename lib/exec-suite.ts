@@ -34,7 +34,7 @@ import {constants} from '../config/suman-constants';
 import su = require('suman-utils');
 import {makeGracefulExit} from './make-graceful-exit';
 import {acquireIocDeps} from './acquire-dependencies/acquire-ioc-deps';
-import {makeTestSuite} from './test-suite-helpers/make-test-suite';
+import {TestBlock} from './test-suite-helpers/test-suite';
 import {fatalRequestReply} from './helpers/general';
 import {handleInjections} from './test-suite-helpers/handle-injections';
 import {makeOnSumanCompleted} from './helpers/general';
@@ -56,8 +56,8 @@ export const execSuite = function (suman: ISuman): Function {
   const gracefulExit = makeGracefulExit(suman);
   const handleBeforesAndAfters = makeHandleBeforesAndAfters(suman, gracefulExit);
   const notifyParent = makeNotifyParent(suman, gracefulExit, handleBeforesAndAfters);
-  const TestBlock = makeTestSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
-  const createInjector = makeSumanMethods(suman, TestBlock, gracefulExit, notifyParent);
+  // const TestBlock = makeTestSuite(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
+  const createInjector = makeSumanMethods(suman, gracefulExit, handleBeforesAndAfters, notifyParent);
   const allDescribeBlocks = suman.allDescribeBlocks;
   
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -147,7 +147,7 @@ export const execSuite = function (suman: ISuman): Function {
       return;
     }
     
-    const suite = new TestBlock({desc, isTopLevel: true, opts});
+    const suite = new TestBlock({desc, isTopLevel: true, opts, suman, gracefulExit, handleBeforesAndAfters, notifyParent});
     suite.bIsFirstArg = deps[0] === 'b';
     suite.isRootSuite = true;
     suite.bindExtras();
