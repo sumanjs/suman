@@ -1,8 +1,16 @@
 import { ITestSuite } from 'suman-types/dts/test-suite';
 import { ITestSuiteMakerOpts } from 'suman-types/dts/test-suite-maker';
 import { IAfterObj } from 'suman-types/dts/after';
+import { IAfterEachFn, IAfterFn, IBeforeEachFn, IBeforeFn, IDescribeFn } from "../s";
 export interface ISumanSymbols {
     [key: string]: symbol;
+}
+export interface TestSuiteMethods {
+    after: IAfterFn;
+    afterEach: IAfterEachFn;
+    before: IBeforeFn;
+    beforeEach: IBeforeEachFn;
+    describe: IDescribeFn;
 }
 export declare const TestBlockSymbols: ISumanSymbols;
 export declare class TestBlock {
@@ -32,7 +40,7 @@ export declare class TestBlock {
     test: Function;
     testBlockMethodCache: Object;
     constructor(obj: ITestSuiteMakerOpts);
-    getHooks(): any;
+    getHooks(): TestSuiteMethods;
     set(k: any, v: any): any;
     get(k?: any): any;
     getValues(...args: Array<string>): any[];

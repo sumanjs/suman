@@ -122,7 +122,7 @@ export class DefineObjectTestOrHook extends DefineObject {
   
   cb(v: boolean): this {
     assert.equal(typeof v, 'boolean', 'Value for "cb" must be a boolean.');
-    this.opts.cb = v;
+    this.opts.cb = Boolean(v);
     return this;
   }
   

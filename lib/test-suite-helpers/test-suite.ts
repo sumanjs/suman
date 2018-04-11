@@ -30,6 +30,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('../helpers/handle-varargs');
 const {constants} = require('../../config/suman-constants');
 import {makeStartSuite} from './make-start-suite';
+import {IAfterEachFn, IAfterFn, IBeforeEachFn, IBeforeFn, IDescribeFn} from "../s";
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -43,6 +44,14 @@ const makeRunChild = function (val: any) {
 
 export interface ISumanSymbols {
   [key: string]: symbol
+}
+
+export interface TestSuiteMethods {
+  after: IAfterFn;
+  afterEach: IAfterEachFn;
+  before: IBeforeFn;
+  beforeEach: IBeforeEachFn;
+  describe: IDescribeFn;
 }
 
 export const TestBlockSymbols: ISumanSymbols = {
@@ -177,7 +186,7 @@ export class TestBlock {
     // freezeExistingProps(this);
   }
   
-  getHooks() {
+  getHooks() : TestSuiteMethods {
     return this.__suitesuman.containerProxy;
   }
   

@@ -10,3 +10,18 @@ Test.define(function (v) {
         });
     });
 });
+Test.define('hi')
+    .source('semver', 'suit')
+    .run(function (b) {
+    var _a = b.getHooks(), it = _a.it, describe = _a.describe;
+    var sourced = b.getSourced();
+    console.log('sourced:', sourced);
+    it.parallel('hi', function (t) {
+    });
+    describe('published', function (b) {
+        5..times(function () {
+            it('meta', function (t) {
+            });
+        });
+    });
+});

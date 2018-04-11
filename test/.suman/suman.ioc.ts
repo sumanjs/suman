@@ -2,14 +2,15 @@
 
 ////////////
 
-
 //load async deps for any of your suman tests
 module.exports = ($data, $core, $deps, $ioc) => {
-
+  
+  
+  
   return {
-
+    
     dependencies: {
-
+      
       'bat': function () {
         return 'BAT';
       },
@@ -17,49 +18,49 @@ module.exports = ($data, $core, $deps, $ioc) => {
       'semver': function () {
         return 'zoom';
       },
-
+      
       'suit': function () {
-        return 'SUIT';
+        return {'SUIT': 'vommmm'};
       },
-
+      
       'aaa': function () {
         return '3a';
       },
-
+      
       'radical': function () {
         return '3r';
       },
-
+      
       'sheep': function () {
         return Promise.resolve('fluffy');
       },
-
+      
       'william': function (cb: Function) {
         setTimeout(function () {
           cb(null, 10);
         }, 100);
       },
-
+      
       'socketio': function () {
         return {
           'dummy': 'dummy socketio'
         }
       },
-
+      
       'should': function () {
         return Promise.resolve(require('should'));
       },
-
+      
       'request': function () {
         return require('request');  //this is not very useful, but below we can see useful asynchronous loading of deps
       },
-
+      
       'socket_io_client': function () {
         return require('socket.io-client');
       },
-
+      
       'choodles': function (cb: Function) {
-
+        
         setTimeout(function () {
           cb(null, {
             choodles: true
@@ -67,16 +68,16 @@ module.exports = ($data, $core, $deps, $ioc) => {
         }, 100);
       },
       'roodles': function (cb: Function) {
-
+        
         setTimeout(function () {
           cb(null, {
             roodles: false
           });
         }, 100);
       },
-
+      
       'whoa': function (cb: Function) {
-
+        
         setTimeout(function () {
           cb(null, {
             whoa: {
@@ -85,9 +86,9 @@ module.exports = ($data, $core, $deps, $ioc) => {
           });
         }, 100);
       },
-
+      
       'cherry': function (cb: Function) {
-
+        
         setTimeout(function () {
           cb(null, {
             cherry: {
@@ -96,9 +97,7 @@ module.exports = ($data, $core, $deps, $ioc) => {
           });
         }, 100);
       }
-
+      
     }
-
   };
-
 };

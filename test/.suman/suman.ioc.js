@@ -9,7 +9,7 @@ module.exports = function ($data, $core, $deps, $ioc) {
                 return 'zoom';
             },
             'suit': function () {
-                return 'SUIT';
+                return { 'SUIT': 'vommmm' };
             },
             'aaa': function () {
                 return '3a';
