@@ -1,4 +1,6 @@
 'use strict';
+
+//dts
 import Timer = NodeJS.Timer;
 import {IDepContainer} from "suman-types/dts/integrant-value-container";
 import {IGlobalSumanObj, IPseudoError, ISumanGlobal} from "suman-types/dts/global";
@@ -14,7 +16,7 @@ import util = require('util');
 import assert = require('assert');
 
 //npm
-const _ = require('lodash');
+import _ = require('lodash');
 const fnArgs = require('function-arguments');
 import su from 'suman-utils';
 import * as chalk from 'chalk';
@@ -126,7 +128,8 @@ export const acquirePreDeps = function ($depList: Array<string> | Array<Array<st
         
         asyncHelper(key, resolve, reject, [acc], 1, fn);
         
-      }).then(function (val) {
+      })
+      .then(function (val) {
         
         clearTimeout(to);
         

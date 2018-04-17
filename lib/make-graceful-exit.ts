@@ -1,6 +1,7 @@
 'use strict';
 
 //polyfills
+import {ISuman} from "./suman";
 const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
@@ -11,7 +12,6 @@ import EE = require('events');
 //npm
 import async = require('async');
 import * as chalk from 'chalk';
-import {ISuman} from "suman-types/dts/suman";
 const flattenDeep = require('lodash.flattendeep');
 import su = require('suman-utils');
 import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";

@@ -69,8 +69,8 @@ export class TestCaseParam extends ParamBase implements ITestCaseParam {
   }
   
   skip() {
-    (this.__test).skipped = true;
-    (this.__test).dynamicallySkipped = true;
+    this.__test.skipped = true;
+    this.__test.dynamicallySkipped = true;
   }
   
   onTimeout() {

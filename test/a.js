@@ -6,11 +6,11 @@ const {Test} = suman.init(module);
 
 //////////////////////////////////////////////////////////////////////////
 
-Test.create(['semver', function (b, assert) {
+Test.create(['semver', b => {
 
   const {describe, before, beforeEach, after, afterEach, it} = b.getHooks();
-
   const {semver, z} = b.getSourced();
+
   console.log('sourced:', semver, z);
   // const semver = b.ioc.semver; // semver
   console.log('semver => ', semver);

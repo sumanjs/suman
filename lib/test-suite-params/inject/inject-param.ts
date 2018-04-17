@@ -78,8 +78,8 @@ export class InjectParam extends ParamBase implements IInjectHookParam {
   }
   
   skip() {
-    (this.__hook).skipped = true;
-    (this.__hook).dynamicallySkipped = true;
+    this.__hook.skipped = true;
+    this.__hook.dynamicallySkipped = true;
   }
   
   onTimeout() {
