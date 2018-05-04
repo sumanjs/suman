@@ -13,7 +13,33 @@ export interface TestSuiteMethods {
     describe: IDescribeFn;
 }
 export declare const TestBlockSymbols: ISumanSymbols;
-export declare class TestBlock {
+export declare class TestBlockBase {
+    getInjections(): any;
+    getChildren(): any;
+    getTests(): any;
+    getParallelTests(): any;
+    getBefores(): any;
+    getBeforeBlocks(): any;
+    getBeforesFirst(): any;
+    getBeforesLast(): any;
+    getBeforeEaches(): any;
+    getAftersFirst(): any;
+    getAftersLast(): any;
+    getAfters(): any;
+    getAfterBlocks(): any;
+    getAfterEaches(): any;
+    getAfterBlockList(): Array<IAfterObj>;
+    getBeforeBlockList(): any[];
+    resume(): void;
+    startSuite(): any;
+    toString(): string;
+    invokeChildren(val: any, start: Function): void;
+    bindExtras(): this;
+    mergeBefores(): void;
+    mergeAfters(): void;
+    getHooks(): TestSuiteMethods;
+}
+export declare class TestBlock extends TestBlockBase {
     opts: Object;
     testId: number;
     childCompletionCount: number;
@@ -40,14 +66,11 @@ export declare class TestBlock {
     test: Function;
     testBlockMethodCache: Object;
     constructor(obj: ITestSuiteMakerOpts);
-    getHooks(): TestSuiteMethods;
     set(k: any, v: any): any;
     get(k?: any): any;
     getValues(...args: Array<string>): any[];
     getMap(...args: Array<string>): any;
     getAfterAllParentHooks(): any;
-    mergeBefores(): void;
-    mergeAfters(): void;
     getInjectedValue(key: string): any;
     getInjectedValues(...args: string[]): any[];
     getInjectedMap(...args: string[]): any;
@@ -55,25 +78,4 @@ export declare class TestBlock {
     getSourcedValue(v: string): any;
     getSourcedValues(...args: string[]): any[];
     getSourcedMap(...args: string[]): any;
-    getInjections(): any;
-    getChildren(): any;
-    getTests(): any;
-    getParallelTests(): any;
-    getBefores(): any;
-    getBeforeBlocks(): any;
-    getBeforesFirst(): any;
-    getBeforesLast(): any;
-    getBeforeEaches(): any;
-    getAftersFirst(): any;
-    getAftersLast(): any;
-    getAfters(): any;
-    getAfterBlocks(): any;
-    getAfterEaches(): any;
-    getAfterBlockList(): Array<IAfterObj>;
-    getBeforeBlockList(): any[];
-    resume(): void;
-    startSuite(): any;
-    toString(): string;
-    invokeChildren(val: any, start: Function): void;
-    bindExtras(): this;
 }
