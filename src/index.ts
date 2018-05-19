@@ -6,7 +6,7 @@ import EventEmitter = NodeJS.EventEmitter;
 import {IStartCreate, IIoCData, IInitFn, IInitOpts} from "suman-types/dts/index-init"
 import {Stream, Transform, Writable} from "stream";
 import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook, IInitRet} from "suman-types/dts/index-init";
-import {IHookOrTestCaseParam} from "suman-types/dts/test-suite";
+import {HookOrTestCaseParam} from "suman-types/dts/test-suite";
 import {DefineObject, DefineObjectContext} from "./test-suite-helpers/define-options-classes";
 import chai = require('chai');
 import AssertStatic = Chai.AssertStatic;
@@ -111,7 +111,7 @@ const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 import {fatalRequestReply} from './helpers/general';
 
-const {constants} = require('../config/suman-constants');
+import {constants} from './config/suman-constants';
 import {handleIntegrants} from './index-helpers/handle-integrants';
 import rules = require('./helpers/handle-varargs');
 import {makeSuman} from './suman';

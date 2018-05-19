@@ -39,7 +39,7 @@ export const createGanttChart = function (cb: Function) {
     return process.nextTick(cb);
   }
   
-  let p = path.resolve(__dirname + '/../gantt/index.html');
+  let p = path.resolve(__dirname + '/../../assets/gantt/index.html');
   
   fs.readFile(p, function (err, data) {
     
@@ -93,7 +93,7 @@ export const createTimelineChart = function (cb: Function) {
     return process.nextTick(cb);
   }
   
-  let p = path.resolve(__dirname + '/../gantt/timeline-template.html');
+  let p = path.resolve(__dirname + '/../../assets/gantt/timeline-template.html');
   
   fs.readFile(p, function (err, data) {
     

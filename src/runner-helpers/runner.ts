@@ -48,7 +48,7 @@ import su = require('suman-utils');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import integrantInjector from '../injection/integrant-injector';
 import {constants} from '../config/suman-constants';
-import ascii = require('../helpers/ascii');
+import {ascii} from '../helpers/ascii';
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {handleFatalMessage} from './handle-fatal-message';
 import {logTestResult} from './log-test-result';

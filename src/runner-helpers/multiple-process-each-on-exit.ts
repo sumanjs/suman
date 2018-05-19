@@ -22,14 +22,12 @@ import {events} from 'suman-events';
 import {ISumanCPMessages} from "./handle-multiple-processes";
 import su = require('suman-utils');
 import async = require('async');
-const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
 import {IGanttData} from "./socket-cp-hash";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {handleTestCoverageReporting} from './coverage-reporting';
-const {constants} = require('../config/suman-constants');
 import {getTranspileQueue, getRunQueue} from './shared/queues';
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 

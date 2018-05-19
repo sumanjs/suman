@@ -33,7 +33,7 @@ import McProxy = require('proxy-mcproxy');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {findSumanServer} from './helpers/general';
 import {ITestDataObj} from "suman-types/dts/it";
-import {constants} from '../config/suman-constants';
+import {constants} from './config/suman-constants';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 //////////////////////////////////////////////////////////////////////////////

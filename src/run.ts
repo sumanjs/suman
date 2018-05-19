@@ -31,10 +31,10 @@ const mkdirp = require('mkdirp');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const sumanHome = path.resolve(process.env.HOME + '/.suman');
-const noFilesFoundError = require('./helpers/no-files-found-error');
-const ascii = require('./helpers/ascii');
-const {constants} = require('../config/suman-constants');
-const {findFilesToRun} = require('./runner-helpers/get-file-paths');
+import {noFilesFoundError} from './helpers/no-files-found-error';
+import {ascii} from './helpers/ascii';
+import {constants} from './config/suman-constants';
+import {findFilesToRun} from './runner-helpers/get-file-paths';
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const dbPth = path.resolve(sumanHome + '/database/exec_db');
 

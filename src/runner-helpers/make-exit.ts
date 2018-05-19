@@ -25,7 +25,7 @@ import chalk  = require('chalk');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {constants} = require('../config/suman-constants');
+import {constants} from '../config/suman-constants';
 import {makeHandleAsyncReporters} from '../helpers/general';
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const reporterRets = _suman.reporterRets = (_suman.reporterRets || []);

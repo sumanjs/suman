@@ -20,15 +20,12 @@ import EE = require('events');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
 import * as su from 'suman-utils';
-import * as async from 'async';
-const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {cpHash, socketHash, ganttHash, IGanttHash, IGanttData} from './socket-cp-hash';
-const {constants} = require('../config/suman-constants');
 import {makeAddToTranspileQueue} from './multi-process/add-to-transpile-queue';
 import {makeOnExitFn} from './multiple-process-each-on-exit';
 import {makeAddToRunQueue} from "./multi-process/add-to-run-queue";

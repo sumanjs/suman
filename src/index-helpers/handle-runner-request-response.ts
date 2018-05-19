@@ -12,7 +12,7 @@ import util = require('util');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {constants} = require('../config/suman-constants');
+import {constants} from '../config/suman-constants';
 import {getClient} from './socketio-child-client'
 
 ///////////////////////////////////////////////////////////////////

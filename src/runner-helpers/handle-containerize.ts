@@ -20,8 +20,6 @@ const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
 import su from 'suman-utils';
 import * as async from 'async';
-
-const noFilesFoundError = require('../helpers/no-files-found-error');
 import * as chalk from 'chalk';
 
 //project

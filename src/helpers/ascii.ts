@@ -2,7 +2,7 @@
 
 import * as chalk from 'chalk';
 
-module.exports = {
+export const ascii = {
 
 
     suman_slant: chalk.grey.italic('\n\n' +

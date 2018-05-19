@@ -9,15 +9,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //core
-import cp = require('child_process');
-import fs = require('fs');
-import path = require('path');
-import util = require('util');
-import assert = require('assert');
 import EE = require('events');
-import os = require('os');
-import domain = require('domain');
-import vm = require('vm');
 
 //npm
 import async = require('async');

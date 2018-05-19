@@ -19,7 +19,7 @@ import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const {runAfterAlways} = require('./helpers/run-after-always');
-const {constants} = require('../config/suman-constants');
+import {constants} from './config/suman-constants';
 const singleProc = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 import {fatalRequestReply} from './helpers/general';
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());

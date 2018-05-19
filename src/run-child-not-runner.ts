@@ -17,7 +17,7 @@ import chalk = require('chalk');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {constants} = require('../config/suman-constants');
+import {constants} from './config/suman-constants';
 const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 ///////////////////////////////////////////////////////////////////////////////////////////

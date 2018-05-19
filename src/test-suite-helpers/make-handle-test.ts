@@ -24,7 +24,7 @@ import su = require('suman-utils');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {constants} = require('../config/suman-constants');
+import {constants} from '../config/suman-constants';
 import {makeTestCaseCallback} from './make-fini-callbacks';
 const helpers = require('./handle-promise-generator');
 import {cloneError} from '../helpers/general';
