@@ -7,6 +7,8 @@ if [[ ! -f "webpack.config.js" ]]; then
    exit 1;
 fi
 
+echo "wtf"
+
 (
     cd "$HOME/WebstormProjects/oresoftware"
 
@@ -25,9 +27,6 @@ fi
     [ ! -d "node_modules/babel-preset-env" ] &&  npm install babel-preset-env
 )
 
-if [[ ! -f "webpack.config.js" ]]; then
-   echo "cannot find webpack.config.js file in cwd";
-   exit 1;
-fi
+
 
 NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules" webpack
