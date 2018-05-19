@@ -1,10 +1,11 @@
 ### folders
-node_modules/
-.idea/
-.nyc_output/
-coverage/
+node_modules
+.idea
+.nyc_output
+coverage
 dist/
 .vscode
+dist
 
 ### matching files
 *.log
@@ -13,3 +14,6 @@ test/.suman/.meta
 ### files
 yarn.lock
 *.DS_Store
+
+### negation
+!dist/README.md

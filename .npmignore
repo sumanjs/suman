@@ -1,26 +1,21 @@
 
 ### matching files
-*.sh
-*.ts
 *.md
 *.txt
 *.log
 *.json
 *.yml
-*.DS_Store
 
 ### folders
 .idea
-node_modules
-coverage
 .nyc_output
-test
-dist
 .github
 .tscmultiwatch
-dev-scripts
 .vscode
-.vs_code
+coverage
+test
+dev-scripts
+src
 
 ### files
 .gitignore
@@ -31,11 +26,7 @@ suman.conf.js
 .editorconfig
 .babelrc
 .dockerignore
-yarn.lock
 
 ### negation
-!lib/**/*.sh
-!cli/*.sh
-!scripts/*.json
-!scripts/*.sh
-!*.d.ts
+!cli/*
+!scripts/*
