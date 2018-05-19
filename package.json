@@ -18,17 +18,17 @@
     "suman-w": "cli/suman-watch.sh",
     "suman-watch": "cli/suman-watch.sh"
   },
-  "typings": "lib/index.d.ts",
-  "main": "lib/index.js",
+  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
   "scripts": {
     "start": "echo 'this is not what you are looking for.'",
     "test": "./dev-scripts/test.sh",
     "postinstall": "./scripts/suman-postinstall.sh"
   },
   "author": "Olegzandr VD",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
-    "JSONStream": "^1.3.1",
     "ansi-256-colors": "^1.1.0",
     "ascii-table": "0.0.9",
     "async": "^2.4.1",
@@ -37,13 +37,12 @@
     "chai": "4.0.2",
     "chalk": "^1.1.3",
     "chmodr": "^1.0.2",
+    "cli-table": "^0.3.1",
     "dashdash": "^1.14.0",
-    "du": "^0.1.0",
     "freeze-existing-props": "latest",
     "function-arguments": "^1.0.4",
     "handlebars": "^4.0.10",
     "json-stdio": "latest",
-    "lockfile": "^1.0.3",
     "lodash.flatten": "^4.4.0",
     "lodash.flattendeep": "^4.4.0",
     "lodash.includes": "^4.3.0",
@@ -87,7 +86,8 @@
     "@types/chalk": "^0.4.31",
     "@types/core-js": "^0.9.35",
     "@types/lodash": "^4.14.50",
-    "@types/node": "^7.0.29",
+    "@types/node": "^10.1.2",
+    "@types/semver": "^5.5.0",
     "@types/socket.io": "^1.4.29",
     "@types/socket.io-client": "^1.4.29",
     "bluebird": "^3.4.7",
@@ -101,7 +101,6 @@
     "webpack": "^2.4.0"
   },
   "optionalDependencies": {
-    "suman-types": "latest",
     "suman-watch-plugins": "latest",
     "suman-watch": "latest",
     "play-sound": "^1.1.1"

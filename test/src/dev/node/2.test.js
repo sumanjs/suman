@@ -9,10 +9,7 @@ const Promise = require('bluebird');
 
 let count = 0;
 
-Test.create('X', {
-  series: true,
-  fixed: true
-}, (b, assert, describe, before, beforeEach, after, afterEach, it, afterAll, afterall) => {
+Test.create('X', {series: true, fixed: true}, (b, assert, describe, before, beforeEach, after, afterEach, it, afterAll, afterall) => {
   
   beforeEach(h => {
     console.log('h.value', h.value);

@@ -16,13 +16,14 @@ export suman_global_npm_modules_path="$(npm root -g)";
 function handle_global_suman {
 
     WHICH_SUMAN=$(which suman);
-    GLOBAL_MODULES="$(npm root -g)";
-    NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules":"${GLOBAL_MODULES}"
+#    GLOBAL_MODULES="$(npm root -g)";
+#    NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules":"${GLOBAL_MODULES}"
 
+    NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules"
     NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin";
 
     if [ -z "${WHICH_SUMAN}" ]; then
-        echo " [suman] => No global suman installation could be found with '\$ which suman', exiting..."
+        echo "[suman] => No global suman installation could be found with '\$ which suman', exiting..."
         return 1;
     else
 
@@ -36,7 +37,7 @@ function handle_global_suman {
         # we work with the first argument passed to this function
         local ref1="$1[@]";
         shift
-        NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}"  node "${!ref1}" "${X}/cli.js" "$@";
+        NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}"  node "${!ref1}" "${X}/dist/cli.js" "$@";
     fi
 }
 
@@ -44,7 +45,7 @@ function handle_global_suman {
 function suman {
 
     if test ${#} -eq 0; then
-        echo " [suman] using suman-shell instead of suman executable.";
+        echo "[suman] using suman-shell instead of suman executable.";
         suman-shell "$@"; # note we should have no arguments so passing "$@" to suman-shell should be pointless
     else
 
@@ -61,14 +62,14 @@ function suman {
             exit $?;
         fi
 
-        echo " [suman] => Using 'suman' alias in suman-clis.sh...";
+        echo "[suman] => Using 'suman' alias in suman-clis.sh...";
         LOCAL_SUMAN="$(node "$HOME/.suman/find-local-suman-executable.js")";
         NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules";
         NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin";
 
         if [[ "${SUMAN_FORCE_GLOBAL}" == "yes" || -z "$LOCAL_SUMAN" ]]; then
-            echo " [suman] => No local Suman executable could be found, given the present working directory => $PWD";
-            echo " [suman] => Warning...attempting to run a globally installed version of Suman...";
+            echo "[suman] => No local Suman executable could be found, given the present working directory => $PWD";
+            echo "[suman] => Warning...attempting to run a globally installed version of Suman...";
             local -a node_exec_args=( );
             handle_global_suman node_exec_args "$@";
         else
@@ -80,11 +81,11 @@ function suman {
 
 function suman-shell {
 
-    echo " [suman] => Using 'suman' alias in suman-clis.sh..."
+    echo "[suman] => Using 'suman' alias in suman-clis.sh..."
 
     if [[ "${SUMAN_WATCH_TEST_RUN}" == "yes" ]]; then
-        echo " [suman] Cannot run suman-shell from a watch process.";
-        echo " [suman] Cannot run suman-shell from a watch process." >&2 ;
+        echo "[suman] Cannot run suman-shell from a watch process.";
+        echo "[suman] Cannot run suman-shell from a watch process." >&2 ;
         exit 1;
     fi
 
@@ -96,8 +97,8 @@ function suman-shell {
     args+=("--suman-shell")
 
     if [[ "${SUMAN_FORCE_GLOBAL}" == "yes" || -z "$LOCAL_SUMAN" ]]; then
-        echo " [suman] => No local Suman executable could be found, given the present working directory => $PWD"
-        echo " [suman] => Warning...attempting to run a globally installed version of Suman..."
+        echo "[suman] => No local Suman executable could be found, given the present working directory => $PWD"
+        echo "[suman] => Warning...attempting to run a globally installed version of Suman..."
         local -a node_exec_args=( )
         handle_global_suman node_exec_args "${args[@]}"
     else
@@ -108,34 +109,34 @@ function suman-shell {
 
 function suman-inspect {
 
-    echo " [suman] => Using 'suman-inspect' alias in suman-clis.sh...";
+    echo "[suman] => Using 'suman-inspect' alias in suman-clis.sh...";
     LOCAL_SUMAN="$(node "$HOME/.suman/find-local-suman-executable.js")";
     NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules";
     NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin";
 
     if [[ "${SUMAN_FORCE_GLOBAL}" == "yes" || -z "$LOCAL_SUMAN" ]]; then
-        echo " [suman] => No local Suman executable could be found, given the present working directory => $PWD"
-        echo " [suman] You can use '$ which suman-debug' to find a globally installed version."
-        echo " [suman] => Warning...attempting to run a globally installed version of Suman..."
+        echo "[suman] => No local Suman executable could be found, given the present working directory => $PWD"
+        echo "[suman] You can use '$ which suman-debug' to find a globally installed version."
+        echo "[suman] => Warning...attempting to run a globally installed version of Suman..."
         local -a node_exec_args=( --inspect --debug-brk )
         handle_global_suman node_exec_args "$@"
     else
-        echo " [suman] running node against local suman"
+        echo "[suman] running node against local suman"
         NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" node --inspect --debug-brk "$LOCAL_SUMAN" "$@";
     fi
 }
 
 function suman-debug {
 
-    echo " [suman] => Using 'suman-debug' alias in suman-clis.sh..."
+    echo "[suman] => Using 'suman-debug' alias in suman-clis.sh..."
     LOCAL_SUMAN="$(node "$HOME/.suman/find-local-suman-executable.js")";
     NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules";
     NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin";
 
     if [[ "${SUMAN_FORCE_GLOBAL}" == "yes" || -z "$LOCAL_SUMAN" ]]; then
-        echo " [suman] No local Suman executable could be found, given the current directory => $PWD"
-        echo " [suman] You can use '$ which suman-debug' to find a globally installed version."
-        echo " [suman] => Warning...attempting to run a globally installed version of Suman..."
+        echo "[suman] No local Suman executable could be found, given the current directory => $PWD"
+        echo "[suman] You can use '$ which suman-debug' to find a globally installed version."
+        echo "[suman] => Warning...attempting to run a globally installed version of Suman..."
         local -a node_exec_args=( debug )
         handle_global_suman node_exec_args "$@"
     else
@@ -145,15 +146,15 @@ function suman-debug {
 
 function suman--debug {
 
-    echo " [suman] => Using 'suman--debug' alias in suman-clis.sh..."
+    echo "[suman] => Using 'suman--debug' alias in suman-clis.sh..."
     LOCAL_SUMAN="$(node "$HOME/.suman/find-local-suman-executable.js")";
     NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules";
     NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin";
 
     if [[ "${SUMAN_FORCE_GLOBAL}" == "yes" || -z "$LOCAL_SUMAN" ]]; then
-        echo " [suman] No local Suman executable could be found, given the current directory => $PWD"
-        echo " [suman] Use '$ which suman--debug' to find a globally installed version."
-        echo " [suman] => Warning...attempting to run a globally installed version of Suman..."
+        echo "[suman] No local Suman executable could be found, given the current directory => $PWD"
+        echo "[suman] Use '$ which suman--debug' to find a globally installed version."
+        echo "[suman] => Warning...attempting to run a globally installed version of Suman..."
         local -a node_exec_args=( --debug-brk=5858 --debug=5858 )
         handle_global_suman node_exec_args "$@"
     else

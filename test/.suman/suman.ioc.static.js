@@ -1,6 +1,6 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = function ($core, $deps) {
+exports.default = (function ($core, $deps) {
     return {
         dependencies: {
             'chuck': function () {
@@ -11,4 +11,4 @@ exports.default = function ($core, $deps) {
             },
         }
     };
-};
+});

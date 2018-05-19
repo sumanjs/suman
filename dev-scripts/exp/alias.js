@@ -1,12 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var mySharedFn = function () {
+let mySharedFn = function () {
 };
-var Foo = (function () {
-    function Foo() {
+class Foo {
+    constructor() {
         this.bar = mySharedFn;
         this.aliasBar = mySharedFn;
     }
-    return Foo;
-}());
+}
 exports.Foo = Foo;
