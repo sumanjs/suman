@@ -1,0 +1,27 @@
+{
+  "name": "suman-browser",
+  "version": "0.0.101",
+  "description": "A Webpack build of the Suman module, for use with RequireJS, SystemJS and Browserify",
+  "main": "suman.js",
+  "scripts": {
+    "test": "suman"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sumanjs/suman-browser.git"
+  },
+  "keywords": [
+    "sumanjs",
+    "browser",
+    "testing",
+    "unit",
+    "testing",
+    "tdd"
+  ],
+  "author": "Olegzandr VD",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sumanjs/suman-browser/issues"
+  },
+  "homepage": "https://github.com/sumanjs/suman-browser#readme"
+}
