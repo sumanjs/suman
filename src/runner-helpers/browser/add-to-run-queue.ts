@@ -29,7 +29,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {getTapParser, getTapJSONParser} from '../handle-tap';
 import pt from 'prepend-transform';
 import uuid = require('uuid');
-import {constants} from "../../../config/suman-constants";
+import {constants} from "../../config/suman-constants";
 const runChildPath = require.resolve(__dirname + '/../run-child.js');
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 

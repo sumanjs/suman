@@ -24,7 +24,7 @@ const fnArgs = require('function-arguments');
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {constants} from '../../config/suman-constants';
+import {constants} from '../config/suman-constants';
 const iocPromiseContainer: IIocPromiseContainer = {};
 
 /////////////////////////////////////////////////////////////

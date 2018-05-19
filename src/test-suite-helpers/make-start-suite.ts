@@ -25,7 +25,7 @@ import {events} from 'suman-events';
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {implementationError} from '../helpers/general';
-import {constants} from '../../config/suman-constants';
+import {constants} from '../config/suman-constants';
 import {makeTheTrap} from './make-the-trap';
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 

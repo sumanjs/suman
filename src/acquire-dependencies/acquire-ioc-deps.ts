@@ -25,7 +25,7 @@ const fnArgs = require('function-arguments');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-import {constants} from '../../config/suman-constants';
+import {constants} from '../config/suman-constants';
 import {ISuman, Suman} from "../suman";
 import {makeIocInjector} from '../injection/ioc-injector';
 import {loadSumanConfig, resolveSharedDirs, loadSharedObjects} from '../helpers/general';

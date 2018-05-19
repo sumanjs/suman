@@ -21,7 +21,7 @@ import su = require('suman-utils');
 import * as chalk from 'chalk';
 import {events} from 'suman-events';
 import * as _ from 'lodash';
-import {constants} from "../../config/suman-constants";
+import {constants} from "../config/suman-constants";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

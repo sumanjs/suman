@@ -32,7 +32,7 @@ import McProxy = require('proxy-mcproxy');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('../helpers/handle-varargs');
-import {constants} from '../../config/suman-constants';
+import {constants} from '../config/suman-constants';
 import {acquireIocDeps} from '../acquire-dependencies/acquire-ioc-deps';
 import {IInjectionDeps} from "suman-types/dts/injection";
 import {handleSetupComplete} from '../helpers/general';

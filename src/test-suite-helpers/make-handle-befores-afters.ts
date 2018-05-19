@@ -22,7 +22,7 @@ import chalk = require('chalk');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {makeAllHookCallback} from './make-fini-callbacks';
 import * as helpers from './handle-promise-generator';
-const {constants} = require('../../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 import {cloneError} from '../helpers/general';
 // import {makeHookParam} from './t-proto-hook';
 import {AllHookParam} from "../test-suite-params/all-hook/all-hook-param";

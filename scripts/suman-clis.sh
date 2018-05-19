@@ -16,9 +16,10 @@ export suman_global_npm_modules_path="$(npm root -g)";
 function handle_global_suman {
 
     WHICH_SUMAN=$(which suman);
-    GLOBAL_MODULES="$(npm root -g)";
-    NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules":"${GLOBAL_MODULES}"
+#    GLOBAL_MODULES="$(npm root -g)";
+#    NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules":"${GLOBAL_MODULES}"
 
+    NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules"
     NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin";
 
     if [ -z "${WHICH_SUMAN}" ]; then
@@ -36,7 +37,7 @@ function handle_global_suman {
         # we work with the first argument passed to this function
         local ref1="$1[@]";
         shift
-        NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}"  node "${!ref1}" "${X}/cli.js" "$@";
+        NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}"  node "${!ref1}" "${X}/dist/cli.js" "$@";
     fi
 }
 
@@ -80,7 +81,7 @@ function suman {
 
 function suman-shell {
 
-    echo " [suman] => Using 'suman' alias in suman-clis.sh..."
+    echo "[suman] => Using 'suman' alias in suman-clis.sh..."
 
     if [[ "${SUMAN_WATCH_TEST_RUN}" == "yes" ]]; then
         echo " [suman] Cannot run suman-shell from a watch process.";
@@ -108,7 +109,7 @@ function suman-shell {
 
 function suman-inspect {
 
-    echo " [suman] => Using 'suman-inspect' alias in suman-clis.sh...";
+    echo "[suman] => Using 'suman-inspect' alias in suman-clis.sh...";
     LOCAL_SUMAN="$(node "$HOME/.suman/find-local-suman-executable.js")";
     NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules";
     NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin";

@@ -26,7 +26,7 @@ import * as chai from 'chai';
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {cloneError} from '../helpers/general';
-import {constants} from '../../config/suman-constants';
+import {constants} from '../config/suman-constants';
 
 /////////////////////////////////////////////////////////////////////////////////
 

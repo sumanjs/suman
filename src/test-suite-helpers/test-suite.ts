@@ -28,7 +28,7 @@ import {freezeExistingProps} from 'freeze-existing-props';
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('../helpers/handle-varargs');
-const {constants} = require('../../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 import {makeStartSuite} from './make-start-suite';
 import {IAfterEachFn, IAfterFn, IBeforeEachFn, IBeforeFn, IDescribeFn} from "../s";
 

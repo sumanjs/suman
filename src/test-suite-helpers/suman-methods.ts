@@ -34,7 +34,7 @@ import _ = require('lodash');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {makeAfterAllParentHooks} from '../test-suite-methods/make-after-all-parent-hooks';
 import rules = require('../helpers/handle-varargs');
-const {constants} = require('../../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 import {makeBlockInjector} from '../injection/block-injector';
 import {makeCreateInjector} from '../injection/create-injector';
 import {makeIt} from '../test-suite-methods/make-it';

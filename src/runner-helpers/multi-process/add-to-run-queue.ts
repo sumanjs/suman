@@ -30,7 +30,7 @@ import {getTapParser, getTapJSONParser} from '../handle-tap';
 import pt from 'prepend-transform';
 import uuid = require('uuid');
 import {findPathOfRunDotSh} from '../runner-utils'
-import {constants} from "../../../config/suman-constants";
+import {constants} from "../../config/suman-constants";
 import {makeHandleDifferentExecutables} from './handle-different-executables';
 const runChildPath = require.resolve(__dirname + '/../run-child.js');
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());

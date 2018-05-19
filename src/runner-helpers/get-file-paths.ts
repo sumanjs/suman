@@ -23,7 +23,7 @@ import JSONStdio = require('json-stdio');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
-const {constants} = require('../../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const {events} = require('suman-events');
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 const writeStdoutToSumanShell = JSONStdio.initLogToStdout(su.constants.JSON_STDIO_SUMAN_SHELL);

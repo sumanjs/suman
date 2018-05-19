@@ -27,7 +27,7 @@ const flattenDeep = require('lodash.flattendeep');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {runUseContainer} from './use-container';
 import {runUseSh} from './use-sh';
-import {constants} from '../../../config/suman-constants';
+import {constants} from '../../config/suman-constants';
 
 ///////////////////////////////////////////////////////////////////////////////////////
 

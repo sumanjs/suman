@@ -13,7 +13,7 @@ import su = require('suman-utils');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const {constants} = require('../../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 
 //////////////////////////////////////////////////////////////////////
 

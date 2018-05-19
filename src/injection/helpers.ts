@@ -9,7 +9,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-const {constants} = require('../../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 
 ///////////////////////////////////////////////////////////////////////
 

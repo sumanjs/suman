@@ -25,7 +25,7 @@ import su = require('suman-utils');
 //project
 const _suman = global.__suman = (global.__suman || {});
 const weAreDebugging = su.weAreDebugging;
-import {constants} from '../../config/suman-constants';
+import {constants} from '../config/suman-constants';
 const {acquirePreDeps} = require('../acquire-dependencies/acquire-pre-deps');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

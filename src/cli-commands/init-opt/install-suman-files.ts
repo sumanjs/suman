@@ -20,7 +20,7 @@ const debug = require('suman-debug');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
-const {constants} = require('../../../config/suman-constants');
+const {constants} = require('../../config/suman-constants');
 const sumanUtils = require('suman-utils');
 const debugInit = debug('s:init');
 

@@ -23,7 +23,7 @@ import su = require('suman-utils');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 require('../helpers/add-suman-global-properties');
-const {constants} = require('../../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 const {fatalRequestReply} = require('../helpers/general');
 
 //////////////////////////////////////////////////////////////////////////////

@@ -24,7 +24,7 @@ import {cloneError} from './general';
 // import {makeHookParam} from '../test-suite-helpers/t-proto-hook';
 import {AllHookParam} from '../test-suite-params/all-hook/all-hook-param';
 import {freezeExistingProps} from 'freeze-existing-props'
-import {constants} from '../../config/suman-constants';
+import {constants} from '../config/suman-constants';
 
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 

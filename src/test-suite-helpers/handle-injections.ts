@@ -24,7 +24,7 @@ import su = require('suman-utils');
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 // import {makeInjectParam} from './t-proto-inject';
 import {InjectParam} from "../test-suite-params/inject/inject-param";
-import {constants} from "../../config/suman-constants";
+import {constants} from "../config/suman-constants";
 const weAreDebugging = su.weAreDebugging;
 
 ///////////////////////////////////////////////////////////////////

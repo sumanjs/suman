@@ -28,7 +28,7 @@ import * as chalk from 'chalk';
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {cpHash, socketHash, ganttHash, IGanttHash, IGanttData} from './socket-cp-hash';
-const {constants} = require('../../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 import {makeAddToTranspileQueue} from './browser/add-to-transpile-queue';
 import {makeOnExitFn} from './multiple-process-each-on-exit';
 import {makeAddToRunQueue} from "./browser/add-to-run-queue";

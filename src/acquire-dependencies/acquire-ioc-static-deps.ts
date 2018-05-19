@@ -26,7 +26,7 @@ const fnArgs = require('function-arguments');
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {constants} from '../../config/suman-constants';
+import {constants} from '../config/suman-constants';
 import Timer = NodeJS.Timer;
 import {makeIocStaticInjector} from '../injection/ioc-static-injector';
 let iocPromise: Promise<any> = null;

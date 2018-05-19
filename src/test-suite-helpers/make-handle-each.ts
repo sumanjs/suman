@@ -22,7 +22,7 @@ const fnArgs = require('function-arguments');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import su = require('suman-utils');
-const {constants} = require('../../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 import {cloneError} from '../helpers/general';
 // import {makeHookParam} from './t-proto-hook';
 import {EachHookParam} from "../test-suite-params/each-hook/each-hook-param";

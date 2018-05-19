@@ -29,7 +29,7 @@ import {IGanttData} from "./socket-cp-hash";
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {handleTestCoverageReporting} from './coverage-reporting';
-const {constants} = require('../../config/suman-constants');
+const {constants} = require('../config/suman-constants');
 import {getTranspileQueue, getRunQueue} from './shared/queues';
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 

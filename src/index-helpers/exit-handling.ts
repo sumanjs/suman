@@ -21,7 +21,7 @@ import su = require('suman-utils');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {fatalRequestReply} from '../helpers/general';
-import {constants} from '../../config/suman-constants';
+import {constants} from '../config/suman-constants';
 import {oncePostFn} from '../helpers/handle-suman-once-post';
 import {runAfterAlways} from '../helpers/run-after-always';
 const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];

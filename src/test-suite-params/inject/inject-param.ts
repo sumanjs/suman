@@ -23,7 +23,7 @@ import su = require('suman-utils');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {ParamBase} from '../base';
-import {constants} from "../../../config/suman-constants";
+import {constants} from "../../config/suman-constants";
 import {cloneError} from "../../helpers/general";
 
 ////////////////////////////////////////////////////////////////////////////////////
