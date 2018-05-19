@@ -9,7 +9,7 @@ fi
 
 #set -e;
 
-echo " [suman-daemon] checking if existing process is listening on port"
+echo "[suman-daemon] checking if existing process is listening on port"
 # which_false=$(which false); # /bin/false or /usr/bin/false depending on system
 
 
@@ -50,21 +50,21 @@ export SUMAN_LIBRARY_ROOT_PATH="${NPM_ROOT_GLOBAL}/suman";
 #fi
 
 if [[ -L "${NPM_ROOT_GLOBAL}/suman" || -d "${NPM_ROOT_GLOBAL}/suman" ]]; then
-    echo " [suman-daemon] suman is already installed globally, that's great.";
+    echo "[suman-daemon] suman is already installed globally, that's great.";
 else
     # we need to install suman globally so that suman-daemon always pre-loads the same version of suman
-    echo " [suman-daemon] suman is not installed globally, we will install suman globally now.";
+    echo "[suman-daemon] suman is not installed globally, we will install suman globally now.";
     npm install -g suman;
 fi
 
 daemon_log="$HOME/.suman/logs/suman-daemon.log";
 
-echo " [suman-daemon] beginning of new daemon process" > ${daemon_log};
+echo "[suman-daemon] beginning of new daemon process" > ${daemon_log};
 
 if [[ -L "${NPM_ROOT_GLOBAL}/suman-daemon" || -d "${NPM_ROOT_GLOBAL}/suman-daemon" ]]; then
 
-    echo " [suman-daemon] found suman-daemon global installation."
-    echo " [suman-daemon] now starting suman-daemon..."
+    echo "[suman-daemon] found suman-daemon global installation."
+    echo "[suman-daemon] now starting suman-daemon..."
     node "${NPM_ROOT_GLOBAL}/suman-daemon" > "${daemon_log}" 2>&1 # &
     # forever start "${NPM_ROOT_GLOBAL}/suman-daemon/index.js" --workingDir $(pwd)
 

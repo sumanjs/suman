@@ -17,7 +17,11 @@ BASH_PID="$$"
 ARGS=""; for i; do ARGS=$(printf '%s"%s"' "$ARGS", "$i"); done;
 ARGS=${ARGS#,}
 
+
+# http://xmodulo.com/tcp-udp-socket-bash-shell.html
 exec 3<>/dev/tcp/localhost/9091  # persistent file descriptor
+
+# to disconnect, use `exec 3>&-`  # https://unix.stackexchange.com/questions/131801/closing-a-file-descriptor-vs
 
 EXIT_CODE_VAL=$?
 

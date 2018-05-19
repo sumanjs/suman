@@ -1,3 +1,3 @@
 declare class Bar {
 }
-declare const makeBar: () => Bar;
+declare const makeBar: () => any;

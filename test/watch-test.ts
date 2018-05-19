@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-const suman = require('suman');
+import suman = require('suman');
 const {Test} = suman.init(module);
 
 console.log('zoee');
 
-// how many roads, ny s
-Test.create('yolo', function (it) {
 
+Test.create('yolo', function (b, it) {
+  
   it('maxxes out1', t => {
 
   });

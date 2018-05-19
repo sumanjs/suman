@@ -1,28 +1,24 @@
 #!/usr/bin/env node
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-var cp = require("child_process");
-var fs = require("fs");
-var path = require("path");
-var async = require("async");
-var cwd = process.cwd();
-var userHomeDir = path.resolve(process.env.HOME);
-var sumanHome = path.resolve(userHomeDir + '/.suman');
-var findSumanExec = path.resolve(sumanHome + '/find-local-suman-executable.js');
-var sumanClis = path.resolve(sumanHome + '/suman-clis.sh');
-var sumanGlobalConfig = path.resolve(sumanHome + '/suman.global.conf.json');
-var sumanCompletion = path.resolve(sumanHome + '/suman-completion.sh');
-var findProjectRootDest = path.resolve(sumanHome + '/find-project-root.js');
-var sumanDebugLog = path.resolve(sumanHome + '/logs/suman-postinstall-debug.log');
-var dbPath = path.resolve(sumanHome + '/database/exec_db');
-var createTables = path.resolve(__dirname + '/create-tables.sh');
-var queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
-var logInfo = function () {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-    var data = Array.from(args).join(' ');
+const cp = require("child_process");
+const fs = require("fs");
+const path = require("path");
+const async = require("async");
+const cwd = process.cwd();
+const userHomeDir = path.resolve(process.env.HOME);
+const sumanHome = path.resolve(userHomeDir + '/.suman');
+const findSumanExec = path.resolve(sumanHome + '/find-local-suman-executable.js');
+const sumanClis = path.resolve(sumanHome + '/suman-clis.sh');
+const sumanGlobalConfig = path.resolve(sumanHome + '/suman.global.conf.json');
+const sumanCompletion = path.resolve(sumanHome + '/suman-completion.sh');
+const findProjectRootDest = path.resolve(sumanHome + '/find-project-root.js');
+const sumanDebugLog = path.resolve(sumanHome + '/logs/suman-postinstall-debug.log');
+const dbPath = path.resolve(sumanHome + '/database/exec_db');
+const createTables = path.resolve(__dirname + '/create-tables.sh');
+const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
+let logInfo = function (...args) {
+    const data = Array.from(args).join(' ');
     try {
         fs.appendFileSync(sumanDebugLog, data);
     }
@@ -35,13 +31,13 @@ logInfo(' => In Suman postinstall script => ', __filename);
 logInfo(' => Suman home dir path => ', sumanHome);
 logInfo(' => Suman post-install script run on ' + new Date() + ', from directory (cwd) =>');
 logInfo(cwd);
-var runDatabaseInstalls = function (err) {
-    var logerr = false;
+const runDatabaseInstalls = function (err) {
+    let logerr = false;
     if (err) {
         logInfo(' => Suman post-install initial routine experienced an error =>');
         logInfo(String(err.stack || err));
     }
-    var n = cp.spawn('bash', [createTables], {
+    const n = cp.spawn('bash', [createTables], {
         env: Object.assign({}, process.env, {
             SUMAN_DATABASE_PATH: dbPath
         })
@@ -69,7 +65,7 @@ var runDatabaseInstalls = function (err) {
         }
     });
 };
-var wrapErr = function (cb, fn) {
+let wrapErr = function (cb, fn) {
     return function (err) {
         if (err)
             return cb(err);
@@ -78,15 +74,15 @@ var wrapErr = function (cb, fn) {
 };
 async.parallel({
     updateSumanClis: function (cb) {
-        var p = path.resolve(__dirname + '/suman-clis.sh');
+        let p = path.resolve(__dirname + '/suman-clis.sh');
         fs.readFile(p, wrapErr(cb, function (data) {
-            fs.writeFile(sumanClis, data, { flag: 'w', mode: 511 }, cb);
+            fs.writeFile(sumanClis, data, { flag: 'w', mode: 0o777 }, cb);
         }));
     },
     createGlobalConfigFile: function (cb) {
-        var p = path.resolve(__dirname + '/suman.global.conf.json');
+        let p = path.resolve(__dirname + '/suman.global.conf.json');
         fs.readFile(p, wrapErr(cb, function (data) {
-            fs.writeFile(sumanGlobalConfig, data, { flag: 'wx', mode: 511 }, function (err) {
+            fs.writeFile(sumanGlobalConfig, data, { flag: 'wx', mode: 0o777 }, function (err) {
                 if (err && !/EEXIST/i.test(String(err.message))) {
                     return cb(err);
                 }
@@ -95,24 +91,24 @@ async.parallel({
         }));
     },
     updateSumanCompletion: function (cb) {
-        var p = path.resolve(__dirname + '/suman-completion.sh');
+        let p = path.resolve(__dirname + '/suman-completion.sh');
         fs.readFile(p, wrapErr(cb, function (data) {
-            fs.writeFile(sumanCompletion, data, { flag: 'w', mode: 511 }, cb);
+            fs.writeFile(sumanCompletion, data, { flag: 'w', mode: 0o777 }, cb);
         }));
     },
     updateFindSumanExec: function (cb) {
-        var p = path.resolve(__dirname + '/find-local-suman-executable.js');
+        let p = path.resolve(__dirname + '/find-local-suman-executable.js');
         fs.readFile(p, wrapErr(cb, function (data) {
-            fs.writeFile(findSumanExec, data, { flag: 'w', mode: 511 }, cb);
+            fs.writeFile(findSumanExec, data, { flag: 'w', mode: 0o777 }, cb);
         }));
     },
     appendToQueue: function (cb) {
         fs.appendFile(queue, '', cb);
     },
     updateFindProjectRoot: function (cb) {
-        var p = path.resolve(__dirname + '/find-project-root.js');
+        let p = path.resolve(__dirname + '/find-project-root.js');
         fs.readFile(p, wrapErr(cb, function (data) {
-            fs.writeFile(findProjectRootDest, data, { flag: 'w', mode: 511 }, cb);
+            fs.writeFile(findProjectRootDest, data, { flag: 'w', mode: 0o777 }, cb);
         }));
     }
 }, function (err) {

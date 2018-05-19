@@ -25,6 +25,7 @@ else
    echo "installing suman-watch, use --force-local to enforce local installations.";
    (cd ~/.suman/global && npm install -S github:sumanjs/suman-watch >> ${watch_log} 2>&1) &&
    echo "starting suman watch..."
+
    node "${suman_watch_location}/cli.js" >> ${watch_log} 2>&1
 
 fi

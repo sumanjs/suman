@@ -6,7 +6,7 @@ module.exports = {
   entry: ['babel-polyfill', './lib/index.ts'],
 
   output: {
-    path: path.resolve(__dirname + '/dist'),
+    path: path.resolve(__dirname + '/browser'),
     filename: 'suman.js'
   },
 
