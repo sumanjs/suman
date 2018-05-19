@@ -7,7 +7,7 @@ module.exports = {
 
   // entry: ['./test/one.js'],
   output: {
-    path: path.resolve(__dirname + '/dist'),
+    path: path.resolve(__dirname + '/browser'),
     filename: 'suman.js',
     library: 'suman',
     libraryTarget: 'var',

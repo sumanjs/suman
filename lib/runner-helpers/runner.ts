@@ -41,7 +41,6 @@ import cp = require('child_process');
 const fnArgs = require('function-arguments');
 const mapValues = require('lodash.mapvalues');
 import * as chalk from 'chalk';
-const a8b = require('ansi-256-colors'), fg = a8b.fg, bg = a8b.bg;
 import {events} from 'suman-events';
 import su = require('suman-utils');
 

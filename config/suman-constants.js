@@ -1,6 +1,6 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-var chalk = require("chalk");
+const chalk = require("chalk");
 exports.constants = Object.freeze({
     SUMAN_ISSUE_TRACKER_URL: 'https://github.com/sumanjs/suman/issues',
     SUMAN_TYPES_ROOT_URL: 'https://github.com/sumanjs/suman-types/blob/master/dts',

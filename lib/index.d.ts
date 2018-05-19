@@ -8,7 +8,7 @@ export declare const autoPass: (t: any) => void;
 export declare const autoFail: (t: any) => Promise<never>;
 export declare const isolated: (fn: Function) => Function;
 export declare const run: sumanRun.ISumanRunFn;
-export declare const once: (fn: Function) => (cb: Function) => void;
+export declare const once: (fn: Function) => (cb: Function) => any;
 export declare const version: any;
 export interface ISumanExports {
     s: typeof s;
