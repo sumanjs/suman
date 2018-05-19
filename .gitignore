@@ -5,7 +5,7 @@ node_modules
 coverage
 dist/
 .vscode
-dist
+dist/*
 
 ### matching files
 *.log
