@@ -11,6 +11,7 @@ logs
 ### matching files
 *.log
 test/.suman/.meta
+*.tgz
 
 ### files
 yarn.lock
