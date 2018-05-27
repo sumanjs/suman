@@ -27,6 +27,4 @@ suman.conf.js
 .babelrc
 .dockerignore
 
-### negation
-!cli/*
-!scripts/*
+

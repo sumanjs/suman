@@ -1,12 +1,14 @@
+
+
 ### folders
 node_modules
 .idea
 .nyc_output
 coverage
-dist/
 .vscode
 dist/*
 logs
+docs
 
 ### matching files
 *.log
