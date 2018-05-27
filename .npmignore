@@ -5,6 +5,7 @@
 *.log
 *.json
 *.yml
+*.tgz
 
 ### folders
 .idea
@@ -16,6 +17,7 @@ coverage
 test
 dev-scripts
 src
+.docker.r2g
 
 ### files
 .gitignore
