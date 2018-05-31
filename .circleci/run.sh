@@ -2,6 +2,8 @@
 
 sudo npm install -g typescript@2.8.3
 
+rm -rf node_modules;
+
 #npm install         \
 #    "suman-types"   \
 #    "@types/async"  \
