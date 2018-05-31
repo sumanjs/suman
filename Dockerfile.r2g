@@ -36,5 +36,7 @@ RUN npm install --loglevel=warn -g \
 
 COPY . .
 
+RUN sudo chmod -R 777  /home/node
+
 ENTRYPOINT ["docker.r2g", "--run"]
 

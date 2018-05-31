@@ -1,7 +1,7 @@
 const path = require('path');
 
 if (!path.isAbsolute(process.env.MY_DOCKER_R2G_SEARCH_ROOT || '')) {
-  throw new Error(chalk.magenta('Please set the env var "MY_DOCKER_R2G_SEARCH_ROOT" to an absolute path.'));
+  throw new Error('Please set the env var "MY_DOCKER_R2G_SEARCH_ROOT" to an absolute path.');
 }
 
 exports.default = {
