@@ -70,6 +70,10 @@ Test.create(function (b, assert, describe, test, before, beforeEach, after, afte
         t.assert(true);
       });
 
+      test.define('whiiiooop').run(t => {
+        t.assert(true);
+      });
+
       after(h => {
         assert(true);
       });
