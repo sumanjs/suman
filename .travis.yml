@@ -22,6 +22,8 @@ install:
   - './dev-scripts/travis/install.sh'
 script: './dev-scripts/travis/script.sh'
 after_script: './dev-scripts/travis/after_script.sh'
+git:
+  depth: 1
 notifications:
   email: false
   slack:
