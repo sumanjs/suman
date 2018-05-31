@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-npm install -g typescript@2.8.3
-tsc || echo "whatevs"
-npm install
-npm link -f
-npm link suman
+sudo npm install -g typescript@2.8.3
+sudo tsc || echo "whatevs"
+sudo npm install
+sudo npm link -f
+sudo npm link suman
