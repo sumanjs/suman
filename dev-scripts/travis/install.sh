@@ -5,7 +5,12 @@
 rm -rf node_modules
 npm cache verify # npm cache clean
 
-npm install --silent --no-optional
+npm install --loglevel=warn --production;
+
+npm link -f;
+
+npm link suman;
+
 
 which_istanbul="$(which istanbul)"
 
