@@ -38,5 +38,5 @@ COPY . .
 
 RUN sudo chmod -R 777  /home/node
 
-ENTRYPOINT ["docker.r2g", "--run"]
+ENTRYPOINT ["dkr2g", "run"]
 
