@@ -150,9 +150,9 @@ export class ParamBase extends EE implements IHookOrTestCaseParam {
     }
   }
   
-  final(fn: Function) {
+  final(fn: Function, ctx?: any) {
     try {
-      fn.apply(null, arguments);
+      fn.call(ctx || null);
       this.__fini(null);
     }
     catch (e) {
