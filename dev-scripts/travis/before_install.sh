@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
 
 
-#npm install -g "typescript@2.8.3"
-#
-#npm install\
-#    "@types/async" \
-#    "@types/chai"\
-#    "@types/core-js" \
-#    "@types/lodash"\
-#    "@types/node"\
-#    "@types/semver"\
-#    "@types/socket.io"\
-#    "@types/socket.io-client"
-#
-#
-#tsc || echo "whatever";
+which_istanbul="$(which istanbul)"
+
+if [[ -z "$which_istanbul" ]]; then
+    npm install -g istanbul --loglevel=warn
+fi
+
+
+which_tsc="$(which tsc)"
+
+if [[ -z "$which_tsc" ]]; then
+    npm install -g typescript@2.8.3 --loglevel=warn
+fi

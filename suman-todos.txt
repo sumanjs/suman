@@ -4,6 +4,15 @@ three SO profiles:
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
 
+==========================================
+
+run only one "it" test case
+https://github.com/mochajs/mocha/issues/3409#issuecomment-395331888
+
+suman --test="foo" --it="foo"
+
+suman --find / --match / --grep is what we are looking for here...
+
 ===========================================
 
  with this in mind: /test/src/dev/node/x.test.js
