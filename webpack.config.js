@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
 
   // entry: ['babel-polyfill', './lib/index.js'],
-  entry: ['./lib/index.js'],
+  entry: ['./dist/index.js'],
 
   // entry: ['./test/one.js'],
   output: {
@@ -25,26 +25,11 @@ module.exports = {
         loader: 'ignore-loader'
       },
       {
-        test: new RegExp('^' + path.resolve(__dirname + '/lib/cli-commands/') + '.*'),
+        test: new RegExp('^' + path.resolve(__dirname + '/dist/cli-commands/') + '.*'),
         loader: 'ignore-loader'
       },
       {
         test: new RegExp('^' + path.resolve(__dirname + '/suman.conf.js')),
-        loader: 'ignore-loader'
-      }
-    ],
-    loaders: [
-      // {
-      //   test: /\.js$/,
-      //   loader: 'babel-loader',
-      //   exclude: /node_modules/,
-      //   options: {
-      //     presets: ['latest'],
-      //     plugins: ['transform-runtime']
-      //   }
-      // },
-      {
-        test: /(\/lib\/init\/|cli.js$)/,
         loader: 'ignore-loader'
       }
     ]

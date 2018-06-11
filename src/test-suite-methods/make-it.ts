@@ -56,20 +56,20 @@ const acceptableOptions = <IAcceptableOptions> {
 };
 
 const handleBadOptions = function (opts: IItOpts, typeName: string) {
-
+  
   Object.keys(opts).forEach(function (k) {
     if (!acceptableOptions[k]) {
       const url = `${constants.SUMAN_TYPES_ROOT_URL}/${typeName}.d.ts`;
       throw new Error(`'${k}' is not a valid option property for an ${typeName} hook. See: ${url}`);
     }
   });
-
+  
   if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
     console.error(' => Suman usage error => "plan" option is not an integer.');
     process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
     return;
   }
-
+  
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -84,39 +84,39 @@ const incr = function () {
 ///////////////////////////////////////////////////////////////////////////////
 
 export const makeIt = function (suman: ISuman): ItFn {
-
+  
   return function it($desc: string, $opts: IItOpts): ITestSuite {
-
+    
     const typeName = it.name;
     const sumanOpts = suman.opts, zuite = suman.ctx;
     handleSetupComplete(zuite, typeName);
-
+    
     const args = pragmatik.parse(arguments, rules.testCaseSignature, {
       preParsed: su.isObject($opts) ? $opts.__preParsed : null
     });
-
+    
     try {
       delete $opts.__preParsed
     }
     catch (err) {
       //ignore
     }
-
+    
     const vetted = parseArgs(args);
     const [desc, opts, fn] = vetted.args;
     const arrayDeps = vetted.arrayDeps;
     handleBadOptions(opts, typeName);
-
+    
     if (arrayDeps.length > 0) {
       evalOptions(arrayDeps, opts);
     }
-
+    
     if (opts.plan !== undefined && !Number.isInteger(opts.plan)) {
       console.error(' => Suman usage error => "plan" option is not an integer.');
       process.exit(constants.EXIT_CODES.OPTS_PLAN_NOT_AN_INTEGER);
       return;
     }
-
+    
     if (opts.hasOwnProperty('parallel')) {
       if (opts.hasOwnProperty('mode')) {
         _suman.log.warning('warning => Used both parallel and mode options => mode will take precedence.');
@@ -126,43 +126,43 @@ export const makeIt = function (suman: ISuman): ItFn {
         }
       }
     }
-
+    
     const inc = incr();
-
+    
     if (!_suman.inBrowser && !sumanOpts.force) {
       if (opts.skip && !sumanOpts.$allowSkip) {
         throw new Error('Test case was declared as "skipped" but "--allow-skip" option not specified.');
       }
-
+      
       if (opts.only && !sumanOpts.$allowOnly) {
         throw new Error('Test case was declared as "only" but "--allow-only" option not specified.');
       }
     }
-
+    
     if (opts.skip || opts.skipped) {
       zuite.getTests().push({testId: inc, desc: desc, skipped: true} as ITestDataObj);
       return zuite;
     }
-
+    
     if (!fn) {
       zuite.getTests().push({testId: inc, desc: desc, stubbed: true} as ITestDataObj);
       return zuite;
     }
-
+    
     if (suman.itOnlyIsTriggered && !opts.only) {
       zuite.getTests().push({testId: inc, desc: desc, skipped: true, skippedDueToItOnly: true} as ITestDataObj);
       return zuite;
     }
-
+    
     if (opts.only) {
       suman.itOnlyIsTriggered = true;
     }
-
+    
     const isSeries = zuite.series || opts.series === true || opts.parallel === false;
     const isFixedParallel = !isSeries && (zuite.parallel || opts.parallel === true || opts.mode === 'parallel');
     const isParallel = (sumanOpts.parallel || sumanOpts.parallel_max) || (!sumanOpts.series && isFixedParallel);
     const isOverallParallel = (opts.fixed && isFixedParallel) || isParallel;
-
+    
     const testData: ITestDataObj = {
       // ctx: ctx,
       alreadyInitiated: false,
@@ -187,22 +187,22 @@ export const makeIt = function (suman: ISuman): ItFn {
       cb: opts.cb === true, // default to false
       type: typeName,
       timeout: opts.timeout || 20000,
-      desc: desc || opts.desc ||  fn.name || '(unknown test case name)',
+      desc: desc || opts.desc || fn.name || '(unknown test case name)',
       fn: fn,
       warningErr: new Error('SUMAN_TEMP_WARNING_ERROR'),
       timedOut: false,
       complete: false,
       error: null
     };
-
+    
     if (isOverallParallel) {
       zuite.getParallelTests().push(testData);
     }
     else {
       zuite.getTests().push(testData);
     }
-
+    
     return zuite;
-
+    
   };
 };

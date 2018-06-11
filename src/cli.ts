@@ -140,7 +140,7 @@ if (su.weAreDebugging) {
 //////////////////////////////////////////////////////////////////////////
 
 if (su.vgt(6)) {
-  _suman.log.info(chalk.magenta(' => Suman started with the following command:'), chalk.bold(util.inspect(process.argv));
+  _suman.log.info(chalk.magenta(' => Suman started with the following command:'), chalk.bold(util.inspect(process.argv)));
   _suman.log.info(`NODE_PATH env var is as follows: '${process.env['NODE_PATH']}'`);
 }
 

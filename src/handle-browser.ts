@@ -19,7 +19,6 @@ import su = require('suman-utils');
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitter || new EE());
-const {constants} = require('../config/suman-constants');
 import {shutdownProcess, handleSingleFileShutdown} from "./helpers/handle-suman-shutdown";
 
 //////////////////////////////////////////////////////////////////////////

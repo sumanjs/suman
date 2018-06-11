@@ -1,6 +1,7 @@
 
 
-  const JSONStdio = require('json-stdio');
-  console.log(JSONStdio.logToStdout({env: process.env}));
+const path = require('path');
+
+console.log(path.basename(__dirname));
 
 

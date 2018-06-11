@@ -51,6 +51,8 @@ if [[ "${SUMAN_INSTALL_NODE_MODULES}" == "yes" ]]; then
 (
 
   cd "$HOME/.suman/global";
+  echo "skipping installation of extra deps..";
+  exit 0;
 
   npm init -f >> ${SUMAN_DEBUG_LOG_PATH} 2>&1
 

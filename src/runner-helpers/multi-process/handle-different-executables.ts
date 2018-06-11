@@ -56,7 +56,8 @@ export const makeHandleDifferentExecutables = function (projectRoot: string, sum
     
     handleRunDotShFile: function (sh: string, argz: Array<string>, file: string,
                                   shortFile: string, cpOptions: Object, cb: Function) {
-      
+
+       console.log(); // add a new line
       _suman.log.info(
         chalk.bgWhite.underline.black.bold('Suman has found a @run.sh file =>'),
         chalk.bold(sh)

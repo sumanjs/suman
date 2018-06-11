@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
-#set -e;
+set -e;
 
-rm -rf node_modules
-npm cache verify # npm cache clean
+npm install --loglevel="warn"
 
-npm install --silent --no-optional
+tsc || echo "whatevs"
 
-which_istanbul="$(which istanbul)"
+npm link -f
+npm link suman
 
-if [[ -z "$which_istanbul" ]]; then
-    npm install -g istanbul --silent
-fi
