@@ -1,15 +1,19 @@
+
+
 ### folders
 node_modules
 .idea
 .nyc_output
 coverage
-dist/
 .vscode
-dist
+dist/*
+logs
+docs
 
 ### matching files
 *.log
 test/.suman/.meta
+*.tgz
 
 ### files
 yarn.lock
@@ -17,3 +21,4 @@ yarn.lock
 
 ### negation
 !dist/README.md
+

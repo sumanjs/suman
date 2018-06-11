@@ -544,11 +544,11 @@ export const isolated = function (fn: Function) {
   
   const str = String(fn).trim();
   
-  if(str.indexOf('async') === 0){
+  if (str.indexOf('async') === 0) {
     throw new Error('Cannot use async functions for isolated scopes.');
   }
   
-  if(str.indexOf('function') !==0 && !/=>\s*{/.test(str)){
+  if (str.indexOf('function') !== 0 && !/=>\s*{/.test(str)) {
     throw new Error('Cannot use functions without outer braces.');
   }
   
@@ -572,6 +572,10 @@ export interface ISumanExports {
   autoPass: typeof autoPass,
   autoFail: typeof autoFail
 }
+
+export const r2gSmokeTest = function () {
+  return true;
+};
 
 const $exports = module.exports;
 export default $exports as  ISumanExports;

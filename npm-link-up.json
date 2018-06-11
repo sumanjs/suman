@@ -31,7 +31,6 @@
     "suman-utils",
     "suman-events",
     "suman-daemon",
-    "suman-debug",
     "suman-browser-polyfills",
     "suman-watch-plugins",
     "suman-run-plugins",
