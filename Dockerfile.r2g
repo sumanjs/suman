@@ -8,6 +8,8 @@ RUN apt-get install -y rsync
 
 ENV FORCE_COLOR=1
 ENV docker_r2g_in_container=yes
+ENV MY_DOCKER_R2G_SEARCH_ROOT="/home/node"
+
 RUN sudo echo "node ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER node
@@ -26,6 +28,15 @@ RUN sudo chown -R $(whoami) /usr/local/lib
 RUN sudo chown -R $(whoami) /usr/local/etc
 
 ARG CACHEBUST=1
+
+RUN npm install --loglevel=warn -g \
+ "https://raw.githubusercontent.com/oresoftware/tarballs/master/tgz/oresoftware/npm.cache.tgz?$(date +%s)"
+
+COPY package.json .
+COPY .docker.r2g .docker.r2g
+RUN update_npm_cache
+
+
 
 RUN npm install --loglevel=warn -g \
  "https://raw.githubusercontent.com/oresoftware/tarballs/master/tgz/oresoftware/docker.r2g.tgz?$(date +%s)"
