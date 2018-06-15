@@ -164,7 +164,7 @@ export const acquirePostDeps = function ($depList: Array<string>, depContainerOb
 
     if (!_suman.processIsRunner) {
       _suman.log.info(chalk.green.underline.bold('Finished with suman.once.post.js dependencies.'));
-      console.log('\n');
+      console.log('');
     }
 
     return obj;
