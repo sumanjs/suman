@@ -31,7 +31,7 @@ RUN npm set cache-min 9999999
 RUN npm set progress=false
 
 COPY package.json .
-COPY .docker.r2g .docker.r2g
+COPY .r2g .r2g
 
 RUN npm install --loglevel=warn -g \
  "https://raw.githubusercontent.com/oresoftware/tarballs/master/tgz/oresoftware/npm.cache.tgz?$(date +%s)"
