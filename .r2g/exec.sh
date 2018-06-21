@@ -25,5 +25,4 @@ docker build -f Dockerfile.r2g -t "$tag" --build-arg CACHEBUST="$(date +%s)" .
 docker run \
     -v "$search_root:$shared:ro"  \
     -e docker_r2g_fs_map="$map" \
-    -e MY_DOCKER_R2G_SEARCH_ROOT="/dev/null" \
     --name "$container" "$tag"
