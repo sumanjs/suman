@@ -1,4 +1,5 @@
 {
+  "npm-link-up": true,
   "linkToItself": true,
   "alwaysReinstall": false,
   "alwaysRelink": false,
