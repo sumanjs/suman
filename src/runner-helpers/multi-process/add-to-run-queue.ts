@@ -185,9 +185,9 @@ export const makeAddToRunQueue = function (runnerObj: IRunnerObj, args: Array<st
               _suman.log.error('\n', su.getCleanErrorString(e), '\n');
             };
 
-            n.stdout.pipe(pt(chalk.cyan(' [suman child stdout] ')))
+            n.stdout.pipe(pt(chalk.cyan.bold(' [suman child stdout] ')))
             .once('error', onError).pipe(process.stdout);
-            n.stderr.pipe(pt(chalk.red.bold(' [suman child stderr] '), {omitWhitespace: true}))
+            n.stderr.pipe(pt(chalk.yellow.bold(' [suman child stderr] '), {omitWhitespace: true}))
             .once('error', onError).pipe(process.stderr);
           }
 

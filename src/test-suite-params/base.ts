@@ -162,6 +162,10 @@ export class ParamBase extends EE implements IHookOrTestCaseParam {
     this.__fini(null);
   }
 
+  finally(fn: Function, ctx?: any) {
+    return this.final.apply(this, arguments);
+  }
+
   log(...args: Array<string>) {
     console.log(` [ '${this.desc || 'unknown'}' ] `, ...args);
   }
