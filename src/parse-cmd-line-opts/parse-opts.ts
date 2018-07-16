@@ -16,7 +16,7 @@ import os = require('os');
 
 //npm
 import dashdash = require('dashdash');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import flattenDeep = require('lodash.flattendeep');
 import flatten = require('lodash.flatten');
 import su = require('suman-utils');
@@ -35,7 +35,7 @@ if (module.parent && module.parent.filename === path.resolve(__dirname + '/../in
 
 /////////////////////////////////////////////////////////////////////
 
-let opts, parser = dashdash.createParser({options: options});
+let opts, parser = dashdash.createParser({options});
 
 try {
   opts = parser.parse(process.argv);

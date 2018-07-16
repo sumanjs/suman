@@ -23,7 +23,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "echo 'this is not what you are looking for.'",
-    "test": "./dev-scripts/test.sh",
+    "test": "echo 'this is not what you are looking for'",
     "postinstall": "./scripts/suman-postinstall.sh"
   },
   "author": "Olegzandr VD",
@@ -121,6 +121,12 @@
     "tape",
     "tap"
   ],
+  "r2g": {
+    "test": "echo 'here is the hotstepper.'"
+  },
+  "npp": {
+    "publishable": true
+  },
   "bugs": {
     "url": "https://github.com/sumanjs/suman/issues"
   },

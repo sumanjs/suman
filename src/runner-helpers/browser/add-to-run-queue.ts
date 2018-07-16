@@ -19,7 +19,7 @@ import EE = require('events');
 
 //npm
 import async = require('async');
-import chalk = require('chalk');
+import chalk from 'chalk';
 import semver = require('semver');
 import su = require('suman-utils');
 import {events} from 'suman-events';
@@ -150,9 +150,9 @@ export const makeAddToRunQueue = function (runnerObj: Object, args: Array<string
               _suman.log.error('\n', su.getCleanErrorString(e), '\n');
             };
             
-            n.stdout.pipe(pt(chalk.cyan(' [suman child stdout] ')))
+            n.stdout.pipe(pt(chalk.cyan(` [suman child stdout:${n.shortFilePath || 'no short path'}] `)))
             .once('error', onError).pipe(process.stdout);
-            n.stderr.pipe(pt(chalk.red.bold(' [suman child stderr] '), {omitWhitespace: true}))
+            n.stderr.pipe(pt(chalk.red.bold(` [suman child stderr:${n.shortFilePath}] `), {omitWhitespace: true}))
             .once('error', onError).pipe(process.stderr);
           }
           

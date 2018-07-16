@@ -13,7 +13,7 @@
 export suman_global_npm_modules_path="$(npm root -g)";
 
 
-function handle_global_suman {
+handle_global_suman() {
 
     WHICH_SUMAN=$(which suman);
 #    GLOBAL_MODULES="$(npm root -g)";
@@ -42,11 +42,13 @@ function handle_global_suman {
 }
 
 
-function suman {
+suman(){
 
     if test ${#} -eq 0; then
+
         echo "[suman] using suman-shell instead of suman executable.";
         suman-shell "$@"; # note we should have no arguments so passing "$@" to suman-shell should be pointless
+
     else
 
         suman_inspect="no";
@@ -68,10 +70,12 @@ function suman {
         NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin";
 
         if [[ "${SUMAN_FORCE_GLOBAL}" == "yes" || -z "$LOCAL_SUMAN" ]]; then
+
             echo "[suman] => No local Suman executable could be found, given the present working directory => $PWD";
             echo "[suman] => Warning...attempting to run a globally installed version of Suman...";
             local -a node_exec_args=( );
             handle_global_suman node_exec_args "$@";
+
         else
             NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" node "$LOCAL_SUMAN" "$@";
         fi
@@ -79,7 +83,7 @@ function suman {
 }
 
 
-function suman-shell {
+ suman-shell() {
 
     echo "[suman] => Using 'suman' alias in suman-clis.sh..."
 
@@ -107,7 +111,7 @@ function suman-shell {
 }
 
 
-function suman-inspect {
+suman-inspect() {
 
     echo "[suman] => Using 'suman-inspect' alias in suman-clis.sh...";
     LOCAL_SUMAN="$(node "$HOME/.suman/find-local-suman-executable.js")";
@@ -126,7 +130,7 @@ function suman-inspect {
     fi
 }
 
-function suman-debug {
+ suman-debug() {
 
     echo "[suman] => Using 'suman-debug' alias in suman-clis.sh..."
     LOCAL_SUMAN="$(node "$HOME/.suman/find-local-suman-executable.js")";
@@ -144,7 +148,7 @@ function suman-debug {
     fi
 }
 
-function suman--debug {
+ suman--debug() {
 
     echo "[suman] => Using 'suman--debug' alias in suman-clis.sh..."
     LOCAL_SUMAN="$(node "$HOME/.suman/find-local-suman-executable.js")";
@@ -161,3 +165,11 @@ function suman--debug {
         NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" node --debug-brk=5858 --debug=5858 "$LOCAL_SUMAN" "$@";
     fi
 }
+
+
+export -f suman;
+export -f suman-debug;
+export -f suman--debug;
+export -f suman-inspect;
+export -f suman-shell;
+export -f handle_global_suman;

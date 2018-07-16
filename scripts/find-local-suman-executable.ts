@@ -22,15 +22,14 @@ try{
   fs.mkdirSync(path.resolve(process.env.HOME + '/.suman'));
 }
 catch(err){
-
+ // ignore
 }
 
-const debugLogPath = path.resolve(process.env.HOME + '/.suman/suman-debug.log');
 let p, cd;
 
-function stat (p: string) {
+const stat = function  (p: string) {
   try {
-    return fs.statSync(p).isFile();
+    return fs.lstatSync(p).isFile();
   }
   catch (err) {
     if (!String(err.stack || err).match(/ENOENT: no such file or directory/i)) {
@@ -39,7 +38,7 @@ function stat (p: string) {
     //explicit for your pleasure
     return false;
   }
-}
+};
 
 while (true) {
 
