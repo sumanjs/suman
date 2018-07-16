@@ -97,7 +97,7 @@
     "rxjs": "^5.0.3",
     "should": "^11.2.0",
     "suman-types": "latest",
-    "webpack": "^2.4.0"
+    "webpack": "^3.11.0"
   },
   "optionalDependencies": {
     "suman-watch-plugins": "latest",
