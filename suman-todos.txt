@@ -6,6 +6,12 @@ three SO profiles:
 
 ==========================================
 
+
+use lstat instead of stat to look for test files
+using stat instead of lstat might result in circular deps etc.
+
+==========================================
+
 run only one "it" test case
 https://github.com/mochajs/mocha/issues/3409#issuecomment-395331888
 

@@ -18,11 +18,10 @@ try {
 }
 catch (err) {
 }
-const debugLogPath = path.resolve(process.env.HOME + '/.suman/suman-debug.log');
 let p, cd;
-function stat(p) {
+const stat = function (p) {
     try {
-        return fs.statSync(p).isFile();
+        return fs.lstatSync(p).isFile();
     }
     catch (err) {
         if (!String(err.stack || err).match(/ENOENT: no such file or directory/i)) {
@@ -30,7 +29,7 @@ function stat(p) {
         }
         return false;
     }
-}
+};
 while (true) {
     cd = path.resolve(cwd + down.join(''));
     if (String(cd) === String(path.sep)) {

@@ -20,10 +20,21 @@ docker rm "$container" || echo "no container with name $container could be remov
 tag="docker_r2g_image/$name";
 
 
-docker build -f Dockerfile.r2g -t "$tag" --build-arg CACHEBUST="$(date +%s)" .
+docker build \
+   -f Dockerfile.r2g  \
+   -t "$tag" \
+   --build-arg CACHEBUST="$(date +%s)" .
+
+#docker run \
+#    -v "$search_root:$shared:ro"  \
+#    -e docker_r2g_fs_map="$map" \
+#    --name "$container" "$tag"
+
 
 docker run \
     -v "$search_root:$shared:ro"  \
     -e docker_r2g_fs_map="$map" \
-    -e MY_DOCKER_R2G_SEARCH_ROOT="/dev/null" \
-    --name "$container" "$tag"
+    -e r2g_container_id="$container" \
+    --entrypoint "dkr2g" \
+    --name "$container" "$tag" \
+      run --allow-unknown $@
