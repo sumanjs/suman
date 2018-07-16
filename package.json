@@ -33,7 +33,7 @@
     "ascii-table": "0.0.9",
     "async": "^2.4.1",
     "builtin-modules": "^1.1.1",
-    "camelcase": "^4.1.0",
+    "camelcase": "^5.0.0",
     "chai": "4.0.2",
     "chalk": "^2.4.1",
     "chmodr": "^1.0.2",
