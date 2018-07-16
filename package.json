@@ -121,10 +121,10 @@
     "tape",
     "tap"
   ],
-  "r2g":{
-    "test":"echo 'here is the hotstepper.'"
+  "r2g": {
+    "test": "echo 'here is the hotstepper.'"
   },
-  "npp":{
+  "npp": {
     "publishable": true
   },
   "bugs": {
