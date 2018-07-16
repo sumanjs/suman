@@ -2,7 +2,7 @@
 
 #set -e;
 
-if ! [[ -z "${LOCAL_SUMAN_ALREADY_FOUND+x}" ]]; then
+if [[ -n "${LOCAL_SUMAN_ALREADY_FOUND+x}" ]]; then
     echo " => \$LOCAL_SUMAN_ALREADY_FOUND ? => $LOCAL_SUMAN_ALREADY_FOUND"
 fi
 
@@ -31,35 +31,58 @@ fi
 
 
 echo " [suman] Original path of Suman executable => \"$0\""
-DIRN="$(dirname "$0")"
-RL="$(readlink "$0")";
-EXECDIR="$(dirname $(dirname "$RL"))";
-MYPATH="$DIRN/$EXECDIR";
-X="$(cd $(dirname ${MYPATH}) && pwd)/$(basename ${MYPATH})"
-NEW_NODE_PATH="${NODE_PATH}":"$HOME/.suman/global/node_modules"
-NEW_PATH="${PATH}":"$HOME/.suman/global/node_modules/.bin"
+dir_name="$(dirname "$0")"
+read_link="$(readlink "$0")";
+exec_dir="$(dirname $(dirname "$read_link"))";
+my_path="$dir_name/$exec_dir";
+suman_root="$(cd $(dirname ${my_path}) && pwd)/$(basename ${my_path})"
+new_node_path="${NODE_PATH}":"$HOME/.suman/global/node_modules"
+new_path="${PATH}":"$HOME/.suman/global/node_modules/.bin"
 
 if [[ "${LOCAL_SUMAN_ALREADY_FOUND}" == "yes" ]]; then
     # we know that this directory contains the local version of suman we want to use
     echo " [suman] local suman version already found.";
-    NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE="yes" \
-        node "${X}/dist/cli.js" "$@"
+    NODE_PATH="${new_node_path}" PATH="${new_path}" SUMAN_EXTRANEOUS_EXECUTABLE="yes" \
+        node "${suman_root}/dist/cli.js" "$@"
 else
-    # we are probably in the global install space, so let's find the local installation given pwd/cwd
-    LOCAL_SUMAN="$(node ${X}/scripts/find-local-suman-executable.js)"
 
-    if [[ -z "$LOCAL_SUMAN" ]]; then
+    # we are probably in the global install space, so let's find the local installation given pwd/cwd
+
+    project_root="$(node ${suman_root}/scripts/find-project-root.js)"
+
+    if [[ -z "$project_root" ]]; then
+       echo >&2 " [suman] Could not find your project root given your current working directory:";
+       echo >&2 " [suman] Your pwd: '$PWD'";
+       exit 1;
+    fi
+
+    local_suman="$(node ${suman_root}/scripts/find-local-suman-executable.js)"
+
+    if [[ -z "$local_suman" ]]; then
+
+       # symlink the global suman installation to the local project
+
+       if true; then
+           echo "major foo.";
+           echo "Symlinking global suman installation to local project.";
+           mkdir -p "${project_root}/node_modules/suman"
+           rm -rf "${project_root}/node_modules/suman";
+           ln -sf "$suman_root" "$project_root/node_modules/suman"
+       fi
+
         # no local version found, so we fallback on the version in this directory, global or not
+
         echo " [suman] => No local Suman executable could be found, given the current directory => $PWD"
-        echo " [suman] => Attempting to run installed version of Suman here => '${X}/dist/cli.js'"
+        echo " [suman] => Attempting to run installed version of Suman here => '${suman_root}/dist/cli.js'"
+
         GLOBAL_MODULES="${suman_global_npm_modules_path:-"$(npm root -g)"}"
-        NODE_PATH="${NEW_NODE_PATH}":"${GLOBAL_MODULES}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE="yes" \
-            node "${X}/dist/cli.js" "$@"
+        NODE_PATH="${new_node_path}":"${GLOBAL_MODULES}" PATH="${new_path}" SUMAN_EXTRANEOUS_EXECUTABLE="yes" \
+            node "${suman_root}/dist/cli.js" "$@"
 
     else
         # local version found, so we run it
-        NODE_PATH="${NEW_NODE_PATH}" PATH="${NEW_PATH}" SUMAN_EXTRANEOUS_EXECUTABLE="yes" \
-            node "${LOCAL_SUMAN}" "$@"
+        NODE_PATH="${new_node_path}" PATH="${new_path}" SUMAN_EXTRANEOUS_EXECUTABLE="yes" \
+            node "${local_suman}" "$@"
     fi
 
 fi

@@ -16,6 +16,8 @@ test/.suman/.meta
 *.tgz
 
 ### files
+path
+assert
 yarn.lock
 *.DS_Store
 

@@ -5,9 +5,10 @@ const path = require("path");
 (function findRoot(pth) {
     let possiblePkgDotJsonPath = path.resolve(String(pth) + '/package.json');
     try {
-        fs.statSync(possiblePkgDotJsonPath).isFile();
-        console.log(pth);
-        process.exit(0);
+        if (fs.lstatSync(possiblePkgDotJsonPath).isFile()) {
+            console.log(pth);
+            process.exit(0);
+        }
     }
     catch (err) {
         let subPath = path.resolve(String(pth) + '/../');

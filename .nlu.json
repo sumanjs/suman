@@ -1,5 +1,8 @@
 {
+  "npm-link-up": true,
   "linkToItself": true,
+  "alwaysReinstall": false,
+  "alwaysRelink": false,
   "searchRoots": [
     "$HOME/WebstormProjects/oresoftware"
   ],
@@ -7,7 +10,6 @@
     "/node_modules/",
     "/.git/"
   ],
-
   "comments": [
     "put any comment you want here"
   ],
@@ -22,7 +24,6 @@
     "poolio",
     "freeze-existing-props",
     "json-stdio",
-
     "suman-r",
     "suman-types",
     "suman-browser",
