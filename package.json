@@ -122,7 +122,7 @@
     "tap"
   ],
   "r2g": {
-    "test": "echo 'here is the hotstepper.'"
+    "test": "node test/src/dev/node/3.test.js"
   },
   "npp": {
     "publishable": true
