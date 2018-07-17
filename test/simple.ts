@@ -13,6 +13,7 @@ Test.create('age', b => {
 
   describe('age', b => {
 
+    b.getInjectedValues()
 
   });
 

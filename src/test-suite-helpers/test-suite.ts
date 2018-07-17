@@ -2,7 +2,7 @@
 
 //dts
 import {IGlobalSumanObj} from 'suman-types/dts/global';
-import {ITestSuite, TestSuiteMethodType, ITestBlock} from 'suman-types/dts/test-suite';
+import {ITestBlock, TestSuiteMethods} from 'suman-types/dts/test-suite';
 import {ITestDataObj} from 'suman-types/dts/it';
 import {IBeforeObj} from 'suman-types/dts/before';
 import {IBeforeEachObj} from 'suman-types/dts/before-each';
@@ -82,148 +82,6 @@ export interface IInjectedValues {
 
 export type TestSuiteGetterFn<T> = () => Array<T>;
 
-export class TestBlockBase {
-
-  ioc: IInjectedValues;
-  skippedDueToDescribeOnly?: boolean;
-  interface: string;
-  injectedValues: IInjectedValues;
-
-  // getters
-
-  getTestsParallel: Array<any>;
-  getLoopTests: Array<any>;
-
-  getResumeValue?: Function;
-  fatal?: Function;
-  
-  getInjections() : IInjectedValues {
-    return this[TestBlockSymbols.injections];
-  }
-  
-  getChildren() : Array<TestBlockBase>{
-    return this[TestBlockSymbols.children];
-  }
-  
-  getTests() : Array<ITestDataObj>{
-    return this[TestBlockSymbols.tests];
-  }
-  
-  getParallelTests() : Array<ITestDataObj>{
-    return this[TestBlockSymbols.parallelTests];
-  }
-  
-  getBefores() : Array<IBeforeObj> {
-    return this[TestBlockSymbols.befores];
-  }
-  
-  getBeforeBlocks() : Array<IBeforeObj> {
-    return this[TestBlockSymbols.beforeBlocks];
-  }
-  
-  getBeforesFirst() : Array<IBeforeObj> {
-    return this[TestBlockSymbols.beforesFirst];
-  }
-  
-  getBeforesLast() : Array<IBeforeObj>{
-    return this[TestBlockSymbols.beforesLast];
-  }
-  
-  getBeforeEaches() : Array<IBeforeEachObj> {
-    return this[TestBlockSymbols.beforeEaches];
-  }
-  
-  getAftersFirst()  : Array<IAfterObj> {
-    return this[TestBlockSymbols.aftersFirst];
-  }
-  
-  getAftersLast() : Array<IAfterObj> {
-    return this[TestBlockSymbols.aftersLast];
-  }
-  
-  getAfters() : Array<IAfterObj> {
-    return this[TestBlockSymbols.afters];
-  }
-  
-  getAfterBlocks() : Array<any>{
-    return this[TestBlockSymbols.afterBlocks];
-  }
-  
-  getAfterEaches(): Array<IAFterEachObj> {
-    return this[TestBlockSymbols.afterEaches];
-  }
-  
-  getAfterBlockList(): Array<IAfterObj> {
-    let v = this, ret: Array<IAfterObj> = [];//ret = this.getAfterBlocks();
-    while (v = v.parent) {
-      v.getAfterBlocks().reverse().forEach(function (z) {
-        ret.unshift(z);
-      });
-    }
-    return ret;
-  }
-  
-  getBeforeBlockList() {
-    let v = this, ret = [];//ret = this.getBeforeBlocks();
-    while (v = v.parent) {
-      v.getBeforeBlocks().reverse().forEach(function (z) {
-        ret.unshift(z);
-      });
-    }
-    return ret;
-  }
-  
-  resume() : void{
-    const args = Array.from(arguments);
-    const self = this;
-    process.nextTick(function () {
-      self.__resume.apply(null, args);
-    });
-  }
-  
-  private startSuite() {
-    return this.__startSuite.apply(this, arguments);
-  }
-  
-  toString() {
-    return 'Suman test block: ' + this.desc;
-  }
-  
-  private invokeChildren(val: any, start: Function) {
-    async.eachSeries(this.getChildren(), makeRunChild(val), start);
-  }
-  
-  bindExtras() {
-    return this.__suiteSuman.ctx = this;
-  }
-  
-  
-  private mergeBefores() {
-    // mergeAfters is for supporting after.last feature
-    
-    while (this[TestBlockSymbols.beforesFirst].length > 0) {
-      this[TestBlockSymbols.befores].unshift(this[TestBlockSymbols.beforesFirst].pop());
-    }
-    
-    while (this[TestBlockSymbols.beforesLast].length > 0) {
-      this[TestBlockSymbols.befores].push(this[TestBlockSymbols.beforesLast].shift());
-    }
-  }
-  
-   private mergeAfters() {
-    // mergeAfters is for supporting after.last feature
-    
-    while (this[TestBlockSymbols.aftersFirst].length > 0) {
-      this[TestBlockSymbols.afters].unshift(this[TestBlockSymbols.aftersFirst].shift());
-    }
-    
-    while (this[TestBlockSymbols.aftersLast].length > 0) {
-      this[TestBlockSymbols.afters].push(this[TestBlockSymbols.aftersLast].shift());
-    }
-  }
-  
-
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -249,8 +107,7 @@ export interface ITestBlockOpts {
 }
 
 
-export class TestBlock extends TestBlockBase implements ITestBlock {
-  
+export class TestBlock  implements ITestBlock {
 
   opts: TestBlockOpts;
   testId: number;
@@ -264,8 +121,7 @@ export class TestBlock extends TestBlockBase implements ITestBlock {
   filename: string;
   shared: VamootProxy;
   skippedDueToOnly: boolean;
-  completedChildrenMap: Map<ITestSuite, boolean>;
-  parent?: TestBlock;
+  completedChildrenMap: Map<TestBlock, boolean>;
   private __suiteSuman: ISuman;
   desc: string;
   title:string;
@@ -274,11 +130,23 @@ export class TestBlock extends TestBlockBase implements ITestBlock {
   __supply: object; // McProxy proxy
   __startSuite: ReturnType<typeof makeStartSuite>;
 
+  ioc: IInjectedValues;
+  skippedDueToDescribeOnly?: boolean;
+  interface: string;
+  injectedValues: IInjectedValues;
+  parent: TestBlock;
+
+  // getters
+
+  getTestsParallel: Array<any>;
+  getLoopTests: Array<any>;
+
+  getResumeValue?: Function;
+  fatal?: Function;
   testBlockMethodCache: Object;
 
   
   constructor(obj: ITestBlockOpts) {
-    super();
     
     const sumanOpts = _suman.sumanOpts;
     const {suman, gracefulExit, handleBeforesAndAfters, notifyParent} = obj;
@@ -306,7 +174,7 @@ export class TestBlock extends TestBlockBase implements ITestBlock {
     this.interface = suman.interface;
     this.desc = this.title = obj.desc;
     
-    this[TestBlockSymbols.children] = [] as Array<ITestSuite>;
+    this[TestBlockSymbols.children] = [] as Array<TestBlock>;
     this[TestBlockSymbols.tests] = [] as Array<ITestDataObj>;
     this[TestBlockSymbols.parallelTests] = [] as Array<ITestDataObj>;
     
@@ -334,48 +202,169 @@ export class TestBlock extends TestBlockBase implements ITestBlock {
     // freezeExistingProps(this);
   }
 
+  getInjections() : IInjectedValues {
+    return this[TestBlockSymbols.injections];
+  }
+
+  getChildren() : Array<TestBlockBase>{
+    return this[TestBlockSymbols.children];
+  }
+
+  getTests() : Array<ITestDataObj>{
+    return this[TestBlockSymbols.tests];
+  }
+
+  getParallelTests() : Array<ITestDataObj>{
+    return this[TestBlockSymbols.parallelTests];
+  }
+
+  getBefores() : Array<IBeforeObj> {
+    return this[TestBlockSymbols.befores];
+  }
+
+  getBeforeBlocks() : Array<IBeforeObj> {
+    return this[TestBlockSymbols.beforeBlocks];
+  }
+
+  getBeforesFirst() : Array<IBeforeObj> {
+    return this[TestBlockSymbols.beforesFirst];
+  }
+
+  getBeforesLast() : Array<IBeforeObj>{
+    return this[TestBlockSymbols.beforesLast];
+  }
+
+  getBeforeEaches() : Array<IBeforeEachObj> {
+    return this[TestBlockSymbols.beforeEaches];
+  }
+
+  getAftersFirst()  : Array<IAfterObj> {
+    return this[TestBlockSymbols.aftersFirst];
+  }
+
+  getAftersLast() : Array<IAfterObj> {
+    return this[TestBlockSymbols.aftersLast];
+  }
+
+  getAfters() : Array<IAfterObj> {
+    return this[TestBlockSymbols.afters];
+  }
+
+  getAfterBlocks() : Array<any>{
+    return this[TestBlockSymbols.afterBlocks];
+  }
+
+  getAfterEaches(): Array<IAFterEachObj> {
+    return this[TestBlockSymbols.afterEaches];
+  }
+
+  getAfterAllParentHooks() {
+    return this[TestBlockSymbols.getAfterAllParentHooks];
+  }
+
+  getAfterBlockList(): Array<IAfterObj> {
+    let v = this as TestBlock, ret: Array<IAfterObj> = [];//ret = this.getAfterBlocks();
+    while (v = v.parent) {
+      v.getAfterBlocks().reverse().forEach(function (z) {
+        ret.unshift(z);
+      });
+    }
+    return ret;
+  }
+
+  getBeforeBlockList() {
+    let v = this as TestBlock, ret = [];//ret = this.getBeforeBlocks();
+    while (v = v.parent) {
+      v.getBeforeBlocks().reverse().forEach(function (z) {
+        ret.unshift(z);
+      });
+    }
+    return ret;
+  }
+
+  resume() : void{
+    const args = Array.from(arguments);
+    const self = this;
+    process.nextTick(function () {
+      self.__resume.apply(null, args);
+    });
+  }
+
+  private startSuite() {
+    return this.__startSuite.apply(this, arguments);
+  }
+
+  toString() {
+    return 'Suman test block: ' + this.desc;
+  }
+
+  private invokeChildren(val: any, start: Function) {
+    async.eachSeries(this.getChildren(), makeRunChild(val), start);
+  }
+
+  bindExtras() {
+    return this.__suiteSuman.ctx = this;
+  }
+
+
+  private mergeBefores() {
+    // mergeAfters is for supporting after.last feature
+
+    while (this[TestBlockSymbols.beforesFirst].length > 0) {
+      this[TestBlockSymbols.befores].unshift(this[TestBlockSymbols.beforesFirst].pop());
+    }
+
+    while (this[TestBlockSymbols.beforesLast].length > 0) {
+      this[TestBlockSymbols.befores].push(this[TestBlockSymbols.beforesLast].shift());
+    }
+  }
+
+  private mergeAfters() {
+    // mergeAfters is for supporting after.last feature
+
+    while (this[TestBlockSymbols.aftersFirst].length > 0) {
+      this[TestBlockSymbols.afters].unshift(this[TestBlockSymbols.aftersFirst].shift());
+    }
+
+    while (this[TestBlockSymbols.aftersLast].length > 0) {
+      this[TestBlockSymbols.afters].push(this[TestBlockSymbols.aftersLast].shift());
+    }
+  }
+
   getHooks() : TestSuiteMethods {
     return this.__suiteSuman.containerProxy;
   }
   
   
-  set(k: any, v: any) {
+  set(k: any, v: any) : boolean {
     if (arguments.length < 2) {
       throw new Error('Must pass both a key and value to "set" method.');
     }
     return this.shared.set(k, v);
   }
   
-  get(k?: any) {
+  get(k?: any) : any {
     if (arguments.length < 1) {
       return this.shared.getAll();
     }
     return this.shared.get(k);
   }
   
-  getValues(...args: Array<string>) {
-    const self = this;
-    return args.map(function (k) {
-      return self.shared.get(k);
+  getValues(...args: Array<string>) : Array<any> {
+    return args.map(k => {
+      return this.shared.get(k);
     });
   }
   
-  getMap(...args: Array<string>) {
-    const self = this;
+  getMap(...args: Array<string>) : object {
     const ret = {} as any;
-    args.forEach(function (k) {
-      ret[k] = self.shared.get(k);
+    args.forEach(k => {
+      ret[k] = this.shared.get(k);
     });
     return ret;
   }
   
-  getAfterAllParentHooks() {
-    return this[TestBlockSymbols.getAfterAllParentHooks];
-  }
-  
- 
-  
-  getInjectedValue(key: string) {
+  getInjectedValue(key: string) : any {
     if (key in this.injectedValues) {
       return this.injectedValues[key];
     }
@@ -384,18 +373,16 @@ export class TestBlock extends TestBlockBase implements ITestBlock {
     }
   }
   
-  getInjectedValues(...args: string[]) {
-    const self = this;
-    return args.map(function (a) {
-      return self.getInjectedValue(a);
+  getInjectedValues(...args: string[]) : Array<any> {
+    return args.map(a => {
+      return this.getInjectedValue(a);
     });
   }
   
-  getInjectedMap(...args: string[]) {
-    const self = this;
+  getInjectedMap(...args: string[]) : object {
     const ret = {} as any;
-    args.forEach(function (a) {
-      ret[a] = self.getInjectedValue(a);
+    args.forEach(a => {
+      ret[a] = this.getInjectedValue(a);
     });
     return ret;
   }
@@ -425,18 +412,16 @@ export class TestBlock extends TestBlockBase implements ITestBlock {
     }
   }
   
-  getSourcedValues(...args: string[]) {
-    const self = this;
-    return args.map(function (a) {
-      return self.getSourcedValue(a);
+  getSourcedValues(...args: string[]) : Array<any> {
+    return args.map(a => {
+      return this.getSourcedValue(a);
     });
   }
   
-  getSourcedMap(...args: string[]) {
-    const self = this;
+  getSourcedMap(...args: string[]) : object {
     const ret = {} as any;
-    args.forEach(function (a) {
-      ret[a] = self.getSourcedValue(a);
+    args.forEach(a => {
+      ret[a] = this.getSourcedValue(a);
     });
     return ret;
   }
