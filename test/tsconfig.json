@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "skipLibCheck": true,
     "target": "es5",
     "module": "commonjs",
     "noImplicitAny": false,

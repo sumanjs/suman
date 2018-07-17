@@ -7,7 +7,6 @@ export {InjectParam} from "./test-suite-params/inject/inject-param";
 export {EachHookParam} from "./test-suite-params/each-hook/each-hook-param";
 export {AllHookParam} from "./test-suite-params/all-hook/all-hook-param";
 export {TestCaseParam} from "./test-suite-params/test-case/test-case-param";
-export {ITestSuite} from 'suman-types/dts/test-suite';
 export {ItFn, ITestDataObj} from 'suman-types/dts/it';
 export {IDescribeFn, IDescribeOpts, TDescribeHook} from "suman-types/dts/describe";
 export {IBeforeFn} from 'suman-types/dts/before';

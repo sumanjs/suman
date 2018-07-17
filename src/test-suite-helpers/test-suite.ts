@@ -206,7 +206,7 @@ export class TestBlock  implements ITestBlock {
     return this[TestBlockSymbols.injections];
   }
 
-  getChildren() : Array<TestBlockBase>{
+  getChildren() : Array<TestBlock>{
     return this[TestBlockSymbols.children];
   }
 
@@ -349,7 +349,8 @@ export class TestBlock  implements ITestBlock {
     }
     return this.shared.get(k);
   }
-  
+
+  getValues(mandatory: string, ...args: Array<string>): Array<any>
   getValues(...args: Array<string>) : Array<any> {
     return args.map(k => {
       return this.shared.get(k);

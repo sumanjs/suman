@@ -47,14 +47,15 @@ export abstract class ParamBase extends EE implements IHookOrTestCaseParam {
 
   protected __timerObj: ITimerObj;
   protected __handle: Function;
-  protected __shared: VamootProxy;
+   __shared: VamootProxy;
   protected __fini: Function;
   public callbackMode?: boolean;
   assert: typeof chai.assert;
   should: typeof chai.should;
   expect: typeof chai.expect;
   protected __tooLate: boolean;
-  protected desc: string;
+  desc: string;
+  state: 'pending' | 'errored' | 'completed';
 
   constructor() {
     super();
