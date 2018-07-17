@@ -19,7 +19,7 @@ import EE = require('events');
 //npm
 import async = require('async');
 import su = require('suman-utils');
-import chalk = require('chalk');
+import chalk from 'chalk';
 import {events} from 'suman-events';
 
 //project

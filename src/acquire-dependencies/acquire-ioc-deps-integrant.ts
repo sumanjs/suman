@@ -2,7 +2,7 @@
 
 //dts
 import {IInjectionDeps} from "suman-types/dts/injection";
-import {IPseudoError, IGlobalSumanObj} from "suman-types/dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 import {ITestSuite} from "suman-types/dts/test-suite";
 
 //polyfills
@@ -18,7 +18,7 @@ import EE = require('events');
 import cp = require('child_process');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 const includes = require('lodash.includes');
 const fnArgs = require('function-arguments');
 
@@ -89,7 +89,7 @@ export const acquireIocDeps = function (deps: Array<string>, suite: ITestSuite, 
           throw new Error('Callback in your function was not present => ' + str);
         }
 
-        fn.call(thisVal, function (err: IPseudoError, val: any) {
+        fn.call(thisVal, function (err: any, val: any) {
           err ? reject(err) : resolve(val);
         });
       }

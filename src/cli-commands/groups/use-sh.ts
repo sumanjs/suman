@@ -19,7 +19,7 @@ import EE = require('events');
 
 //npm
 import async = require('async');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});

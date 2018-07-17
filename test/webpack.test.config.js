@@ -4,7 +4,7 @@ const _ = require('lodash');
 process.env.IS_SUMAN_BROWSER_TEST = 'yes';
 const tests = path.resolve(__dirname + '/src/dev/browser/js/**/*.js');
 
-const all = _.flattenDeep([process.env.SUMAN_BROWSER_TEST_PATHS || glob.sync(tests)]);
+const all = su.flattenDeep([process.env.SUMAN_BROWSER_TEST_PATHS || glob.sync(tests)]);
 const entries = all.filter(f => f);
 
 if (!entries.length) {

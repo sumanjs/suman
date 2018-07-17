@@ -116,7 +116,7 @@ import tty = require('tty');
 //npm
 import semver = require('semver');
 const dashdash = require('dashdash');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import async = require('async');
 import su = require('suman-utils');
 import _ = require('lodash');
@@ -278,7 +278,7 @@ if (!projectRoot) {
     _suman.log.error(chalk.red(`=> Consider using the ${chalk.red.bold('"--force-cwd-to-be-project-root"')} option.`));
     _suman.log.error(chalk.red('=> Perhaps you need to run "npm init" before running "suman --init", ' +
       'which will create a package.json file for you at the root of your project.'));
-    return process.exit(1);
+     process.exit(1);
   }
   
   projectRoot = _suman.projectRoot = process.env.SUMAN_PROJECT_ROOT = cwd;
@@ -342,7 +342,7 @@ if (sumanOpts.version) {
   // pre-load files using --require option
   
   const requireFile = general.makeRequireFile(projectRoot);
-  _.flattenDeep([sumanOpts.require]).filter(v => v).forEach(function (s) {
+  su.flattenDeep([sumanOpts.require]).filter(v => v).forEach(function (s) {
     String(s).split(',')
     .map(v => String(v).trim())
     .filter(v => v)
@@ -571,7 +571,7 @@ rb.emit(String(events.SUMAN_VERSION), sumanVersion);
 
 //note: whatever args are remaining are assumed to be file or directory paths to tests
 
-let paths = _.flatten([sumanOpts._args]).slice(0);
+let paths = su.flattenDeep([sumanOpts._args]).slice(0);
 
 {
   

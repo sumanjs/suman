@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -13,7 +13,7 @@ import util = require('util');
 
 //npm
 import su = require('suman-utils');
-import chalk = require('chalk');
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -22,7 +22,7 @@ const SUMAN_SINGLE_PROCESS = process.env.SUMAN_SINGLE_PROCESS === 'yes';
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-process.on('uncaughtException', function (err: IPseudoError) {
+process.on('uncaughtException', function (err: any) {
   
   debugger; // leave it here
   

@@ -19,7 +19,7 @@ import assert = require('assert');
 import _ = require('lodash');
 const fnArgs = require('function-arguments');
 import su from 'suman-utils';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -49,7 +49,7 @@ let cachedPromises: ICachedProm = {};
 export const acquirePreDeps = function ($depList: Array<string> | Array<Array<string>>, depContainerObj: IDepContainer,
                                         oncePostHash: IOncePostHash): Promise<any> {
   
-  const depList = _.flattenDeep([$depList]);
+  const depList = su.flattenDeep([$depList]);
   const verbosity = _suman.sumanOpts.verbosity || 5;
   
   const getAllPromises = function (key: string, $deps: Array<any>): Promise<any> {

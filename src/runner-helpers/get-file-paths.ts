@@ -15,7 +15,7 @@ import assert = require('assert');
 import EE = require('events');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 const includes = require('lodash.includes');
 import * as async from 'async';
 import JSONStdio = require('json-stdio');

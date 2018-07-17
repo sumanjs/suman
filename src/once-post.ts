@@ -13,10 +13,8 @@ import util = require('util');
 import assert = require('assert');
 
 //npm
-import * as async from 'async';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
-import * as _ from 'lodash';
 const fnArgs = require('function-arguments');
 
 //project
@@ -49,7 +47,7 @@ export const run = function (cb: Function) {
     return process.nextTick(cb, null, []);
   }
 
-  oncePostKeys = _.flattenDeep(oncePostKeys).filter(function (v, i, a) {
+  oncePostKeys = su.flattenDeep(oncePostKeys).filter(function (v, i, a) {
     // create unique array
     return a.indexOf(v) === i;
   });

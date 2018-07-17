@@ -34,7 +34,7 @@ import fs = require('fs');
 import stream = require('stream');
 
 // npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 import async = require('async');
 const pragmatik = require('pragmatik');

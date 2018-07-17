@@ -8,7 +8,7 @@ const global = require('suman-browser-polyfills/modules/global');
 import util = require('util');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 
 //project

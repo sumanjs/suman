@@ -52,8 +52,9 @@ const getAllBeforesEaches = function (zuite: ITestSuite) {
   if (zuite.parent) {
     getParentBefores(zuite.parent);
   }
-  
-  return _.flatten(beforeEaches);
+
+  //flatten
+  return beforeEaches.reduce( (a, b) => a.concat(b), [])
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -73,8 +74,9 @@ const getAllAfterEaches = function (zuite: ITestSuite) {
   if (zuite.parent) {
     getParentAfters(zuite.parent);
   }
-  
-  return _.flatten(afterEaches);
+
+  //flatten
+  return afterEaches.reduce( (a, b) => a.concat(b), [])
 };
 
 //////////////////////////////////////////////////////////

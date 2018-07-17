@@ -12,7 +12,7 @@ const path = require('path');
 import util = require('util');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 const sortBy = require('lodash.sortby');
 const includes = require('lodash.includes');

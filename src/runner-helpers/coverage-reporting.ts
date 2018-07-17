@@ -13,7 +13,7 @@ import path = require('path');
 
 //npm
 import su from 'suman-utils';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 
 //project

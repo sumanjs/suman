@@ -22,7 +22,7 @@ import util = require('util');
 //npm
 import {VamootProxy} from 'vamoot';
 import McProxy = require('proxy-mcproxy');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as async from 'async';
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');

@@ -14,7 +14,7 @@ import cp = require('child_process');
 import assert = require('assert');
 
 //npm
-import chalk = require('chalk');
+import chalk from 'chalk';
 import su = require('suman-utils');
 
 /////////////////////////////////////////////////////////////////////////////////

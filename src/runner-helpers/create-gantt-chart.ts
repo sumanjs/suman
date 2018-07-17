@@ -14,7 +14,7 @@ import util = require('util');
 import path = require('path');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

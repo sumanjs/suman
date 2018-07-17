@@ -40,7 +40,7 @@ import cp = require('child_process');
 //npm
 const fnArgs = require('function-arguments');
 const mapValues = require('lodash.mapvalues');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import {events} from 'suman-events';
 import su = require('suman-utils');
 

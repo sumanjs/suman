@@ -17,7 +17,7 @@ import util = require('util');
 //npm
 const pragmatik = require('pragmatik');
 import async = require('async');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 
 //project
@@ -27,6 +27,7 @@ import {constants} from '../config/suman-constants';
 import {handleSetupComplete} from '../helpers/general';
 import {parseArgs} from '../helpers/general';
 import {evalOptions} from '../helpers/general';
+import {TestBlock} from "../test-suite-helpers/test-suite";
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -70,7 +71,7 @@ const handleBadOptions = function (opts: IBeforeEachOpts, typeName: string) {
 
 export const makeBeforeEach = function (suman: ISuman): IBeforeEachFn {
 
-  return function beforeEach($$desc: string, $opts: IBeforeEachOpts): ITestSuite {
+  return function beforeEach($$desc: string, $opts: IBeforeEachOpts): TestBlock {
 
     const typeName = beforeEach.name;
     const zuite = suman.ctx;

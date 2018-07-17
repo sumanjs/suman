@@ -2,7 +2,7 @@
 
 //dts
 import {IHookObj} from "suman-types/dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
+import {IGlobalSumanObj, ISumanDomain} from "suman-types/dts/global";
 import {ITestDataObj} from "suman-types/dts/it";
 import {IAssertObj, ITimerObj} from "suman-types/dts/general";
 
@@ -17,7 +17,7 @@ import assert = require('assert');
 
 //npm
 import su = require('suman-utils');
-import chalk = require('chalk');
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -55,7 +55,7 @@ const planHelper = function (testOrHook: ITestDataObj | IHookObj, assertCount: I
   
 };
 
-const throwsHelper = function (err: IPseudoError, test: ITestDataObj, hook: IHookObj) {
+const throwsHelper = function (err: any, test: ITestDataObj, hook: IHookObj) {
   
   const testOrHook: ITestDataObj | IHookObj = (test || hook);
   
@@ -109,7 +109,7 @@ export const makeAllHookCallback = function (d: ISumanDomain, assertCount: IAsse
   
   ////////////////////////////////////////////////////////////////////////////////////////////////
   
-  return function allHookFini(err: IPseudoError, isTimeout?: boolean) {
+  return function allHookFini(err: any, isTimeout?: boolean) {
     
     const {sumanOpts} = _suman;
     
@@ -212,7 +212,7 @@ export const makeEachHookCallback = function (d: ISumanDomain, assertCount: IAss
   
   ///////////////////////////////////////////////////////////////////////////
   
-  return function eachHookFini(err: IPseudoError, isTimeout?: boolean) {
+  return function eachHookFini(err: any, isTimeout?: boolean) {
     
     const {sumanOpts} = _suman;
     
@@ -322,7 +322,7 @@ export const makeTestCaseCallback = function (d: ISumanDomain, assertCount: IAss
   
   ///////////////////////////////////////////////////////////////////
   
-  return function testCaseFini(err: IPseudoError, isTimeout?: boolean) {
+  return function testCaseFini(err: any, isTimeout?: boolean) {
     
     const {sumanOpts} = _suman;
     

@@ -20,7 +20,7 @@ import cp = require('child_process');
 
 //npm
 const pragmatik = require('pragmatik');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 const includes = require('lodash.includes');
 
@@ -36,7 +36,7 @@ import {getProjectModule, lastDitchRequire, getCoreAndDeps} from './helpers';
 
  //////////////////////////////////////////////////////////////////////////////////////////////*/
 
-export const makeBlockInjector = function (suman: ISuman, container: Object) {
+export const makeBlockInjector = (suman: ISuman, container: Object) => {
 
   return function blockInjector(suite: ITestSuite, parent: ITestSuite, names: Array<string>): Array<any> {
 

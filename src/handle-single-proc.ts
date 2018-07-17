@@ -20,7 +20,7 @@ import vm = require('vm');
 
 //npm
 import async = require('async');
-import chalk = require('chalk');
+import chalk from 'chalk';
 import su = require('suman-utils');
 
 //project

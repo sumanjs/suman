@@ -13,7 +13,7 @@ const global = require('suman-browser-polyfills/modules/global');
 import domain = require('domain');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import async = require('async');
 
 //project

@@ -14,7 +14,7 @@ import util = require('util');
 import EE = require('events');
 
 // npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as fnArgs from 'function-arguments';
 import su from 'suman-utils';
 

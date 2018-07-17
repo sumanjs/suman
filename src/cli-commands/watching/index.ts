@@ -17,7 +17,7 @@ import * as stream from 'stream';
 
 //npm
 import su from 'suman-utils';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import {runWatch} from 'suman-watch';
 
 //project

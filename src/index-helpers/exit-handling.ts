@@ -15,7 +15,7 @@ import Domain = require('domain');
 
 //npm
 import * as async from 'async';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 
 //project

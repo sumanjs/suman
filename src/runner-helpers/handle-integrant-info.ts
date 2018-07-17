@@ -18,7 +18,7 @@ import EE = require('events');
 
 //npm
 import {events} from 'suman-events'
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as _ from 'lodash';
 import su = require('suman-utils');
 
