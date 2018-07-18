@@ -3,7 +3,6 @@
 //dts
 import {IInjectionDeps} from "suman-types/dts/injection";
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ITestSuite} from "suman-types/dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

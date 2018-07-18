@@ -3,7 +3,6 @@
 //dts
 import {IInjectionDeps} from "suman-types/dts/injection";
 import {IGlobalSumanObj} from "suman-types/dts/global";
-import {ITestSuite} from "suman-types/dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -25,6 +24,7 @@ const fnArgs = require('function-arguments');
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {constants} from '../config/suman-constants';
+import {TestBlock} from "../test-suite-helpers/test-suite";
 const iocPromiseContainer: IIocPromiseContainer = {};
 
 /////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ const thisVal =
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const acquireIocDeps = function (deps: Array<string>, suite: ITestSuite, cb: Function) {
+export const acquireIocDeps = function (deps: Array<string>, suite: TestBlock, cb: Function) {
 
   const obj: IInjectionDeps = {};
   const SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';

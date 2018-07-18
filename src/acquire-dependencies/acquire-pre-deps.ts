@@ -3,7 +3,7 @@
 //dts
 import Timer = NodeJS.Timer;
 import {IDepContainer} from "suman-types/dts/integrant-value-container";
-import {IGlobalSumanObj, IPseudoError, ISumanGlobal} from "suman-types/dts/global";
+import {IGlobalSumanObj, ISumanGlobal} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');

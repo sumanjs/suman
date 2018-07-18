@@ -1,15 +1,14 @@
 'use strict';
 
+
 //dts
 import {IGlobalSumanObj, ISumanConfig, SumanErrorRace, ISumanOpts} from "suman-types/dts/global";
 import EventEmitter = NodeJS.EventEmitter;
 import {IStartCreate, IIoCData, IInitFn, IInitOpts} from "suman-types/dts/index-init"
 import {Stream, Transform, Writable} from "stream";
 import {IIntegrantsMessage, ISumanModuleExtended, TCreateHook, IInitRet} from "suman-types/dts/index-init";
-import {HookOrTestCaseParam} from "suman-types/dts/test-suite";
+import {IHookOrTestCaseParam} from "suman-types/dts/params";
 import {DefineObject, DefineObjectContext} from "./test-suite-helpers/define-options-classes";
-import chai = require('chai');
-import AssertStatic = Chai.AssertStatic;
 
 //exported imports
 import * as s from './s'

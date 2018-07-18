@@ -2,7 +2,7 @@
 
 //dts
 import {IOnceHookObj} from 'suman-types/dts/test-suite';
-import {IGlobalSumanObj, IPseudoError} from 'suman-types/dts/global';
+import {IGlobalSumanObj} from 'suman-types/dts/global';
 import {ITestDataObj} from 'suman-types/dts/it';
 import {ISuman, Suman} from '../suman';
 
@@ -64,7 +64,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             async.eachSeries(self.getBeforeBlockList(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
                 handleBeforesAndAfters(self, aBeforeOrAfter, cb);
               },
-              function complete(err: IPseudoError) {
+              function complete(err: any) {
                 implementationError(err);
                 process.nextTick(cb);
               });
@@ -76,7 +76,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             async.eachSeries(self.getBefores(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
                 handleBeforesAndAfters(self, aBeforeOrAfter, cb);
               },
-              function complete(err: IPseudoError) {
+              function complete(err: any) {
                 implementationError(err);
                 process.nextTick(function () {
                   earlyCallback && finished();
@@ -94,6 +94,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             }
             
             let fn1 = (self.parallel && !sumanOpts.series) ? async.parallel : async.series;
+
             let limit = 1;
             
             if (self.parallel && !sumanOpts.series) {
@@ -131,7 +132,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
                       runTheTrap(self, test, {parallel: false}, cb);
                     },
                     
-                    function complete(err: IPseudoError) {
+                    function complete(err: any) {
                       implementationError(err);
                       process.nextTick(cb);
                     });
@@ -159,13 +160,13 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
                       runTheTrap(self, test, {parallel: true}, cb);
                       
                     },
-                    function done(err: IPseudoError) {
+                    function done(err: any) {
                       implementationError(err);
                       process.nextTick(cb, null);
                     });
                 }
               ],
-              function doneWithAllDescribeBlocks(err: IPseudoError, results: Array<any>) {
+              function doneWithAllDescribeBlocks(err: any, results: Array<any>) {
                 implementationError(err);
                 process.nextTick(cb, null, results);
               });
@@ -189,7 +190,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             async.eachSeries(self.getAfters(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
                 handleBeforesAndAfters(self, aBeforeOrAfter, cb);
               },
-              function complete(err: IPseudoError) {
+              function complete(err: any) {
                 implementationError(err);
                 notifyParentThatChildIsComplete(self, cb);
               });
@@ -200,7 +201,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
             async.eachSeries(self.getAfterBlockList(), function (aBeforeOrAfter: IOnceHookObj, cb: Function) {
                 handleBeforesAndAfters(self, aBeforeOrAfter, cb);
               },
-              function complete(err: IPseudoError) {
+              function complete(err: any) {
                 implementationError(err);
                 process.nextTick(cb);
               });
@@ -208,7 +209,7 @@ export const makeStartSuite = function (suman: ISuman, gracefulExit: Function, h
           
         },
         
-        function allDone(err: IPseudoError, results: Object) {
+        function allDone(err: any, results: Object) {
           
           implementationError(err);
           

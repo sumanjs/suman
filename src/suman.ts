@@ -1,7 +1,6 @@
 'use strict';
 
 //dts
-import {ITestSuite} from "suman-types/dts/test-suite";
 import {IGlobalSumanObj, ISumanConfig, ISumanOpts} from "suman-types/dts/global";
 import {ITableData} from "suman-types/dts/table-data";
 import {ITableDataCallbackObj, ISumanServerInfo} from "suman-types/dts/suman";
@@ -69,6 +68,7 @@ export class Suman {
   opts: ISumanOpts;
   config: ISumanConfig;
   slicedFileName: string;
+  containerProxy: any;
   timestamp: number;
   sumanId: number;
   allDescribeBlocks: Array<TestBlock>;
@@ -199,7 +199,7 @@ export class Suman {
 
       suitesSkipped += this.numBlocksSkipped;
 
-      testsSkipped = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsSkipped = this.allDescribeBlocks.map(function (block: TestBlock) {
         if (block.skipped || block.skippedDueToOnly) {
           return block.getParallelTests().concat(block.getTests()).length;
         }
@@ -212,7 +212,7 @@ export class Suman {
       })
       .reduce(combine);
 
-      testsStubbed = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsStubbed = this.allDescribeBlocks.map(function (block: TestBlock) {
 
         return block.getParallelTests().concat(block.getTests())
         .filter(function (test) {
@@ -221,7 +221,7 @@ export class Suman {
 
       }).reduce(combine);
 
-      testsPassed = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsPassed = this.allDescribeBlocks.map(function (block: TestBlock) {
         if (block.skipped || block.skippedDueToOnly) {
           return 0;
         }
@@ -234,7 +234,7 @@ export class Suman {
       })
       .reduce(combine);
 
-      testsFailed = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsFailed = this.allDescribeBlocks.map(function (block: TestBlock) {
         if (block.skipped || block.skippedDueToOnly) {
           return 0;
         }
@@ -246,7 +246,7 @@ export class Suman {
       })
       .reduce(combine);
 
-      totalTests = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      totalTests = this.allDescribeBlocks.map(function (block: TestBlock) {
         return block.getParallelTests().concat(block.getTests()).length;
       })
       .reduce(combine);

@@ -31,13 +31,14 @@ import {makeStartSuite} from './make-start-suite';
 import {IAfterEachFn, IAfterFn, IBeforeEachFn, IBeforeFn, IDescribeFn, ItFn} from "../s";
 import {VamootProxy} from 'vamoot';
 import {ISuman} from "../suman";
+import {EVCb} from 'suman-types/dts/general';
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 type ITestSuiteConstructor = (obj: ITestBlockOpts) => void;
 
 const makeRunChild = function (val: any) {
-  return function runChild(child: TestBlock, cb: Function) {
+  return function runChild(child: TestBlock, cb: EVCb<any>) {
     child._run(val, cb);
   }
 };
@@ -97,8 +98,9 @@ export interface TestBlockOpts{
 }
 
 export interface ITestBlockOpts {
+  isTopLevel?: boolean
   desc: string,
-  title: string,
+  title?: string,
   opts: TestBlockOpts,
   suman: ISuman,
   gracefulExit,
@@ -109,8 +111,13 @@ export interface ITestBlockOpts {
 
 export class TestBlock  implements ITestBlock {
 
+  alreadyHandledAfterAllParentHooks: boolean;
+  isDelayed: boolean;
+  limit: number;
+  supply: object;
   opts: TestBlockOpts;
   testId: number;
+  isRootSuite?: boolean;
   childCompletionCount: number;
   allChildBlocksCompleted: boolean;
   isSetupComplete: boolean;
@@ -125,7 +132,10 @@ export class TestBlock  implements ITestBlock {
   private __suiteSuman: ISuman;
   desc: string;
   title:string;
-  _run?: Function;
+
+  _run?: (val: any, cb: EVCb<any>) => void;
+  __resume: (val: any) => void;
+
   bIsFirstArg: boolean;
   __supply: object; // McProxy proxy
   __startSuite: ReturnType<typeof makeStartSuite>;
@@ -290,15 +300,12 @@ export class TestBlock  implements ITestBlock {
     });
   }
 
-  private startSuite() {
-    return this.__startSuite.apply(this, arguments);
-  }
 
   toString() {
     return 'Suman test block: ' + this.desc;
   }
 
-  private invokeChildren(val: any, start: Function) {
+  invokeChildren(val: any, start: EVCb<any>) {
     async.eachSeries(this.getChildren(), makeRunChild(val), start);
   }
 
