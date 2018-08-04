@@ -67,6 +67,8 @@ process.on('uncaughtException', function (err: Error) {
     err = new Error(typeof err === 'string' ? err : util.inspect(err))
   }
   
+  let _suman = global.__suman;
+  
   if (String(err.stack || err).match(/Cannot find module/i) && _suman && _suman.sumanOpts && _suman.sumanOpts.transpile) {
     console.log(' => If transpiling, you may need to transpile your entire test directory to the destination directory using the ' +
       '--transpile and --all options together.')

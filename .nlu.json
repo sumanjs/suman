@@ -4,11 +4,12 @@
   "alwaysReinstall": false,
   "alwaysRelink": false,
   "searchRoots": [
-    "$HOME/WebstormProjects/oresoftware"
+    "$HOME/WebstormProjects"
   ],
   "ignore": [
     "/node_modules/",
-    "/.git/"
+    "/.git/",
+    "/dell-xps-backup/"
   ],
   "comments": [
     "put any comment you want here"
