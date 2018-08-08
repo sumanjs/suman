@@ -22,7 +22,7 @@ import {events} from 'suman-events';
 import {ISumanCPMessages} from "./handle-multiple-processes";
 import su = require('suman-utils');
 import async = require('async');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import {IGanttData} from "./socket-cp-hash";
 
 //project

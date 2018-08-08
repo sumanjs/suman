@@ -1,6 +1,6 @@
 
 
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 export const ascii = {
 

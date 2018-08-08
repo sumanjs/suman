@@ -10,7 +10,7 @@ import os = require('os');
 import path = require('path');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import async = require('async');
 import Timer = NodeJS.Timer;
 

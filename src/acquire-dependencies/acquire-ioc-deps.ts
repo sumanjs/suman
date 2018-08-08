@@ -2,8 +2,6 @@
 
 //dts
 import {IInjectionDeps} from "suman-types/dts/injection";
-import {IPseudoError} from "suman-types/dts/global";
-import {ITestSuite} from "suman-types/dts/test-suite";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -18,7 +16,7 @@ import EE = require('events');
 import cp = require('child_process');
 
 //npm
-import chalk = require('chalk');
+import chalk from 'chalk';
 import su = require('suman-utils');
 const includes = require('lodash.includes');
 const fnArgs = require('function-arguments');
@@ -29,6 +27,8 @@ import {constants} from '../config/suman-constants';
 import {ISuman, Suman} from "../suman";
 import {makeIocInjector} from '../injection/ioc-injector';
 import {loadSumanConfig, resolveSharedDirs, loadSharedObjects} from '../helpers/general';
+import {TestBlock} from "../test-suite-helpers/test-suite";
+import {EVCb} from "suman-types/dts/general";
 
 const IS_SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
 
@@ -49,8 +49,7 @@ const thisVal = {'message': `Suman users: don't use "this" here, instead => http
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const acquireIocDeps =
-  function (suman: ISuman, iocDepNames: Array<string>, suite: ITestSuite, obj: IInjectionDeps, cb: Function) {
+export const acquireIocDeps = (suman: ISuman, iocDepNames: Array<string>, suite: TestBlock, obj: IInjectionDeps, cb: EVCb<any>) => {
   
 
     const iocPromiseContainer = suman.iocPromiseContainer;
@@ -129,7 +128,7 @@ export const acquireIocDeps =
             throw new Error('Callback in your function was not present => ' + str);
           }
 
-          fn.call(thisVal, function (err: IPseudoError, val: any) {
+          fn.call(thisVal, function (err: any, val: any) {
             err ? reject(err) : resolve(val);
           });
         }

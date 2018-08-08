@@ -19,11 +19,11 @@ export interface ICoreAndDeps {
   mappedPkgJSONDeps: Array<string>
 }
 
-let values: ICoreAndDeps = null;
+let values = null;
 
 ///////////////////////////////////////////////////////////////////
 
-export const getCoreAndDeps = function () {
+export const getCoreAndDeps = function () : typeof values {
 
   if (!values) {
 
@@ -35,14 +35,18 @@ export const getCoreAndDeps = function () {
         try {
           return require(trimmed);
         }
-        catch (err) { /* ignore */}
+        catch (err) {
+          /* ignore */
+        }
 
         const replaceLodashWithDash = trimmed.replace(/_/g, '-');
         if (replaceLodashWithDash !== trimmed) {
           try {
             return require(replaceLodashWithDash);
           }
-          catch (err) { /* ignore */}
+          catch (err) {
+            _suman.log.error(err);
+          }
 
           throw new Error(`could not require dependencies with names '${trimmed}' or '${replaceLodashWithDash}'.`)
         }

@@ -19,7 +19,7 @@ const shuffle = require('lodash.shuffle');
 const {events} = require('suman-events');
 import su = require('suman-utils');
 import pt from 'prepend-transform';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

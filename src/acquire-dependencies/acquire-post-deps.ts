@@ -1,7 +1,8 @@
 'use strict';
+
 import Timer = NodeJS.Timer;
 import {IDepContainer} from "suman-types/dts/integrant-value-container";
-import {IGlobalSumanObj, IPseudoError, ISumanGlobal} from "suman-types/dts/global";
+import {IGlobalSumanObj, ISumanGlobal} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -17,7 +18,7 @@ import assert = require('assert');
 const _ = require('lodash');
 const fnArgs = require('function-arguments');
 import su from 'suman-utils';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -46,7 +47,7 @@ let cachedPromises: ICachedProm = {};
 
 export const acquirePostDeps = function ($depList: Array<string>, depContainerObj: IDepContainer): Promise<any> {
 
-  const depList = _.flattenDeep([$depList]);
+  const depList = su.flattenDeep([$depList]);
   const verbosity = _suman.sumanOpts.verbosity || 5;
 
   const getAllPromises = function (key: string, $deps: Array<any>): Promise<any> {

@@ -21,7 +21,7 @@ import EE = require('events');
 //npm
 const pragmatik = require('pragmatik');
 import async = require('async');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 
 //project
@@ -111,6 +111,7 @@ export const makeBefore = function (suman: ISuman): IBeforeFn {
     else {
 
       let obj = {
+        always: null,  // always only really applies to after hook
         last: Boolean(opts.last),
         first: Boolean(opts.first),
         ctx: zuite,

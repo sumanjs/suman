@@ -11,7 +11,7 @@ const os = require('os');
 const fs = require('fs');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import async = require('async');
 import su = require('suman-utils');
 const mkdirp = require('mkdirp');

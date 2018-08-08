@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj, IPseudoError, ISumanDomain} from "suman-types/dts/global";
+import {IGlobalSumanObj, ISumanDomain} from "suman-types/dts/global";
 import {ITestDataObj} from "suman-types/dts/it";
 import {IHookObj} from "suman-types/dts/test-suite";
 import {Observable} from 'rxjs';
@@ -42,7 +42,7 @@ export const handleReturnVal = function (done: Function, fnStr: string, testOrHo
         function onNext(val: any) {
           _suman.log.info('Observable subscription onNext => ', util.inspect(val));
         },
-        function onError(e: IPseudoError) {
+        function onError(e: any) {
           //TODO: we assume we are unsubscribed automatically if onError is fired
           done(e || new Error('Suman dummy error.'));
         },
@@ -62,7 +62,7 @@ export const handleReturnVal = function (done: Function, fnStr: string, testOrHo
         _next.apply(val, arguments);
       };
       
-      val._error = function (e: IPseudoError) {
+      val._error = function (e: any) {
         _error.apply(val, arguments);
         done(e || new Error('Suman dummy error.'));
       };
@@ -107,7 +107,7 @@ export const handleReturnVal = function (done: Function, fnStr: string, testOrHo
 
       */
       
-      const successEvents = _.flattenDeep([testOrHook.successEvents, eventsSuccess, defaultSuccessEvents]);
+      const successEvents = su.flattenDeep([testOrHook.successEvents, eventsSuccess, defaultSuccessEvents]);
       successEvents.filter(function (v, i, a) {
         if (v && typeof v !== 'string') {
           _suman.log.error(new Error('Value passed to success events was not a string: ' + util.inspect(v)));
@@ -119,7 +119,7 @@ export const handleReturnVal = function (done: Function, fnStr: string, testOrHo
         val.once(name, onSuccess);
       });
       
-      const errorEvents = _.flattenDeep([testOrHook.errorEvents, eventsError, defaultErrorEvents]);
+      const errorEvents = su.flattenDeep([testOrHook.errorEvents, eventsError, defaultErrorEvents]);
       errorEvents.filter(function (v, i, a) {
         if (v && typeof v !== 'string') {
           _suman.log.error(new Error('Value passed to error events was not a string: ' + util.inspect(v)));

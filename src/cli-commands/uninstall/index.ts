@@ -13,7 +13,7 @@ const os = require('os');
 //npm
 const async = require('async');
 const colors = require('colors');
-import chalk = require('chalk');
+import chalk from 'chalk';
 
 //project
 const _suman = global.__suman = (global.__suman || {});

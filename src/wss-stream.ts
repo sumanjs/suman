@@ -1,7 +1,7 @@
 
-let http = require('http');
-let fs = require('fs');
-let util = require('util');
+import http = require('http');
+import fs = require('fs');
+import util = require('util');
 
 let Server = require('socket.io');
 let io = new Server(3999);

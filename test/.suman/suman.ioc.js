@@ -2,6 +2,9 @@
 module.exports = function ($data, $core, $deps, $ioc) {
     return {
         dependencies: {
+            'boo': function () {
+                return 'b2boo';
+            },
             'bat': function () {
                 return 'BAT';
             },

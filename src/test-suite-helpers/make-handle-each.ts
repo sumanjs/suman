@@ -16,7 +16,7 @@ import assert = require('assert');
 import util = require('util');
 
 //npm
-import chalk = require('chalk');
+import chalk from 'chalk';
 const fnArgs = require('function-arguments');
 
 //project
@@ -33,7 +33,8 @@ import {freezeExistingProps} from 'freeze-existing-props'
 //////////////////////////////////////////////////////////////////////////////////////
 
 export const makeHandleBeforeOrAfterEach = function (suman: ISuman, gracefulExit: Function) {
-  
+
+  // don't use arrow function here, b/c we may need to access arguments for retry action
   return function handleBeforeOrAfterEach(self: ITestSuite, test: ITestDataObj,
                                           aBeforeOrAfterEach: IEachHookObj, cb: Function, retryData?: any) {
     

@@ -1,7 +1,7 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 import AssertStatic = Chai.AssertStatic;
 import {IHookObj} from "suman-types/dts/test-suite";
 import {ITestDataObj} from "suman-types/dts/it";
@@ -25,8 +25,6 @@ import * as chai from 'chai';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {cloneError} from '../helpers/general';
-import {constants} from '../config/suman-constants';
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -45,21 +43,25 @@ let badProps = <IBadProps> {
 const slice = Array.prototype.slice;
 const notCallbackOrientedError = 'You have fired a callback for a test case or hook that was not callback oriented.';
 
-export class ParamBase extends EE implements IHookOrTestCaseParam {
+export abstract class ParamBase extends EE implements IHookOrTestCaseParam {
 
   protected __timerObj: ITimerObj;
   protected __handle: Function;
-  protected __shared: VamootProxy;
+   __shared: VamootProxy;
   protected __fini: Function;
   public callbackMode?: boolean;
   assert: typeof chai.assert;
   should: typeof chai.should;
   expect: typeof chai.expect;
   protected __tooLate: boolean;
+  desc: string;
+  state: 'pending' | 'errored' | 'completed';
 
   constructor() {
     super();
   }
+
+  abstract onTimeout(): void;
 
   timeout(val: number) {
     this.__timerObj.timer && clearTimeout(this.__timerObj.timer);
@@ -83,7 +85,7 @@ export class ParamBase extends EE implements IHookOrTestCaseParam {
     }
   }
 
-  fatal(err: IPseudoError) {
+  fatal(err: any) {
     if (!err) {
       err = new Error('t.fatal() was called by the developer, with a falsy first argument.');
     }
@@ -166,7 +168,7 @@ export class ParamBase extends EE implements IHookOrTestCaseParam {
     return this.final.apply(this, arguments);
   }
 
-  log(...args: Array<string>) {
+  log(...args: Array<any>) {
     console.log(` [ '${this.desc || 'unknown'}' ] `, ...args);
   }
 

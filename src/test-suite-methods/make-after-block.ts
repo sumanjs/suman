@@ -15,7 +15,7 @@ import assert = require('assert');
 
 //npm
 const pragmatik = require('pragmatik');
-import chalk = require('chalk');
+import chalk from 'chalk';
 import su from 'suman-utils';
 
 //project
@@ -25,6 +25,7 @@ const {constants} = require('../config/suman-constants');
 import {handleSetupComplete} from '../helpers/general';
 import {evalOptions} from '../helpers/general';
 import {parseArgs} from '../helpers/general';
+import {TestBlock} from "../test-suite-helpers/test-suite";
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -71,7 +72,7 @@ const handleBadOptions = function (opts: IAfterOpts, typeName: string): void {
 
 export const makeAfterBlock = function (suman: ISuman): IAfterFn {
   
-  return function afterBlock($desc: string, $opts: IAfterOpts): ITestSuite {
+  return function afterBlock($desc: string, $opts: IAfterOpts): TestBlock {
     
     const zuite = suman.ctx;
     handleSetupComplete(zuite, afterBlock.name);

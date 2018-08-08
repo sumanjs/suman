@@ -20,7 +20,7 @@ import cp = require('child_process');
 
 //npm
 import semver = require('semver');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman :IGlobalSumanObj  = global.__suman = (global.__suman || {});

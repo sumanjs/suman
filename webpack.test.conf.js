@@ -3,7 +3,7 @@ const glob = require('glob');
 const _ = require('lodash');
 process.env.IS_SUMAN_BROWSER_TEST='yes';
 
-const all = _.flattenDeep([process.env.SUMAN_BROWSER_TEST_PATHS || glob.sync('./test/src/dev/browser/**/*.ts')]);
+const all = su.flattenDeep([process.env.SUMAN_BROWSER_TEST_PATHS || glob.sync('./test/src/dev/browser/**/*.ts')]);
 const entries = all.filter(f => f);
 
 if(!entries.length){

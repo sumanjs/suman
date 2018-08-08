@@ -13,7 +13,7 @@ const util = require('util');
 
 //npm
 const async = require('async');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 const chmodr = require('chmodr');
 const debug = require('suman-debug');

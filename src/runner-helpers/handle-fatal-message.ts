@@ -14,7 +14,7 @@ import EE = require('events');
 //npm
 const {events} = require('suman-events');
 import su = require('suman-utils');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import {ISumanChildProcess} from "suman-types/dts/runner";
 
 //project

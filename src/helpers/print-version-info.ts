@@ -9,7 +9,7 @@ const global = require('suman-browser-polyfills/modules/global');
 import util = require('util');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

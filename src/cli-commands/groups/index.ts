@@ -20,7 +20,7 @@ import cp = require('child_process');
 //npm
 import * as async from 'async';
 const rimraf = require('rimraf');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 const flattenDeep = require('lodash.flattendeep');
 
 //project

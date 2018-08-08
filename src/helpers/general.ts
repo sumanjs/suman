@@ -1,9 +1,9 @@
 'use strict';
 
 //dts
-import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 import {ISumanConfig, ISumanOpts} from "suman-types/dts/global";
-import {IAllOpts, ITestSuite} from "suman-types/dts/test-suite";
+import {IAllOpts} from "suman-types/dts/test-suite";
 import {ISuman, Suman} from "../suman";
 import {ISumanServerInfo} from "suman-types/dts/suman";
 
@@ -21,7 +21,7 @@ import fs = require('fs');
 
 //npm
 import su = require('suman-utils');
-import chalk  = require('chalk');
+import chalk from 'chalk';
 import async = require('async');
 
 try {
@@ -44,13 +44,17 @@ const suiteResultEmitter = _suman.suiteResultEmitter = (_suman.suiteResultEmitte
 const results: Array<ITableDataCallbackObj> = _suman.tableResults = (_suman.tableResults || []);
 const rb = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 import {getClient} from '../index-helpers/socketio-child-client';
+import {IRet} from "suman-types/dts/reporters";
+import {EVCb} from "suman-types/dts/general";
+import {TestBlock} from "../test-suite-helpers/test-suite";
+
 const fnArgs = require('function-arguments');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const handleSetupComplete = function (test: ITestSuite, type: string) {
+export const handleSetupComplete = function (zuite: TestBlock, type: string) {
   
-  if (test.isSetupComplete) {
+  if (zuite.isSetupComplete) {
     _suman.log.error('Illegal registry of block method type => "' + type + '()".');
     _suman.log.error(chalk.red.bold('Suman usage error => fatal => Asynchronous registry of test suite methods. Fatal AF.'), '\n\n');
     const e = new Error('Suman usage error => Fatal error => You have attempted to register calls to a\n' +
@@ -74,8 +78,8 @@ export const handleSetupComplete = function (test: ITestSuite, type: string) {
     })
     .join('\n');
     
-    if (test) {
-      _suman.log.error('Regarding the following test suite with name =>', util.inspect(test.title || test.desc));
+    if (zuite) {
+      _suman.log.error('Regarding the following test suite with name =>', util.inspect(zuite.title || zuite.desc));
     }
     throw e;
   }
@@ -158,7 +162,7 @@ export const extractVals = function (val: any) {
   }
 };
 
-export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
+export const makeHandleAsyncReporters = function (reporterRets: Array<IRet>) {
   
   return function (cb: Function) {
     
@@ -176,7 +180,7 @@ export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
     
     let exitCode = 0;
     
-    async.eachLimit(reporterRets, 5, function (item: Object, cb: Function) {
+    async.eachLimit(reporterRets, 5, function (item, cb) {
         
         if (item && item.completionHook) {
           item.completionHook();
@@ -212,9 +216,7 @@ export const makeHandleAsyncReporters = function (reporterRets: Array<any>) {
         }
       },
       function () {
-        process.nextTick(cb, null, {
-          exitCode
-        });
+        process.nextTick(cb, null, {exitCode});
       });
   }
 };
@@ -278,7 +280,7 @@ export const asyncHelper =
         return reject({key: key, error: e});
       }
       
-      $args.push(function (e: IPseudoError | string, val: any) {
+      $args.push(function (e: any | string, val: any) {
         e ? reject({key: key, error: e}) : resolve(val)
       });
       
@@ -286,14 +288,14 @@ export const asyncHelper =
     }
     else {
       Promise.resolve(fn.apply(null, $args))
-      .then(resolve, function (e: IPseudoError | string) {
+      .then(resolve, function (e: any | string) {
         reject({key: key, error: e});
       });
     }
     
   };
 
-export const implementationError = function (err: IPseudoError, isThrow?: boolean) {
+export const implementationError = function (err: any, isThrow?: boolean) {
   if (err) {
     err = new Error('Suman implementation error => Please report!' + '\n' + (err.stack || err));
     _suman.log.error(err.stack);
@@ -396,7 +398,7 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
         `given your configuration and command line options.`);
       return process.exit(constants.EXIT_CODES.COULD_NOT_LOCATE_SUMAN_HELPERS_DIR);
     }
-    else {
+
       sumanHelpersDir = path.resolve(projectRoot + '/.suman');
       try {
         fs.mkdirSync(sumanHelpersDir)
@@ -407,8 +409,6 @@ export const resolveSharedDirs = function (sumanConfig: ISumanConfig, projectRoo
           return process.exit(constants.EXIT_CODES.COULD_NOT_LOCATE_SUMAN_HELPERS_DIR);
         }
       }
-      
-    }
   }
   
   const logDir = path.resolve(sumanHelpersDir + '/logs');
@@ -669,7 +669,7 @@ export const vetPaths = function (paths: Array<string>): void {
 };
 
 let fatalRequestReplyCallable = true;
-export const fatalRequestReply = function (obj: Object, $cb: Function) {
+export const fatalRequestReply = function (obj: any, $cb: EVCb<any>) {
   
   const sumanOpts = _suman.sumanOpts || {};
   
@@ -804,9 +804,23 @@ export const makeOnSumanCompleted = function (suman: ISuman) {
   };
 };
 
-export const cloneError = function (err: Error, newMessage: string, strip?: boolean) {
+export interface ClonedError {
+  isTimeout?: boolean,
+  stack: string,
+  message: string
+}
+
+export interface SumanPseudoError {
+  stack?: string
+  message?: string,
+  sumanFatal?: boolean,
+  sumanExitCode?: number,
+  isFromTest?: boolean
+}
+
+export const cloneError = function (err: Error, newMessage: string, strip?: boolean) : ClonedError {
   
-  const obj = {} as IPseudoError;
+  const obj = {} as ClonedError;
   obj.message = newMessage || `Suman implementation error: "newMessage" is not defined. Please report: ${constants.SUMAN_ISSUE_TRACKER_URL}.`;
   let temp;
   if (strip !== false) {

@@ -13,7 +13,7 @@ const fs = require('fs');
 
 //npm
 const replaceStrm = require('replacestream');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 
 //project

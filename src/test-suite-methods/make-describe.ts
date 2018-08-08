@@ -24,7 +24,7 @@ import domain = require('domain');
 const fnArgs = require('function-arguments');
 const pragmatik = require('pragmatik');
 import async = require('async');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 import {VamootProxy} from 'vamoot';
 import McProxy = require('proxy-mcproxy');

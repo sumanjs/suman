@@ -1,10 +1,8 @@
 'use strict';
 
 //dts
-import {ITestSuite} from "suman-types/dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanConfig, ISumanOpts} from "suman-types/dts/global";
+import {IGlobalSumanObj, ISumanConfig, ISumanOpts} from "suman-types/dts/global";
 import {ITableData} from "suman-types/dts/table-data";
-import {ISumanInputs} from "suman-types/dts/suman";
 import {ITableDataCallbackObj, ISumanServerInfo} from "suman-types/dts/suman";
 import {IInitOpts} from "suman-types/dts/index-init";
 
@@ -21,7 +19,7 @@ import EE = require('events');
 
 //npm
 const flattenDeep = require('lodash.flattendeep');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 const AsciiTable = require('ascii-table');
 import async = require('async');
 const fnArgs = require('function-arguments');
@@ -34,6 +32,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {findSumanServer} from './helpers/general';
 import {ITestDataObj} from "suman-types/dts/it";
 import {constants} from './config/suman-constants';
+import {TestBlock} from "./test-suite-helpers/test-suite";
 const resultBroadcaster = _suman.resultBroadcaster = (_suman.resultBroadcaster || new EE());
 
 //////////////////////////////////////////////////////////////////////////////
@@ -46,21 +45,33 @@ export interface ITestBlockMethodCache {
 
 let sumanId = 0;
 
+export interface ISumanInputs {
+  fileName: string,
+  timestamp: number,
+  usingLiveSumanServer: boolean
+  server: ISumanServerInfo,
+  opts: ISumanOpts;
+  config: ISumanConfig,
+  force: boolean
+}
+
 export class Suman {
 
-  ctx?: ITestSuite;
+  ctx?: TestBlock;
   supply: Object;
   private __supply: Object;
   testBlockMethodCache: Map<Function, ITestBlockMethodCache>;
   iocData: Object;
   force: boolean;
+  interface: string;
   fileName: string;
   opts: ISumanOpts;
   config: ISumanConfig;
   slicedFileName: string;
+  containerProxy: any;
   timestamp: number;
   sumanId: number;
-  allDescribeBlocks: Array<ITestSuite>;
+  allDescribeBlocks: Array<TestBlock>;
   describeOnlyIsTriggered: boolean;
   deps: Array<string>;
   usingLiveSumanServer: boolean;
@@ -76,10 +87,11 @@ export class Suman {
   sumanCompleted: boolean;
   desc: string;
   getQueue: Function;
+  iocPromiseContainer: object;
 
   ////////////////////////////////////
 
-  constructor(obj: ISumanInputs) {
+  constructor(obj: Partial<ISumanOpts>) {
 
     const projectRoot = _suman.projectRoot;
 
@@ -132,10 +144,7 @@ export class Suman {
         assert(Number.isInteger(c) && c > 0 && c < 301,
           'DEFAULT_PARALLEL_TOTAL_LIMIT must be an integer between 1 and 300 inclusive.');
 
-        q = async.queue(function (task: Function, cb: Function) {
-          task(cb);
-        }, c);
-
+        q = async.queue<any,any>((task,cb) => task(cb), c);
       }
 
       return q;
@@ -176,7 +185,7 @@ export class Suman {
 
       completionMessage = 'Ran to completion';
       suitesTotal = this.allDescribeBlocks.length;
-      suitesSkipped = this.allDescribeBlocks.filter(function (block: ITestSuite) {
+      suitesSkipped = this.allDescribeBlocks.filter(block => {
         if (block.skipped || block.skippedDueToOnly) {
           skippedSuiteNames.push(block.desc);
           return true;
@@ -190,7 +199,7 @@ export class Suman {
 
       suitesSkipped += this.numBlocksSkipped;
 
-      testsSkipped = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsSkipped = this.allDescribeBlocks.map(function (block: TestBlock) {
         if (block.skipped || block.skippedDueToOnly) {
           return block.getParallelTests().concat(block.getTests()).length;
         }
@@ -203,7 +212,7 @@ export class Suman {
       })
       .reduce(combine);
 
-      testsStubbed = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsStubbed = this.allDescribeBlocks.map(function (block: TestBlock) {
 
         return block.getParallelTests().concat(block.getTests())
         .filter(function (test) {
@@ -212,7 +221,7 @@ export class Suman {
 
       }).reduce(combine);
 
-      testsPassed = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsPassed = this.allDescribeBlocks.map(function (block: TestBlock) {
         if (block.skipped || block.skippedDueToOnly) {
           return 0;
         }
@@ -225,7 +234,7 @@ export class Suman {
       })
       .reduce(combine);
 
-      testsFailed = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      testsFailed = this.allDescribeBlocks.map(function (block: TestBlock) {
         if (block.skipped || block.skippedDueToOnly) {
           return 0;
         }
@@ -237,7 +246,7 @@ export class Suman {
       })
       .reduce(combine);
 
-      totalTests = this.allDescribeBlocks.map(function (block: ITestSuite) {
+      totalTests = this.allDescribeBlocks.map(function (block: TestBlock) {
         return block.getParallelTests().concat(block.getTests()).length;
       })
       .reduce(combine);
@@ -374,8 +383,7 @@ export type ISuman = Suman;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-export const makeSuman
-  = function ($module: NodeModule, opts: IInitOpts, sumanOpts: Partial<ISumanOpts>, sumanConfig: Partial<ISumanConfig>) {
+export const makeSuman =  ($module: NodeModule, opts: IInitOpts, sumanOpts: Partial<ISumanOpts>, sumanConfig: Partial<ISumanConfig>): Suman => {
 
   let liveSumanServer = false;
 
@@ -412,19 +420,11 @@ export const makeSuman
     timestamp = null;
   }
 
-  let server: ISumanServerInfo;
-
-  try {
-    server = findSumanServer(null);
-  }
-  catch (err) {
-    _suman.log.error(err.stack || err);
-  }
 
   return new Suman({
+    server: null,
     fileName: path.resolve($module.filename),
     usingLiveSumanServer: liveSumanServer,
-    server,
     opts: sumanOpts,
     force: opts.force,
     timestamp,

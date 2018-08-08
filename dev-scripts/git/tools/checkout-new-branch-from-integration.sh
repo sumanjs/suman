@@ -35,5 +35,6 @@ new_branch="${USER}/${branch_type}/${time_seconds}"
 
 echo "New branch name: $new_branch";
 
-git checkout -b "${new_branch}" "origin/dev"
+git branch --no-track "${new_branch}" "origin/dev"
+git checkout "${new_branch}"
 git push -u origin HEAD  # makes sure git is tracking this branch on the primary remote

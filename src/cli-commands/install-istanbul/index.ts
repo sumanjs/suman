@@ -12,7 +12,7 @@ const util = require('util');
 
 //npm
 const async = require('async');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman = global.__suman = (global.__suman || {});

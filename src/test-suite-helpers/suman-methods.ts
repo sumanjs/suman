@@ -207,8 +207,7 @@ const addDefine = function (fn: any, Clazz: typeof DefineObject) {
   
 };
 
-export const makeSumanMethods = function (suman: ISuman, gracefulExit: Function,
-                                          handleBeforesAndAfters: Function, notifyParent: Function): any {
+export const makeSumanMethods = (suman: ISuman, gracefulExit: Function, handleBeforesAndAfters: Function, notifyParent: Function) => {
   
   /*
 
@@ -230,19 +229,15 @@ export const makeSumanMethods = function (suman: ISuman, gracefulExit: Function,
   
   // "methods"
   const inject: IInjectFn = addDefine(makeInject(suman), DefineOptionsInjectHook);
-  
   const before: IBeforeFn = addDefine(makeBefore(suman), DefineObjectAllHook);
   const after: IAfterFn = addDefine(makeAfter(suman), DefineObjectAllHook);
-  
   const beforeEachBlock: IBeforeFn = addDefine(makeBeforeBlock(suman), DefineObjectAllHook);
   const afterEachBlock: IAfterFn = addDefine(makeAfterBlock(suman), DefineObjectAllHook);
-  
   const beforeEach: IBeforeEachFn = addDefine(makeBeforeEach(suman), DefineObjectEachHook);
   const afterEach: IAfterEachFn = addDefine(makeAfterEach(suman), DefineObjectEachHook);
   const it: ItFn = addDefine(makeIt(suman), DefineObjectTestCase);
   const afterAllParentHooks = addDefine(makeAfterAllParentHooks(suman), DefineObjectAllHook);
-  const describe: IDescribeFn =
-    addDefine(makeDescribe(suman, gracefulExit, notifyParent, blockInjector, handleBeforesAndAfters), DefineObjectContext);
+  const describe: IDescribeFn = addDefine(makeDescribe(suman, gracefulExit, notifyParent, blockInjector, handleBeforesAndAfters), DefineObjectContext);
   
   /////////////////////////////////////////////////////////////////////////////////////////
   
@@ -260,7 +255,6 @@ export const makeSumanMethods = function (suman: ISuman, gracefulExit: Function,
   m.aftereach = m.afterEach = m.tearDownTest = m.teardownTest = m.teardowntest = getProxy(afterEach, rules.hookSignature) as IAfterEachFn;
   
   m.afterallparenthooks = m.afterAllParentHooks = getProxy(afterAllParentHooks, rules.hookSignature) as Function;
-  
   m.beforeeachblock = m.beforeEachBlock = m.beforeeachchild = m.beforeEachChild = getProxy(beforeEachBlock, rules.hookSignature) as Function;
   m.aftereachblock = m.afterEachBlock = m.aftereachchild = m.afterEachChild = getProxy(afterEachBlock, rules.hookSignature) as Function;
   

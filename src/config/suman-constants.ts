@@ -1,6 +1,6 @@
 'use strict';
 
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 export const constants = Object.freeze({
   

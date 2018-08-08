@@ -2,7 +2,7 @@
 
 //dts
 import {IHandleError, IOnceHookObj, ITestSuite} from "suman-types/dts/test-suite";
-import {IGlobalSumanObj, IPseudoError, ISumanAllHookDomain, ISumanDomain} from "suman-types/dts/global";
+import {IGlobalSumanObj, ISumanAllHookDomain, ISumanDomain} from "suman-types/dts/global";
 import {ISuman, Suman} from "../suman";
 
 //polyfills
@@ -16,7 +16,7 @@ import util = require('util');
 
 //npm
 import su from 'suman-utils';
-import chalk = require('chalk');
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -31,7 +31,8 @@ import {freezeExistingProps} from 'freeze-existing-props';
 /////////////////////////////////////////////////////////////////////////////////////
 
 export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit: Function) {
-  
+
+  // don't use arrow function here, b/c we may need to access arguments for retry action
   return function handleBeforesAndAfters(self: ITestSuite, aBeforeOrAfter: IOnceHookObj, cb: Function, retryData?: any) {
     
     if (_suman.uncaughtExceptionTriggered) {
@@ -72,7 +73,7 @@ export const makeHandleBeforesAndAfters = function (suman: ISuman, gracefulExit:
     
     let dError = false;
     
-    const handleError: IHandleError = (err: IPseudoError) => {
+    const handleError: IHandleError = (err: any) => {
       
       if (aBeforeOrAfter.dynamicallySkipped === true) {
         return fini(null);

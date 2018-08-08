@@ -16,7 +16,7 @@ import {Writable} from "stream";
 
 //npm
 import su from 'suman-utils';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import async = require('async');
 
 //project
