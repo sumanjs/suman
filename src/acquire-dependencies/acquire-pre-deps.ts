@@ -18,7 +18,7 @@ import assert = require('assert');
 //npm
 import _ = require('lodash');
 const fnArgs = require('function-arguments');
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 import chalk from 'chalk';
 
 //project

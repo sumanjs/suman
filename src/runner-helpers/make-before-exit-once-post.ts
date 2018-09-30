@@ -20,7 +20,7 @@ const uniq = require('lodash.uniq');
 import * as _ from 'lodash';
 const {events} = require('suman-events');
 import * as fnArgs from 'function-arguments';
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 import {IRunnerObj} from "suman-types/dts/runner";
 import {IIntegrantHash, IOncePost, TOncePostKeys} from "./runner";
 

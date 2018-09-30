@@ -15,7 +15,7 @@ import assert = require('assert');
 import util = require('util');
 
 //npm
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 import chalk from 'chalk';
 
 //project

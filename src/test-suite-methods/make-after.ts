@@ -16,7 +16,7 @@ import assert = require('assert');
 //npm
 const pragmatik = require('pragmatik');
 import chalk from 'chalk';
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});

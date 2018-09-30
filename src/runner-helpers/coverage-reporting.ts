@@ -12,7 +12,7 @@ import cp = require('child_process');
 import path = require('path');
 
 //npm
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 import chalk from 'chalk';
 
 

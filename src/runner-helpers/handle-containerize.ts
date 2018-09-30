@@ -18,7 +18,7 @@ import EE = require('events');
 const merge = require('lodash.merge');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 import * as async from 'async';
 import chalk from 'chalk';
 
