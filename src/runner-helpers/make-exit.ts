@@ -21,7 +21,7 @@ import async = require('async');
 const player = require('play-sound')();
 const sortBy = require('lodash.sortby');
 const AsciiTable = require('ascii-table');
-import chalk  = require('chalk');
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

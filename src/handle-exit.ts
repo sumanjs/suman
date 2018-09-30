@@ -13,7 +13,7 @@ import fs = require('fs');
 import assert = require('assert');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 
 //project

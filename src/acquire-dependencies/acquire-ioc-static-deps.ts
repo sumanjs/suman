@@ -2,8 +2,7 @@
 
 //dts
 import {IInjectionDeps} from "suman-types/dts/injection";
-import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
-import {ITestSuite} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -18,8 +17,8 @@ import EE = require('events');
 import cp = require('child_process');
 
 //npm
-import * as chalk from 'chalk';
-import su from 'suman-utils';
+import chalk from 'chalk';
+import * as su from 'suman-utils';
 
 const includes = require('lodash.includes');
 const fnArgs = require('function-arguments');
@@ -103,7 +102,7 @@ export const acquireIocStaticDeps = function () {
           throw new Error('Callback in your function was not present => \n' + str);
         }
 
-        fn.call(thisVal, function (err: IPseudoError, val: any) {
+        fn.call(thisVal, function (err: any, val: any) {
           err ? reject(err) : resolve(val);
         });
       }

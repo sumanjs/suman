@@ -16,7 +16,7 @@ import {ISumanOpts} from "suman-types/dts/global";
 
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

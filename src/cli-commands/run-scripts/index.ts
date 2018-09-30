@@ -15,7 +15,7 @@ import util = require('util');
 
 //npm
 import su = require('suman-utils');
-import chalk = require('chalk');
+import chalk from 'chalk';
 import {pt} from 'prepend-transform';
 
 //project

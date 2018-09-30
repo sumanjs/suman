@@ -15,12 +15,12 @@ import EE = require('events');
 
 //npm
 import async = require('async');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 const uniq = require('lodash.uniq');
 import * as _ from 'lodash';
 const {events} = require('suman-events');
 import * as fnArgs from 'function-arguments';
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 import {IRunnerObj} from "suman-types/dts/runner";
 import {IIntegrantHash, IOncePost, TOncePostKeys} from "./runner";
 
@@ -42,7 +42,7 @@ export const makeBeforeExit = function (runnerObj: IRunnerObj, oncePosts: IOnceP
       return process.nextTick(cb);
     }
 
-    const flattenedAllOncePostKeys = _.flattenDeep(allOncePostKeys).filter(function (v, i, a) {
+    const flattenedAllOncePostKeys = su.flattenDeep(allOncePostKeys).filter(function (v, i, a) {
       // create unique array
       return a.indexOf(v) === i;
     });

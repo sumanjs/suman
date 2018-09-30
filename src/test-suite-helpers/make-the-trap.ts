@@ -1,9 +1,8 @@
 'use strict';
 
 //dts
-import {ITestSuite} from "suman-types/dts/test-suite";
 import {ISuman, Suman} from "../suman";
-import {IPseudoError, IGlobalSumanObj} from "suman-types/dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 import {IItOpts, ITestDataObj} from "suman-types/dts/it";
 import {IBeforeEachObj} from "suman-types/dts/before-each";
 import {IAFterEachObj} from "suman-types/dts/after-each";
@@ -26,13 +25,14 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {makeHandleTest} from './make-handle-test';
 import {makeHandleBeforeOrAfterEach} from './make-handle-each';
 import {implementationError} from '../helpers/general';
+import {TestBlock} from "./test-suite";
 const rb = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
 const testErrors = _suman.testErrors = _suman.testErrors || [];
 const errors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors || [];
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const getAllBeforesEaches = function (zuite: ITestSuite) {
+const getAllBeforesEaches = function (zuite: TestBlock) {
   
   const beforeEaches: Array<Array<IBeforeEachObj>> = [];
   beforeEaches.unshift(zuite.getBeforeEaches());
@@ -42,7 +42,7 @@ const getAllBeforesEaches = function (zuite: ITestSuite) {
     beforeEaches.unshift(zuite.getAfterAllParentHooks());
   }
   
-  const getParentBefores = function (parent: ITestSuite) {
+  const getParentBefores = function (parent: TestBlock) {
     beforeEaches.unshift(parent.getBeforeEaches());
     if (parent.parent) {
       getParentBefores(parent.parent);
@@ -52,18 +52,19 @@ const getAllBeforesEaches = function (zuite: ITestSuite) {
   if (zuite.parent) {
     getParentBefores(zuite.parent);
   }
-  
-  return _.flatten(beforeEaches);
+
+  //flatten
+  return beforeEaches.reduce( (a, b) => a.concat(b), [])
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-const getAllAfterEaches = function (zuite: ITestSuite) {
+const getAllAfterEaches = function (zuite: TestBlock) {
   
   const afterEaches: Array<Array<IAFterEachObj>> = [];
   afterEaches.push(zuite.getAfterEaches());
   
-  const getParentAfters = function (parent: ITestSuite) {
+  const getParentAfters = function (parent: TestBlock) {
     afterEaches.push(parent.getAfterEaches());
     if (parent.parent) {
       getParentAfters(parent.parent);
@@ -73,8 +74,9 @@ const getAllAfterEaches = function (zuite: ITestSuite) {
   if (zuite.parent) {
     getParentAfters(zuite.parent);
   }
-  
-  return _.flatten(afterEaches);
+
+  //flatten
+  return afterEaches.reduce( (a, b) => a.concat(b), [])
 };
 
 //////////////////////////////////////////////////////////
@@ -102,7 +104,7 @@ const stckMapFn = function (item: string, index: number) {
   
 };
 
-const handleTestError = function (err: IPseudoError, test: ITestDataObj) {
+const handleTestError = function (err: any, test: ITestDataObj) {
   
   if (_suman.uncaughtExceptionTriggered) {
     _suman.log.error(`runtime error => "UncaughtException:Triggered" => halting program.\n[${__filename}]`);
@@ -157,7 +159,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
   const handleTest = makeHandleTest(suman, gracefulExit);
   const handleBeforeOrAfterEach = makeHandleBeforeOrAfterEach(suman, gracefulExit);
   
-  return function runTheTrap(self: ITestSuite, test: ITestDataObj, opts: Partial<IItOpts>, cb: Function) {
+  return function runTheTrap(self: TestBlock, test: ITestDataObj, opts: Partial<IItOpts>, cb: Function) {
     
     if (_suman.uncaughtExceptionTriggered) {
       _suman.log.error(`runtime error => "uncaughtException" event => halting program.\n[${__filename}]`);
@@ -185,7 +187,7 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
     async.eachSeries(getAllBeforesEaches(self), function (aBeforeEach: IBeforeEachObj, cb: Function) {
         handleBeforeOrAfterEach(self, test, aBeforeEach, cb);
       },
-      function doneWithBeforeEaches(err: IPseudoError) {
+      function doneWithBeforeEaches(err: any) {
         
         implementationError(err);
         
@@ -220,14 +222,14 @@ export const makeTheTrap = function (suman: ISuman, gracefulExit: Function) {
               async.eachSeries(getAllAfterEaches(self), function (aAfterEach: IAFterEachObj, cb: Function) {
                   handleBeforeOrAfterEach(self, test, aAfterEach, cb);
                 },
-                function done(err: IPseudoError) {
+                function done(err: any) {
                   implementationError(err);
                   process.nextTick(cb);
                 });
               
             }
           ],
-          function doneWithTests(err: IPseudoError, results: Array<any>) {
+          function doneWithTests(err: any, results: Array<any>) {
             err && _suman.log.error('Suman implementation error => the following error should not be present => ', err);
             cb(null, results);
           });

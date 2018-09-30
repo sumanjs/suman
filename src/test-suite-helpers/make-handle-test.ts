@@ -17,7 +17,7 @@ import util = require('util');
 import EE = require('events');
 
 //npm
-import chalk = require('chalk');
+import chalk from 'chalk';
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
 import su = require('suman-utils');
@@ -35,7 +35,8 @@ const rb = _suman.resultBroadcaster = _suman.resultBroadcaster || new EE();
 /////////////////////////////////////////////////////////////////////////////////////
 
 export const makeHandleTest = function (suman: ISuman, gracefulExit: Function) {
-  
+
+  // don't use arrow function here, b/c we may need to access arguments for retry action
   return function handleTest(self: ITestSuite, test: ITestDataObj, cb: Function, retryData?: any) {
     
     //records whether a test was actually attempted

@@ -12,7 +12,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //npm
 const pragmatik = require('pragmatik');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 
 //project
@@ -20,6 +20,7 @@ const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
 import rules = require('../helpers/handle-varargs');
 import {constants} from '../config/suman-constants';
 import {handleSetupComplete, evalOptions, parseArgs} from '../helpers/general';
+import {TestBlock} from "../test-suite-helpers/test-suite";
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,7 +37,7 @@ const handleBadOptions = function (opts: IAfterOpts): void {
 
 export const makeAfterAllParentHooks = function (suman: ISuman): IAfterFn {
 
-  return function afterAllParentHooks($desc: string, $opts: IAfterOpts): ITestSuite {
+  return function afterAllParentHooks($desc: string, $opts: IAfterOpts): TestBlock {
 
     const zuite = suman.ctx;
     handleSetupComplete(zuite, afterAllParentHooks.name);

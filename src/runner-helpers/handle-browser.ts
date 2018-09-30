@@ -20,7 +20,7 @@ import EE = require('events');
 const shuffle = require('lodash.shuffle');
 import {events} from 'suman-events';
 import * as su from 'suman-utils';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

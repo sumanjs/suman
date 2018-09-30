@@ -16,7 +16,7 @@ import fs = require('fs');
 
 //npm
 import async = require('async');
-import chalk = require('chalk');
+import chalk from 'chalk';
 import su = require('suman-utils');
 import {pt} from 'prepend-transform';
 import uuid = require('uuid');

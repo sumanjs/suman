@@ -14,9 +14,9 @@ import util = require('util');
 import EE = require('events');
 
 // npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as fnArgs from 'function-arguments';
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 
 // project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

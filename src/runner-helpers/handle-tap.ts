@@ -14,7 +14,7 @@ import util = require('util');
 
 //npm
 import su = require('suman-utils');
-import chalk = require('chalk');
+import chalk from 'chalk';
 const parser = require('tap-parser');
 import TAPJSONParser from 'tap-json-parser';
 import {events} from 'suman-events';

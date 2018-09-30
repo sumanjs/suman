@@ -15,7 +15,7 @@ import assert = require('assert');
 import EE = require('events');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 const includes = require('lodash.includes');
 import * as async from 'async';
 import JSONStdio = require('json-stdio');
@@ -32,7 +32,8 @@ const writeStdoutToSumanShell = JSONStdio.initLogToStdout(su.constants.JSON_STDI
 export interface ISumanFilesDoNotMatch {
   filename: string,
   regexType: string,
-  regex: string
+  regex: string,
+  message: string
 }
 
 export interface IGetFilePathObj {
@@ -150,7 +151,7 @@ export const getFilePaths = function (dirs: Array<string>, cb: IGetFilePathCB) {
         dir = path.resolve(process.cwd() + '/' + dir);
       }
 
-      fs.stat(dir, function (err, stats) {
+      fs.lstat(dir, function (err, stats) {
 
         if (err) {
           // this is probably a symlink, we will just ignore the error and log it

@@ -18,7 +18,7 @@ import EE = require('events');
 
 //npm
 import su = require('suman-utils');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import {events} from 'suman-events';
 import * as _ from 'lodash';
 import {constants} from "../config/suman-constants";
@@ -94,7 +94,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     }
   };
 
-  _.flattenDeep([sumanOpts.reporter_paths || []]).filter(v => {
+  su.flattenDeep([sumanOpts.reporter_paths || []]).filter(v => {
     !v && _suman.log.warning('warning: a supposed filesystem path to a reporter was falsy.');
     return v;
   })
@@ -118,7 +118,7 @@ export const loadReporters = function (sumanOpts: ISumanOpts, projectRoot: strin
     reporterKV = {};
   }
 
-  _.flattenDeep([sumanOpts.reporters || []]).filter(v => {
+  su.flattenDeep([sumanOpts.reporters || []]).filter(v => {
     !v && _suman.log.warning('a reporter path was falsy, it must be ignored.');
     return v;
   })

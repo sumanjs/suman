@@ -15,7 +15,7 @@ import assert = require('assert');
 import EE = require('events');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import dashdash = require('dashdash');
 const debug = require('suman-debug')('child');
 import su = require('suman-utils');

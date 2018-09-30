@@ -11,12 +11,11 @@ import util = require('util');
 import assert = require('assert');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
-import {getCoreAndDeps} from './$core-n-$deps';
-import {getProjectModule, lastDitchRequire} from './helpers';
+import {getProjectModule, lastDitchRequire, getCoreAndDeps} from './helpers';
 
 /////////////////////////////////////////////////////////////////
 

@@ -8,7 +8,7 @@ const process = require('suman-browser-polyfills/modules/process');
 const global = require('suman-browser-polyfills/modules/global');
 
 //npm
-import chalk = require('chalk');
+import chalk from 'chalk';
 import su = require('suman-utils');
 
 // load the suman package.json file

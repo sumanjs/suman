@@ -15,7 +15,7 @@ export const run = function (projecRoot: string, paths: Array<string>, dest: str
   // we should create a routine that wraps Mocha tests
   // in the suman wrapper
 
-  const pths = _.flattenDeep([paths]);
+  const pths = su.flattenDeep([paths]);
   console.log('paths => ', pths);
 
   async.mapLimit(pths, 5, function (p: string, cb: Function) {

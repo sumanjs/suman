@@ -11,7 +11,7 @@ const global = require('suman-browser-polyfills/modules/global');
 
 //npm
 import async = require('async');
-import chalk = require('chalk');
+import chalk from 'chalk';
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});

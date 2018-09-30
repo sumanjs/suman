@@ -9,7 +9,7 @@ const cp = require('child_process');
 const os = require('os');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import su = require('suman-utils');
 const chmodr = require('chmodr');
 

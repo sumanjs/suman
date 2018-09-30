@@ -135,7 +135,7 @@ export class DefineObjectTestOrHook extends DefineObject {
   events(): this {
     
     const successEvents = this.opts.successEvents = this.opts.successEvents || [];
-    _.flattenDeep([Array.from(arguments)]).forEach(function (v) {
+    su.flattenDeep([Array.from(arguments)]).forEach(function (v) {
       assert(v, 'Value was going to be added to "successEvents", but value is falsy');
       assert.equal(typeof v, 'string', 'Value for "successEvent" must be a string.');
       successEvents.push(v);
@@ -147,7 +147,7 @@ export class DefineObjectTestOrHook extends DefineObject {
   successEvents(...args: (string | Array<string>)[]): this {
     
     const successEvents = this.opts.successEvents = this.opts.successEvents || [];
-    _.flattenDeep([args]).forEach(function (v) {
+    su.flattenDeep([args]).forEach(function (v) {
       assert(v, 'Value was going to be added to "successEvents", but value is falsy');
       assert.equal(typeof v, 'string', 'Value for "successEvent" must be a string.');
       successEvents.push(v);
@@ -159,7 +159,7 @@ export class DefineObjectTestOrHook extends DefineObject {
   successEvent(...args: string[]): this {
     
     const successEvents = this.opts.successEvents = this.opts.successEvents || [];
-    _.flattenDeep([Array.from(arguments)]).forEach(function (v) {
+    su.flattenDeep([Array.from(arguments)]).forEach(function (v) {
       assert(v, 'Value was going to be added to "successEvents", but value is falsy');
       assert.equal(typeof v, 'string', 'Value for "successEvent" must be a string.');
       successEvents.push(v);
@@ -171,7 +171,7 @@ export class DefineObjectTestOrHook extends DefineObject {
   errorEvents(...args: (Array<string> | string)[]): this {
     
     const errorEvents = this.opts.errorEvents = this.opts.errorEvents || [];
-    _.flattenDeep([Array.from(arguments)]).forEach(function (v) {
+    su.flattenDeep([Array.from(arguments)]).forEach(function (v) {
       assert(v, 'Value was going to be added to "errorEvents", but value is falsy');
       assert.equal(typeof v, 'string', 'Value for "errorEvent" must be a string.');
       errorEvents.push(v);
@@ -183,7 +183,7 @@ export class DefineObjectTestOrHook extends DefineObject {
   errorEvent(...args: string[]): this {
     
     const errorEvents = this.opts.errorEvents = this.opts.errorEvents || [];
-    _.flattenDeep([Array.from(arguments)]).forEach(function (v) {
+    su.flattenDeep([Array.from(arguments)]).forEach(function (v) {
       assert(v, 'Value was going to be added to "errorEvents", but value is falsy');
       assert.equal(typeof v, 'string', 'Value for "errorEvent" must be a string.');
       errorEvents.push(v);

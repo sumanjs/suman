@@ -13,11 +13,11 @@ const global = require('suman-browser-polyfills/modules/global');
 import domain = require('domain');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import async = require('async');
 
 //project
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 
 const helpers = require('../test-suite-helpers/handle-promise-generator');
 import {cloneError} from './general';

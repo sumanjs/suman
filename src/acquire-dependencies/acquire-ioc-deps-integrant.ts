@@ -2,8 +2,7 @@
 
 //dts
 import {IInjectionDeps} from "suman-types/dts/injection";
-import {IPseudoError, IGlobalSumanObj} from "suman-types/dts/global";
-import {ITestSuite} from "suman-types/dts/test-suite";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //polyfills
 const process = require('suman-browser-polyfills/modules/process');
@@ -18,13 +17,14 @@ import EE = require('events');
 import cp = require('child_process');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 const includes = require('lodash.includes');
 const fnArgs = require('function-arguments');
 
 //project
 const _suman : IGlobalSumanObj = global.__suman = (global.__suman || {});
 import {constants} from '../config/suman-constants';
+import {TestBlock} from "../test-suite-helpers/test-suite";
 const iocPromiseContainer: IIocPromiseContainer = {};
 
 /////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ const thisVal =
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const acquireIocDeps = function (deps: Array<string>, suite: ITestSuite, cb: Function) {
+export const acquireIocDeps = function (deps: Array<string>, suite: TestBlock, cb: Function) {
 
   const obj: IInjectionDeps = {};
   const SUMAN_DEBUG = process.env.SUMAN_DEBUG === 'yes';
@@ -89,7 +89,7 @@ export const acquireIocDeps = function (deps: Array<string>, suite: ITestSuite, 
           throw new Error('Callback in your function was not present => ' + str);
         }
 
-        fn.call(thisVal, function (err: IPseudoError, val: any) {
+        fn.call(thisVal, function (err: any, val: any) {
           err ? reject(err) : resolve(val);
         });
       }

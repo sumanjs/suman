@@ -11,10 +11,10 @@ import EE = require('events');
 
 //npm
 import async = require('async');
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 const flattenDeep = require('lodash.flattendeep');
 import su = require('suman-utils');
-import {IGlobalSumanObj, IPseudoError} from "suman-types/dts/global";
+import {IGlobalSumanObj} from "suman-types/dts/global";
 
 //project
 const _suman: IGlobalSumanObj = global.__suman = (global.__suman || {});
@@ -34,7 +34,7 @@ const sumanRuntimeErrors = _suman.sumanRuntimeErrors = _suman.sumanRuntimeErrors
 
 export const makeGracefulExit = function (suman: ISuman) {
   
-  return function runGracefulExitOrNot($errs: Error | IPseudoError | Array<any>, cb: Function) {
+  return function runGracefulExitOrNot($errs: any, cb: Function) {
     
     const {sumanOpts} = _suman;
     const fst = sumanOpts.full_stack_traces;
@@ -60,7 +60,7 @@ export const makeGracefulExit = function (suman: ISuman) {
       return cb && process.nextTick(cb);
     }
     
-    const big = errs.filter(function (err: IPseudoError) {
+    const big = errs.filter(function (err: any) {
       
       if (err && err.isFromTest && !sumanOpts.bail) {
         if(su.vgt(7)){
@@ -87,7 +87,7 @@ export const makeGracefulExit = function (suman: ISuman) {
         return false;
       }
     })
-    .map(function (err: IPseudoError) {
+    .map(function (err: any) {
       
       let sumanFatal = err.sumanFatal;
       let exitCode = err.sumanExitCode;

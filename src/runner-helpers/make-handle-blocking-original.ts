@@ -12,7 +12,7 @@ const path = require('path');
 import util = require('util');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 const sortBy = require('lodash.sortby');
 const includes = require('lodash.includes');
 const flattenDeep = require('lodash.flattendeep');

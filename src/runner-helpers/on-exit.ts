@@ -13,7 +13,7 @@ import path = require('path');
 import EE = require('events');
 
 //npm
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 const {events} = require('suman-events');
 import su = require('suman-utils');
 
