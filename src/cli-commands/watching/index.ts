@@ -16,7 +16,7 @@ import fs = require('fs');
 import * as stream from 'stream';
 
 //npm
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 import chalk from 'chalk';
 import {runWatch} from 'suman-watch';
 

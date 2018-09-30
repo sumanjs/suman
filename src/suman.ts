@@ -24,7 +24,7 @@ const AsciiTable = require('ascii-table');
 import async = require('async');
 const fnArgs = require('function-arguments');
 import {events} from 'suman-events';
-import su from 'suman-utils';
+import * as su from 'suman-utils';
 import McProxy = require('proxy-mcproxy');
 
 //project
