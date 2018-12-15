@@ -3,6 +3,7 @@ three SO profiles:
 1. alex@oresoftware.com on safari "Olegzandr"
 2. via facebook login on chrome
 3. the1mills@yahoo.com on firefox "Olegzandr Denman"
+4. Opera/Brave - Rakim via google login - alexmillsprojects
 
 ==========================================
 
