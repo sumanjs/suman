@@ -4,6 +4,7 @@
 *.txt
 *.log
 *.json
+!scripts/suman.global.conf.json
 *.yml
 *.tgz
 
@@ -28,5 +29,4 @@ suman.conf.js
 .editorconfig
 .babelrc
 .dockerignore
-
 

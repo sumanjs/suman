@@ -17,6 +17,11 @@ const sumanDebugLog = path.resolve(sumanHome + '/logs/suman-postinstall-debug.lo
 const dbPath = path.resolve(sumanHome + '/database/exec_db');
 const createTables = path.resolve(__dirname + '/create-tables.sh');
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
+const defaultSumanGlobalConfig = `{
+  "shell":"bash",
+  "useSumanShell": true
+}
+`;
 let logInfo = function (...args) {
     const data = Array.from(args).join(' ');
     try {
@@ -81,14 +86,21 @@ async.parallel({
     },
     createGlobalConfigFile: function (cb) {
         let p = path.resolve(__dirname + '/suman.global.conf.json');
-        fs.readFile(p, wrapErr(cb, function (data) {
+        fs.readFile(p, function (err, data) {
+            if (err) {
+                if (!/ENOENT/i.test(String(err.message))) {
+                    return cb(err);
+                }
+                logInfo(' => Warning => Missing packaged suman.global.conf.json; writing default config.');
+                data = defaultSumanGlobalConfig;
+            }
             fs.writeFile(sumanGlobalConfig, data, { flag: 'wx', mode: 0o777 }, function (err) {
                 if (err && !/EEXIST/i.test(String(err.message))) {
                     return cb(err);
                 }
                 cb(null);
             });
-        }));
+        });
     },
     updateSumanCompletion: function (cb) {
         let p = path.resolve(__dirname + '/suman-completion.sh');

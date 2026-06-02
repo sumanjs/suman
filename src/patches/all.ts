@@ -7,6 +7,8 @@ const global = require('suman-browser-polyfills/modules/global');
 //core
 const util = require('util');
 const assert = require('assert');
+const flattenDeep = require('lodash.flattendeep');
+const sumanUtils = require('suman-utils');
 
 //project
 const _suman = global.__suman = (global.__suman || {});
@@ -18,6 +20,10 @@ Object.values = Object.values || function (v) {
     return v[k];
   });
 };
+
+if (typeof sumanUtils.flattenDeep !== 'function') {
+  sumanUtils.flattenDeep = flattenDeep;
+}
 
 const then = Promise.prototype.then;
 Promise.prototype.then = function (fn1, fn2) {

@@ -18,7 +18,7 @@ else
    || { echo " could not create log file"; exit 1; }
 fi
 
-SUMAN_START_TIME=$(node -e 'console.log(Date.now())')
+SUMAN_START_TIME=$(node -e 'process.stdout.write(String(Date.now()))')
 SUMAN_DEBUG="$(echo -e "${SUMAN_DEBUG}" | tr -d '[:space:]')"
 
 SUMAN_IN_CONTAINER="no";
@@ -96,7 +96,7 @@ if [[ "${SUMAN_INSTALL_NODE_MODULES}" == "yes" ]]; then
 
 fi
 
-SUMAN_END_TIME=$(node -e 'console.log(Date.now())')
+SUMAN_END_TIME=$(node -e 'process.stdout.write(String(Date.now()))')
 SUMAN_TOTAL_TIME=$(expr ${SUMAN_END_TIME} - ${SUMAN_START_TIME})
 echo " => Suman => all done with postinstall routine after ${SUMAN_TOTAL_TIME}ms. " | tee -a  ${SUMAN_DEBUG_LOG_PATH}
 

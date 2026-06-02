@@ -33,6 +33,11 @@ const createTables = path.resolve(__dirname + '/create-tables.sh');
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 const queue = path.resolve(process.env.HOME + '/.suman/install-queue.txt');
+const defaultSumanGlobalConfig = `{
+  "shell":"bash",
+  "useSumanShell": true
+}
+`;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -118,14 +123,21 @@ async.parallel({
     createGlobalConfigFile: function (cb: Function) {
       //always want to update this file to the latest version, so always overwrite
       let p = path.resolve(__dirname + '/suman.global.conf.json');
-      fs.readFile(p, wrapErr(cb, function (data: string) {
+      fs.readFile(p, function (err: Error, data: string) {
+        if (err) {
+          if (!/ENOENT/i.test(String(err.message))) {
+            return cb(err);
+          }
+          logInfo(' => Warning => Missing packaged suman.global.conf.json; writing default config.');
+          data = defaultSumanGlobalConfig;
+        }
         fs.writeFile(sumanGlobalConfig, data, {flag: 'wx', mode: 0o777}, function (err) {
           if (err && !/EEXIST/i.test(String(err.message))) {
             return cb(err);
           }
           cb(null);
         });
-      }));
+      });
     },
 
     updateSumanCompletion: function (cb: Function) {
@@ -176,5 +188,3 @@ async.parallel({
     }
 
   });
-
-
