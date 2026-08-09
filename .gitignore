@@ -23,6 +23,7 @@ yarn.lock
 
 ### negation
 !dist/README.md
+
 tmp
 temp
 tmp/worktrees
