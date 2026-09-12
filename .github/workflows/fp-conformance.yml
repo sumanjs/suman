@@ -1,0 +1,64 @@
+name: fp-conformance
+
+# Functional-programming conformance ratchet.
+#
+# Deliberately cheap: stdlib Python, no toolchain, no dependency install, no
+# network. It compares current findings against the recorded budget and fails
+# only on regression, so the pre-existing backlog never blocks a pull request
+# while new violations do.
+#
+# Language-native checks (cargo clippy, eslint, dart analyze) are configured in
+# the tree but not run here, to keep Actions minutes low. See FP-GUIDELINES.md.
+
+on:
+  pull_request:
+    paths:
+      - '**.rs'
+      - '**.ts'
+      - '**.tsx'
+      - '**.dart'
+      - 'tools/fp-conformance/**'
+      - '.github/workflows/fp-conformance.yml'
+  push:
+    branches: [main, dev]
+    paths:
+      - '**.rs'
+      - '**.ts'
+      - '**.tsx'
+      - '**.dart'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fp-conformance-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  conformance:
+    name: functional programming conformance
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Scan
+        run: |
+          python3 tools/fp-conformance/fp_conformance.py . \
+            --json fp-findings.json \
+            --budget tools/fp-conformance/budget.json \
+            --limit 60
+
+      - name: Upload findings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fp-findings
+          path: fp-findings.json
+          if-no-files-found: ignore
+          retention-days: 14
