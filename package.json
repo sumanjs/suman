@@ -24,7 +24,9 @@
   "scripts": {
     "start": "echo 'this is not what you are looking for.'",
     "test": "echo 'this is not what you are looking for'",
-    "postinstall": "./scripts/suman-postinstall.sh"
+    "postinstall": "./scripts/suman-postinstall.sh",
+    "lint:ores": "if [ -f .ores-lint/lint.sh ]; then sh .ores-lint/lint.sh; else echo 'ores-lint not installed'; fi",
+    "prepublishOnly": "npm run lint:ores"
   },
   "author": "Olegzandr VD",
   "license": "SEE LICENSE IN LICENSE.md",
@@ -131,5 +133,13 @@
     "url": "https://github.com/sumanjs/suman/issues"
   },
   "homepage": "https://github.com/sumanjs/suman#readme",
-  "description": "Suman is an advanced, singular, Node.js test runner designed to supercede Mocha and rival AVA"
+  "description": "Suman is an advanced, singular, Node.js test runner designed to supercede Mocha and rival AVA",
+  "oresLint": {
+    "note": "Declared, not installed. ores-lint resolves these from a global install - see .ores-lint/README.md",
+    "requires": {
+      "eslint": ">=9",
+      "typescript-eslint": ">=8 (optional; without it .ts files are skipped)"
+    },
+    "install": "npm i -g eslint typescript-eslint"
+  }
 }
