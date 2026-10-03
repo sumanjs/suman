@@ -4,10 +4,20 @@
   "description": "",
   "main": "test-new-install.js",
   "scripts": {
-    "start":"./test-install-post-publish2.sh",
+    "start": "./test-install-post-publish2.sh",
     "start-old": "node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:ores": "if [ -f ../../../../.ores-lint/lint.sh ]; then sh ../../../../.ores-lint/lint.sh; else echo 'ores-lint not installed'; fi",
+    "prepublishOnly": "npm run lint:ores"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "oresLint": {
+    "note": "Declared, not installed. ores-lint resolves these from a global install - see .ores-lint/README.md",
+    "requires": {
+      "eslint": ">=9",
+      "typescript-eslint": ">=8 (optional; without it .ts files are skipped)"
+    },
+    "install": "npm i -g eslint typescript-eslint"
+  }
 }
