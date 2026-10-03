@@ -1,2 +1,4 @@
 service_name: travis-pro
-repo_token: k8hiVxiMr6UJh2dGQn6VtPFQerkKWwOoY
+
+# Never commit repository tokens. Private-repository CI must inject the rotated
+# value through the COVERALLS_REPO_TOKEN environment variable.
